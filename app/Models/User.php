@@ -45,4 +45,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function adminlte_profile_url()
+    {
+        $email = $this->attributes['email'];
+        $hash = md5(strtolower(trim($email)));
+        $url = "https://www.gravatar.com/avatar/{$hash}?s=200&d=identicon&r=pg";
+        return  $url;
+    }
 }
