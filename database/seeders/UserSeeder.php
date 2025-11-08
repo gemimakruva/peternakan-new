@@ -27,16 +27,18 @@ class UserSeeder extends Seeder
 
         // ## User & Role
         $adminUser = User::factory()->create([
-            'name' => 'adminUser',
-            'email' => 'adminUser@peternakan.com',
+            'name' => 'Admin User',
+            'email' => 'admin-user@peternakan.com',
         ]);
         $roleAdminUser = Role::create(['name' => 'Admin User']);
         $adminUser->assignRole($roleAdminUser);
 
         $systemPermissionsNames = [
+            'Lihat Semua User',
             'Tambah User',
             'Edit User',
             'Hapus User',
+            'Lihat Semua Role',
             'Tambah Role',
             'Edit Role',
             'Hapus Role',
@@ -59,9 +61,18 @@ class UserSeeder extends Seeder
         $userPetugasKandang->assignRole($rolePetugasKandang);
 
         $kandangPermissionsNames = [
+            'Lihat Semua Kandang',
             'Tambah Kandang',
             'Edit Kandang',
             'Hapus Kandang',
+            'Lihat Semua Flock',
+            'Tambah Flock',
+            'Edit Flock',
+            'Hapus Flock',
+            'Lihat Semua Pipe',
+            'Tambah Pipe',
+            'Edit Pipe',
+            'Hapus Pipe',
         ];
         foreach ($kandangPermissionsNames as $name) {
             $kandangPermissions[] = Permission::create([

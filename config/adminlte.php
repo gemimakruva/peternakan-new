@@ -327,32 +327,50 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'Master Data'],
+        [
+            'header' => 'Master Data',
+            'can' => [
+                'Lihat Semua Kandang',
+                'Lihat Semua Flock',
+                'Lihat Semua Pipe',
+            ]
+        ],
         [
             'text' => 'Kandang',
             'route' => 'master-data.kandang.index',
             'icon' => 'fas fa-fw fa-cube',
+            'can' => 'Lihat Semua Kandang',
         ],
         [
             'text' => 'Flock',
             'route' => 'master-data.flock.index',
             'icon' => 'fas fa-fw fa-cube',
+            'can' => 'Lihat Semua Flock',
         ],
         [
             'text' => 'Pipe',
             'route' => 'master-data.pipe.index',
             'icon' => 'fas fa-fw fa-cube',
+            'can' => 'Lihat Semua Pipe',
         ],
-        ['header' => 'User and Access'],
+        [   
+            'header' => 'User and Access',
+            'can' => [
+                'Lihat Semua User',
+                'Lihat Semua Role',
+            ]
+        ],
         [
             'text' => 'User',
             'route' => 'user.index',
             'icon' => 'fas fa-fw fa-cube',
+            'can' => 'Lihat Semua User',
         ],
         [
             'text' => 'Role',
             'route' => 'role.index',
             'icon' => 'fas fa-fw fa-cube',
+            'can' => 'Lihat Semua Role',
         ],
         ['header' => 'account_settings'],
         [
