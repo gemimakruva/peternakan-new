@@ -29,7 +29,10 @@
     "autoload": {
         "psr-4": {
             "App\\": "app/",
-            "Modules\\": "Modules/",
+            "Modules\\Kandang\\Database\\": "Modules/Kandang/database/",
+            "Modules\\Kandang\\Database\\Seeders\\": "Modules/Kandang/database/seeders/",
+            "Modules\\Kandang\\Database\\Factories\\": "Modules/Kandang/database/factories/",
+            "Modules\\Kandang\\": "Modules/Kandang/app/",
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         }

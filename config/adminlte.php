@@ -110,7 +110,7 @@ return [
     */
 
     'preloader' => [
-        'enabled' => true,
+        'enabled' => false,
         'mode' => 'fullscreen',
         'img' => [
             'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
@@ -327,6 +327,12 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
+        ['header' => 'Kandang'],
+        [
+            'text' => 'Kandang',
+            'route' => 'kandang.index',
+            'icon' => 'fas fa-fw fa-cube',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',
@@ -430,7 +436,7 @@ return [
 
     'plugins' => [
         'Datatables' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

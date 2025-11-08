@@ -1,0 +1,30 @@
+{
+    "name": "nwidart/kandang",
+    "description": "",
+    "authors": [
+        {
+            "name": "Nazala Maslikhan Mafa",
+            "email": "thenazala@gmail.com"
+        }
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [],
+            "aliases": {
+
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Modules\\Kandang\\": "app/",
+            "Modules\\Kandang\\Database\\Factories\\": "database/factories/",
+            "Modules\\Kandang\\Database\\Seeders\\": "database/seeders/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Modules\\Kandang\\Tests\\": "tests/"
+        }
+    }
+}

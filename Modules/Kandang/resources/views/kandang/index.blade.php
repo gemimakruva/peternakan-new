@@ -1,0 +1,69 @@
+@extends('adminlte::page')
+
+@section('title', 'Kandang')
+
+@section('content_header')
+    <h1>Kandang</h1>
+@endsection
+
+@section('content')
+    <div style="max-width: 900px;">
+        
+        <div class="card">
+            <div class="card-header">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="card-title">Daftar Kandang</h2>
+                    <div class="d-flex" style="gap: .5em">
+                        <input type="search" name="search" class="form-control form-control-sm">
+                        <button class="btn btn-primary btn-sm">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a href="{{ route('kandang.create') }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+
+                <table class="table table-striped table-bordered table-sm table-responsive">
+                    <thead>
+                        <th>#</th>
+                        <th>Nama</th>
+                        <th>Alamat</th>
+                        <th>Aksi</th>
+                    </thead>
+                    <tbody>
+                        @foreach($datas as $row)
+                            <tr>
+                                <td>{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
+                                <td>{{ $row->nama }}</td>
+                                <td>{{ $row->alamat }}</td>
+                                <td>
+                                    <div class="d-flex" style="gap: .5em">
+                                        <a href="{{ route('kandang.edit', $row->id) }}" class="btn btn-primary btn-sm">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <form action="{{ route('kandang.destroy', $row->id) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-danger btn-sm">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+
+                <div class="d-flex justify-content-end pt-2">
+                    {{ $datas->links('components.pagination') }}
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+@endsection

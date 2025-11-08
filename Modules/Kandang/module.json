@@ -1,0 +1,12 @@
+{
+    "name": "Kandang",
+    "alias": "kandang",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Kandang\\Providers\\KandangServiceProvider"
+    ],
+    "files": [],
+    "enabled": true
+}
