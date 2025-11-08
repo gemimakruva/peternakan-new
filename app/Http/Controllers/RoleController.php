@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class RoleController extends Controller
 {
@@ -11,6 +12,8 @@ class RoleController extends Controller
      */
     public function index()
     {
+        Gate::authorize('Lihat Semua Role');
+
         return view('role.index');
     }
 
@@ -19,7 +22,7 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        Gate::authorize('Tambah Role');
     }
 
     /**
@@ -27,15 +30,7 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
+        Gate::authorize('Tambah Role');
     }
 
     /**
@@ -43,7 +38,7 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        Gate::authorize('Edit Role');
     }
 
     /**
@@ -51,7 +46,7 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        Gate::authorize('Edit Role');
     }
 
     /**
@@ -59,6 +54,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        Gate::authorize('Hapus Role');
     }
 }

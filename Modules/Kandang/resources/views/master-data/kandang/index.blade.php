@@ -20,9 +20,11 @@
                             <button class="btn btn-primary btn-sm">
                                 <i class="fas fa-search"></i>
                             </button>
+                            @can('Tambah Kandang')
                             <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i>
                             </a>
+                            @endcan
                         </div>
                     </div>
                 </form>
@@ -44,9 +46,12 @@
                                 <td>{{ $row->alamat }}</td>
                                 <td>
                                     <div class="d-flex" style="gap: .5em">
+                                        @can('Edit Kandang')
                                         <a href="{{ route('master-data.kandang.edit', $row->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
+                                        @endcan
+                                        @can('Hapus Kandang')
                                         <form action="{{ route('master-data.kandang.destroy', $row->id) }}" method="post" data-nama="{{ $row->nama }}" class="form-delete">
                                             @csrf
                                             @method('delete')
@@ -54,6 +59,7 @@
                                                 <i class="fas fa-trash"></i>
                                             </button>
                                         </form>
+                                        @endcan
                                     </div>
                                 </td>
                             </tr>
