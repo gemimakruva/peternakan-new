@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'Kandang')
+@section('title', 'Flock')
 
 @section('content_header')
-    <h1>Kandang</h1>
+    <h1>Flock</h1>
 @endsection
 
 @section('content')
@@ -12,15 +12,15 @@
         
         <div class="card">
             <div class="card-header">
-                <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get">
+                <form action="{{ route('master-data.flock.index', request()->all()) }}" method="get">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="card-title">Daftar Kandang</h2>
+                        <h2 class="card-title">Daftar Flock</h2>
                         <div class="d-flex" style="gap: .5em">
-                            <input type="search" name="search" class="form-control form-control-sm" placeholder="Cari Nama Kandang" value="{{ request()->query('search') }}">
+                            <input type="search" name="search" class="form-control form-control-sm" placeholder="Cari Nama Flock" value="{{ request()->query('search') }}">
                             <button class="btn btn-primary btn-sm">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('master-data.flock.create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </div>
@@ -33,7 +33,6 @@
                     <thead>
                         <th>#</th>
                         <th>Nama</th>
-                        <th>Alamat</th>
                         <th>Aksi</th>
                     </thead>
                     <tbody>
@@ -41,13 +40,12 @@
                             <tr>
                                 <td>{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
                                 <td>{{ $row->nama }}</td>
-                                <td>{{ $row->alamat }}</td>
                                 <td>
                                     <div class="d-flex" style="gap: .5em">
-                                        <a href="{{ route('master-data.kandang.edit', $row->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('master-data.flock.edit', $row->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('master-data.kandang.destroy', $row->id) }}" method="post" data-nama="{{ $row->nama }}" class="form-delete">
+                                        <form action="{{ route('master-data.flock.destroy', $row->id) }}" method="post" data-nama="{{ $row->nama }}" class="form-delete">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger btn-sm">
@@ -77,7 +75,7 @@
             e.preventDefault()
             
             Swal.fire({
-                title: `Apakah kamu yakin akan menghapus Kandang ${$(this).data('nama')}?`,
+                title: `Apakah kamu yakin akan menghapus Flock ${$(this).data('nama')}?`,
                 showCancelButton: true,
                 confirmButtonText: "Ya, Hapus",
                 cancelButtonText: "Batal"

@@ -333,6 +333,27 @@ return [
             'route' => 'master-data.kandang.index',
             'icon' => 'fas fa-fw fa-cube',
         ],
+        [
+            'text' => 'Flock',
+            'route' => 'master-data.flock.index',
+            'icon' => 'fas fa-fw fa-cube',
+        ],
+        [
+            'text' => 'Pipe',
+            'route' => 'master-data.pipe.index',
+            'icon' => 'fas fa-fw fa-cube',
+        ],
+        ['header' => 'User and Access'],
+        [
+            'text' => 'User',
+            'route' => 'user.index',
+            'icon' => 'fas fa-fw fa-cube',
+        ],
+        [
+            'text' => 'Role',
+            'route' => 'role.index',
+            'icon' => 'fas fa-fw fa-cube',
+        ],
         ['header' => 'account_settings'],
         [
             'text' => 'profile',

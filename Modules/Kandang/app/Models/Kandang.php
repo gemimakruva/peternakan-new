@@ -17,6 +17,11 @@ class Kandang extends Model
         'alamat',
     ];
 
+    public function flock()
+    {
+        return $this->hasMany(Flock::class, 'kandang_id', 'id');
+    }
+
     protected static function newFactory(): KandangFactory
     {
         return KandangFactory::new();

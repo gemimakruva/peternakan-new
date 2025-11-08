@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
     public function run(): void
     {
         // # SISTEM
+        // ## Superadmin
         $superadmin = User::factory()->create([
             'name' => 'Superadmin',
             'email' => 'superadmin@peternakan.com',
@@ -24,7 +25,6 @@ class UserSeeder extends Seeder
         $roleSuperadmin = Role::create(['name' => 'Superadmin']);
         $superadmin->assignRole($roleSuperadmin);
 
-        // # MASTER DATA
         // ## User & Role
         $adminUser = User::factory()->create([
             'name' => 'adminUser',
@@ -49,6 +49,7 @@ class UserSeeder extends Seeder
         }
         $roleAdminUser->permissions()->attach($sistemPermissions);
 
+        // # MASTER DATA
         // ## Kandang
         $userPetugasKandang = User::factory()->create([
             'name' => 'Petugas Kandang',
