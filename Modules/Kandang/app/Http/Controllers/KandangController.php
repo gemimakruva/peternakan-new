@@ -14,7 +14,13 @@ class KandangController extends Controller
 
     public function index()
     {
-        $datas = $this->kandang->paginate(request()->get('perPage', 10));
+        $datas = $this->kandang
+            ->query()
+            ->when(request()->query('search'), function($query, $search) {
+                $query->where('nama', 'like', "%$search%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(request()->get('perPage', 10));
         return view('kandang::kandang.index', compact('datas'));
     }
 
@@ -29,7 +35,16 @@ class KandangController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) {}
+    public function store(Request $request) {
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $this->kandang->create($request->all());
+
+        return to_route('kandang.index')->with('success', 'Data Berhasil Ditambahkan.');
+    }
 
     /**
      * Show the specified resource.
@@ -44,16 +59,34 @@ class KandangController extends Controller
      */
     public function edit($id)
     {
-        return view('kandang::edit');
+        $data = $this->kandang->findOrFail($id);
+        return view('kandang::kandang.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, $id) {
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $kandang = $this->kandang->findOrFail($id);
+        $kandang->nama = $request->input('nama');
+        $kandang->alamat = $request->input('alamat');
+        $kandang->save();
+
+        return to_route('kandang.index')->with('success', 'Data Berhasil Diubah.');
+    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id) {}
+    public function destroy($id) {
+        $kandang = $this->kandang->findOrFail($id);
+        $kandang->delete();
+
+        return to_route('kandang.index')->with('danger', 'Data Berhasil Dihapus.');
+    }
 }
