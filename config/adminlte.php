@@ -327,10 +327,10 @@ return [
             'label' => 4,
             'label_color' => 'success',
         ],
-        ['header' => 'Kandang'],
+        ['header' => 'Master Data'],
         [
             'text' => 'Kandang',
-            'route' => 'kandang.index',
+            'route' => 'master-data.kandang.index',
             'icon' => 'fas fa-fw fa-cube',
         ],
         ['header' => 'account_settings'],

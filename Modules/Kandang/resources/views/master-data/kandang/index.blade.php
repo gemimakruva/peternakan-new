@@ -12,7 +12,7 @@
         
         <div class="card">
             <div class="card-header">
-                <form action="{{ route('kandang.index', request()->all()) }}" method="get">
+                <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get">
                     <div class="d-flex justify-content-between align-items-center">
                         <h2 class="card-title">Daftar Kandang</h2>
                         <div class="d-flex" style="gap: .5em">
@@ -20,7 +20,7 @@
                             <button class="btn btn-primary btn-sm">
                                 <i class="fas fa-search"></i>
                             </button>
-                            <a href="{{ route('kandang.create') }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary btn-sm">
                                 <i class="fas fa-plus"></i>
                             </a>
                         </div>
@@ -44,10 +44,10 @@
                                 <td>{{ $row->alamat }}</td>
                                 <td>
                                     <div class="d-flex" style="gap: .5em">
-                                        <a href="{{ route('kandang.edit', $row->id) }}" class="btn btn-primary btn-sm">
+                                        <a href="{{ route('master-data.kandang.edit', $row->id) }}" class="btn btn-primary btn-sm">
                                             <i class="fas fa-edit"></i>
                                         </a>
-                                        <form action="{{ route('kandang.destroy', $row->id) }}" method="post" data-nama="{{ $row->nama }}" class="form-delete">
+                                        <form action="{{ route('master-data.kandang.destroy', $row->id) }}" method="post" data-nama="{{ $row->nama }}" class="form-delete">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-danger btn-sm">

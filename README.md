@@ -4,3 +4,4 @@
 - Laravel 12
 - AdminLTE 4, with jeroennoten/laravel-adminlte
 - Laravel Module, with nwidart/laravel-modules
+- Implement RBAC, with spatie/laravel-permission

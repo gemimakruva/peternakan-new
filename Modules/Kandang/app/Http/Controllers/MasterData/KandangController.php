@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Kandang\Http\Controllers;
+namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class KandangController extends Controller
             })
             ->orderBy('created_at', 'desc')
             ->paginate(request()->get('perPage', 10));
-        return view('kandang::kandang.index', compact('datas'));
+        return view('kandang::master-data.kandang.index', compact('datas'));
     }
 
     /**
@@ -29,7 +29,7 @@ class KandangController extends Controller
      */
     public function create()
     {
-        return view('kandang::kandang.create');
+        return view('kandang::master-data.kandang.create');
     }
 
     /**
@@ -43,15 +43,7 @@ class KandangController extends Controller
 
         $this->kandang->create($request->all());
 
-        return to_route('kandang.index')->with('success', 'Data Berhasil Ditambahkan.');
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('kandang::show');
+        return to_route('master-data.kandang.index')->with('success', 'Data Berhasil Ditambahkan.');
     }
 
     /**
@@ -60,7 +52,7 @@ class KandangController extends Controller
     public function edit($id)
     {
         $data = $this->kandang->findOrFail($id);
-        return view('kandang::kandang.edit', compact('data'));
+        return view('kandang::master-data.kandang.edit', compact('data'));
     }
 
     /**
@@ -77,7 +69,7 @@ class KandangController extends Controller
         $kandang->alamat = $request->input('alamat');
         $kandang->save();
 
-        return to_route('kandang.index')->with('success', 'Data Berhasil Diubah.');
+        return to_route('master-data.kandang.index')->with('success', 'Data Berhasil Diubah.');
     }
 
     /**
@@ -87,6 +79,6 @@ class KandangController extends Controller
         $kandang = $this->kandang->findOrFail($id);
         $kandang->delete();
 
-        return to_route('kandang.index')->with('danger', 'Data Berhasil Dihapus.');
+        return to_route('master-data.kandang.index')->with('danger', 'Data Berhasil Dihapus.');
     }
 }

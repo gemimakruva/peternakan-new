@@ -11,10 +11,10 @@
         <div class="row">
             <div class="col-12 col-md-8">
                 
-                <form action="{{ route('kandang.update', @$data->id) }}" method="post" id="form-kandang">
+                <form action="{{ route('master-data.kandang.update', @$data->id) }}" method="post" id="form-kandang">
                     @csrf
                     @method('put')
-                    @include('kandang::kandang._form')
+                    @include('kandang::master-data.kandang._form')
                 </form>
 
             </div>
@@ -27,7 +27,7 @@
                     <div class="card-body">
                         <div class="d-flex" style="gap: .5em">
                             <button type="submit" form="form-kandang" class="btn btn-primary w-100">Update</button>
-                            <a href="{{ route('kandang.index') }}" class="btn btn-danger w-100">Kembali</a>
+                            <a href="{{ route('master-data.kandang.index') }}" class="btn btn-danger w-100">Kembali</a>
                         </div>
                     </div>
                 </div>
