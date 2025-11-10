@@ -327,32 +327,321 @@ return [
         //     'label' => 4,
         //     'label_color' => 'success',
         // ],
+        // ==================== MASTER DATA ==========================
+      [
+        'header' => 'Master Data',
+        'can' => [
+            'Lihat Semua Kandang',
+            'Lihat Semua Flock',
+            'Lihat Semua Pipe',
+            'Lihat Pengadaan Kandang',
+            'Lihat Riwayat Kandang',
+            'Lihat Standar Produksi',
+            ],
+         ],
         [
-            'header' => 'Master Data',
-            'can' => [
-                'Lihat Semua Kandang',
-                'Lihat Semua Flock',
-                'Lihat Semua Pipe',
-            ]
+            'text' => 'Standar Produksi',
+            'route' => '',
+            'icon' => 'fas fa-solid fa-industry',
+            'can'  => 'Lihat Standar Produksi',
         ],
         [
-            'text' => 'Kandang',
-            'route' => 'master-data.kandang.index',
-            'icon' => 'fas fa-fw fa-cube',
-            'can' => 'Lihat Semua Kandang',
+        'text' => 'Riwayat Kandang',
+        'route' => '',
+        'icon' => 'fas fa-history',
+        'can'  => 'Lihat Riwayat Kandang',
+         ],
+
+        [
+        'text' => 'Pengadaan Kandang',
+        'route' => '',
+        'icon' => 'fas fa-plus-circle',
+        'can'  => 'Lihat Pengadaan Kandang',
+         ],
+
+        // [
+        //     'text' => 'Kandang',
+        //     'route' => 'master-data.kandang.index',
+        //     'icon' => 'fas fa-fw fa-cube',
+        //     'can' => 'Lihat Semua Kandang',
+        // ],
+        // [
+        //     'text' => 'Flock',
+        //     'route' => 'master-data.flock.index',
+        //     'icon' => 'fas fa-fw fa-cube',
+        //     'can' => 'Lihat Semua Flock',
+        // ],
+        // [
+        //     'text' => 'Pipe',
+        //     'route' => 'master-data.pipe.index',
+        //     'icon' => 'fas fa-fw fa-cube',
+        //     'can' => 'Lihat Semua Pipe',
+        // ],
+
+          // ==================== RIWAYAT KESELURUHAN ==========================
+         [
+        'header' => 'Riwayat Keseluruhan',
+        'can' => [
+            'Lihat Rekapan Keseluruhan',
+        ],
+         ],
+        [
+            'text' => 'Rekapan Produksi',
+            'route' => '',
+            'icon' => 'fas fa-clipboard-list',
+            'can'  => 'Lihat Rekapan Produksi',
+        ],
+        
+        
+         // ====================   PENGADAAN AYAM SUPPLIER  ==========================
+        [
+        'header' => 'Pengadaan Ayam',
+        'can' => [
+            'Menampilkan overview pengadaan ayam',
+            'Melakukan penambahan data pengadaan ayam'
+        ],
+         ],
+          [
+            'text' => 'Overview',
+            'route' => '',
+            'icon' => 'fas fa-clipboard-check',
+            'can'  => 'Lihat Pengadaan Kandang',
         ],
         [
-            'text' => 'Flock',
-            'route' => 'master-data.flock.index',
-            'icon' => 'fas fa-fw fa-cube',
-            'can' => 'Lihat Semua Flock',
+        'text' => 'Pengadaan Ayam',
+        'route' => '',
+        'icon' => 'fas fa-plus-circle',
+        'can'  => 'Lihat Pengadaan Kandang',
+         ],
+
+        // ====================   PENGADAAN AYAM AFKIR  ==========================
+
+          [
+        'header' => 'Ayam Afkir',
+        'can' => [
+            'Menampilkan Riwayat Pembelian ayam Afkir',
+            'Menampilkan Form pembelian ayam afkir'
+        ],
+         ],
+         [
+            'text' => 'Riwayat Pembelian',
+            'route' => '',
+            'icon' => 'fas fa-clipboard-list',
+            'can'  => 'Lihat Pengadaan Kandang',
         ],
         [
-            'text' => 'Pipe',
-            'route' => 'master-data.pipe.index',
-            'icon' => 'fas fa-fw fa-cube',
-            'can' => 'Lihat Semua Pipe',
+            'text' => 'Form Pembelian',
+            'route' => '',
+            'icon' => 'fas fa-plus-circle',
+            'can'  => 'Lihat Pengadaan Kandang',
         ],
+
+
+          // ====================   PENGADAAN AYAM KARANTINA  ==========================
+
+          [
+        'header' => 'Ayam Karantina',
+        'can' => [
+            'Menampilkan overview populasi ayam karantina ',
+            'Menampilkan Form recording ayam karantina',
+            'Menambah populasi dengan form pengadaan ayam karantina'
+        ],
+         ],
+         [
+            'text' => 'Overview',
+            'route' => '',
+            'icon' => 'fas fa-clipboard-check',
+            'can'  => 'Lihat Pengadaan Kandang',
+        ],
+            [
+            'text' => 'Tambah Ayam Karantina',
+            'route' => '',
+            'icon' => 'fas fa-plus-circle',
+            'can'  => 'Lihat Pengadaan Kandang',
+        ],
+         [
+        'text' => 'Riwayat Karantina',
+        'route' => '',
+        'icon' => 'fas fa-history',
+        'can'  => 'Lihat Riwayat Kandang',
+         ],
+
+   // ====================   PEMBERIAN PAKAN  ==========================
+  [   
+'header' => 'Pemberian Pakan',
+    'can' => [
+        'Lihat Pemberian Pakan',
+        'Lihat Perhitungan Pakan',
+        'Lihat Sisa Pakan',
+        'Lihat Rekapan Pakan Harian',
+    ],
+        ],
+         [
+           'text' => 'Perhitungan Pakan',
+    'route' => '',
+    'icon' => 'fas fa-calculator',
+    'can'  => 'Lihat Perhitungan Pakan',
+        ],
+    [
+    'text' => 'Sisa Pakan',
+    'route' => '',
+    'icon' => 'fas fa-box-open',
+    'can'  => 'Lihat Sisa Pakan',
+],
+[
+    'text' => 'Rekapan Pakan Harian',
+    'route' => '',
+    'icon' => 'fas fa-clipboard-list',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+   // ====================   RECORDING PRODUKSI TELUR  ==================
+ [   
+'header' => 'Recording Telur',
+    'can' => [
+        'Lihat Pemberian Pakan',
+        'Lihat Perhitungan Pakan',
+        'Lihat Sisa Pakan',
+        'Lihat Rekapan Pakan Harian',
+    ],
+        ],
+            [
+            'text' => 'Tambah Recording Telur',
+            'route' => '',
+            'icon' => 'fas fa-plus-circle',
+            'can'  => 'Lihat Pengadaan Kandang',
+        ],
+        [
+            'text' => 'Overview',
+            'route' => '',
+            'icon' => 'fas fa-clipboard-check',
+            'can'  => 'Lihat Pengadaan Kandang',
+        ],
+
+    
+   // ====================   SAMPLING AYAM MENU    ==========================
+ [   
+'header' => 'Sampling Ayam',
+    'can' => [
+        'Lihat Pemberian Pakan',
+        'Lihat Perhitungan Pakan',
+        'Lihat Sisa Pakan',
+        'Lihat Rekapan Pakan Harian',
+    ],
+        ],
+    [
+    'text' => 'Rekapan Sampling',
+    'route' => '',
+    'icon' => 'fas fa-clipboard-list',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+ [
+            'text' => 'Tambah Sampling',
+            'route' => '',
+            'icon' => 'fas fa-plus-circle',
+            'can'  => 'Lihat Pengadaan Kandang',
+        ],
+
+    
+   // ====================   PENJADWALAAN TREATMENT  =================
+ [   
+'header' => 'Kalender Treatment',
+    'can' => [
+        'Lihat Pemberian Pakan',
+        'Lihat Perhitungan Pakan',
+        'Lihat Sisa Pakan',
+        'Lihat Rekapan Pakan Harian',
+    ],
+        ],
+
+        [
+    'text' => 'Kalender Treatment',
+    'route' => '',
+    'icon' => 'fas fa-calendar-alt',
+    'can'  => 'Lihat Pengadaan Kandang',
+        ],
+
+     [
+            'text' => 'Tambah Treatment',
+            'route' => '',
+            'icon' => 'fas fa-plus-circle',
+            'can'  => 'Lihat Pengadaan Kandang',
+        ],
+
+ // ====================   Perhitungan Obat  =================
+
+   [   
+'header' => 'Perhitungan Obat',
+    'can' => [
+        'Lihat Pemberian Pakan',
+        'Lihat Perhitungan Pakan',
+        'Lihat Sisa Pakan',
+        'Lihat Rekapan Pakan Harian',
+    ],
+        ],
+
+    [
+    'text' => 'OVK via Pakan',
+    'route' => '',
+    'icon' => 'fas fa-clipboard-list',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+
+ [
+    'text' => 'Vaksin Minum',
+    'route' => '',
+    'icon' => 'fas fa-clipboard-list',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+
+ [
+    'text' => 'Vitamin Obat Minum',
+    'route' => '',
+    'icon' => 'fas fa-clipboard-list',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+
+ [
+    'text' => 'Bahan Treatment',
+    'route' => '',
+    'icon' => 'fas fa-vials',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+
+[
+    'text' => 'Form Pelaksanaan',
+    'route' => '',
+    'icon' => 'fas fa-file-signature',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+
+ // ====================   Monitoring Kesehatan  ========================
+
+   [   
+'header' => 'Monitoring Kesehatan',
+    'can' => [
+        'Lihat Pemberian Pakan',
+        'Lihat Perhitungan Pakan',
+        'Lihat Sisa Pakan',
+        'Lihat Rekapan Pakan Harian',
+    ],
+        ],
+
+[
+    'text' => 'Form Monitoring',
+    'route' => '',
+    'icon' => 'fas fa-clipboard-check',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+[
+    'text' => 'Riwayat Monitoring',
+    'route' => '',
+    'icon' => 'fas fa-history',
+    'can'  => 'Lihat Rekapan Pakan Harian',
+],
+
+
+// ====================   USER AND ACCESS   ============================
+
         [   
             'header' => 'User and Access',
             'can' => [
