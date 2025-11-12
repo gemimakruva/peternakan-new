@@ -3,35 +3,46 @@
 @section('title', 'Tambah Kandang')
 
 @section('content_header')
-    <h1>Tambah Kandang</h1>
+    <h1 class="text-dark fw-bold">Tambah Kandang</h1>
 @endsection
 
 @section('content')
-    <div style="width: 1000px;">
-        <div class="row">
-            <div class="col-12 col-md-8">
-                
-                <form action="{{ route('master-data.kandang.store') }}" method="post" id="form-kandang">
-                    @csrf
-                    @include('kandang::master-data.kandang._form')
-                </form>
-
-            </div>
-            <div class="col-12 col-md-4">
-
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Aksi</h2>
-                    </div>
-                    <div class="card-body">
-                        <div class="d-flex" style="gap: .5em">
-                            <button type="submit" form="form-kandang" class="btn btn-primary w-100">Simpan</button>
-                            <a href="{{ route('master-data.kandang.index') }}" class="btn btn-danger w-100">Kembali</a>
-                        </div>
-                    </div>
+<div class="container-fluid px-2 px-md-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            
+            <div class="card shadow-sm border-0">
+                <div class="card-header" style="background-color: #f8f9fa;">
+                    <h4 class="card-title m-0 fw-semibold text-secondary">
+                        <i class="fas fa-home me-2 text-muted"></i> Form Tambah Kandang
+                    </h4>
                 </div>
 
+                <div class="card-body">
+                    <form action="{{ route('master-data.kandang.store') }}" method="post" id="form-kandang">
+                        @csrf
+                        @include('kandang::master-data.kandang._form')
+
+                        <hr class="my-4">
+
+                        <div class="d-flex justify-content-end" style="gap: 1rem; margin-top: 1.5rem;">
+                            <a href="{{ route('master-data.kandang.index') }}" 
+                            class="btn btn-outline-secondary px-4 py-2">
+                                <i class="fas fa-arrow-left me-2"></i> Kembali
+                            </a>
+
+                            <button type="submit" 
+                                    class="btn btn-success px-4 py-2 shadow-sm" 
+                                    style="background-color: #28a745; border-color: #28a745;">
+                                <i class="fas fa-save me-2"></i> Simpan
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
             </div>
+
         </div>
     </div>
+</div>
 @endsection

@@ -5,7 +5,9 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Modules\Kandang\Database\Seeders\FlockSeeder;
 use Modules\Kandang\Database\Seeders\KandangDatabaseSeeder;
+use Modules\Kandang\Database\Seeders\PipeSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -19,6 +21,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             KandangDatabaseSeeder::class,
+            FlockSeeder::class,
+            PipeSeeder::class
         ]);
     }
 }

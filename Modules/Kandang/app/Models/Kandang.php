@@ -17,7 +17,7 @@ class Kandang extends Model
         'alamat',
     ];
 
-    public function flock()
+    public function flocks()
     {
         return $this->hasMany(Flock::class, 'kandang_id', 'id');
     }

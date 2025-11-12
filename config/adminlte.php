@@ -373,6 +373,12 @@ return [
     'icon'  => 'bi bi-box-seam',
     'can'   => 'Lihat Semua Flock', 
 ],
+[
+    'text'  => 'Daftar Pipa',
+    'route' => 'master-data.pipe.index',
+    'icon'  => 'bi bi-diagram-3', 
+    'can'   => 'Lihat Semua Pipe', 
+],
 
 
 
@@ -795,6 +801,12 @@ return [
         'defer' => true, 
     ],
     ],
+    [
+    'type' => 'js',
+    'asset' => false,
+    'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
+],
+
 ],
 
         'Datatables' => [

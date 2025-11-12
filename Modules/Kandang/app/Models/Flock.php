@@ -13,8 +13,10 @@ class Flock extends Model
     public $table = 'flock';
 
     protected $fillable = [
-        'kandang_id',
-        'nama',
+       'kandang_id',
+        'flock_name',
+        'date_in',
+        'initial_population',
     ];
 
     public function kandang()
@@ -22,7 +24,7 @@ class Flock extends Model
         return $this->belongsTo(Kandang::class, 'kandang_id', 'id');
     }
 
-    public function pipe()
+    public function pipes()
     {
         return $this->hasMany(Pipe::class, 'flock_id', 'id');
     }

@@ -4,8 +4,9 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Pipe;
-
+use Illuminate\Support\Facades\Gate;
 class PipeController extends Controller
 {
     public function __construct(
@@ -22,6 +23,17 @@ class PipeController extends Controller
             ->paginate(request()->query('perPage', 10));
         return view('kandang::master-data.pipe.index', compact('datas'));
     }
+
+public function indexByFlock(Flock $flock)
+{
+    Gate::authorize('Lihat Semua Pipe');
+    $flock->load('pipes'); 
+    $pipes = $flock->pipes;
+    return view('kandang::master-data.pipe.index_by_flock', compact('flock', 'pipes'));
+}
+
+
+
 
     /**
      * Show the form for creating a new resource.

@@ -11,5 +11,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kandang', KandangController::class)->names('kandang')->except('show');
         Route::resource('flock', FlockController::class)->names('flock')->except('show');
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
+        Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock'])
+    ->name('pipe.byFlock');
     });
 });
