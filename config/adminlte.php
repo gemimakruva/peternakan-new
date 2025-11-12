@@ -305,16 +305,32 @@ return [
             'text' => 'search',
             'topnav_right' => true,
         ],
+
+        [
+        'type' => 'navbar-notification',
+        'text' => 'search',
+        'topnav_right' => true,
+        'id' => 'my-notification',                // An ID attribute (required).
+    'icon' => 'fas fa-bell',                  // A font awesome icon (required).
+    'icon_color' => 'warning', 
+        ],
+        
+        
+        
         [
             'type' => 'fullscreen-widget',
             'topnav_right' => true,
         ],
+
+        
 
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
+        
+      
         [
             'text' => 'Home',
             'route' => 'home',
@@ -345,26 +361,22 @@ return [
             'icon' => 'fas fa-solid fa-industry',
             'can'  => 'Lihat Standar Produksi',
         ],
-        [
-        'text' => 'Riwayat Kandang',
-        'route' => '',
-        'icon' => 'fas fa-history',
-        'can'  => 'Lihat Riwayat Kandang',
-         ],
+         [
+    'text' => 'List Kandang',
+    'route' => 'master-data.kandang.index',
+    'icon' => 'bi bi-house-fill', 
+    'can' => 'Lihat Semua Kandang',
+],
+  [
+    'text'  => 'Daftar Baris',
+    'route' => 'master-data.flock.index',
+    'icon'  => 'bi bi-box-seam',
+    'can'   => 'Lihat Semua Flock', 
+],
 
-        [
-        'text' => 'Pengadaan Kandang',
-        'route' => '',
-        'icon' => 'fas fa-plus-circle',
-        'can'  => 'Lihat Pengadaan Kandang',
-         ],
 
-        // [
-        //     'text' => 'Kandang',
-        //     'route' => 'master-data.kandang.index',
-        //     'icon' => 'fas fa-fw fa-cube',
-        //     'can' => 'Lihat Semua Kandang',
-        // ],
+
+       
         // [
         //     'text' => 'Flock',
         //     'route' => 'master-data.flock.index',
@@ -763,6 +775,28 @@ return [
     */
 
     'plugins' => [
+        'BootstrapIcons' => [
+    'active' => true,
+    'files' => [
+        [
+            'type' => 'css',
+            'asset' => false,
+            'location' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
+        ],
+          [
+        'type' => 'js',
+        'asset' => false,
+        'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
+    ],
+     [
+        'type' => 'js',
+        'asset' => false,
+        'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
+        'defer' => true, 
+    ],
+    ],
+],
+
         'Datatables' => [
             'active' => true,
             'files' => [

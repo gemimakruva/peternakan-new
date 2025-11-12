@@ -7,9 +7,8 @@
 @endsection
 
 @section('content')
-    <div style="max-width: 900px;">
+    <div>
         <x-form-alert />
-        
         <div class="card">
             <div class="card-header">
                 <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get">

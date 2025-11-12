@@ -7,7 +7,7 @@
 @endsection
 
 @section('content')
-    <div style="max-width: 900px;">
+    <div>
         <x-form-alert />
         
         <div class="card">

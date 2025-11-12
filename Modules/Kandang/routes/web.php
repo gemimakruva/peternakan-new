@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\Kandang\Http\Controllers\Dashboard\DashboardController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
