@@ -20,9 +20,6 @@
                         <button class="btn btn-primary btn-sm">
                             <i class="fas fa-search"></i>
                         </button>
-                        <a href="{{ route('master-data.pipe.create') }}" class="btn btn-primary btn-sm">
-                            <i class="fas fa-plus"></i>
-                        </a>
                     </div>
                 </div>
             </form>
@@ -48,7 +45,7 @@
                         <td>{{ $row->initial_population }}</td>
                         <td>
                             <div class="d-flex" style="gap: .5em">
-                                <a href="{{ route('master-data.pipe.edit', $row->id) }}" class="btn btn-primary btn-sm">
+                                <a href="{{ route('master-data.pipe.edit', $row) }}" class="btn btn-primary btn-sm">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 <form action="{{ route('master-data.pipe.destroy', $row->id) }}" 

@@ -1,13 +1,14 @@
 <?php
 
 namespace Database\Seeders;
-
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Modules\Kandang\Database\Seeders\FlockSeeder;
 use Modules\Kandang\Database\Seeders\KandangDatabaseSeeder;
 use Modules\Kandang\Database\Seeders\PipeSeeder;
+use Modules\Kandang\Database\Seeders\PopulationLogSeeder;
+use Modules\Kandang\Database\Seeders\SupplierLogSeeder;
+use Modules\Kandang\Models\SupplierLog;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,7 +23,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KandangDatabaseSeeder::class,
             FlockSeeder::class,
-            PipeSeeder::class
+            PipeSeeder::class,
+            SupplierLogSeeder::class
         ]);
     }
 }

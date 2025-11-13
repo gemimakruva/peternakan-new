@@ -64,9 +64,7 @@
                     <a href="{{ route('master-data.flock.index') }}" class="btn btn-outline-secondary px-4">
                         <i class="fas fa-arrow-left me-2"></i> Kembali
                     </a>
-                    <a href="" class="btn btn-success px-4">
-                        <i class="fas fa-plus me-2"></i> Tambah Pipe
-                    </a>
+
                 </div>
             </div>
 

@@ -4,8 +4,6 @@ namespace Modules\Kandang\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Kandang\Database\Factories\PipeFactory;
-
 class Pipe extends Model
 {
     use HasFactory;
@@ -28,4 +26,21 @@ class Pipe extends Model
     // {
     //     // return PipeFactory::new();
     // }
+    public function populationLogs()
+{
+    return $this->hasMany(SupplierLog::class, 'pipe_id');
+}
+
+
+public function getFlockNameAttribute()
+{
+    return $this->pipe->flock->flock_name ?? '-';
+}
+
+public function getKandangNameAttribute()
+{
+    return $this->pipe->flock->kandang->name ?? '-';
+}
+
+
 }

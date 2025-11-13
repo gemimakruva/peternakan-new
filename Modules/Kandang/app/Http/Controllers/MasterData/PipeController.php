@@ -59,15 +59,26 @@ public function indexByFlock(Flock $flock)
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(Pipe $pipe)
     {
-        return view('kandang::master-data.pipe.edit');
+        return view('kandang::master-data.pipe.edit',compact("pipe"));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, Pipe $pipe)
+{
+    $validated = $request->validate([
+        'pipe_name' => 'required|string|max:255',
+        'capacity'  => 'required|numeric|min:0',
+    ]);
+    $pipe->update($validated);
+    return redirect()
+        ->route('master-data.pipe.index')
+        ->with('success', 'Data Pipe berhasil diperbarui!');
+}
+
 
     /**
      * Remove the specified resource from storage.

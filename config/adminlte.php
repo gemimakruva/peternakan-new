@@ -421,7 +421,7 @@ return [
          ],
           [
             'text' => 'Overview',
-            'route' => '',
+            'route' => 'supplier-log.index',
             'icon' => 'fas fa-clipboard-check',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
