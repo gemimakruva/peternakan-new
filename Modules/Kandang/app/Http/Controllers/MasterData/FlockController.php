@@ -40,7 +40,7 @@ class FlockController extends Controller
      */
     public function store(Request $request)
 {
-    // 1️⃣ Validasi request
+    //  Validasi request
     $validated = $request->validate([
         'nama' => 'required|string|max:255',
         'kandang_id' => 'required|exists:kandang,id',
@@ -49,7 +49,7 @@ class FlockController extends Controller
         'pipe_keyword' => 'required|string|max:100', // kata kunci nama pipe
     ]);
 
-    // 2️⃣ Buat Flock
+    // Membuat Flock
     $flock = Flock::create([
         'flock_name' => $validated['nama'],
         'kandang_id' => $validated['kandang_id'],
@@ -58,7 +58,7 @@ class FlockController extends Controller
 
   
 
-    // 3️⃣ Generate Pipe sesuai jumlah
+    // Generate  Pipe sesuai jumlah
    $pipeCount = intval($validated['pipe_count']);
     $keyword = $validated['pipe_keyword'];
     for ($i = 1; $i <= $pipeCount; $i++) {

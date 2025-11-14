@@ -26,5 +26,6 @@
 
         {{-- Vite JS --}}
         {{-- {{ module_vite('build-kandang', 'resources/assets/js/app.js') }} --}}
+        
     </body>
 </html>

@@ -15,10 +15,9 @@ class KandangController extends Controller
 
     public function index()
 {
-    // Pastikan user punya izin
     Gate::authorize('Lihat Semua Kandang');
     $datas = $this->kandang
-        ->with('flocks') // tambahkan eager loading agar relasi ikut diambil
+        ->with('flocks') 
         ->when(request()->query('search'), function ($query, $search) {
             $query->where('nama', 'like', "%$search%");
         })
@@ -65,21 +64,21 @@ class KandangController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    // public function update(Request $request, $id) {
-    //     Gate::authorize('Edit Kandang');
+    public function update(Request $request, $id) {
+        Gate::authorize('Edit Kandang');
 
-    //     $request->validate([
-    //         'nama' => ['required', 'string', 'max:255'],
-    //         'alamat' => ['required', 'string', 'max:1000'],
-    //     ]);
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
+            'alamat' => ['required', 'string', 'max:1000'],
+        ]);
 
-    //     $kandang = $this->kandang->findOrFail($id);
-    //     $kandang->nama = $request->input('nama');
-    //     $kandang->alamat = $request->input('alamat');
-    //     $kandang->save();
+        $kandang = $this->kandang->findOrFail($id);
+        $kandang->nama = $request->input('nama');
+        $kandang->alamat = $request->input('alamat');
+        $kandang->save();
 
-    //     return to_route('master-data.kandang.index')->with('success', 'Data Berhasil Diubah.');
-    // }
+        return to_route('master-data.kandang.index')->with('success', 'Data Berhasil Diubah.');
+    }
 
     /**
      * Remove the specified resource from storage.

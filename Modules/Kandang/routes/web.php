@@ -15,4 +15,5 @@ Route::middleware(['auth'])->group(function () {
         Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock']) ->name('pipe.byFlock');
     });
        Route::resource('supplier-log', SupplierLogController::class)->names('supplier-log');
+       
 });

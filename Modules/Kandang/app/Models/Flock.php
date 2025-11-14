@@ -4,7 +4,6 @@ namespace Modules\Kandang\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Kandang\Database\Factories\FlockFactory;
 
 class Flock extends Model
 {
@@ -29,8 +28,4 @@ class Flock extends Model
         return $this->hasMany(Pipe::class, 'flock_id', 'id');
     }
 
-    // protected static function newFactory(): FlockFactory
-    // {
-    //     // return FlockFactory::new();
-    // }
 }

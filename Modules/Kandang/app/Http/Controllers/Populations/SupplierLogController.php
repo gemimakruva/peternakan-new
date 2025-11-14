@@ -24,13 +24,13 @@ class SupplierLogController extends Controller
         }
 
         $logs = $query->paginate(10)->appends($request->query());
-        return view('kandang::new-population.index', compact('logs', 'date'));
+        return view('kandang::supplier-log.index', compact('logs', 'date'));
     }
 
     public function create()
     {
         $pipes = Pipe::with('flock')->get();
-        return view('kandang::master-data.population.create', compact('pipes'));
+        return view('kandang::supplier-log.create', compact('pipes'));
     }
 
     public function store(Request $request)
@@ -79,7 +79,6 @@ class SupplierLogController extends Controller
         ]);
 
         $supplierLog->update($validated);
-
         return redirect()->route('supplier-log.index')->with('success', 'Log supplier berhasil diperbarui.');
     }
 

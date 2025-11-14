@@ -216,6 +216,7 @@ return [
 
     'sidebar_mini' => 'lg',
     'sidebar_collapse' => true,
+    'sidebar-open' =>true,
     'sidebar_collapse_auto_size' => true,
     'sidebar_collapse_remember' => true,
     'sidebar_collapse_remember_no_transition' => true,
@@ -305,17 +306,7 @@ return [
             'text' => 'search',
             'topnav_right' => true,
         ],
-
-        [
-        'type' => 'navbar-notification',
-        'text' => 'search',
-        'topnav_right' => true,
-        'id' => 'my-notification',                // An ID attribute (required).
-    'icon' => 'fas fa-bell',                  // A font awesome icon (required).
-    'icon_color' => 'warning', 
-        ],
-        
-        
+    
         
         [
             'type' => 'fullscreen-widget',
@@ -427,9 +418,9 @@ return [
         ],
         [
         'text' => 'Pengadaan Ayam',
-        'route' => '',
+        'route' => 'supplier-log.create',
         'icon' => 'fas fa-plus-circle',
-        'can'  => 'Lihat Pengadaan Kandang',
+        'can'  => 'Menambah Pengadaan Ayam',
          ],
 
         // ====================   PENGADAAN AYAM AFKIR  ==========================

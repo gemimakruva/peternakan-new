@@ -22,10 +22,6 @@ class Pipe extends Model
         return $this->belongsTo(Flock::class, 'flock_id', 'id');
     }
 
-    // protected static function newFactory(): PipeFactory
-    // {
-    //     // return PipeFactory::new();
-    // }
     public function populationLogs()
 {
     return $this->hasMany(SupplierLog::class, 'pipe_id');

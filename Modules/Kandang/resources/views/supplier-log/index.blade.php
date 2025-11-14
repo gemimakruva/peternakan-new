@@ -102,16 +102,15 @@
                 @endif
             </td>
 
-
             <td>
-    @if ($log->notes)
-        <button class="btn btn-sm btn-info show-notes" data-notes="{{ $log->notes }}">
-            <i class="fas fa-sticky-note"></i> Lihat Catatan
-        </button>
-    @else
-        <span class="text-muted">-</span>
-    @endif
-</td>
+                @if ($log->notes)
+                    <button class="btn btn-sm btn-info show-notes" data-notes="{{ $log->notes }}">
+                        <i class="fas fa-sticky-note"></i> Lihat Catatan
+                    </button>
+                @else
+                    <span class="text-muted">-</span>
+                @endif
+            </td>
 
                 <td>{{ $log->recordedBy->name ?? '-' }}</td>
             </tr>
