@@ -1,10 +1,9 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
-use Modules\Kandang\Http\Controllers\Populations\PopulationLogController;
+use Modules\Kandang\Http\Controllers\Populations\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\Populations\SupplierLogController;
 
 Route::middleware(['auth'])->group(function () {
@@ -15,5 +14,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock']) ->name('pipe.byFlock');
     });
        Route::resource('supplier-log', SupplierLogController::class)->names('supplier-log');
+       Route::resource('ayam-afkir', AyamAfkirController::class)->names('ayam-afkir');
        
 });

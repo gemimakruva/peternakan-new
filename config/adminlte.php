@@ -353,23 +353,23 @@ return [
             'can'  => 'Lihat Standar Produksi',
         ],
          [
-    'text' => 'List Kandang',
-    'route' => 'master-data.kandang.index',
-    'icon' => 'bi bi-house-fill', 
-    'can' => 'Lihat Semua Kandang',
-],
-  [
-    'text'  => 'Daftar Baris',
-    'route' => 'master-data.flock.index',
-    'icon'  => 'bi bi-box-seam',
-    'can'   => 'Lihat Semua Flock', 
-],
-[
-    'text'  => 'Daftar Pipa',
-    'route' => 'master-data.pipe.index',
-    'icon'  => 'bi bi-diagram-3', 
-    'can'   => 'Lihat Semua Pipe', 
-],
+            'text' => 'List Kandang',
+            'route' => 'master-data.kandang.index',
+            'icon' => 'bi bi-house-fill', 
+            'can' => 'Lihat Semua Kandang',
+        ],
+    [
+        'text'  => 'Daftar Baris',
+        'route' => 'master-data.flock.index',
+        'icon'  => 'bi bi-box-seam',
+        'can'   => 'Lihat Semua Flock', 
+    ],
+    [
+        'text'  => 'Daftar Pipa',
+        'route' => 'master-data.pipe.index',
+        'icon'  => 'bi bi-diagram-3', 
+        'can'   => 'Lihat Semua Pipe', 
+    ],
 
 
 
@@ -434,13 +434,13 @@ return [
          ],
          [
             'text' => 'Riwayat Pembelian',
-            'route' => '',
+            'route' => 'ayam-afkir.index',
             'icon' => 'fas fa-clipboard-list',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
         [
             'text' => 'Form Pembelian',
-            'route' => '',
+            'route' => 'ayam-afkir.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],

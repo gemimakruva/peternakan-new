@@ -28,6 +28,7 @@ public function indexByFlock(Flock $flock)
 {
     Gate::authorize('Lihat Semua Pipe');
     $flock->load('pipes'); 
+    
     $pipes = $flock->pipes;
     return view('kandang::master-data.pipe.index_by_flock', compact('flock', 'pipes'));
 }

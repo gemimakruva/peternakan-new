@@ -12,12 +12,6 @@
         <div class="col-lg-10">
             
             <div class="card shadow-sm border-0">
-                <div class="card-header" style="background-color: #f8f9fa;">
-                    <h4 class="card-title m-0 fw-semibold text-secondary">
-                        <i class="fas fa-dove me-2 text-muted"></i> Form Tambah Flock
-                    </h4>
-                </div>
-
                 <div class="card-body">
                     <form action="{{ route('master-data.flock.store') }}" method="post" id="form-flock">
                         @csrf

@@ -1,54 +1,54 @@
 @extends('adminlte::page')
 
-@section('title', 'Kandang')
+@section('title', 'Flock')
 
 @section('content_header')
-    <h1>Kandang</h1>
+    <h1 class="font-weight-bold">Manajemen Kandang</h1>
 @endsection
 
 @section('content')
-    <div>
-        <x-form-alert />
+<div>
+    <x-form-alert />
 
-        <div class="card shadow-sm">
-            <div class="card-header text-white d-flex justify-content-between align-items-center"
-                style="background-color: #495057; border-color: #495057;">
-                <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="card-title mb-0">Daftar Kandang</h2>
+    <div class="card shadow-sm">
+        <div class="card-header text-white d-flex justify-content-between align-items-center"
+             style="background-color: #495057; border-color: #495057;">
+            <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h2 class="card-title mb-0">Daftar Flock</h2>
 
-                        <div class="d-flex" style="gap: .5em">
-                            <input type="search" 
-                                   name="search" 
-                                   class="form-control form-control-sm" 
-                                   placeholder="Cari Nama Kandang" 
-                                   value="{{ request()->query('search') }}">
-                            <button class="btn btn-dark btn-sm" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                            @can('Tambah Kandang')
-                            <a href="{{ route('master-data.kandang.create') }}" class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
-                                <i class="fas fa-plus"></i>
-                            </a>
-                            @endcan
-                        </div>
+                    <div class="d-flex" style="gap: .5em">
+                        <input type="search" 
+                               name="search" 
+                               class="form-control form-control-sm" 
+                               placeholder="Kandang atau Flock" 
+                               value="{{ request()->query('search') }}">
+                        <button class="btn btn-dark btn-sm" title="Cari">
+                            <i class="fas fa-search"></i>
+                        </button>
+
+                        @can('Tambah Flock')
+                        <a href="{{ route('master-data.flock.create') }}" class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
+                            <i class="fas fa-plus"></i>
+                        </a>
+                        @endcan
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
+        </div>
 
-        <div class="card-body table-responsive">
-    <table class="table table-striped table-bordered table-sm align-middle" style="border-top: 2px solid #ddd;">
-        <thead class="text-center table-secondary">
-            <tr>
-                <th style="width: 50px;">#</th>
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover table-striped table-bordered text-center mb-0">
+                <thead class="bg-light">
+                   <th style="width: 50px;">#</th>
                 <th>Nama</th>
                 <th>Alamat</th>
                 <th>Total Flock</th>
                 <th>Total Kapasitas Ayam</th>
                 <th style="width: 150px;">Aksi</th>
-            </tr>
-        </thead>
-        <tbody>
+
+                </thead>
+                 <tbody>
             @forelse($datas as $row)
                 <tr>
                     <td class="text-center">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
@@ -89,34 +89,35 @@
                 </tr>
             @endforelse
         </tbody>
-    </table>
+            </table>
+        </div>
 
-    <div class="d-flex justify-content-end pt-2">
-        {{ $datas->links('components.pagination') }}
-    </div>
-</div>
-
+        <div class="card-footer d-flex justify-content-end">
+            {{ $datas->links('components.pagination') }}
         </div>
     </div>
+</div>
 @endsection
 
 @push('js')
-<script>
-    $('.form-delete').on('submit', function(e) {
-        e.preventDefault()
-        Swal.fire({
-            title: `Apakah kamu yakin akan menghapus Kandang ${$(this).data('nama')}?`,
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: "Ya, Hapus",
-            cancelButtonText: "Batal",
-            confirmButtonColor: '#d33',
-            cancelButtonColor: '#6c757d',
-        }).then((result) => {
-            if (result.value) {
-                this.submit()
-            }
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).on('submit', '.form-delete', function(e) {
+            e.preventDefault();
+            const nama = $(this).data('nama');
+
+            Swal.fire({
+                title: `Hapus Kandang "${nama}"?`,
+                text: "Data yang dihapus tidak dapat dikembalikan.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Hapus",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
         });
-    })
-</script>
+    </script>
 @endpush
