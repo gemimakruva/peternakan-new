@@ -25,8 +25,8 @@
     {
       "name": "strain_standart_metric",
       "schemaName": "public",
-      "x": 520,
-      "y": -351.9653454058388
+      "x": 466.0856636768001,
+      "y": -376.2267967512787
     },
     {
       "name": "kandang",
@@ -77,10 +77,46 @@
       "y": 344
     },
     {
-      "name": "4_ayam_afkir",
+      "name": "karantina_kandang",
       "schemaName": "public",
-      "x": 1936,
-      "y": 808
+      "x": 8.3564453125,
+      "y": 5322
+    },
+    {
+      "name": "karantina_populasi",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 5468
+    },
+    {
+      "name": "karantina_pemberian_pakan",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6312
+    },
+    {
+      "name": "karantina_pengambilan_telur",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6426
+    },
+    {
+      "name": "karantina_pemberian_treatment",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6084
+    },
+    {
+      "name": "ayam_afkir",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6604
+    },
+    {
+      "name": "ayam_afkir_dokumentasi",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 7134
     },
     {
       "name": "5_karantina_a",
@@ -366,7 +402,7 @@
       "firstFieldNames": [
         "kandang_id"
       ],
-      "firstTableName": "4_ayam_afkir",
+      "firstTableName": "ayam_afkir",
       "firstSchemaName": "public",
       "firstRelation": "*",
       "secondFieldNames": [
@@ -381,7 +417,7 @@
       "firstFieldNames": [
         "flock_id"
       ],
-      "firstTableName": "4_ayam_afkir",
+      "firstTableName": "ayam_afkir",
       "firstSchemaName": "public",
       "firstRelation": "*",
       "secondFieldNames": [
@@ -396,7 +432,7 @@
       "firstFieldNames": [
         "pipe_id"
       ],
-      "firstTableName": "4_ayam_afkir",
+      "firstTableName": "ayam_afkir",
       "firstSchemaName": "public",
       "firstRelation": "*",
       "secondFieldNames": [

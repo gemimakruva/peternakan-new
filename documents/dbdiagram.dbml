@@ -33,14 +33,17 @@ Table strain { // auditable
 Table strain_standart_metric {
   id integer // auditable
   strain_id integer
-  uniformity decimal
-  berat_badan decimal
-  mortalitas decimal
+  umur decimal [note: 'minggu']
+  berat_badan_min decimal [note: 'gram']
+  berat_badan_max decimal [note: 'gram']
+  berat_badan decimal [note: 'gram']
+  persentase_kematian decimal
+  feed_intake decimal
   fcr decimal
-  hdp_persen decimal
-  hhp_persen decimal
-  egg_mass_gram_per_ekor_per_hari decimal
-  egg_weight_gram_per_butir decimal
+  hdp decimal
+  hhp decimal
+  egg_weight decimal [note: 'gram per butir']
+  egg_mass decimal [note: 'gram per ekor per hari']
   created_at timestamp
   updated_at timestamp
 }
@@ -73,6 +76,7 @@ Table pipe { // auditable
   id integer [primary key, increment]
   flock_id integer
   nama varchar
+  kapasitas decimal
   created_at timestamp
   updated_at timestamp
 }
@@ -80,7 +84,7 @@ Table pipe { // auditable
 Table pengadaan_ayam { // auditable
   id integer [primary key, increment]
   pic_user_id integer
-  tanggal date
+  tanggal datetime
   umur_ayam integer [note: 'dalam satuan minggu']
   kondisi_ayam varchar
   jumlah_ayam_datang integer
@@ -131,7 +135,10 @@ Ref : pipe.id < pengadaan_ayam_distribusi.pipe_id
 
 Table populasi_ayam {
   id integer [primary key, increment] // auditable
-  tanggal date
+  pengadaan_ayam_distribusi_id integer [null]
+  jenis_pemeriksaan varchar // pengadaan, pencatatan_populasi_harian, pengecekan_kesehatan
+  pic_user_id integer
+  tanggal datetime
   kandang_id integer
   flock_id integer
   pipe_id integer
@@ -144,18 +151,69 @@ Table populasi_ayam {
   updated_at timestamp
 }
 
-Table "4_ayam_afkir" {
+Table karantina_kandang {
   id integer [primary key, increment]
-  tanggal_afkir date
+  peternakan_id integer
+  nama varchar
+  kapasitas integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table karantina_populasi {
+  id integer [primary key, increment]
+  karantina_kandang_id integer
+  pic_user_id integer
+  populasi_ayam_id integer [null]
+  tanggal datetime
+  ayam_sehat integer
+  ayam_mati integer
+  ayam_afkir integer
+  ayam_masuk_karantina integer
+  ayam_keluar_karantina integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table karantina_pemberian_pakan {
+  id integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table karantina_pengambilan_telur {
+  id integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table karantina_pemberian_treatment {
+  id integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table ayam_afkir {
+  id integer [primary key, increment]
+  sumber_afkir_type varchar
+  sumber_afkir_id varchar
+  tanggal datetime
   kandang_id integer
   flock_id integer
   pipe_id integer
   umur_ayam integer
-  jumlah_ayam_afkir decimal(12,2)
+  jumlah_ayam_afkir decimal
   penyebab_afkir varchar
   pembeli_afkir varchar
-  dokumentasi varchar
   catatan text
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table ayam_afkir_dokumentasi {
+  id integer [primary key, increment]
+  ayam_afkir_id increment
+  filepath varchar
   created_at timestamp
   updated_at timestamp
 }
@@ -350,9 +408,9 @@ Ref: populasi_ayam.kandang_id > kandang.id
 Ref: populasi_ayam.flock_id   > flock.id
 Ref: populasi_ayam.pipe_id    > pipe.id
 
-Ref: "4_ayam_afkir".kandang_id > kandang.id
-Ref: "4_ayam_afkir".flock_id   > flock.id
-Ref: "4_ayam_afkir".pipe_id    > pipe.id
+Ref: "ayam_afkir".kandang_id > kandang.id
+Ref: "ayam_afkir".flock_id   > flock.id
+Ref: "ayam_afkir".pipe_id    > pipe.id
 
 Ref: "5_karantina_a".kandang_id > kandang.id
 Ref: "5_karantina_a".flock_id   > flock.id
