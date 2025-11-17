@@ -95,10 +95,10 @@
       "y": 6312
     },
     {
-      "name": "karantina_pengambilan_telur",
+      "name": "karantina_produksi_telur",
       "schemaName": "public",
       "x": 8.3564453125,
-      "y": 6426
+      "y": 7376
     },
     {
       "name": "karantina_pemberian_treatment",
@@ -388,51 +388,6 @@
         "pipe_id"
       ],
       "firstTableName": "populasi_ayam",
-      "firstSchemaName": "public",
-      "firstRelation": "*",
-      "secondFieldNames": [
-        "id"
-      ],
-      "secondTableName": "pipe",
-      "secondSchemaName": "public",
-      "secondRelation": "1",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "kandang_id"
-      ],
-      "firstTableName": "ayam_afkir",
-      "firstSchemaName": "public",
-      "firstRelation": "*",
-      "secondFieldNames": [
-        "id"
-      ],
-      "secondTableName": "kandang",
-      "secondSchemaName": "public",
-      "secondRelation": "1",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "flock_id"
-      ],
-      "firstTableName": "ayam_afkir",
-      "firstSchemaName": "public",
-      "firstRelation": "*",
-      "secondFieldNames": [
-        "id"
-      ],
-      "secondTableName": "flock",
-      "secondSchemaName": "public",
-      "secondRelation": "1",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "pipe_id"
-      ],
-      "firstTableName": "ayam_afkir",
       "firstSchemaName": "public",
       "firstRelation": "*",
       "secondFieldNames": [
@@ -756,6 +711,141 @@
       "secondTableName": "kandang",
       "secondSchemaName": "public",
       "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "pengadaan_ayam_distribusi_id"
+      ],
+      "firstTableName": "populasi_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "pengadaan_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "ayam_afkir_id"
+      ],
+      "firstTableName": "ayam_afkir_dokumentasi",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "ayam_afkir",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "karantina_kandang_id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "karantina_kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "populasi_ayam_id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "populasi_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "sumber_afkir_id"
+      ],
+      "firstTableName": "ayam_afkir",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "populasi_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "sumber_afkir_id"
+      ],
+      "firstTableName": "ayam_afkir",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "karantina_populasi",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "karantina_populasi_id"
+      ],
+      "secondTableName": "karantina_produksi_telur",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "karantina_populasi_id"
+      ],
+      "secondTableName": "karantina_pemberian_treatment",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "karantina_populasi_id"
+      ],
+      "secondTableName": "karantina_pemberian_pakan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
       "checkPoints": []
     }
   ]

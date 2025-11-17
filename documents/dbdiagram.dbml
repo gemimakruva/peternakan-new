@@ -147,6 +147,7 @@ Table populasi_ayam {
   ayam_afkir integer
   ayam_masuk_karantina integer
   ayam_keluar_karantina integer
+  catatan text
   created_at timestamp
   updated_at timestamp
 }
@@ -171,24 +172,31 @@ Table karantina_populasi {
   ayam_afkir integer
   ayam_masuk_karantina integer
   ayam_keluar_karantina integer
+  catatan text
   created_at timestamp
   updated_at timestamp
 }
 
 Table karantina_pemberian_pakan {
   id integer
+  karantina_populasi_id integer
   created_at timestamp
   updated_at timestamp
 }
 
-Table karantina_pengambilan_telur {
+Table karantina_produksi_telur {
   id integer
+  karantina_populasi_id integer
+  jumlah_telur_bagus integer
+  jumlah_telur_retak integer
+  jumlah_telur_rusak integer
   created_at timestamp
   updated_at timestamp
 }
 
 Table karantina_pemberian_treatment {
   id integer
+  karantina_populasi_id integer
   created_at timestamp
   updated_at timestamp
 }
@@ -197,10 +205,8 @@ Table ayam_afkir {
   id integer [primary key, increment]
   sumber_afkir_type varchar
   sumber_afkir_id varchar
+  pic_user_id integer
   tanggal datetime
-  kandang_id integer
-  flock_id integer
-  pipe_id integer
   umur_ayam integer
   jumlah_ayam_afkir decimal
   penyebab_afkir varchar
@@ -408,9 +414,6 @@ Ref: populasi_ayam.kandang_id > kandang.id
 Ref: populasi_ayam.flock_id   > flock.id
 Ref: populasi_ayam.pipe_id    > pipe.id
 
-Ref: "ayam_afkir".kandang_id > kandang.id
-Ref: "ayam_afkir".flock_id   > flock.id
-Ref: "ayam_afkir".pipe_id    > pipe.id
 
 Ref: "5_karantina_a".kandang_id > kandang.id
 Ref: "5_karantina_a".flock_id   > flock.id
@@ -443,3 +446,13 @@ Ref: "20_pelaksanaan_treatment".kandang_id > kandang.id
 Ref: "20_pelaksanaan_treatment".flock_id   > flock.id
 
 Ref: "21_monitoring_kesehatan_ternak".kandang_id > kandang.id
+
+Ref: "populasi_ayam"."pengadaan_ayam_distribusi_id" - "pengadaan_ayam"."id"
+Ref: "ayam_afkir_dokumentasi"."ayam_afkir_id" > "ayam_afkir"."id"
+Ref: "karantina_populasi"."karantina_kandang_id" < "karantina_kandang"."id"
+Ref: "karantina_populasi"."populasi_ayam_id" - "populasi_ayam"."id"
+Ref: "ayam_afkir"."sumber_afkir_id" > "populasi_ayam"."id"
+Ref: "ayam_afkir"."sumber_afkir_id" > "karantina_populasi"."id"
+Ref: "karantina_populasi"."id" < "karantina_produksi_telur"."karantina_populasi_id"
+Ref: "karantina_populasi"."id" < "karantina_pemberian_treatment"."karantina_populasi_id"
+Ref: "karantina_populasi"."id" < "karantina_pemberian_pakan"."karantina_populasi_id"
