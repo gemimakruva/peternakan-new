@@ -9,7 +9,6 @@
 @section('content')
 <div>
     <x-form-alert />
-
     <div class="card shadow-sm">
         <div class="card-header text-white d-flex justify-content-between align-items-center"
              style="background-color: #495057; border-color: #495057;">

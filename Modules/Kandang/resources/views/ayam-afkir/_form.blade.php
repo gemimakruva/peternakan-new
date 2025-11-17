@@ -7,15 +7,16 @@
 
     <div class="card-body pt-4">
 
-        {{-- Tanggal Afkir --}}
+        {{-- Input tanggal afkir ayam --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="tanggal_afkir" 
-                label="Tanggal Afkir" 
+                name="tanggal_afkir"
+                label="Tanggal Afkir"
                 type="date"
                 :value="old('tanggal_afkir', @$data->tanggal_afkir)"
-                igroup-size="lg" 
+                igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-calendar-alt text-muted"></i>
@@ -24,13 +25,14 @@
             </x-adminlte-input>
         </div>
 
-        {{-- Kandang --}}
+        {{-- Dropdown kandang --}}
         <div class="mb-4">
             <x-adminlte-select 
-                name="kandang_id" 
+                name="kandang_id"
                 label="Pilih Kandang"
                 igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-home text-muted"></i>
@@ -48,13 +50,14 @@
             </x-adminlte-select>
         </div>
 
-        {{-- Flock --}}
+        {{-- Dropdown flock --}}
         <div class="mb-4">
             <x-adminlte-select 
-                name="flock_id" 
+                name="flock_id"
                 label="Pilih Flock"
                 igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-feather-alt text-muted"></i>
@@ -72,13 +75,14 @@
             </x-adminlte-select>
         </div>
 
-        {{-- Pipe --}}
+        {{-- Dropdown pipe / kapasitas --}}
         <div class="mb-4">
             <x-adminlte-select 
-                name="pipe_id" 
+                name="pipe_id"
                 label="Pilih Pipe"
                 igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-database text-muted"></i>
@@ -88,7 +92,7 @@
                 <option value="" disabled selected>Pilih Pipe</option>
 
                 @foreach($pipes as $item)
-                    <option value="{{ $item->id }}" 
+                    <option value="{{ $item->id }}"
                         {{ old('pipe_id', @$data->pipe_id) == $item->id ? 'selected' : '' }}>
                         Pipe #{{ $item->id }} — Kapasitas: {{ $item->capacity }}
                     </option>
@@ -96,16 +100,17 @@
             </x-adminlte-select>
         </div>
 
-        {{-- Umur Ayam --}}
+        {{-- Input umur ayam (hari) --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="umur_ayam" 
-                label="Umur Ayam (hari)" 
+                name="umur_ayam"
+                label="Umur Ayam (hari)"
                 type="number"
                 placeholder="Contoh: 420"
                 :value="old('umur_ayam', @$data->umur_ayam)"
-                igroup-size="lg" 
+                igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-clock text-muted"></i>
@@ -114,16 +119,17 @@
             </x-adminlte-input>
         </div>
 
-        {{-- Jumlah Ayam Afkir --}}
+        {{-- Input jumlah ayam afkir --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="jumlah_ayam_afkir" 
-                label="Jumlah Ayam Afkir" 
+                name="jumlah_ayam_afkir"
+                label="Jumlah Ayam Afkir"
                 type="number"
                 placeholder="Masukkan jumlah..."
                 :value="old('jumlah_ayam_afkir', @$data->jumlah_ayam_afkir)"
-                igroup-size="lg" 
+                igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-list-ol text-muted"></i>
@@ -132,16 +138,17 @@
             </x-adminlte-input>
         </div>
 
-        {{-- Penyebab Afkir --}}
+        {{-- Input penyebab afkir --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="penyebab_afkir" 
-                label="Penyebab Afkir" 
+                name="penyebab_afkir"
+                label="Penyebab Afkir"
                 type="text"
                 placeholder="Contoh: Produksi menurun"
                 :value="old('penyebab_afkir', @$data->penyebab_afkir)"
-                igroup-size="lg" 
+                igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-exclamation-triangle text-muted"></i>
@@ -150,16 +157,17 @@
             </x-adminlte-input>
         </div>
 
-        {{-- Nama Pembeli --}}
+        {{-- Input nama pembeli --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="nama_pembeli" 
-                label="Nama Pembeli" 
+                name="nama_pembeli"
+                label="Nama Pembeli"
                 type="text"
                 placeholder="Masukkan nama pembeli..."
                 :value="old('nama_pembeli', @$data->nama_pembeli)"
-                igroup-size="lg" 
+                igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-user text-muted"></i>
@@ -168,16 +176,17 @@
             </x-adminlte-input>
         </div>
 
-        {{-- Harga Jual per KG --}}
+        {{-- Input harga jual --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="harga_jual_per_kg" 
-                label="Harga Jual per KG (Rp)" 
+                name="harga_jual_per_kg"
+                label="Harga Jual per KG (Rp)"
                 type="number"
                 placeholder="Contoh: 23000"
                 :value="old('harga_jual_per_kg', @$data->harga_jual_per_kg)"
-                igroup-size="lg" 
+                igroup-size="lg"
                 fgroup-class="col-12">
+
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-money-bill-wave text-muted"></i>
