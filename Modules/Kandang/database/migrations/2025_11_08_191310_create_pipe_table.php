@@ -14,8 +14,18 @@ return new class extends Migration
     {
         Schema::create('pipe', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Flock::class, 'flock_id')->constrained('flock', 'id')->cascadeOnDelete();
-            $table->string('nama');            
+
+            // Relasi ke tabel flock
+            $table->foreignIdFor(Flock::class, 'flock_id')
+                  ->constrained('flock', 'id')
+                  ->cascadeOnDelete();
+
+            // Informasi utama pipe
+            $table->string('pipe_name');
+            $table->unsignedInteger('capacity')->default(0);
+            $table->unsignedInteger('initial_population')->default(0);
+
+            // Tanggal dibuat & diperbarui
             $table->timestamps();
         });
     }

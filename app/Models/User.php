@@ -6,6 +6,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Modules\Kandang\Models\PopulationLog;
+use Modules\Kandang\Models\SupplierLog;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -54,4 +56,10 @@ class User extends Authenticatable
         $url = "https://www.gravatar.com/avatar/{$hash}?s=200&d=identicon&r=pg";
         return  $url;
     }
+
+    public function recordedLogs()
+{
+    return $this->hasMany(SupplierLog::class, 'recorded_by');
+}
+
 }

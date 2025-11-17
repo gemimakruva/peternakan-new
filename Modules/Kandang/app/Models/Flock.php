@@ -4,7 +4,6 @@ namespace Modules\Kandang\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Kandang\Database\Factories\FlockFactory;
 
 class Flock extends Model
 {
@@ -13,8 +12,10 @@ class Flock extends Model
     public $table = 'flock';
 
     protected $fillable = [
-        'kandang_id',
-        'nama',
+       'kandang_id',
+        'flock_name',
+        'date_in',
+        'initial_population',
     ];
 
     public function kandang()
@@ -22,13 +23,9 @@ class Flock extends Model
         return $this->belongsTo(Kandang::class, 'kandang_id', 'id');
     }
 
-    public function pipe()
+    public function pipes()
     {
         return $this->hasMany(Pipe::class, 'flock_id', 'id');
     }
 
-    // protected static function newFactory(): FlockFactory
-    // {
-    //     // return FlockFactory::new();
-    // }
 }

@@ -4,40 +4,72 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
+use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Pipe;
 
 class PipeController extends Controller
 {
+    /**
+     * Inisialisasi model Pipe melalui Dependency Injection.
+     * Memudahkan pemanggilan model di seluruh method.
+     */
     public function __construct(
         private Pipe $pipe,
     ) { }
 
     /**
-     * Display a listing of the resource.
+     * Menampilkan daftar seluruh Pipe dengan fitur pagination.
+     * Biasanya digunakan untuk melihat semua Pipe dari seluruh Flock.
      */
     public function index()
     {
+        Gate::authorize('Lihat Semua Pipe');
         $datas = $this->pipe
             ->query()
             ->paginate(request()->query('perPage', 10));
+
         return view('kandang::master-data.pipe.index', compact('datas'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Menampilkan daftar Pipe berdasarkan Flock tertentu.
+     * Digunakan ketika user ingin melihat semua Pipe milik satu Flock (kandang).
+     */
+    public function indexByFlock(Flock $flock)
+    {
+        Gate::authorize('Lihat Semua Pipe');
+        $flock->load('pipes');
+        $pipes = $flock->pipes;
+
+        return view(
+            'kandang::master-data.pipe.index_by_flock',
+            compact('flock', 'pipes')
+        );
+    }
+
+    /**
+     * Menampilkan form untuk membuat Pipe secara manual.
+     * (Biasanya jarang digunakan jika Pipe digenerate otomatis saat membuat Flock)
      */
     public function create()
     {
+        Gate::authorize('Tambah Pipe');
+
         return view('kandang::master-data.pipe.create');
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Menyimpan Pipe baru (jika fitur create digunakan).
+     * Saat ini masih kosong karena Pipe biasanya di-generate otomatis.
      */
-    public function store(Request $request) {}
+    public function store(Request $request)
+    {
+        
+    }
 
     /**
-     * Show the specified resource.
+     * Menampilkan detail satu Pipe (opsional).
      */
     public function show($id)
     {
@@ -45,20 +77,49 @@ class PipeController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Menampilkan form edit Pipe berdasarkan ID.
      */
-    public function edit($id)
+    public function edit(Pipe $pipe)
     {
-        return view('kandang::master-data.pipe.edit');
+        Gate::authorize('Edit Pipe');
+
+        return view('kandang::master-data.pipe.edit', compact('pipe'));
     }
 
     /**
-     * Update the specified resource in storage.
+     * Mengupdate data Pipe.
+     * Method ini digunakan ketika admin ingin mengubah nama pipe atau kapasitas maksimal.
      */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, Pipe $pipe)
+    {
+        Gate::authorize('Edit Pipe');
+
+        // Validasi input
+        $validated = $request->validate([
+            'pipe_name' => ['required', 'string', 'max:255'],
+            'capacity'  => ['required', 'numeric', 'min:0'],
+        ]);
+
+        // Update data Pipe
+        $pipe->update($validated);
+
+        return redirect()
+            ->route('master-data.pipe.index')
+            ->with('success', 'Data Pipe berhasil diperbarui!');
+    }
 
     /**
-     * Remove the specified resource from storage.
+     * Menghapus Pipe berdasarkan ID.
+     * Biasanya digunakan jika admin ingin merapikan data atau ada Pipe yang tidak digunakan.
      */
-    public function destroy($id) {}
+    public function destroy($id)
+    {
+        Gate::authorize('Hapus Pipe');
+
+        $pipe = $this->pipe->findOrFail($id);
+        $pipe->delete();
+
+        return to_route('master-data.pipe.index')
+            ->with('danger', 'Data Pipe berhasil dihapus.');
+    }
 }

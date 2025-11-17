@@ -4,26 +4,49 @@ namespace Modules\Kandang\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\Kandang\Database\Factories\PipeFactory;
 
 class Pipe extends Model
 {
     use HasFactory;
 
-    public $table = 'pipe';
-    
+    protected $table = 'pipe';
+
     protected $fillable = [
         'flock_id',
-        'nama',
+        'pipe_name',
+        'capacity',
+        'inital_population',
     ];
 
+    /**
+     * Relasi ke flock
+     */
     public function flock()
     {
         return $this->belongsTo(Flock::class, 'flock_id', 'id');
     }
 
-    // protected static function newFactory(): PipeFactory
-    // {
-    //     // return PipeFactory::new();
-    // }
+    /**
+     * Relasi ke log populasi
+     */
+    public function populationLogs()
+    {
+        return $this->hasMany(SupplierLog::class, 'pipe_id');
+    }
+
+    /**
+     * Accessor: Mendapatkan nama flock
+     */
+    public function getFlockNameAttribute()
+    {
+        return $this->flock->flock_name ?? '-';
+    }
+
+    /**
+     * Accessor: Mendapatkan nama kandang dari flock
+     */
+    public function getKandangNameAttribute()
+    {
+        return $this->flock->kandang->name ?? '-';
+    }
 }
