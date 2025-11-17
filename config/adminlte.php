@@ -361,8 +361,8 @@ return [
             ],
          ],
         [
-            'text' => 'Standar Produksi',
-            'route' => '',
+            'text' => 'Strain Ayam',
+            'route' => 'master-data.strain-ayam.index',
             'icon' => 'fas fa-solid fa-industry',
             'can'  => 'Lihat Standar Produksi',
         ],

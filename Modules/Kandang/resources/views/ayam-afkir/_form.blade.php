@@ -100,13 +100,13 @@
             </x-adminlte-select>
         </div>
 
-        {{-- Input umur ayam (hari) --}}
+        {{-- Input umur ayam (Mingguan) --}}
         <div class="mb-4">
             <x-adminlte-input 
                 name="umur_ayam"
-                label="Umur Ayam (hari)"
+                label="Umur Ayam (Mingguan)"
                 type="number"
-                placeholder="Contoh: 420"
+                placeholder="Contoh: 10"
                 :value="old('umur_ayam', @$data->umur_ayam)"
                 igroup-size="lg"
                 fgroup-class="col-12">
