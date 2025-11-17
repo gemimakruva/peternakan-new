@@ -49,12 +49,17 @@ class User extends Authenticatable
         ];
     }
 
-    public function adminlte_profile_url()
+    public function adminlte_image()
     {
         $email = $this->attributes['email'];
         $hash = md5(strtolower(trim($email)));
         $url = "https://www.gravatar.com/avatar/{$hash}?s=200&d=identicon&r=pg";
         return  $url;
+    }
+
+    public function adminlte_desc()
+    {
+        return 'desc';
     }
 
     public function recordedLogs()
