@@ -215,10 +215,9 @@ return [
     */
 
     'sidebar_mini' => 'lg',
-    'sidebar_collapse' => true,
-    'sidebar-open' =>true,
-    'sidebar_collapse_auto_size' => true,
-    'sidebar_collapse_remember' => true,
+    'sidebar_collapse' => false,
+    'sidebar_collapse_auto_size' => false,
+    'sidebar_collapse_remember' => false,
     'sidebar_collapse_remember_no_transition' => true,
     'sidebar_scrollbar_theme' => 'os-theme-light',
     'sidebar_scrollbar_auto_hide' => 'l',
@@ -300,6 +299,21 @@ return [
     */
 
     'menu' => [
+        // Notification top right nav
+        [
+            'type' => 'navbar-notification',
+            'id' => 'my-notification',
+            'icon' => 'fas fa-bell',
+            'url' => 'notifications/show',
+            'topnav_right' => true,
+            'dropdown_mode' => true,
+            'dropdown_flabel' => 'All notifications',
+            'update_cfg' => [
+                'url' => 'notifications/get',
+                'period' => 30,
+            ],
+        ],
+
         // Navbar items:
         [
             'type' => 'navbar-search',
