@@ -8,6 +8,17 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Strain extends Model
 {
     use SoftDeletes; 
-    protected $table = 'strains';
+    protected $table = 'strain';
+
+     protected $fillable = [
+        'id',
+        'created_at',
+        'updated_at',
+    ];
     protected $dates = ['deleted_at'];
+
+     public function metrics()
+    {
+        return $this->hasMany(StrainStandartMetric::class, 'strain_id');
+    }
 }

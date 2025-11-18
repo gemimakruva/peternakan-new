@@ -6,22 +6,24 @@ use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\Peternakan;
 use Illuminate\Http\Request;
 
-
 class PeternakanController extends Controller
 {
     /**
      * Display a listing of the resource.
+     * Menampilkan daftar peternakan dengan fitur pencarian dan paginasi.
      */
     public function index()
     {
         $search = request()->input('search');
+
         $datas = Peternakan::when($search, function ($query) use ($search) {
                 $query->where('nama', 'like', "%{$search}%")
-                    ->orWhere('lokasi', 'like', "%{$search}%");
+                      ->orWhere('lokasi', 'like', "%{$search}%");
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10) 
-            ->withQueryString(); 
+            ->paginate(10)
+            ->withQueryString();
+
         return view('kandang::master-data.peternakan.index', compact('datas', 'search'));
     }
 
@@ -38,31 +40,27 @@ class PeternakanController extends Controller
      */
     public function store(Request $request)
     {
-        // 1. VALIDASI INPUT
         $validated = $request->validate([
             'nama' => 'required|string|max:255',
             'lokasi' => 'required|string',
         ]);
 
-        // 2. SIMPAN KE DATABASE
         Peternakan::create([
-            'nama' => $validated['nama'],
+            'nama'   => $validated['nama'],
             'lokasi' => $validated['lokasi'],
         ]);
 
-        // 3. REDIRECT
         return redirect()
             ->route('master-data.peternakan.index')
             ->with('success', 'Data peternakan berhasil ditambahkan.');
     }
-
 
     /**
      * Display the specified resource.
      */
     public function show(Peternakan $peternakan)
     {
-        //
+        // Bisa digunakan untuk menampilkan detail peternakan jika diperlukan
     }
 
     /**
@@ -78,23 +76,22 @@ class PeternakanController extends Controller
      */
     public function update(Request $request, Peternakan $peternakan)
     {
-        //
+        // Implementasi update data peternakan
     }
 
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(Peternakan $peternakan)
-{
-    try {
-        $peternakan->delete();
-        return redirect() ->back()
-            ->with('success', 'Data peternakan berhasil dihapus.');
-    } catch (\Exception $e) {
-        return redirect()
-            ->back()
-            ->with('error', 'Terjadi kesalahan saat menghapus data.');
-    }
-}
+    {
+        try {
+            $peternakan->delete();
 
+            return redirect()->back()
+                ->with('success', 'Data peternakan berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan saat menghapus data.');
+        }
+    }
 }
