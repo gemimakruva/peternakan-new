@@ -1,7 +1,7 @@
 name: Deploy website on push
 on:
   push:
-    branches: [devel, master]
+    branches: [devel]
   workflow_dispatch:
 jobs:
   web-deploy:

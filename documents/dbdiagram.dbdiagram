@@ -1,0 +1,852 @@
+{
+  "version": "1.0.0",
+  "darkMode": true,
+  "gridEnabling": false,
+  "detailLevel": "All",
+  "tablePositions": [
+    {
+      "name": "users",
+      "schemaName": "public",
+      "x": 16,
+      "y": 728
+    },
+    {
+      "name": "peternakan",
+      "schemaName": "public",
+      "x": 12,
+      "y": -278.72730988624824
+    },
+    {
+      "name": "strain",
+      "schemaName": "public",
+      "x": 12,
+      "y": -14.727309886248207
+    },
+    {
+      "name": "strain_standart_metric",
+      "schemaName": "public",
+      "x": 466.0856636768001,
+      "y": -376.2267967512787
+    },
+    {
+      "name": "kandang",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 179.26771785963274
+    },
+    {
+      "name": "flock",
+      "schemaName": "public",
+      "x": 1144,
+      "y": 728
+    },
+    {
+      "name": "pipe",
+      "schemaName": "public",
+      "x": 16,
+      "y": 488
+    },
+    {
+      "name": "pengadaan_ayam",
+      "schemaName": "public",
+      "x": 520,
+      "y": 472
+    },
+    {
+      "name": "pengadaan_ayam_berkas_supplier",
+      "schemaName": "public",
+      "x": 1144,
+      "y": 224
+    },
+    {
+      "name": "pengadaan_ayam_dokumentasi",
+      "schemaName": "public",
+      "x": 1144,
+      "y": 488
+    },
+    {
+      "name": "pengadaan_ayam_distribusi",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 16
+    },
+    {
+      "name": "populasi_ayam",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 344
+    },
+    {
+      "name": "karantina_kandang",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 5322
+    },
+    {
+      "name": "karantina_populasi",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 5468
+    },
+    {
+      "name": "karantina_pemberian_pakan",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6312
+    },
+    {
+      "name": "karantina_produksi_telur",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 7376
+    },
+    {
+      "name": "karantina_pemberian_treatment",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6084
+    },
+    {
+      "name": "ayam_afkir",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 6604
+    },
+    {
+      "name": "ayam_afkir_dokumentasi",
+      "schemaName": "public",
+      "x": 8.3564453125,
+      "y": 7134
+    },
+    {
+      "name": "5_karantina_a",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 1304
+    },
+    {
+      "name": "7_perhitungan_pemberian_pakan",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 1992
+    },
+    {
+      "name": "9_pemberian_pakan_dan_sisa_pak",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 2480
+    },
+    {
+      "name": "11_produksi_telur_a",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 2848
+    },
+    {
+      "name": "14_sampling_bobot_ayam_a",
+      "schemaName": "public",
+      "x": 1144,
+      "y": 1000
+    },
+    {
+      "name": "16_penjadwalan_disinfektan_kan",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 3344
+    },
+    {
+      "name": "17_penjadwalan_treatment",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 3808
+    },
+    {
+      "name": "18_perhitungan_vaksinasi_vita",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 4264
+    },
+    {
+      "name": "19_form_request_order_ovk",
+      "schemaName": "public",
+      "x": 1144,
+      "y": 1368
+    },
+    {
+      "name": "20_pelaksanaan_treatment",
+      "schemaName": "public",
+      "x": 1936,
+      "y": 4920
+    },
+    {
+      "name": "21_monitoring_kesehatan_ternak",
+      "schemaName": "public",
+      "x": 1144,
+      "y": 1768
+    }
+  ],
+  "tableGroupCollapseStates": [],
+  "stickyNoteLayouts": [],
+  "referencePaths": [
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "strain",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "strain_id"
+      ],
+      "secondTableName": "strain_standart_metric",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "strain",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "strain_id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "peternakan",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "peternakan_id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "pic_user_id"
+      ],
+      "secondTableName": "pengadaan_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "pengadaan_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "pengadaan_ayam_id"
+      ],
+      "secondTableName": "pengadaan_ayam_berkas_supplier",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "pengadaan_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "pengadaan_ayam_id"
+      ],
+      "secondTableName": "pengadaan_ayam_dokumentasi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "pengadaan_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "pengadaan_ayam_id"
+      ],
+      "secondTableName": "pengadaan_ayam_distribusi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "kandang",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kandang_id"
+      ],
+      "secondTableName": "pengadaan_ayam_distribusi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "flock",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "flock_id"
+      ],
+      "secondTableName": "pengadaan_ayam_distribusi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "pipe",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "pipe_id"
+      ],
+      "secondTableName": "pengadaan_ayam_distribusi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "flock",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "populasi_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "populasi_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "pipe_id"
+      ],
+      "firstTableName": "populasi_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "pipe",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "5_karantina_a",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "5_karantina_a",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "pipe_id"
+      ],
+      "firstTableName": "5_karantina_a",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "pipe",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "7_perhitungan_pemberian_pakan",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "7_perhitungan_pemberian_pakan",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "pipe_id"
+      ],
+      "firstTableName": "7_perhitungan_pemberian_pakan",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "pipe",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "9_pemberian_pakan_dan_sisa_pak",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "9_pemberian_pakan_dan_sisa_pak",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "11_produksi_telur_a",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "11_produksi_telur_a",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "14_sampling_bobot_ayam_a",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "16_penjadwalan_disinfektan_kan",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "16_penjadwalan_disinfektan_kan",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "17_penjadwalan_treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "17_penjadwalan_treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "18_perhitungan_vaksinasi_vita",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "18_perhitungan_vaksinasi_vita",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "19_form_request_order_ovk",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "20_pelaksanaan_treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "flock_id"
+      ],
+      "firstTableName": "20_pelaksanaan_treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "kandang_id"
+      ],
+      "firstTableName": "21_monitoring_kesehatan_ternak",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "pengadaan_ayam_distribusi_id"
+      ],
+      "firstTableName": "populasi_ayam",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "pengadaan_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "ayam_afkir_id"
+      ],
+      "firstTableName": "ayam_afkir_dokumentasi",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "ayam_afkir",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "karantina_kandang_id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "karantina_kandang",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "populasi_ayam_id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "populasi_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "sumber_afkir_id"
+      ],
+      "firstTableName": "ayam_afkir",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "populasi_ayam",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "sumber_afkir_id"
+      ],
+      "firstTableName": "ayam_afkir",
+      "firstSchemaName": "public",
+      "firstRelation": "*",
+      "secondFieldNames": [
+        "id"
+      ],
+      "secondTableName": "karantina_populasi",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "karantina_populasi_id"
+      ],
+      "secondTableName": "karantina_produksi_telur",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "karantina_populasi_id"
+      ],
+      "secondTableName": "karantina_pemberian_treatment",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "karantina_populasi",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "karantina_populasi_id"
+      ],
+      "secondTableName": "karantina_pemberian_pakan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    }
+  ]
+}
