@@ -27,13 +27,13 @@
                         <input type="search" 
                                name="search" 
                                class="form-control form-control-sm" 
-                               placeholder="Carui kandang..." 
+                               placeholder="Cari kandang..." 
                                value="{{ request()->query('search') }}">
                         <button class="btn btn-dark btn-sm" title="Cari">
                             <i class="fas fa-search"></i>
                         </button>
 
-                        @can('Tambah Flock')
+                        @can('Tambah Kandang')
                         <a href="{{ route('master-data.kandang.create') }}" class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
                             <i class="fas fa-plus"></i>
                         </a>

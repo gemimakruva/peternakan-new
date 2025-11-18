@@ -13,7 +13,7 @@ return new class extends Migration
         Schema::create('kandang', function(Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->text('lokasi');
+            $table->text('alamat');
             $table->timestamps();
         });
     }
