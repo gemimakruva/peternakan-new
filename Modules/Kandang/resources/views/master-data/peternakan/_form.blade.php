@@ -3,10 +3,10 @@
         <div class="mb-3">
             <x-adminlte-input 
                 name="nama" 
-                label="Nama Kandang" 
+                label="Nama Peternakan" 
                 type="text" 
-                placeholder="Masukkan nama kandang..." 
-                :value="old('nama', @$data->nama)" 
+                placeholder="Masukkan nama Peternakan..." 
+                :value="old('nama', @$peternakan->nama)" 
                 igroup-size="md">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
@@ -18,10 +18,10 @@
 
         <div class="mb-3">
             <x-adminlte-textarea 
-                name="alamat" 
-                label="Alamat Kandang" 
+                name="lokasi" 
+                label="lokasi Peternakan" 
                 rows="5" 
-                placeholder="Masukkan alamat lengkap kandang...">{{ old('alamat', @$data->alamat) }}</x-adminlte-textarea>
+                placeholder="Masukkan alamat lengkap Peternakan...">{{ old('alamat', @$peternakan->lokasi) }}</x-adminlte-textarea>
         </div>
     </div>
 </div>

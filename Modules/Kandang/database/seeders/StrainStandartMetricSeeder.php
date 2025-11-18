@@ -1,11 +1,13 @@
 <?php
 
 namespace Modules\Kandang\Database\Seeders;
+
 use Illuminate\Database\Seeder;
-use Modules\Kandang\Models\StrainAyam;
-class StrainAyamSeeder extends Seeder
+use Modules\Kandang\Models\StrainStandartMetric;
+
+class StrainStandartMetricSeeder extends Seeder
 {
-    public function run()
+    public function run(): void
     {
         $data = [
             [13,1139,1204,1172,null,74,null,0,0,0,0],
@@ -39,7 +41,7 @@ class StrainAyamSeeder extends Seeder
             [41,1964,2076,2020,1.53,119,1.99,93.85,92.41,63.8,59.9],
             [42,1966,2079,2023,1.65,119,1.99,93.55,92.01,64,59.9],
             [43,1969,2081,2025,1.65,119,1.99,93.25,91.71,64.1,59.8],
-            [44,1971,2083,2027,1.77,119,1.99,92.95,91.30,64.2,59.7],
+            [44,1971,2083,2027,1.77,119,2.00,92.95,91.30,64.2,59.7],
             [45,1972,2085,2029,1.77,119,2.00,92.65,91.01,64.35,59.6],
             [46,1974,2087,2031,1.89,119,2.00,92.35,90.60,64.4,59.5],
             [47,1975,2088,2032,1.89,119,2.00,92.10,90.36,64.5,59.4],
@@ -98,20 +100,20 @@ class StrainAyamSeeder extends Seeder
             [100,2006,2121,2064,9.90,120,2.51,70.85,63.84,67.50,47.8],
         ];
 
-        foreach ($data as $d) {
-            StrainAyam::create([
-                'strain' => 'Lohmann',
-                'umur_minggu' => $d[0],
-                'bb_bawah' => $d[1],
-                'bb_atas' => $d[2],
-                'bb_rata2' => $d[3],
-                'persentase_kematian' => $d[4],
-                'feed_intake' => $d[5],
-                'fcr' => $d[6],
-                'hdp' => $d[7],
-                'hhp' => $d[8],
-                'egg_weight' => $d[9],
-                'egg_mass' => $d[10],
+        foreach ($data as $row) {
+            StrainStandartMetric::create([
+                'strain_id' => 1,
+                'umur' => $row[0],
+                'berat_badan_min' => $row[1],
+                'berat_badan_max' => $row[2],
+                'berat_badan' => $row[3],
+                'persentase_kematian' => $row[4],
+                'feed_intake' => $row[5],
+                'fcr' => $row[6],
+                'hdp' => $row[7],
+                'hhp' => $row[8],
+                'egg_weight' => $row[9],
+                'egg_mass' => $row[10],
             ]);
         }
     }
