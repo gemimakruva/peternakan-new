@@ -3,14 +3,18 @@
 @section('title', 'Flock')
 
 @section('content_header')
-    <h1 class="font-weight-bold">Manajemen Flock</h1>
+<div class="mb-4 text-center d-flex flex-column align-items-center">
+    <h2 class="h4 fw-bold text-dark">Manajemen Flock</h2>
+    <span class="text-muted mb-0" style="max-width: 600px;">
+        Halaman ini digunakan untuk mengelola data Flock, termasuk penambahan, pembaruan, dan penghapusan data.
+    </span>
+</div>
 @endsection
 
 @section('content')
 <div>
     <x-form-alert />
-
-    <div class="card shadow-sm">
+    <div style="max-width: 1200px;" class="card shadow-sm">
         <div class="card-header text-white d-flex justify-content-between align-items-center"
              style="background-color: #495057; border-color: #495057;">
             <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
@@ -21,7 +25,7 @@
                         <input type="search" 
                                name="search" 
                                class="form-control form-control-sm" 
-                               placeholder="Kandang atau Flock" 
+                               placeholder="Cari flock..." 
                                value="{{ request()->query('search') }}">
                         <button class="btn btn-dark btn-sm" title="Cari">
                             <i class="fas fa-search"></i>
@@ -63,7 +67,7 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                <a href="{{ route('master-data.flock.edit', $row) }}" class="btn btn-primary btn-sm" title="Edit">
+                                <a href="{{ route('master-data.flock.edit', $row) }}" class="btn btn-warning text-white btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
 

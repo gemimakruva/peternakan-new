@@ -361,6 +361,12 @@ return [
             ],
          ],
         [
+            'text' => 'List Peternakan',
+            'route' => 'master-data.peternakan.index',
+            'icon' => 'bi bi-house-fill',
+            'can'  => 'Lihat List Peternakan',
+        ],
+        [
             'text' => 'Strain Ayam',
             'route' => 'master-data.strain-ayam.index',
             'icon' => 'fas fa-solid fa-industry',

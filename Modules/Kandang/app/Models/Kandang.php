@@ -26,4 +26,9 @@ class Kandang extends Model
     {
         return KandangFactory::new();
     }
+
+     public function peternakan()
+    {
+        return $this->belongsTo(Peternakan::class, 'peternakan_id', 'id');
+    }
 }

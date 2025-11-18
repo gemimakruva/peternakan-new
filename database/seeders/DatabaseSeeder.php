@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use Modules\Kandang\Database\Seeders\AyamAfkirSeeder;
 use Modules\Kandang\Database\Seeders\FlockSeeder;
 use Modules\Kandang\Database\Seeders\KandangDatabaseSeeder;
+use Modules\Kandang\Database\Seeders\PeternakanSeeder;
 use Modules\Kandang\Database\Seeders\PipeSeeder;
 use Modules\Kandang\Database\Seeders\SupplierLogSeeder;
 class DatabaseSeeder extends Seeder
@@ -20,12 +21,14 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            KandangDatabaseSeeder::class,
-            FlockSeeder::class,
-            PipeSeeder::class,
-            SupplierLogSeeder::class,
-            AyamAfkirSeeder::class,
-            StrainAyamSeeder::class
+            PeternakanSeeder::class
+            // StrainAyamSeeder::class
+            // KandangDatabaseSeeder::class,
+            // FlockSeeder::class,
+            // PipeSeeder::class,
+            // SupplierLogSeeder::class,
+            // AyamAfkirSeeder::class,
+         
         ]);
     }
 }

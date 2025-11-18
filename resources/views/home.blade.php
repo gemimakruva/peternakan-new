@@ -35,120 +35,119 @@
 
 </style>
 @section('content')
-<div class="pt-3">
+<div class="pt-3" style="max-width: 1200px; padding: 0 15px;">
     {{--  ======================  Card Filter ========================== --}}
-<div class="card">
-       <div class="card-header">
-    <h5 class="m-0">Ikhtisam Pemantauan</h5>
-</div>
+    <div class="card">
+        <div class="card-header">
+        <h5 class="m-0">Ikhtisam Pemantauan</h5>
+    </div>
 
     <div class="card-body">
-<div class="row g-3 align-items-end mb-3">
+        <div class="row g-3 align-items-end mb-3">
 
-    {{-- Dropdown Kandang --}}
-    <div class="col-12 col-sm-6 col-md-3">
-        <label class="form-label">Pilih Kandang</label>
-        <select class="form-control form-control-sm">
-            <option value="">-- Pilih Kandang --</option>
-            <option value="A">Kandang A</option>
-            <option value="B">Kandang B</option>
-            <option value="C">Kandang C</option>
-        </select>
-    </div>
+        {{-- Dropdown Kandang --}}
+        <div class="col-12 col-sm-6 col-md-3">
+            <label class="form-label">Pilih Kandang</label>
+            <select class="form-control form-control-sm">
+                <option value="">-- Pilih Kandang --</option>
+                <option value="A">Kandang A</option>
+                <option value="B">Kandang B</option>
+                <option value="C">Kandang C</option>
+            </select>
+        </div>
 
-    {{-- Dropdown Flock --}}
-    <div class="col-12 col-sm-6 col-md-3">
-        <label class="form-label">Pilih Baris</label>
-        <select class="form-control form-control-sm">
-            <option value="">-- Pilih Baris --</option>
-            <option value="A1">Flock A1</option>
-            <option value="A2">Flock A2</option>
-            <option value="B1">Flock B1</option>
-            <option value="B2">Flock B2</option>
-        </select>
-    </div>
+        {{-- Dropdown Flock --}}
+        <div class="col-12 col-sm-6 col-md-3">
+            <label class="form-label">Pilih Baris</label>
+            <select class="form-control form-control-sm">
+                <option value="">-- Pilih Baris --</option>
+                <option value="A1">Flock A1</option>
+                <option value="A2">Flock A2</option>
+                <option value="B1">Flock B1</option>
+                <option value="B2">Flock B2</option>
+            </select>
+        </div>
 
-    {{-- Dropdown Periode --}}
-    <div class="col-12 col-sm-6 col-md-3">
-        <label class="form-label">Periode Tampilan</label>
-        <select class="form-control form-control-sm">
-            <option value="daily">Harian</option>
-            <option value="weekly">Mingguan</option>
-            <option value="monthly">Bulanan</option>
-        </select>
-    </div>
+        {{-- Dropdown Periode --}}
+        <div class="col-12 col-sm-6 col-md-3">
+            <label class="form-label">Periode Tampilan</label>
+            <select class="form-control form-control-sm">
+                <option value="daily">Harian</option>
+                <option value="weekly">Mingguan</option>
+                <option value="monthly">Bulanan</option>
+            </select>
+        </div>
 
-    {{-- Tanggal Update --}}
-    <div class="col-12 col-sm-6 col-md-3 text-md-end">
-        <label class="form-label d-block">Terakhir Diperbarui</label>
-        <input type="text"
-               class="form-control form-control-sm d-inline-block"
-               value="11 Nov 2025, 14:35"
-               style="max-width: 180px;"
-               disabled>
-    </div>
-
+        {{-- Tanggal Update --}}
+        <div class="col-12 col-sm-6 col-md-3 text-md-end">
+            <label class="form-label d-block">Terakhir Diperbarui</label>
+            <input type="text"
+                class="form-control form-control-sm d-inline-block"
+                value="11 Nov 2025, 14:35"
+                style="max-width: 180px;"
+                disabled>
+        </div>
 </div>
 
 
 </div>
     {{-- =============== Card Detail Summerly Poluation ================--}}
 <div class="row g-3 pb-3 px-2">
-    <!-- Umur Ayam -->
-    <div class="col-md-3 col-6">
-        <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
-            <i class="bi bi-clock-fill text-primary px-3" style="font-size: 1.5rem;"></i>
-            <div class="lh-sm">
-                <small class="text-muted d-block">Umur</small>
-                <span class="fw-semibold">42 Hari</span>
+        <!-- Umur Ayam -->
+        <div class="col-md-3 col-6">
+            <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
+                <i class="bi bi-clock-fill text-primary px-3" style="font-size: 1.5rem;"></i>
+                <div class="lh-sm">
+                    <small class="text-muted d-block">Umur</small>
+                    <span class="fw-semibold">42 Hari</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Populasi -->
-    <div class="col-md-3 col-6">
-        <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
-            <i class="bi bi-people-fill text-success px-3" style="font-size: 1.5rem;"></i>
-            <div class="lh-sm">
-                <small class="text-muted d-block">Populasi</small>
-                <span class="fw-semibold">9,847</span>
+        <!-- Populasi -->
+        <div class="col-md-3 col-6">
+            <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
+                <i class="bi bi-people-fill text-success px-3" style="font-size: 1.5rem;"></i>
+                <div class="lh-sm">
+                    <small class="text-muted d-block">Populasi</small>
+                    <span class="fw-semibold">9,847</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Konsumsi Pakan -->
-    <div class="col-md-2 col-6">
-        <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
-            <i class="bi bi-basket-fill text-warning px-3" style="font-size: 1.5rem;"></i>
-            <div class="lh-sm">
-                <small class="text-muted d-block">Pakan/Ekor</small>
-                <span class="fw-semibold">125 g</span>
+        <!-- Konsumsi Pakan -->
+        <div class="col-md-2 col-6">
+            <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
+                <i class="bi bi-basket-fill text-warning px-3" style="font-size: 1.5rem;"></i>
+                <div class="lh-sm">
+                    <small class="text-muted d-block">Pakan/Ekor</small>
+                    <span class="fw-semibold">125 g</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Produksi Telur -->
-    <div class="col-md-2 col-6">
-        <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
-            <i class="bi bi-egg-fill text-purple px-3" style="font-size: 1.5rem;"></i>
-            <div class="lh-sm">
-                <small class="text-muted d-block">Produksi</small>
-                <span class="fw-semibold">87.5%</span>
+        <!-- Produksi Telur -->
+        <div class="col-md-2 col-6">
+            <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
+                <i class="bi bi-egg-fill text-purple px-3" style="font-size: 1.5rem;"></i>
+                <div class="lh-sm">
+                    <small class="text-muted d-block">Produksi</small>
+                    <span class="fw-semibold">87.5%</span>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- FCR -->
-    <div class="col-md-2 col-6">
-        <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
-            <i class="bi bi-speedometer2 text-danger px-3" style="font-size: 1.5rem;"></i>
-            <div class="lh-sm">
-                <small class="text-muted d-block">FCR</small>
-                <span class="fw-semibold">2.1</span>
+        <!-- FCR -->
+        <div class="col-md-2 col-6">
+            <div class="d-flex align-items-center gap-3 p-3 rounded shadow-sm bg-white h-100">
+                <i class="bi bi-speedometer2 text-danger px-3" style="font-size: 1.5rem;"></i>
+                <div class="lh-sm">
+                    <small class="text-muted d-block">FCR</small>
+                    <span class="fw-semibold">2.1</span>
+                </div>
             </div>
         </div>
     </div>
-</div>
 </div>
 
     {{-- =============== SAMMURLY PRODUCTION KPI ================--}}
@@ -158,87 +157,86 @@
             <h5 class="m-0">Ikhtisam Pemantauan</h5>
         </div>
 
-    <div class="card-body">
-        <div class="row g-3">
+         <div  div class="card-body">
+            <div class="row g-3">
 
-    <!-- Produksi per Kandang -->
-    <div class="col-md-3 col-6">
-        <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
-            <small class="text-muted d-block">Produksi / Kandang</small>
-            <div class="fw-bold fs-5">4,230 Butir</div>
-        </div>
-    </div>
+                <!-- Produksi per Kandang -->
+                <div class="col-md-3 col-6">
+                    <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
+                        <small class="text-muted d-block">Produksi / Kandang</small>
+                        <div class="fw-bold fs-5">4,230 Butir</div>
+                    </div>
+                </div>
 
-    <!-- Produksi per Hari -->
-    <div class="col-md-3 col-6">
-        <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
-            <small class="text-muted d-block">Produksi / Hari</small>
-            <div class="fw-bold fs-5">1,412 Butir</div>
-        </div>
-    </div>
+                <!-- Produksi per Hari -->
+                <div class="col-md-3 col-6">
+                    <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
+                        <small class="text-muted d-block">Produksi / Hari</small>
+                        <div class="fw-bold fs-5">1,412 Butir</div>
+                    </div>
+                </div>
 
-    <!-- FCR -->
-    <div class="col-md-3 col-6">
-        <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
-            <small class="text-muted d-block">Feed Conversion Ratio</small>
-            <div class="fw-bold fs-5">2.08</div>
-        </div>
-    </div>
+                <!-- FCR -->
+                <div class="col-md-3 col-6">
+                    <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
+                        <small class="text-muted d-block">Feed Conversion Ratio</small>
+                        <div class="fw-bold fs-5">2.08</div>
+                    </div>
+                </div>
 
-    <!-- Berat Telur -->
-    <div class="col-md-3 col-6">
-        <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
-            <small class="text-muted d-block">Berat Telur (Rata-rata)</small>
-            <div class="fw-bold fs-5">62 gram</div>
+        <!-- Berat Telur -->
+                <div class="col-md-3 col-6">
+                    <div class="p-3 rounded shadow-sm bg-white h-100 text-center">
+                        <small class="text-muted d-block">Berat Telur (Rata-rata)</small>
+                        <div class="fw-bold fs-5">62 gram</div>
+                    </div>
+                </div>
+             </div>
         </div>
-    </div>
-</div>
-</div>
 </div>
     {{-- =============== SAMMURLY DIAGRAM FEED INTAKE, EGG PRODUCTION, MORTALITY CULLING ========--}}
 <div class="row g-3 mt-4">
-
     <!-- Diagram Konsumsi Pakan per Ekor -->
-    <div class="col-12 col-md-4">
-        <div class="card shadow-sm h-fit">
-            <div class="card-header">
-                <strong>Konsumsi Pakan / Ekor</strong>
-            </div>
-            <div class="card-body">
-                <div class="chart-responsive">
-                    <canvas id="feedIntakeChart"></canvas>
+        <div class="col-12 col-md-4">
+                <div class="card shadow-sm h-fit">
+                    <div class="card-header">
+                        <strong>Konsumsi Pakan / Ekor</strong>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-responsive">
+                            <canvas id="feedIntakeChart"></canvas>
+                        </div>
+                    </div>
                 </div>
-            </div>
         </div>
-    </div>
 
-    <!-- Diagram Produksi Telur -->
-    <div class="col-12 col-md-4">
-        <div class="card shadow-sm h-fit">
-            <div class="card-header">
-                <strong>Produksi Telur (%)</strong>
-            </div>
-            <div class="card-body">
-                <div class="chart-responsive">
-                    <canvas id="eggProductionChart"></canvas>
+        <!-- Diagram Produksi Telur -->
+        <div class="col-12 col-md-4">
+            <div class="card shadow-sm h-fit">
+                <div class="card-header">
+                    <strong>Produksi Telur (%)</strong>
+                </div>
+                <div class="card-body">
+                    <div class="chart-responsive">
+                        <canvas id="eggProductionChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
     <!-- Diagram Kematian & Culling -->
-    <div class="col-12 col-md-4">
-        <div class="card shadow-sm h-fit">
-            <div class="card-header">
-                <strong>Kematian & Culling</strong>
-            </div>
-            <div class="card-body">
-                <div class="chart-responsive">
-                    <canvas id="mortalityChart"></canvas>
+        <div class="col-12 col-md-4">
+            <div class="card shadow-sm h-fit">
+                <div class="card-header">
+                    <strong>Kematian & Culling</strong>
+                </div>
+                <div class="card-body">
+                    <div class="chart-responsive">
+                        <canvas id="mortalityChart"></canvas>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </div>
 
     {{-- =============== DAILY PRODUCTION RECORD ========--}}
@@ -412,7 +410,6 @@
     </div>
 </div>
 
-</div>
 </div>
 <script>
 document.addEventListener("DOMContentLoaded", function () {

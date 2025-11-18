@@ -13,7 +13,7 @@
 
 
 @section('content')
-    <table class="table table-hover table-striped table-bordered text-center mb-0">
+    <table  class="table table-hover table-striped table-bordered text-center mb-0" style="max-width: 1200px; padding: 0 15px;">
         {{-- Column Headers --}}
         <thead class="bg-light">
             <tr>
