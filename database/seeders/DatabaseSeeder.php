@@ -6,6 +6,7 @@ use Illuminate\Database\Seeder;
 use Modules\Kandang\Database\Seeders\AyamAfkirSeeder;
 use Modules\Kandang\Database\Seeders\FlockSeeder;
 use Modules\Kandang\Database\Seeders\KandangDatabaseSeeder;
+use Modules\Kandang\Database\Seeders\KandangSeeder;
 use Modules\Kandang\Database\Seeders\PeternakanSeeder;
 use Modules\Kandang\Database\Seeders\PipeSeeder;
 use Modules\Kandang\Database\Seeders\StrainSeeder;
@@ -25,11 +26,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             PeternakanSeeder::class,
             StrainSeeder::class,
-            KandangDatabaseSeeder::class,
-            FlockSeeder::class,
-            PipeSeeder::class,
-            SupplierLogSeeder::class,
-            AyamAfkirSeeder::class,
+            KandangSeeder::class,
             StrainStandartMetricSeeder::class,
         ]);
     }

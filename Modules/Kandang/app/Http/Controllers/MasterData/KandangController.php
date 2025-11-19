@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\Peternakan;
+use Modules\Kandang\Models\Strain;
 
 class KandangController extends Controller
 {
@@ -22,16 +24,16 @@ class KandangController extends Controller
     public function index()
     {
         Gate::authorize('Lihat Semua Kandang');
-
-        $datas = $this->kandang
-            ->with('flocks')
-            ->when(request()->query('search'), function ($query, $search) {
-                $query->where('nama', 'like', "%{$search}%");
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(request()->get('perPage', 10));
-
-        return view('kandang::master-data.kandang.index', compact('datas'));
+            $search = request()->input('search');
+            $kandang = $this->kandang
+                ->with('peternakan')
+                ->when($search, function ($query, $search) {
+                    $query->where('nama', 'like', "%{$search}%");
+                })
+                ->orderBy('created_at', 'desc')
+                ->paginate(request()->get('perPage', 10))
+                ->withQueryString(); 
+        return view('kandang::master-data.kandang.index', compact('kandang'));
     }
 
     /**
@@ -40,8 +42,9 @@ class KandangController extends Controller
     public function create()
     {
         Gate::authorize('Tambah Kandang');
-
-        return view('kandang::master-data.kandang.create');
+        $peternakanList = Peternakan::all();
+        $strainList = Strain::all(); 
+        return view('kandang::master-data.kandang.create',compact('peternakanList','strainList'));
     }
 
     /**
@@ -53,13 +56,19 @@ class KandangController extends Controller
 
         $validated = $request->validate([
             'nama'   => ['required', 'string', 'max:255'],
-            'alamat' => ['required', 'string', 'max:1000'],
+            'peternakan_id' => ['required', 'integer'],
+            'strain_id' => ['required', 'integer'],
         ]);
 
-        $this->kandang->create($validated);
-
-        return to_route('master-data.kandang.index')
-            ->with('success', 'Data Berhasil Ditambahkan.');
+        try{
+            $this->kandang->create($validated);
+            return to_route('master-data.kandang.index')
+                ->with('success', 'Data Berhasil Ditambahkan.');   
+                
+        }catch(\Exception $e){
+            return to_route('master-data.kandang.index')
+            ->with('danger', 'Data Gagal Ditambahkan. Error: '.$e->getMessage());
+        }
     }
 
     /**
@@ -68,10 +77,10 @@ class KandangController extends Controller
     public function edit($id)
     {
         Gate::authorize('Edit Kandang');
-
         $data = $this->kandang->findOrFail($id);
-
-        return view('kandang::master-data.kandang.edit', compact('data'));
+        $peternakanList = Peternakan::all();
+        $strainList = Strain::all();
+        return view('kandang::master-data.kandang.edit', compact('data','peternakanList','strainList'));
     }
 
     /**

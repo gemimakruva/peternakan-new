@@ -21,4 +21,9 @@ class Strain extends Model
     {
         return $this->hasMany(StrainStandartMetric::class, 'strain_id');
     }
+
+    public function kandang()
+    {
+        return $this->hasMany(Kandang::class, 'strain_id', 'id');
+    }
 }
