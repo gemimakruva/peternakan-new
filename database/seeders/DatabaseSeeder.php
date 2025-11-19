@@ -28,6 +28,8 @@ class DatabaseSeeder extends Seeder
             StrainSeeder::class,
             KandangSeeder::class,
             StrainStandartMetricSeeder::class,
+            FlockSeeder::class,
+            PipeSeeder::class
         ]);
     }
 }

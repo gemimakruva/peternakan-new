@@ -13,9 +13,8 @@ class Pipe extends Model
 
     protected $fillable = [
         'flock_id',
-        'pipe_name',
-        'capacity',
-        'inital_population',
+        'nama',
+        'kapasitas',
     ];
 
     /**

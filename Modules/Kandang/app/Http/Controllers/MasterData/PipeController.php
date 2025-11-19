@@ -82,7 +82,6 @@ class PipeController extends Controller
     public function edit(Pipe $pipe)
     {
         Gate::authorize('Edit Pipe');
-
         return view('kandang::master-data.pipe.edit', compact('pipe'));
     }
 

@@ -3,7 +3,13 @@
 @section('title', 'Flock')
 
 @section('content_header')
-    <h1 class="font-weight-bold">Manajemen Pipe</h1>
+<div class="mb-4 text-center d-flex flex-column align-items-center pt-3">
+    <h2 class="h4 fw-bold text-dark">Manajemen Pipe</h2>
+    <span class="text-muted mb-0" style="max-width: 600px;">
+        Halaman ini digunakan untuk menampilkan daftar pipe serta
+        informasi kapasitas pada setiap pipe.
+    </span>
+</div>
 @endsection
 
 @section('content')
@@ -25,12 +31,6 @@
                         <button class="btn btn-dark btn-sm" title="Cari">
                             <i class="fas fa-search"></i>
                         </button>
-
-                        @can('Tambah Flock')
-                        <a href="{{ route('master-data.flock.create') }}" class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                        @endcan
                     </div>
                 </div>
             </form>
@@ -42,21 +42,19 @@
                   <tr>
                         <th>#</th>
                         <th>Nama</th>
-                        <th>Capacity</th>
-                        <th>Initial Population</th>
+                        <th>Kapasitas</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
-                  <tbody>
+                <tbody>
                     @foreach($datas as $row)
                     <tr>
                         <td>{{ ($loop->index + 1) + (request()->get('page', 1) - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->pipe_name }}</td>
-                        <td>{{ $row->capacity }}</td>
-                        <td>{{ $row->initial_population }}</td>
+                        <td>{{ $row->nama }}</td>
+                        <td>{{ $row->kapasitas }}</td>
                         <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
-                            <a href="{{ route('master-data.pipe.edit', $row) }}" class="btn btn-primary btn-sm">
+                            <a href="{{ route('master-data.pipe.edit', $row) }}" class="btn btn-warning text-white btn-sm">
                                 <i class="fas fa-edit"></i>
                             </a>
                             <form action="{{ route('master-data.pipe.destroy', $row->id) }}" 

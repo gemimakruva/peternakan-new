@@ -14,22 +14,21 @@ class FlockSeeder extends Seeder
     public function run(): void
     {
         $flocks = [
-            ['flock_name' => 'Flock 1', 'date_in' => '2025-01-10', 'capacity' => 1000],
-            ['flock_name' => 'Flock 2', 'date_in' => '2025-01-25', 'capacity' => 950],
-            ['flock_name' => 'Flock 3', 'date_in' => '2025-02-10', 'capacity' => 1200],
-            ['flock_name' => 'Flock 4', 'date_in' => '2025-02-20', 'capacity' => 800],
-            ['flock_name' => 'Flock 5', 'date_in' => '2025-03-05', 'capacity' => 1100],
-            ['flock_name' => 'Flock 6', 'date_in' => '2025-03-25', 'capacity' => 1300],
-            ['flock_name' => 'Flock 7', 'date_in' => '2025-04-10', 'capacity' => 900],
-            ['flock_name' => 'Flock 8', 'date_in' => '2025-04-30', 'capacity' => 1250],
+            ['nama' => 'Flock 1', 'kapasitas' => 1000],
+            ['nama' => 'Flock 2', 'kapasitas' => 950],
+            ['nama' => 'Flock 3', 'kapasitas' => 1200],
+            ['nama' => 'Flock 4', 'kapasitas' => 800],
+            ['nama' => 'Flock 5', 'kapasitas' => 1100],
+            ['nama' => 'Flock 6', 'kapasitas' => 1300],
+            ['nama' => 'Flock 7', 'kapasitas' => 900],
+            ['nama' => 'Flock 8', 'kapasitas' => 1250],
         ];
 
         foreach ($flocks as $flock) {
             ModelsFlock::create([
-                'kandang_id' => rand(1, 10), // acak antara kandang id 1 sampai 10
-                'flock_name' => $flock['flock_name'],
-                'date_in' => Carbon::parse($flock['date_in']),
-                'capacity' => $flock['capacity'],
+                'kandang_id' => rand(1, 10), 
+                'nama' => $flock['nama'],
+                'kapasitas' => $flock['kapasitas'],
             ]);
         }
     }

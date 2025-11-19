@@ -24,8 +24,8 @@ class KandangController extends Controller
     public function index()
     {
         Gate::authorize('Lihat Semua Kandang');
-            $search = request()->input('search');
-            $kandang = $this->kandang
+        $search = request()->input('search');
+        $kandang = $this->kandang
                 ->with('peternakan')
                 ->when($search, function ($query, $search) {
                     $query->where('nama', 'like', "%{$search}%");
@@ -44,7 +44,8 @@ class KandangController extends Controller
         Gate::authorize('Tambah Kandang');
         $peternakanList = Peternakan::all();
         $strainList = Strain::all(); 
-        return view('kandang::master-data.kandang.create',compact('peternakanList','strainList'));
+        return view('kandang::master-data.kandang.create',
+        compact('peternakanList','strainList'));
     }
 
     /**

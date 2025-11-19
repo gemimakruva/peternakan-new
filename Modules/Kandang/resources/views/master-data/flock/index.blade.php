@@ -17,10 +17,9 @@
     <div style="max-width: 1200px;" class="card shadow-sm">
         <div class="card-header text-white d-flex justify-content-between align-items-center"
              style="background-color: #495057; border-color: #495057;">
-            <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
+            <form action="{{ route('master-data.flock.index', request()->all()) }}" method="get" class="w-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <h2 class="card-title mb-0">Daftar Flock</h2>
-
                     <div class="d-flex" style="gap: .5em">
                         <input type="search" 
                                name="search" 
@@ -48,7 +47,6 @@
                         <th style="width: 50px;">#</th>
                         <th>Nama Flock</th>
                         <th>Nama Kandang</th>
-                        <th>Tanggal Masuk</th>
                         <th>Kapasitas</th>
                         <th style="width: 180px;">Aksi</th>
                     </tr>
@@ -57,13 +55,12 @@
                     @forelse($datas as $row)
                     <tr>
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->flock_name }}</td>
+                        <td>{{ $row->nama }}</td>
                         <td>{{ $row->kandang->nama ?? '-' }}</td>
-                        <td>{{ \Carbon\Carbon::parse($row->date_in)->format('d M Y') }}</td>
-                        <td>{{ $row->pipes->sum('capacity') }}</td>
+                        <td>{{$row->kapasitas }}</td>
                         <td>
-                            <div class="btn-group" role="group">
-                                <a href="{{ route('master-data.pipe.byFlock', $row->id) }}" class="btn btn-info btn-sm" title="Lihat Detail">
+                            <div style="gap: 6px" class="btn-group" role="group">
+                                <a href="{{ route('master-data.pipe.byFlock', $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
 

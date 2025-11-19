@@ -1,8 +1,39 @@
-<div class="card">
-    <div class="card-header">
-        <h2 class="card-title">Form Pipe</h2>
-    </div>
-    <div class="card-body">
-        <x-adminlte-input  name="nama" label="Nama" type="text" placeholder="Nama" :value="old('nama', @$data->nama)" />
-    </div>
+<div class="mb-4">
+    <x-adminlte-input 
+        name="nama"
+        label="Nama Pipe"
+        type="text"
+        placeholder="Masukkan nama Pipe..."
+        :value="old('nama', @$pipe->nama)"
+        igroup-size="lg"
+        fgroup-class="col-12"
+        class="form-control form-control-lg py-3">
+
+        <x-slot name="prependSlot">
+            <div class="input-group-text bg-white">
+                <i class="fas fa-feather-alt text-muted"></i>
+            </div>
+        </x-slot>
+
+    </x-adminlte-input>
+</div>
+
+<div class="mb-4">
+    <x-adminlte-input 
+        name="kapasitas"
+        label="Kapasitas"
+        type="number"
+        placeholder="Masukkan kapasitas..."
+        :value="old('kapasitas', @$pipe->kapasitas)"
+        igroup-size="lg"
+        fgroup-class="col-12"
+        class="form-control form-control-lg py-3">
+
+        <x-slot name="prependSlot">
+            <div class="input-group-text bg-white">
+                <i class="fas fa-boxes text-muted"></i>
+            </div>
+        </x-slot>
+
+    </x-adminlte-input>
 </div>
