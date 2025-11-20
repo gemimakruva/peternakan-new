@@ -27,6 +27,7 @@ class PipeController extends Controller
         Gate::authorize('Lihat Semua Pipe');
         $datas = $this->pipe
             ->query()
+            ->orderBy('updated_at', 'desc') 
             ->paginate(request()->query('perPage', 10));
 
         return view('kandang::master-data.pipe.index', compact('datas'));
@@ -92,14 +93,10 @@ class PipeController extends Controller
     public function update(Request $request, Pipe $pipe)
     {
         Gate::authorize('Edit Pipe');
-
-        // Validasi input
         $validated = $request->validate([
-            'pipe_name' => ['required', 'string', 'max:255'],
-            'capacity'  => ['required', 'numeric', 'min:0'],
+            'nama' => ['required', 'string', 'max:255'],
+            'kapasitas'  => ['required', 'numeric', 'min:0'],
         ]);
-
-        // Update data Pipe
         $pipe->update($validated);
 
         return redirect()

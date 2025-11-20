@@ -43,7 +43,7 @@
                         <tbody>
                             @forelse($pipes as $pipe)
                                 <tr>
-                                    <td>1</td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $pipe->nama ?? 'Pipe '.$pipe->id }}</td>
                                     <td>{{ number_format($pipe->capacity) }}</td>
                                     <td>

@@ -6,8 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Modules\Kandang\Models\PopulationLog;
-use Modules\Kandang\Models\SupplierLog;
+use Modules\Kandang\Models\Pengadaan_ayam;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -62,9 +61,9 @@ class User extends Authenticatable
         return 'desc';
     }
 
-    public function recordedLogs()
-{
-    return $this->hasMany(SupplierLog::class, 'recorded_by');
-}
+   public function pengadaan_ayam(){
+        return $this->hasMany(Pengadaan_ayam::class, 'pic_user_id', 'id');
+   }
+
 
 }

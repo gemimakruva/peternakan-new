@@ -27,7 +27,8 @@ class FlockController extends Controller
     {
         $search = request()->input('search');
         $perPage = request()->query('perPage', 10);
-        $datas = $this->flock
+        $datas = $this->flock->
+        with('pipes')
         ->when($search, function ($query) use ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('nama', 'like', "%{$search}%")
@@ -37,9 +38,9 @@ class FlockController extends Controller
                 });
             });
         })
+        ->orderBy('updated_at', 'desc') 
         ->paginate($perPage)
         ->appends(request()->query());
-
         return view('kandang::master-data.flock.index', compact('datas'));
     }
 
