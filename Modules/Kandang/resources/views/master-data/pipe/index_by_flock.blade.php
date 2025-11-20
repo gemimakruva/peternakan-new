@@ -45,13 +45,16 @@
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
                                     <td>{{ $pipe->nama ?? 'Pipe '.$pipe->id }}</td>
-                                    <td>{{ number_format($pipe->capacity) }}</td>
+                                    <td>{{ number_format($pipe->kapasitas) }}</td>
                                     <td>
                                         <div style="gap: 6px"; class="btn-group" role="group">
                                             <a href="{{ route('master-data.pipe.edit',$pipe) }}" class="btn btn-warning text-white btn-sm" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="{{ route('master-data.pipe.destroy',$pipe ) }}" method="POST" class="form-delete d-inline" data-nama="{{ $pipe->name ?? 'Pipe '.$pipe->id }}">
+                                            <form data-nama="{{ $pipe->nama }}" 
+                                            action="{{ route('master-data.pipe.destroy',$pipe ) }}" 
+                                            method="POST" class="form-delete d-inline" data-nama="
+                                            {{ $pipe->name ?? 'Pipe '.$pipe->id }}">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
@@ -77,7 +80,6 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 </div>
