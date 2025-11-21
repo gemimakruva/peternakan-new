@@ -41,7 +41,10 @@ class PengadaanAyamController extends Controller
      */
     public function show(Pengadaan_ayam $pengadaan_ayam)
     {
-        //
+         $pengadaanAyam = $pengadaan_ayam
+                         ->load(['berkasSupplier', 'pic_user']);
+         return view("kandang::pengadaan-ayam.show", data: 
+         compact('pengadaanAyam'));
     }
 
     /**
