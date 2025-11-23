@@ -65,49 +65,50 @@
                 <div class="container">
                     {{-- Data Dummy  --}}
                     @php
-                        $items = [
-                            [
-                                'title' => 'Nama Pengadaan',
-                                'text' => 'Pengadaan Ayam Pipe-3 Kandang 3',
-                                'icon' => 'fas fa-tag',
-                            ],
-                            [
-                                'title' => 'Jumlah Ayam',
-                                'text' => '2000 Ekor',
-                                'icon' => 'fas fa-list',
-                            ],
-                            [
-                                'title' => 'ID Pengadaan',
-                                'text' => '#PGD-09243',
-                                'icon' => 'fas fa-hashtag',
-                            ],
-                            [
-                                'title' => 'Nama Flock',
-                                'text' => 'Kandang A-03',
-                                'icon' => 'fas fa-database',
-                            ],
-                            [
-                                'title' => 'PIC User Input',
-                                'text' => 'Ilham Suryana',
-                                'icon' => 'fas fa-user',
-                            ],
-                            [
-                                'title' => 'Pipe ID',
-                                'text' => 'PIPE-0003',
-                                'icon' => 'fas fa-key',
-                            ],
-                            [
-                                'title' => 'Status Pengadaan',
-                                'text' => 'Sedang Diproses',
-                                'icon' => 'fas fa-check-circle',
-                            ],
-                            [
-                                'title' => 'Tanggal Input',
-                                'text' => '21 November 2025 • 10:45',
-                                'icon' => 'fas fa-calendar-alt',
-                            ],
-                        ];
-                    @endphp
+                    $items = [
+                        [
+                            'title' => 'Tanggal Input',
+                            'text' => '21 November 2025 • 10:45',
+                            'icon' => 'fas fa-calendar-alt',
+                        ],
+                        [
+                            'title' => 'Umur Ayam',
+                            'text' => '3 Hari',
+                            'icon' => 'fas fa-egg',
+                        ],
+                        [
+                            'title' => 'Kondisi Ayam',
+                            'text' => 'Sehat',
+                            'icon' => 'fas fa-heartbeat',
+                        ],
+                        [
+                            'title' => 'Jumlah Datang',
+                            'text' => '2000 Ekor',
+                            'icon' => 'fas fa-database',
+                        ],
+                        [
+                            'title' => 'PIC User Input',
+                            'text' => 'Ilham Suryana',
+                            'icon' => 'fas fa-user',
+                        ],
+                        [
+                            'title' => 'Jumlah Sakit',
+                            'text' => '5 Ekor',
+                            'icon' => 'fas fa-medkit',
+                        ],
+                        [
+                            'title' => 'Jumlah Mati',
+                            'text' => '2 Ekor',
+                            'icon' => 'fas fa-skull-crossbones',
+                        ],
+                        [
+                            'title' => 'Status Pengadaan',
+                            'text' => 'Sedang Diproses',
+                            'icon' => 'fas fa-check-circle',
+                        ],
+                    ];
+                @endphp
+
 
                     <div class="row">
                         @foreach ($items as $item)

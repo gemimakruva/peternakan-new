@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-<div class="container-fluid px-2 px-md-4">
+<div class="container-fluid px-2 px-md-4" style="1200px">
     <div class="row justify-content-center">
         {{-- Form Content --}}
        <div class="col-md-8">

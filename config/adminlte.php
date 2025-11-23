@@ -438,7 +438,7 @@ return [
         ],
         [
         'text' => 'Pengadaan Ayam',
-        'route' => '',
+        'route' => 'pengadaan-ayam.create',
         'icon' => 'fas fa-plus-circle',
         'can'  => 'Menambah Pengadaan Ayam',
          ],
@@ -564,11 +564,11 @@ return [
     'can'  => 'Lihat Rekapan Pakan Harian',
 ],
  [
-            'text' => 'Tambah Sampling',
-            'route' => '',
-            'icon' => 'fas fa-plus-circle',
-            'can'  => 'Lihat Pengadaan Kandang',
-        ],
+    'text' => 'Tambah Sampling',
+    'route' => '',
+    'icon' => 'fas fa-plus-circle',
+    'can'  => 'Lihat Pengadaan Kandang',
+],
 
     
    // ====================   PENJADWALAAN TREATMENT  =================

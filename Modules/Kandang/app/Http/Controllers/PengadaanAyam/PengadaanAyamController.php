@@ -25,7 +25,7 @@ class PengadaanAyamController extends Controller
      */
     public function create()
     {
-        //
+        return view("kandang::pengadaan-ayam.create");
     }
 
     /**
