@@ -12,7 +12,11 @@ class KandangDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            PeternakanSeeder::class,
+            StrainSeeder::class,
             KandangSeeder::class,
+            FlockSeeder::class,
+            PengadaanAyamSedeer::class
         ]);
     }
 }

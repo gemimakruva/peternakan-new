@@ -56,7 +56,7 @@
                 <option 
                     value="{{ $strain->id }}"
                     {{ old('peternakan_id', @$data->strain_id) == $strain->id ? 'selected' : '' }}>
-                    Strain ke - {{ $strain->id }}
+                    {{ $strain->nama }}
                 </option>
             @endforeach
             </x-adminlte-select2>

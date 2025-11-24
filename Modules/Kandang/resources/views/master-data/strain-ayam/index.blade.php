@@ -16,13 +16,10 @@
             @foreach ($strains as $strain)
                 <a href="{{ route('master-data.strain-ayam.index', ['strain_id' => $strain->id]) }}" 
                 class="btn {{ $filterStrainId == $strain->id ? 'btn-success' : 'btn-outline-secondary' }}">
-                Strain {{ $strain->id }}
+                {{ $strain->nama }}
                 </a>
             @endforeach
         </div>
-        <a href="{{ route('master-data.strain-ayam.index') }}" class="btn btn-outline-secondary">
-            Tampilkan Semua
-        </a>
     </div>
 
 

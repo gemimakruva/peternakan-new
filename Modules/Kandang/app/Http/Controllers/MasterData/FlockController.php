@@ -5,6 +5,7 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Pipe;
@@ -129,13 +130,13 @@ class FlockController extends Controller
         Gate::authorize('Edit Flock');
 
         $validated = $request->validate([
-            'nama'    => ['required', 'string', 'max:255'],
+            'nama'=> ['required', 'string', 'max:255', Rule::exists('flock', 'nama')->whereNot('id', $flock->id)]
         ]);
 
         try {
             $flock->update([
-            'nama' => $validated['nama'],
-        ]);
+                'nama' => $validated['nama'],
+            ]);
         return to_route('master-data.flock.index')
             ->with('success', 'Flock berhasil diperbarui.');
         } catch (\Throwable $th) {
