@@ -20,7 +20,7 @@
         <form action="" method="GET" class="row g-2 align-items-end">
             <div class="col-md-3 col-5">
                 <label class="form-label">Tanggal Pencatatan</label>
-                <input type="date" name="date" value="{{ request('date') }}" class="form-control">
+                <input type="date" name="tanggal_penc" value="{{ request('date') }}" class="form-control">
             </div>
 
 

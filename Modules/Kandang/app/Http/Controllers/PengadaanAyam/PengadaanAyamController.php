@@ -4,7 +4,10 @@ namespace Modules\Kandang\Http\Controllers\PengadaanAyam;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\Kandang\Models\Flock;
+use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\Pipe;
 
 class PengadaanAyamController extends Controller
 {
@@ -25,7 +28,9 @@ class PengadaanAyamController extends Controller
      */
     public function create()
     {
-        return view("kandang::pengadaan-ayam.create");
+        $listKandang = Kandang::with('flocks.pipes')->get(); 
+        return view("kandang::pengadaan-ayam.create",
+        compact("listKandang"));
     }
 
     /**
@@ -33,7 +38,7 @@ class PengadaanAyamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
