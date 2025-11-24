@@ -129,28 +129,83 @@
 
                     <div class="card-body">
                             <p class="text-muted mb-3">
-                                Pastikan mengisi data Flock dengan benar sesuai petunjuk berikut:
+                                Pastikan mengisi data pengadaan ayam dengan benar sesuai petunjuk berikut:
                             </p>
                         <ul class="small text-muted ps-3">
                             <li>
                                 <strong>Tanggal Pengadaan</strong><br>
-                                Tanggal pengadaan input saat ayam dari supplier Datang
+                                Tanggal pengadaan diinput saat ayam dari supplier Datang
                                 dari kandang
                             </li>
 
                             <li class="mt-2"> 
-                                <strong>Kata Kunci Nama Pipe</strong>
-                                <br class="text-center"> - Kata kunci ini digunakan untuk mengelompokkan
-                                atau mengidentifikasi pipe yang terhubung dengan flock.
-                                <br class="text-center"> - Pastikan kata kunci dibuat tanpa sepasi
-                                atau dihubungkan antar kata dengan strip (-). Contoh: <em>flock1-pipe-1, 
-                                    flock2-pipe-1</em>.
+                                <strong>Jumlah Ayam Datang</strong>
+                                <br class="text-center"> - Masukan jumlah keseluruhan ayam yang datang
+                                baik ayam sehat, ayam sakit maupun ayam mati
                             </li>
 
                             <li class="mt-2">
-                                <strong>Jumlah Pipe per-Flock</strong><br>
-                                isi dengan jumlah pipe yang akan digunakan dalam flock ini.
+                                <strong>Umur Ayam</strong><br>
+                                Masukan rata rata populasi umur ayam datang dalam format mingguan
                             </li>
+
+                            <li class="mt-2">
+                                <strong>Jumlah Ayam Sakit</strong><br>
+                                Masukan jumlah ayam sakit pada saat proses pengadaan ayam
+                            </li>
+
+                            <li class="mt-2"> 
+                                <strong>Jumlah Ayam Mati</strong>
+                                <br class="text-center"> - Masukan jumlah ayam yang mati pada
+                                saat proses pengadaan ayam
+                            </li>
+
+                             <li class="mt-2"> 
+                                <strong>Kondisi Ayam</strong>
+                                <br class="text-center"> - Masukan kondisi rata rata kesuluhan 
+                                ayam yang datang dalam proses pengadaan ayam
+                            </li>
+
+                             <li class="mt-2"> 
+                                <strong>Catatan</strong>
+                                <br class="text-center"> - Masukan catatan yang diperlukan 
+                                dalam proses pengadaan ayam
+                            </li>
+
+                            <li class="mt-2">
+                                <strong>Input Form Distribusi Ayam</strong>
+                                <br>
+                                - Digunakan untuk melakukan plotting distribusi pengadaan
+                                 ayam berdasarkan Kandang, Flock, dan Pipe.
+                                Petugas diharapkan melakukan input dengan benar
+                                 dan teliti sesuai data yang tersedia.
+                                <br>
+                                - Jumlah ayam yang diinput tidak boleh melebihi kapasitas 
+                                yang telah ditetapkan pada setiap Pipe.
+                                <br>
+                                - Setelah input distribusi dilakukan, sistem akan secara 
+                                otomatis menghitung jumlah ayam yang
+                                belum masuk kandang
+                            </li>
+
+                             <li class="mt-2">
+                                <strong>Input Form Berkas Supplier</strong>
+                                <br>
+                                - petugas diharapkan menginput nama (jenis) Berkas
+                                dalam proses pengadaan Ayam
+                                <br>
+                                - setelah itu petugas diharapkan menguploud file
+                                baik berupa file PNG , JPG atau PDF (disarankan JPG)
+                            </li>
+
+                              <li class="mt-2">
+                                <strong>Upload Dokumentasi</strong>
+                                <br>
+                                - petugas diharapkan menguploud bukti proses
+                                  dokumentasi saat pelaksanaan proses pengadaan ayam
+                                  (bisa uploud lebih dari 1 foto)
+                            </li>
+
                         </ul>
                         <hr>
                         <p class="text-muted small">

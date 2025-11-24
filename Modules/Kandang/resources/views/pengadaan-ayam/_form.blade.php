@@ -17,7 +17,7 @@
         ============================ --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="pipe_date"
+                name="tanggal"
                 label="Tanggal Pengadaan"
                 type="date"
                 placeholder="Pilih tanggal pengadaan..."
@@ -40,7 +40,7 @@
         ============================ --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name=""
+                name="jumlah_ayam_datang"
                 label="Jumlah Ayam Datang"
                 type="number"
                 id="inputAyamDatang"
@@ -137,7 +137,7 @@
         ============================ --}}
         <div class="mb-4">
             <x-adminlte-input 
-                name="kondisi"
+                name="kondisi_ayam"
                 label="Kondisi Ayam"
                 type="text"
                 placeholder="Masukkan kondisi ayam..."

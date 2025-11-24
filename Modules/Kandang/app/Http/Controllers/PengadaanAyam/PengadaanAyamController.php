@@ -38,7 +38,32 @@ class PengadaanAyamController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+         $validated = $request->validate([
+                'tanggal' => ['required', 'date'],
+                'jumlah_ayam_datang' => ['required', 'integer', 'min:1'],
+                'umur_ayam' => ['required', 'integer', 'min:0'],
+                'jumlah_ayam_mati' => ['required', 'integer', 'min:0'],
+                'jumlah_ayam_sakit' => ['required', 'integer', 'min:0'],
+                'kondisi_ayam' => ['required', 'string', 'max:255'],
+                'catatan' => ['required', 'string', 'max:500'],
+                'nama_berkas' => ['required', 'string', 'max:255'],
+                'file_path_berkas' => ['required', 'array', 'min:1'],
+                'file_path_berkas.*' => [
+                    'required',
+                    'file',
+                    'mimes:pdf,jpg,jpeg,png',
+                    'max:2048'
+                ],
+
+                //  'image_files_doc' => ['required', 'array', 'min:1'],
+                // 'image_files_doc.*' => [
+                //     'required',
+                //     'image',
+                //     'mimes:jpg,jpeg,png,webp',
+                //     'max:5120'
+                //  ],
+        ]);
+        dd($validated);
     }
 
     /**

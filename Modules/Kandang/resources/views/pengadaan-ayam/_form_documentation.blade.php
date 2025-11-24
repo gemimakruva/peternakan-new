@@ -27,7 +27,6 @@
                     </div>
                 </x-slot>
             </x-adminlte-input-file>
-
             <div id="previewContainer" class="row mt-3 g-2"></div>
          </div>
     </div>
