@@ -17,23 +17,6 @@ class PeternakanSeeder extends Seeder
                 'nama'      => 'Peternakan Ayam Sejahtera',
                 'lokasi'    => 'Jl. Wates KM 7, Gamping, Sleman',
             ],
-            [
-                'nama'      => 'Peternakan Surya Farm',
-                'lokasi'    => 'Jl. Raya Imogiri Timur No. 22, Bantul',
-            ],
-            [
-                'nama'      => 'Peternakan Kencana Abadi',
-                'lokasi'    => 'Dusun Karangmojo, Gunungkidul',
-
-            ],
-            [
-                'nama'      => 'Peternakan Maju Makmur',
-                'lokasi'    => 'Jl. Palagan Tentara Pelajar No. 55, Sleman',
-            ],
-            [
-                'nama'      => 'Peternakan Barokah Jaya',
-                'lokasi'    => 'Jl. Magelang KM 10, Tempel, Sleman',
-            ],
         ];
 
         foreach ($data as $item) {

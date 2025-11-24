@@ -12,10 +12,9 @@ class Flock extends Model
     public $table = 'flock';
 
     protected $fillable = [
-       'kandang_id',
-        'flock_name',
-        'date_in',
-        'initial_population',
+        'kandang_id',
+        'nama',
+        'kapasitas',
     ];
 
     public function kandang()

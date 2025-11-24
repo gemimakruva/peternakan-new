@@ -16,6 +16,27 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         {{-- Vite CSS --}}
+        <style>
+            .drop-zone {
+                border: 2px dashed #6c757d;
+                border-radius: 10px;
+                padding: 2rem;
+                text-align: center;
+                cursor: pointer;
+                transition: .3s;
+            }
+
+            .drop-zone.dragover {
+                background-color: #f1f1f1;
+                border-color: #0d6efd;
+            }
+
+            .preview-img {
+                max-width: 100%;
+                margin-top: 1rem;
+                display: none;
+            }
+        </style>
         {{-- {{ module_vite('build-kandang', 'resources/assets/sass/app.scss') }} --}}
     </head>
 

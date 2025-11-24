@@ -731,7 +731,8 @@
             },
             "autoload": {
                 "files": [
-                    "src/functions_include.php"
+                    "src/functions_include.php",
+                     "app/Helpers/FlockHelper.php"
                 ],
                 "psr-4": {
                     "GuzzleHttp\\": "src/"

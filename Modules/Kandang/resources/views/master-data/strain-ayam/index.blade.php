@@ -11,17 +11,15 @@
 
 @section('content')
 <div class="m-3 text-center">
-    {{-- Tombol filter per strain --}}
     <div class="mb-4 d-flex flex-wrap justify-content-between gap-2">
-       <div clas>
-         @foreach ($strains as $strain)
-            <a href="{{ route('master-data.strain-ayam.index', ['strain_id' => $strain->id]) }}" 
-            class="btn {{ $filterStrainId == $strain->id ? 'btn-success' : 'btn-outline-secondary' }}">
-            Strain {{ $strain->id }}
-            </a>
-        @endforeach
-       </div>
-        {{-- Tombol reset --}}
+        <div clas>
+            @foreach ($strains as $strain)
+                <a href="{{ route('master-data.strain-ayam.index', ['strain_id' => $strain->id]) }}" 
+                class="btn {{ $filterStrainId == $strain->id ? 'btn-success' : 'btn-outline-secondary' }}">
+                Strain {{ $strain->id }}
+                </a>
+            @endforeach
+        </div>
         <a href="{{ route('master-data.strain-ayam.index') }}" class="btn btn-outline-secondary">
             Tampilkan Semua
         </a>
@@ -31,7 +29,7 @@
     {{-- Tabel --}}
     <div class="table-responsive" style="max-width: 1200px; margin:auto;">
         <table class="table table-hover table-striped table-bordered text-center mb-0">
-            <thead class="bg-light">
+            <thead class="text-white" style="background-color: #495057; border-color: #495057">
                 <tr>
                     <th>#</th>
                     <th>Umur Minggu</th>

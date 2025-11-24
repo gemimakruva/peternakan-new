@@ -14,7 +14,8 @@ class Kandang extends Model
     
     protected $fillable = [
         'nama',
-        'alamat',
+        'peternakan_id',
+        'strain_id',
     ];
 
     public function flocks()
@@ -30,5 +31,9 @@ class Kandang extends Model
      public function peternakan()
     {
         return $this->belongsTo(Peternakan::class, 'peternakan_id', 'id');
+    }
+
+    public function strain(){
+        return $this->belongsTo(Strain::class, 'kandang_id', 'id');
     }
 }

@@ -3,11 +3,23 @@
 @section('title', 'Daftar Pipe')
 
 @section('content_header')
-    <h1 class="text-dark fw-bold">Pipe untuk Flock: {{ $flock->flock_name }}</h1>
+<div class="mb-4 text-center d-flex flex-column align-items-center">
+
+    <h2 class="h4 fw-bold text-dark">Manajemen Flock<h2 
+        class="h4 fw-bold text-dark"> <span class="text-primary fw-bold">
+         {{ $flock->nama }}
+        </span>
+    </h2>
+
+    <span class="text-muted mb-0" style="max-width: 600px;">
+        Halaman ini digunakan untuk menampilkan daftar pipe serta
+        informasi kapasitas pada setiap pipe.
+    </span>
+</div>
 @endsection
 
 @section('content')
-<div class="container-fluid px-2 px-md-4">
+<div class="container-fluid px-2 px-md-4" style="max-width: 1200px;">
     <div class="row justify-content-center">
         <div class="col-lg-12">
 
@@ -25,23 +37,24 @@
                                 <th style="width: 50px;">#</th>
                                 <th>Nama Pipe</th>
                                 <th>Kapasitas</th>
-                                <th>Status</th>
                                 <th style="width: 150px;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @forelse($pipes as $pipe)
                                 <tr>
-                                    <td>1</td>
-                                    <td>{{ $pipe->name ?? 'Pipe '.$pipe->id }}</td>
-                                    <td>{{ number_format($pipe->capacity) }}</td>
-                                    <td>{{ $pipe->status ?? '-' }}</td>
+                                    <td>{{ $loop->iteration }}</td>
+                                    <td>{{ $pipe->nama ?? 'Pipe '.$pipe->id }}</td>
+                                    <td>{{ number_format($pipe->kapasitas) }}</td>
                                     <td>
-                                        <div class="btn-group" role="group">
-                                            <a href="" class="btn btn-primary btn-sm" title="Edit">
+                                        <div style="gap: 6px"; class="btn-group" role="group">
+                                            <a href="{{ route('master-data.pipe.edit',$pipe) }}" class="btn btn-warning text-white btn-sm" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form action="" method="POST" class="form-delete d-inline" data-nama="{{ $pipe->name ?? 'Pipe '.$pipe->id }}">
+                                            <form data-nama="{{ $pipe->nama }}" 
+                                            action="{{ route('master-data.pipe.destroy',$pipe ) }}" 
+                                            method="POST" class="form-delete d-inline" data-nama="
+                                            {{ $pipe->name ?? 'Pipe '.$pipe->id }}">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
@@ -67,7 +80,6 @@
 
                 </div>
             </div>
-
         </div>
     </div>
 </div>

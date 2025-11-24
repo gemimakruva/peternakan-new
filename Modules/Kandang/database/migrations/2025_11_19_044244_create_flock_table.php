@@ -14,18 +14,11 @@ return new class extends Migration
     {
         Schema::create('flock', function (Blueprint $table) {
             $table->id();
-
-            // Relasi ke tabel kandang
             $table->foreignIdFor(Kandang::class, 'kandang_id')
-                  ->constrained('kandang', 'id')
-                  ->cascadeOnDelete();
-
-            // Data utama flock
-            $table->string('flock_name', 100);
-            $table->date('date_in');
-            $table->integer('capacity')->default(0);
-
-            // Timestamp created_at & updated_at
+             ->constrained('kandang', 'id')
+             ->cascadeOnDelete();
+            $table->string('nama');
+            $table->integer('kapasitas');
             $table->timestamps();
         });
     }

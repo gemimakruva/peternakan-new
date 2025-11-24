@@ -16,12 +16,50 @@
             </x-adminlte-input>
         </div>
 
+        {{-- Dropdown Peternakan --}}
         <div class="mb-3">
-            <x-adminlte-textarea 
-                name="alamat" 
-                label="Alamat Kandang" 
-                rows="5" 
-                placeholder="Masukkan alamat lengkap kandang...">{{ old('alamat', @$data->alamat) }}</x-adminlte-textarea>
+            <x-adminlte-select2 
+            name="peternakan_id" 
+            label="Pilih Peternakan" 
+            igroup-size="md">
+    
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-warehouse text-muted"></i>
+                </div>
+            </x-slot>
+
+            @foreach($peternakanList as $peternakan)
+                <option 
+                    value="{{ $peternakan->id }}"
+                    {{ old('peternakan_id', @$data->peternakan_id) == $peternakan->id ? 'selected' : '' }}>
+                    {{ $peternakan->nama }}
+                </option>
+            @endforeach
+            </x-adminlte-select2>
+        </div>
+
+        {{-- Dropdown Strain --}}
+        <div class="mb-3">
+            <x-adminlte-select2 
+            name="strain_id" 
+            label="Pilih Strain" 
+            igroup-size="md">
+    
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-warehouse text-muted"></i>
+                </div>
+            </x-slot>
+
+            @foreach($strainList as $strain)
+                <option 
+                    value="{{ $strain->id }}"
+                    {{ old('peternakan_id', @$data->strain_id) == $strain->id ? 'selected' : '' }}>
+                    Strain ke - {{ $strain->id }}
+                </option>
+            @endforeach
+            </x-adminlte-select2>
         </div>
     </div>
 </div>

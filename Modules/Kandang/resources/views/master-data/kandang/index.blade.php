@@ -48,20 +48,16 @@
                 <thead class="bg-light">
                    <th style="width: 50px;">#</th>
                 <th>Nama</th>
-                <th>Alamat</th>
-                <th>Total Flock</th>
-                <th>Total Kapasitas Ayam</th>
+                <th>Nama Peternakan</th>
                 <th style="width: 150px;">Aksi</th>
 
                 </thead>
                  <tbody>
-            @forelse($datas as $row)
+            @forelse($kandang as $row)
                 <tr>
                     <td class="text-center">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
                     <td>{{ $row->nama }}</td>
-                    <td>{{ $row->alamat }}</td>
-                    <td class="text-center">{{ count($row->flocks) ?? 0 }}</td>
-                    <td class="text-center">{{ $row->flocks->sum('capacity') }}</td>
+                    <td>{{ $row->peternakan->nama }}</td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
                             @can('Edit Kandang')
@@ -99,7 +95,7 @@
         </div>
 
         <div class="card-footer d-flex justify-content-end">
-            {{ $datas->links('components.pagination') }}
+            {{ $kandang->links('components.pagination') }}
         </div>
     </div>
 </div>

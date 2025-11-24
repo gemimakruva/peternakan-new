@@ -48,7 +48,7 @@
                     <div class="mt-4 d-flex justify-content-between px-3">
 
                         {{-- Back Button --}}
-                        <a href="{{ route('ayam-afkir.index') }}" 
+                        <a href="{{ route('') }}" 
                            class="btn btn-secondary px-4 py-2">
                             <i class="fas fa-arrow-left me-2"></i> Kembali
                         </a>

@@ -1,12 +1,11 @@
 <div class="card shadow-sm border-0">
-
     {{-- ===========================
         Header Card
         Menampilkan judul form flock
     ============================ --}}
     <div class="card-header bg-light d-flex align-items-center">
         <h5 class="card-title m-0 text-secondary fw-semibold">
-            <i class="fas fa-dove me-2 text-muted"></i> Form Flock
+            <i class="fas fa-dove me-2 text-muted"></i> Form Pembuatan Flock
         </h5>
     </div>
 
@@ -78,36 +77,14 @@
 
                 <option value="">-- Pilih Kandang --</option>
 
-                @foreach($kandangs as $kandang)
-                    <option value="{{ $kandang->id }}" 
-                        {{ old('kandang_id', @$data->kandang_id) == $kandang->id ? 'selected' : '' }}>
-                        {{ $kandang->nama }}
+                @foreach($kandang as $item)
+                    <option value="{{ $item->id }}" 
+                        {{ old('kandang_id', @$data->kandang_id) == $item->id ? 'selected' : '' }}>
+                        {{ $item->nama }}
                     </option>
                 @endforeach
 
             </x-adminlte-select>
-        </div>
-
-        {{-- ===========================
-            Input: Tanggal Masuk Flock
-        ============================ --}}
-        <div class="mb-4">
-            <x-adminlte-input 
-                name="date_in"
-                label="Tanggal Masuk"
-                type="date"
-                :value="old('date_in', @$data->date_in)"
-                igroup-size="lg"
-                fgroup-class="col-12"
-                class="form-control form-control-lg py-3">
-
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-white">
-                        <i class="fas fa-calendar-alt text-muted"></i>
-                    </div>
-                </x-slot>
-
-            </x-adminlte-input>
         </div>
 
         {{-- ===========================
@@ -134,6 +111,8 @@
 
             </x-adminlte-input>
         </div>
+
+     
 
     </div>
 </div>
