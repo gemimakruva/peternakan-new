@@ -25,6 +25,7 @@ Table peternakan { // auditable
 
 Table strain { // auditable
   id integer [primary key, increment]
+  nama varchar
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
@@ -136,201 +137,240 @@ Ref : pipe.id < pengadaan_ayam_distribusi.pipe_id
 Table populasi_ayam {
   id integer [primary key, increment] // auditable
   pengadaan_ayam_distribusi_id integer [null]
-  jenis_pemeriksaan varchar // pengadaan, pencatatan_populasi_harian, pengecekan_kesehatan
+  jenis_pemeriksaan enum // pengadaan, pencatatan_populasi_harian, pengecekan_kesehatan
   pic_user_id integer
   tanggal datetime
   kandang_id integer
   flock_id integer
   pipe_id integer
-  ayam_sehat integer
+  ayam_sehat integer [null]
   ayam_mati integer
   ayam_afkir integer
   ayam_masuk_karantina integer
   ayam_keluar_karantina integer
   catatan text
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table karantina_kandang {
-  id integer [primary key, increment]
-  peternakan_id integer
-  nama varchar
-  kapasitas integer
   created_at timestamp
   updated_at timestamp
 }
 
 Table karantina_populasi {
   id integer [primary key, increment]
-  karantina_kandang_id integer
   pic_user_id integer
   populasi_ayam_id integer [null]
-  tanggal datetime
-  ayam_sehat integer
+  tanggal_karantina datetime
+  ayam_masuk_karantina integer
   ayam_mati integer
   ayam_afkir integer
-  ayam_masuk_karantina integer
   ayam_keluar_karantina integer
-  catatan text
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table karantina_pemberian_pakan {
-  id integer
-  karantina_populasi_id integer
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table karantina_produksi_telur {
-  id integer
-  karantina_populasi_id integer
+  pemberian_pakan decimal
+  sisa_pakan decimal
   jumlah_telur_bagus integer
   jumlah_telur_retak integer
   jumlah_telur_rusak integer
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table karantina_pemberian_treatment {
-  id integer
-  karantina_populasi_id integer
+  berat_telur_bagus decimal
+  berat_telur_retak decimal
+  berat_telur_rusak decimal
+  pengobatan_yang_dilakukan varchar
+  jumlah_ayam_diobati integer
+  penyemprotan varchar
+  vaksin varchar
+  catatan text
   created_at timestamp
   updated_at timestamp
 }
 
 Table ayam_afkir {
   id integer [primary key, increment]
-  sumber_afkir_type varchar
-  sumber_afkir_id varchar
+  populasi_ayam_id integer
   pic_user_id integer
   tanggal datetime
   umur_ayam integer
   jumlah_ayam_afkir decimal
   penyebab_afkir varchar
   pembeli_afkir varchar
-  catatan text
+  harga_jual decimal
   created_at timestamp
   updated_at timestamp
 }
 
-Table ayam_afkir_dokumentasi {
+Table jenis_pakan {
   id integer [primary key, increment]
-  ayam_afkir_id increment
-  filepath varchar
+  nama varchar
   created_at timestamp
   updated_at timestamp
 }
 
-Table "5_karantina_a" {
-  id integer [primary key, increment]
-  tanggal_afkir date
-  ayam_masuk_karantina decimal(12,2)
-  ayam_mati decimal(12,2)
-  ayam_afkir_di_karantina decimal(12,2)
-  pemberian_pakan decimal(12,2)
-  sisa_pakan decimal(12,2)
-  jumlah_telur_bagus decimal(12,2)
-  jumlah_telur_retak decimal(12,2)
-  jumlah_telur_rusak decimal(12,2)
-  kandang_id integer
-  flock_id integer
-  pipe_id integer
-  umur_ayam integer
-  lama_karantina integer
-  hasil_akhir hasil_akhir_karantina
-  catatan text
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table "7_perhitungan_pemberian_pakan" {
+Table perhitungan_pakan {
   id integer [primary key, increment]
   tanggal_pemberian_pakan date
+  user_creator_id integer // spv kandang
+  user_executor_id integer // petugas kandang
+  jenis_pakan_id integer
   kandang_id integer
-  flock_id integer
-  pipe_id integer
-  jumlah_ayam integer
-  proporsi_pemberian_pagi decimal(5,2)
-  proporsi_pemberian_sore decimal(5,2)
-  feed_intake_target decimal(8,3)
-  total_pakan_kg decimal(10,3)
+  proporsi_pemberian_pagi decimal
+  proporsi_pemberian_sore decimal
+  jumlah_ayam_per_kandang integer
+  jumlah_pakan_per_ekor_gram decimal
+  jumlah_pakan_per_kandang_kg decimal
   catatan text
   created_at timestamp
   updated_at timestamp
 }
 
-Table "9_pemberian_pakan_dan_sisa_pak" {
+Ref : perhitungan_pakan.jenis_pakan_id > jenis_pakan.id
+
+Table perhitungan_pakan_items {
   id integer [primary key, increment]
-  tanggal date
+  pemberian_pakan_id integer
   kandang_id integer
   flock_id integer
-  jenis_pakan varchar
+  pipe_id integer
+  jumlah_ayam_per_pipe integer
+  jumlah_pakan_per_pipe_kg decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref : perhitungan_pakan_items.pemberian_pakan_id > perhitungan_pakan.id
+
+Table pemberian_pakan_sisa_pakan {
+  id integer [primary key, increment]
+  tanggal_pemberian_pakan_sisa_pakan datetime
+  pemberian_pakan_id integer
+  flock_id integer
   pemberian_pakan_per_flock_kg decimal(10,3)
   sisa_pakan_per_flock_kg decimal(10,3)
   created_at timestamp
   updated_at timestamp
 }
 
-Table "11_produksi_telur_a" {
+Ref : pemberian_pakan_sisa_pakan.pemberian_pakan_id > perhitungan_pakan.id
+
+Table produksi_telur {
   id integer [primary key, increment]
+  pic_user_id integer
   tanggal date
   usia_ayam integer
   kandang_id integer
   flock_id integer
-  jumlah_telur_bagus decimal(12,2)
-  jumlah_telur_coklat decimal(12,2)
-  jumlah_telur_putih decimal(12,2)
-  jumlah_telur_reject decimal(12,2)
-  berat_telur_bagus decimal(8,3)
-  catatan text
+  jumlah_telur_bagus integer
+  jumlah_telur_putih integer
+  jumlah_telur_reject integer
+  berat_telur_bagus decimal
+  berat_telur_putih decimal
+  berat_telur_reject decimal
   created_at timestamp
   updated_at timestamp
 }
 
-Table "14_sampling_bobot_ayam_a" {
+Ref: produksi_telur.kandang_id > kandang.id
+Ref: produksi_telur.flock_id   > flock.id
+
+Table sampling_bobot_ayam {
   id integer [primary key, increment]
   tanggal date
   kandang_id integer
   umur integer
   jumlah_ayam_saat_ini integer
   jumlah_ayam_yang_disampling integer
-  bobot_badan_sampling_per_ayam decimal(8,3)
   created_at timestamp
   updated_at timestamp
 }
 
-Table "16_penjadwalan_disinfektan_kan" {
+Ref : sampling_bobot_ayam.kandang_id > kandang.id
+
+Table sampling_bobot_ayam_per_ekor {
   id integer [primary key, increment]
-  bulan date
+  sampling_bobot_ayam_id integer
+  bobot_per_kg decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref : sampling_bobot_ayam_per_ekor.sampling_bobot_ayam_id > sampling_bobot_ayam.id
+
+Table penjadwalan_disinfektan {
+  id integer [primary key, increment]
+  pic_user_id integer
   tanggal date
   waktu time
   kandang_id integer
-  flock_id integer
   area varchar
   jenis_disinfektan varchar
   merk_disinfektan varchar
-  penanggung_jawab varchar
+  dosis_per_tangki varchar
   created_at timestamp
   updated_at timestamp
 }
 
-Table "17_penjadwalan_treatment" {
+Table penjadwalan_disinfektan_flock {
   id integer [primary key, increment]
-  bulan date
-  tanggal date
-  waktu time
-  kandang_id integer
+  penjadwalan_disinfektan_id integer
   flock_id integer
-  jenis_treatment varchar
-  metode_pemberian varchar
-  dosis_pemberian decimal(10,3)
-  penanggung_jawab varchar
+  is_checked boolean
   created_at timestamp
   updated_at timestamp
 }
+
+Ref: penjadwalan_disinfektan_flock.penjadwalan_disinfektan_id > penjadwalan_disinfektan.id
+Ref: penjadwalan_disinfektan_flock.flock_id   > flock.id
+Ref: penjadwalan_disinfektan.kandang_id > kandang.id
+
+Table penjadwalan_treatment {
+  id integer [primary key, increment]
+  pic_user_id integer
+  tanggal date
+  waktu time
+  kandang_id integer
+  jenis_treatment varchar
+  metode_pemberian varchar
+  dosis_pemberian varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref: penjadwalan_treatment.kandang_id > kandang.id
+
+Table penjadwalan_treatment_flock {
+  id integer [primary key, increment]
+  penjadwalan_treatment_id integer
+  flock_id integer
+  is_checked boolean
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref: penjadwalan_treatment_flock.penjadwalan_treatment_id > penjadwalan_treatment.id
+Ref: penjadwalan_treatment_flock.flock_id   > flock.id
+
+Table perhitungan_treatment {
+  id integer [primary key, increment]
+  tanggal_pemberian varchar
+  kandang_id integer
+  flock_id integer
+  metode_pemberian varchar [note: 'ovk_via_pakan, vaksin_minum, vitamin_obat_minum']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref: perhitungan_treatment.kandang_id > kandang.id
+Ref: perhitungan_treatment.flock_id > flock.id
+
+Table perhitungan_treatment_items {
+  id integer [primary key, increment]
+  perhitungan_treatment_id integer
+  jenis_treatment varchar [null, note: 'hanya untuk pemberian vitamin obat minum']
+  merk varchar
+  dosis_pemberian_gram decimal
+  dosis_pemberian_liter decimal
+  kebutuhan_pakan_per_hari decimal [note: 'dalam kilo']
+  kebutuhan_air_minum_per_ekor decimal [note: 'dalam mili']
+  total_dosis_vaksin varchar [note: 'hanya view']
+  created_at timestamp
+  updated_at timestamp
+}
+
+Ref: perhitungan_treatment_items.perhitungan_treatment_id > perhitungan_treatment.id
 
 Table "18_perhitungan_vaksinasi_vita" {
   id integer [primary key, increment]
@@ -414,28 +454,9 @@ Ref: populasi_ayam.kandang_id > kandang.id
 Ref: populasi_ayam.flock_id   > flock.id
 Ref: populasi_ayam.pipe_id    > pipe.id
 
+Ref: perhitungan_pakan_items.flock_id   > flock.id
+Ref: perhitungan_pakan_items.pipe_id    > pipe.id
 
-Ref: "5_karantina_a".kandang_id > kandang.id
-Ref: "5_karantina_a".flock_id   > flock.id
-Ref: "5_karantina_a".pipe_id    > pipe.id
-
-Ref: "7_perhitungan_pemberian_pakan".kandang_id > kandang.id
-Ref: "7_perhitungan_pemberian_pakan".flock_id   > flock.id
-Ref: "7_perhitungan_pemberian_pakan".pipe_id    > pipe.id
-
-Ref: "9_pemberian_pakan_dan_sisa_pak".kandang_id > kandang.id
-Ref: "9_pemberian_pakan_dan_sisa_pak".flock_id   > flock.id
-
-Ref: "11_produksi_telur_a".kandang_id > kandang.id
-Ref: "11_produksi_telur_a".flock_id   > flock.id
-
-Ref: "14_sampling_bobot_ayam_a".kandang_id > kandang.id
-
-Ref: "16_penjadwalan_disinfektan_kan".kandang_id > kandang.id
-Ref: "16_penjadwalan_disinfektan_kan".flock_id   > flock.id
-
-Ref: "17_penjadwalan_treatment".kandang_id > kandang.id
-Ref: "17_penjadwalan_treatment".flock_id   > flock.id
 
 Ref: "18_perhitungan_vaksinasi_vita".kandang_id > kandang.id
 Ref: "18_perhitungan_vaksinasi_vita".flock_id   > flock.id
@@ -447,12 +468,9 @@ Ref: "20_pelaksanaan_treatment".flock_id   > flock.id
 
 Ref: "21_monitoring_kesehatan_ternak".kandang_id > kandang.id
 
+
 Ref: "populasi_ayam"."pengadaan_ayam_distribusi_id" - "pengadaan_ayam"."id"
-Ref: "ayam_afkir_dokumentasi"."ayam_afkir_id" > "ayam_afkir"."id"
-Ref: "karantina_populasi"."karantina_kandang_id" < "karantina_kandang"."id"
+
 Ref: "karantina_populasi"."populasi_ayam_id" - "populasi_ayam"."id"
-Ref: "ayam_afkir"."sumber_afkir_id" > "populasi_ayam"."id"
-Ref: "ayam_afkir"."sumber_afkir_id" > "karantina_populasi"."id"
-Ref: "karantina_populasi"."id" < "karantina_produksi_telur"."karantina_populasi_id"
-Ref: "karantina_populasi"."id" < "karantina_pemberian_treatment"."karantina_populasi_id"
-Ref: "karantina_populasi"."id" < "karantina_pemberian_pakan"."karantina_populasi_id"
+
+Ref: ayam_afkir.populasi_ayam_id - populasi_ayam.id
