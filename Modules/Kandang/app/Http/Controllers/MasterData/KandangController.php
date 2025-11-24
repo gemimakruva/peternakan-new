@@ -5,6 +5,7 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Models\Strain;
@@ -92,8 +93,9 @@ class KandangController extends Controller
         Gate::authorize('Edit Kandang');
 
         $validated = $request->validate([
-            'nama'   => ['required', 'string', 'max:255'],
-            'alamat' => ['required', 'string', 'max:1000'],
+            'nama'   => ['required', 'string', 'max:255', Rule::unique('kandang', 'nama')->ignore($id)],
+            'peternakan_id' => ['required', 'integer'],
+            'strain_id' => ['required', 'integer'],
         ]);
 
         $kandang = $this->kandang->findOrFail($id);

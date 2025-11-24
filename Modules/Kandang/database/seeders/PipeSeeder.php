@@ -14,6 +14,5 @@ class PipeSeeder extends Seeder
             ['flock_id' => 1, 'nama' => 'Pipe A', 'kapasitas' => 500],
         ];
         Pipe::insert($data);
-        
     }
 }

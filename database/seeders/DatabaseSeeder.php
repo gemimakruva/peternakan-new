@@ -3,13 +3,7 @@
 namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Modules\Kandang\Database\Seeders\FlockSeeder;
-use Modules\Kandang\Database\Seeders\KandangSeeder;
-use Modules\Kandang\Database\Seeders\PengadaanAyamSedeer;
-use Modules\Kandang\Database\Seeders\PeternakanSeeder;
-use Modules\Kandang\Database\Seeders\StrainSeeder;
-use Modules\Kandang\Database\Seeders\StrainStandartMetricSeeder;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Database\Seeders\KandangDatabaseSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -22,12 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         $this->call([
             UserSeeder::class,
-            PeternakanSeeder::class,
-            StrainSeeder::class,
-            KandangSeeder::class,
-            StrainStandartMetricSeeder::class,
-            FlockSeeder::class,
-            PengadaanAyamSedeer::class
+            KandangDatabaseSeeder::class,
         ]);
     }
 }

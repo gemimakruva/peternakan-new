@@ -11,8 +11,8 @@ class KandangSeeder extends Seeder
     {
         $data = [
             ['peternakan_id' => 1, 'strain_id' => 1, 'nama' => 'Kandang Unit 1'],
-            ['peternakan_id' => 1, 'strain_id' => 1, 'nama' => 'Kandang Unit 2'],
-            ['peternakan_id' => 1, 'strain_id' => 1, 'nama' => 'Kandang Unit 3'],
+            ['peternakan_id' => 1, 'strain_id' => 2, 'nama' => 'Kandang Unit 2'],
+            ['peternakan_id' => 1, 'strain_id' => 3, 'nama' => 'Kandang Unit 3'],
         ];
         Kandang::insert($data);
     }

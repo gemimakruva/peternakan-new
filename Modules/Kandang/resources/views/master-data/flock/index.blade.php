@@ -45,8 +45,8 @@
                 <thead class="bg-light">
                     <tr>
                         <th style="width: 50px;">#</th>
-                        <th>Nama Flock</th>
                         <th>Nama Kandang</th>
+                        <th>Nama Flock</th>
                         <th>Kapasitas</th>
                         <th style="width: 180px;">Aksi</th>
                     </tr>
@@ -55,9 +55,9 @@
                     @forelse($datas as $row)
                     <tr>
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->nama }}</td>
                         <td>{{ $row->kandang->nama ?? '-' }}</td>
-                        <td>{{$row->kapasitas }}</td>
+                        <td>{{ $row->nama }}</td>
+                        <td>{{ $row->kapasitas }}</td>
                         <td>
                             <div style="gap: 6px" class="btn-group" role="group">
                                 <a href="{{ route('master-data.pipe.byFlock', $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
