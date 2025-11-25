@@ -66,7 +66,7 @@
         <div class="mb-4">
             <x-adminlte-input 
                 name="umur_ayam"
-                label="Umur Ayam Datang"
+                label="Umur Ayam"
                 type="number"
                 min="0"
                 placeholder="Masukkan umur ayam.."

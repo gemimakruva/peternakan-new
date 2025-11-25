@@ -16,7 +16,7 @@ class Pengadaan_ayam extends Model
         'jumlah_ayam_datang',
         'jumlah_ayam_mati',
         'jumlah_ayam_sakit',
-        'jumlah ayam_masuk_kandang',
+        'jumlah_ayam_masuk_kandang',
         'catatan'
     ];
 
@@ -28,6 +28,19 @@ class Pengadaan_ayam extends Model
     {
         return $this->hasMany(BerkasPengadaanAyam::class, 'pengadaan_ayam_id', 'id');
     }
+
+    public function distribusi()
+    {
+            return $this->hasMany(PengadaanAyamDistribusi::class, 
+            'pengadaan_ayam_id', 'id');
+    }
+
+    public function dokumentasi()
+    {
+            return $this->hasMany(PengadaanAyamDokumentasi::class, 
+            'pengadaan_ayam_id', 'id');
+    }
+
 
     
 }

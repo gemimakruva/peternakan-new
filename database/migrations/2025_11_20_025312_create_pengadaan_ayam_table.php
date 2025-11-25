@@ -18,10 +18,11 @@ return new class extends Migration
                   ->cascadeOnDelete();
             $table->date('tanggal');
             $table->string('kondisi_ayam');
-            $table->integer('jumlah_ayam_datang');
-            $table->integer('jumlah_ayam_mati');
-            $table->integer('jumlah_ayam_sakit');
-            $table->integer('jumlah ayam_masuk_kandang');
+            $table->integer('umur_ayam');
+            $table->integer('jumlah_ayam_datang')->default(0);
+            $table->integer('jumlah_ayam_mati')->default(0);
+            $table->integer('jumlah_ayam_sakit')->default(0);
+            $table->integer('jumlah_ayam_masuk_kandang')->default(0);
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

@@ -15,8 +15,11 @@
     <div class="row justify-content-center">
         {{-- Form Content --}}
           <div class="col-md-8">
-              <form action="{{ route('pengadaan-ayam.store') }}" method="post" id="form_pengadaan">
-                 <input type="hidden" name="distribusi_json" id="distribusi_json">
+              <form enctype="multipart/form-data"
+               action="{{ route('pengadaan-ayam.store') }}" 
+               method="post" id="form_pengadaan">
+                 <input type="hidden" name="distribusi_json" id="distribusi_json"
+                  >
                    <div class="card shadow-sm border-0">
                         <div class="card-body">
                             @csrf
@@ -309,12 +312,10 @@
           </button>
         </div>
       </form>
-
     </div>
   </div>
 </div>
 @push('js')
-    
 <script>
 
     // {{-- CASCADING SELECT FORM FUNCTION  --}}
@@ -376,22 +377,26 @@ $(document).ready(function(){
             var flockText = $('#flockSelect option:selected').text();
             var pipeText = $('#pipeSelect option:selected').text();
             var pipeId = $('#pipeSelect option:selected').val();
+            var kandangId   = $('#kandangSelect option:selected').val();
+            var flockId   = $('#flockSelect option:selected').val();
             var jumlah = $(this).find('input[name="jumlah_ayam"]').val();
-
               if (!selectedPipe.includes(pipeId)) {
                     selectedPipe.push(pipeId);
                 }
             
                 console.log(selectedPipe)
 
-            distribusiData.push({
-            id: ++count,
-            kandang: kandangText,
-            flock: flockText,
-            pipe: pipeText,
-            pipe_id: pipeId,
-            jumlah: jumlah
+           distribusiData.push({
+                id: ++count,
+                kandang: kandangText,
+                kandang_id: kandangId,   
+                flock: flockText,
+                flock_id: flockId,      
+                pipe: pipeText,
+                pipe_id: pipeId,
+                jumlah: jumlah
             });
+
 
             $(this)[0].reset();
             $('#pipeSelect').empty().append('<option selected disabled>Pilih Pipe...</option>');

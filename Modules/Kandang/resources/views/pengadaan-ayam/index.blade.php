@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
 @section('title', 'Pencatatan Ayam Masuk')
 
@@ -91,14 +91,13 @@
                                class="btn btn-warning btn-sm text-white" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-
-                           <form action="{{ route('pengadaan-ayam.destroy', $item->id) }}"
+                           <form action="{{ route('pengadaan-ayam.destroy', $item) }}"
                                 method="POST"
                                 class="d-inline form-delete"
-                                data-nama=" tanggal {{ \Carbon\Carbon::parse($item->tanggal)
+                                data-tanggal="tanggal {{ \Carbon\Carbon::parse($item->tanggal)
                                  ->translatedFormat('l, d F Y') }}">
                                 @csrf
-                                @method('DELETE')
+                                @method('delete')
                                 <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -123,25 +122,9 @@
         </div>
     </div>
 </div>
-
+@include('components.snackbar')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const buttons = document.querySelectorAll('.show-notes');
-    buttons.forEach(button => {
-        button.addEventListener('click', function () {
-            const notes = this.dataset.notes;
-            
-            Swal.fire({
-                title: 'Catatan Lapangan',
-                html: `<p style="text-align:left;">${notes}</p>`,
-                icon: 'info',
-                confirmButtonText: 'Tutup'
-            });
-        });
-    });
-});
-
 // ============== Show Catatan Button ==================
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.btn-catatan').forEach(btn => {
@@ -161,32 +144,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // ============== Delete Confirmation ==================
 document.addEventListener('DOMContentLoaded', function () {
-    document.querySelectorAll('.form-delete').forEach(form => {
+    document.querySelectorAll('.form-delete').forEach(function (form) {
         form.addEventListener('submit', function (e) {
             e.preventDefault();
-
-            let nama = this.dataset.nama;
-
+            let tanggal = this.dataset.tanggal;
+            const currentForm = this;
             Swal.fire({
                 title: "Hapus Data?",
-                text: "Data " + nama + " akan dihapus permanen!",
+                text: "Data " + tanggal + " akan dihapus permanen!",
                 icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#6c757d",
                 confirmButtonText: "Ya, hapus!",
                 cancelButtonText: "Batal"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    form.submit();
-                }
+            }).then(function (result) {
+                form.submit();    
             });
+
         });
     });
-
 });
-
-
 </script>
-
 @stop
