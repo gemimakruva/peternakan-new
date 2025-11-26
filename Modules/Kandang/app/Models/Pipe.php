@@ -28,10 +28,6 @@ class Pipe extends Model
     /**
      * Relasi ke log populasi
      */
-    public function populationLogs()
-    {
-        return $this->hasMany(SupplierLog::class, 'pipe_id');
-    }
 
     /**
      * Accessor: Mendapatkan nama flock

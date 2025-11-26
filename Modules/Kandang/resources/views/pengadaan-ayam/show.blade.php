@@ -64,49 +64,54 @@
             <div class="mt-2">
                 <div class="container">
                     {{-- Data Dummy  --}}
-                    @php
-                    $items = [
-                        [
-                            'title' => 'Tanggal Input',
-                            'text' => '21 November 2025 • 10:45',
-                            'icon' => 'fas fa-calendar-alt',
-                        ],
-                        [
-                            'title' => 'Umur Ayam',
-                            'text' => '3 Hari',
-                            'icon' => 'fas fa-egg',
-                        ],
-                        [
-                            'title' => 'Kondisi Ayam',
-                            'text' => 'Sehat',
-                            'icon' => 'fas fa-heartbeat',
-                        ],
-                        [
-                            'title' => 'Jumlah Datang',
-                            'text' => '2000 Ekor',
-                            'icon' => 'fas fa-database',
-                        ],
-                        [
-                            'title' => 'PIC User Input',
-                            'text' => 'Ilham Suryana',
-                            'icon' => 'fas fa-user',
-                        ],
-                        [
-                            'title' => 'Jumlah Sakit',
-                            'text' => '5 Ekor',
-                            'icon' => 'fas fa-medkit',
-                        ],
-                        [
-                            'title' => 'Jumlah Mati',
-                            'text' => '2 Ekor',
-                            'icon' => 'fas fa-skull-crossbones',
-                        ],
-                        [
-                            'title' => 'Status Pengadaan',
-                            'text' => 'Sedang Diproses',
-                            'icon' => 'fas fa-check-circle',
-                        ],
-                    ];
+               @php
+                        $items = [
+                            [
+                                'title' => 'Tanggal Input',
+                                'text' => \Carbon\Carbon::parse($pengadaanAyam->tanggal)
+                                ->translatedFormat('l, d F Y'),
+                                'icon' => 'fas fa-calendar-alt',
+                            ],
+                            [
+                                'title' => 'Umur Ayam',
+                                'text' => $pengadaanAyam->umur_ayam . ' Minggu',
+                                'icon' => 'fas fa-egg',
+                            ],
+                            [
+                                'title' => 'Kondisi Ayam',
+                                'text' => $pengadaanAyam->kondisi_ayam,
+                                'icon' => 'fas fa-heartbeat',
+                            ],
+                            [
+                                'title' => 'Jumlah Datang',
+                                'text' => number_format($pengadaanAyam->jumlah_ayam_datang) .
+                                 ' Ekor',
+                                'icon' => 'fas fa-database',
+                            ],
+                            [
+                                'title' => 'PIC User Input',
+                                'text' => $pengadaanAyam->pic_user->name ?? 'Tidak Diketahui',
+                                'icon' => 'fas fa-user',
+                            ],
+                            [
+                                'title' => 'Jumlah Sakit',
+                                'text' => number_format($pengadaanAyam->jumlah_ayam_sakit) .
+                                 ' Ekor',
+                                'icon' => 'fas fa-medkit',
+                            ],
+                            [
+                                'title' => 'Jumlah Mati',
+                                'text' => number_format($pengadaanAyam->jumlah_ayam_mati) .
+                                 ' Ekor',
+                                'icon' => 'fas fa-skull-crossbones',
+                            ],
+                            [
+                                'title' => 'Jumlah Masuk Kandang',
+                                'text' => number_format($pengadaanAyam->jumlah_ayam_masuk_kandang) .
+                                 ' Ekor',
+                                'icon' => 'fas fa-warehouse',
+                            ],
+                        ];
                 @endphp
 
 
@@ -139,79 +144,68 @@
     </div>
     {{-- # LIST Document Suplier--}}
     <div class="card shadow-sm border-0 mb-3 px-3">
-        {{-- Heading --}}
+    {{-- Header --}}
         <div class="card-body d-flex align-items-center justify-content-between">
             <div class="d-flex align-items-center gap-2">
                 <i class="fas fa-folder text-warning" style="font-size: 25px;"></i>
-                <h5 class="fw-semibold text-dark mb-0 ml-2">
-                    Berkas Supplier
-                </h5>
+                <h5 class="fw-semibold text-dark mb-0 ml-2">Berkas Supplier</h5>
             </div>
+
             <span class="fw-bold text-muted">
-                12 Berkas
+                {{ $pengadaanAyam->berkasSupplier->count() }} Berkas
             </span>
         </div>
-           {{-- content --}}
-             @php
-                $files = [
-                    [
-                        'name' => 'Surat Kedatangan.pdf',
-                        'desc' => 'Dokumen resmi supplier',
-                        'icon' => 'fas fa-file-alt',
-                        'url_view' => '#',
-                        'url_download' => '#',
-                    ],
-                    [
-                        'name' => 'Kontrak Supplier.docx',
-                        'desc' => 'Perjanjian kerja sama',
-                        'icon' => 'fas fa-file-word',
-                        'url_view' => '#',
-                        'url_download' => '#',
-                    ],
-                    [
-                        'name' => 'Bukti Pembayaran.jpg',
-                        'desc' => 'Pembayaran awal pemasokan',
-                        'icon' => 'fas fa-file-image',
-                        'url_view' => '#',
-                        'url_download' => '#',
-                    ],
-                ];
-            @endphp
 
-        @foreach ($files as $file)
-        <div class="card shadow-md mb-3 mx-auto justify-content-between" style="width:100%">
-                <div style="width:100%" class="card-body d-flex justify-content-between rounded shadow-md" >
-                   <div style="width: 50%">
-                        <div class="d-flex flex-col">
-                            <div class="d-flex align-items-center justify-content-center rounded bg-light"
-                                style="width: 45px; height: 45px;">
-                                <i style="font-size: 25px" class="fas fa-file-alt text-secondary"></i>
-                            </div>
+    {{-- Content --}}
+            @forelse ($pengadaanAyam->berkasSupplier as $file)
+                <div class="card shadow-md mb-3 mx-auto justify-content-between" style="width:100%">
+                    <div class="card-body d-flex justify-content-between rounded shadow-md" style="width:100%">
+                        {{-- Kiri --}}
+                        <div style="width: 50%">
+                            <div class="d-flex align-items-center">
+                                <div class="d-flex align-items-center justify-content-center rounded bg-light"
+                                    style="width: 45px; height: 45px;">
+                                    <i style="font-size: 25px" class="fas fa-file-alt text-secondary"></i>
+                                </div>
 
-                            <div class="grow ml-3">
-                                <h6 class="mb-1 fw-semibold">Surat Kedatangan.pdf</h6>
-                                <p class="mb-0 text-muted" style="font-size: 14px;">Dokumen resmi supplier</p>
+                                <div class="ml-3">
+                                    <h6 class="mb-1 fw-semibold">{{ $file->nama_berkas }}</h6>
+                                </div>
                             </div>
                         </div>
-                   </div>
-                   <div class="d-flex justify-content-end" style="width: 50%;">
-                        <div class="d-flex justify-content-between">
-                            <a href="#" class="btn btn-sm btn-outline-secondary d-flex 
-                            align-items-center gap-1" style="min-height: 20px" title="Lihat Berkas">
-                                <i class="fas fa-eye"></i>
-                                <span> View File</span>
-                            </a>
-                            <a href="#" class="btn btn-sm btn-primary d-flex align-items-center
-                             gap-1 ml-2" title="Download Berkas">
-                                <i class="fas fa-download"></i>
-                                <span> Download</span>
-                            </a>
+
+                        {{-- Kanan --}}
+                        <div class="d-flex justify-content-end" style="width: 50%">
+                            <div class="d-flex justify-content-between">
+                                {{-- View --}}
+                               <a href="{{ Storage::url($file->file_path) }}"
+                                    target="_blank"
+                                    class="btn btn-sm btn-outline-secondary d-flex align-items-center gap-1 ml-2"
+                                    title="Lihat Berkas">
+                                    <i class="fas fa-eye"></i> View
+                                </a>
+
+                                {{-- Download --}}
+                               <a href="{{ Storage::url($file->file_path) }}"
+                                    download
+                                    class="btn btn-sm btn-primary d-flex align-items-center gap-1 ml-2"
+                                    title="Download Berkas">
+                                    <i class="fas fa-download"></i> Download
+                                </a>
+
+                            </div>
                         </div>
-                   </div>
+
+                    </div>
                 </div>
-        </div>
-        @endforeach
+            @empty
+                <div class="text-center text-muted pb-3">
+                    Tidak ada berkas supplier.
+                </div>
+            @endforelse
+
     </div>
+
        {{-- # Photo Document Pengadaan Ayam--}}
     <div class="card shadow-sm border-0 mb-3 px-3">
 
@@ -226,42 +220,35 @@
         </div>
        
         {{-- Gallery Photo --}}
-        <div>
-            {{-- data dummy --}}
-            @php
-                $images = [
-                            ['src' => 'https://images.unsplash.com/photo-1519681393784-d120267933ba?
-                            auto=format&fit=crop&w=800&q=80', 'alt' => 'Foto Alam 1'],
-                            ['src' => 'https://images.unsplash.com/photo-1526045612212-70caf35c14df?
-                            auto=format&fit=crop&w=800&q=80', 'alt' => 'Foto Dokumentasi 2'],
-                            ['src' => 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?
-                            auto=format&fit=crop&w=800&q=80', 'alt' => 'Foto Pekerjaan 3'],
-                            ['src' => 'https://images.unsplash.com/photo-1541696432-82c6da8ce7bf?
-                            auto=format&fit=crop&w=800&q=80', 'alt' => 'Foto Proses 4'],
-                            ['src' => 'https://images.unsplash.com/photo-1518770660439-4636190af475?
-                            auto=format&fit=crop&w=800&q=80', 'alt' => 'Foto Aktivitas 5'],
-                            ['src' => 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?
-                            auto=format&fit=crop&w=800&q=80', 'alt' => 'Foto Lokasi 6'],
-                        ];
-            @endphp
-
         <div class="container">
-                <div class="row g-3">
-                    @foreach ($images as $i => $img)
+            <div class="row g-3">
+                @forelse ($pengadaanAyam->dokumentasi as $i => $doc)
                     <div class="col-6 col-md-4 col-lg-3">
                         <div class="card border-0 shadow-sm overflow-hidden">
-                            <button type="button" class="btn p-0 border-0" data-bs-toggle="modal"
-                                    data-bs-target="#lightboxModal" data-src="{{ $img['src'] }}" 
-                                    data-alt="{{ $img['alt'] }}">
-                                    <img src="{{ $img['src'] }}" alt="{{ $img['alt'] }}" loading="lazy"
-                                        class="img-fluid w-100" style="height:200px; object-fit:cover;">
+
+                            <button type="button" 
+                                class="btn p-0 border-0" 
+                                data-bs-toggle="modal"
+                                data-bs-target="#lightboxModal"
+                                data-src="{{ Storage::url($doc->file_path) }}" 
+                                data-alt="Dokumentasi Ayam {{ $i + 1 }}">
+
+                               <img src="{{ Storage::url($doc->file_path) }}" 
+                                alt="Dokumentasi Ayam {{ $i + 1 }}"
+                                loading="lazy"
+                                class="img-fluid w-100"
+                                style="max-height: 200px; object-fit: contain; 
+                                background-color: #f8f9fa;">
                             </button>
+
                         </div>
                     </div>
-                    @endforeach
-                </div>
-        </div>
-        </div>
+                @empty
+                    <p class="text-muted text-center">Belum ada dokumentasi diunggah</p>
+                @endforelse
+            </div>
+</div>
+
     </div>
     {{-- # List Distribusi Supplier --}}
      <div class="card shadow-sm border-0 mb-3 px-3">
@@ -275,12 +262,12 @@
                     </h5>
                 </div>
                 {{-- Add distribtuon --}}
-                <div class="d-flex justify-content-end">
+                {{-- <div class="d-flex justify-content-end">
                     <a href="#" class="btn btn-primary d-flex align-items-center">
                         <i class="fas fa-plus mr-2"></i>
                         <span> Tambah Distribusi</span>
                     </a>
-                </div>
+                </div> --}}
 
         </div>
 
@@ -290,85 +277,59 @@
                 <thead class="table-light">
                     <tr class="text-center">
                         <th>No</th>
-                        <th>ID Pengadaan Ayam</th>
+                        <th>Kandang</th>
                         <th>Flock ID</th>
                         <th>Pipe ID</th>
                         <th>Jumlah Ayam</th>
-                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
+                
                 <tbody>
-                    <tr>
-                        <td class="text-center">1</td>
-                        <td>PGD-2025-001</td>
-                        <td>FCK-01</td>
-                        <td>PIPE-3</td>
-                        <td class="text-center">500</td>
-                        <td>
-                            <span class="badge bg-success">Complete</span>
-                        </td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-sm btn-info" title="Detail">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-sm btn-warning text-white" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Hapus">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                    @forelse ($pengadaanAyam->distribusi as $i => $dist)
+                        <tr>
+                            <td class="text-center">{{ $i + 1 }}</td>
+                           <td>{{ $dist->kandang->nama ?? '-' }}</td>
+                            <td>{{ $dist->flock->nama ?? '-' }}</td>
+                            <td>{{ $dist->pipe->nama  ?? '-' }}</td>
+                            <td class="text-center">{{ $dist->jumlah_ayam ?? 0 }}</td>
 
-                    <tr>
-                        <td class="text-center">2</td>
-                        <td>PGD-2025-002</td>
-                        <td>FCK-02</td>
-                        <td>PIPE-7</td>
-                        <td class="text-center">450</td>
-                        <td><span class="badge bg-warning text-dark">Proses</span></td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-sm btn-info" title="Detail">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-sm btn-warning text-white" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Hapus">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                            <td class="text-center">
+                                <div class="btn-group" role="group">
+                                    <a href=""
+                                    class="btn btn-sm btn-info" title="Detail">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
 
-                    <tr>
-                        <td class="text-center">3</td>
-                        <td>PGD-2025-003</td>
-                        <td>FCK-03</td>
-                        <td>PIPE-1</td>
-                        <td class="text-center">600</td>
-                        <td><span class="badge bg-success">Complete</span></td>
-                        <td class="text-center">
-                            <div class="btn-group" role="group">
-                                <button class="btn btn-sm btn-info" title="Detail">
-                                    <i class="fas fa-eye"></i>
-                                </button>
-                                <button class="btn btn-sm btn-warning text-white" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </button>
-                                <button class="btn btn-sm btn-danger" title="Hapus">
-                                    <i class="fas fa-trash-alt"></i>
-                                </button>
-                            </div>
-                        </td>
-                    </tr>
+                                    <a href=""
+                                    class="btn btn-sm btn-warning text-white" title="Edit">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+
+                                    <form action=""
+                                        method="POST"
+                                        onsubmit="return confirm('Hapus data ini?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button class="btn btn-sm btn-danger" title="Hapus">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+
+                    @empty
+                        <tr>
+                            <td colspan="7" class="text-center text-muted">
+                                Tidak ada data distribusi ayam
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>
+
 
 
     </div>

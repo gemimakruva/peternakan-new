@@ -1,21 +1,24 @@
 <?php
 
 namespace Modules\Kandang\Models;
+
 use Illuminate\Database\Eloquent\Model;
 use Modules\Kandang\Models\Pengadaan_ayam;
-class BerkasPengadaanAyam extends Model
+
+class PengadaanAyamDokumentasi extends Model
 {
-    protected $table = 'pengadaan_ayam_berkas_supplier';
+    protected $table = 'pengadaan_ayam_dokumentasi';
 
     protected $fillable = [
         'pengadaan_ayam_id',
         'file_path',
-        'nama_berkas',
     ];
 
-    public function pengadaanAyam()
+     public function pengadaanAyam()
     {
         return $this->belongsTo(Pengadaan_ayam::class,
-         'pengadaan_ayam_id', 'id');
+         'pengadaan_ayam_id');
     }
+
+
 }
