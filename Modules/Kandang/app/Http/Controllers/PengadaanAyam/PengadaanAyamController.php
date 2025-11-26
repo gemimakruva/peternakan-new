@@ -11,6 +11,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Pengadaan_ayam;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PengadaanAyamDokumentasi;
+use Modules\Kandang\Models\PopulasiAyam;
 
 class PengadaanAyamController extends Controller
 {
@@ -98,18 +99,33 @@ class PengadaanAyamController extends Controller
         {
                $jumlah = (int) $item['jumlah'];
                $totalAyamMasuk += $jumlah;
-                PengadaanAyamDistribusi::create([
-                    'pengadaan_ayam_id' => $pengadaanAyam->id,
+               $distribusiRecord = PengadaanAyamDistribusi::create([
+                                'pengadaan_ayam_id' => $pengadaanAyam->id,
+                                'kandang_id' => $item['kandang_id'],
+                                'flock_id' => $item['flock_id'],
+                                 'pipe_id' => $item['pipe_id'],
+                                'jumlah_ayam' => $jumlah,
+                ]);
+
+                // ALOKASI DATA KE POPULASI JIKA BERHASIL
+               PopulasiAyam::create([
+                    'pengadaan_ayam_distribusi_id' => $distribusiRecord->id, 
+                    'pic_user_id' => $picUserId,
+                    'jenis_pemeriksaan' => 'pengadaan ayam',
+                    'tanggal' => $validated['tanggal'],
                     'kandang_id' => $item['kandang_id'],
                     'flock_id' => $item['flock_id'],
                     'pipe_id' => $item['pipe_id'],
-                    'jumlah_ayam' => $jumlah,
+                    'ayam_sehat' => $jumlah,
                 ]);
         }
 
         $pengadaanAyam->update([
             'jumlah_ayam_masuk_kandang' => $totalAyamMasuk
         ]);
+
+       
+
 
         // PENYIMPANAN DATA FILE SUPPLIER DOKUMEN
             if ($request->hasFile('file_path_berkas')) {

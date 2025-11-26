@@ -4,7 +4,6 @@ namespace Modules\Kandang\Database\Seeders;
 
 use App\Imports\StrainImport;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Models\Strain;
 use Modules\Kandang\Models\StrainStandartMetric;

@@ -1,5 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
@@ -16,6 +17,8 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
         Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock']) ->name('pipe.byFlock');
     });
-       Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
-       
+        Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
+        Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
+        Route::get('populasi-ayam/{pengadaan_ayam}/create', [PopulasiAyamController::class, 'createByDate'])
+        ->name('populasi-ayam.createByDate');
 });

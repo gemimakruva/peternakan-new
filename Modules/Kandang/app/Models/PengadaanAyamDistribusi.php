@@ -9,7 +9,6 @@ class PengadaanAyamDistribusi extends Model
 {
     use HasFactory;
 
-    // Table name jika tidak mengikuti konvensi plural lowercase
     protected $table = 'pengadaan_ayam_distribusi';
 
     // Mass assignable fields
@@ -52,4 +51,5 @@ class PengadaanAyamDistribusi extends Model
     {
         return $this->belongsTo(Pipe::class, 'pipe_id');
     }
+
 }

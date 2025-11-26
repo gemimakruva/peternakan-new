@@ -422,7 +422,7 @@ return [
         ],
         
         
-         // ====================   PENGADAAN AYAM SUPPLIER  ==========================
+         // ====================  MENU PENGADAAN AYAM  ==========================
         [
         'header' => 'Pengadaan Ayam',
         'can' => [
@@ -442,6 +442,22 @@ return [
         'icon' => 'fas fa-plus-circle',
         'can'  => 'Menambah Pengadaan Ayam',
          ],
+
+
+          // ====================  MENU RECORDING HARIAN  ==========================
+
+           [
+        'header' => 'Recording Harian',
+        'can' => [
+            'Melakukan Pencatatan Populasi Ayam Harian'
+        ],
+         ],
+          [
+            'text' => 'Pencatatan Harian',
+            'route' => 'populasi-ayam.create',
+            'icon' => 'fas fa-clipboard-list',
+            'can'  => 'Pencatatan Populasi Harian',
+        ],
 
         // ====================   PENGADAAN AYAM AFKIR  ==========================
 
