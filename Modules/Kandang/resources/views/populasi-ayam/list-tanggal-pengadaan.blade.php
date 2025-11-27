@@ -12,7 +12,7 @@
 @endsection
 
 @section('content')
-<div class="card">
+<div class="card" style="max-width: 1200px">
     <div class="card-body">
         <table class="table table-bordered table-striped text-center align-middle">
             <thead class="bg-secondary text-white">

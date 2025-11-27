@@ -12,5 +12,5 @@
 @endsection
 
 @section('content')
-<h1>Hallo Berhasil</h1>
+
 @endsection

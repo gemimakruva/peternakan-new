@@ -1,5 +1,7 @@
 <?php
 use Illuminate\Support\Facades\Route;
+use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
+use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
@@ -21,4 +23,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
         Route::get('populasi-ayam/{pengadaan_ayam}/create', [PopulasiAyamController::class, 'createByDate'])
         ->name('populasi-ayam.createByDate');
+        Route::resource('ayam-afkir', AyamAfkirController::class)->names('ayam-afkir');
+        Route::resource('ayam-karantina', AyamKarantinaController::class)->names('ayam-karantina');
 });

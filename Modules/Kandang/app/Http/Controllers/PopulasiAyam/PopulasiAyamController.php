@@ -1,5 +1,6 @@
 <?php
 namespace Modules\Kandang\Http\Controllers\PopulasiAyam;
+
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ class PopulasiAyamController extends Controller
      */
     public function index()
     {
-       
+       return view("kandang::populasi-ayam.index");
     }
 
     /**
@@ -83,14 +84,8 @@ class PopulasiAyamController extends Controller
                 'catatan'               => $validated['catatan'] ?? null,
             ]);
         }
-         return redirect() ->route('populasi-ayam.index')
-         ->with('success', 'Data populasi berhasil disimpan.');
-         
-        // - hitung ada berapa arrays di json 
-        // - buat loop dengan arrays jumlah tersebut 
-        // - input record data sesuai loop dengan data yang sama keculi di populasi record
-        //   tertutama pada kadang id , flock id dan pipe id , ayam_sehat, ayam_sakit_ayam_mati , 
-        // masuk kandang karantina , dan keluar kandang karantina
+            return redirect() ->route('populasi-ayam.index')
+            ->with('success', 'Data populasi berhasil disimpan.');
     }
 
     /**

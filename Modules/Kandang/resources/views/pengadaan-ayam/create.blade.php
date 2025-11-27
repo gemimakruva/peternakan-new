@@ -355,9 +355,11 @@ $(document).ready(function(){
                         $.each(flock.pipes, function(i, pipe){
                             // filter pipe 
                              if (!selectedPipe.includes(String(pipe.id))) {
-                                 pipeSelect.append( '<option value="'+pipe.id+'" data-kapasitas="'+pipe.kapasitas+'">'
-                                    +pipe.nama+'</option>'
-                            );
+                                   pipeSelect.append(
+                                    `<option value="${pipe.id}" data-kapasitas="${pipe.kapasitas}">
+                                        ${pipe.nama} (Kapasitas: ${pipe.kapasitas})
+                                    </option>`
+                                );
                              }
                            
                         });
