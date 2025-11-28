@@ -23,29 +23,24 @@ class AyamKarantinaSeeder extends Seeder
         ModelsAyamKarantina::create([
             'populasi_ayam_id'        => !empty($populasiList) ? $faker->randomElement($populasiList) : 1,
             'pic_user_id'            => !empty($users) ? $faker->randomElement($users) : 1,
-
+            'keterangan_pengecekan' =>  "Pencatatan Harian",
             'tanggal_karantina'      => $faker->date(),
             'ayam_masuk_karantina'   => $faker->numberBetween(5, 70),
             'ayam_mati'              => $faker->numberBetween(0, 10),
             'ayam_afkir'             => $faker->numberBetween(0, 10),
             'ayam_keluar_karantina'  => $faker->numberBetween(0, 30),
-
             'pemberian_pakan'        => $faker->randomFloat(2, 0, 20),
             'sisa_pakan'             => $faker->randomFloat(2, 0, 20),
-
-            'Jumlah_telur_bagus'     => $faker->numberBetween(0, 80),
-            'Jumlah_telur_retak'     => $faker->numberBetween(0, 20),
-            'Jumlah_telur_rusak'     => $faker->numberBetween(0, 10),
-
+            'jumlah_telur_bagus'     => $faker->numberBetween(0, 80),
+            'jumlah_telur_retak'     => $faker->numberBetween(0, 20),
+            'jumlah_telur_rusak'     => $faker->numberBetween(0, 10),
             'penyebab_karantina'     => $faker->randomElement([
                 'Infeksi bakteri', 'Cidera', 'Stres panas', 'Virus ringan', null
             ]),
             'pengobatan_yang_dilakukan' => $faker->randomElement([
                 'Antibiotik', 'Vitamin tambahan', 'Pembersihan kandang', null
             ]),
-
             'jumlah_ayam_diobati'    => $faker->numberBetween(0, 50),
-
             'penyemprotan' => $faker->randomElement([
                 'Desinfektan Virkon',
                 'Desinfektan Benzalkonium',
@@ -54,9 +49,8 @@ class AyamKarantinaSeeder extends Seeder
                 'Cairan antiseptik',
                 null
             ]),
-
-            'vaksin'                 => $faker->randomElement(['ND', 'AI', 'IB', null]),
-            'catatan'                => $faker->sentence(),
+            'vaksin'   => $faker->randomElement(['ND', 'AI', 'IB', null]),
+            'catatan'  => $faker->sentence(),
         ]);
     }
 }

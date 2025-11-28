@@ -5,6 +5,8 @@ namespace Modules\Kandang\Http\Controllers\AyamKarantina;
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\AyamKarantina;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Modules\Kandang\Models\PopulasiAyam;
 
 class AyamKarantinaController extends Controller
 {
@@ -14,7 +16,8 @@ class AyamKarantinaController extends Controller
     public function index()
     {
          $listAyamKarantina = AyamKarantina::latest()->paginate(10);
-         return view('kandang::ayam-karantina.index', compact('listAyamKarantina'));
+         return view('kandang::ayam-karantina.index',
+          compact('listAyamKarantina'));
     }
 
     /**
@@ -22,7 +25,9 @@ class AyamKarantinaController extends Controller
      */
     public function create()
     {
-        //
+        $listPopulasiAyam = PopulasiAyam::with(['kandang', 'flock', 'pipe'])->get();
+        return view("kandang::ayam-karantina.create",
+        compact('listPopulasiAyam'));
     }
 
     /**
@@ -30,7 +35,35 @@ class AyamKarantinaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validated = $request->validate([
+            'populasi_ayam_id' => ['required', 'exists:populasi_ayam,id'],
+            'tanggal_karantina' => ['required', 'date'],
+            'ayam_masuk_karantina' => ['required', 'integer', 'min:0'],
+            'ayam_mati' => ['required', 'integer', 'min:0'],
+            'ayam_afkir' => ['required', 'integer', 'min:0'],
+            'ayam_keluar_karantina' => ['required', 'integer', 'min:0'],
+            'pemberian_pakan' => ['required', 'numeric', 'min:0'],
+            'sisa_pakan' => ['required', 'numeric', 'min:0'],
+            'jumlah_telur_bagus' => ['required', 'integer', 'min:0'],
+            'jumlah_telur_retak' => ['required', 'integer', 'min:0'],
+            'jumlah_telur_rusak' => ['required', 'integer', 'min:0'],
+            'penyebab_karantina' => ['nullable', 'string', 'max:255'],
+            'pengobatan_yang_dilakukan' => ['nullable', 'string', 'max:255'],
+            'jumlah_ayam_diobati' => ['required', 'integer', 'min:0'],
+            'penyemprotan' => ['nullable', 'string', 'max:255'],
+            'vaksin' => ['nullable', 'string', 'max:255'],
+            'catatan' => ['nullable', 'string'],
+         ]);
+           $karantina = AyamKarantina::create($validated);
+           $populasi = PopulasiAyam::find($validated['populasi_ayam_id']);
+           $populasi->ayam_masuk_karantina += $validated['ayam_masuk_karantina'];
+           $populasi->ayam_sehat -= $validated['ayam_masuk_karantina'];
+           $populasi->ayam_keluar_karantina += $validated['ayam_keluar_karantina'];
+           $populasi->ayam_sehat += $validated['ayam_keluar_karantina'];
+           $populasi->save();
+             return redirect()
+             ->route('ayam-karantina.index')
+            ->with('success', 'Data ayam karantina berhasil disimpan!');
     }
 
     /**
@@ -38,7 +71,9 @@ class AyamKarantinaController extends Controller
      */
     public function show(AyamKarantina $ayamKarantina)
     {
-        //
+         $listAyamKarantina = AyamKarantina::latest()->paginate(10);
+         return view('kandang::ayam-karantina.index',
+          compact('listAyamKarantina'));
     }
 
     /**
@@ -64,4 +99,11 @@ class AyamKarantinaController extends Controller
     {
         //
     }
+
+
+    public function overview()
+    {
+     return view('kandang::ayam-karantina.overview');
+    }
+
 }

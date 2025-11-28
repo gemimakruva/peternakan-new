@@ -17,6 +17,7 @@ class AyamKarantina extends Model
         'populasi_ayam_id',
         'tanggal_karantina',
         'ayam_masuk_karantina',
+        'keterangan_pengecekan',
         'ayam_mati',
         'ayam_afkir',
         'ayam_keluar_karantina',

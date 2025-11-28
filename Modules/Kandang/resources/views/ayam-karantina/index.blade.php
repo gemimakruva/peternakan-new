@@ -95,10 +95,10 @@
                             Lihat
                         </button>
                     </td>
-                    <td>{{ $item->ayam_masuk ?? 0 }}</td>
+                    <td>{{ $item->ayam_masuk_karantina ?? 0 }}</td>
                     <td>{{ $item->ayam_mati ?? 0 }}</td>
                     <td>{{ $item->ayam_afkir ?? 0 }}</td>
-                    <td>{{ $item->ayam_keluar ?? 0 }}</td>
+                    <td>{{ $item->ayam_keluar_karantina ?? 0 }}</td>
                     <td>{{ $item->pemberian_pakan ?? 0 }}</td>
                     <td>{{ $item->sisa_pakan ?? 0 }}</td>
                     <td>{{ $item->jumlah_telur_bagus ?? 0 }}</td>

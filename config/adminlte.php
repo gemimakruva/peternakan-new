@@ -494,19 +494,19 @@ return [
          ],
          [
             'text' => 'Overview',
-            'route' => 'ayam-karantina.index',
+            'route' => 'ayam-karantina.overview',
             'icon' => 'fas fa-clipboard-check',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
             [
-            'text' => 'Tambah Ayam Karantina',
-            'route' => '',
+            'text' => 'Form Ayam Karantina',
+            'route' => 'ayam-karantina.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
          [
         'text' => 'Riwayat Karantina',
-        'route' => '',
+        'route' => 'ayam-karantina.index',
         'icon' => 'fas fa-history',
         'can'  => 'Lihat Riwayat Kandang',
          ],
