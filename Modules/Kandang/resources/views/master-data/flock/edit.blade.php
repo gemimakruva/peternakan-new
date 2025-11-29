@@ -52,26 +52,26 @@
 
                 <div class="card-body">
                         <p class="text-muted mb-3">
-                            Pastikan mengisi data Flock dengan benar sesuai petunjuk berikut:
+                            Pastikan mengisi data Baris dengan benar sesuai petunjuk berikut:
                         </p>
                     <ul class="small text-muted ps-3">
                         <li>
-                            <strong>Nama Flock</strong><br>
-                            Masukkan nama Flock yang jelas, contoh:
-                            <em>Flock A1, Flock Produksi 2</em>.
+                            <strong>Nama Baris</strong><br>
+                            Masukkan nama Baris yang jelas, contoh:
+                            <em>Baris A1, Baris Produksi 2</em>.
                         </li>
 
                         <li class="mt-2"> 
                             <strong>Kata Kunci Nama Pipe</strong>
                             <br class="text-center"> - Kata kunci ini digunakan untuk mengelompokkan
-                            atau mengidentifikasi pipe yang terhubung dengan flock.
+                            atau mengidentifikasi pipe yang terhubung dengan baris.
                             <br class="text-center"> - Pastikan kata kunci dibuat tanpa sepasi
-                            atau dihubungkan antar kata dengan strip (-). Contoh: <em>flock1-pipe-1, flock2-pipe-1</em>.
+                            atau dihubungkan antar kata dengan strip (-). Contoh: <em>baris1-pipe-1, baris2-pipe-1</em>.
                         </li>
 
                         <li class="mt-2">
-                            <strong>Jumlah Pipe per-Flock</strong><br>
-                            isi dengan jumlah pipe yang akan digunakan dalam flock ini.
+                            <strong>Jumlah Pipe per-Baris</strong><br>
+                            isi dengan jumlah pipe yang akan digunakan dalam baris ini.
                         </li>
                     </ul>
                     <hr>

@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Flock')
+@section('title', 'Baris')
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">Manajemen Flock</h2>
+    <h2 class="h4 fw-bold text-dark">Manajemen Baris</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk mengelola data Flock, termasuk penambahan, pembaruan, dan penghapusan data.
+        Halaman ini digunakan untuk mengelola data Baris, termasuk penambahan, pembaruan, dan penghapusan data.
     </span>
 </div>
 @endsection
@@ -19,18 +19,18 @@
              style="background-color: #495057; border-color: #495057;">
             <form action="{{ route('master-data.flock.index', request()->all()) }}" method="get" class="w-100">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">Daftar Flock</h2>
+                    <h2 class="card-title mb-0">Daftar Baris</h2>
                     <div class="d-flex" style="gap: .5em">
                         <input type="search" 
                                name="search" 
                                class="form-control form-control-sm" 
-                               placeholder="Cari flock..." 
+                               placeholder="Cari baris..." 
                                value="{{ request()->query('search') }}">
                         <button class="btn btn-dark btn-sm" title="Cari">
                             <i class="fas fa-search"></i>
                         </button>
 
-                        @can('Tambah Flock')
+                        @can('Tambah Baris')
                         <a href="{{ route('master-data.flock.create') }}" class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
                             <i class="fas fa-plus"></i>
                         </a>
@@ -46,7 +46,7 @@
                     <tr>
                         <th style="width: 50px;">#</th>
                         <th>Nama Kandang</th>
-                        <th>Nama Flock</th>
+                        <th>Nama Baris</th>
                         <th>Kapasitas</th>
                         <th style="width: 180px;">Aksi</th>
                     </tr>
@@ -85,7 +85,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-muted">Belum ada data flock.</td>
+                        <td colspan="6" class="text-muted">Belum ada data baris.</td>
                     </tr>
                     @endforelse
                 </tbody>
