@@ -77,88 +77,94 @@
       "y": 54.421818109980194
     },
     {
-      "name": "karantina_kandang",
-      "schemaName": "public",
-      "x": 607.95751953125,
-      "y": 977
-    },
-    {
       "name": "karantina_populasi",
       "schemaName": "public",
       "x": 12,
       "y": 1060
     },
     {
-      "name": "karantina_pemberian_pakan",
-      "schemaName": "public",
-      "x": 607.95751953125,
-      "y": 1247
-    },
-    {
-      "name": "karantina_produksi_telur",
-      "schemaName": "public",
-      "x": 607.95751953125,
-      "y": 1453
-    },
-    {
-      "name": "karantina_pemberian_treatment",
-      "schemaName": "public",
-      "x": 607.95751953125,
-      "y": 1756
-    },
-    {
       "name": "ayam_afkir",
       "schemaName": "public",
-      "x": 2717.185546875,
-      "y": 537
+      "x": 2751.6303327415453,
+      "y": 1009.6576087872403
     },
     {
-      "name": "ayam_afkir_dokumentasi",
+      "name": "jenis_pakan",
       "schemaName": "public",
-      "x": 3336.33251953125,
-      "y": 854
+      "x": 12,
+      "y": 2336
     },
     {
-      "name": "5_karantina_a",
+      "name": "perhitungan_pakan",
       "schemaName": "public",
-      "x": 2028.14453125,
+      "x": 638.36279296875,
+      "y": 936
+    },
+    {
+      "name": "perhitungan_pakan_items",
+      "schemaName": "public",
+      "x": 1995.6455078125,
+      "y": 3303
+    },
+    {
+      "name": "pemberian_pakan_sisa_pakan",
+      "schemaName": "public",
+      "x": 1261.05810546875,
+      "y": 2867
+    },
+    {
+      "name": "produksi_telur",
+      "schemaName": "public",
+      "x": 1995.6455078125,
       "y": 643
     },
     {
-      "name": "7_perhitungan_pemberian_pakan",
+      "name": "sampling_bobot_ayam",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 1329
+      "x": 1261.05810546875,
+      "y": 137
     },
     {
-      "name": "9_pemberian_pakan_dan_sisa_pak",
+      "name": "sampling_bobot_ayam_per_ekor",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 1824
+      "x": 1995.6455078125,
+      "y": 1169
     },
     {
-      "name": "11_produksi_telur_a",
+      "name": "penjadwalan_disinfektan",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 2190
-    },
-    {
-      "name": "14_sampling_bobot_ayam_a",
-      "schemaName": "public",
-      "x": 1197.0673828125,
+      "x": 1261.05810546875,
       "y": 471
     },
     {
-      "name": "16_penjadwalan_disinfektan_kan",
+      "name": "penjadwalan_disinfektan_flock",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 2684
+      "x": 1995.6455078125,
+      "y": 1407
     },
     {
-      "name": "17_penjadwalan_treatment",
+      "name": "penjadwalan_treatment",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 3146
+      "x": 1261.05810546875,
+      "y": 1171
+    },
+    {
+      "name": "penjadwalan_treatment_flock",
+      "schemaName": "public",
+      "x": 1995.6455078125,
+      "y": 1678
+    },
+    {
+      "name": "perhitungan_treatment",
+      "schemaName": "public",
+      "x": 1995.6455078125,
+      "y": 1948
+    },
+    {
+      "name": "perhitungan_treatment_items",
+      "schemaName": "public",
+      "x": 2684.6865234375,
+      "y": 495
     },
     {
       "name": "18_perhitungan_vaksinasi_vita",

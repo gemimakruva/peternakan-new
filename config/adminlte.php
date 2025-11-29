@@ -464,19 +464,19 @@ return [
           [
         'header' => 'Ayam Afkir',
         'can' => [
-            'Menampilkan Riwayat Pembelian ayam Afkir',
-            'Menampilkan Form pembelian ayam afkir'
+            'Menampilkan Riwayat ayam Afkir',
+            'Menampilkan Form  ayam afkir'
         ],
          ],
          [
-            'text' => 'Riwayat Pembelian',
-            'route' => '',
+            'text' => 'Riwayat Ayam Afkir',
+            'route' => 'ayam-afkir.index',
             'icon' => 'fas fa-clipboard-list',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
         [
-            'text' => 'Form Pembelian',
-            'route' => '',
+            'text' => 'Form Ayam Afkir',
+            'route' => 'ayam-afkir.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
@@ -494,19 +494,19 @@ return [
          ],
          [
             'text' => 'Overview',
-            'route' => '',
+            'route' => 'ayam-karantina.overview',
             'icon' => 'fas fa-clipboard-check',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
             [
-            'text' => 'Tambah Ayam Karantina',
-            'route' => '',
+            'text' => 'Form Ayam Karantina',
+            'route' => 'ayam-karantina.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
          [
         'text' => 'Riwayat Karantina',
-        'route' => '',
+        'route' => 'ayam-karantina.index',
         'icon' => 'fas fa-history',
         'can'  => 'Lihat Riwayat Kandang',
          ],

@@ -41,8 +41,8 @@
                 </x-slot>
 
                 <option value="">-- Pilih Jenis Pemeriksaan --</option>
-                <option value="Sehat">Recording Harian</option>
-                <option value="Sakit Ringan">Pemeriksaan Kesehatan</option>
+                <option value="Sehat">Pengadaan Harian</option>
+                <option value="Sakit Ringan">Cek Kesehatan</option>
             </x-adminlte-select>
     </div>
 

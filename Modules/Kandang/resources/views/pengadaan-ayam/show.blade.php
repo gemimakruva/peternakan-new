@@ -258,7 +258,7 @@
                      style="width: 50%; background-color: aquamarine;">
                     <i class="fas fa-warehouse text-warning" style="font-size: 25px;"></i>
                     <h5 class="fw-semibold text-dark mb-0 ml-2">
-                        Dokumentasi Pengadaan
+                        Distribusi Pengadaan
                     </h5>
                 </div>
                 {{-- Add distribtuon --}}

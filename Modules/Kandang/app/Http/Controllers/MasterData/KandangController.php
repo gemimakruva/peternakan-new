@@ -82,7 +82,8 @@ class KandangController extends Controller
         $data = $this->kandang->findOrFail($id);
         $peternakanList = Peternakan::all();
         $strainList = Strain::all();
-        return view('kandang::master-data.kandang.edit', compact('data','peternakanList','strainList'));
+        return view('kandang::master-data.kandang.edit',
+         compact('data','peternakanList','strainList'));
     }
 
     /**
@@ -93,7 +94,8 @@ class KandangController extends Controller
         Gate::authorize('Edit Kandang');
 
         $validated = $request->validate([
-            'nama'   => ['required', 'string', 'max:255', Rule::unique('kandang', 'nama')->ignore($id)],
+            'nama'   => ['required', 'string', 'max:255', 
+            Rule::unique('kandang', 'nama')->ignore($id)],
             'peternakan_id' => ['required', 'integer'],
             'strain_id' => ['required', 'integer'],
         ]);

@@ -18,7 +18,6 @@ return new class extends Migration
              ->constrained('kandang', 'id')
              ->cascadeOnDelete();
             $table->string('nama');
-            $table->integer('kapasitas');
             $table->timestamps();
         });
     }

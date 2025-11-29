@@ -17,10 +17,32 @@ class PengadaanAyamSedeer extends Seeder
                 'tanggal' => '2024-01-15',
                 'umur_ayam' => 20,
                 'kondisi_ayam' => 'Sehat',
-                'jumlah_ayam_datang' => 1,
+                'jumlah_ayam_datang' => 100,
                 'jumlah_ayam_mati' => 0,
                 'jumlah_ayam_sakit' => 0,
-                'jumlah_ayam_masuk_kandang' => 1000,
+                'jumlah_ayam_masuk_kandang' => 100,
+                'catatan' => 'Pengadaan ayam DOC untuk pengisian kandang unit'
+            ],
+             [
+                'pic_user_id' => 1,
+                'tanggal' => '2024-01-16',
+                'umur_ayam' => 20,
+                'kondisi_ayam' => 'Sehat',
+                'jumlah_ayam_datang' => 100,
+                'jumlah_ayam_mati' => 0,
+                'jumlah_ayam_sakit' => 0,
+                'jumlah_ayam_masuk_kandang' => 100,
+                'catatan' => 'Pengadaan ayam DOC untuk pengisian kandang unit'
+             ],
+             [
+                'pic_user_id' => 1,
+                'tanggal' => '2024-01-17',
+                'umur_ayam' => 20,
+                'kondisi_ayam' => 'Sehat',
+                'jumlah_ayam_datang' => 100,
+                'jumlah_ayam_mati' => 0,
+                'jumlah_ayam_sakit' => 0,
+                'jumlah_ayam_masuk_kandang' => 100,
                 'catatan' => 'Pengadaan ayam DOC untuk pengisian kandang unit'
             ]
         ];  
