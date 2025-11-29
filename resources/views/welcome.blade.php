@@ -7,7 +7,8 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="mb-0 text-center">Selamat Datang di <strong>Smart Poultry Management System</strong>.</h1>
+                        <h1 class="mb-0 text-center">Selamat Datang di <strong
+                            >Smart Poultry Management System</strong>.</h1>
                     </div>
                 </div>
 

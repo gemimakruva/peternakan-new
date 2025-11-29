@@ -103,7 +103,8 @@ class AyamKarantinaController extends Controller
 
     public function overview()
     {
-     return view('kandang::ayam-karantina.overview');
+        $listAyamKarantina = AyamKarantina::orderBy('created_at', 'desc')->limit(5)->get();
+        return view('kandang::ayam-karantina.overview', compact('listAyamKarantina'));
     }
 
 }
