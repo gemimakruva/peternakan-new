@@ -3,14 +3,14 @@
 @section('title', 'Database Strain Ayam')
 
 @section('content_header')
-<div class="m-3 text-center">
+<div class="m-3 text-center" style="max-width: 1200px;">
     <h1 class="h4 fw-bold text-dark">Database Strain Ayam</h1>
     <p class="text-muted">Database strain ayam yang digunakan dalam produksi.</p>
 </div>
 @endsection
 
 @section('content')
-<div class="m-3 text-center">
+<div class="m-3 text-center" style="max-width: 1200px;">
     <div class="mb-4 d-flex flex-wrap justify-content-between gap-2">
         <div clas>
             @foreach ($strains as $strain)
@@ -24,7 +24,7 @@
 
 
     {{-- Tabel --}}
-    <div class="table-responsive" style="max-width: 1200px; margin:auto;">
+    <div class="table-responsive">
         <table class="table table-hover table-striped table-bordered text-center mb-0">
             <thead class="text-white" style="background-color: #495057; border-color: #495057">
                 <tr>

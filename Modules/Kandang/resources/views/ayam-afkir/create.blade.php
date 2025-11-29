@@ -3,7 +3,7 @@
 @section('title', 'Recording Harian')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
+<div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;'">
     <h2 class="h4 fw-bold text-dark">Form Ayam Afkir</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
        Halaman ini digunakan pendataan penjualan ayam afkir
@@ -18,7 +18,11 @@
             <div class="col-md-8">
             <form action="{{ route('ayam-afkir.store') }}" method="POST">
                 @csrf
-                    @include('kandang::ayam-afkir._form')
+                    <div class="card">
+                        <div class="card-body">
+                            @include('kandang::ayam-afkir._form')
+                        </div>
+                    </div>
                     {{-- Button Submit --}}
                     <div class="mt-4 d-flex justify-content-between px-3">
                         <a href="" class="btn btn-secondary px-4 py-2">

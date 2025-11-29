@@ -3,7 +3,7 @@
 @section('title', 'Flock')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center pt-3">
+<div class="mb-4 text-center d-flex flex-column align-items-center pt-3" style="max-width: 1200px;">
     <h2 class="h4 fw-bold text-dark">Manajemen Pipe</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
         Halaman ini digunakan untuk menampilkan daftar pipe serta
@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<div>
+<div style="max-width: 1200px;">
     <x-form-alert />
     <div class="card shadow-sm">
         <div class="card-header text-white d-flex justify-content-between align-items-center"

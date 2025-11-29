@@ -6,7 +6,7 @@
         label="Pengadaan Ayam"
         igroup-size="lg"
         fgroup-class="col-12"
-        class="form-control form-control-lg py-3"
+        class="form-control form-control-lg"
         disabled>
 
         <x-slot name="prependSlot">
@@ -32,7 +32,7 @@
                 label="Jenis Pemeriksaan" 
                 igroup-size="lg" 
                 fgroup-class="col-12"
-                class="form-control form-control-lg py-3">
+                class="form-control form-control-lg">
 
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">

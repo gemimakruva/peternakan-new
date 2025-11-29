@@ -18,7 +18,11 @@
             <div class="col-md-8">
             <form action="{{ route('populasi-ayam.store') }}" method="POST">
                 @csrf
-                    @include('kandang::populasi-ayam._form')
+                    <div class="card">
+                        <div class="card-body">
+                            @include('kandang::populasi-ayam._form')
+                        </div>
+                    </div>
                     {{-- Button Submit --}}
                     <div class="mt-4 d-flex justify-content-between px-3">
                         <a href="" class="btn btn-secondary px-4 py-2">

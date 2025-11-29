@@ -3,7 +3,7 @@
 @section('title', 'Transaksi Ayam Afkir')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
+<div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
     <h2 class="h4 fw-bold text-dark">List Ayam Afkir</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
         Halaman ini digunakan untuk Menampilkan daftar pembelian ayam afkir

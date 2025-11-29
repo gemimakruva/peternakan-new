@@ -17,8 +17,8 @@
                 <option value="{{ $populasi->id }}"
                     {{ old('populasi_ayam_id', @$data->populasi_ayam_id) == $populasi->id ? 
                     'selected' : '' }}>
-                    {{ $populasi->kandang->nama }} - Flock: {{ $populasi->flock->nama }} 
-                    - Pipe: {{ $populasi->pipe->nama }}
+                    {{ @$populasi->kandang->nama }} - Flock: {{ @$populasi->flock->nama }} 
+                    - Pipe: {{ @$populasi->pipe->nama }}
                 </option>
             @endforeach
         </x-adminlte-select2>

@@ -19,7 +19,11 @@
             <div class="col-md-8">
             <form action="{{ route('ayam-karantina.store') }}" method="POST">
                 @csrf
-                    @include('kandang::ayam-karantina._form')
+                    <div class="card">
+                        <div class="card-body">
+                            @include('kandang::ayam-karantina._form')
+                        </div>
+                    </div>
                     {{-- Button Submit --}}
                     <div class="mt-4 d-flex justify-content-between px-3">
                         <a href="" class="btn btn-secondary px-4 py-2">
