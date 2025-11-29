@@ -26,7 +26,6 @@ class FlockSeeder extends Seeder
                 $flock = Flock::create([
                     'kandang_id' => $kandangId,
                     'nama'       => "Kandang {$kandangId} Flock {$i}",
-                    'kapasitas'  => 0,
                 ]);
 
                 // Buat pipe per flock sesuai aturan kandang
