@@ -3,7 +3,7 @@
 namespace Modules\Kandang\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\PengadaanAyam;
 
 class PengadaanAyamDokumentasi extends Model
 {
@@ -16,7 +16,7 @@ class PengadaanAyamDokumentasi extends Model
 
      public function pengadaanAyam()
     {
-        return $this->belongsTo(Pengadaan_ayam::class,
+        return $this->belongsTo(PengadaanAyam::class,
          'pengadaan_ayam_id');
     }
 

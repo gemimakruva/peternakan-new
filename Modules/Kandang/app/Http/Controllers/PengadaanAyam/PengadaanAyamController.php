@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Kandang\Models\BerkasPengadaanAyam;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PengadaanAyamDokumentasi;
 use Modules\Kandang\Models\PopulasiAyam;
@@ -20,7 +20,7 @@ class PengadaanAyamController extends Controller
      */
     public function index()
     {
-        $ListPengadaanAyam = Pengadaan_ayam::with('pic_user')
+        $ListPengadaanAyam = PengadaanAyam::with('pic_user')
                             ->orderBy('tanggal', 'desc')
                             ->orderBy('id', 'desc')
                             ->paginate(10)
@@ -82,7 +82,7 @@ class PengadaanAyamController extends Controller
        $totalAyamMasuk = 0;
 
         // PENYIMPANAN DATA PENGADAAN
-        $pengadaanAyam = Pengadaan_ayam::create([
+        $pengadaanAyam = PengadaanAyam::create([
         'pic_user_id' => $picUserId,
         'tanggal' => $validated['tanggal'],
         'jumlah_ayam_datang' => $validated['jumlah_ayam_datang'],
@@ -159,7 +159,7 @@ class PengadaanAyamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Pengadaan_ayam $pengadaan_ayam)
+    public function show(PengadaanAyam $pengadaan_ayam)
     {
             $pengadaanAyam = $pengadaan_ayam->load([
                 'pic_user',
@@ -175,7 +175,7 @@ class PengadaanAyamController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Pengadaan_ayam $pengadaan_ayam)
+    public function edit(PengadaanAyam $pengadaan_ayam)
     {
         //
     }
@@ -183,7 +183,7 @@ class PengadaanAyamController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Pengadaan_ayam $pengadaan_ayam)
+    public function update(Request $request, PengadaanAyam $pengadaan_ayam)
     {
         //
     }
@@ -191,7 +191,7 @@ class PengadaanAyamController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pengadaan_ayam $pengadaan_ayam)
+    public function destroy(PengadaanAyam $pengadaan_ayam)
     {
 
         try {

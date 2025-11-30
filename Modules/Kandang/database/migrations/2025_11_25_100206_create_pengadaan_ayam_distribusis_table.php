@@ -5,7 +5,7 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\Pipe;
 
 return new class extends Migration
@@ -17,7 +17,7 @@ return new class extends Migration
     {
         Schema::create('pengadaan_ayam_distribusi', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Pengadaan_ayam::class, 'pengadaan_ayam_id')
+            $table->foreignIdFor(PengadaanAyam::class, 'pengadaan_ayam_id')
                   ->constrained('pengadaan_ayam', 'id')
                   ->cascadeOnDelete();
 

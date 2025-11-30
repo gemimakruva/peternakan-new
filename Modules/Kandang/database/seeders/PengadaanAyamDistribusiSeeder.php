@@ -4,7 +4,7 @@ namespace Modules\Kandang\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Pipe;
@@ -14,7 +14,7 @@ class PengadaanAyamDistribusiSeeder extends Seeder
     public function run(): void
     {
         // ambil ID dari tabel referensi
-        $pengadaanIds = Pengadaan_ayam::pluck('id')->toArray();
+        $pengadaanIds = PengadaanAyam::pluck('id')->toArray();
         $kandangIds = Kandang::pluck('id')->toArray();
         $flockIds = Flock::pluck('id')->toArray();
         $pipeIds = Pipe::pluck('id')->toArray();

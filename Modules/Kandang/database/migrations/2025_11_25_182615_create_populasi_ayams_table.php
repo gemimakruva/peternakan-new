@@ -36,7 +36,6 @@ return new class extends Migration
          $table->string('jenis_pemeriksaan')->default('harian');
         $table->date('tanggal');
         $table->integer('ayam_sehat')->default(0);
-        $table->integer('ayam_sakit')->default(0);
         $table->integer('ayam_mati')->default(0);
         $table->integer('ayam_afkir')->default(0);
         $table->integer('ayam_masuk_karantina')->default(0);

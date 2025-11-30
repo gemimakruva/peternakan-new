@@ -4,7 +4,7 @@ namespace Modules\Kandang\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
-class Pengadaan_ayam extends Model
+class PengadaanAyam extends Model
 {
     protected $table = 'pengadaan_ayam';
 
@@ -18,6 +18,10 @@ class Pengadaan_ayam extends Model
         'jumlah_ayam_sakit',
         'jumlah_ayam_masuk_kandang',
         'catatan'
+    ];
+
+    protected $casts = [
+        'tanggal' => 'date',
     ];
 
     public function pic_user(){

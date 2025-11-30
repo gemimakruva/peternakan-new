@@ -25,7 +25,7 @@ class PengadaanAyamDistribusi extends Model
      */
     public function pengadaanAyam()
     {
-        return $this->belongsTo(Pengadaan_ayam::class, 'pengadaan_ayam_id');
+        return $this->belongsTo(PengadaanAyam::class, 'pengadaan_ayam_id');
     }
 
     /**
