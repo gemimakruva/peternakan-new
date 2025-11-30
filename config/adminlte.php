@@ -809,33 +809,31 @@ return [
 
     'plugins' => [
         'BootstrapIcons' => [
-    'active' => true,
-    'files' => [
-        [
-            'type' => 'css',
-            'asset' => false,
-            'location' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
+            'active' => true,
+            'files' => [
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
+                ],
+                [
+                    'type' => 'js',
+                    'asset' => false,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
+                    'defer' => true, 
+                ],
+            ],
+            [
+                'type' => 'js',
+                'asset' => false,
+                'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
+            ],
         ],
-          [
-        'type' => 'js',
-        'asset' => false,
-        'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
-    ],
-     [
-        'type' => 'js',
-        'asset' => false,
-        'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
-        'defer' => true, 
-    ],
-    ],
-    [
-    'type' => 'js',
-    'asset' => false,
-    'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
-],
-
-],
-
         'Datatables' => [
             'active' => true,
             'files' => [
@@ -857,7 +855,7 @@ return [
             ],
         ],
         'Select2' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',
@@ -869,6 +867,26 @@ return [
                     'asset' => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
+                [
+                    'type' => 'css',
+                    'asset' => false,
+                    'location' => '//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css',
+                ],
+                    // [
+                    //     'type' => 'js',
+                    //     'asset' => true,
+                    //     'location' => 'vendor/select2/js/select2.full.min.js',
+                    // ],
+                    // [
+                    //     'type' => 'css',
+                    //     'asset' => true,
+                    //     'location' => 'vendor/select2/css/select2.min.css',
+                    // ],
+                    // [
+                    //     'type' => 'css',
+                    //     'asset' => true,
+                    //     'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+                    // ],
             ],
         ],
         'Chartjs' => [

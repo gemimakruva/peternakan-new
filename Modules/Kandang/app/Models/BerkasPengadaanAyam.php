@@ -2,7 +2,7 @@
 
 namespace Modules\Kandang\Models;
 use Illuminate\Database\Eloquent\Model;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\PengadaanAyam;
 class BerkasPengadaanAyam extends Model
 {
     protected $table = 'pengadaan_ayam_berkas_supplier';
@@ -15,7 +15,7 @@ class BerkasPengadaanAyam extends Model
 
     public function pengadaanAyam()
     {
-        return $this->belongsTo(Pengadaan_ayam::class,
+        return $this->belongsTo(PengadaanAyam::class,
          'pengadaan_ayam_id', 'id');
     }
 }

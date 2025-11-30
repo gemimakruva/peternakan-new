@@ -6,7 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Modules\Kandang\Models\Pengadaan_ayam;
+use Modules\Kandang\Models\PengadaanAyam;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
@@ -62,7 +62,7 @@ class User extends Authenticatable
     }
 
    public function pengadaan_ayam(){
-        return $this->hasMany(Pengadaan_ayam::class, 'pic_user_id', 'id');
+        return $this->hasMany(PengadaanAyam::class, 'pic_user_id', 'id');
    }
 
 

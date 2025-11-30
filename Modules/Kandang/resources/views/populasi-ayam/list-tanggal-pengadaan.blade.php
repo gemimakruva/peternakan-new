@@ -4,9 +4,9 @@
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">List Pengadaan</h2>
+    <h2 class="h4 fw-bold text-dark">Pencatatan Harian</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan menampilkan list Pengadaan untuk recording harian
+        Halaman ini digunakan menampilkan list Kandang untuk recording harian
     </span>
 </div>
 @endsection
@@ -24,16 +24,16 @@
             </thead>
            
             <tbody>
-                @foreach($ListPengadaanAyam as $index => $pengadaan)
+                @foreach($list_kandang as $kandang)
                     <tr>
-                        <td>{{ $index + 1 }}</td>
+                        <td>{{ $loop->index + 1 }}</td>
                         <td>
-                            {{ \Carbon\Carbon::parse($pengadaan['tanggal'])
-                                ->translatedFormat('l, d F Y') }}
+                            {{ $kandang->nama }}
                         </td>
                         <td>
-                            <a href="{{ route('populasi-ayam.createByDate', $pengadaan['id']) }}" 
-                               class="btn btn-sm btn-warning">
+                            <a 
+                                href="{{ route('populasi-ayam.createByDate', $kandang->id) }}" 
+                                class="btn btn-sm btn-warning">
                                 <i class="fas fa-edit"></i> Isi Form
                             </a>
                         </td>
