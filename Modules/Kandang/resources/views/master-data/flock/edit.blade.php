@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Flock')
+@section('title', 'Edit Baris')
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Edit Flock</h2>
+    <h2 class="h4 fw-bold text-dark">Edit Baris</h2>
     <span class="text-muted mb-0" style="max-width: 500px;">
-        Form ini digunakan untuk mengubah data Flock
+        Form ini digunakan untuk mengubah data Baris
     </span>
 </div>
 @endsection
@@ -46,7 +46,7 @@
              <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light">
                     <h5 class="m-0 fw-semibold text-secondary">
-                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Flock
+                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Baris
                     </h5>
                 </div>
 
@@ -62,21 +62,21 @@
                         </li>
 
                         <li class="mt-2"> 
-                            <strong>Kata Kunci Nama Pipe</strong>
+                            <strong>Kata Kunci Nama Pipa</strong>
                             <br class="text-center"> - Kata kunci ini digunakan untuk mengelompokkan
-                            atau mengidentifikasi pipe yang terhubung dengan baris.
+                            atau mengidentifikasi pipa yang terhubung dengan baris.
                             <br class="text-center"> - Pastikan kata kunci dibuat tanpa sepasi
-                            atau dihubungkan antar kata dengan strip (-). Contoh: <em>baris1-pipe-1, baris2-pipe-1</em>.
+                            atau dihubungkan antar kata dengan strip (-). Contoh: <em>baris1-pipa-1, baris2-pipa-1</em>.
                         </li>
 
                         <li class="mt-2">
-                            <strong>Jumlah Pipe per-Baris</strong><br>
-                            isi dengan jumlah pipe yang akan digunakan dalam baris ini.
+                            <strong>Jumlah Pipa per-Baris</strong><br>
+                            isi dengan jumlah pipa yang akan digunakan dalam baris ini.
                         </li>
                     </ul>
                     <hr>
                     <p class="text-muted small">
-                        Jika pilihan dropdown tidak muncul atau pipe tidak tergenerate, pastikan Anda sudah menambahkan:
+                        Jika pilihan dropdown tidak muncul atau pipa tidak tergenerate, pastikan Anda sudah menambahkan:
                     </p>
                     <ul class="small text-muted ps-3">
                         <li>Data Peternakan</li>

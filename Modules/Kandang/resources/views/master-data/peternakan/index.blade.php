@@ -99,8 +99,8 @@
         </div>
     </div>
 </div>
+@include('components.snackbar')
 @endsection
-
 @push('js')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>

@@ -44,4 +44,12 @@ class Pipe extends Model
     {
         return $this->flock->kandang->name ?? '-';
     }
+
+    /**
+     * Relasi ke PengadaanAyamDistribusi
+     */
+    public function pengadaanAyamDistribusi()
+    {
+        return $this->hasMany(PengadaanAyamDistribusi::class, 'pipe_id', 'id');
+    }
 }

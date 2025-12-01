@@ -2,6 +2,17 @@
 
 @section('title', 'Baris')
 
+@push('css')
+<style>
+    [x-cloak] { display: none !important; }
+    
+    select:disabled {
+        background-color: #e9ecef;
+        cursor: not-allowed;
+    }
+</style>
+@endpush
+
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
     <h2 class="h4 fw-bold text-dark">Manajemen Baris</h2>
@@ -14,12 +25,91 @@
 @section('content')
 <div>
     <x-form-alert />
+    <div class="card-body px-0">
+        <form 
+            action="{{ route('master-data.flock.index') }}" 
+            method="GET" 
+            class="row g-2 align-items-end"
+            x-data="{
+                peternakanData: {{ Js::from($peternakan) }},
+                selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
+                selectedKandang: '{{ request('kandang_id') ?? '' }}',
+                get kandangList() {
+                    if (!this.selectedPeternakan) {
+                        return [];
+                    }
+                    const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
+                    return peternakan ? peternakan.kandang : [];
+                },
+                onPeternakanChange() {
+                    this.selectedKandang = '';
+                }
+            }">
+            
+            <div class="col-md-3 col-5">
+                <label for="peternakanFilter">Pilih Peternakan</label>
+                <div class="input-group input-group-lg">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-warehouse text-muted"></i>
+                        </span>
+                    </div>
+                    <select 
+                        id="peternakanFilter"
+                        name="peternakan_id" 
+                        class="form-control"
+                        x-model="selectedPeternakan"
+                        @change="onPeternakanChange()">
+                        <option value="">Semua Peternakan</option>
+                        <template x-for="item in peternakanData" :key="item.id">
+                            <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-5">
+                <label for="kandangFilter">Pilih Kandang</label>
+                <div class="input-group input-group-lg">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text bg-white">
+                            <i class="fas fa-home text-muted"></i>
+                        </span>
+                    </div>
+                    <select 
+                        id="kandangFilter"
+                        name="kandang_id" 
+                        class="form-control"
+                        x-model="selectedKandang"
+                        :disabled="!selectedPeternakan">
+                        <option value="">Semua Kandang</option>
+                        <template x-for="kandang in kandangList" :key="kandang.id">
+                            <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
+                        </template>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-md-1 col-1" style="max-width:80px;">
+                <button type="submit" class="btn btn-primary btn-block btn-lg">
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+        </form>
+    </div>
     <div style="max-width: 1200px;" class="card shadow-sm">
         <div class="card-header text-white d-flex justify-content-between align-items-center"
              style="background-color: #495057; border-color: #495057;">
-            <form action="{{ route('master-data.flock.index', request()->all()) }}" method="get" class="w-100">
+            <form action="{{ route('master-data.flock.index') }}" method="get" class="w-100">
+                @if(request('peternakan_id'))
+                    <input type="hidden" name="peternakan_id" value="{{ request('peternakan_id') }}">
+                @endif
+                @if(request('kandang_id'))
+                    <input type="hidden" name="kandang_id" value="{{ request('kandang_id') }}">
+                @endif
+                
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">Daftar Baris</h2>
+                    <h2 class="card-title mb-0">List Baris</h2>
                     <div class="d-flex" style="gap: .5em">
                         <input type="search" 
                                name="search" 
@@ -107,7 +197,7 @@
             const nama = $(this).data('nama');
 
             Swal.fire({
-                title: `Hapus Flock "${nama}"?`,
+                title: `Hapus Baris "${nama}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,

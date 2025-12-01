@@ -379,13 +379,13 @@ return [
             'can' => 'Lihat Semua Kandang',
         ],
     [
-        'text'  => 'Daftar Baris',
+        'text'  => 'List Baris',
         'route' => 'master-data.flock.index',
         'icon'  => 'bi bi-box-seam',
         'can'   => 'Lihat Semua Flock', 
     ],
     [
-        'text'  => 'Daftar Pipa',
+        'text'  => 'List Pipa',
         'route' => 'master-data.pipe.index',
         'icon'  => 'bi bi-diagram-3', 
         'can'   => 'Lihat Semua Pipe', 
@@ -882,11 +882,11 @@ return [
                     //     'asset' => true,
                     //     'location' => 'vendor/select2/css/select2.min.css',
                     // ],
-                    // [
-                    //     'type' => 'css',
-                    //     'asset' => true,
-                    //     'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
-                    // ],
+                    [
+                        'type' => 'css',
+                        'asset' => true,
+                        'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+                    ],
             ],
         ],
         'Chartjs' => [
