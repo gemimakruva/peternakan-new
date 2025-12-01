@@ -23,24 +23,6 @@ return new class extends Migration
             ->nullable()
             ->constrained('users', 'id')
             ->nullOnDelete();
-
-    // Relasi kandang (nullable)
-        $table->foreignId('kandang_id')
-            ->nullable()
-            ->constrained('kandang', 'id')
-            ->nullOnDelete();
-
-    // Relasi flock (nullable)
-        $table->foreignId('flock_id')
-            ->nullable()
-            ->constrained('flock', 'id')
-            ->nullOnDelete();
-
-    // Relasi pipe (nullable)
-        $table->foreignId('pipe_id')
-            ->nullable()
-            ->constrained('pipe', 'id')
-            ->nullOnDelete();
             
     // Data karantina
         $table->date('tanggal_karantina');

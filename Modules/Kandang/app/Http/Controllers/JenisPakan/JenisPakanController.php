@@ -14,7 +14,8 @@ class JenisPakanController extends Controller
     public function index()
     {
          $jenisPakan = JenisPakan::orderBy('created_at', 'DESC')->paginate(10); 
-          return view('kandang::master-data.jenis-pakan.index', compact('jenisPakan'));
+          return view('kandang::master-data.jenis-pakan.index', 
+          compact('jenisPakan'));
     }
 
     /**
@@ -22,7 +23,7 @@ class JenisPakanController extends Controller
      */
     public function create()
     {
-        //
+        return view('kandang::master-data.jenis-pakan.create');
     }
 
     /**
@@ -30,8 +31,15 @@ class JenisPakanController extends Controller
      */
     public function store(Request $request)
     {
-        //
+         $validated = $request->validate([
+            'nama' => 'required|string|max:100|unique:jenis_pakan,nama',
+        ]);
+        JenisPakan::create($validated);
+         return redirect()
+        ->route('master-data.jenis-pakan.index')
+        ->with('success', 'Jenis pakan berhasil ditambahkan!');
     }
+   
 
     /**
      * Display the specified resource.
@@ -44,24 +52,37 @@ class JenisPakanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JenisPakan $jenisPakan)
+    public function edit(JenisPakan $Jenis_pakan)
     {
-        //
+        $data = $Jenis_pakan;
+         return view('kandang::master-data.jenis-pakan.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JenisPakan $jenisPakan)
+    public function update(Request $request, JenisPakan $Jenis_pakan)
     {
-        //
+         $validated = $request->validate([
+            'nama' => 'required|string|max:100|unique:jenis_pakan,nama',
+        ]);
+
+
+         $Jenis_pakan->update([
+        'nama' => $validated['nama'],
+         ]);
+        return redirect()
+        ->route('master-data.jenis-pakan.index')
+        ->with('success', 'Jenis pakan berhasil diperbarui!');
+         
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JenisPakan $jenisPakan)
+    public function destroy(JenisPakan $Jenis_pakan)
     {
-        //
+        $Jenis_pakan->delete();
+        return back()->with('success', 'Jenis pakan berhasil dihapus!');
     }
 }

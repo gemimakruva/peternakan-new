@@ -33,10 +33,11 @@
                         </button>
 
                         @can('Tambah Baris')
-                        <a href="" 
-                        class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
+                      <a href="{{ route('master-data.jenis-pakan.create') }}" 
+                            class="btn btn-light btn-sm text-dark" title="Tambah Jenis Pakan">
                             <i class="fas fa-plus"></i>
                         </a>
+
                         @endcan
                     </div>
                 </div>
@@ -59,11 +60,12 @@
                         <td>{{ $row->nama ?? '-' }}</td>
                         <td>
                             <div style="gap: 6px" class="btn-group" role="group">
-                                <a href="" class="btn btn-warning text-white btn-sm" title="Edit">
+                                <a href="{{ route('master-data.jenis-pakan.edit',$row) }}"
+                                 class="btn btn-warning text-white btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                @can('Hapus Flock')
-                                <form action="" 
+                                @can('Jenis Pakan')
+                                <form action="{{ route('master-data.jenis-pakan.destroy', $row) }}" 
                                       method="post" 
                                       data-nama="{{ $row->nama }}" 
                                       class="form-delete d-inline">
@@ -94,22 +96,28 @@
 @endsection
 
 @push('js')
-    <script>
-        $(document).on('submit', '.form-delete', function(e) {
-            e.preventDefault();
-            const nama = $(this).data('nama');
-            Swal.fire({
-                title: `Hapus Baris "${nama}"?`,
-                text: "Data yang dihapus tidak dapat dikembalikan.",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonText: "Ya, Hapus",
-                cancelButtonText: "Batal"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.submit();
-                }
-            });
+   <script>
+    $(document).on('submit', '.form-delete', function(e) {
+        e.preventDefault(); 
+        let form = this;
+        let nama = $(this).data('nama'); 
+
+        Swal.fire({
+            title: "Yakin ingin menghapus?",
+            text: "Data \"" + nama + "\" akan dihapus permanen!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Ya, hapus!",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            console.log(result)
+            if (result.value) {
+                form.submit(); 
+            }
         });
-    </script>
+    });
+</script>
+
 @endpush
