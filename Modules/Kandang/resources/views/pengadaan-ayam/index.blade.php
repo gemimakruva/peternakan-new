@@ -20,7 +20,7 @@
         <form action="" method="GET" class="row g-2 align-items-end">
             <div class="col-md-3 col-5">
                 <label class="form-label">Tanggal Pencatatan</label>
-                <input type="date" name="tanggal_penc" value="{{ request('date') }}" class="form-control">
+                <input type="date" name="tanggal_penc" value="{{ request('tanggal_penc') }}" class="form-control">
             </div>
 
 
@@ -87,7 +87,7 @@
                                 <i class="fas fa-eye"></i>
                             </a>
 
-                            <a href="" 
+                            <a href="{{ route('pengadaan-ayam.edit', $item->id) }}" 
                                class="btn btn-warning btn-sm text-white" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -152,14 +152,13 @@ document.addEventListener('DOMContentLoaded', function () {
             Swal.fire({
                 title: "Hapus Data?",
                 text: "Data " + tanggal + " akan dihapus permanen!",
-                icon: "warning",
                 showCancelButton: true,
                 confirmButtonColor: "#d33",
                 cancelButtonColor: "#6c757d",
                 confirmButtonText: "Ya, hapus!",
                 cancelButtonText: "Batal"
             }).then(function (result) {
-                form.submit();    
+                if (result?.value) form.submit();
             });
 
         });
