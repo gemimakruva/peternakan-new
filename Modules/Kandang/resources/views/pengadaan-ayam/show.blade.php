@@ -169,7 +169,7 @@
                                 </div>
 
                                 <div class="ml-3">
-                                    <h6 class="mb-1 fw-semibold">{{ $file->nama_berkas }}</h6>
+                                    <h6 class="mb-1 fw-semibold">{{ $file->nama_berkas_display }}</h6>
                                 </div>
                             </div>
                         </div>

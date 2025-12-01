@@ -21,7 +21,7 @@
                 label="Tanggal Pengadaan"
                 type="date"
                 placeholder="Pilih tanggal pengadaan..."
-                :value="old('tanggal', @$data->tanggal)"
+                :value="old('tanggal', isset($data) && $data->tanggal ? $data->tanggal->format('Y-m-d') : '')"
                 igroup-size="lg"
                 fgroup-class="col-12"
                 class="form-control form-control-lg py-3">
@@ -46,7 +46,7 @@
                 id="inputAyamDatang"
                 min="0"
                 placeholder="Masukkan jumlah ayam.."
-                :value="old('jumlah_ayam', @$data->jumlah_ayam)"
+                :value="old('jumlah_ayam_datang', @$data->jumlah_ayam_datang)"
                 igroup-size="lg"
                 fgroup-class="col-12"
                 class="form-control form-control-lg py-3">
@@ -70,7 +70,7 @@
                 type="number"
                 min="0"
                 placeholder="Masukkan umur ayam.."
-                :value="old('jumlah_ayam', @$data->umur_ayam)"
+                :value="old('umur_ayam', @$data->umur_ayam)"
                 igroup-size="lg"
                 fgroup-class="col-12"
                 class="form-control form-control-lg py-3">
@@ -115,6 +115,7 @@
             <x-adminlte-input 
                 name="jumlah_ayam_mati"
                 label="Jumlah Ayam Mati"
+                id="inputAyamMati"
                 type="number"
                 min="0"
                 placeholder="Masukkan jumlah ayam mati..."
@@ -141,7 +142,7 @@
                 label="Kondisi Ayam"
                 type="text"
                 placeholder="Masukkan kondisi ayam..."
-                :value="old('kondisi_ayam', @$data->jumlah_ayam)"
+                :value="old('kondisi_ayam', @$data->kondisi_ayam)"
                 igroup-size="lg"
                 fgroup-class="col-12"
                 class="form-control form-control-lg py-3">
