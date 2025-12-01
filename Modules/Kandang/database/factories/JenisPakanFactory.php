@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Factories;
+namespace Modules\Kandang\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -17,7 +17,14 @@ class JenisPakanFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'nama' => $this->faker->randomElement([
+                'Pakan Starter',
+                'Pakan Grower',
+                'Pakan Finisher',
+                'Pakan Layer',
+                'Pakan Herbal',
+                'Pakan Fermentasi'
+            ]),
         ];
     }
 }

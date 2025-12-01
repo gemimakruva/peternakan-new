@@ -4,10 +4,10 @@
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">Manajemen Baris</h2>
+    <h2 class="h4 fw-bold text-dark">Jenis Pakan</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk mengelola data Baris, termasuk penambahan,
-         pembaruan, dan penghapusan data.
+        Halaman ini digunakan untuk mengelolah jenis pakan yang akan diberikan
+        kepada hewan ternak peternakan
     </span>
 </div>
 @endsection
@@ -18,7 +18,7 @@
     <div style="max-width: 1200px;" class="card shadow-sm">
         <div class="card-header text-white d-flex justify-content-between align-items-center"
              style="background-color: #495057; border-color: #495057;">
-            <form action="{{ route('master-data.flock.index', request()->all()) }}" 
+            <form action="" 
                 method="get" class="w-100">
                 <div class="d-flex justify-content-between align-items-center">
                     <h2 class="card-title mb-0">Daftar Baris</h2>
@@ -33,7 +33,7 @@
                         </button>
 
                         @can('Tambah Baris')
-                        <a href="{{ route('master-data.flock.create') }}" 
+                        <a href="" 
                         class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
                             <i class="fas fa-plus"></i>
                         </a>
@@ -48,31 +48,22 @@
                 <thead class="bg-light">
                     <tr>
                         <th style="width: 50px;">#</th>
-                        <th>Nama Kandang</th>
-                        <th>Nama Baris</th>
+                        <th>Nama Pakan</th>
                         <th style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($datas as $row)
+                    @forelse($jenisPakan as $row)
                     <tr>
-                        <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->kandang->nama ?? '-' }}</td>
-                        <td>{{ $row->nama }}</td>
+                        <td>{{ ($loop->index + 1) + ($jenisPakan->currentPage() - 1) * $jenisPakan->perPage() }}</td>
+                        <td>{{ $row->nama ?? '-' }}</td>
                         <td>
                             <div style="gap: 6px" class="btn-group" role="group">
-                                <a href="{{ route('master-data.pipe.byFlock',
-                                 $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-
-                                <a href="{{ route('master-data.flock.edit',
-                                 $row) }}" class="btn btn-warning text-white btn-sm" title="Edit">
+                                <a href="" class="btn btn-warning text-white btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
                                 @can('Hapus Flock')
-                                <form action="{{ route('master-data.flock.destroy', 
-                                $row) }}" 
+                                <form action="" 
                                       method="post" 
                                       data-nama="{{ $row->nama }}" 
                                       class="form-delete d-inline">
@@ -96,7 +87,7 @@
         </div>
 
         <div class="card-footer d-flex justify-content-end">
-            {{ $datas->links('components.pagination') }}
+            {{ $jenisPakan->links('components.pagination') }}
         </div>
     </div>
 </div>

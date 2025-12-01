@@ -33,6 +33,8 @@ class AyamKarantina extends Model
         'catatan',
     ];
 
+    
+
      public function populasi()
     {
         return $this->belongsTo(PopulasiAyam::class, 'populasi_ayam_id');

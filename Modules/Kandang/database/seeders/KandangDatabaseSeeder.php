@@ -19,7 +19,8 @@ class KandangDatabaseSeeder extends Seeder
             PengadaanAyamSedeer::class,
             PopulasiAyamSeeder::class,
             AyamAfkirSeeder::class,
-            SeedersAyamKarantinaSeeder::class
+            SeedersAyamKarantinaSeeder::class,
+            JenisPakanSeeder::class,
         ]);
     }
 }

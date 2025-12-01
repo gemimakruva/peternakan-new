@@ -120,7 +120,21 @@ class AyamKarantinaController extends Controller
 
     public function storeAyamMasukKarantina(Request $request)
     {
-        dd($request);
+        $validated = $request->validate([
+            'tanggal'     => 'required|date',
+            'kandang_id'  => 'required|exists:kandang,id',
+            'flock_id'    => 'required|exists:flock,id',
+            'pipe_id'     => 'required|exists:pipe,id',
+            'jumlah'      => 'required|integer|min:0',
+            'keterangan'  => 'nullable|string|max:500',
+        ]);
+        dd($validated);
+    }
+
+    public function keluarKarantina(Request $request)
+    {
+        dd("on progress");
+         return view('kandang::ayam-karantina.ayam-keluar.create');
     }
 
 }

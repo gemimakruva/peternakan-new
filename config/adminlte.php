@@ -372,24 +372,30 @@ return [
             'icon' => 'fas fa-solid fa-industry',
             'can'  => 'Lihat Standar Produksi',
         ],
-         [
+        [
             'text' => 'List Kandang',
             'route' => 'master-data.kandang.index',
             'icon' => 'bi bi-house-fill', 
             'can' => 'Lihat Semua Kandang',
-        ],
-    [
+         ],
+        [
         'text'  => 'Daftar Baris',
         'route' => 'master-data.flock.index',
         'icon'  => 'bi bi-box-seam',
         'can'   => 'Lihat Semua Flock', 
-    ],
-    [
+        ],
+         [
         'text'  => 'Daftar Pipa',
         'route' => 'master-data.pipe.index',
         'icon'  => 'bi bi-diagram-3', 
         'can'   => 'Lihat Semua Pipe', 
-    ],
+        ],
+        [
+        'text'  => 'Jenis Pakan',
+        'route' => 'master-data.jenis-pakan.index',
+        'icon'  => 'bi-leaf-fill', 
+        'can'   => 'Lihat Semua Pipe', 
+        ],
 
 
 
@@ -516,6 +522,13 @@ return [
             'text' => 'Ayam Masuk Karantina',
             'route' => 'ayam-karantina.masuk',
             'icon' => 'fas fa-arrow-right',
+            'can'  => 'Lihat Riwayat Kandang',
+         ],
+
+         [
+            'text' => 'Ayam Keluar Karantina',
+            'route' => 'ayam-karantina.keluar',
+            'icon' => 'fas fa-arrow-left',
             'can'  => 'Lihat Riwayat Kandang',
          ],
 
