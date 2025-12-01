@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('flock', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Kandang::class, 'kandang_id')
-             ->constrained('kandang', 'id')
-             ->cascadeOnDelete();
+           $table->foreignIdFor(Kandang::class, 'kandang_id')
+                    ->constrained('kandang', 'id')
+                    ->restrictOnDelete();
             $table->string('nama');
             $table->timestamps();
         });

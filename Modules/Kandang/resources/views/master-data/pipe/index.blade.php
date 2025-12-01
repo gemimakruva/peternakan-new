@@ -41,6 +41,8 @@
                 <thead class="bg-light">
                   <tr>
                         <th>#</th>
+                        <th>Kandang</th>
+                        <th>Baris</th>
                         <th>Nama</th>
                         <th>Kapasitas</th>
                         <th>Aksi</th>
@@ -49,7 +51,10 @@
                 <tbody>
                     @foreach($datas as $row)
                     <tr>
-                        <td>{{ ($loop->index + 1) + (request()->get('page', 1) - 1) * $datas->perPage() }}</td>
+                        <td>{{ ($loop->index + 1) + (request()->get('page', 1) - 1)
+                         * $datas->perPage() }}</td>
+                        <td>{{ $row->flock->nama }}</td> 
+                        <td>{{ $row->flock->kandang->nama  }}</td> 
                         <td>{{ $row->nama }}</td>
                         <td>{{ $row->kapasitas }}</td>
                         <td class="text-center">

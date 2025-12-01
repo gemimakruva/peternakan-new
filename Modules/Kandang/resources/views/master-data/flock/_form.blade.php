@@ -5,7 +5,7 @@
     ============================ --}}
     <div class="card-header bg-light d-flex align-items-center">
         <h5 class="card-title m-0 text-secondary fw-semibold">
-            <i class="fas fa-dove me-2 text-muted"></i> Form Pembuatan Flock
+            <i class="fas fa-dove me-2 text-muted"></i> Form Pembuatan baris
         </h5>
     </div>
 
@@ -18,9 +18,9 @@
         <div class="mb-4">
             <x-adminlte-input 
                 name="nama"
-                label="Nama Flock"
+                label="Nama Baris"
                 type="text"
-                placeholder="Masukkan nama flock..."
+                placeholder="Masukkan nama baris ..."
                 :value="old('nama', @$data->nama)"
                 igroup-size="lg"
                 fgroup-class="col-12"
@@ -42,9 +42,9 @@
         <div class="mb-4">
             <x-adminlte-input 
                 name="pipe_keyword"
-                label="Kata Kunci Nama Pipe"
+                label="Kata Kunci Nama Pipa"
                 type="text"
-                placeholder="Masukkan kata kunci untuk nama pipe..."
+                placeholder="Masukkan kata kunci untuk nama pipa..."
                 :value="old('pipe_keyword', @$data->pipe_keyword)"
                 igroup-size="lg"
                 fgroup-class="col-12"
@@ -88,13 +88,13 @@
         </div>
 
         {{-- ===========================
-            Input: Jumlah Pipe
+            Input: Jumlah Pipa
             Jumlah total pipa dalam satu flock
         ============================ --}}
         <div class="mb-4">
             <x-adminlte-input 
                 name="pipe_count"
-                label="Jumlah Pipa per Flock"
+                label="Jumlah Pipa per Baris"
                 type="number"
                 min="0"
                 placeholder="Masukkan jumlah pipa untuk flock ini..."

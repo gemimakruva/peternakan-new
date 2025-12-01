@@ -1,9 +1,9 @@
 <div class="mb-3">
     <x-adminlte-input 
         name="nama" 
-        label="Nama Flock" 
+        label="Nama Baris" 
         type="text" 
-        placeholder="Masukkan nama flock..." 
+        placeholder="Masukkan nama Baris..." 
         :value="old('nama', @$flock->nama)" 
         igroup-size="md">
         <x-slot name="prependSlot">
@@ -33,7 +33,7 @@
 <div class="mb-3">
     <x-adminlte-input 
         name="pipe_count" 
-        label="Jumlah Pipa per Flock" 
+        label="Jumlah Pipa per Baris" 
         type="number" 
         min="0" 
         placeholder="Masukkan jumlah pipa untuk flock ini..." 

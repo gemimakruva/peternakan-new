@@ -59,7 +59,8 @@
         $(function() {
             $('#flock_id').select2({
                 ajax: {
-                    url: @js(route('master-data.ajax.flock', request()->route('kandangId'))),
+                    url: @js(route('master-data.ajax.flock', 
+                    request()->route('kandangId'))),
                     datType: 'json'
                 },
                 placeholder: "Pilih Flock",
@@ -83,14 +84,16 @@
 
             async function getUmurAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
-                let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
+                let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?
+                tanggal_perbandingan=${tanggalTransaksi}`)
                     .then(res => res.umur_ayam_sekarang); // satuan minggu
                 $('#umur_ayam').val(umurAyamSekarang);
             }
 
             async function getRecordPopulasi() {
                 if (!tanggalTransaksi) return;
-                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ request()->route('kandangId') }}/${tanggalTransaksi}/record-populasi`);
+                const list_populasi = await $.ajax(`/master-data/ajax/kandang/
+                {{ request()->route('kandangId') }}/${tanggalTransaksi}/record-populasi`);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {
                     $('#record-harian').append(`

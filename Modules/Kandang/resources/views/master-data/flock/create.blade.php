@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Tambah Flock')
+@section('title', 'Tambah Baris')
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Form Pembuatan Flock</h2>
+    <h2 class="h4 fw-bold text-dark">Form Pembuatan Baris</h2>
     <span class="text-muted mb-0" style="max-width: 500px;">
-        Form ini digunakan untuk menambahkan data Flock
+        Form ini digunakan untuk menambahkan data Baris
     </span>
 </div>
 @endsection
@@ -43,32 +43,32 @@
                 <div class="card border-0 shadow-sm">
                     <div class="card-header bg-light">
                         <h5 class="m-0 fw-semibold text-secondary">
-                            <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Flock
+                            <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Baris
                         </h5>
                     </div>
 
                     <div class="card-body">
                             <p class="text-muted mb-3">
-                                Pastikan mengisi data Flock dengan benar sesuai petunjuk berikut:
+                                Pastikan mengisi data Baris dengan benar sesuai petunjuk berikut:
                             </p>
                         <ul class="small text-muted ps-3">
                             <li>
-                                <strong>Nama Flock</strong><br>
-                                Masukkan nama Flock yang jelas, contoh:
-                                <em>Flock A1, Flock Produksi 2</em>.
+                                <strong>Nama baris</strong><br>
+                                Masukkan nama baris yang jelas, contoh:
+                                <em>baris A1, baris Produksi 2</em>.
                             </li>
 
                             <li class="mt-2"> 
                                 <strong>Kata Kunci Nama Pipe</strong>
                                 <br class="text-center"> - Kata kunci ini digunakan untuk mengelompokkan
-                                atau mengidentifikasi pipe yang terhubung dengan flock.
+                                atau mengidentifikasi pipe yang terhubung dengan baris.
                                 <br class="text-center"> - Pastikan kata kunci dibuat tanpa sepasi
-                                atau dihubungkan antar kata dengan strip (-). Contoh: <em>flock1-pipe-1, flock2-pipe-1</em>.
+                                atau dihubungkan antar kata dengan strip (-). Contoh: <em>baris1-pipe-1, baris2-pipe-1</em>.
                             </li>
 
                             <li class="mt-2">
-                                <strong>Jumlah Pipe per-Flock</strong><br>
-                                isi dengan jumlah pipe yang akan digunakan dalam flock ini.
+                                <strong>Jumlah Pipa per-baris</strong><br>
+                                isi dengan jumlah pipe yang akan digunakan dalam baris ini.
                             </li>
                         </ul>
                         <hr>

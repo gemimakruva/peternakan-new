@@ -34,4 +34,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('ayam-karantina', AyamKarantinaController::class)->names('ayam-karantina');
         Route::get('ayam-karantina-overview', [AyamKarantinaController::class, 'overview'])
         ->name('ayam-karantina.overview');
+        Route::get('masuk-karantina', [AyamKarantinaController::class, 'masukKarantina'])
+        ->name('ayam-karantina.masuk');
+       Route::post('masuk-karantina', [AyamKarantinaController::class, 'storeAyamMasukKarantina'])
+        ->name('ayam-karantina.masuk.store');
+
+
 });

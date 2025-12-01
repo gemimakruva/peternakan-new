@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('pipe', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('flock_id')
-                  ->constrained('flock', 'id')
-                  ->cascadeOnDelete();
+           $table->foreignId('flock_id')
+                    ->constrained('flock', 'id')
+                    ->restrictOnDelete();
             $table->string('nama');
             $table->integer('kapasitas');
             $table->timestamps();

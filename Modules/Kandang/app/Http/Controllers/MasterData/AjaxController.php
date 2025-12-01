@@ -77,4 +77,7 @@ class AjaxController extends Controller
             'umur_ayam_sekarang' => $umurAyamSekarang,
         ];
     }
+
+    
+    
 }

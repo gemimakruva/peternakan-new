@@ -27,6 +27,7 @@ class PipeController extends Controller
         Gate::authorize('Lihat Semua Pipe');
         $datas = $this->pipe
             ->query()
+            ->with(['flock', 'flock.kandang'])
             ->orderBy('updated_at', 'desc') 
             ->paginate(request()->query('perPage', 10));
 

@@ -498,18 +498,27 @@ return [
             'icon' => 'fas fa-clipboard-check',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
-            [
+        [
             'text' => 'Form Ayam Karantina',
             'route' => 'ayam-karantina.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
+        
          [
-        'text' => 'Riwayat Karantina',
-        'route' => 'ayam-karantina.index',
-        'icon' => 'fas fa-history',
-        'can'  => 'Lihat Riwayat Kandang',
+            'text' => 'Riwayat Karantina',
+            'route' => 'ayam-karantina.index',
+            'icon' => 'fas fa-history',
+            'can'  => 'Lihat Riwayat Kandang',
          ],
+
+         [
+            'text' => 'Ayam Masuk Karantina',
+            'route' => 'ayam-karantina.masuk',
+            'icon' => 'fas fa-arrow-right',
+            'can'  => 'Lihat Riwayat Kandang',
+         ],
+
 
    // ====================   PEMBERIAN PAKAN  ==========================
   [   

@@ -100,11 +100,27 @@ class AyamKarantinaController extends Controller
         //
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     */
     public function overview()
     {
         $listAyamKarantina = AyamKarantina::orderBy('created_at', 'desc')->limit(5)->get();
         return view('kandang::ayam-karantina.overview', compact('listAyamKarantina'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+
+    public function masukKarantina()
+    {
+        return view('kandang::ayam-karantina.ayam-masuk.create');
+    }
+
+    public function storeAyamMasukKarantina(Request $request)
+    {
+        dd($request);
     }
 
 }
