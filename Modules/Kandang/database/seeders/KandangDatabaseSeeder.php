@@ -21,6 +21,7 @@ class KandangDatabaseSeeder extends Seeder
             AyamAfkirSeeder::class,
             SeedersAyamKarantinaSeeder::class,
             JenisPakanSeeder::class,
+            PerhitunganPakanSeeder::class
         ]);
     }
 }

@@ -38,53 +38,7 @@
                 </div>
          </div>
        </div>
-       {{-- Petunjuk Form --}}
-       <div class="col-md-4">
-    <div class="card border-0 shadow-sm">
-        <div class="card-header bg-light">
-            <h5 class="m-0 fw-semibold text-secondary">
-                <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Jenis Pakan
-            </h5>
-        </div>
 
-        <div class="card-body">
-            <p class="text-muted mb-3">
-                Pastikan mengisi data jenis pakan dengan benar sesuai petunjuk berikut:
-            </p>
-
-            <ul class="small text-muted ps-3">
-                <li>
-                    <strong>Nama Jenis Pakan</strong><br>
-                    Masukkan nama jenis pakan yang jelas dan mudah dikenali. 
-                    Contoh: <em>Starter, Grower, Finisher, Konsentrat, Layer 1</em>.
-                </li>
-
-                <li class="mt-2">
-                    <strong>Nama Tidak Boleh Duplikat</strong><br>
-                    Sistem tidak mengizinkan dua nama jenis pakan yang sama. 
-                    Pastikan nama unik dan belum pernah ditambahkan sebelumnya.
-                </li>
-
-                <li class="mt-2">
-                    <strong>Penulisan Field</strong><br>
-                    Gunakan huruf kapital yang rapi agar mudah dipahami dan konsisten. 
-                    Contoh penamaan baik: <em>Starter 01</em> bukan <em>starter01</em>.
-                </li>
-            </ul>
-
-            <hr>
-
-            <p class="text-muted small">
-                Data ini akan digunakan pada proses:
-            </p>
-            <ul class="small text-muted ps-3">
-                <li>Pencatatan pakan harian</li>
-                <li>Pengelolaan stok gudang pakan</li>
-                <li>Laporan performa feed intake</li>
-            </ul>
-        </div>
-    </div>
-</div>
 
     </div>
 </div>

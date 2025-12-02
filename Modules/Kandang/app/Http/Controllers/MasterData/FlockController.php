@@ -77,8 +77,8 @@ class FlockController extends Controller
             $flock = Flock::create([
                 'nama' => $validated['nama'],
                 'kandang_id' => $validated['kandang_id'],
-                'kapasitas' => 0
             ]);
+           
 
             $pipeCount = intval($validated['pipe_count']);
             $keyword   = $validated['pipe_keyword'];
@@ -93,7 +93,7 @@ class FlockController extends Controller
 
             return redirect()
                 ->route('master-data.flock.index')
-                ->with('success', 'Flock dan Pipe berhasil dibuat!');
+                ->with('success', 'Baris dan Pipa berhasil dibuat!');
          }
             catch (\Exception $e) {
                 return redirect()

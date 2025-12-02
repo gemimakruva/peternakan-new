@@ -543,12 +543,12 @@ return [
         'Lihat Rekapan Pakan Harian',
     ],
         ],
-         [
-           'text' => 'Perhitungan Pakan',
-    'route' => '',
+    [
+    'text' => 'Perhitungan Pakan',
+    'route' => 'perhitungan-pakan.create',
     'icon' => 'fas fa-calculator',
     'can'  => 'Lihat Perhitungan Pakan',
-        ],
+     ],
     [
     'text' => 'Sisa Pakan',
     'route' => '',

@@ -1,6 +1,6 @@
 <?php
 use Illuminate\Support\Facades\Route;
-use Modules\Kandang\Http\Controllers\JenisPakan\JenisPakanController;
+use Modules\Kandang\Http\Controllers\Perhitungan_pakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
@@ -11,6 +11,7 @@ use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
+use Modules\Kandang\Http\Controllers\Perhitungan_pakan\PerhitunganPakanController;
 
 Route::middleware(['auth'])->group(function () {
         Route::prefix('master-data')->as('master-data.')->group(function() {
@@ -48,6 +49,8 @@ Route::middleware(['auth'])->group(function () {
         ->name('ayam-karantina.masuk.store');
         Route::get('keluar-karantina', [AyamKarantinaController::class, 'keluarKarantina'])
         ->name('ayam-karantina.keluar');
+         Route::resource('perhitungan-pakan', PerhitunganPakanController::class)->names('perhitungan-pakan');
+     
      
 
 
