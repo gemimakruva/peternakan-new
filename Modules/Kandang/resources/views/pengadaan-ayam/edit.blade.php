@@ -4,9 +4,9 @@
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center pt-3">
-    <h2 class="h4 fw-bold text-dark"> Form Pengadaan Ayam</h2>
+    <h2 class="h4 fw-bold text-dark"> Form Edit Pengadaan Ayam</h2>
     <span class="text-muted mb-0" style="max-width: 500px;">
-        Halaman ini digunakan untuk input form pengadaan ayam
+        Halaman ini digunakan untuk edit form pengadaan ayam
 </div>
 @stop
 
@@ -16,14 +16,17 @@
         {{-- Form Content --}}
           <div class="col-md-8">
               <form enctype="multipart/form-data"
-               action="{{ route('pengadaan-ayam.store') }}" 
+               action="{{ route('pengadaan-ayam.update', $pengadaan_ayam->id) }}" 
                method="post" id="form_pengadaan">
+                 @method('PUT')
+                 @csrf
                  <input type="hidden" name="distribusi_json" id="distribusi_json"
                   >
                    <div class="card shadow-sm border-0">
                         <div class="card-body">
                             @csrf
-                            @include('kandang::pengadaan-ayam._form')
+                            @include('kandang::pengadaan-ayam._form',
+                            ['data' => $pengadaan_ayam])
                             {{-- ===========================
                              Status Ayam (3 sejajar)
                             =========================== --}}
@@ -40,22 +43,6 @@
                                              id="ayamDatangInfo">0</span>
                                         </div>
                                     </div>
-                                </div>
-
-                                {{-- Ayam Mati --}}
-                               <div class="col-md-4">
-                                    <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon 
-                                            bg-warning">
-                                                <i class="fas fa-home"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span style="font-size:15px" 
-                                                class="info-box-text">Ayam Mati</span>
-                                                <span class="info-box-number"
-                                                id="ayamMatiInfo">0</span>
-                                            </div>
-                                        </div>
                                 </div>
 
                                 {{-- Ayam Masuk Kandang --}}
@@ -93,7 +80,14 @@
                             {{-- Tabel data distribusi  --}}
                             <div class="mb-4">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="font-weight-bold">Data Distribusi Ayam</h5>
+                                    <div>
+                                        <h5 class="font-weight-bold mb-1">
+                                            Data Distribusi Ayam
+                                            @if(isset($pengadaan_ayam) && $pengadaan_ayam->distribusi->count() > 0)
+                                                <span class="badge badge-info ml-2">{{ $pengadaan_ayam->distribusi->count() }} distribusi</span>
+                                            @endif
+                                        </h5>
+                                    </div>
                                     <button type="button" data-toggle="modal" data-target=
                                     "#modalDistribusi" 
                                     class="btn btn-primary btn-sm" id="btnAddDistribusi">
@@ -114,13 +108,26 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {{-- row content --}}
+                                        @if(isset($pengadaan_ayam) && $pengadaan_ayam->distribusi->count() > 0)
+                                            {{-- Data will be populated by JavaScript --}}
+                                            <tr>
+                                                <td colspan="6" class="text-muted">
+                                                    <i class="fas fa-spinner fa-spin"></i> Loading data...
+                                                </td>
+                                            </tr>
+                                        @else
+                                            <tr>
+                                                <td colspan="6" class="text-muted">
+                                                    Belum ada data distribusi. Klik tombol "Tambah Distribusi" untuk menambah.
+                                                </td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
 
-                            @include('kandang::pengadaan-ayam._form_berkas',['listNamaBerkas' => $listNamaBerkas])
-                            @include('kandang::pengadaan-ayam._form_documentation')
+                            @include('kandang::pengadaan-ayam._form_berkas', ['data' => $pengadaan_ayam->berkasSupplier])
+                            @include('kandang::pengadaan-ayam._form_documentation', ['data' => $pengadaan_ayam->dokumentasi])
                               {{-- card submit --}}
                             <div class="mt-4 d-flex justify-content-between px-3">
                                 <a href="" 
@@ -352,6 +359,31 @@
 $(document).ready(function(){
         var peternakanData = @json($listPeternakan);
         let editingId = null;
+        let distribusiData = [];
+        let count = 0;
+        let selectedPipe = [];
+        let TotalAyamDatang = 0;
+        let TotalMasukKandang = 0;
+        let TotalBelumMasukKandang = 0;
+
+        // LOAD EXISTING DISTRIBUTION DATA FIRST
+        @if(isset($pengadaan_ayam) && $pengadaan_ayam->distribusi->count() > 0)
+            @foreach($pengadaan_ayam->distribusi as $dist)
+                distribusiData.push({
+                    id: ++count,
+                    kandang: "{{ $dist->kandang->nama }}",
+                    kandang_id: {{ $dist->kandang_id }},
+                    flock: "{{ $dist->flock->nama }}",
+                    flock_id: {{ $dist->flock_id }},
+                    pipe: "{{ $dist->pipe->nama }}",
+                    pipe_id: {{ $dist->pipe_id }},
+                    jumlah: {{ $dist->jumlah_ayam }},
+                    isExisting: true
+                });
+                selectedPipe.push("{{ $dist->pipe_id }}");
+            @endforeach
+            console.log('Loaded ' + distribusiData.length + ' existing distribution records');
+        @endif
 
         $('#peternakanSelect').change(function(){
             var peternakanId = $(this).val();
@@ -400,7 +432,7 @@ $(document).ready(function(){
                 if(kandang){
                     var flock = kandang.flocks.find(f => f.id == flockId);
                     if(flock && flock.pipes.length > 0){
-                        pipeSelect.empty().append('<option selected disabled>Pilih Pipe...</option>'); // reset dulu
+                        pipeSelect.empty().append('<option selected disabled>Pilih Pipe...</option>');
                         $.each(flock.pipes, function(i, pipe){
                             var currentEditPipe = null;
                             if (editingId) {
@@ -425,9 +457,6 @@ $(document).ready(function(){
         });
 
        // {{-- SUBMITION TEMPORARY FUNCTION  --}}
-       let distribusiData = [];
-       let  count = 0;
-       let selectedPipe = [];
         $('#formDistribusi').submit(function(e){
             e.preventDefault();
             
@@ -494,7 +523,18 @@ $(document).ready(function(){
     function renderTableDistribusi() {
         var tbody = $('#tableDistribusi tbody');
         tbody.empty();
+        
+        if (distribusiData.length === 0) {
+            tbody.append(`
+                <tr>
+                    <td colspan="6" class="text-muted">
+                        Belum ada data distribusi. Klik tombol "Tambah Distribusi" untuk menambah.
+                    </td>
+                </tr>
+            `);
+        } else {
             $.each(distribusiData, function(index, item) {
+                
                 var tr = `
                     <tr>
                         <td>${index + 1}</td>
@@ -518,7 +558,8 @@ $(document).ready(function(){
                     </tr>
                 `;
                 tbody.append(tr);
-        });
+            });
+        }
     }
 
     // ===== FUNCTION VALIDATION INPUT JUMLAH AYAM ===========
@@ -540,7 +581,11 @@ $(document).ready(function(){
 
     //  ====== FUNCTION DELEGATIN FOR DELETE DATA ========
     $(document).on('click', '.delete-btn', function() {
-         var id = $(this).data('id'); 
+         var id = $(this).data('id');
+         var item = distribusiData.find(d => d.id == id);
+         if (item) {
+             selectedPipe = selectedPipe.filter(p => p !== item.pipe_id);
+         }
          distribusiData = distribusiData.filter(item => item.id != id);
          renderTableDistribusi();
          updateAyamStatus();
@@ -554,10 +599,6 @@ $(document).ready(function(){
     });
 
     // CALCULATE AYAM MASUK DAN AYAM BELUM MASUK KANDANG
-    let TotalAyamDatang = 0;
-    let TotalMasukKandang = 0;
-    let TotalBelumMasukKandang = 0;
-    
     $('#inputAyamDatang').on('input', function () {
         TotalAyamDatang = parseInt($(this).val()) || 0;
         $('#ayamDatangInfo').text(TotalAyamDatang.toLocaleString('id-ID'));
@@ -634,6 +675,20 @@ $(document).ready(function(){
         $('#jumlah_ayam').removeClass('is-invalid');
         $('#jumlah_ayam_feedback').remove();
     });
+
+    // RENDER TABLE IF DATA EXISTS
+    @if(isset($pengadaan_ayam) && $pengadaan_ayam->distribusi->count() > 0)
+        renderTableDistribusi();
+    @endif
+
+    // LOAD INITIAL AYAM DATANG VALUE
+    @if(isset($pengadaan_ayam))
+        TotalAyamDatang = {{ $pengadaan_ayam->jumlah_ayam_datang }};
+        var TotalAyamMati = {{ $pengadaan_ayam->jumlah_ayam_mati }};
+        $('#ayamDatangInfo').text(TotalAyamDatang.toLocaleString('id-ID'));
+        $('#ayamMatiInfo').text(TotalAyamMati.toLocaleString('id-ID'));
+        updateAyamStatus();
+    @endif
 
  })
 </script>
