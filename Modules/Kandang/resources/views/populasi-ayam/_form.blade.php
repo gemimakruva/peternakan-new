@@ -6,6 +6,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    max="{{ today()->format('Y-m-d') }}"
 />
 
 <input type="hidden" name="kandang_id" value="{{ request()->route('kandangId') }}">
@@ -30,6 +31,17 @@
     id="umur_ayam"
     name="umur_ayam"
     label="Umur Ayam"
+    type="number"
+    igroup-size="lg"
+    fgroup-class="col-12"
+    class="form-control-lg mb-3"
+    readonly
+/>
+
+<x-adminlte-input
+    id="kesehatan_ayam"
+    name="kesehatan_ayam"
+    label="Kesehatan Ayam"
     type="number"
     igroup-size="lg"
     fgroup-class="col-12"
@@ -90,6 +102,13 @@
                 $('#umur_ayam').val(umurAyamSekarang);
             }
 
+            async function getKesehatanAyam() {
+                if (!pipeId || !tanggalTransaksi) return;
+                let kesehatanAyamSekarang = await $.ajax(`/master-data/ajax/kesehatan-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
+                    .then(res => res.total_ayam_sehat_terakhir); // satuan ekor
+                $('#kesehatan_ayam').val(kesehatanAyamSekarang);
+            }
+
             async function getRecordPopulasi() {
                 if (!tanggalTransaksi) return;
                 const list_populasi = await $.ajax(`/master-data/ajax/kandang/
@@ -110,12 +129,14 @@
             $('#pipe_id').on('change', function() {
                 pipeId = this.value;
                 getUmurAyam();
+                getKesehatanAyam();
             });
 
             $('#tanggal_transaksi').on('change', function() {
                 tanggalTransaksi = this.value;
                 getUmurAyam();
-                getRecordPopulasi()
+                getKesehatanAyam();
+                getRecordPopulasi();
             });
         })
     </script>

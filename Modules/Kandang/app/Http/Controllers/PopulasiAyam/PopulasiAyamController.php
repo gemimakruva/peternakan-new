@@ -52,6 +52,7 @@ class PopulasiAyamController extends Controller
             'pipe_id' => ['required', 'exists:pipe,id'],
             'umur_ayam' => ['required', 'min:1'],
             'ayam_sehat' => ['required', 'min:0'],
+            'catatan' => ['nullable', 'string', 'max:1000'],
         ]);
 
         $this->populasiAyam->create([

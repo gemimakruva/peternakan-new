@@ -9,6 +9,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
+use Modules\Kandang\Models\PopulasiAyam;
 
 class AjaxController extends Controller
 {
@@ -17,7 +18,8 @@ class AjaxController extends Controller
         private Flock $flock,
         private Pipe $pipe,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
-        private PerhitunganPakan $perhitunganPakan
+        private PerhitunganPakan $perhitunganPakan,
+        private PopulasiAyam $populasiAyam,
     ) { }
 
     public function kandang()
@@ -83,77 +85,77 @@ class AjaxController extends Controller
 
     public function tanggalPerhitunganPakan()
     {
-          $tanggal = $this->perhitunganPakan
-                    ->getQuery()
-                    ->select('id', 'tanggal_pemberian_pakan')
-                    ->when(request()->query('q'),
-                     function($query, $q) {
-                    $query->where('tanggal_pemberian_pakan',
-                    'like', "%$q%");
-                    })
-                    ->get();
-                $result = $tanggal->map(function($k){
-                 return 
-                 ['id' => $k->id, 
+        $tanggal = $this->perhitunganPakan
+            ->getQuery()
+            ->select('id', 'tanggal_pemberian_pakan')
+            ->when(request()->query('q'), function($query, $q) {
+                $query->where('tanggal_pemberian_pakan', 'like', "%$q%");
+            })
+            ->get();
+
+        $result = $tanggal->map(function($k){
+            return [
+                'id' => $k->id, 
                 'text' => Carbon::parse($k->tanggal_pemberian_pakan)->format('d-m-Y'),
-                ];
-           });
+            ];
+        });
+
         return response()->json(['results' => $result]);
     }
 
     public function DetailPengadaanByPipeId($tanggalId)
-{
-            $perhitungan = $this->perhitunganPakan
-                ->with('pipe.flock.kandang', 'jenis_pakan')
-                ->findOrFail($tanggalId);
+    {
+        $perhitungan = $this->perhitunganPakan
+            ->with('pipe.flock.kandang', 'jenis_pakan')
+            ->findOrFail($tanggalId);
 
-            $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
+        $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
 
-            $kandangs = [];
-            foreach($pipes as $pipe) {
-                if($pipe && $pipe->flock && $pipe->flock->kandang) {
-                    $kandangs[] = [
-                        'id' => $pipe->flock->kandang->id,
-                        'nama' => $pipe->flock->kandang->nama,
-                    ];
-                }
+        $kandangs = [];
+        foreach($pipes as $pipe) {
+            if($pipe && $pipe->flock && $pipe->flock->kandang) {
+                $kandangs[] = [
+                    'id' => $pipe->flock->kandang->id,
+                    'nama' => $pipe->flock->kandang->nama,
+                ];
             }
+        }
 
-                $flocks = [];
-                foreach($pipes as $pipe) {
-                    if($pipe && $pipe->flock) {
-                        $flocks[] = [
-                            'id' => $pipe->flock->id,
-                            'nama' => $pipe->flock->nama,
-                        ];
-                    }
-                }
+        $flocks = [];
+        foreach($pipes as $pipe) {
+            if($pipe && $pipe->flock) {
+                $flocks[] = [
+                    'id' => $pipe->flock->id,
+                    'nama' => $pipe->flock->nama,
+                ];
+            }
+        }
 
-                $pipesArr = [];
-                foreach($pipes as $pipe) {
-                    if($pipe) {
-                        $pipesArr[] = [
-                            'id' => $pipe->id,
-                            'nama' => $pipe->nama,
-                            'kapasitas' =>$pipe->kapasitas
-                        ];
-                    }
-                }
+        $pipesArr = [];
+        foreach($pipes as $pipe) {
+            if($pipe) {
+                $pipesArr[] = [
+                    'id' => $pipe->id,
+                    'nama' => $pipe->nama,
+                    'kapasitas' =>$pipe->kapasitas
+                ];
+            }
+        }
 
-                $jenisPakan = $perhitungan->jenis_pakan;
-               $pakanPerFlock = ($perhitungan->jumlah_ayam_per_pipe * $perhitungan->jumlah_pakan_per_ekor_gram) / 100;
-                $pakanPerFlock = round($pakanPerFlock, 2);
+        $jenisPakan = $perhitungan->jenis_pakan;
+        $pakanPerFlock = ($perhitungan->jumlah_ayam_per_pipe * $perhitungan->jumlah_pakan_per_ekor_gram) / 100;
+        $pakanPerFlock = round($pakanPerFlock, 2);
 
-                return response()->json([
-                    'results' => [
-                        'kandang' => $kandangs,
-                        'flock' => $flocks,
-                        'pipe' => $pipesArr,
-                        'jenis_pakan' => $jenisPakan->nama,
-                        'pakanPerFlock' => $pakanPerFlock 
-                    ]
-                ]);
-}
+        return response()->json([
+            'results' => [
+                'kandang' => $kandangs,
+                'flock' => $flocks,
+                'pipe' => $pipesArr,
+                'jenis_pakan' => $jenisPakan->nama,
+                'pakanPerFlock' => $pakanPerFlock 
+            ]
+        ]);
+    }
 
     public function umurAyamByFlock($flockId)
     {
@@ -175,5 +177,33 @@ class AjaxController extends Controller
             'umur_ayam_datang' => $pengadaanAyam->umur_ayam,
             'umur_ayam_sekarang' => $umurAyamSekarang,
         ]);
+    }
+
+    public function kesehatan_ayam($pipeId)
+    {
+        $tanggalPerbandingan = request()->date('tanggal_perbandingan');
+        if ($tanggalPerbandingan === null) {
+            abort(400, 'tanggal perbandingan tidak valid');
+        }
+        $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
+
+        $jumlahAyamSehatDariPengadaan = $this->pengadaanAyamDistribusi
+            ->whereRelation('pengadaanAyam', function($query) use($tanggalPerbandingan, $hMin1TanggalPerbandingan) {
+                $query
+                    ->whereDate('tanggal', '=', $tanggalPerbandingan->format('Y-m-d'))
+                    ->orWhereDate('tanggal', '=', $hMin1TanggalPerbandingan->format('Y-m-d'));
+            })
+            ->where('pipe_id', '=', $pipeId)
+            ->value('jumlah_ayam');
+
+        $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyam
+            ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
+            ->value('ayam_sehat');
+
+        $jumlahAyamSehat = $jumlahAyamSehatDariPengadaan ?? $jumlahAyamSehatDariPopulasiSebelumnya ?? 0;
+
+        return [
+            'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+        ];
     }
 }

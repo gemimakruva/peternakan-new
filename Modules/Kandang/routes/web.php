@@ -43,9 +43,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
         Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
         Route::get('ajax/umur-ayam/{pipeId}', [AjaxController::class, 'umur_ayam'])->name('ajax.umur_ayam');
+
         Route::get('ajax/umur-ayam-by-flock/{flockId}', [AjaxController::class, 'umurAyamByFlock'])->name('ajax.umur_ayam_by_flock');
         Route::get('ajax/kandang/{kandangId}/{tanggal}/record-populasi', [PopulasiAyamController::class, 'getRecordedPopulasi'])
         ->name('ajax.kandang.record-populasi');
+        Route::get('ajax/kesehatan-ayam/{pipeId}', [AjaxController::class, 'kesehatan_ayam'])->name('ajax.kesehatan_ayam');
+
     });
         Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
         Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
