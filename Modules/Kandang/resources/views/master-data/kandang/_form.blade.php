@@ -1,24 +1,10 @@
 <div class="card shadow-sm border-0">
     <div class="card-body pt-4">
-        <div class="mb-3">
-            <x-adminlte-input 
-                name="nama" 
-                label="Nama Kandang" 
-                type="text" 
-                placeholder="Masukkan nama kandang..." 
-                :value="old('nama', @$data->nama)" 
-                igroup-size="md">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-white">
-                        <i class="fas fa-home text-muted"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-input>
-        </div>
+
 
         {{-- Dropdown Peternakan --}}
         <div class="mb-3">
-            <x-adminlte-select2 
+            <x-adminlte-select2
             name="peternakan_id" 
             label="Pilih Peternakan" 
             igroup-size="md">
@@ -60,6 +46,22 @@
                 </option>
             @endforeach
             </x-adminlte-select2>
+        </div>
+
+        <div class="mb-3">
+            <x-adminlte-input 
+                name="nama" 
+                label="Nama Kandang" 
+                type="text" 
+                placeholder="Masukkan nama kandang..." 
+                :value="old('nama', @$data->nama)" 
+                igroup-size="md">
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-white">
+                        <i class="fas fa-home text-muted"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
         </div>
     </div>
 </div>

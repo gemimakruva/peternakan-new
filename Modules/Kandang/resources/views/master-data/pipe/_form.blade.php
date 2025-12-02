@@ -1,9 +1,9 @@
 <div class="mb-4">
     <x-adminlte-input 
         name="nama"
-        label="Nama Pipe"
+        label="Nama Pipa"
         type="text"
-        placeholder="Masukkan nama Pipe..."
+        placeholder="Masukkan nama Pipa..."
         :value="old('nama', @$pipe->nama)"
         igroup-size="lg"
         fgroup-class="col-12"

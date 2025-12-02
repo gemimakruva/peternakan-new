@@ -85,6 +85,10 @@ class PeternakanController extends Controller
     public function destroy(Peternakan $peternakan)
     {
         try {
+            if($peternakan->kandang()->exists()) {
+                return redirect()->back()->with('error', 'Data peternakan tidak dapat dihapus karena memiliki kandang terkait.');
+            }
+
             $peternakan->delete();
 
             return redirect()->back()

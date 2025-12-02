@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Pipe')
+@section('title', 'Edit Pipa')
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Edit Pipe</h2>
+    <h2 class="h4 fw-bold text-dark">Edit Pipa</h2>
     <span class="text-muted mb-0" style="max-width: 500px;">
-        Form Ini Digunakan Untuk Mengubah Nama dan Kapasitas Pipe
+        Form Ini Digunakan Untuk Mengubah Nama dan Kapasitas Pipa
     </span>
 </div>
 @endsection
@@ -44,36 +44,36 @@
              <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light">
                     <h5 class="m-0 fw-semibold text-secondary">
-                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Pipe
+                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Pipa
                     </h5>
                 </div>
 
                 <div class="card-body">
                         <p class="text-muted mb-3">
-                            Pastikan mengisi data Pipe dengan benar sesuai petunjuk berikut:
+                            Pastikan mengisi data Pipa dengan benar sesuai petunjuk berikut:
                         </p>
                     <ul class="small text-muted ps-3">
                         <li>
-                            <strong>Nama Pipe</strong><br>
-                            Digunakan untuk mengganti nama pipe yang sudah ada dan tidak sesuai standar penamaan.
+                            <strong>Nama Pipa</strong><br>
+                            Digunakan untuk mengganti nama pipa yang sudah ada dan tidak sesuai standar penamaan.
                         </li>
 
                         <li class="mt-2"> 
                             <strong>Kapasitas</strong>
                             <br class="text-center"> Kapasitas digunakan untuk menginisalisasi
-                            jumlah maksimum entitas (misalnya ayam) yang dapat ditampung oleh pipe tersebut.
+                            jumlah maksimum entitas (misalnya ayam) yang dapat ditampung oleh pipa tersebut.
                         </li>
 
                     </ul>
                     <hr>
                     <p class="text-muted small">
-                        Jika terjadi masalah dalam pengisian data pipe, pastikan Anda sudah menambahkan:
+                        Jika terjadi masalah dalam pengisian data pipa, pastikan Anda sudah menambahkan:
                     </p>
                     <ul class="small text-muted ps-3">
                         <li>Data Peternakan</li>
                         <li>Data Kandang</li>
                         <li>Data Strain</li>
-                        <li>Data Flock</li>
+                        <li>Data Baris</li>
                     </ul>
                 </div>
             </div>

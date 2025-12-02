@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Models\Pipe;
 
 class FlockController extends Controller
@@ -27,22 +28,35 @@ class FlockController extends Controller
     public function index()
     {
         $search = request()->input('search');
+        $kandangId = request()->input('kandang_id');
+        $peternakanId = request()->input('peternakan_id');
         $perPage = request()->query('perPage', 10);
-        $datas = $this->flock->
-        with('pipes')
-        ->when($search, function ($query) use ($search) {
-            $query->where(function ($q) use ($search) {
-                $q->where('nama', 'like', "%{$search}%")
-                ->orWhereHas('kandang', function ($sub)
-                 use ($search) {
-                    $sub->where('nama', 'like', "%{$search}%");
+        
+        $datas = $this->flock
+            ->with(['pipes', 'kandang.peternakan'])
+            ->when($search, function ($query) use ($search) {
+                $query->where(function ($q) use ($search) {
+                    $q->where('nama', 'like', "%{$search}%")
+                        ->orWhereHas('kandang', function ($sub) use ($search) {
+                            $sub->where('nama', 'like', "%{$search}%");
+                        });
                 });
-            });
-        })
-        ->orderBy('updated_at', 'desc') 
-        ->paginate($perPage)
-        ->appends(request()->query());
-        return view('kandang::master-data.flock.index', compact('datas'));
+            })
+            ->when($kandangId, function ($query) use ($kandangId) {
+                $query->where('kandang_id', $kandangId);
+            })
+            ->when($peternakanId, function ($query) use ($peternakanId) {
+                $query->whereHas('kandang', function ($q) use ($peternakanId) {
+                    $q->where('peternakan_id', $peternakanId);
+                });
+            })
+            ->orderBy('updated_at', 'desc')
+            ->paginate($perPage)
+            ->withQueryString();
+        
+        $peternakan = Peternakan::with('kandang')->get();
+        
+        return view('kandang::master-data.flock.index', compact('datas', 'peternakan', 'kandangId', 'peternakanId', 'search'));
     }
 
     /**
@@ -52,9 +66,8 @@ class FlockController extends Controller
     public function create()
     {
         Gate::authorize('Tambah Flock');
-
-        $kandang = Kandang::all();
-        return view('kandang::master-data.flock.create', compact('kandang'));
+        $peternakan = Peternakan::with('kandang')->get();
+        return view('kandang::master-data.flock.create', compact('peternakan'));
     }
 
     /**
@@ -118,8 +131,9 @@ class FlockController extends Controller
     public function edit(Flock $flock)
     {
         Gate::authorize('Edit Flock');
-        $kandang = Kandang::all();
-        return view('kandang::master-data.flock.edit', compact('flock','kandang'));
+        $flock->load('kandang.peternakan');
+        $peternakan = Peternakan::with('kandang')->get();
+        return view('kandang::master-data.flock.edit', compact('flock', 'peternakan'));
     }
 
     /**
@@ -150,11 +164,16 @@ class FlockController extends Controller
      */
     public function destroy(Flock $flock)
     {
-        Gate::authorize('Hapus Flock');
+        Gate::authorize('Hapus Baris');
+
+        if($flock->pipes()->exists()) {
+            return to_route('master-data.flock.index')
+                ->with('danger', 'Data Baris tidak dapat dihapus karena memiliki pipa terkait.');
+        }
 
         $flock->delete();
 
         return to_route('master-data.flock.index')
-            ->with('danger', 'Data Flock berhasil dihapus.');
+            ->with('danger', 'Data Baris berhasil dihapus.');
     }
 }
