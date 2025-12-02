@@ -19,9 +19,10 @@
         <div class="mb-3">
             <x-adminlte-textarea 
                 name="lokasi" 
-                label="lokasi Peternakan" 
+                label="Lokasi Peternakan" 
                 rows="5" 
-                placeholder="Masukkan alamat lengkap Peternakan...">{{ old('alamat', @$peternakan->lokasi) }}</x-adminlte-textarea>
+                placeholder="Masukkan alamat lengkap Peternakan...">
+                {{ old('lokasi', @$peternakan->lokasi) }}</x-adminlte-textarea>
         </div>
     </div>
 </div>

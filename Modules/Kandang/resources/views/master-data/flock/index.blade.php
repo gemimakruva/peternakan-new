@@ -100,6 +100,7 @@
         </div>
     </div>
 </div>
+@include('components.snackbar')
 @endsection
 
 @push('js')
@@ -115,7 +116,8 @@
                 confirmButtonText: "Ya, Hapus",
                 cancelButtonText: "Batal"
             }).then((result) => {
-                if (result.isConfirmed) {
+                
+                if (result.value) {
                     this.submit();
                 }
             });

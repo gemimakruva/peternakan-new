@@ -21,12 +21,16 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('flock', FlockController::class)->names('flock')->except('show');
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
         Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock']) ->name('pipe.byFlock');
-
+        Route::delete('/master-data/pipe/byFlock/{pipe}', [PipeController::class, 'destroyByFlock'])
+        ->name('pipe.destroyByFlock');
+        Route::put('/master-data/pipe/byFlock/{pipe}', [PipeController::class, 'updateByFlock'])
+        ->name('pipe.updateByFlock');
+        Route::put('/master-data/pipe/byFlock/{pipe}', [PipeController::class, 'updateByFlock'])
+        ->name('pipe.updateByFlock');
         Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
         Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
         Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
         Route::get('ajax/umur-ayam/{pipeId}', [AjaxController::class, 'umur_ayam'])->name('ajax.umur_ayam');
-
         Route::get('ajax/kandang/{kandangId}/{tanggal}/record-populasi', [PopulasiAyamController::class, 'getRecordedPopulasi'])
         ->name('ajax.kandang.record-populasi');
     });

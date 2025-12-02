@@ -151,10 +151,21 @@ class FlockController extends Controller
     public function destroy(Flock $flock)
     {
         Gate::authorize('Hapus Flock');
+        if ($flock->pipes()->exists()) 
+            {
+                return redirect()->back()->with('error', 
+                    'Flock ini tidak bisa dihapus karena masih 
+                    memiliki data Pipa terkait.');
+            }
 
-        $flock->delete();
+        try {
+                $flock->delete();
+                return redirect()->route('master-data.flock.index')
+                    ->with('success', 'Data Flock berhasil dihapus.');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 
+                    'Terjadi kesalahan saat menghapus data Flock.');
+            }
 
-        return to_route('master-data.flock.index')
-            ->with('danger', 'Data Flock berhasil dihapus.');
     }
 }

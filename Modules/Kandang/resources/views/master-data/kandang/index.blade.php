@@ -61,7 +61,7 @@
                     <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
                             @can('Edit Kandang')
-                            <a href="{{ route('master-data.kandang.edit', $row->id) }}" 
+                            <a href="{{ route('master-data.kandang.edit', $row) }}" 
                                class="btn btn-sm btn-warning text-white" 
                                title="Edit">
                                 <i class="fas fa-edit"></i>
@@ -69,7 +69,7 @@
                             @endcan
 
                             @can('Hapus Kandang')
-                            <form action="{{ route('master-data.kandang.destroy', $row->id) }}" 
+                            <form action="{{ route('master-data.kandang.destroy', $row) }}" 
                                   method="post" 
                                   data-nama="{{ $row->nama }}" 
                                   class="form-delete">
@@ -99,6 +99,7 @@
         </div>
     </div>
 </div>
+@include('components.snackbar')
 @endsection
 
 @push('js')

@@ -99,6 +99,7 @@
         </div>
     </div>
 </div>
+@include('components.snackbar')
 @endsection
 
 @push('js')
