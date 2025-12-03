@@ -49,7 +49,11 @@ Route::middleware(['auth'])->group(function () {
         ->name('ayam-karantina.masuk.store');
         Route::get('keluar-karantina', [AyamKarantinaController::class, 'keluarKarantina'])
         ->name('ayam-karantina.keluar');
-         Route::resource('perhitungan-pakan', PerhitunganPakanController::class)->names('perhitungan-pakan');
+        Route::resource('perhitungan-pakan', PerhitunganPakanController::class)
+        ->names('perhitungan-pakan');
+        Route::get('sisa-pakan', [PerhitunganPakanController::class, 'createSisaPakan'])
+        ->name('sisa-pakan.create');
+        
      
      
 

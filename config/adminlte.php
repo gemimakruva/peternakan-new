@@ -544,14 +544,14 @@ return [
     ],
         ],
     [
-    'text' => 'Perhitungan Pakan',
+    'text' => 'Pakan Harian',
     'route' => 'perhitungan-pakan.create',
     'icon' => 'fas fa-calculator',
     'can'  => 'Lihat Perhitungan Pakan',
      ],
     [
-    'text' => 'Sisa Pakan',
-    'route' => '',
+    'text' => 'Sisa pakan',
+    'route' => 'sisa-pakan.create',
     'icon' => 'fas fa-box-open',
     'can'  => 'Lihat Sisa Pakan',
 ],

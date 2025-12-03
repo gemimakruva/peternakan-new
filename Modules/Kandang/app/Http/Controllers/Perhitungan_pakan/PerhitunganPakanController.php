@@ -106,4 +106,9 @@ class PerhitunganPakanController extends Controller
     {
         //
     }
+
+    public function createSisaPakan()
+    {
+        return view("kandang::sisa-pakan.create");
+    }
 }
