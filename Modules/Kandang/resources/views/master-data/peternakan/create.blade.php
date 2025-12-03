@@ -32,7 +32,8 @@
 
                         <hr class="my-4">
 
-                        <div class="d-flex justify-content-between" style="gap: 1rem; margin-top: 1.5rem;">
+                        <div class="d-flex justify-content-between" 
+                        style="gap: 1rem; margin-top: 1.5rem;">
                             <a href="{{ route('master-data.peternakan.index') }}" 
                             class="btn btn-outline-secondary px-4 py-2">
                                 <i class="fas fa-arrow-left me-2"></i> Kembali

@@ -53,6 +53,12 @@ Route::middleware(['auth'])->group(function () {
         ->names('perhitungan-pakan');
         Route::get('sisa-pakan', [PerhitunganPakanController::class, 'createSisaPakan'])
         ->name('sisa-pakan.create');
+        Route::post('sisa-pakan', [PerhitunganPakanController::class, 'storeSisaPakan'])
+        ->name('sisa-pakan.store');
+        Route::get('ajax/tanggal-perhitungan-pakan', 
+        [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
+        Route::get('ajax/listKandangbyPipe/{tanggalId}', 
+        [AjaxController::class, 'DetailPengadaanByPipeId'])->name('ajax.show-detail-by-pipe');
         
      
      

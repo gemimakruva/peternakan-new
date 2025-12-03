@@ -1,128 +1,86 @@
   {{-- tanggal pemberian pakan --}}
-    <div class="mb-3">
-        <x-adminlte-input 
-            name="tanggal" 
-            label="Tanggal Pemberian Pakan" 
-            type="date" 
-            igroup-size="md"
-            value="{{ old('tanggal', @$data->tanggal ?? 
-            \Carbon\Carbon::now()->format('Y-m-d')) }}">
-            
-            <x-slot name="prependSlot">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-calendar-alt text-muted"></i>
-                </div>
-            </x-slot>
-        </x-adminlte-input>
+    
+<div class="form-group col-12">
+    <label for="tanggal_pemberian_pakan">Tanggal Pemberian Pakan</label>
+    <div class="input-group input-group-lg">
+        <select name="tanggal" id="tanggal_pemberian_pakan" class="form-control form-control-lg">
+            <option value="">-- Pilih Tanggal --</option>
+        </select>
     </div>
+</div>
 
     {{-- pilih kadang --}}
-    <div class="mb-3">
-        <x-adminlte-select
-            name="kandang"
-            label="Pilih Kandang"
-            igroup-size="md">
-
-            <x-slot name="prependSlot">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-home text-muted"></i>
-                </div>
-            </x-slot>
-
-            {{-- Dummy hardcode --}}
-            <option value="">-- Pilih Kandang --</option>
-            <option value="A1" {{ old('kandang', 
-            @$data->kandang) == 'A1' ? 'selected' : '' }}>Kandang A1</option>
-            <option value="B2" {{ old('kandang',
-            @$data->kandang) == 'B2' ? 'selected' : '' }}>Kandang B2</option>
-            <option value="C3" {{ old('kandang', 
-            @$data->kandang) == 'C3' ? 'selected' : '' }}>Kandang C3</option>
-            <option value="D4" {{ old('kandang', 
-            @$data->kandang) == 'D4' ? 'selected' : '' }}>Kandang D4</option>
-
-        </x-adminlte-select>
+    <div class="form-group col-12">
+    <label for="kandang_id">Pilih Kandang</label>
+        <div class="input-group input-group-lg">
+            <select name="kandang_id" id="kandang_id" class="form-control form-control-lg">
+                <option value="">-- Pilih Kandang --</option>
+            </select>
+        </div>
     </div>
+
     {{-- flock dropdown --}}
-    <div class="mb-3">
-        <x-adminlte-select
-            name="flock"
-            label="Pilih Flock"
-            igroup-size="md">
-
-            <x-slot name="prependSlot">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-feather text-muted"></i>
-                </div>
-            </x-slot>
-
-            {{-- Dummy hardcode --}}
-            <option value="">-- Pilih Flock --</option>
-            <option value="F001" {{ old('flock', @$data->flock) == 'F001' ? 
-            'selected' : '' }}>Flock 001</option>
-            <option value="F002" {{ old('flock', @$data->flock) == 'F002' ? 
-            'selected' : '' }}>Flock 002</option>
-            <option value="F003" {{ old('flock', @$data->flock) == 'F003' ? 
-            'selected' : '' }}>Flock 003</option>
-            <option value="F004" {{ old('flock', @$data->flock) == 'F004' ? 
-            'selected' : '' }}>Flock 004</option>
-        </x-adminlte-select>
+    <div class="form-group col-12">
+         <label for="flock_id">Pilih Baris</label>
+        <div class="input-group input-group-lg">
+            <select name="flock_id" id="flock_id" class="form-control form-control-lg">
+                <option value="">-- Pilih Baris --</option>
+            </select>
+        </div>
     </div>
-    {{-- jenis pakan --}}
-    <div class="mb-3">
-        <x-adminlte-select
-            name="jenis_pakan"
-            label="Jenis Pakan"
-            igroup-size="md">
 
+    {{-- jenis pakan --}}
+   <div class="col-md-6 mb-3">
+        <x-adminlte-input
+            name="jenis_pakan"
+            id="jenis_pakan"
+            label="Jenis Pakan"
+            igroup-size="md"
+            placeholder="Jenis Pakan"
+            readonly
+        >
             <x-slot name="prependSlot">
                 <div class="input-group-text bg-white">
                     <i class="fas fa-drumstick-bite text-muted"></i>
                 </div>
             </x-slot>
-
-            {{-- Dummy hardcode --}}
-            <option value="">-- Pilih Jenis Pakan --</option>
-            <option value="BR1" {{ old('jenis_pakan', @$data->jenis_pakan) 
-            == 'BR1' ? 'selected' : '' }}>BR 1 (Starter)</option>
-            <option value="BR2" {{ old('jenis_pakan', @$data->jenis_pakan) 
-            == 'BR2' ? 'selected' : '' }}>BR 2 (Grower)</option>
-            <option value="BR3" {{ old('jenis_pakan', @$data->jenis_pakan) 
-            == 'BR3' ? 'selected' : '' }}>BR 3 (Finisher)</option>
-            <option value="MJ"  {{ old('jenis_pakan', @$data->jenis_pakan) 
-            == 'MJ' ? 'selected' : '' }}>Mash Jagung</option>
-            <option value="PK"  {{ old('jenis_pakan', @$data->jenis_pakan) 
-            == 'PK' ? 'selected' : '' }}>Pakan Konsentrat</option>
-        </x-adminlte-select>
-    </div>
-    {{-- pemberian pakan --}}
-    <div class="mb-3">
-        <x-adminlte-input 
-            name="pemberian_pakan"
-            label="Pemberian Pakan per Flock (Kg)"
-            type="number"
-            igroup-size="md"
-            step="0.01"
-            min="0"
-            value="{{ old('pemberian_pakan', @$data->pemberian_pakan) }}">
-
-            <x-slot name="prependSlot">
-                <div class="input-group-text bg-white">
-                    <i class="fas fa-seedling text-muted"></i>
-                </div>
-            </x-slot>
-
-            <x-slot name="appendSlot">
-                <div class="input-group-text bg-white">
-                    <span class="text-muted font-semibold">Kg</span>
-                </div>
-            </x-slot>
         </x-adminlte-input>
     </div>
+
+    {{-- pemberian pakan --}}
+    <div class="mb-3">
+    <label for="pemberian_pakan" class="form-label">Pemberian Pakan per Baris (Kg)</label>
+    <div class="input-group">
+        <!-- Prepend Icon -->
+        <span class="input-group-text bg-white">
+            <i class="fas fa-seedling text-muted"></i>
+        </span>
+
+        <!-- Input -->
+        <input 
+            type="number" 
+            name="pemberian_pakan" 
+            id="pemberian_pakan"
+            class="form-control"
+            step="0.01"
+            min="0"
+            value="{{ old('pemberian_pakan', @$data->pemberian_pakan) }}"
+            placeholder="Masukkan Pemberian Pakan"
+            readonly
+        >
+
+        <!-- Append Satuan -->
+        <span class="input-group-text bg-white">
+            <span class="text-muted font-semibold">Kg</span>
+        </span>
+    </div>
+</div>
+
     {{-- sisa pakan --}}
    <div class="mb-3">
     <x-adminlte-input 
         name="sisa_pakan"
-        label="Sisa Pakan (Kg)"
+        label="Sisa Pakan per baris (Kg)"
         type="number"
         igroup-size="md"
         step="0.01"
@@ -144,6 +102,93 @@
 </div>
 
 
+
+@push('js')
+<script>
+$(document).ready(function() {
+    function loadTanggalPakan(query = '') {
+        $.ajax({
+            url: "{{ route('ajax.tanggal-perhitungan') }}",
+            type: "GET",
+            data: { q: query },
+            dataType: "json",
+            success: function(response) {
+                let select = $('#tanggal_pemberian_pakan');
+                select.empty();
+                select.append('<option value="">-- Pilih Tanggal --</option>');
+
+                $.each(response.results, function(index, item) {
+
+                    let parts = item.text.split('-');
+                    let dateObj = new Date(parts[2], parts[1]-1, parts[0]);
+                    let formattedDate = dateObj.toLocaleDateString('id-ID', {
+                        day: '2-digit',
+                        month: 'long',
+                        year: 'numeric'
+                    });
+
+                    select.append('<option value="' + item.id + '">' + formattedDate + '</option>');
+                });
+            },
+            error: function(xhr) {
+                console.error(xhr.responseText);
+            }
+        });
+    }    
+    loadTanggalPakan();
+});
+
+$('#tanggal_pemberian_pakan').on('change', function() {
+    let tanggalId = $(this).val();
+    if (!tanggalId) return;
+
+    $.ajax({
+        url: "{{ route('ajax.show-detail-by-pipe', ['tanggalId' => 'TANGGAL_ID']) }}"
+        .replace('TANGGAL_ID', tanggalId),
+        type: "GET",
+        dataType: "json",
+         success: function(response) {
+            console.log(response.results.pakanPerFlock)
+                let kandangSelect = $('#kandang_id');
+                kandangSelect.empty();
+                kandangSelect.append('<option value="">-- Pilih Kandang --</option>');
+                 if(response.results && response.results.kandang && response.results.kandang.length > 0) {
+                    // load select kandang
+                        $.each(response.results.kandang, function(index, kandang) {
+                            kandangSelect.append('<option value="' + kandang.id + '">' +
+                                 kandang.nama + '</option>');
+                        });
+                        // load input Flock
+                        let flockSelect = $('#flock_id');
+                        flockSelect.empty();
+                        flockSelect.append('<option value="">-- Pilih Flock --</option>');
+                        if(response.results && response.results.flock) {
+                            $.each(response.results.flock, function(index, flock) {
+                                flockSelect.append('<option value="' + flock.id + '">' + flock.nama + '</option>');
+                            });
+                        }
+                        // jenis  pakan autofill
+                          if(response.results.jenis_pakan) {
+                                    $('#jenis_pakan').val(response.results.jenis_pakan);
+                                } else {
+                                    $('#jenis_pakan').val('');
+                                }
+                        }
+                         if (response.results.pakanPerFlock) {
+                                $('#pemberian_pakan').val(response.results.pakanPerFlock);
+                            } else {
+                                $('#pemberian_pakan').val('');
+                            }
+            },
+
+        error: function(xhr) {
+            console.error(xhr.responseText);
+        }
+    });
+});
+
+</script>
+@endpush
 
 
 

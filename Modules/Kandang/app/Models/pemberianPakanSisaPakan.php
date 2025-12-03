@@ -1,0 +1,27 @@
+<?php
+
+namespace Modules\Kandang\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Modules\Kandang\Database\Factories\PemberianPakanSisaPakanFactory;
+
+class PemberianPakanSisaPakan extends Model
+{
+    use HasFactory;
+
+    /** Nama tabel (jika tidak sama dengan nama model dalam bentuk jamak) */
+    protected $table = 'pemberian_pakan_sisa_pakan';
+
+    /** Field yang boleh diisi (fillable) */
+    protected $fillable = [
+        'perhitungan_pakan_id',
+        'pemberian_pakan_flock_kg',
+        'sisa_pakan_per_flock',
+    ];
+
+        public function perhitungan_pakan()
+    {
+        return $this->belongsTo(PerhitunganPakan::class, 'perhitungan_pakan_id', 'id');
+    }
+}

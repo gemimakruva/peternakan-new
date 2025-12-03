@@ -17,6 +17,7 @@
         <div style="max-width: 1200px" class="row justify-content-start px-3">
             {{-- Form Content --}}
             <div class="col-md-8">
+                  <x-form-alert />
             <form action="{{ route('perhitungan-pakan.store') }}" method="POST">
                 @csrf
                     <div class="card">
@@ -38,4 +39,5 @@
             </div>
     </div>
 </div>
+@include('components.snackbar')
 @endsection

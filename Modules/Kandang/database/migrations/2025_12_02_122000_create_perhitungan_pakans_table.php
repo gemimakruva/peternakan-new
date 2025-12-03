@@ -20,9 +20,10 @@ return new class extends Migration
             $table->foreignId('pipe_id')->constrained('pipe')->cascadeOnDelete();
             $table->decimal('proporsi_pemberian_pagi', 8, 2)->nullable();
             $table->decimal('proporsi_pemberian_sore', 8, 2)->nullable();
-            $table->integer('jumlah_ayam_per_kandang')->nullable();
+            $table->time('waktu_pemberian_pagi');
+            $table->time('waktu_pemberian_sore');
+            $table->integer('jumlah_ayam_per_pipe')->nullable();
             $table->decimal('jumlah_pakan_per_ekor_gram', 8, 2)->nullable();
-            $table->decimal('jumlah_pakan_per_kandang_kg', 8, 2)->nullable();
             $table->text('catatan')->nullable();
             $table->timestamps();
         });

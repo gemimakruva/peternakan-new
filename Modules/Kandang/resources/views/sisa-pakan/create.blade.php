@@ -14,11 +14,12 @@
 
 
 @section('content')
+<x-form-alert />
 <div>
         <div style="max-width: 1200px" class="row justify-content-start px-3">
             {{-- Form Content --}}
             <div class="col-md-8">
-            <form action="{{ route('perhitungan-pakan.store') }}" method="POST">
+            <form action="{{ route('sisa-pakan.store') }}" method="POST">
                 @csrf
                     <div class="card">
                         <div class="card-body">
@@ -39,4 +40,6 @@
             </div>
     </div>
 </div>
+@include('components.snackbar')
+
 @endsection

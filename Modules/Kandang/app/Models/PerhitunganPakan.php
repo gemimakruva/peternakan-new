@@ -16,12 +16,13 @@ class PerhitunganPakan extends Model
         'user_creator_id',     
         'user_executor_id',      
         'jenis_pakan_id',
-        'kandang_id',
+        'pipe_id',
         'proporsi_pemberian_pagi',
         'proporsi_pemberian_sore',
-        'jumlah_ayam_per_kandang',
+        'waktu_pemberian_pagi',
+        'waktu_pemberian_sore',
+        'jumlah_ayam_per_pipe',
         'jumlah_pakan_per_ekor_gram',
-        'jumlah_pakan_per_kandang_kg',
         'catatan',
     ];
 

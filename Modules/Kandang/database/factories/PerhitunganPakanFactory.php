@@ -23,9 +23,10 @@ class PerhitunganPakanFactory extends Factory
             'pipe_id' => Pipe::inRandomOrder()->first()->id ?? Pipe::factory(),
             'proporsi_pemberian_pagi' => $this->faker->randomFloat(2, 0, 1),
             'proporsi_pemberian_sore' => $this->faker->randomFloat(2, 0, 1),
-            'jumlah_ayam_per_kandang' => $this->faker->numberBetween(50, 200),
+            'waktu_pemberian_pagi' => $this->faker->time('H:i:s', '11:00:00'),
+            'waktu_pemberian_sore' => $this->faker->time('H:i:s', '20:00:00'),
+            'jumlah_ayam_per_pipe' => $this->faker->numberBetween(50, 200),
             'jumlah_pakan_per_ekor_gram' => $this->faker->randomFloat(2, 10, 100),
-            'jumlah_pakan_per_kandang_kg' => $this->faker->randomFloat(2, 5, 50),
             'catatan' => $this->faker->sentence(),
         ];
     }
