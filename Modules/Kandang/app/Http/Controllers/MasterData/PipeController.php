@@ -34,12 +34,6 @@ class PipeController extends Controller
         $perPage = request()->query('perPage', 10);
         
         $datas = $this->pipe
-<<<<<<< HEAD
-            ->query()
-            ->with(['flock', 'flock.kandang'])
-            ->orderBy('updated_at', 'desc') 
-            ->paginate(request()->query('perPage', 10));
-=======
             ->with(['flock.kandang.peternakan'])
             ->when($search, function ($query) use ($search) {
                 $query->where(function ($q) use ($search) {
@@ -67,7 +61,6 @@ class PipeController extends Controller
             ->withQueryString();
         
         $peternakan = Peternakan::with(['kandang.flocks'])->get();
->>>>>>> master
 
         return view('kandang::master-data.pipe.index', compact('datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId', 'search'));
     }
