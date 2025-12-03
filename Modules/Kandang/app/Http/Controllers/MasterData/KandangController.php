@@ -76,11 +76,12 @@ class KandangController extends Controller
     /**
      * Menampilkan form edit data kandang.
      */
-    public function edit($id)
+    public function edit(Kandang $kandang)
     {
+       
         Gate::authorize('Edit Kandang');
-        $data = $this->kandang->findOrFail($id);
         $peternakanList = Peternakan::all();
+        $data = $kandang;
         $strainList = Strain::all();
         return view('kandang::master-data.kandang.edit',
          compact('data','peternakanList','strainList'));
@@ -89,18 +90,17 @@ class KandangController extends Controller
     /**
      * Mengupdate data kandang di database.
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Kandang $kandang)
     {
         Gate::authorize('Edit Kandang');
 
         $validated = $request->validate([
             'nama'   => ['required', 'string', 'max:255', 
-            Rule::unique('kandang', 'nama')->ignore($id)],
+            Rule::unique('kandang', 'nama')->ignore($kandang)],
             'peternakan_id' => ['required', 'integer'],
             'strain_id' => ['required', 'integer'],
         ]);
 
-        $kandang = $this->kandang->findOrFail($id);
         $kandang->update($validated);
 
         return to_route('master-data.kandang.index')
@@ -113,11 +113,19 @@ class KandangController extends Controller
     public function destroy($id)
     {
         Gate::authorize('Hapus Kandang');
-
         $kandang = $this->kandang->findOrFail($id);
-        $kandang->delete();
-
-        return to_route('master-data.kandang.index')
-            ->with('danger', 'Data Berhasil Dihapus.');
+        if ($kandang->flocks()->exists()) {
+            return redirect()->back()->with('error', 
+                'Kandang ini tidak bisa dihapus karena masih memiliki Baris terkait.');
+        }
+        try {
+            $kandang->delete();
+            return redirect()->route('master-data.kandang.index')
+                ->with('success', 'Data Kandang berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 
+                'Terjadi kesalahan saat menghapus data kandang.');
+        }
     }
+
 }

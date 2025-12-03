@@ -90,8 +90,8 @@ class FlockController extends Controller
             $flock = Flock::create([
                 'nama' => $validated['nama'],
                 'kandang_id' => $validated['kandang_id'],
-                'kapasitas' => 0
             ]);
+           
 
             $pipeCount = intval($validated['pipe_count']);
             $keyword   = $validated['pipe_keyword'];
@@ -106,7 +106,7 @@ class FlockController extends Controller
 
             return redirect()
                 ->route('master-data.flock.index')
-                ->with('success', 'Flock dan Pipe berhasil dibuat!');
+                ->with('success', 'Baris dan Pipa berhasil dibuat!');
          }
             catch (\Exception $e) {
                 return redirect()
@@ -141,16 +141,16 @@ class FlockController extends Controller
      */
     public function update(Request $request, Flock $flock)
     {
+        // dd($request);
         Gate::authorize('Edit Flock');
-
         $validated = $request->validate([
-            'nama'=> ['required', 'string', 'max:255', Rule::exists('flock', 'nama')->whereNot('id', $flock->id)]
-        ]);
+            'nama'=> ['required', 'string', 'max:255'] ]);
 
         try {
             $flock->update([
                 'nama' => $validated['nama'],
             ]);
+            
         return to_route('master-data.flock.index')
             ->with('success', 'Flock berhasil diperbarui.');
         } catch (\Throwable $th) {
@@ -171,9 +171,13 @@ class FlockController extends Controller
                 ->with('danger', 'Data Baris tidak dapat dihapus karena memiliki pipa terkait.');
         }
 
-        $flock->delete();
-
-        return to_route('master-data.flock.index')
-            ->with('danger', 'Data Baris berhasil dihapus.');
+        try {
+                $flock->delete();
+                return redirect()->route('master-data.flock.index')
+                    ->with('danger', 'Data Flock berhasil dihapus.');
+            } catch (\Exception $e) {
+                return redirect()->back()->with('error', 
+                    'Terjadi kesalahan saat menghapus data Flock.');
+            }
     }
 }

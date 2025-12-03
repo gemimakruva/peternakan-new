@@ -51,50 +51,7 @@
                 </div>
 
             </div>
-
         </div>
-        <div class="col-md-4 col-12">
-          <div class="card border-0 shadow-sm">
-                <div class="card-header bg-light">
-                    <h5 class="m-0 fw-semibold text-secondary">
-                        <i class="fas fa-info-circle me-2"></i> Edit Data Kandang
-                    </h5>
-                </div>
-
-                <div class="card-body">
-                    <p class="text-muted mb-3">
-                        Pastikan mengisi dan Merubah data kandang  sesuai petunjuk berikut:
-                    </p>
-                    <ul class="small text-muted ps-3">
-                        <li>
-                            <strong>Nama Kandang</strong><br>
-                            Ubah data nama kandang lama dengan data baru jika ingin mengubah nama kandang, contoh:
-                            <em>Kandang A1, Kandang Produksi 2</em>.
-                        </li>
-
-                        <li class="mt-2">
-                            <strong>Pilih Peternakan</strong><br>
-                           Jika ada ketidaksesuian nama peternakan , sesuaikan dengan lokasi kandang berada. Peternakan muncul berdasarkan data yang sudah terdaftar.
-                        </li>
-
-                        <li class="mt-2">
-                            <strong>Pilih Strain Ayam</strong><br>
-                            Jika ingin mengubah strain ayam , tentukan strain ayam dalam kandang, misalnya:
-                            <em>CP707, MB202, ISA Brown</em>.
-                        </li>
-                    </ul>
-                    <hr>
-                    <p class="text-muted small">
-                        Jika pilihan dropdown tidak muncul, pastikan Anda telah menambahkan:
-                    </p>
-                    <ul class="small text-muted ps-3">
-                        <li>Data Peternakan</li>
-                        <li>Data Strain</li>
-                    </ul>
-                </div>
-            </div>
-        </div>   
-     
     </div>
 </div>
 @endsection

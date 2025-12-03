@@ -3,8 +3,13 @@
         name="nama" 
         label="Nama Baris" 
         type="text" 
+<<<<<<< HEAD
+        placeholder="Masukkan nama Baris..." 
+        :value="old('nama', @$flock->nama)" 
+=======
         placeholder="Masukkan nama baris..." 
         :value="old('nama', $flock->nama)" 
+>>>>>>> master
         igroup-size="md">
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
@@ -61,7 +66,11 @@
 
 <div class="mb-3">
     <x-adminlte-input 
+<<<<<<< HEAD
+        name="pipe_count" 
+=======
         name="pipe_count_display" 
+>>>>>>> master
         label="Jumlah Pipa per Baris" 
         type="number" 
         value="{{ $flock->pipes->count() }}"

@@ -17,11 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('nama');
             $table->foreignIdFor(Peternakan::class, 'peternakan_id')
-             ->constrained('peternakan', 'id')
-            ->cascadeOnDelete();
+                    ->constrained('peternakan', 'id')
+                    ->restrictOnDelete();
             $table->foreignIdFor(Strain::class, 'strain_id')
-             ->constrained('strain', 'id')
-            ->cascadeOnDelete();
+                    ->constrained('strain', 'id')
+                    ->restrictOnDelete();
             $table->timestamps();
         });
     }

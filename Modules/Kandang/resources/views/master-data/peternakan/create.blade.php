@@ -32,7 +32,8 @@
 
                         <hr class="my-4">
 
-                        <div class="d-flex justify-content-between" style="gap: 1rem; margin-top: 1.5rem;">
+                        <div class="d-flex justify-content-between" 
+                        style="gap: 1rem; margin-top: 1.5rem;">
                             <a href="{{ route('master-data.peternakan.index') }}" 
                             class="btn btn-outline-secondary px-4 py-2">
                                 <i class="fas fa-arrow-left me-2"></i> Kembali
@@ -46,40 +47,7 @@
                         </div>
                     </form>
                 </div>
-
             </div>
-
-        </div>
-           <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light">
-                        <h5 class="m-0 fw-semibold text-secondary">
-                            <i class="fas fa-info-circle me-2"></i> Panduan Form Peternakan
-                        </h5>
-                    </div>
-
-                    <div class="card-body">
-                            <p class="text-muted mb-3">
-                                Pastikan mengisi data Peternakan dengan benar sesuai petunjuk berikut:
-                            </p>
-                        <ul class="small text-muted ps-3">
-                            <li>
-                                <strong>Nama Peternakan</strong><br>
-                                Masukkan nama Peternakan yang jelas, contoh:
-                                <em>Peternakan Lohwan, Peternakan Surya Farm</em>.
-                            </li>
-
-                            <li class="mt-2"> 
-                                <strong>Alamat Peternakan</strong>
-                                <br class="text-center"> Masukan alamat lengkap peternakan termasuk
-                                jalan, kota, dan kode pos untuk referensi yang tepat.
-                        </ul>
-                        <hr>
-                        <p class="text-muted small">
-                            Jika terjadi kendala dalam pengisian form, pastikan Anda sudah mengisi data dengan benar dan lengkap
-                        </p>
-                    </div>
-                </div>
         </div>
     </div>
 </div>

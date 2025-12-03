@@ -100,11 +100,41 @@ class AyamKarantinaController extends Controller
         //
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     */
     public function overview()
     {
         $listAyamKarantina = AyamKarantina::orderBy('created_at', 'desc')->limit(5)->get();
         return view('kandang::ayam-karantina.overview', compact('listAyamKarantina'));
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+
+    public function masukKarantina()
+    {
+        return view('kandang::ayam-karantina.ayam-masuk.create');
+    }
+
+    public function storeAyamMasukKarantina(Request $request)
+    {
+        $validated = $request->validate([
+            'tanggal'     => 'required|date',
+            'kandang_id'  => 'required|exists:kandang,id',
+            'flock_id'    => 'required|exists:flock,id',
+            'pipe_id'     => 'required|exists:pipe,id',
+            'jumlah'      => 'required|integer|min:0',
+            'keterangan'  => 'nullable|string|max:500',
+        ]);
+        dd($validated);
+    }
+
+    public function keluarKarantina(Request $request)
+    {
+        dd("on progress");
+         return view('kandang::ayam-karantina.ayam-keluar.create');
     }
 
 }

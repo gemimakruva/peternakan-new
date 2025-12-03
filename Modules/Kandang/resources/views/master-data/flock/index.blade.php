@@ -17,7 +17,8 @@
 <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
     <h2 class="h4 fw-bold text-dark">Manajemen Baris</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk mengelola data Baris, termasuk penambahan, pembaruan, dan penghapusan data.
+        Halaman ini digunakan untuk mengelola data Baris, termasuk penambahan,
+         pembaruan, dan penghapusan data.
     </span>
 </div>
 @endsection
@@ -121,7 +122,8 @@
                         </button>
 
                         @can('Tambah Baris')
-                        <a href="{{ route('master-data.flock.create') }}" class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
+                        <a href="{{ route('master-data.flock.create') }}" 
+                        class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
                             <i class="fas fa-plus"></i>
                         </a>
                         @endcan
@@ -137,7 +139,6 @@
                         <th style="width: 50px;">#</th>
                         <th>Nama Kandang</th>
                         <th>Nama Baris</th>
-                        <th>Kapasitas</th>
                         <th style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
@@ -147,21 +148,22 @@
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
                         <td>{{ $row->kandang->nama ?? '-' }}</td>
                         <td>{{ $row->nama }}</td>
-                        <td>{{ $row->kapasitas }}</td>
                         <td>
                             <div style="gap: 6px" class="btn-group" role="group">
-                                <a href="{{ route('master-data.pipe.byFlock', $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
+                                <a href="{{ route('master-data.pipe.byFlock',
+                                 $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
 
-                                <a href="{{ route('master-data.flock.edit', $row) }}" class="btn btn-warning text-white btn-sm" title="Edit">
+                                <a href="{{ route('master-data.flock.edit',
+                                 $row) }}" class="btn btn-warning text-white btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-
                                 @can('Hapus Flock')
-                                <form action="{{ route('master-data.flock.destroy', $row) }}" 
+                                <form action="{{ route('master-data.flock.destroy', 
+                                $row) }}" 
                                       method="post" 
-                                      data-nama="{{ $row->flock_name }}" 
+                                      data-nama="{{ $row->nama }}" 
                                       class="form-delete d-inline">
                                     @csrf
                                     @method('delete')
@@ -187,15 +189,14 @@
         </div>
     </div>
 </div>
+@include('components.snackbar')
 @endsection
 
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).on('submit', '.form-delete', function(e) {
             e.preventDefault();
             const nama = $(this).data('nama');
-
             Swal.fire({
                 title: `Hapus Baris "${nama}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
@@ -204,7 +205,8 @@
                 confirmButtonText: "Ya, Hapus",
                 cancelButtonText: "Batal"
             }).then((result) => {
-                if (result.isConfirmed) {
+                
+                if (result.value) {
                     this.submit();
                 }
             });

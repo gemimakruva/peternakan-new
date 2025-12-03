@@ -372,7 +372,7 @@ return [
             'icon' => 'fas fa-solid fa-industry',
             'can'  => 'Lihat Standar Produksi',
         ],
-         [
+        [
             'text' => 'List Kandang',
             'route' => 'master-data.kandang.index',
             'icon' => 'bi bi-house-fill', 
@@ -389,7 +389,13 @@ return [
         'route' => 'master-data.pipe.index',
         'icon'  => 'bi bi-diagram-3', 
         'can'   => 'Lihat Semua Pipe', 
-    ],
+        ],
+        [
+        'text'  => 'Jenis Pakan',
+        'route' => 'master-data.jenis-pakan.index',
+        'icon'  => 'bi-leaf-fill', 
+        'can'   => 'Lihat Semua Pipe', 
+        ],
 
 
 
@@ -498,18 +504,34 @@ return [
             'icon' => 'fas fa-clipboard-check',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
-            [
+        [
             'text' => 'Form Ayam Karantina',
             'route' => 'ayam-karantina.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
+        
          [
-        'text' => 'Riwayat Karantina',
-        'route' => 'ayam-karantina.index',
-        'icon' => 'fas fa-history',
-        'can'  => 'Lihat Riwayat Kandang',
+            'text' => 'Riwayat Karantina',
+            'route' => 'ayam-karantina.index',
+            'icon' => 'fas fa-history',
+            'can'  => 'Lihat Riwayat Kandang',
          ],
+
+         [
+            'text' => 'Ayam Masuk Karantina',
+            'route' => 'ayam-karantina.masuk',
+            'icon' => 'fas fa-arrow-right',
+            'can'  => 'Lihat Riwayat Kandang',
+         ],
+
+         [
+            'text' => 'Ayam Keluar Karantina',
+            'route' => 'ayam-karantina.keluar',
+            'icon' => 'fas fa-arrow-left',
+            'can'  => 'Lihat Riwayat Kandang',
+         ],
+
 
    // ====================   PEMBERIAN PAKAN  ==========================
   [   
@@ -521,15 +543,15 @@ return [
         'Lihat Rekapan Pakan Harian',
     ],
         ],
-         [
-           'text' => 'Perhitungan Pakan',
-    'route' => '',
+    [
+    'text' => 'Pakan Harian',
+    'route' => 'perhitungan-pakan.create',
     'icon' => 'fas fa-calculator',
     'can'  => 'Lihat Perhitungan Pakan',
-        ],
+     ],
     [
-    'text' => 'Sisa Pakan',
-    'route' => '',
+    'text' => 'Sisa pakan',
+    'route' => 'sisa-pakan.create',
     'icon' => 'fas fa-box-open',
     'can'  => 'Lihat Sisa Pakan',
 ],

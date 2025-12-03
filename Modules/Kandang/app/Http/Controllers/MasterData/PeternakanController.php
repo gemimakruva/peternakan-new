@@ -75,27 +75,44 @@ class PeternakanController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Peternakan $peternakan)
-    {
-        // Implementasi update data peternakan
-    }
+        {
+            $validated = $request->validate([
+                'nama' => 'required|string|max:255',
+                'lokasi' => 'required|string|max:500',
+            ]);
+            try {
+                
+                $peternakan->update($validated);
+                return redirect()->route('master-data.peternakan.index')
+                    ->with('success', 'Data peternakan berhasil diperbarui.');
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->with('error', 'Terjadi kesalahan saat memperbarui data peternakan.');
+            }
+        }
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Peternakan $peternakan)
+   public function destroy(Peternakan $peternakan)
     {
+
+        if ($peternakan->kandang()->exists()) {
+            return redirect()->back()->with('error', 
+                'Peternakan ini tidak bisa dihapus karena masih memiliki kandang terkait.');
+        }
+
         try {
             if($peternakan->kandang()->exists()) {
                 return redirect()->back()->with('error', 'Data peternakan tidak dapat dihapus karena memiliki kandang terkait.');
             }
 
             $peternakan->delete();
-
-            return redirect()->back()
-                ->with('success', 'Data peternakan berhasil dihapus.');
+            return redirect()->back()->with('success', 'Data peternakan berhasil dihapus.');
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->with('error', 'Terjadi kesalahan saat menghapus data.');
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data.');
         }
     }
+
 }

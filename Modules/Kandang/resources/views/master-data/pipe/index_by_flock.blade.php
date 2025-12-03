@@ -52,7 +52,7 @@
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <form data-nama="{{ $pipe->nama }}" 
-                                            action="{{ route('master-data.pipe.destroy',$pipe ) }}" 
+                                            action="{{ route('master-data.pipe.destroyByFlock',$pipe ) }}" 
                                             method="POST" class="form-delete d-inline" data-nama="
                                             {{ $pipe->name ?? 'Pipe '.$pipe->id }}">
                                                 @csrf
