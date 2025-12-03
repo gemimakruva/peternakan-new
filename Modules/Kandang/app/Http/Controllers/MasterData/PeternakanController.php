@@ -104,6 +104,10 @@ class PeternakanController extends Controller
         }
 
         try {
+            if($peternakan->kandang()->exists()) {
+                return redirect()->back()->with('error', 'Data peternakan tidak dapat dihapus karena memiliki kandang terkait.');
+            }
+
             $peternakan->delete();
             return redirect()->back()->with('success', 'Data peternakan berhasil dihapus.');
         } catch (\Exception $e) {

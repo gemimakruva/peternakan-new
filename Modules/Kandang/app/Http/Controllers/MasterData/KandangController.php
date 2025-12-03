@@ -27,7 +27,7 @@ class KandangController extends Controller
         Gate::authorize('Lihat Semua Kandang');
         $search = request()->input('search');
         $kandang = $this->kandang
-                ->with('peternakan')
+                ->with(['strain','peternakan'])
                 ->when($search, function ($query, $search) {
                     $query->where('nama', 'like', "%{$search}%");
                 })

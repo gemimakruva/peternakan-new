@@ -49,6 +49,7 @@
                    <th style="width: 50px;">#</th>
                 <th>Nama</th>
                 <th>Nama Peternakan</th>
+                <th>Strain</th>
                 <th style="width: 150px;">Aksi</th>
 
                 </thead>
@@ -58,6 +59,7 @@
                     <td class="text-center">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
                     <td>{{ $row->nama }}</td>
                     <td>{{ $row->peternakan->nama }}</td>
+                    <td>{{ $row->strain?->nama }}</td>
                     <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
                             @can('Edit Kandang')

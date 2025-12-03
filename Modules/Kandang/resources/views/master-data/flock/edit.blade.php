@@ -1,12 +1,12 @@
 @extends('adminlte::page')
 
-@section('title', 'Edit Flock')
+@section('title', 'Edit Baris')
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Edit Flock</h2>
+    <h2 class="h4 fw-bold text-dark">Edit Baris</h2>
     <span class="text-muted mb-0" style="max-width: 500px;">
-        Form ini digunakan untuk mengubah data Flock
+        Form ini digunakan untuk mengubah data Baris
     </span>
 </div>
 @endsection
@@ -46,7 +46,7 @@
              <div class="card border-0 shadow-sm">
                 <div class="card-header bg-light">
                     <h5 class="m-0 fw-semibold text-secondary">
-                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Flock
+                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Baris
                     </h5>
                 </div>
 

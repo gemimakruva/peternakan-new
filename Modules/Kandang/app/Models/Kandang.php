@@ -34,6 +34,6 @@ class Kandang extends Model
     }
 
     public function strain(){
-        return $this->belongsTo(Strain::class, 'kandang_id', 'id');
+        return $this->belongsTo(Strain::class, 'strain_id', 'id');
     }
 }

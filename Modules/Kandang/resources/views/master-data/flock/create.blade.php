@@ -53,27 +53,27 @@
                             </p>
                         <ul class="small text-muted ps-3">
                             <li>
-                                <strong>Nama baris</strong><br>
-                                Masukkan nama baris yang jelas, contoh:
-                                <em>baris A1, baris Produksi 2</em>.
+                                <strong>Nama Baris</strong><br>
+                                Masukkan nama Baris yang jelas, contoh:
+                                <em>Baris A1, Baris Produksi 2</em>.
                             </li>
 
                             <li class="mt-2"> 
-                                <strong>Kata Kunci Nama Pipe</strong>
+                                <strong>Kata Kunci Nama Pipa</strong>
                                 <br class="text-center"> - Kata kunci ini digunakan untuk mengelompokkan
-                                atau mengidentifikasi pipe yang terhubung dengan baris.
+                                atau mengidentifikasi pipa yang terhubung dengan baris.
                                 <br class="text-center"> - Pastikan kata kunci dibuat tanpa sepasi
-                                atau dihubungkan antar kata dengan strip (-). Contoh: <em>baris1-pipe-1, baris2-pipe-1</em>.
+                                atau dihubungkan antar kata dengan strip (-). Contoh: <em>baris1-pipa-1, baris2-pipa-1</em>.
                             </li>
 
                             <li class="mt-2">
-                                <strong>Jumlah Pipa per-baris</strong><br>
-                                isi dengan jumlah pipe yang akan digunakan dalam baris ini.
+                                <strong>Jumlah Pipa per-Baris</strong><br>
+                                isi dengan jumlah pipa yang akan digunakan dalam baris ini.
                             </li>
                         </ul>
                         <hr>
                         <p class="text-muted small">
-                            Jika pilihan dropdown tidak muncul atau pipe tidak tergenerate, pastikan Anda sudah menambahkan:
+                            Jika pilihan dropdown tidak muncul atau pipa tidak tergenerate, pastikan Anda sudah menambahkan:
                         </p>
                         <ul class="small text-muted ps-3">
                             <li>Data Peternakan</li>

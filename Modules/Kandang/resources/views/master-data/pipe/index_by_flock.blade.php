@@ -1,19 +1,19 @@
 @extends('adminlte::page')
 
-@section('title', 'Daftar Pipe')
+@section('title', 'Daftar Pipa')
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center">
 
-    <h2 class="h4 fw-bold text-dark">Manajemen Flock<h2 
+    <h2 class="h4 fw-bold text-dark">Manajemen Baris<h2 
         class="h4 fw-bold text-dark"> <span class="text-primary fw-bold">
          {{ $flock->nama }}
         </span>
     </h2>
 
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk menampilkan daftar pipe serta
-        informasi kapasitas pada setiap pipe.
+        Halaman ini digunakan untuk menampilkan daftar pipa serta
+        informasi kapasitas pada setiap pipa.
     </span>
 </div>
 @endsection
@@ -26,7 +26,7 @@
             <div class="card shadow-sm border-0">
                 <div class="card-header bg-light">
                     <h4 class="card-title m-0 fw-semibold text-secondary">
-                        <i class="fas fa-tint me-2 text-muted"></i> Daftar Pipe
+                        <i class="fas fa-tint me-2 text-muted"></i> Daftar Pipa
                     </h4>
                 </div>
 
@@ -35,7 +35,7 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th style="width: 50px;">#</th>
-                                <th>Nama Pipe</th>
+                                <th>Nama Pipa</th>
                                 <th>Kapasitas</th>
                                 <th style="width: 150px;">Aksi</th>
                             </tr>
@@ -66,7 +66,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-muted">Belum ada pipe untuk flock ini.</td>
+                                    <td colspan="5" class="text-muted">Belum ada pipa untuk baris ini.</td>
                                 </tr>
                             @endforelse
                         </tbody>
