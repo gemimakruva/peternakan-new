@@ -17,10 +17,45 @@ class PerhitunganPakanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
-        //
+    public function index(Request $request)
+{
+    
+      $query = PerhitunganPakan::with([
+        'jenis_pakan', 
+        'pemberianPakanSisaPakan', 
+        'pipe.flock.kandang'
+    ])->latest();
+
+     if ($request->filled('tanggal')) {
+        $query->where('id', $request->tanggal);
     }
+
+    if ($request->filled('kandang')) {
+        $query->whereHas('pipe.flock.kandang',
+         function($q) use ($request) {
+            $q->where('id', $request->kandang);
+        });
+    }
+
+    if ($request->filled('flock')) {
+        $query->whereHas('pipe.flock', function($q) use ($request) {
+            $q->where('id', $request->flock); 
+        });
+    }
+
+   if ($request->filled('jenis_pakan')) {
+        $query->whereHas('jenis_pakan', function($q) use ($request) {
+            $q->where('nama', $request->jenis_pakan);
+        });
+    }
+
+    $perhitunganPakan = $query->get();
+    $jenisPakanList = JenisPakan::all();
+
+    // dd($perhitunganPakan);
+
+    return view('kandang::perhitungan-pakan.index', compact('perhitunganPakan','jenisPakanList'));
+}
 
     /**
      * Show the form for creating a new resource.
@@ -152,7 +187,8 @@ class PerhitunganPakanController extends Controller
                 ]);
             return redirect()
                 ->back()
-                ->with('success', 'Data pemberian & sisa pakan berhasil disimpan!');
+                ->with('success', 'Data pemberian & 
+                            sisa pakan berhasil disimpan!');
             } catch (\Exception $e) {
 
             return redirect()
