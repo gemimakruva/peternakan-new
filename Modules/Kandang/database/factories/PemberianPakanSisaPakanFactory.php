@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Modules\Kandang\Models\PemberianPakanSisaPakan;
 use Modules\Kandang\Models\PerhitunganPakan;
 
 class PemberianPakanSisaPakanFactory extends Factory
@@ -12,12 +13,14 @@ class PemberianPakanSisaPakanFactory extends Factory
      *
      * @return array<string, mixed>
      */
-    public function definition(): array
+        protected $model = PemberianPakanSisaPakan::class;
+        
+     public function definition()
     {
-         return [
-            'perhitungan_pakan_id' => PerhitunganPakan::inRandomOrder()->value('id') ?? PerhitunganPakan::factory(),
-            'pemberian_pakan_flock_kg' => $this->faker->randomFloat(2, 5, 50), 
-            'sisa_pakan_per_flock'     => $this->faker->randomFloat(2, 0, 10), 
+        return [
+           'perhitungan_pakan_id' =>  PerhitunganPakan::inRandomOrder()->first()->id ?? PerhitunganPakan::factory(), 
+            'pemberian_pakan_flock_kg' => $this->faker->randomFloat(2, 5, 20),
+            'sisa_pakan_per_flock' => $this->faker->randomFloat(2, 0, 5),
         ];
     }
 }

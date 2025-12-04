@@ -22,6 +22,12 @@ class PemberianPakanSisaPakan extends Model
 
         public function perhitungan_pakan()
     {
-        return $this->belongsTo(PerhitunganPakan::class, 'perhitungan_pakan_id', 'id');
+        return $this->belongsTo(PerhitunganPakan::class,
+         'perhitungan_pakan_id', 'id');
     }
+
+    protected static function newFactory()
+{
+    return PemberianPakanSisaPakanFactory::new();
+}
 }

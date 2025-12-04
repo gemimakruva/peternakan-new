@@ -557,7 +557,7 @@ return [
 ],
 [
     'text' => 'Rekapan Pakan Harian',
-    'route' => 'perhitungan-pakan.create',
+    'route' => 'perhitungan-pakan.index',
     'icon' => 'fas fa-clipboard-list',
     'can'  => 'Lihat Rekapan Pakan Harian',
 ],
