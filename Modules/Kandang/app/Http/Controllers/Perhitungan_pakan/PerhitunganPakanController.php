@@ -19,7 +19,7 @@ class PerhitunganPakanController extends Controller
      */
     public function index()
     {
-        //
+         return view("kandang::perhitungan-pakan.index");
     }
 
     /**
@@ -152,7 +152,8 @@ class PerhitunganPakanController extends Controller
                 ]);
             return redirect()
                 ->back()
-                ->with('success', 'Data pemberian & sisa pakan berhasil disimpan!');
+                ->with('success', 'Data pemberian & 
+                            sisa pakan berhasil disimpan!');
             } catch (\Exception $e) {
 
             return redirect()

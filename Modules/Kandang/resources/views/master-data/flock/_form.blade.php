@@ -5,11 +5,7 @@
     ============================ --}}
     <div class="card-header bg-light d-flex align-items-center">
         <h5 class="card-title m-0 text-secondary fw-semibold">
-<<<<<<< HEAD
-            <i class="fas fa-dove me-2 text-muted"></i> Form Pembuatan baris
-=======
             <i class="fas fa-dove me-2 text-muted"></i> Form Pembuatan Baris
->>>>>>> master
         </h5>
     </div>
 
@@ -74,11 +70,7 @@
                 name="nama"
                 label="Nama Baris"
                 type="text"
-<<<<<<< HEAD
-                placeholder="Masukkan nama baris ..."
-=======
                 placeholder="Masukkan nama baris..."
->>>>>>> master
                 :value="old('nama', @$data->nama)"
                 igroup-size="lg"
                 fgroup-class="col-12"
@@ -118,39 +110,7 @@
         </div>
 
         {{-- ===========================
-<<<<<<< HEAD
-            Select: Pilih Kandang
-            Relasi flock terhadap kandang
-        ============================ --}}
-        <div class="mb-3">
-            <x-adminlte-select 
-                name="kandang_id"
-                label="Pilih Kandang"
-                igroup-size="md">
-
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-white">
-                        <i class="fas fa-home text-muted"></i>
-                    </div>
-                </x-slot>
-
-                <option value="">-- Pilih Kandang --</option>
-
-                @foreach($kandang as $item)
-                    <option value="{{ $item->id }}" 
-                        {{ old('kandang_id', @$data->kandang_id) == $item->id ? 'selected' : '' }}>
-                        {{ $item->nama }}
-                    </option>
-                @endforeach
-
-            </x-adminlte-select>
-        </div>
-
-        {{-- ===========================
-            Input: Jumlah Pipa
-=======
             Input: Jumlah Pipe
->>>>>>> master
             Jumlah total pipa dalam satu flock
         ============================ --}}
         <div class="mb-4">

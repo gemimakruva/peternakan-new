@@ -14,23 +14,44 @@
             </x-slot>
         </x-adminlte-input>
     </div>
+    {{-- pilih kandang --}}
+    <div class="mb-3">
+    <x-adminlte-select name="kandang_id" label="Pilih Kandang" igroup-size="md" id="kandang_id">
+        <x-slot name="prependSlot">
+            <div class="input-group-text bg-white">
+                <i class="fas fa-warehouse text-muted"></i>
+            </div>
+        </x-slot>
+
+        <option value="">-- Pilih Kandang --</option>
+        {{-- opsi nanti akan diappend lewat ajax --}}
+    </x-adminlte-select>
+</div>
+
+    {{-- pilih flock  --}}
+    <div class="mb-3">
+        <x-adminlte-select name="flock_id" label="Pilih Flock" igroup-size="md" id="flock_id">
+            <x-slot name="prependSlot">
+                <div class="input-group-text bg-white">
+                    <i class="fas fa-feather text-muted"></i>
+                </div>
+            </x-slot>
+
+            <option value="">-- Pilih Flock --</option>
+            {{-- Opsi akan diisi lewat AJAX --}}
+        </x-adminlte-select>
+    </div>
+
 
      {{-- Pilih Pipe --}}
     <div class="mb-3">
-        <x-adminlte-select name="pipe_id" label="Pilih Pipa" igroup-size="md">
+        <x-adminlte-select name="pipe_id" id="pipe_id" label="Pilih Pipa" igroup-size="md">
             <x-slot name="prependSlot">
                 <div class="input-group-text bg-white">
                     <i class="fas fa-cogs text-muted"></i>
                 </div>
             </x-slot>
-
-            @foreach ($listPipe as $pipe)
-                <option value="{{ $pipe->id }}"
-                    {{ old('pipe_id', @$data->pipe_id) == $pipe->id ? 'selected' : '' }}>
-                    {{ $pipe->nama }}
-                </option>
-            @endforeach
-
+                <option value="">-- Pilih Flock --</option>
         </x-adminlte-select>
     </div>
 
@@ -78,7 +99,8 @@
                     type="number" 
                     step="0.01"
                     igroup-size="md"
-                    value="{{ old('proporsi_pemberian_pagi', @$data->proporsi_pemberian_pagi) }}">
+                    value="{{ old('proporsi_pemberian_pagi',
+                     @$data->proporsi_pemberian_pagi) }}">
                     <x-slot name="prependSlot">
                         <div class="input-group-text bg-white">
                             <i class="fas fa-sun text-muted"></i>
@@ -94,7 +116,8 @@
                 label="Jam Pemberian Pagi (WIB)" 
                 type="time" 
                 igroup-size="md"
-                value="{{ old('jam_pemberian_pagi', @$data->jam_pemberian_pagi) }}"
+                value="{{ old('jam_pemberian_pagi',
+                 @$data->jam_pemberian_pagi) }}"
                 min="05:00"
                 max="09:30">
                 
@@ -105,7 +128,8 @@
                 </x-slot>
 
                 <x-slot name="appendSlot">
-                    <div class="input-group-text bg-white font-bold text-sm">
+                    <div class="input-group-text
+                     bg-white font-bold text-sm">
                         WIB
                     </div>
                 </x-slot>
@@ -125,7 +149,8 @@
             type="number" 
             step="0.01"
             igroup-size="md"
-            value="{{ old('proporsi_pemberian_sore', @$data->proporsi_pemberian_sore) }}">
+            value="{{ old('proporsi_pemberian_sore', 
+            @$data->proporsi_pemberian_sore) }}">
             <x-slot name="prependSlot">
                 <div class="input-group-text bg-white">
                     <i class="fas fa-cloud-moon text-secondary"></i>
@@ -140,7 +165,8 @@
             label="Jam Pemberian Sore (WIB)" 
             type="time" 
             igroup-size="md"
-            value="{{ old('jam_pemberian_sore', @$data->jam_pemberian_sore) }}"
+            value="{{ old('jam_pemberian_sore',
+             @$data->jam_pemberian_sore) }}"
             min="15:00"
             max="18:30">
             <x-slot name="prependSlot">
@@ -170,7 +196,8 @@
         <option value="">-- Pilih Jenis Pakan --</option>
         @foreach($listJenisPakan as $pakan)
             <option value="{{ $pakan->id }}" 
-                {{ old('jenis_pakan_id', @$data->jenis_pakan_id) 
+                {{ old('jenis_pakan_id',
+                 @$data->jenis_pakan_id) 
                 == $pakan->id ? 'selected' : '' }}>
                 {{ $pakan->nama }}
             </option>
@@ -197,6 +224,109 @@
     </x-adminlte-textarea>
 </div>
 
+@push('js')
+<script>
+    $.ajax({
+        url: '/master-data/ajax/kandang',
+        type: 'GET',
+        dataType: 'json',
+        success: function(response){
+            let select = $('#kandang_id');
+            select.empty();
+            select.append('<option value="">-- Pilih Kandang --</option>');
+
+            $.each(response.results, function(index, item){
+                select.append(
+                    $('<option>', {
+                        value: item.id,
+                        text: item.text
+                    })
+                );
+            });
+            
+            @if(old('kandang_id'))
+                select.val('{{ old("kandang_id") }}').change();
+            @endif
+        },
+        error: function(xhr){
+            console.log("Error fetch kandang / ajax:", xhr);
+        }
+    });
+
+    //  === Cascade functional flock ====
+    $('#kandang_id').on('change', function() {
+        let kandangID = $(this).val();
+        if (!kandangID) {
+            $('#flock_id').empty().append('<option value="">-- Pilih Kandang dulu --</option>');
+        return;
+        }
+        $('#flock_id').empty().append('<option value="">Memuat data Baris...</option>');
+    
+        $.ajax({
+        url: '/master-data/ajax/flock/' + kandangID, 
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            $('#flock_id').empty().append('<option value="">-- Pilih BARIS --</option>');
+
+            $.each(response.results, function(index, flock) {
+                $('#flock_id').append(
+                    $('<option>', {
+                        value: flock.id,
+                        text: flock.text
+                    })
+                );
+            });
+
+            @if(old('flock_id'))
+                $('#flock_id').val('{{ old("flock_id") }}');
+            @endif
+        },
+            error: function(xhr, status, error) {
+                console.log("Gagal memuat data flock: " + error);
+                $('#flock_id').empty().append('<option value="">Gagal memuat data baris</option>');
+            }
+        });
+    });
+
+       //  === Cascade functional pipe ====
+    $('#flock_id').on('change', function() {
+    let flockID = $(this).val();
+    console.log(flockID);
+    if (!flockID) {
+            $('#pipe_id').empty().append('<option value="">-- Pilih Baris dulu --</option>');
+        return;
+        }
+     $('#pipe_id').empty().append('<option value="">Memuat data pipa...</option>');  
+     
+       $.ajax({
+        url: '/master-data/ajax/pipe/' + flockID,
+        type: 'GET',
+        dataType: 'json',
+        success: function(response) {
+            $('#pipe_id').empty().append('<option value="">-- Pilih Pipe --</option>');
+            $.each(response.results, function(index, pipe) {
+                $('#pipe_id').append(
+                    $('<option>', {
+                        value: pipe.id,
+                        text: pipe.text
+                    })
+                );
+            });
+            @if(old('pipe_id'))
+                $('#pipe_id').val('{{ old("pipe_id") }}');
+            @endif
+        },
+        error: function(xhr, status, error) {
+            console.log("Gagal memuat data pipe: " + error);
+            $('#pipe_id').empty().append('<option value="">Gagal memuat data pipe</option>');
+        }
+         });
+    })
+
+</script>
+
+@endpush
 
 
 
