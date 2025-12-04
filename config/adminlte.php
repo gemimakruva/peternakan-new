@@ -573,13 +573,13 @@ return [
         ],
             [
             'text' => 'Tambah Recording Telur',
-            'route' => '',
+            'route' => 'recording-telur.create',
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
         [
             'text' => 'Overview',
-            'route' => '',
+            'route' => 'recording-telur.index',
             'icon' => 'fas fa-clipboard-check',
             'can'  => 'Lihat Pengadaan Kandang',
         ],

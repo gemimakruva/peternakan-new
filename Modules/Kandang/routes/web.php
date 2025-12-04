@@ -12,6 +12,7 @@ use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\PerhitunganPakanController;
+use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 
 Route::middleware(['auth'])->group(function () {
         Route::prefix('master-data')->as('master-data.')->group(function() {
@@ -32,6 +33,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
         Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
         Route::get('ajax/umur-ayam/{pipeId}', [AjaxController::class, 'umur_ayam'])->name('ajax.umur_ayam');
+        Route::get('ajax/umur-ayam-by-flock/{flockId}', [AjaxController::class, 'umurAyamByFlock'])->name('ajax.umur_ayam_by_flock');
         Route::get('ajax/kandang/{kandangId}/{tanggal}/record-populasi', [PopulasiAyamController::class, 'getRecordedPopulasi'])
         ->name('ajax.kandang.record-populasi');
     });
@@ -64,4 +66,5 @@ Route::middleware(['auth'])->group(function () {
      
 
 
+        Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
 });

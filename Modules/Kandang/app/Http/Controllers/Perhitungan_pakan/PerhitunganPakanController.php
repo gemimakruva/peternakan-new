@@ -99,8 +99,6 @@ class PerhitunganPakanController extends Controller
          $validated['user_creator_id'] = $userId;
          $validated['user_executor_id'] = $executor;
 
-         dd($request);
-
          PerhitunganPakan::create([
             'tanggal_pemberian_pakan' => $validated["tanggal"],
             'user_creator_id' => $userId,
