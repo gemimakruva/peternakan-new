@@ -155,4 +155,25 @@ class AjaxController extends Controller
                 ]);
 }
 
+    public function umurAyamByFlock($flockId)
+    {
+        $distribusi = $this->pengadaanAyamDistribusi
+            ->with('pengadaanAyam:id,tanggal,umur_ayam')
+            ->where('flock_id', '=', $flockId)
+            ->firstOrFail(['pengadaan_ayam_id', 'flock_id']);
+
+        $pengadaanAyam = $distribusi->pengadaanAyam;
+
+        $tanggalPerbandingan = request()->has('tanggal_perbandingan') 
+            ? request()->date('tanggal_perbandingan')->diffInWeeks($pengadaanAyam->tanggal)
+            : now()->diffInWeeks($pengadaanAyam->tanggal);
+
+        $umurAyamSekarang = $pengadaanAyam->umur_ayam + floor(abs($tanggalPerbandingan));
+
+        return response()->json([
+            'tanggal_ayam_datang' => $pengadaanAyam->tanggal,
+            'umur_ayam_datang' => $pengadaanAyam->umur_ayam,
+            'umur_ayam_sekarang' => $umurAyamSekarang,
+        ]);
+    }
 }
