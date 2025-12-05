@@ -14,11 +14,9 @@ class PengadaanAyamDokumentasi extends Model
         'file_path',
     ];
 
-     public function pengadaanAyam()
+    public function pengadaanAyam()
     {
         return $this->belongsTo(PengadaanAyam::class,
          'pengadaan_ayam_id');
     }
-
-
 }

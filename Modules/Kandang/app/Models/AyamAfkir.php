@@ -25,9 +25,9 @@ class AyamAfkir extends Model
 
     // Relasi ke Kandang
    public function populasi()
-   {
-    return $this->belongsTo(PopulasiAyam::class,'populasi_ayam_id','id');
-   }
+    {
+        return $this->belongsTo(PopulasiAyam::class,'populasi_ayam_id','id');
+    }
 
     public function pic_user()
     {

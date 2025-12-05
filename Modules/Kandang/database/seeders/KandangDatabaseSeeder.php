@@ -2,7 +2,7 @@
 
 namespace Modules\Kandang\Database\Seeders;
 use Illuminate\Database\Seeder;
-use Modules\Kandang\Database\Seeders\AyamKarantinaSeeder as SeedersAyamKarantinaSeeder;
+use Modules\Kandang\Database\Seeders\AyamKarantinaSeeder;
 
 class KandangDatabaseSeeder extends Seeder
 {
@@ -18,14 +18,17 @@ class KandangDatabaseSeeder extends Seeder
             FlockSeeder::class,
             PengadaanAyamSedeer::class,
             PopulasiAyamSeeder::class,
+
             AyamAfkirSeeder::class,
-            SeedersAyamKarantinaSeeder::class,
+            AyamKarantinaSeeder::class,
             JenisPakanSeeder::class,
-            PerhitunganPakanSeeder::class,
-            PemberianPakanSisaPakanSeeder::class,
-            JenisDisinfectanSeeder::class,
-            JenisTreatmentSeeder::class,
-            MetodeTreatmentSeeder::class
+
+            // PerhitunganPakanSeeder::class,
+
+            // PemberianPakanSisaPakanSeeder::class,
+            // JenisDisinfectanSeeder::class,
+            // JenisTreatmentSeeder::class,
+            // MetodeTreatmentSeeder::class
         ]);
     }
 }

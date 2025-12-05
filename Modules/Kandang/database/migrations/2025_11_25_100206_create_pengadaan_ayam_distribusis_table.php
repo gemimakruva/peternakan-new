@@ -20,19 +20,10 @@ return new class extends Migration
             $table->foreignIdFor(PengadaanAyam::class, 'pengadaan_ayam_id')
                   ->constrained('pengadaan_ayam', 'id')
                   ->cascadeOnDelete();
-
-             $table->foreignIdFor(Kandang::class, 'kandang_id')
-                  ->constrained('kandang', 'id')
-                  ->cascadeOnDelete();
-
-            $table->foreignIdFor(Flock::class, 'flock_id')
-                  ->constrained('flock', 'id')
-                  ->cascadeOnDelete();
-
             $table->foreignIdFor(Pipe::class, 'pipe_id')
                   ->constrained('pipe', 'id')
                   ->cascadeOnDelete();
-             $table->integer('jumlah_ayam')->default(0);
+            $table->integer('jumlah_ayam')->default(0);
             $table->timestamps();
         });
     }

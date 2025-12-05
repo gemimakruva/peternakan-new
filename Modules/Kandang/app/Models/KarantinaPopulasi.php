@@ -6,26 +6,27 @@ use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class AyamKarantina extends Model
+class KarantinaPopulasi extends Model
 {
     use HasFactory;
 
-    protected $table = 'ayam_karantina';
+    protected $table = 'karantina_populasi';
 
     protected $fillable = [
+        'kandang_id',
         'pic_user_id',
-        'populasi_ayam_id',
-        'tanggal_karantina',
-        'ayam_masuk_karantina',
-        'keterangan_pengecekan',
+        'total_ayam_karantina',
+        'tanggal',
         'ayam_mati',
         'ayam_afkir',
-        'ayam_keluar_karantina',
         'pemberian_pakan',
         'sisa_pakan',
         'jumlah_telur_bagus',
         'jumlah_telur_retak',
         'jumlah_telur_rusak',
+        'berat_telur_bagus',
+        'berat_telur_retak',
+        'berat_telur_rusak',
         'pengobatan_yang_dilakukan',
         'jumlah_ayam_diobati',
         'penyemprotan',
@@ -35,9 +36,9 @@ class AyamKarantina extends Model
 
     
 
-     public function populasi()
+     public function kandang()
     {
-        return $this->belongsTo(PopulasiAyam::class, 'populasi_ayam_id');
+        return $this->belongsTo(Kandang::class, 'kandang_id');
     }
 
     public function pic_user()

@@ -14,8 +14,6 @@ class PengadaanAyamDistribusi extends Model
     // Mass assignable fields
     protected $fillable = [
         'pengadaan_ayam_id',
-        'kandang_id',
-        'flock_id',
         'pipe_id',
         'jumlah_ayam',
     ];
@@ -26,22 +24,6 @@ class PengadaanAyamDistribusi extends Model
     public function pengadaanAyam()
     {
         return $this->belongsTo(PengadaanAyam::class, 'pengadaan_ayam_id');
-    }
-
-    /**
-     * Relasi ke Kandang
-     */
-    public function kandang()
-    {
-        return $this->belongsTo(Kandang::class, 'kandang_id');
-    }
-
-    /**
-     * Relasi ke Flock
-     */
-    public function flock()
-    {
-        return $this->belongsTo(Flock::class, 'flock_id');
     }
 
     /**

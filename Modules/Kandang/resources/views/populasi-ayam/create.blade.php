@@ -12,20 +12,28 @@
 @endsection
 
 @section('content')
-    <div style="max-width: 1200px">
+    <div style="max-width: 1400px">
         @include('components.form-alert')
 
         <div class="row justify-content-center">
             {{-- Form Content --}}
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <form action="{{ route('populasi-ayam.store') }}" method="POST">
                     @csrf
                     <div class="card">
                         <div class="card-header">
-                            <h2 class="card-title">Recording Harian</h2>
+                            <h2 class="card-title">Form Pencatatan Harian Ayam</h2>
                         </div>
                         <div class="card-body">
-                            @include('kandang::populasi-ayam._form')
+                            @include('kandang::populasi-ayam.create-form-pencatatan-harian-ayam')
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2 class="card-title">Kondisi Harian Ayam</h2>
+                        </div>
+                        <div class="card-body">
+                            @include('kandang::populasi-ayam.create-form-kondisi-harian-ayam')
                         </div>
                     </div>
                     {{-- Button Submit --}}
@@ -40,7 +48,7 @@
                 </form>
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Log Pencatatan Harian</h2>
@@ -49,13 +57,14 @@
                         <table class="table table-sm">
                             <thead>
                                 <tr>
-                                    <th>Pipa</th>
-                                    <th>Sehat</th>
-                                    <th>Mati</th>
-                                    <th>Afkir</th>
-                                    <!-- <th>Masuk Karantina</th>
-                                    <th>Keluar Karantina</th> -->
+                                    <th rowspan="2">Pipa</th>
+                                    <th rowspan="2">Sehat</th>
+                                    <th rowspan="2">Mati</th>
+                                    <th rowspan="2">Afkir</th>
+                                    <th>Karantina</th>
+                                    <th>Karantina</th>
                                 </tr>
+                                <tr></tr>
                             </thead>
                             <tbody id="record-harian">
                             </tbody>

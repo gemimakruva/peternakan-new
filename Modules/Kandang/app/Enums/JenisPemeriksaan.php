@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Enums;
+namespace Modules\Kandang\Enums;
 
-enum PopulasiAyamJenisPemeriksaanEnum : string
+enum JenisPemeriksaan : string
 {
     case PENGADAAN = 'pengadaan';
     case HARIAN = 'harian';

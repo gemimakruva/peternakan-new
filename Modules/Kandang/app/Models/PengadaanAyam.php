@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Models;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Carbon;
 
 class PengadaanAyam extends Model
 {
@@ -45,6 +46,15 @@ class PengadaanAyam extends Model
             'pengadaan_ayam_id', 'id');
     }
 
-
+    /**
+     * get umur ayam dalam satuan minggu
+     * @param Carbon $tanggalPembanding
+     * @return float
+     */
+    public function getUmurAyam(Carbon $tanggalPembanding)
+    {
+        $tanggalPerbandingan = $tanggalPembanding->diffInWeeks($this->attributes['tanggal']);
+        return $this->attributes['umur_ayam'] + floor(abs($tanggalPerbandingan));
+    }
     
 }

@@ -20,7 +20,7 @@ class PeternakanSeeder extends Seeder
         ];
 
         foreach ($data as $item) {
-            Peternakan::create($item);
+            Peternakan::firstOrCreate($item);
         }
     }
 }

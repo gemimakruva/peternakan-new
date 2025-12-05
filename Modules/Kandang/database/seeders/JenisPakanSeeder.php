@@ -12,7 +12,7 @@ class JenisPakanSeeder extends Seeder
      */
     public function run(): void
     {
-        JenisPakan::insert([
+        $datas = [
             ['nama' => 'Pakan Starter'],
             ['nama' => 'Pakan Grower'],
             ['nama' => 'Pakan Finisher'],
@@ -23,7 +23,10 @@ class JenisPakanSeeder extends Seeder
             ['nama' => 'Pakan Bekatul'],
             ['nama' => 'Pakan Fermentasi'],
             ['nama' => 'Pakan Organik']
-        ]);
+        ];
+        foreach ($datas as $data) {
+            JenisPakan::firstOrCreate($data);
+        }
     }
 
 }

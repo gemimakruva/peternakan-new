@@ -13,17 +13,14 @@ return new class extends Migration
     {
         Schema::create('ayam_afkir', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('populasi_ayam_id')->constrained('populasi_ayam')
-             ->onDelete('cascade');
-            $table->foreignId('pic_user_id')->constrained('users')
-            ->onDelete('cascade');
+            $table->foreignId('populasi_ayam_id')->constrained('populasi_ayam') ;
+            $table->foreignId('pic_user_id')->constrained('users');
             $table->date('tanggal');
             $table->integer('umur_ayam'); 
             $table->integer('jumlah_ayam_afkir');
             $table->string('penyebab_afkir');
             $table->string('pembeli_afkir')->nullable();
             $table->decimal('harga_jual', 15, 2)->nullable();
-
             $table->timestamps();
         });
     }
