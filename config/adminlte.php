@@ -397,6 +397,29 @@ return [
         'can'   => 'Lihat Semua Pipe', 
         ],
 
+         [
+            'text' => 'Jenis Disinfectan',
+            'route' => 'master-data.jenis-disinfectan.index',
+            'icon' => 'fas fa-clipboard-list',
+            'can'  => 'Lihat Rekapan Pakan Harian',
+        ],
+
+        [
+            'text' => 'Jenis Treatment',
+            'route' => 'master-data.jenis-treatment.index',
+            'icon' => 'fas fa-prescription-bottle-alt',
+            'can'  => 'Lihat Jenis Treatment',
+        ],
+
+        [
+    'text' => 'Metode Treatment',
+    'route' => 'master-data.metode-treatment.index',
+    'icon' => 'fas fa-vials',
+    'can'  => 'Lihat Metode Treatment',
+],
+
+
+
 
 
        
@@ -633,6 +656,8 @@ return [
             'icon' => 'fas fa-plus-circle',
             'can'  => 'Lihat Pengadaan Kandang',
         ],
+
+
 
  // ====================   Perhitungan Obat  =================
 

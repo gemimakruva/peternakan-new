@@ -205,7 +205,6 @@
                 confirmButtonText: "Ya, Hapus",
                 cancelButtonText: "Batal"
             }).then((result) => {
-                
                 if (result.value) {
                     this.submit();
                 }
