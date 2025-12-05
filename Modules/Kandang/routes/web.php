@@ -1,8 +1,10 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
+use Modules\Kandang\Http\Controllers\Disinfectan\JenisDisinfectanController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
@@ -13,11 +15,19 @@ use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
+use Modules\Kandang\Http\Controllers\treatment\JenisTreatmentController;
+use Modules\Kandang\Http\Controllers\treatment\MetodeTreatmentController;
 
 Route::middleware(['auth'])->group(function () {
         Route::prefix('master-data')->as('master-data.')->group(function() {
         Route::resource('peternakan', PeternakanController::class)->names('peternakan');
         Route::resource('Jenis-pakan', JenisPakanController::class)->names('jenis-pakan');
+        Route::resource('jenis-disinfectan', JenisDisinfectanController::class)->
+        names('jenis-disinfectan');
+        Route::resource('jenis-treatment', JenisTreatmentController::class)->
+        names('jenis-treatment');
+          Route::resource('metode-treatment', MetodeTreatmentController::class)->
+        names('metode-treatment');
         Route::get('strain-ayam', [StrainAyamController::class, 'index'])->name('strain-ayam.index');
         Route::resource('kandang', KandangController::class)->names('kandang')->except('show');
         Route::resource('flock', FlockController::class)->names('flock')->except('show');
@@ -61,10 +71,8 @@ Route::middleware(['auth'])->group(function () {
         [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
         Route::get('ajax/listKandangbyPipe/{tanggalId}', 
         [AjaxController::class, 'DetailPengadaanByPipeId'])->name('ajax.show-detail-by-pipe');
-        
-     
-     
-
-
-        Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
+        // Recording telur
+        Route::resource('recording-telur', RecordingTelurController::class)->
+        names('recording-telur');
+    
 });

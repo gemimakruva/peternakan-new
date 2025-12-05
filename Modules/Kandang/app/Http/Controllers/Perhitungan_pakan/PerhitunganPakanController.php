@@ -38,13 +38,15 @@ class PerhitunganPakanController extends Controller
     }
 
     if ($request->filled('flock')) {
-        $query->whereHas('pipe.flock', function($q) use ($request) {
+        $query->whereHas('pipe.flock', 
+        function($q) use ($request) {
             $q->where('id', $request->flock); 
         });
     }
 
    if ($request->filled('jenis_pakan')) {
-        $query->whereHas('jenis_pakan', function($q) use ($request) {
+        $query->whereHas('jenis_pakan', 
+        function($q) use ($request) {
             $q->where('nama', $request->jenis_pakan);
         });
     }
@@ -54,7 +56,8 @@ class PerhitunganPakanController extends Controller
 
     // dd($perhitunganPakan);
 
-    return view('kandang::perhitungan-pakan.index', compact('perhitunganPakan','jenisPakanList'));
+    return view('kandang::perhitungan-pakan.index', 
+    compact('perhitunganPakan','jenisPakanList'));
 }
 
     /**
@@ -78,7 +81,6 @@ class PerhitunganPakanController extends Controller
     public function store(Request $request)
     {
        try {
-        
          $validated = $request->validate([
                 'tanggal' => ['required', 'date'],
                 'pipe_id' => ['required', 'exists:pipe,id'],

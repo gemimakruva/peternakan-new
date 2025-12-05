@@ -7,7 +7,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Modules\Kandang\Models\PengadaanAyam;
+
 class PopulasiAyamController extends Controller
 {
     public function __construct(
@@ -55,7 +55,7 @@ class PopulasiAyamController extends Controller
         ]);
 
         $this->populasiAyam->create([
-            'pic_user_id'           => auth()->id(),
+            'pic_user_id'            => Auth::id(),
             'kandang_id'            => $validated['kandang_id'],
             'flock_id'              => $validated['flock_id'],
             'pipe_id'               => $validated['pipe_id'],
