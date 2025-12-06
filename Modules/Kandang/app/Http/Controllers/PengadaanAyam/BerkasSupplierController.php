@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Kandang\App\Http\Controllers\PengadaanAyam;
+namespace Modules\Kandang\Http\Controllers\PengadaanAyam;
 
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\BerkasPengadaanAyam;

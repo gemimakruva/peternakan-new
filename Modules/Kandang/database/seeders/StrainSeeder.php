@@ -38,7 +38,7 @@ class StrainSeeder extends Seeder
                     'egg_weight' => $row[10],
                     'egg_mass' => $row[11],
                 ];
-                StrainStandartMetric::create($strainMatrix);
+                StrainStandartMetric::firstOrCreate($strainMatrix);
             });
         }
     }

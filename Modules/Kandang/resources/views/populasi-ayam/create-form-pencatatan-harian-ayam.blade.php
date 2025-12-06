@@ -6,9 +6,9 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    max="{{ today()->format('Y-m-d') }}"
+    :value="old('tanggal_transaksi', @$data->tanggal_transaksi)"
 />
-
-<input type="hidden" name="kandang_id" value="{{ request()->route('kandangId') }}">
 
 <div class="form-group col-12">
     <label for="flock_id">Baris</label>
@@ -27,14 +27,15 @@
 </div>
 
 <x-adminlte-input
-    id="umur_ayam"
-    name="umur_ayam"
+    id="umur_ayam_record"
+    name="umur_ayam_record"
     label="Umur Ayam"
     type="number"
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
     readonly
+    :value="old('umur_ayam_record', @$data->umur_ayam_record)"
 />
 
 <x-adminlte-input
@@ -44,6 +45,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    :value="old('ayam_sehat', @$data->ayam_sehat)"
 />
 
 <x-adminlte-textarea 
@@ -52,6 +54,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    :value="old('catatan', @$data->catatan)"
 />
 
 @push('js')
@@ -59,8 +62,7 @@
         $(function() {
             $('#flock_id').select2({
                 ajax: {
-                    url: @js(route('master-data.ajax.flock', 
-                    request()->route('kandangId'))),
+                    url: @js(route('master-data.ajax.flock', request()->route('kandangId'))),
                     datType: 'json'
                 },
                 placeholder: "Pilih Flock",
@@ -84,16 +86,21 @@
 
             async function getUmurAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
-                let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?
-                tanggal_perbandingan=${tanggalTransaksi}`)
+                let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
                     .then(res => res.umur_ayam_sekarang); // satuan minggu
                 $('#umur_ayam').val(umurAyamSekarang);
             }
 
+            async function getKesehatanAyam() {
+                if (!pipeId || !tanggalTransaksi) return;
+                let kesehatanAyamSekarang = await $.ajax(`/master-data/ajax/kesehatan-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
+                    .then(res => res.total_ayam_sehat_terakhir); // satuan ekor
+                $('#kesehatan_ayam').val(kesehatanAyamSekarang);
+            }
+
             async function getRecordPopulasi() {
                 if (!tanggalTransaksi) return;
-                const list_populasi = await $.ajax(`/master-data/ajax/kandang/
-                {{ request()->route('kandangId') }}/${tanggalTransaksi}/record-populasi`);
+                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ request()->route('kandangId') }}/${tanggalTransaksi}/record-populasi`);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {
                     $('#record-harian').append(`
@@ -110,13 +117,25 @@
             $('#pipe_id').on('change', function() {
                 pipeId = this.value;
                 getUmurAyam();
+                getKesehatanAyam();
             });
 
             $('#tanggal_transaksi').on('change', function() {
                 tanggalTransaksi = this.value;
                 getUmurAyam();
-                getRecordPopulasi()
+                getKesehatanAyam();
+                getRecordPopulasi();
             });
         })
     </script>
+    @if (old('flock_id'))
+        <script>
+            $(() => { $('#flock_id').val(old('flock_id')); });
+        </script>
+    @endif
+    @if (old('pipe_id'))
+        <script>
+            $(() => { $('#pipe_id').val(old('pipe_id')); });
+        </script>
+    @endif
 @endpush

@@ -3,7 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\AyamKarantina;
 
 use App\Http\Controllers\Controller;
-use Modules\Kandang\Models\AyamKarantina;
+use Modules\Kandang\Models\KarantinaPopulasi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Kandang\Models\PopulasiAyam;
@@ -15,7 +15,7 @@ class AyamKarantinaController extends Controller
      */
     public function index()
     {
-         $listAyamKarantina = AyamKarantina::latest()->paginate(10);
+         $listAyamKarantina = KarantinaPopulasi::latest()->paginate(10);
          return view('kandang::ayam-karantina.index',
           compact('listAyamKarantina'));
     }
@@ -54,7 +54,7 @@ class AyamKarantinaController extends Controller
             'vaksin' => ['nullable', 'string', 'max:255'],
             'catatan' => ['nullable', 'string'],
          ]);
-           $karantina = AyamKarantina::create($validated);
+           $karantina = KarantinaPopulasi::create($validated);
            $populasi = PopulasiAyam::find($validated['populasi_ayam_id']);
            $populasi->ayam_masuk_karantina += $validated['ayam_masuk_karantina'];
            $populasi->ayam_sehat -= $validated['ayam_masuk_karantina'];
@@ -69,9 +69,9 @@ class AyamKarantinaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(AyamKarantina $ayamKarantina)
+    public function show(KarantinaPopulasi $ayamKarantina)
     {
-         $listAyamKarantina = AyamKarantina::latest()->paginate(10);
+         $listAyamKarantina = KarantinaPopulasi::latest()->paginate(10);
          return view('kandang::ayam-karantina.index',
           compact('listAyamKarantina'));
     }
@@ -79,7 +79,7 @@ class AyamKarantinaController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(AyamKarantina $ayamKarantina)
+    public function edit(KarantinaPopulasi $ayamKarantina)
     {
         //
     }
@@ -87,7 +87,7 @@ class AyamKarantinaController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, AyamKarantina $ayamKarantina)
+    public function update(Request $request, KarantinaPopulasi $ayamKarantina)
     {
         //
     }
@@ -95,7 +95,7 @@ class AyamKarantinaController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(AyamKarantina $ayamKarantina)
+    public function destroy(KarantinaPopulasi $ayamKarantina)
     {
         //
     }
@@ -105,7 +105,7 @@ class AyamKarantinaController extends Controller
      */
     public function overview()
     {
-        $listAyamKarantina = AyamKarantina::orderBy('created_at', 'desc')->limit(5)->get();
+        $listAyamKarantina = KarantinaPopulasi::orderBy('created_at', 'desc')->limit(5)->get();
         return view('kandang::ayam-karantina.overview', compact('listAyamKarantina'));
     }
 

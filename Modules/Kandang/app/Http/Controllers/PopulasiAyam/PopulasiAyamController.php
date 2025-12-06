@@ -1,18 +1,19 @@
 <?php
 namespace Modules\Kandang\Http\Controllers\PopulasiAyam;
 
-use App\Enums\PopulasiAyamJenisPemeriksaanEnum;
 use App\Http\Controllers\Controller;
+use Modules\Kandang\Enums\JenisPemeriksaan;
+use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PopulasiAyamController extends Controller
 {
     public function __construct(
         private Kandang $kandang,
         private PopulasiAyam $populasiAyam,
+        private AyamAfkir $ayamAfkir,
     ) { }
     
     public function index()
@@ -47,27 +48,39 @@ class PopulasiAyamController extends Controller
     {
         $validated = $request->validate([
             'tanggal_transaksi' => ['required', 'date'],
-            'kandang_id' => ['required', 'exists:kandang,id'],
-            'flock_id' => ['required', 'exists:flock,id'],
             'pipe_id' => ['required', 'exists:pipe,id'],
-            'umur_ayam' => ['required', 'min:1'],
-            'ayam_sehat' => ['required', 'min:0'],
+            'umur_ayam_record' => ['required', 'min:1'],
+            'ayam_sehat' => ['nullable', 'min:0'],
+            'ayam_mati' => ['nullable', 'min:0'],
+            'ayam_afkir' => ['nullable', 'min:0'],
+            'ayam_masuk_karantina' => ['nullable', 'min:0'],
+            'ayam_keluar_karantina' => ['nullable', 'min:0'],
+            'catatan' => ['nullable', 'string', 'max:1000'],
         ]);
 
-        $this->populasiAyam->create([
-            'pic_user_id'            => Auth::id(),
-            'kandang_id'            => $validated['kandang_id'],
-            'flock_id'              => $validated['flock_id'],
+        $populasiAyam = $this->populasiAyam->create([
+            'pic_user_id'           => auth()->id(),
             'pipe_id'               => $validated['pipe_id'],
-            'jenis_pemeriksaan'     => PopulasiAyamJenisPemeriksaanEnum::HARIAN,
+            'jenis_pemeriksaan'     => JenisPemeriksaan::HARIAN,
+            'umur_ayam_record'      => $validated['umur_ayam_record'],
             'tanggal'               => $validated['tanggal_transaksi'],
             'ayam_sehat'            => $validated['ayam_sehat'],
-            'ayam_mati'             => 0,         
-            'ayam_afkir'            => 0,
-            'ayam_masuk_karantina'  => 0,
-            'ayam_keluar_karantina' => 0,
+            'ayam_mati'             => $validated['ayam_mati'],
+            'ayam_afkir'            => $validated['ayam_afkir'],
+            'ayam_masuk_karantina'  => $validated['ayam_masuk_karantina'],
+            'ayam_keluar_karantina' => $validated['ayam_keluar_karantina'],
             'catatan'               => $validated['catatan'] ?? null,
         ]);
+
+        if (@$validated['ayam_afkir'] > 0) {
+            $this->ayamAfkir->create([
+                'populasi_ayam_id' => $populasiAyam->id,
+                'pic_user_id' => auth()->id(),
+                'tanggal' => $validated['tanggal_transaksi'],
+                'umur_ayam' => $validated['umur_ayam'],
+                'jumlah_ayam_afkir' => $validated['ayam_afkir'],
+            ]);
+        }
 
         return back()->with('success', 'Data populasi berhasil disimpan.');
     }
@@ -75,10 +88,8 @@ class PopulasiAyamController extends Controller
     public function getRecordedPopulasi($kandangId, $tanggal)
     {
         return $this->populasiAyam
-            ->where([
-                'kandang_id' => $kandangId,
-                'tanggal' => $tanggal
-            ])
+            ->whereRelation('pipe.flock', 'kandang_id', '=', $kandangId)
+            ->where('tanggal', '=', $tanggal)
             ->with('pipe:id,nama')
             ->get();
     }

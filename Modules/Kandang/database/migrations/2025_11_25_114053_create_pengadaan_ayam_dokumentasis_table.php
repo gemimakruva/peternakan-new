@@ -13,9 +13,7 @@ return new class extends Migration
     {
         Schema::create('pengadaan_ayam_dokumentasi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengadaan_ayam_id')
-            ->constrained('pengadaan_ayam')
-            ->cascadeOnDelete();
+            $table->foreignId('pengadaan_ayam_id')->constrained('pengadaan_ayam')->cascadeOnDelete();
             $table->string('file_path');
             $table->timestamps();
         });
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengadaan_ayam_dokumentasis');
+        Schema::dropIfExists('pengadaan_ayam_dokumentasi');
     }
 };

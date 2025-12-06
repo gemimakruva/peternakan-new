@@ -17,7 +17,7 @@ return new class extends Migration
                   ->constrained('perhitungan_pakan')
                   ->onDelete('cascade');
             $table->decimal('pemberian_pakan_flock_kg', 10, 2)->nullable();   
-            $table->decimal('sisa_pakan_per_flock', 10, 2)->nullable();      
+            $table->decimal('sisa_pakan_per_flock_kg', 10, 2)->nullable();      
 
             $table->timestamps();
         });
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pemberian_pakan_sisa_pakans');
+        Schema::dropIfExists('pemberian_pakan_sisa_pakan');
     }
 };

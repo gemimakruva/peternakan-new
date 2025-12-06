@@ -9,11 +9,13 @@ class KandangSeeder extends Seeder
 {
     public function run(): void
     {
-        $data = [
+        $datas = [
             ['peternakan_id' => 1, 'strain_id' => 1, 'nama' => 'Kandang Unit 1'],
             ['peternakan_id' => 1, 'strain_id' => 2, 'nama' => 'Kandang Unit 2'],
             ['peternakan_id' => 1, 'strain_id' => 3, 'nama' => 'Kandang Unit 3'],
         ];
-        Kandang::insert($data);
+        foreach ($datas as $data) {
+            Kandang::firstOrCreate($data);
+        }
     }
 }

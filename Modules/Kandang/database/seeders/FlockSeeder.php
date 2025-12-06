@@ -23,14 +23,14 @@ class FlockSeeder extends Seeder
             for ($i = 1; $i <= $totalFlocks; $i++) {
 
                 // Buat flock
-                $flock = Flock::create([
+                $flock = Flock::firstOrCreate([
                     'kandang_id' => $kandangId,
                     'nama'       => "Kandang {$kandangId} Flock {$i}",
                 ]);
 
                 // Buat pipe per flock sesuai aturan kandang
                 for ($p = 1; $p <= $jumlahPipe; $p++) {
-                    Pipe::create([
+                    Pipe::firstOrCreate([
                         'flock_id'  => $flock->id,
                         'nama'      => "Flock {$i} Pipe {$p}",
                         'kapasitas' => 20,

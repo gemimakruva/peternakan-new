@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Modules\Kandang\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PengadaanAyamDistribusiSeeder extends Seeder
+class PopulasiAyamDistribusi extends Seeder
 {
     /**
      * Run the database seeds.

@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Modules\Kandang\Enums\JenisPemeriksaan;
 
 return new class extends Migration
 {
@@ -12,29 +13,19 @@ return new class extends Migration
     public function up(): void
     {
     Schema::create('populasi_ayam', function (Blueprint $table) {
-         $table->id();
+        $table->id();
         $table->foreignId('pengadaan_ayam_distribusi_id')
             ->nullable()
-            ->constrained('pengadaan_ayam_distribusi')
-            ->nullOnDelete();
+            ->constrained('pengadaan_ayam_distribusi');
+        $table->string('jenis_pemeriksaan')->default(JenisPemeriksaan::HARIAN);
         $table->foreignId('pic_user_id')
             ->nullable()
-            ->constrained('users')
-            ->nullOnDelete();
-        $table->foreignId('kandang_id')
-            ->nullable()
-            ->constrained('kandang')
-            ->nullOnDelete();
-        $table->foreignId('flock_id')
-            ->nullable()
-            ->constrained('flock')
-            ->nullOnDelete();
+            ->constrained('users');
+        $table->date('tanggal');
         $table->foreignId('pipe_id')
             ->nullable()
-            ->constrained('pipe')
-            ->nullOnDelete();
-         $table->string('jenis_pemeriksaan')->default('harian');
-        $table->date('tanggal');
+            ->constrained('pipe');
+        $table->integer('umur_ayam_record');
         $table->integer('ayam_sehat')->default(0);
         $table->integer('ayam_mati')->default(0);
         $table->integer('ayam_afkir')->default(0);
