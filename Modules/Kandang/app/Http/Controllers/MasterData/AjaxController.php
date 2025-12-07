@@ -107,15 +107,9 @@ class AjaxController extends Controller
 
     public function DetailPengadaanByPipeId($tanggalId)
     {
-<<<<<<< HEAD
         $perhitungan = $this->perhitunganPakan
             ->with('pipe.flock.kandang', 'jenis_pakan')
             ->findOrFail($tanggalId);
-=======
-            $perhitungan = $this->perhitunganPakan
-                ->with('pipe.flock.kandang', 'jenis_pakan')
-                ->findOrFail($tanggalId);
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
 
         $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
 
@@ -154,7 +148,6 @@ class AjaxController extends Controller
         $pakanPerFlock = ($perhitungan->jumlah_ayam_per_pipe * $perhitungan->jumlah_pakan_per_ekor_gram) / 100;
         $pakanPerFlock = round($pakanPerFlock, 2);
 
-<<<<<<< HEAD
         return response()->json([
             'results' => [
                 'kandang' => $kandangs,
@@ -164,17 +157,6 @@ class AjaxController extends Controller
                 'pakanPerFlock' => $pakanPerFlock 
             ]
         ]);
-=======
-                return response()->json([
-                    'results' => [
-                        'kandang' => $kandangs,
-                        'flock' => $flocks,
-                        'pipe' => $pipesArr,
-                        'jenis_pakan' => $jenisPakan->nama,
-                        'pakanPerFlock' => $pakanPerFlock 
-                    ]
-                ]);
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
     }
 
     public function umurAyamByFlock($flockId, Request $request)
