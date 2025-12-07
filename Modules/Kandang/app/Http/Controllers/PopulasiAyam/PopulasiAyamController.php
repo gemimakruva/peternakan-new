@@ -5,6 +5,9 @@ use App\Http\Controllers\Controller;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\KarantinaPopulasi;
+use Modules\Kandang\Models\KarantinaPopulasiPipe;
+use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
 
@@ -13,7 +16,10 @@ class PopulasiAyamController extends Controller
     public function __construct(
         private Kandang $kandang,
         private PopulasiAyam $populasiAyam,
+        private KarantinaPopulasi $karantinaPopulasi,
+        private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private AyamAfkir $ayamAfkir,
+        private Pipe $pipe,
     ) { }
     
     public function index()
@@ -46,9 +52,28 @@ class PopulasiAyamController extends Controller
      */
     public function store(Request $request)
     {
+        $request->merge([
+            'ayam_sehat' => $request->input('jumlah_ayam_sehat_pada_pipa_saat_ini', 0)
+                - $request->input('ayam_mati')
+                - $request->input('ayam_afkir')
+                - $request->input('ayam_masuk_karantina')
+                + $request->input('ayam_masuk_karantina')
+        ]);
+
         $validated = $request->validate([
             'tanggal_transaksi' => ['required', 'date'],
-            'pipe_id' => ['required', 'exists:pipe,id'],
+            'flock_id' => ['required', 'exists:flock,id'],
+            'pipe_id' => ['required', 'exists:pipe,id', function($attr, $value, $fail) {
+                $isExist = $this->populasiAyam
+                    ->getQuery()
+                    ->where('pipe_id', '=', $value)
+                    ->where('tanggal', '=', request()->input('tanggal_transaksi'))
+                    ->exists();
+                if ($isExist) {
+                    $pipe = $this->pipe->find($value);
+                    $fail("Recording untuk pipe $pipe->nama sudah dilakukan.");
+                }
+            }],
             'umur_ayam_record' => ['required', 'min:1'],
             'ayam_sehat' => ['nullable', 'min:0'],
             'ayam_mati' => ['nullable', 'min:0'],
@@ -57,7 +82,7 @@ class PopulasiAyamController extends Controller
             'ayam_keluar_karantina' => ['nullable', 'min:0'],
             'catatan' => ['nullable', 'string', 'max:1000'],
         ]);
-
+dd(1);
         $populasiAyam = $this->populasiAyam->create([
             'pic_user_id'           => auth()->id(),
             'pipe_id'               => $validated['pipe_id'],
@@ -79,6 +104,38 @@ class PopulasiAyamController extends Controller
                 'tanggal' => $validated['tanggal_transaksi'],
                 'umur_ayam' => $validated['umur_ayam'],
                 'jumlah_ayam_afkir' => $validated['ayam_afkir'],
+            ]);
+        }
+
+        if (@$validated['ayam_masuk_karantina'] || @$validated['ayam_keluar_karantina']) {
+            $currentKarantinaPopulasi = $this->karantinaPopulasi->getQuery()
+                ->where('kandang_id', '=', $populasiAyam->pipe->flock->kandang_id)
+                ->where('tanggal', '=', $populasiAyam->tanggal)
+                ->value('total_ayam_karantina') ?? 0;
+
+            $this->karantinaPopulasiPipe->create([
+                'populasi_ayam_asal_id' => $populasiAyam->id,
+                'tanggal' => $populasiAyam->tanggal,
+                'pipe_asal_id' => @$validated['ayam_masuk_karantina'] ? $validated['pipe_id'] : null,
+                'ayam_masuk_karantina' => @$validated['ayam_masuk_karantina'],
+                'pipe_tujuan_id' => @$validated['ayam_keluar_karantina'] ? @$validated['pipe_id'] : null,
+                'ayam_keluar_karantina' => @$validated['ayam_keluar_karantina'],
+            ]);
+
+            if (@$validated['ayam_masuk_karantina'] > 0) {
+                $currentKarantinaPopulasi += $validated['ayam_masuk_karantina'];
+            }
+
+            if (@$validated['ayam_keluar_karantina'] > 0) {
+                $currentKarantinaPopulasi -= $validated['ayam_keluar_karantina'];
+            }
+
+            $this->karantinaPopulasi->updateOrCreate([
+                'kandang_id' => $populasiAyam->pipe->flock->kandang_id,
+                'tanggal' => $populasiAyam->tanggal,
+            ], [
+                'pic_user_id' => $populasiAyam->pic_user_id,
+                'total_ayam_karantina' => $currentKarantinaPopulasi,
             ]);
         }
 

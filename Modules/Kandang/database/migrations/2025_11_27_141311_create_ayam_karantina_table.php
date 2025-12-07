@@ -46,6 +46,8 @@ return new class extends Migration
 
         Schema::create('karantina_populasi_pipe', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('populasi_ayam_asal_id')->nullable()->constrained('populasi_ayam', 'id');
+            $table->date('tanggal');
             $table->foreignId('pipe_asal_id')->nullable()->constrained('pipe', 'id');
             $table->integer('ayam_masuk_karantina')->nullable();
             $table->foreignId('pipe_tujuan_id')->nullable()->constrained('pipe', 'id');

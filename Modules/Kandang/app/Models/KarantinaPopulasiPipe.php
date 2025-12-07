@@ -2,20 +2,25 @@
 
 namespace Modules\Kandang\Models;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class KarantinaPopulasiPipe extends Model
 {
     protected $table = 'karantina_populasi_pipe';
 
     protected $fillable = [
+        'populasi_ayam_asal_id',
+        'tanggal',
         'pipe_asal_id',
         'ayam_masuk_karantina',
         'pipe_tujuan_id',
         'ayam_keluar_karantina',
     ];
+
+    public function populasiAyamAsal()
+    {
+        return $this->belongsTo(PopulasiAyam::class, 'populasi_ayam_asal_id', 'id');
+    }
 
     public function pipeAsal()
     {

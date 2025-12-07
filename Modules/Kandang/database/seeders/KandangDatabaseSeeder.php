@@ -26,7 +26,7 @@ class KandangDatabaseSeeder extends Seeder
             // PerhitunganPakanSeeder::class,
 
             // PemberianPakanSisaPakanSeeder::class,
-            // JenisDisinfectanSeeder::class,
+            // JenisDisinfektanSeeder::class,
             // JenisTreatmentSeeder::class,
             // MetodeTreatmentSeeder::class
         ]);

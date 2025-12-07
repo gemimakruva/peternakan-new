@@ -10,20 +10,41 @@
     :value="old('tanggal_transaksi', @$data->tanggal_transaksi)"
 />
 
+<x-adminlte-input
+    id="kandang"
+    name="kandang"
+    label="Kandang"
+    igroup-size="lg"
+    fgroup-class="col-12"
+    class="form-control-lg mb-3"
+    readonly
+    :value="$kandang->nama"
+/>
+
 <div class="form-group col-12">
     <label for="flock_id">Baris</label>
-    <div class="input-group input-group-lg">
-        <select name="flock_id" id="flock_id" class="form-control form-control-lg">
+    <div class="input-group input-group-lg @error('flock_id') adminlte-invalid-igroup @enderror">
+        <select name="flock_id" id="flock_id" class="form-control form-control-lg @error('flock_id') is-invalid @enderror">
         </select>
     </div>
+    @error('flock_id')
+        <span class="invalid-feedback d-block" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
 </div>
 
 <div class="form-group col-12">
     <label for="pipe_id">Pipa</label>
-    <div class="input-group input-group-lg">
-        <select name="pipe_id" id="pipe_id" class="form-control form-control-lg">
+    <div class="input-group input-group-lg @error('pipe_id') adminlte-invalid-igroup @enderror">
+        <select name="pipe_id" id="pipe_id" class="form-control form-control-lg @error('pipe_id') is-invalid @enderror">
         </select>
     </div>
+    @error('pipe_id')
+        <span class="invalid-feedback d-block" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+    @enderror
 </div>
 
 <x-adminlte-input
@@ -39,23 +60,23 @@
 />
 
 <x-adminlte-input
-    name="ayam_sehat"
+    id="jumlah_ayam_sehat_pada_pipa_saat_ini"
+    name="jumlah_ayam_sehat_pada_pipa_saat_ini"
     label="Jumlah Ayam Sehat pada Pipa saat ini"
     type="number"
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
-    :value="old('ayam_sehat', @$data->ayam_sehat)"
+    readonly
 />
 
-<x-adminlte-textarea 
-    name="catatan"
-    label="Catatan"
-    igroup-size="lg"
-    fgroup-class="col-12"
-    class="form-control-lg mb-3"
-    :value="old('catatan', @$data->catatan)"
-/>
+@push('css')
+    <style>
+        .adminlte-invalid-igroup .select2-selection {
+            border: 1px solid red !important;
+        }
+    </style>
+@endpush
 
 @push('js')
     <script>
@@ -88,14 +109,14 @@
                 if (!pipeId || !tanggalTransaksi) return;
                 let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
                     .then(res => res.umur_ayam_sekarang); // satuan minggu
-                $('#umur_ayam').val(umurAyamSekarang);
+                $('#umur_ayam_record').val(umurAyamSekarang);
             }
 
             async function getKesehatanAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
                 let kesehatanAyamSekarang = await $.ajax(`/master-data/ajax/kesehatan-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
                     .then(res => res.total_ayam_sehat_terakhir); // satuan ekor
-                $('#kesehatan_ayam').val(kesehatanAyamSekarang);
+                $('#jumlah_ayam_sehat_pada_pipa_saat_ini').val(kesehatanAyamSekarang);
             }
 
             async function getRecordPopulasi() {
@@ -105,10 +126,12 @@
                 list_populasi.map((populasi) => {
                     $('#record-harian').append(`
                         <tr>
-                            <td>${populasi.pipe.nama}</td>
-                            <td>${populasi.ayam_sehat}</td>
-                            <td>${populasi.ayam_mati}</td>
-                            <td>${populasi.ayam_afkir}</td>
+                            <td style='text-align: center;'>${populasi.pipe.nama}</td>
+                            <td style='text-align: center;'>${populasi.ayam_sehat}</td>
+                            <td style='text-align: center;'>${populasi.ayam_mati}</td>
+                            <td style='text-align: center;'>${populasi.ayam_afkir}</td>
+                            <td style='text-align: center;'>${populasi.ayam_masuk_karantina}</td>
+                            <td style='text-align: center;'>${populasi.ayam_keluar_karantina}</td>
                         </tr>
                     `);
                 })
@@ -128,14 +151,28 @@
             });
         })
     </script>
-    @if (old('flock_id'))
+    @if ($flockId = old('flock_id'))
+        @php
+            $flockName = Modules\Kandang\Models\Flock::whereId($flockId)->value('nama');
+        @endphp
         <script>
-            $(() => { $('#flock_id').val(old('flock_id')); });
+            $(() => { 
+                $('#flock_id').val(@js($flockId));
+                $('#flock_id').append(`<option value="{{ $flockId }}">{{ $flockName }}</option>`)
+                $('#flock_id').trigger('change'); 
+            });
         </script>
     @endif
-    @if (old('pipe_id'))
+    @if ($pipeId = old('pipe_id'))
+        @php
+            $pipeName = Modules\Kandang\Models\Pipe::whereId($pipeId)->value('nama');
+        @endphp
         <script>
-            $(() => { $('#pipe_id').val(old('pipe_id')); });
+            $(() => {
+                $('#pipe_id').val(@js(old('pipe_id')));
+                $('#pipe_id').append(`<option value="{{ $pipeId }}">{{ $pipeName }}</option>`)
+                $('#pipe_id').trigger('change'); 
+            });
         </script>
     @endif
 @endpush
