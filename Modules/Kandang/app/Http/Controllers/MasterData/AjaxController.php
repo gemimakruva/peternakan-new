@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
@@ -105,9 +106,15 @@ class AjaxController extends Controller
 
     public function DetailPengadaanByPipeId($tanggalId)
     {
+<<<<<<< HEAD
         $perhitungan = $this->perhitunganPakan
             ->with('pipe.flock.kandang', 'jenis_pakan')
             ->findOrFail($tanggalId);
+=======
+            $perhitungan = $this->perhitunganPakan
+                ->with('pipe.flock.kandang', 'jenis_pakan')
+                ->findOrFail($tanggalId);
+>>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
 
         $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
 
@@ -146,6 +153,7 @@ class AjaxController extends Controller
         $pakanPerFlock = ($perhitungan->jumlah_ayam_per_pipe * $perhitungan->jumlah_pakan_per_ekor_gram) / 100;
         $pakanPerFlock = round($pakanPerFlock, 2);
 
+<<<<<<< HEAD
         return response()->json([
             'results' => [
                 'kandang' => $kandangs,
@@ -155,9 +163,20 @@ class AjaxController extends Controller
                 'pakanPerFlock' => $pakanPerFlock 
             ]
         ]);
+=======
+                return response()->json([
+                    'results' => [
+                        'kandang' => $kandangs,
+                        'flock' => $flocks,
+                        'pipe' => $pipesArr,
+                        'jenis_pakan' => $jenisPakan->nama,
+                        'pakanPerFlock' => $pakanPerFlock 
+                    ]
+                ]);
+>>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
     }
 
-    public function umurAyamByFlock($flockId)
+    public function umurAyamByFlock($flockId, Request $request)
     {
         $distribusi = $this->pengadaanAyamDistribusi
             ->with('pengadaanAyam:id,tanggal,umur_ayam')
@@ -166,16 +185,50 @@ class AjaxController extends Controller
 
         $pengadaanAyam = $distribusi->pengadaanAyam;
 
-        $tanggalPerbandingan = request()->has('tanggal_perbandingan') 
-            ? request()->date('tanggal_perbandingan')->diffInWeeks($pengadaanAyam->tanggal)
-            : now()->diffInWeeks($pengadaanAyam->tanggal);
+        $targetDate = $request->input('tanggal') 
+            ? Carbon::parse($request->input('tanggal'))->startOfDay() 
+            : Carbon::now()->startOfDay();
 
-        $umurAyamSekarang = $pengadaanAyam->umur_ayam + floor(abs($tanggalPerbandingan));
-
+        $tanggalPerbandingan = floor($pengadaanAyam->tanggal->diffInDays($targetDate) / 7);
+        
         return response()->json([
-            'tanggal_ayam_datang' => $pengadaanAyam->tanggal,
-            'umur_ayam_datang' => $pengadaanAyam->umur_ayam,
-            'umur_ayam_sekarang' => $umurAyamSekarang,
+            'usia_ayam_saat_ini' => $tanggalPerbandingan
+        ]);
+    }
+
+    public function umurAyamByKandang($kandangId, Request $request)
+    {
+        $distribusi = $this->pengadaanAyamDistribusi
+            ->with('pengadaanAyam:id,tanggal,umur_ayam')
+            ->where('kandang_id', '=', $kandangId)
+            ->firstOrFail(['pengadaan_ayam_id', 'kandang_id']);
+
+        $pengadaanAyam = $distribusi->pengadaanAyam;
+
+        $targetDate = $request->input('tanggal') 
+            ? Carbon::parse($request->input('tanggal'))->startOfDay() 
+            : Carbon::now()->startOfDay();
+
+        $tanggalPerbandingan = floor($pengadaanAyam->tanggal->diffInDays($targetDate) / 7);
+        
+        return response()->json([
+            'usia_ayam_saat_ini' => $tanggalPerbandingan
+        ]);
+    }
+
+    public function jumlahAyamSehat($startDate)
+    {
+        $populasi_ayam = PopulasiAyam::whereDate('tanggal', '=', $startDate)
+        ->pluck('ayam_sehat')
+        ->first();
+
+        if ($populasi_ayam === null) {
+            return response()->json([
+                'ayam_sehat' => 0
+            ]);
+        }
+        return response()->json([
+            'ayam_sehat' => $populasi_ayam
         ]);
     }
 

@@ -620,13 +620,13 @@ return [
         ],
     [
     'text' => 'Rekapan Sampling',
-    'route' => '',
+    'route' => 'sampling-ayam.index',
     'icon' => 'fas fa-clipboard-list',
     'can'  => 'Lihat Rekapan Pakan Harian',
 ],
  [
     'text' => 'Tambah Sampling',
-    'route' => '',
+    'route' => 'sampling-ayam.create',
     'icon' => 'fas fa-plus-circle',
     'can'  => 'Lihat Pengadaan Kandang',
 ],

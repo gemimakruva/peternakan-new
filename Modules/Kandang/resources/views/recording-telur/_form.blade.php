@@ -214,17 +214,24 @@
                 });
             }
 
-            function getUsiaAyamByFlockId(flockId) {
+            function getUsiaAyamByFlockId(flockId, tanggal = null) {
+                if (!tanggal) {
+                    tanggal = $('#tanggal_produksi').val() || new Date().toISOString().split('T')[0];
+                }
+                
                 let url = '/master-data/ajax/umur-ayam-by-flock/' + flockId;
                 let method = 'GET';
 
                 $.ajax({
                     url: url,
                     type: method,
+                    data: {
+                        tanggal: tanggal
+                    },
                     success: function(response) {
                         console.log(response);
                         data = response;
-                        $('input[name="usia_ayam"]').val(data.umur_ayam_sekarang);
+                        $('input[name="usia_ayam"]').val(data.usia_ayam_saat_ini);
                     },
                     error: function(xhr, status, error) {
                         $('input[name="usia_ayam"]').val(0);
@@ -238,10 +245,20 @@
                 
                 populateDataBaris('input-baris-recording-telur', kandangId);
             });
+            
             $('#input-baris-recording-telur').change(function() {
                 const flockId = $(this).val();
+                const tanggal = $('#tanggal_produksi').val();
+                getUsiaAyamByFlockId(flockId, tanggal);
+            });
 
-                getUsiaAyamByFlockId(flockId);
+            $('#tanggal_produksi').change(function() {
+                const tanggal = $(this).val();
+                const flockId = $('#input-baris-recording-telur').val();
+                
+                if (flockId && flockId !== 'Pilih Baris...') {
+                    getUsiaAyamByFlockId(flockId, tanggal);
+                }
             });
 
             // Auto select data dengan interval
