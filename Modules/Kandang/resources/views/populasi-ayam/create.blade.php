@@ -17,7 +17,7 @@
 
         <div class="row justify-content-center">
             {{-- Form Content --}}
-            <div class="col-md-6">
+            <div class="col-md-12 col-xl-6">
                 <form action="{{ route('populasi-ayam.store') }}" method="POST">
                     @csrf
                     <div class="card">
@@ -48,23 +48,25 @@
                 </form>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12 col-xl-6">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Log Pencatatan Harian</h2>
                     </div>
                     <div class="card-body">
-                        <table class="table table-sm">
+                        <table class="table table-sm table-bordered">
                             <thead>
-                                <tr>
-                                    <th rowspan="2">Pipa</th>
-                                    <th rowspan="2">Sehat</th>
-                                    <th rowspan="2">Mati</th>
-                                    <th rowspan="2">Afkir</th>
-                                    <th>Karantina</th>
-                                    <th>Karantina</th>
+                                <tr style="vertical-align: middle; text-align: center;">
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Pipa</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Sehat</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Mati</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Afkir</th>
+                                    <th colspan="2" style="vertical-align: middle; text-align: center;">Karantina</th>
                                 </tr>
-                                <tr></tr>
+                                <tr style="vertical-align: middle; text-align: center;">
+                                    <th style="vertical-align: middle; text-align: center;">Masuk</th>
+                                    <th style="vertical-align: middle; text-align: center;">Keluar</th>
+                                </tr>
                             </thead>
                             <tbody id="record-harian">
                             </tbody>

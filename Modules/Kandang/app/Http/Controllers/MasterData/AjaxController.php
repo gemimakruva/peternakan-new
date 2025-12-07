@@ -11,6 +11,7 @@ use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Services\KandangService;
 
 class AjaxController extends Controller
 {
@@ -106,15 +107,9 @@ class AjaxController extends Controller
 
     public function DetailPengadaanByPipeId($tanggalId)
     {
-<<<<<<< HEAD
         $perhitungan = $this->perhitunganPakan
             ->with('pipe.flock.kandang', 'jenis_pakan')
             ->findOrFail($tanggalId);
-=======
-            $perhitungan = $this->perhitunganPakan
-                ->with('pipe.flock.kandang', 'jenis_pakan')
-                ->findOrFail($tanggalId);
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
 
         $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
 
@@ -153,7 +148,6 @@ class AjaxController extends Controller
         $pakanPerFlock = ($perhitungan->jumlah_ayam_per_pipe * $perhitungan->jumlah_pakan_per_ekor_gram) / 100;
         $pakanPerFlock = round($pakanPerFlock, 2);
 
-<<<<<<< HEAD
         return response()->json([
             'results' => [
                 'kandang' => $kandangs,
@@ -163,17 +157,6 @@ class AjaxController extends Controller
                 'pakanPerFlock' => $pakanPerFlock 
             ]
         ]);
-=======
-                return response()->json([
-                    'results' => [
-                        'kandang' => $kandangs,
-                        'flock' => $flocks,
-                        'pipe' => $pipesArr,
-                        'jenis_pakan' => $jenisPakan->nama,
-                        'pakanPerFlock' => $pakanPerFlock 
-                    ]
-                ]);
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
     }
 
     public function umurAyamByFlock($flockId, Request $request)
@@ -232,31 +215,29 @@ class AjaxController extends Controller
         ]);
     }
 
-    public function kesehatan_ayam($pipeId)
+    public function kesehatan_ayam(KandangService $kandangService, $pipeId)
     {
         $tanggalPerbandingan = request()->date('tanggal_perbandingan');
         if ($tanggalPerbandingan === null) {
             abort(400, 'tanggal perbandingan tidak valid');
         }
-        $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
-
-        $jumlahAyamSehatDariPengadaan = $this->pengadaanAyamDistribusi
-            ->whereRelation('pengadaanAyam', function($query) use($tanggalPerbandingan, $hMin1TanggalPerbandingan) {
-                $query
-                    ->whereDate('tanggal', '=', $tanggalPerbandingan->format('Y-m-d'))
-                    ->orWhereDate('tanggal', '=', $hMin1TanggalPerbandingan->format('Y-m-d'));
-            })
-            ->where('pipe_id', '=', $pipeId)
-            ->value('jumlah_ayam');
-
-        $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyam
-            ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
-            ->value('ayam_sehat');
-
-        $jumlahAyamSehat = $jumlahAyamSehatDariPengadaan ?? $jumlahAyamSehatDariPopulasiSebelumnya ?? 0;
-
+ 
+        $jumlahAyamSehat = $kandangService->getCurrentAyamSehatByPipe($pipeId, $tanggalPerbandingan);
+        
         return [
             'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+        ];
+    }
+
+    public function populasi_kandang_karantina(KandangService $kandangService, $kandangId)
+    {
+        $tanggalPerbandingan = request()->date('tanggal_perbandingan');
+
+        return [
+            'total_ayam_karantina_terakhir' => $kandangService->getCurrentAyamKarantinaByKandang(
+                $kandangId, 
+                $tanggalPerbandingan
+            ),
         ];
     }
 }

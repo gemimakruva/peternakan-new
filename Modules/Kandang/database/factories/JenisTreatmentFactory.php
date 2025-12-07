@@ -16,7 +16,7 @@ class JenisTreatmentFactory extends Factory
 
         $nama = $this->faker->randomElement([
             'Pembersihan Kandang',
-            'Penyemprotan Disinfectan',
+            'Penyemprotan Disinfektan',
             'Perawatan Lantai Kandang',
             'Pemberian Vitamin',
             'Pengecekan Kesehatan',

@@ -15,12 +15,9 @@ use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
-<<<<<<< HEAD
 use Modules\Kandang\Http\Controllers\treatment\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\treatment\MetodeTreatmentController;
-=======
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
 
 Route::middleware(['auth'])->group(function () {
         Route::prefix('master-data')->as('master-data.')->group(function() {
@@ -51,13 +48,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('ajax/umur-ayam-by-flock/{flockId}', [AjaxController::class, 'umurAyamByFlock'])->name('ajax.umur_ayam_by_flock');
         Route::get('ajax/kandang/{kandangId}/{tanggal}/record-populasi', [PopulasiAyamController::class, 'getRecordedPopulasi'])
         ->name('ajax.kandang.record-populasi');
-<<<<<<< HEAD
         Route::get('ajax/kesehatan-ayam/{pipeId}', [AjaxController::class, 'kesehatan_ayam'])->name('ajax.kesehatan_ayam');
+        Route::get('ajax/karantina-ayam/{pipeId}', [AjaxController::class, 'populasi_kandang_karantina'])->name('ajax.populasi_kandang_karantina');
 
-=======
         Route::get('ajax/umur-ayam-by-kandang/{kandangId}', [AjaxController::class, 'umurAyamByKandang'])->name('ajax.umur_ayam_by_kandang');
         Route::get('ajax/jumlah-ayam-sehat/{tanggal}', [AjaxController::class, 'jumlahAyamSehat'])->name('ajax.jumlah_ayam_sehat');
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
     });
         Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
         Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
@@ -83,12 +78,6 @@ Route::middleware(['auth'])->group(function () {
         [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
         Route::get('ajax/listKandangbyPipe/{tanggalId}', 
         [AjaxController::class, 'DetailPengadaanByPipeId'])->name('ajax.show-detail-by-pipe');
-<<<<<<< HEAD
-        // Recording telur
-        Route::resource('recording-telur', RecordingTelurController::class)->
-        names('recording-telur');
-    
-=======
         
      
      
@@ -96,5 +85,4 @@ Route::middleware(['auth'])->group(function () {
 
         Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
         Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
->>>>>>> 2a72063 (create card 20 & 21 and fixing issue umur ayam on recording telur)
 });

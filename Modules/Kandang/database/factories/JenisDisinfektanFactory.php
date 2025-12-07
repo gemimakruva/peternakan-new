@@ -3,11 +3,11 @@
 namespace Modules\Kandang\Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Modules\Kandang\Models\JenisDisinfectan;
+use Modules\Kandang\Models\JenisDisinfektan;
 
-class JenisDisinfectanFactory extends Factory
+class JenisDisinfektanFactory extends Factory
 {
-    protected $model = JenisDisinfectan::class;
+    protected $model = JenisDisinfektan::class;
 
     public function definition(): array
     {

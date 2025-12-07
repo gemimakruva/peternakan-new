@@ -5,6 +5,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    :value="old('ayam_mati')"
 />
 
 <x-adminlte-input
@@ -14,6 +15,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    :value="old('ayam_afkir')"
 />
 
 <x-adminlte-input
@@ -23,6 +25,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    :value="old('ayam_masuk_karantina')"
 />
 
 <x-adminlte-input
@@ -32,4 +35,5 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
+    :value="old('ayam_keluar_karantina')"
 />

@@ -37,6 +37,8 @@ class AyamKarantinaSeeder extends Seeder
     $semuaPopulasiAyam->map(function($pdak){
         if (!$pdak->ayam_masuk_karantina && !$pdak->ayam_keluar_karantina) return;
         KarantinaPopulasiPipe::updateOrCreate([
+            'populasi_ayam_asal_id' => $pdak->pipe->flock->kandang_id,
+            'tanggal' => $pdak->tanggal,
             'pipe_asal_id' => $pdak->pipe_id,
             'ayam_masuk_karantina' => $pdak->ayam_masuk_karantina,
         ], [

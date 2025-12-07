@@ -39,7 +39,7 @@ class JenisDisinfectanController extends Controller
     {
           // 🧾 Validasi request
         $validated = $request->validate([
-            'nama' => 'required|string|max:255|unique:jenis_disinfectan,nama',
+            'nama' => 'required|string|max:255|unique:jenis_disinfektan,nama',
         ]);
 
 
@@ -86,7 +86,7 @@ class JenisDisinfectanController extends Controller
         'required',
         'string',
         'max:255',
-        Rule::unique('jenis_disinfectan', 'nama')->ignore($jenisDisinfectan->id),
+        Rule::unique('jenis_disinfektan', 'nama')->ignore($jenisDisinfectan->id),
     ],
 ]);
 
