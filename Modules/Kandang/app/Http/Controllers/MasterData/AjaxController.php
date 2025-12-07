@@ -11,6 +11,7 @@ use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Services\KandangService;
 
 class AjaxController extends Controller
 {
@@ -232,31 +233,29 @@ class AjaxController extends Controller
         ]);
     }
 
-    public function kesehatan_ayam($pipeId)
+    public function kesehatan_ayam(KandangService $kandangService, $pipeId)
     {
         $tanggalPerbandingan = request()->date('tanggal_perbandingan');
         if ($tanggalPerbandingan === null) {
             abort(400, 'tanggal perbandingan tidak valid');
         }
-        $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
-
-        $jumlahAyamSehatDariPengadaan = $this->pengadaanAyamDistribusi
-            ->whereRelation('pengadaanAyam', function($query) use($tanggalPerbandingan, $hMin1TanggalPerbandingan) {
-                $query
-                    ->whereDate('tanggal', '=', $tanggalPerbandingan->format('Y-m-d'))
-                    ->orWhereDate('tanggal', '=', $hMin1TanggalPerbandingan->format('Y-m-d'));
-            })
-            ->where('pipe_id', '=', $pipeId)
-            ->value('jumlah_ayam');
-
-        $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyam
-            ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
-            ->value('ayam_sehat');
-
-        $jumlahAyamSehat = $jumlahAyamSehatDariPengadaan ?? $jumlahAyamSehatDariPopulasiSebelumnya ?? 0;
-
+ 
+        $jumlahAyamSehat = $kandangService->getCurrentAyamSehatByPipe($pipeId, $tanggalPerbandingan);
+        
         return [
             'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+        ];
+    }
+
+    public function populasi_kandang_karantina(KandangService $kandangService, $kandangId)
+    {
+        $tanggalPerbandingan = request()->date('tanggal_perbandingan');
+
+        return [
+            'total_ayam_karantina_terakhir' => $kandangService->getCurrentAyamKarantinaByKandang(
+                $kandangId, 
+                $tanggalPerbandingan
+            ),
         ];
     }
 }

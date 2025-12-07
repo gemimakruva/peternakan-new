@@ -10,6 +10,7 @@ use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
+use Modules\Kandang\Services\KandangService;
 
 class PopulasiAyamController extends Controller
 {
@@ -62,6 +63,7 @@ class PopulasiAyamController extends Controller
 
         $validated = $request->validate([
             'tanggal_transaksi' => ['required', 'date'],
+            'kandang_id' => ['required', 'exists:kandang,id'],
             'flock_id' => ['required', 'exists:flock,id'],
             'pipe_id' => ['required', 'exists:pipe,id', function($attr, $value, $fail) {
                 $isExist = $this->populasiAyam
@@ -78,11 +80,27 @@ class PopulasiAyamController extends Controller
             'ayam_sehat' => ['nullable', 'min:0'],
             'ayam_mati' => ['nullable', 'min:0'],
             'ayam_afkir' => ['nullable', 'min:0'],
-            'ayam_masuk_karantina' => ['nullable', 'min:0'],
-            'ayam_keluar_karantina' => ['nullable', 'min:0'],
+            'ayam_masuk_karantina' => ['nullable', 'min:0', function($attr, $value, $fail) {
+                $value = (int) $value;
+
+                if ($value > app(KandangService::class)->getCurrentAyamSehatByPipe(request()->input('pipe_id'))) {
+                    $fail('ayam masuk karantina tidak boleh melebihi populasi ayam.');
+                }
+            }],
+            'ayam_keluar_karantina' => ['nullable', 'min:0', function($attr, $value, $fail) {
+                $value = (int) $value;
+
+                if ($value > app(KandangService::class)->getCurrentAyamKarantinaByKandang(request()->input('kandang_id'))) {
+                    $fail('ayam keluar karantina tidak boleh melebihi populasi karantina.');
+                }
+
+                if ($value > app(KandangService::class)->getCurrentKapasitasPipeTersedia(request()->input('pipe_id'))) {
+                    $fail('ayam keluar karantina tidak boleh melebihi kapasitas pipe.');
+                }
+            }],
             'catatan' => ['nullable', 'string', 'max:1000'],
         ]);
-dd(1);
+
         $populasiAyam = $this->populasiAyam->create([
             'pic_user_id'           => auth()->id(),
             'pipe_id'               => $validated['pipe_id'],
@@ -90,10 +108,10 @@ dd(1);
             'umur_ayam_record'      => $validated['umur_ayam_record'],
             'tanggal'               => $validated['tanggal_transaksi'],
             'ayam_sehat'            => $validated['ayam_sehat'],
-            'ayam_mati'             => $validated['ayam_mati'],
-            'ayam_afkir'            => $validated['ayam_afkir'],
-            'ayam_masuk_karantina'  => $validated['ayam_masuk_karantina'],
-            'ayam_keluar_karantina' => $validated['ayam_keluar_karantina'],
+            'ayam_mati'             => @$validated['ayam_mati'] ?? 0,
+            'ayam_afkir'            => @$validated['ayam_afkir'] ?? 0,
+            'ayam_masuk_karantina'  => @$validated['ayam_masuk_karantina'] ?? 0,
+            'ayam_keluar_karantina' => @$validated['ayam_keluar_karantina'] ?? 0,
             'catatan'               => $validated['catatan'] ?? null,
         ]);
 

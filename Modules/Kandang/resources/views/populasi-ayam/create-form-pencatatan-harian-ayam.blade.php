@@ -21,6 +21,8 @@
     :value="$kandang->nama"
 />
 
+<input type="hidden" name="kandang_id" value="{{ request()->route('kandangId') }}">
+
 <div class="form-group col-12">
     <label for="flock_id">Baris</label>
     <div class="input-group input-group-lg @error('flock_id') adminlte-invalid-igroup @enderror">

@@ -53,6 +53,7 @@ Route::middleware(['auth'])->group(function () {
         ->name('ajax.kandang.record-populasi');
 <<<<<<< HEAD
         Route::get('ajax/kesehatan-ayam/{pipeId}', [AjaxController::class, 'kesehatan_ayam'])->name('ajax.kesehatan_ayam');
+        Route::get('ajax/karantina-ayam/{pipeId}', [AjaxController::class, 'populasi_kandang_karantina'])->name('ajax.populasi_kandang_karantina');
 
 =======
         Route::get('ajax/umur-ayam-by-kandang/{kandangId}', [AjaxController::class, 'umurAyamByKandang'])->name('ajax.umur_ayam_by_kandang');

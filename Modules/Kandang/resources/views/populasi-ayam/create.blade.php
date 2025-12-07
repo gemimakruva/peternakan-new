@@ -17,7 +17,7 @@
 
         <div class="row justify-content-center">
             {{-- Form Content --}}
-            <div class="col-md-6">
+            <div class="col-md-12 col-xl-6">
                 <form action="{{ route('populasi-ayam.store') }}" method="POST">
                     @csrf
                     <div class="card">
@@ -48,13 +48,13 @@
                 </form>
             </div>
 
-            <div class="col-md-6">
+            <div class="col-md-12 col-xl-6">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Log Pencatatan Harian</h2>
                     </div>
                     <div class="card-body">
-                        <table class="table table-sm">
+                        <table class="table table-sm table-bordered">
                             <thead>
                                 <tr style="vertical-align: middle; text-align: center;">
                                     <th rowspan="2" style="vertical-align: middle; text-align: center;">Pipa</th>
