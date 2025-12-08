@@ -4,6 +4,7 @@ namespace Modules\Kandang\Http\Controllers\Perhitungan_pakan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\JenisPakan;
 
 class JenisPakanController extends Controller
@@ -64,7 +65,12 @@ class JenisPakanController extends Controller
     public function update(Request $request, JenisPakan $Jenis_pakan)
     {
          $validated = $request->validate([
-            'nama' => 'required|string|max:100|unique:jenis_pakan,nama',
+            'nama' => [
+                "required",
+                "string",
+                "max:100",
+                Rule::unique("jenis_pakan","nama")->ignore($Jenis_pakan->id)
+            ]
         ]);
 
 

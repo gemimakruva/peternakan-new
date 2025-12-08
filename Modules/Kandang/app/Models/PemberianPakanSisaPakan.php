@@ -15,10 +15,17 @@ class PemberianPakanSisaPakan extends Model
 
     /** Field yang boleh diisi (fillable) */
     protected $fillable = [
-        'perhitungan_pakan_id',
+        'flock_id',
+        'jenis_pakan_id',
+        'tanggal',
         'pemberian_pakan_flock_kg',
-        'sisa_pakan_per_flock',
+        'sisa_pakan_per_flock_kg',
     ];
+
+    public function flock()
+{
+    return $this->belongsTo(Flock::class, 'flock_id', 'id');
+}
 
         public function perhitungan_pakan()
     {

@@ -20,11 +20,12 @@ class PerhitunganPakanController extends Controller
     public function index(Request $request)
 {
     
-      $query = PerhitunganPakan::with([
-        'jenis_pakan', 
-        'pemberianPakanSisaPakan', 
-        'pipe.flock.kandang'
-    ])->latest();
+   $query = PerhitunganPakan::with([
+    'jenis_pakan',
+    'pipe.flock.kandang',
+    'pipe.flock.pemberianPakanSisaPakan'
+])->latest();
+
 
      if ($request->filled('tanggal')) {
         $query->where('id', $request->tanggal);
@@ -53,8 +54,6 @@ class PerhitunganPakanController extends Controller
 
     $perhitunganPakan = $query->get();
     $jenisPakanList = JenisPakan::all();
-
-    // dd($perhitunganPakan);
 
     return view('kandang::perhitungan-pakan.index', 
     compact('perhitunganPakan','jenisPakanList'));
@@ -171,29 +170,38 @@ class PerhitunganPakanController extends Controller
     }
 
    public function storeSisaPakan(Request $request)
-    {
-        try {
-            // Validasi input
-            $validated = $request->validate([
-                'tanggal'      => 'required|exists:perhitungan_pakan,id',
-                'pemberian_pakan'  => 'required|numeric|min:0',
-                'sisa_pakan'      => 'required|numeric|min:0',
-            ]);
-            
-                PemberianPakanSisaPakan::create([
-                    'perhitungan_pakan_id' => $validated["tanggal"],
-                    'pemberian_pakan_flock_kg' => $validated['pemberian_pakan'],
-                    'sisa_pakan_per_flock' => $validated["sisa_pakan"]
-                ]);
-            return redirect()
-                ->back()
-                ->with('success', 'Data pemberian & 
-                            sisa pakan berhasil disimpan!');
-            } catch (\Exception $e) {
+{
+    // Validasi input di luar try-catch
+    $validated = $request->validate([
+        'tanggal'           => 'required|exists:perhitungan_pakan,id',
+        'pemberian_pakan'   => 'required|numeric',
+        'sisa_pakan'        => 'required|numeric',
+        'flock_id'          => 'required|numeric|exists:flock,id',
+        'jenis_pakan_id'    => 'required|numeric|exists:jenis_pakan,id',
+    ]);
 
-            return redirect()
-                ->back()
-                ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi!');
-        };
+
+    try {
+        // Ambil tanggal dari model PerhitunganPakan
+        $tanggalPemberianPakan = PerhitunganPakan::findOrFail($validated['tanggal']);
+        // Simpan data ke tabel pemberian_pakan_sisa_pakan
+       PemberianPakanSisaPakan::create([
+            'flock_id' => $validated["flock_id"],
+            'jenis_pakan_id' => $validated['jenis_pakan_id'],
+            'tanggal' => $tanggalPemberianPakan->tanggal_pemberian_pakan,
+            'pemberian_pakan_flock_kg' => $validated['pemberian_pakan'],
+            'sisa_pakan_per_flock_kg' => $validated["sisa_pakan"]
+        ]);
+
+
+        return redirect()
+            ->back()
+            ->with('success', 'Data pemberian & sisa pakan berhasil disimpan!');
+    } catch (\Exception $e) {
+        return redirect()
+            ->back()
+            ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi!');
     }
+}
+
 }

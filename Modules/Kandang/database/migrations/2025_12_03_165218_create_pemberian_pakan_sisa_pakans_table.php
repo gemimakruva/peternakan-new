@@ -13,9 +13,17 @@ return new class extends Migration
     {
         Schema::create('pemberian_pakan_sisa_pakan', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('perhitungan_pakan_id')
-                  ->constrained('perhitungan_pakan')
-                  ->onDelete('cascade');
+                //   flock id
+            $table->foreignId('flock_id') 
+                ->constrained("flock")
+                ->onDelete("cascade");
+                // jenis pakan
+            $table->foreignId('jenis_pakan_id')
+                  ->constrained("jenis_pakan")
+                  ->onDelete("cascade");
+                // tanggal
+            $table->date("tanggal");
+
             $table->decimal('pemberian_pakan_flock_kg', 10, 2)->nullable();   
             $table->decimal('sisa_pakan_per_flock_kg', 10, 2)->nullable();      
 

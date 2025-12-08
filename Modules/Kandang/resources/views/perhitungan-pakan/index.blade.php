@@ -109,10 +109,13 @@
                         </td>
                         <td>
                        {{ number_format($pp->proporsi_pemberian_sore) }} kg
-                        <td>
-                            {{-- Jumlah sisa pakan dari relasi --}}
-                            {{ number_format($pp->pemberianPakanSisaPakan->sum('sisa_pakan_per_flock'), 2) ?? '0' }} kg
-                        </td>
+                           @php
+                                $sisaPakanRelasi = $pp->pipe->flock->pemberianPakanSisaPakan;
+                                $sisaPakanPerBaris = $sisaPakanRelasi->sum(function($item) {
+                                    return $item->pemberian_pakan_flock_kg - $item->sisa_pakan_per_flock_kg;
+                                });
+                            @endphp
+                       <td>{{ $sisaPakanPerBaris }} kg</td>
                     </tr>
                 @empty
                     <tr>

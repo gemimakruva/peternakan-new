@@ -27,4 +27,10 @@ class Flock extends Model
         return $this->hasMany(Pipe::class, 'flock_id', 'id');
     }
 
+    public function pemberianPakanSisaPakan()
+    {
+        return $this->hasMany(PemberianPakanSisaPakan::class, 'flock_id', 'id');
+    }
+
+
 }
