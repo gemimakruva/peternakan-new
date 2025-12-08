@@ -78,7 +78,14 @@ Route::middleware(['auth'])->group(function () {
         [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
         Route::get('ajax/listKandangbyPipe/{tanggalId}', 
         [AjaxController::class, 'DetailPengadaanByPipeId'])->name('ajax.show-detail-by-pipe');
+        Route::get('ajax/getKandangByTanggalId/{tanggalId}',
+        [AjaxController::class,'getKandangByTanggalId'])->name('ajax.getKandangByTanggalId');
+          Route::get('ajax/getFlockByKandangId/{kandangId}',
+        [AjaxController::class,'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
+          Route::get('ajax/getPemberianPakanByFlockId/{tanggalId}/{flockId}',
+        [AjaxController::class,'getPemberianPakanByFlockId'])->name('ajax.getPemberianPakanByFlockId');
         
+
      
      
 

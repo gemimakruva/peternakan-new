@@ -12,6 +12,8 @@ use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Services\KandangService;
+use Illuminate\Support\Facades\DB;
+use Modules\Kandang\Models\JenisPakan;
 
 class AjaxController extends Controller
 {
@@ -22,6 +24,7 @@ class AjaxController extends Controller
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
         private PerhitunganPakan $perhitunganPakan,
         private PopulasiAyam $populasiAyam,
+        private JenisPakan $jenisPakan
     ) { }
 
     public function kandang()
@@ -93,7 +96,7 @@ class AjaxController extends Controller
             ->when(request()->query('q'), function($query, $q) {
                 $query->where('tanggal_pemberian_pakan', 'like', "%$q%");
             })
-            ->get();
+              ->latest()->get();
 
         $result = $tanggal->map(function($k){
             return [
@@ -105,58 +108,77 @@ class AjaxController extends Controller
         return response()->json(['results' => $result]);
     }
 
-    public function DetailPengadaanByPipeId($tanggalId)
+    public function getKandangByTanggalId($tanggalId){
+        $perhitungan = $this->perhitunganPakan
+            ->with('pipe.flock.kandang')
+            ->findOrFail($tanggalId);
+         $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
+         $kandangs = [];
+            foreach($pipes as $pipe) {
+                if($pipe && $pipe->flock && $pipe->flock->kandang) {
+                    $kandangs[] = [
+                            'id' => $pipe->flock->kandang->id,
+                            'nama' => $pipe->flock->kandang->nama,
+                    ];
+                }
+            }
+            return response()->json([
+                'status' => true,
+                'results' => $kandangs
+    ]); 
+    }
+
+    public function getFlockByKandangId($kandangId)
     {
         $perhitungan = $this->perhitunganPakan
-            ->with('pipe.flock.kandang', 'jenis_pakan')
-            ->findOrFail($tanggalId);
-
-        $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
-
-        $kandangs = [];
-        foreach($pipes as $pipe) {
-            if($pipe && $pipe->flock && $pipe->flock->kandang) {
-                $kandangs[] = [
-                    'id' => $pipe->flock->kandang->id,
-                    'nama' => $pipe->flock->kandang->nama,
-                ];
-            }
+        ->with('pipe.flock.kandang')
+        ->whereHas('pipe.flock.kandang', 
+        function($q) use ($kandangId) {
+            $q->where('id', $kandangId);
+        })
+        ->get();
+          $flocks = [];
+        
+    foreach ($perhitungan as $pp) {
+        if ($pp->pipe && $pp->pipe->flock) {
+            $flocks[] = [
+                'id' => $pp->pipe->flock->id,
+                'nama' => $pp->pipe->flock->nama,
+            ];
         }
+    }
 
-        $flocks = [];
-        foreach($pipes as $pipe) {
-            if($pipe && $pipe->flock) {
-                $flocks[] = [
-                    'id' => $pipe->flock->id,
-                    'nama' => $pipe->flock->nama,
-                ];
-            }
-        }
+    $flocks = collect($flocks)->unique('id')->values()->all();
+    
+    return response()->json([
+        'status' => true,
+        'results' => $flocks
+    ]);
 
-        $pipesArr = [];
-        foreach($pipes as $pipe) {
-            if($pipe) {
-                $pipesArr[] = [
-                    'id' => $pipe->id,
-                    'nama' => $pipe->nama,
-                    'kapasitas' =>$pipe->kapasitas
-                ];
-            }
-        }
+    }
 
-        $jenisPakan = $perhitungan->jenis_pakan;
-        $pakanPerFlock = ($perhitungan->jumlah_ayam_per_pipe * $perhitungan->jumlah_pakan_per_ekor_gram) / 100;
-        $pakanPerFlock = round($pakanPerFlock, 2);
-
+    public function getPemberianPakanByFlockId($tanggalId,$flockId)
+    {
+        $tanggal = $this->perhitunganPakan->findOrFail($tanggalId);
+         $tanggalValue = $tanggal->tanggal_pemberian_pakan;
+        
+        $totalPakan = DB::table('perhitungan_pakan as pp')
+            ->join('pipe as p', 'pp.pipe_id', '=', 'p.id')
+            ->join('flock as f', 'p.flock_id', '=', 'f.id')
+            ->where('pp.tanggal_pemberian_pakan', $tanggalValue) 
+            ->where('f.id', $flockId)
+            ->selectRaw('(SUM(pp.jumlah_ayam_per_pipe * 
+            pp.jumlah_pakan_per_ekor_gram) / 1000) as total_pakan_kg')
+            ->value('total_pakan_kg');
+        
+             $jenisPakan = $this->jenisPakan->all();
+   
         return response()->json([
-            'results' => [
-                'kandang' => $kandangs,
-                'flock' => $flocks,
-                'pipe' => $pipesArr,
-                'jenis_pakan' => $jenisPakan->nama,
-                'pakanPerFlock' => $pakanPerFlock 
-            ]
-        ]);
+        'status' => true,
+        'message' => 'Total pakan berhasil diambil',
+        'result' => $totalPakan ?? 0 ,
+        'jenisPakan' => $jenisPakan
+    ]);
     }
 
     public function umurAyamByFlock($flockId, Request $request)

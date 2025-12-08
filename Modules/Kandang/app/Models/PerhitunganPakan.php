@@ -39,10 +39,6 @@ class PerhitunganPakan extends Model
           return $this->belongsTo(Pipe::class, 'pipe_id');
     }
 
-    public function pemberianPakanSisaPakan()
-    {
-        return $this->hasMany(PemberianPakanSisaPakan::class, 'perhitungan_pakan_id');
-    }
 
     /**
      * Tentukan factory untuk model modular ini
