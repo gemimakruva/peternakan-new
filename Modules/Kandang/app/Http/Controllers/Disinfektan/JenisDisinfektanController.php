@@ -1,12 +1,12 @@
 <?php
 
-namespace Modules\Kandang\Http\Controllers\Disinfectan;
+namespace Modules\Kandang\Http\Controllers\Disinfektan;
 use Illuminate\Validation\Rule;
 use App\Http\Controllers\Controller;
-use Modules\Kandang\Models\JenisDisinfectan;
+use Modules\Kandang\Models\JenisDisinfektan;
 use Illuminate\Http\Request;
 
-class JenisDisinfectanController extends Controller
+class JenisDisinfektanController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class JenisDisinfectanController extends Controller
         {
         
             $search = $request->query('search');
-            $query = JenisDisinfectan::query();
+            $query = JenisDisinfektan::query();
             if ($search) {
                 $query->where('nama', 'LIKE', "%{$search}%");
             }
@@ -44,12 +44,12 @@ class JenisDisinfectanController extends Controller
 
 
     try {
-        JenisDisinfectan::create([
+        JenisDisinfektan::create([
             'nama' => $validated['nama'],
         ]);
         return redirect()
             ->route('master-data.jenis-disinfectan.index')
-            ->with('success', 'Jenis Disinfectan berhasil ditambahkan!');
+            ->with('success', 'Jenis Disinfektan berhasil ditambahkan!');
             
     } catch (\Throwable $e) {
         return back()
@@ -61,7 +61,7 @@ class JenisDisinfectanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(JenisDisinfectan $jenisDisinfectan)
+    public function show(JenisDisinfektan $jenisDisinfectan)
     {
         //
     }
@@ -69,7 +69,7 @@ class JenisDisinfectanController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JenisDisinfectan $jenisDisinfectan)
+    public function edit(JenisDisinfektan $jenisDisinfectan)
     {
         $data = $jenisDisinfectan;
         return view('kandang::master-data.disinfectan.edit', compact('data'));
@@ -78,7 +78,7 @@ class JenisDisinfectanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JenisDisinfectan $jenisDisinfectan)
+    public function update(Request $request, JenisDisinfektan $jenisDisinfectan)
     {
         // validasi input
         $validated = $request->validate([
@@ -110,14 +110,15 @@ class JenisDisinfectanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JenisDisinfectan $jenisDisinfectan)
+    public function destroy(JenisDisinfektan $jenisDisinfectan)
         {
             try {
                 $jenisDisinfectan->delete();
 
                 return redirect()
                     ->route('master-data.jenis-disinfectan.index')
-                    ->with('success', 'Jenis disinfectan berhasil dihapus.');
+                    ->with('success', 'Jenis Disinfektan
+ berhasil dihapus.');
             } catch (\Throwable $th) {
 
                 return redirect()

@@ -1,12 +1,12 @@
-{{-- Jenis Disinfectan --}}
+{{-- Jenis Disinfektan--}}
 <div class="mb-3">
     <x-adminlte-input 
         name="nama" 
-        label="Jenis Disinfectan" 
+        label="Jenis Disinfektan" 
         type="text" 
         igroup-size="md"
         value="{{ old('nama', @$data->nama) }}"
-        placeholder="Masukkan jenis disinfectan" 
+        placeholder="Masukkan Jenis Disinfektan" 
         required>
 
         <x-slot name="prependSlot">

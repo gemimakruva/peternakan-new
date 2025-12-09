@@ -11,6 +11,7 @@
 @stop
 
 @section('content')
+<x-form-alert />
 <div class="card" style="max-width:1200px">
     <div class="card-header">
         <h3 class="card-title">Filter Data Pencatatan</h3>
@@ -63,7 +64,7 @@
                     <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)
                     ->translatedFormat('l, d F Y') }}</td>
                     <td>{{ $item->pic_user->name ?? '-' }}</td>
-                    <td>{{ $item->umur_ayam }} hari</td>
+                    <td>{{ $item->umur_ayam }} Minggu</td>
                     <td>{{ $item->kondisi_ayam }}</td>
                     <td class="text-center">{{ number_format($item->jumlah_ayam_datang) }}</td>
                     <td class="text-center">{{ number_format($item->jumlah_ayam_mati) }}</td>

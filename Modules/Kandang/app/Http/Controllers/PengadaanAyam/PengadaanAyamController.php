@@ -134,6 +134,7 @@ class PengadaanAyamController extends Controller
                     'jenis_pemeriksaan' => 'pengadaan ayam',
                     'tanggal' => $validated['tanggal'],
                     'kandang_id' => $item['kandang_id'],
+                    'umur_ayam_record' => $validated['umur_ayam'],
                     'flock_id' => $item['flock_id'],
                     'pipe_id' => $item['pipe_id'],
                     'ayam_sehat' => $jumlah,

@@ -4,9 +4,11 @@
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center pt-3" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">Jenis Disinfectan</h2>
+    <h2 class="h4 fw-bold text-dark">Jenis Disinfektan
+</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman untuk menampilkan data jenis disinfectan kandang
+        Halaman untuk menampilkan data Jenis Disinfektan
+ kandang
 </div>
 @stop
 
@@ -20,7 +22,8 @@
             <form action="{{ route('master-data.jenis-disinfectan.index', request()->all()) }}"
                  method="get" class="w-100">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">Daftar Jenis Disinfectan</h2>
+                    <h2 class="card-title mb-0">Daftar Jenis Disinfektan
+</h2>
 
                     <div class="d-flex" style="gap: .5em">
                         <input type="search"
@@ -33,10 +36,11 @@
                             <i class="fas fa-search"></i>
                         </button>
 
-                        @can('Tambah Jenis Disinfectan')
+                        @can('Tambah Jenis Disinfektan
+')
                         <a href="{{ route('master-data.jenis-disinfectan.create') }}"
                            class="btn btn-light btn-sm text-dark"
-                           title="Tambah Jenis Disinfectan">
+                           title="Tambah Jenis Disinfektan">
                             <i class="fas fa-plus"></i>
                         </a>
                         @endcan
@@ -67,7 +71,8 @@
                             <td class="text-center">
                                 <div class="d-flex justify-content-center" style="gap: .5em">
 
-                                    @can('Edit Jenis Disinfectan')
+                                    @can('Edit Jenis Disinfektan
+')
                                     <a href="{{ route('master-data.jenis-disinfectan.edit', $row->id) }}"
                                        class="btn btn-sm btn-warning text-white"
                                        title="Edit">
@@ -75,7 +80,7 @@
                                     </a>
                                     @endcan
 
-                                    @can('Hapus Jenis Disinfectan')
+                                    @can('Hapus Jenis Disinfektan')
                                     <form action="{{ route('master-data.jenis-disinfectan.destroy', 
                                     $row->id) }}"
                                           method="post"

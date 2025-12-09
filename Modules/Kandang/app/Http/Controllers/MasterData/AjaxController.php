@@ -262,4 +262,9 @@ class AjaxController extends Controller
             ),
         ];
     }
+
+       public function DetailPengadaanByPipeId($tanggalId)
+    {
+        // kode logic
+    }
 }
