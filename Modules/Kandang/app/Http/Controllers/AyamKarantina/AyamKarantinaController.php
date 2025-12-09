@@ -25,7 +25,7 @@ class AyamKarantinaController extends Controller
      */
     public function create()
     {
-        $listPopulasiAyam = PopulasiAyam::with(['kandang', 'flock', 'pipe'])->get();
+        $listPopulasiAyam = PopulasiAyam::with(['pengadaanDistribusi.pipe.flock.kandang'])->get();
         return view("kandang::ayam-karantina.create",
         compact('listPopulasiAyam'));
     }

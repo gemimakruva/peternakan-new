@@ -69,28 +69,33 @@ Route::middleware(['auth'])->group(function () {
         ->name('ayam-karantina.masuk.store');
         Route::get('keluar-karantina', [AyamKarantinaController::class, 'keluarKarantina'])
         ->name('ayam-karantina.keluar');
+        
         Route::resource('perhitungan-pakan', PerhitunganPakanController::class)
         ->names('perhitungan-pakan');
+
         Route::get('sisa-pakan', [PerhitunganPakanController::class, 'createSisaPakan'])
         ->name('sisa-pakan.create');
+
         Route::post('sisa-pakan', [PerhitunganPakanController::class, 'storeSisaPakan'])
         ->name('sisa-pakan.store');
+
+        Route::get('list-data-pakan',[PerhitunganPakanController::class, 'listDataPakanHarian'])
+        ->name('perhitungan-pakan.listdata');
+
+        Route::get('list-data-sisa-pakan',[PerhitunganPakanController::class, 'listDataSisaPakanHarian'])
+        ->name('sisa-pakan.listDataSisaPakanHarian');
+
         Route::get('ajax/tanggal-perhitungan-pakan', 
         [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
-        Route::get('ajax/listKandangbyPipe/{tanggalId}', 
-        [AjaxController::class, 'DetailPengadaanByPipeId'])->name('ajax.show-detail-by-pipe');
-        Route::get('ajax/getKandangByTanggalId/{tanggalId}',
-        [AjaxController::class,'getKandangByTanggalId'])->name('ajax.getKandangByTanggalId');
+
+        Route::get('ajax/getKandangByTanggalId/{tanggal}', 
+        [AjaxController::class, 'getKandangByTanggalId'])
+        ->name('ajax.getKandangByTanggalId');
+
           Route::get('ajax/getFlockByKandangId/{kandangId}',
         [AjaxController::class,'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
-          Route::get('ajax/getPemberianPakanByFlockId/{tanggalId}/{flockId}',
-        [AjaxController::class,'getPemberianPakanByFlockId'])->name('ajax.getPemberianPakanByFlockId');
-        
-
-     
-     
-
-
+          Route::get('ajax/getPemberianPakanByFlockId/{tanggal}/{flock}', [AjaxController::class, 'getPemberianPakanByFlockId'])
+          ->name('ajax.getPemberianPakanByFlockId');
         Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
         Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
 });

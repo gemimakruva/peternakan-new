@@ -568,15 +568,42 @@ return [
         ],
     [
     'text' => 'Pakan Harian',
-    'route' => 'perhitungan-pakan.create',
     'icon' => 'fas fa-calculator',
     'can'  => 'Lihat Perhitungan Pakan',
+    'submenu' => [
+        [
+            'text' => "List Data Harian",
+            'route' => "perhitungan-pakan.listdata",
+            'icon' => 'fas fa-history',
+            'can' => 'Lihat list data harian'
+        ],
+          [
+            'text' => "Form Harian",
+            'route' => "perhitungan-pakan.create",
+            'icon' => 'fas fa-plus',
+            'can' => 'Lihat list data harian'
+        ]
+    ]
      ],
     [
     'text' => 'Sisa pakan',
-    'route' => 'sisa-pakan.create',
+  
     'icon' => 'fas fa-box-open',
     'can'  => 'Lihat Sisa Pakan',
+    'submenu' => [
+        [
+            'text' => "List Data Sisa Pakan",
+            'route' => "sisa-pakan.listDataSisaPakanHarian",
+            'icon' => 'fas fa-history',
+            'can' => 'Lihat list data sisa pakan'
+        ],
+         [
+            'text' => "Form Sisa Pakan",
+             'route' => 'sisa-pakan.create',
+            'icon' => 'fas fa-plus',
+            'can' => 'Lihat list data sisa pakan'
+        ]
+    ]
 ],
 [
     'text' => 'Rekapan Pakan Harian',

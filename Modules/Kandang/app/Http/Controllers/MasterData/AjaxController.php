@@ -108,25 +108,6 @@ class AjaxController extends Controller
         return response()->json(['results' => $result]);
     }
 
-    public function getKandangByTanggalId($tanggalId){
-        $perhitungan = $this->perhitunganPakan
-            ->with('pipe.flock.kandang')
-            ->findOrFail($tanggalId);
-         $pipes = $perhitungan->pipe ? [$perhitungan->pipe] : [];
-         $kandangs = [];
-            foreach($pipes as $pipe) {
-                if($pipe && $pipe->flock && $pipe->flock->kandang) {
-                    $kandangs[] = [
-                            'id' => $pipe->flock->kandang->id,
-                            'nama' => $pipe->flock->kandang->nama,
-                    ];
-                }
-            }
-            return response()->json([
-                'status' => true,
-                'results' => $kandangs
-    ]); 
-    }
 
     public function getFlockByKandangId($kandangId)
     {
@@ -157,27 +138,34 @@ class AjaxController extends Controller
 
     }
 
-    public function getPemberianPakanByFlockId($tanggalId,$flockId)
+    public function getPemberianPakanByFlockId($tanggal,$flockId)
     {
-        $tanggal = $this->perhitunganPakan->findOrFail($tanggalId);
-         $tanggalValue = $tanggal->tanggal_pemberian_pakan;
+         $perhitungan = $this->perhitunganPakan
+        ->where('tanggal_pemberian_pakan', $tanggal)
+        ->first();
+
+           if (!$perhitungan) {
+        return response()->json([
+            'status' => false,
+            'message' => 'Data perhitungan pakan tidak ditemukan untuk tanggal tersebut',
+            'result' => 0,
+        ]);
+    }
         
         $totalPakan = DB::table('perhitungan_pakan as pp')
             ->join('pipe as p', 'pp.pipe_id', '=', 'p.id')
             ->join('flock as f', 'p.flock_id', '=', 'f.id')
-            ->where('pp.tanggal_pemberian_pakan', $tanggalValue) 
+            ->where('pp.tanggal_pemberian_pakan', $tanggal) 
             ->where('f.id', $flockId)
             ->selectRaw('(SUM(pp.jumlah_ayam_per_pipe * 
             pp.jumlah_pakan_per_ekor_gram) / 1000) as total_pakan_kg')
             ->value('total_pakan_kg');
         
-             $jenisPakan = $this->jenisPakan->all();
    
         return response()->json([
         'status' => true,
         'message' => 'Total pakan berhasil diambil',
         'result' => $totalPakan ?? 0 ,
-        'jenisPakan' => $jenisPakan
     ]);
     }
 
@@ -263,8 +251,24 @@ class AjaxController extends Controller
         ];
     }
 
-       public function DetailPengadaanByPipeId($tanggalId)
+       public function getKandangByTanggalId($tanggal)
     {
-        // kode logic
+        $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
+        $kandang = $this->perhitunganPakan
+        ->where('tanggal_pemberian_pakan', $tanggal)
+        ->with('pipe.flock.kandang') // relasi
+        ->get();
+        $data = $kandang->map(function ($item) {
+                return [
+                    'id'   => $item->id,
+                    'nama' => $item->pipe->flock->kandang->nama ?? null,
+                ];
+        });
+
+        return response()->json([
+            'status'  => true,
+            'message' => 'Data berhasil diambil',
+            'data'    => $data
+        ]);
     }
 }
