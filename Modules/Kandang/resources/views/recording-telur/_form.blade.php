@@ -214,12 +214,12 @@
                 });
             }
 
-            function getUsiaAyamByFlockId(flockId, tanggal = null) {
+            function getUsiaAyamByKandangId(kandangid, tanggal = null) {
                 if (!tanggal) {
                     tanggal = $('#tanggal_produksi').val() || new Date().toISOString().split('T')[0];
                 }
                 
-                let url = '/master-data/ajax/umur-ayam-by-flock/' + flockId;
+                let url = '/master-data/ajax/umur-ayam-by-kandang/' + kandangid;
                 let method = 'GET';
 
                 $.ajax({
@@ -242,22 +242,19 @@
 
             $('#input-kandang-recording-telur').change(function() {
                 const kandangId = $(this).val();
+                const tanggal = $('#tanggal_produksi').val();
                 
                 populateDataBaris('input-baris-recording-telur', kandangId);
+                getUsiaAyamByKandangId(kandangId, tanggal);
             });
             
-            $('#input-baris-recording-telur').change(function() {
-                const flockId = $(this).val();
-                const tanggal = $('#tanggal_produksi').val();
-                getUsiaAyamByFlockId(flockId, tanggal);
-            });
 
             $('#tanggal_produksi').change(function() {
                 const tanggal = $(this).val();
-                const flockId = $('#input-baris-recording-telur').val();
+                const kandangId = $('#input-kandang-recording-telur').val();
                 
-                if (flockId && flockId !== 'Pilih Baris...') {
-                    getUsiaAyamByFlockId(flockId, tanggal);
+                if (kandangId && kandangId !== 'Pilih Kandang...') {
+                    getUsiaAyamByKandangId(kandangId, tanggal);
                 }
             });
 

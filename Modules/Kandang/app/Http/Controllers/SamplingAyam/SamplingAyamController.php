@@ -42,7 +42,9 @@ class SamplingAyamController extends Controller
             ])
             ->join('sampling_bobot_ayam_per_ekor as sbae', 'sbae.sampling_bobot_ayam_id', '=', 'sba.id')
             ->join('kandang as k', 'k.id', '=', 'sba.kandang_id')
-            ->leftJoin('pengadaan_ayam_distribusi as pad', 'pad.kandang_id', '=', 'sba.kandang_id')
+            ->leftJoin('flock as f', 'f.kandang_id', '=', 'sba.kandang_id')
+            ->leftJoin('pipe as p', 'p.flock_id', '=', 'f.id')
+            ->leftJoin('pengadaan_ayam_distribusi as pad', 'pad.pipe_id', '=', 'p.id')
             ->leftJoin('pengadaan_ayam as pa', 'pa.id', '=', 'pad.pengadaan_ayam_id')
             ->leftJoin('users as u', 'u.id', '=', 'pa.pic_user_id')
             ->leftJoin('strain_standart_metric as ssm', function($join) {
@@ -83,7 +85,7 @@ class SamplingAyamController extends Controller
         });
 
         $page = $request->get('page', 1);
-        $perPage = 1;
+        $perPage = 10;
         $offset = ($page - 1) * $perPage;
         
         $paginatedData = new \Illuminate\Pagination\LengthAwarePaginator(
