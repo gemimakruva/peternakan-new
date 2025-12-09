@@ -28,8 +28,8 @@ class AyamAfkirController extends Controller
      */
     public function create()
     {
-         $listPopulasiAyam = PopulasiAyam::with(['pengadaanDistribusi'])->get();
-         dd($listPopulasiAyam);
+        //  $listPopulasiAyam = PopulasiAyam::with(['kandang', 'flock', 'pipe'])->get();
+          $listPopulasiAyam = PopulasiAyam::with(['pengadaanDistribusi.pipe.flock.kandang'])->get();
          return view('kandang::ayam-afkir.create', compact('listPopulasiAyam'));
     }
 

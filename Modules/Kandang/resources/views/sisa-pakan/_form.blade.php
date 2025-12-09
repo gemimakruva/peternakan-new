@@ -3,9 +3,12 @@
 <div class="form-group col-12">
     <label for="tanggal_pemberian_pakan">Tanggal Pemberian Pakan</label>
     <div class="input-group input-group-lg">
-        <select name="tanggal" id="tanggal_pemberian_pakan" class="form-control form-control-lg">
-            <option value="">-- Pilih Tanggal --</option>
-        </select>
+       <input
+            type="date"
+            name="tanggal"
+            id="tanggal_pemberian_pakan"
+            class="form-control form-control-lg"
+        />
     </div>
 </div>
 
@@ -13,8 +16,11 @@
     <div class="form-group col-12">
     <label for="kandang_id">Pilih Kandang</label>
         <div class="input-group input-group-lg">
-            <select name="kandang_id" id="kandang_id" class="form-control form-control-lg">
-                <option value="">-- Pilih Kandang --</option>
+            <select id="kandang_id" name="kandang_id" id="kandang_id" class="form-control form-control-lg">
+                    <option value="">-- Pilih Kandang --</option>
+                    @foreach ($kandang as $item)
+                            <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                    @endforeach
             </select>
         </div>
     </div>
@@ -34,7 +40,11 @@
     <label for="jenis_pakan_id">Pilih Jenis Pakan</label>
     <div class="input-group input-group-lg">
         <select name="jenis_pakan_id" id="jenis_pakan_id" class="form-control form-control-lg">
-            <option value="">-- Pilih Jenis Pakan --</option>
+            <option value="">-- Pilih Kandang --</option>
+            @foreach ($jenisPakan as $item)
+                 <option value="{{ $item->id }}">{{ $item->nama }}</option>
+            @endforeach
+           
         </select>
     </div>
 </div>
@@ -99,67 +109,8 @@
 @push('js')
 <script>
 $(document).ready(function() {
-    function loadTanggalPakan(query = '') {
-        $.ajax({
-            url: "{{ route('ajax.tanggal-perhitungan') }}",
-            type: "GET",
-            data: { q: query },
-            dataType: "json",
-            success: function(response) {
-                let select = $('#tanggal_pemberian_pakan');
-                select.empty();
-                select.append('<option value="">-- Pilih Tanggal --</option>');
 
-                $.each(response.results, function(index, item) {
 
-                    let parts = item.text.split('-');
-                    let dateObj = new Date(parts[2], parts[1]-1, parts[0]);
-                    let formattedDate = dateObj.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric'
-                    });
-
-                    select.append('<option value="' + item.id + '">' + formattedDate + '</option>');
-                });
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-            }
-        });
-    }    
-    loadTanggalPakan();
-});
-
-$("#tanggal_pemberian_pakan").change(function() {
-    let tanggalId = $(this).val();
-
-    if (!tanggalId) {
-        console.log('Tanggal belum dipilih');
-        return; 
-    }
-
-    $.ajax({
-        url: "{{ route('ajax.getKandangByTanggalId', ':tanggalId') }}".
-        replace(':tanggalId', tanggalId),
-        type: "GET",
-        dataType: "json",
-        success: function(response) {
-            let kandangInput = $('#kandang_id');
-            kandangInput.empty();
-            kandangInput.append(`<option value="">-- Pilih Kandang --</option>`);
-
-            if(response.results && response.results.length > 0) {
-                response.results.forEach(function(item) {
-                    kandangInput.append(`<option value="${item.id}">${item.nama}</option>`);
-                });
-            }
-        },
-        error: function(xhr) {
-            console.error("AJAX Error:", xhr.responseText);
-        }
-    });
-});
 $("#kandang_id").change(function() {
     let kandangId = $(this).val();
 
@@ -190,46 +141,43 @@ $("#kandang_id").change(function() {
         }
     });
 });
-// GENERATE SISA PAKAN 
-function fetchPemberianPakan() {
-    let tanggalId = $('#tanggal_pemberian_pakan').val();
+
+$("#flock_id").change(function() {
+    let tanggal = $('#tanggal_pemberian_pakan').val();
     let flockId = $('#flock_id').val();
 
-    if (!tanggalId || !flockId) {
+    if (!tanggal || !flockId) {
         console.log("Tanggal atau flock belum dipilih");
         // Kosongkan input dan select jika belum lengkap
         $('#pemberian_pakan').val('');
         $('#jenis_pakan_id').empty().append(`<option value="">-- Pilih Jenis Pakan --</option>`);
         return;
     }
-
-    // GET Sisa Pakan per baris (Kg) 
-    $.ajax({
-        url: "{{ route('ajax.getPemberianPakanByFlockId', [':tanggalId', ':flockId']) }}"
-            .replace(':tanggalId', tanggalId)
+     $.ajax({
+        url: "{{ route('ajax.getPemberianPakanByFlockId', [':tanggal', ':flockId']) }}"
+            .replace(':tanggal', tanggal)
             .replace(':flockId', flockId),
         type: "GET",
         dataType: "json",
         success: function(response) {
-            $('#pemberian_pakan').val(response.result ?? 0);
-            let jenisPakanInput = $('#jenis_pakan_id');
-            jenisPakanInput.empty(); 
-            jenisPakanInput.append(`<option value="">-- Pilih Jenis Pakan --</option>`);
-
-            if (response.jenisPakan && response.jenisPakan.length > 0) {
-                response.jenisPakan.forEach(function(item) {
-                    jenisPakanInput.append(`<option value="${item.id}">${item.nama}</option>`);
+           if (!response.status) {
+                Swal.fire({
+                    icon: "warning",
+                    title: "Data tidak ditemukan",
+                    text: response.message || "Tidak ada data pakan untuk tanggal dan flock ini.",
                 });
+                $('#pemberian_pakan').val('');
+                return; 
             }
+              $('#pemberian_pakan').val(response.result ?? 0);
             },
             error: function(xhr, status, error) {
                 console.error("Terjadi error AJAX:", error);
             }
     });
-}
+})
+})
 
-$('#tanggal_pemberian_pakan').change(fetchPemberianPakan);
-$('#flock_id').change(fetchPemberianPakan);
 </script>
 @endpush
 

@@ -191,9 +191,7 @@ class PengadaanAyamController extends Controller
             $pengadaanAyam = $pengadaan_ayam->load([
                 'pic_user',
                 'berkasSupplier',
-                'distribusi.kandang',
-                'distribusi.flock',
-                'distribusi.pipe',
+                'distribusi.pengadaanAyam.distribusi.pipe.flock.kandang',
                 'dokumentasi'
             ]);
          return view("kandang::pengadaan-ayam.show", compact('pengadaanAyam'));

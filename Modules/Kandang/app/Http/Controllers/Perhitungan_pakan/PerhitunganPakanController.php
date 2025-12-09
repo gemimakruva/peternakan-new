@@ -145,7 +145,15 @@ class PerhitunganPakanController extends Controller
      */
     public function edit(PerhitunganPakan $perhitunganPakan)
     {
-        //
+        $currentUserId = Auth::id();                     
+        $Users = User::where('id', '!=',
+         $currentUserId)->get();
+        $perhitunganPakan->load('pipe.flock.kandang'); 
+        $data = $perhitunganPakan;
+        $listJenisPakan = JenisPakan::all();   
+        $listPipe = Pipe::all();
+        return view("kandang::perhitungan-pakan.edit",
+         compact('Users','listJenisPakan','listPipe','data'));
     }
 
     /**
@@ -161,29 +169,40 @@ class PerhitunganPakanController extends Controller
      */
     public function destroy(PerhitunganPakan $perhitunganPakan)
     {
-        //
+        try {
+        $perhitunganPakan->delete();
+        return redirect()->back()->with('success', 'Data berhasil dihapus.');
+        } catch (\Throwable $e) {
+        return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: '
+         . $e->getMessage());
+        }
     }
 
     public function createSisaPakan()
     {
-        return view("kandang::sisa-pakan.create");
+        $kandang = Kandang::latest()->get();
+        $jenisPakan = JenisPakan::latest()->get();
+        return view("kandang::sisa-pakan.create", 
+        compact('kandang',"jenisPakan"));
     }
 
    public function storeSisaPakan(Request $request)
 {
+ 
     // Validasi input di luar try-catch
     $validated = $request->validate([
-        'tanggal'           => 'required|exists:perhitungan_pakan,id',
+        'tanggal'           => 'required|exists:perhitungan_pakan,tanggal_pemberian_pakan',
         'pemberian_pakan'   => 'required|numeric',
         'sisa_pakan'        => 'required|numeric',
         'flock_id'          => 'required|numeric|exists:flock,id',
         'jenis_pakan_id'    => 'required|numeric|exists:jenis_pakan,id',
     ]);
 
-
     try {
         // Ambil tanggal dari model PerhitunganPakan
-        $tanggalPemberianPakan = PerhitunganPakan::findOrFail($validated['tanggal']);
+        $tanggal = $validated['tanggal'] ?? null;
+        $tanggalPemberianPakan = PerhitunganPakan::where('tanggal_pemberian_pakan', $tanggal)
+        ->first();
         // Simpan data ke tabel pemberian_pakan_sisa_pakan
        PemberianPakanSisaPakan::create([
             'flock_id' => $validated["flock_id"],
@@ -200,8 +219,42 @@ class PerhitunganPakanController extends Controller
     } catch (\Exception $e) {
         return redirect()
             ->back()
-            ->with('error', 'Terjadi kesalahan saat menyimpan data. Silakan coba lagi!');
+            ->with('error', $e->getMessage());
     }
 }
+
+    public function listDataPakanHarian(Request $request)
+    {
+        $kandang = Kandang::latest()->get();
+        $query = PerhitunganPakan::with('userExecutor', 'pipe.flock.kandang')->latest();
+        
+        if ($request->filled('tanggal')) {
+            $query->where('id', $request->tanggal);
+        }
+        if ($request->filled('kandang')) {
+        $query->whereHas('pipe.flock',
+        function ($q) use ($request) {
+            $q->where('kandang_id', $request->kandang);
+        });
+        }
+
+        if ($request->filled('petugas_pencatatan')) {
+                    $query->whereHas('userExecutor', function 
+                    ($q) use ($request) {
+                        $q->where('name', 'like', '%' .
+                         $request->petugas_pencatatan . '%');
+                    });
+            }
+    
+        $perhitunganPakan = $query->paginate(10);
+        return view("kandang::perhitungan-pakan.listPakanHarian",
+        compact('perhitunganPakan', 'kandang'));
+    }
+
+    public function listDataSisaPakanHarian(){
+        $kandang = Kandang::latest()->get();
+        return view("kandang::sisa-pakan.listDataSisaPakanHarian",
+         compact('kandang'));
+    }
 
 }

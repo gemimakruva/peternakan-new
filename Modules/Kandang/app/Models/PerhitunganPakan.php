@@ -2,6 +2,7 @@
 
 namespace Modules\Kandang\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -39,6 +40,10 @@ class PerhitunganPakan extends Model
           return $this->belongsTo(Pipe::class, 'pipe_id');
     }
 
+    public function userExecutor()
+    {
+        return $this->belongsTo(User::class, 'user_executor_id');
+    }
 
     /**
      * Tentukan factory untuk model modular ini
@@ -47,4 +52,6 @@ class PerhitunganPakan extends Model
     {
         return \Modules\Kandang\Database\Factories\PerhitunganPakanFactory::new();
     }
+
+
 }

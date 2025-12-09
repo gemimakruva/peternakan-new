@@ -14,10 +14,15 @@
 
         <option disabled selected>Pilih Populasi Ayam...</option>
         @foreach($listPopulasiAyam as $populasi)
+        {{-- @dd( $populasi->pengadaanDistribusi->pipe->nama) --}}
+        @php
+            $pipe = $populasi->pengadaanDistribusi->pipe ?? null;
+            $flock = $pipe->flock ?? null;
+            $kandang = $flock->kandang ?? null;
+        @endphp
             <option value="{{ $populasi->id }}"
                 {{ old('populasi_ayam_id', @$data->populasi_ayam_id) == $populasi->id ? 'selected' : '' }}>
-                {{ $populasi->kandang->nama }} - Flock: {{ $populasi->flock->nama }} - Pipe: {{ $populasi->pipe->nama }}
-            </option>
+               {{ $kandang->nama ?? '-' }} - Flock: {{ $flock->nama ?? '-' }} - Pipe: {{ $pipe->nama ?? '-' }}
         @endforeach
     </x-adminlte-select2>
 </div>
