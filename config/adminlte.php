@@ -398,7 +398,7 @@ return [
         ],
 
          [
-            'text' => 'Jenis Disinfectan',
+            'text' => 'Jenis Disinfektan',
             'route' => 'master-data.jenis-disinfectan.index',
             'icon' => 'fas fa-clipboard-list',
             'can'  => 'Lihat Rekapan Pakan Harian',

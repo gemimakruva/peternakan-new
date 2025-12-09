@@ -6,7 +6,8 @@
 <div class="mb-4 text-center d-flex flex-column align-items-center pt-3" style="max-width: 1200px;">
     <h2 class="h4 fw-bold text-dark">Jenis Treatment</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman untuk menampilkan data jenis disinfectan kandang
+        Halaman untuk menampilkan data Jenis Disinfektan
+ kandang
 </div>
 @stop
 
@@ -33,10 +34,12 @@
                             <i class="fas fa-search"></i>
                         </button>
 
-                        @can('Tambah Jenis Disinfectan')
+                        @can('Tambah Jenis Disinfektan
+')
                         <a href="{{ route('master-data.jenis-treatment.create') }}"
                            class="btn btn-light btn-sm text-dark"
-                           title="Tambah Jenis Disinfectan">
+                           title="Tambah Jenis Disinfektan
+">
                             <i class="fas fa-plus"></i>
                         </a>
                         @endcan

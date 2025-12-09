@@ -120,7 +120,7 @@ class PopulasiAyamController extends Controller
                 'populasi_ayam_id' => $populasiAyam->id,
                 'pic_user_id' => auth()->id(),
                 'tanggal' => $validated['tanggal_transaksi'],
-                'umur_ayam' => $validated['umur_ayam'],
+                'umur_ayam' => $validated['umur_ayam_record'],
                 'jumlah_ayam_afkir' => $validated['ayam_afkir'],
             ]);
         }

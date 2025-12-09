@@ -15,8 +15,8 @@ class AyamAfkirController extends Controller
 
     public function index()
     {
-        $listAyamAfkir = AyamAfkir::with(['populasi.kandang', 'populasi.flock',
-         'populasi.pipe', 'pic_user'])
+         $listAyamAfkir = AyamAfkir::with([
+         'populasi.pengadaanDistribusi.pipe.flock', 'pic_user'])
         ->orderBy('updated_at', 'desc') 
         ->paginate(10);
         return view("kandang::ayam-afkir.index", 
@@ -28,7 +28,8 @@ class AyamAfkirController extends Controller
      */
     public function create()
     {
-         $listPopulasiAyam = PopulasiAyam::with(['kandang', 'flock', 'pipe'])->get();
+         $listPopulasiAyam = PopulasiAyam::with(['pengadaanDistribusi'])->get();
+         dd($listPopulasiAyam);
          return view('kandang::ayam-afkir.create', compact('listPopulasiAyam'));
     }
 

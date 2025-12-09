@@ -10,7 +10,6 @@
     </span>
 </div>
 @endsection
-
 @section('content')
 <div class="container-fluid px-2 px-md-4" style="1200px">
     <div class="row justify-content-center">
@@ -18,11 +17,12 @@
        <div class="col-md-8">
           <div class="card shadow-sm border-0">
                 <div class="card-body">
-                    <form action="{{ route('master-data.flock.update',$flock) }}" method="post" id="form-flock">
+                    <form action="{{ route('master-data.flock.update',$flock) }}"
+                     method="post" id="form-flock">
                             @csrf
                             @method('PUT')
                             @include('kandang::master-data.flock._form_edit',[
-                                'kandang' => $kandang,
+                                'kandang' => $flock->kandang,
                             ])
                             <hr class="my-4">
                             <div class="d-flex justify-content-end" style="gap: 1rem; margin-top: 1.5rem;">
