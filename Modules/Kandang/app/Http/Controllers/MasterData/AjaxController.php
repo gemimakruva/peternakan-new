@@ -191,21 +191,44 @@ class AjaxController extends Controller
 
     public function umurAyamByKandang($kandangId, Request $request)
     {
+        // Ambil distribusi melalui relasi pipe -> flock -> kandang
         $distribusi = $this->pengadaanAyamDistribusi
-            ->with('pengadaanAyam:id,tanggal,umur_ayam')
-            ->where('kandang_id', '=', $kandangId)
-            ->firstOrFail(['pengadaan_ayam_id', 'kandang_id']);
+            ->with([
+                'pengadaanAyam:id,tanggal,umur_ayam',
+                'pipe.flock:id,kandang_id'
+            ])
+            ->whereHas('pipe.flock', function($query) use ($kandangId) {
+                $query->where('kandang_id', $kandangId);
+            })
+            ->firstOrFail(['id', 'pengadaan_ayam_id', 'pipe_id']);
 
         $pengadaanAyam = $distribusi->pengadaanAyam;
 
-        $targetDate = $request->input('tanggal') 
-            ? Carbon::parse($request->input('tanggal'))->startOfDay() 
+        // Validasi apakah tanggal pengadaan ada
+        if (!$pengadaanAyam || !$pengadaanAyam->tanggal) {
+            return response()->json([
+                'error' => 'Data pengadaan ayam tidak ditemukan'
+            ], 404);
+        }
+
+        $targetDate = $request->input('tanggal')
+            ? Carbon::parse($request->input('tanggal'))->startOfDay()
             : Carbon::now()->startOfDay();
 
-        $tanggalPerbandingan = floor($pengadaanAyam->tanggal->diffInDays($targetDate) / 7);
-        
+        // Hitung umur ayam dalam minggu
+        $tanggalPengadaan = Carbon::parse($pengadaanAyam->tanggal)->startOfDay();
+        $umurAyamSaatPengadaan = $pengadaanAyam->umur_ayam; // dalam minggu
+        $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($targetDate);
+        $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
+
+        $usiaAyamSaatIni = $umurAyamSaatPengadaan + $selisihMingguDariPengadaan;
+
         return response()->json([
-            'usia_ayam_saat_ini' => $tanggalPerbandingan
+            'usia_ayam_saat_ini' => $usiaAyamSaatIni,
+            'umur_saat_pengadaan' => $umurAyamSaatPengadaan,
+            'tambahan_minggu' => $selisihMingguDariPengadaan,
+            'tanggal_pengadaan' => $tanggalPengadaan->format('Y-m-d'),
+            'tanggal_perhitungan' => $targetDate->format('Y-m-d')
         ]);
     }
 
