@@ -96,13 +96,13 @@
                         <td>{{ $item->flock->nama ?? '-' }}</td>
                         <td>{{ $item->usia_ayam }} minggu</td>
                         <td class="text-center">{{ number_format($item->jumlah_telur_bagus) }}</td>
-                        <td class="text-center">{{ number_format($item->berat_telur_bagus) }}</td>
+                        <td class="text-center">{{ number_format($item->berat_telur_bagus, 2) }}</td>
                         <td class="text-center">{{ number_format($item->jumlah_telur_putih) }}</td>
-                        <td class="text-center">{{ number_format($item->berat_telur_putih) }}</td>
+                        <td class="text-center">{{ number_format($item->berat_telur_putih, 2) }}</td>
                         <td class="text-center">{{ number_format($item->jumlah_telur_reject) }}</td>
-                        <td class="text-center">{{ number_format($item->berat_telur_reject) }}</td>
+                        <td class="text-center">{{ number_format($item->berat_telur_reject, 2) }}</td>
                         <td class="text-center">{{ number_format($item->total_jumlah_telur) }}</td>
-                        <td class="text-center">{{ number_format($item->total_berat_telur) }}</td>
+                        <td class="text-center">{{ number_format($item->total_berat_telur, 2) }}</td>
                         <td class="text-center">
                             <div class="d-flex justify-content-center">
                                 <a href="{{ route('recording-telur.edit', $item->id) }}" 

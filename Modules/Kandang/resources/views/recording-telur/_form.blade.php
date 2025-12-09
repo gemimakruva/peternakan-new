@@ -36,7 +36,7 @@
 <x-adminlte-input
     id="usia_ayam"
     name="usia_ayam"
-    label="Umur Ayam (Minggu)"
+    label="Umur Ayam (Minggu Ini)"
     value="{{ old('usia_ayam', $data->usia_ayam ?? 0) }}"
     type="number"
     igroup-size="lg"
