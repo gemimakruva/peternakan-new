@@ -52,4 +52,9 @@ class Pipe extends Model
     {
         return $this->hasMany(PengadaanAyamDistribusi::class, 'pipe_id', 'id');
     }
+
+   public function perhitunganPakan()
+    {
+        return $this->hasMany(PerhitunganPakan::class, 'pipe_id', 'id');
+    }
 }

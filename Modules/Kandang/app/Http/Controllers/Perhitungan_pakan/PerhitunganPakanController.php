@@ -161,7 +161,50 @@ class PerhitunganPakanController extends Controller
      */
     public function update(Request $request, PerhitunganPakan $perhitunganPakan)
     {
-        //
+
+         $validated = $request->validate([
+                'tanggal' => ['required', 'date'],
+                'pipe_id' => ['required', 'exists:pipe,id'],
+                'jenis_pakan_id' => ['required', 'exists:jenis_pakan,id'],
+                'jumlah_ayam' => ['required', 'integer', 'min:1'],
+                'jumlah_pakan_per_ekor_gram' => ['required', 'numeric', 'min:0'],
+                'proporsi_pemberian_pagi' => ['required', 'numeric'],
+                'proporsi_pemberian_sore' => ['required', 'numeric'],
+                'jam_pemberian_pagi' => ['required', 'date_format:H:i', 'after_or_equal:05:00', 
+                'before_or_equal:09:30'],
+                'jam_pemberian_sore' => ['required', 'date_format:H:i', 'after_or_equal:15:00',
+                 'before_or_equal:18:30'],
+                'catatan' => ['nullable', 'string', 'max:500'],
+        ]);
+
+         $userId  = Auth::id();
+         $executor = User::where('id', '!=', Auth::id())->first();
+         $validated['user_creator_id'] = $userId;
+         $validated['user_executor_id'] = $executor;
+        
+        try {
+            $perhitunganPakan->update([
+                 'tanggal_pemberian_pakan' => $validated["tanggal"],
+                    'user_creator_id' => $userId,
+                    'user_executor_id' => $executor->id,
+                    'jenis_pakan_id' => $validated['jenis_pakan_id'],
+                    'pipe_id' => $validated['pipe_id'],
+                    'proporsi_pemberian_pagi' => $validated['proporsi_pemberian_pagi'],
+                    'proporsi_pemberian_sore' => $validated['proporsi_pemberian_sore'],
+                    'waktu_pemberian_pagi' => $validated['jam_pemberian_pagi'],
+                    'waktu_pemberian_sore' => $validated['jam_pemberian_sore'],
+                    'jumlah_ayam_per_pipe' => $validated['jumlah_ayam'],
+                    'jumlah_pakan_per_ekor_gram' => $validated['jumlah_pakan_per_ekor_gram'],
+                    'catatan' => $validated['catatan']
+            ]);
+           
+            return redirect()
+                    ->route('perhitungan-pakan.listdata')
+                    ->with('success', 'Data Perhitungan Pakan berhasil disimpan!');
+        } catch (\Throwable $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: '
+         . $e->getMessage());
+        }
     }
 
     /**
@@ -251,10 +294,15 @@ class PerhitunganPakanController extends Controller
         compact('perhitunganPakan', 'kandang'));
     }
 
-    public function listDataSisaPakanHarian(){
+    public function listDataSisaPakanHarian()
+    {
+        $query = PemberianPakanSisaPakan::with([
+            'flock.pipes.perhitunganPakan.userExecutor'
+        ])->latest();
+        $data = $query->paginate(10);
         $kandang = Kandang::latest()->get();
         return view("kandang::sisa-pakan.listDataSisaPakanHarian",
-         compact('kandang'));
+         compact('kandang','data'));
     }
 
 }
