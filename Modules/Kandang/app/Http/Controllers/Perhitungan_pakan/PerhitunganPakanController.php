@@ -114,7 +114,7 @@ class PerhitunganPakanController extends Controller
              'jumlah_pakan_per_ekor_gram' => $validated['jumlah_pakan_per_ekor_gram'],
              'catatan' => $validated['catatan']
          ]);
-             return redirect()->back()->with('success',
+             return redirect()->route('perhitungan-pakan.listdata')->with('success',
               'Data Perhitungan Pakan berhasil disimpan!');
        }
         catch (\Illuminate\Validation\ValidationException $e) 
@@ -246,18 +246,20 @@ class PerhitunganPakanController extends Controller
         $tanggal = $validated['tanggal'] ?? null;
         $tanggalPemberianPakan = PerhitunganPakan::where('tanggal_pemberian_pakan', $tanggal)
         ->first();
+        $userId = auth()->id();
         // Simpan data ke tabel pemberian_pakan_sisa_pakan
        PemberianPakanSisaPakan::create([
             'flock_id' => $validated["flock_id"],
             'jenis_pakan_id' => $validated['jenis_pakan_id'],
             'tanggal' => $tanggalPemberianPakan->tanggal_pemberian_pakan,
+            'user_executor_id' => $userId,
             'pemberian_pakan_flock_kg' => $validated['pemberian_pakan'],
-            'sisa_pakan_per_flock_kg' => $validated["sisa_pakan"]
+            'sisa_pakan_per_flock_kg' => $validated["sisa_pakan"],
         ]);
 
 
         return redirect()
-            ->back()
+            ->route('sisa-pakan.listDataSisaPakanHarian')
             ->with('success', 'Data pemberian & sisa pakan berhasil disimpan!');
     } catch (\Exception $e) {
         return redirect()
@@ -272,7 +274,7 @@ class PerhitunganPakanController extends Controller
         $query = PerhitunganPakan::with('userExecutor', 'pipe.flock.kandang')->latest();
         
         if ($request->filled('tanggal')) {
-            $query->where('id', $request->tanggal);
+            $query->where('tanggal_pemberian_pakan', $request->tanggal);
         }
         if ($request->filled('kandang')) {
         $query->whereHas('pipe.flock',
@@ -294,15 +296,92 @@ class PerhitunganPakanController extends Controller
         compact('perhitunganPakan', 'kandang'));
     }
 
-    public function listDataSisaPakanHarian()
+    public function listDataSisaPakanHarian(Request $request)
     {
         $query = PemberianPakanSisaPakan::with([
-            'flock.pipes.perhitunganPakan.userExecutor'
+            'flock.kandang', 'jenisPakan','userExecutor'
         ])->latest();
+         if ($request->filled('tanggal')) {
+            $query->where('tanggal', $request->tanggal);
+        }
+         if ($request->filled('kandang')) {
+        $query->whereHas('flock.kandang',
+        function ($q) use ($request) {
+            $q->where('kandang_id', $request->kandang);
+        });
+        }
+
+        if ($request->filled('petugas_pencatatan')) {
+                    $query->whereHas('userExecutor', function 
+                    ($q) use ($request) {
+                        $q->where('name', 'like', '%' .
+                         $request->petugas_pencatatan . '%');
+                    });
+            }
+            
         $data = $query->paginate(10);
         $kandang = Kandang::latest()->get();
         return view("kandang::sisa-pakan.listDataSisaPakanHarian",
          compact('kandang','data'));
     }
+
+    public function editSisaPakan($id){
+         $data = PemberianPakanSisaPakan::with([
+        'flock.kandang',
+        'flock.pipes',
+        'jenisPakan'
+        ])->find($id);
+        $kandang = Kandang::latest()->get();
+        $jenisPakan = JenisPakan::latest()->get();
+         if (!$data) {
+        return redirect()->back()->with('error', 'Data sisa pakan tidak ditemukan.');
+    }
+      return view('kandang::sisa-pakan.edit', compact('data','kandang','jenisPakan'));
+    }
+
+    public function deleteSisaPakan($id)
+    {
+        $data = PemberianPakanSisaPakan::find($id);
+        if (!$data) {
+        return redirect()->back()->with('error', 'Data tidak ditemukan.');
+    }
+
+     try {
+        $data->delete();
+        return redirect()->back()->with('success', 'Data sisa pakan berhasil dihapus.');
+    } catch (\Exception $e) {
+        return redirect()->back()->with('error', 'Gagal menghapus data: ' . $e->getMessage());
+    }
+
+    }
+
+    public function updateSisaPakan(Request $request, $id)
+{
+    // dd($request);
+   $validated = $request->validate([
+    'tanggal'         => 'required|date',
+    'kandang_id'      => 'required|integer',
+    'flock_id'        => 'required|integer',
+    'jenis_pakan_id'  => 'required|integer',
+    'pemberian_pakan' => 'required|numeric',
+    'sisa_pakan'      => 'required|numeric',
+]);
+
+    $validated['user_executor_id'] = auth()->id();
+
+    $sisa = PemberianPakanSisaPakan::findOrFail($id);
+
+      $sisa->update([
+        'tanggal' => $validated['tanggal'],
+        'flock_id' => $validated['flock_id'],
+        'jenis_pakan_id' => $validated['jenis_pakan_id'],
+        'pemberian_pakan_flock_kg' => $validated['pemberian_pakan'],
+        'sisa_pakan_per_flock_kg' => $validated['sisa_pakan'] 
+      ]);
+
+    return redirect()
+        ->route('sisa-pakan.listDataSisaPakanHarian')
+        ->with('success', 'Data sisa pakan berhasil diperbarui.');
+}
 
 }

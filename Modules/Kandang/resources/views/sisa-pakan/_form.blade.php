@@ -40,7 +40,7 @@
     <label for="jenis_pakan_id">Pilih Jenis Pakan</label>
     <div class="input-group input-group-lg">
         <select name="jenis_pakan_id" id="jenis_pakan_id" class="form-control form-control-lg">
-            <option value="">-- Pilih Kandang --</option>
+            <option value="">-- Pilih jenis Pakan --</option>
             @foreach ($jenisPakan as $item)
                  <option value="{{ $item->id }}">{{ $item->nama }}</option>
             @endforeach

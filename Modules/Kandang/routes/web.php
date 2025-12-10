@@ -85,6 +85,17 @@ Route::middleware(['auth'])->group(function () {
         Route::get('list-data-sisa-pakan',[PerhitunganPakanController::class, 'listDataSisaPakanHarian'])
         ->name('sisa-pakan.listDataSisaPakanHarian');
 
+        // sisa-pakan.delete
+        Route::delete('sisa-pakan/{id}', [PerhitunganPakanController::class, 'deleteSisaPakan'])
+        ->name('sisa-pakan.delete');
+
+        Route::get('sisa-pakan/{id}/edit', [PerhitunganPakanController::class, 'editSisaPakan'])
+            ->name('sisa-pakan.edit');
+
+        Route::put('sisa-pakan/{id}', [PerhitunganPakanController::class, 'updateSisaPakan'])
+            ->name('sisa-pakan.update');
+            
+
         Route::get('ajax/tanggal-perhitungan-pakan', 
         [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
 

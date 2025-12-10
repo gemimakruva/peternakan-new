@@ -20,15 +20,18 @@
 
     {{-- FILTER DIBAWAH HEADER --}}
     <div class="card-body mb-10">
-       <form action="{{ route('perhitungan-pakan.listdata') }}" 
+       <form action="{{ route('sisa-pakan.listDataSisaPakanHarian') }}" 
       method="GET" class="row g-3 pb-3 px-4 align-items-end">
 
         {{-- Filter Tanggal --}}
-        <div class="col-md-3 col-6">
+       <div class="col-md-3 col-6">
             <label class="form-label fw-semibold">Tanggal Pemberian Pakan</label>
-            <select name="tanggal" id="tanggal_pemberian_pakan" class="form-control">
-                <option value="">-- Pilih Tanggal --</option>
-            </select>
+            <input 
+                type="date" 
+                name="tanggal" 
+                id="tanggal_pemberian_pakan" 
+                class="form-control"
+            >
         </div>
 
     {{-- Filter Kandang --}}
@@ -62,6 +65,7 @@
     </div>
     
 <div class="card-body p-0">
+    <x-form-alert />
     <div class="table-responsive">
         <table class="table table-bordered table-hover mb-0 align-middle table-auto" style="white-space: nowrap;">
             <thead  style="background-color: #495057; border-color: #495057;" class="table-light text-center text-white">
@@ -71,7 +75,7 @@
                     <th>Petugas pencatat</th>
                     <th>Kandang</th>
                     <th>Baris</th>
-                    <th>Pipa</th>
+                    <th>Jenis Pakan</th>
                     <th>Pemberian Paykan per Flock</th>
                     <th>Sisa Pakan per Flock</th>
                     <th>Action</th>
@@ -79,31 +83,32 @@
             </thead>
             <tbody>
                 @forelse ($data  as $pp)
-                    {{-- <tr class="text-center">
+                {{-- @dd($pp) --}}
+                    <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ \Carbon\Carbon::parse($pp->tanggal_pemberian_pakan)
+                        <td>{{ \Carbon\Carbon::parse($pp->tanggal)
                         ->translatedFormat('d F Y') }}</td>
                         <td>{{ $pp->userExecutor->name }}</td>
-                        <td>{{ $pp->pipe->flock->kandang->nama ?? '-' }}</td>
-                        <td>{{ $pp->pipe->flock->nama ?? '-' }}</td>
-                        <td>{{ $pp->pipe->nama }}</td>
-                        <td>{{ $pp->jumlah_ayam_per_pipe }}</td>
-                        <td>{{ $pp->jumlah_pakan_per_ekor_gram ?? '-' }}</td>
+                        <td>{{ $pp->flock->kandang->nama?? '-' }}</td>
+                        <td>{{ $pp->flock->nama ?? '-' }}</td>
+                        <td>{{ $pp->jenisPakan->nama }}</td>
+                        <td>{{ $pp->pemberian_pakan_flock_kg ?? '-' }}</td>
+                        <td>{{ $pp->sisa_pakan_per_flock_kg ?? '-' }}</td>
                          <td class="text-center">
-                            <a href="" class="btn btn-sm btn-primary">
+                            <a href="{{ route('sisa-pakan.edit', $pp->id) }}" class="btn btn-sm btn-primary">
                                 <i class="fas fa-edit"></i> Edit
                             </a>
+                            <form action={{ route('sisa-pakan.delete',$pp->id) }}
+                                 method="POST" class="d-inline delete-form">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="btn btn-sm btn-danger btn-delete">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
 
-                            <form action="" method="POST" class="d-inline"
-                                onsubmit="return confirm('Yakin ingin menghapus data ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-sm btn-danger">
-                                    <i class="fas fa-trash"></i> Hapus
-                                </button>
-                            </form>
                         </td>
-                    </tr> --}}
+                    </tr>
                 @empty
                     <tr>
                         <td colspan="14" class="text-center text-muted">Tidak ada data</td>
@@ -112,71 +117,38 @@
             </tbody>
         </table>
     </div>
-     {{-- <div class="card-footer d-flex justify-content-end">
-            {{ $perhitunganPakan->links('components.pagination') }}
-        </div> --}}
+     <div class="card-footer d-flex justify-content-end">
+            {{ $data->links('components.pagination') }}
+        </div>
 </div>
+   @include('components.snackbar')
 @endsection
 
 @push('js')
 <script>
-$(document).ready(function() {
-    function loadTanggalPakan(query = '') {
-        $.ajax({
-            url: "{{ route('ajax.tanggal-perhitungan') }}",
-            type: "GET",
-            data: { q: query },
-            dataType: "json",
-            success: function(response) {
-                let select = $('#tanggal_pemberian_pakan');
-                select.empty();
-                select.append('<option value="">-- Pilih Tanggal --</option>');
 
-                $.each(response.results, function(index, item) {
+  $(document).on('click', '.btn-delete', function (e) {
+        e.preventDefault();
 
-                    let parts = item.text.split('-');
-                    let dateObj = new Date(parts[2], parts[1]-1, parts[0]);
-                    let formattedDate = dateObj.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric'
-                    });
+        let form = $(this).closest('form');
 
-                    select.append('<option value="' + item.id + '">' + formattedDate + '</option>');
-                });
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
+        Swal.fire({
+            title: 'Yakin ingin menghapus?',
+            text: "Data yang dihapus tidak dapat dikembalikan.",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#6c757d',
+            confirmButtonText: 'Ya, hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            console.log(result)
+            if (result.value) {
+                form.submit();
             }
         });
-    }    
-    loadTanggalPakan();
-});
+    });
 
-// $('#tanggal_pemberian_pakan').on('change', function() {
-//     let tanggal = $(this).val();
-//     if (!tanggal) return;
-//     console.log(tanggal);
-//     $.ajax({
-        
-//         url: "{{ route('ajax.getKandangByTanggalId', ['tanggal' => 'TANGGAL']) }}"
-//         .replace('TANGGAL', tanggal),
-//         type: "GET",
-//         dataType: "json",
-//          success: function(response) {
-//               let kandang = $('#kandang_id');
-//               kandang.empty();
-//               kandang.append('<option value="">-- Pilih Kandang --</option>');
-//                $.each(response.data, function(index, item) {
-//                     kandang.append('<option value="' + item.id + '">' + item.nama + '</option>');
-//                 });
-//             },
-
-//         error: function(xhr) {
-//             console.error(xhr.responseText);
-//         }
-//     });
-// });
 
 </script>
 @endpush
