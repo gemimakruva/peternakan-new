@@ -259,22 +259,6 @@
       <form id="formDistribusi">
         <div class="modal-body">
           <div class="">
-                {{-- Pilih Peternakan --}}
-                <div >
-                    <x-adminlte-select name="peternakan_id"  label="Peternakan" igroup-size="lg" id="peternakanSelect"
-                        class="form-control form-control-lg py-1">
-                            <x-slot name="prependSlot">
-                                <div class="input-group-text bg-white">
-                                    <i class="fas fa-warehouse text-muted"></i>
-                                </div>
-                            </x-slot>
-                            <option selected disabled>Pilih Peternakan...</option>
-                            @foreach ($listPeternakan as $peternakan)
-                                    <option value="{{ $peternakan->id }}">{{ $peternakan->nama }}</option>
-                            @endforeach
-                    </x-adminlte-select>
-                </div>
-
                 {{-- Pilih Kandang --}}
                 <div >
                     <x-adminlte-select name="kandang_id"  label="Kandang" igroup-size="lg" id="kandangSelect"
@@ -285,6 +269,9 @@
                                 </div>
                             </x-slot>
                             <option selected disabled>Pilih Kandang...</option>
+                            @foreach ($listKandang as $kandang)
+                                <option value="{{ $kandang->id }}">{{ $kandang->nama }}</option>
+                            @endforeach
                     </x-adminlte-select>
                 </div>
 
@@ -350,22 +337,23 @@
     // {{-- CASCADING SELECT FORM FUNCTION  --}}
 
 $(document).ready(function(){
-        var peternakanData = @json($listPeternakan);
+        var kandangData = @json($listKandang);
         let editingId = null;
 
-        $('#peternakanSelect').change(function(){
-            var peternakanId = $(this).val();
-            var kandangSelect = $('#kandangSelect');
+        // Auto-populate kandang in modal based on main form selection
+        $('#kandangMainSelect').change(function(){
+            var kandangId = $(this).val();
+            $('#kandangSelect').val(kandangId).prop('disabled', true).trigger('change');
+        });
 
-            kandangSelect.empty().append('<option selected disabled>Pilih Kandang...</option>');
-
-            if(peternakanId){
-                var peternakan = peternakanData.find(k => k.id == peternakanId);
-                if(peternakan && peternakan.kandang.length > 0){
-                    $.each(peternakan.kandang, function(i, kandang){
-                        kandangSelect.append('<option value="'+kandang.id+'">'+kandang.nama+'</option>');
-                    });
-                }
+        // When opening modal, set kandang from main form
+        $('#btnAddDistribusi').click(function(){
+            var mainKandangId = $('#kandangMainSelect').val();
+            if(mainKandangId){
+                $('#kandangSelect').val(mainKandangId).prop('disabled', true).trigger('change');
+            } else {
+                alert('Pilih kandang terlebih dahulu pada form utama');
+                return false;
             }
         });
 
@@ -376,9 +364,7 @@ $(document).ready(function(){
             flockSelect.empty().append('<option selected disabled>Pilih Flock...</option>');
 
             if(kandangId){
-                var peternakanId = $('#peternakanSelect').val();
-                var peternakan = peternakanData.find(k => k.id == peternakanId);
-                var kandang = peternakan.kandang.find(k => k.id == kandangId);
+                var kandang = kandangData.find(k => k.id == kandangId);
                 if(kandang && kandang.flocks.length > 0){
                     $.each(kandang.flocks, function(i, flock){
                         flockSelect.append('<option value="'+flock.id+'">'+flock.nama+'</option>');
@@ -393,10 +379,8 @@ $(document).ready(function(){
             pipeSelect.empty().append('<option selected disabled>Pilih Pipe...</option>');
 
             if(flockId){
-                var peternakanId = $('#peternakanSelect').val();
-                var peternakan = peternakanData.find(k => k.id == peternakanId);
                 var kandangId = $('#kandangSelect').val();
-                var kandang = peternakan.kandang.find(k => k.id == kandangId);
+                var kandang = kandangData.find(k => k.id == kandangId);
                 if(kandang){
                     var flock = kandang.flocks.find(f => f.id == flockId);
                     if(flock && flock.pipes.length > 0){
@@ -557,6 +541,7 @@ $(document).ready(function(){
     let TotalAyamDatang = 0;
     let TotalMasukKandang = 0;
     let TotalBelumMasukKandang = 0;
+    let TotalAyamMati = 0;
     
     $('#inputAyamDatang').on('input', function () {
         TotalAyamDatang = parseInt($(this).val()) || 0;
@@ -565,7 +550,7 @@ $(document).ready(function(){
     }); 
 
     $('#inputAyamMati').on('input', function () {
-        let TotalAyamMati = parseInt($(this).val()) || 0;
+        TotalAyamMati = parseInt($(this).val()) || 0;
         $('#ayamMatiInfo').text(TotalAyamMati.toLocaleString('id-ID'));
         updateAyamStatus();
     });
@@ -577,7 +562,7 @@ $(document).ready(function(){
             TotalMasukKandang += parseInt(item.jumlah) || 0;
         });
 
-        TotalBelumMasukKandang = TotalAyamDatang - TotalMasukKandang;
+        TotalBelumMasukKandang = TotalAyamDatang - (TotalAyamMati + TotalMasukKandang);
 
         $('#ayamMasukKandangInfo').text(TotalMasukKandang.toLocaleString('id-ID'));
         $('#AyamBelumMasukKandang').text(TotalBelumMasukKandang.toLocaleString('id-ID'));
@@ -600,18 +585,14 @@ $(document).ready(function(){
         
         if (item) {
             setModalMode('edit');
-            $('#peternakanSelect').val(getPeternakanId(item.kandang_id)).trigger('change');
+            $('#kandangSelect').val(item.kandang_id).prop('disabled', true).trigger('change');
             
             setTimeout(() => {
-                $('#kandangSelect').val(item.kandang_id).trigger('change');
+                $('#flockSelect').val(item.flock_id).trigger('change');
                 
                 setTimeout(() => {
-                    $('#flockSelect').val(item.flock_id).trigger('change');
-                    
-                    setTimeout(() => {
-                        $('#pipeSelect').val(item.pipe_id);
-                        $('#jumlah_ayam').val(item.jumlah);
-                    }, 100);
+                    $('#pipeSelect').val(item.pipe_id);
+                    $('#jumlah_ayam').val(item.jumlah);
                 }, 100);
             }, 100);
             
@@ -619,18 +600,10 @@ $(document).ready(function(){
         }
     });
 
-    function getPeternakanId(kandangId) {
-        for (let peternakan of peternakanData) {
-            if (peternakan.kandang.find(k => k.id == kandangId)) {
-                return peternakan.id;
-            }
-        }
-        return null;
-    }
-
     $('#modalDistribusi').on('hidden.bs.modal', function () {
         setModalMode('add');
         $('#formDistribusi')[0].reset();
+        $('#kandangSelect').prop('disabled', false);
         $('#jumlah_ayam').removeClass('is-invalid');
         $('#jumlah_ayam_feedback').remove();
     });

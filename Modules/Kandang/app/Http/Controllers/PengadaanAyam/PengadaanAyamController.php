@@ -12,7 +12,6 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PengadaanAyamDokumentasi;
-use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Models\PopulasiAyam;
 
 class PengadaanAyamController extends Controller
@@ -51,10 +50,10 @@ class PengadaanAyamController extends Controller
      */
     public function create()
     {
-        $listPeternakan = Peternakan::with('kandang.flocks.pipes')->get(); 
+        $listKandang = Kandang::with('flocks.pipes')->get(); 
         $listNamaBerkas = BerkasName::cases();
         return view("kandang::pengadaan-ayam.create",
-        compact("listPeternakan", "listNamaBerkas"));
+        compact("listKandang", "listNamaBerkas"));
     }
 
     /**
@@ -121,11 +120,12 @@ class PengadaanAyamController extends Controller
                $totalAyamMasuk += $jumlah;
                $distribusiRecord = PengadaanAyamDistribusi::create([
                                 'pengadaan_ayam_id' => $pengadaanAyam->id,
-                                'kandang_id' => $item['kandang_id'],
-                                'flock_id' => $item['flock_id'],
-                                 'pipe_id' => $item['pipe_id'],
+                                'pipe_id' => $item['pipe_id'],
                                 'jumlah_ayam' => $jumlah,
                 ]);
+
+                // Get kandang_id and flock_id from pipe relationship
+                $pipe = \Modules\Kandang\Models\Pipe::with('flock.kandang')->find($item['pipe_id']);
 
                 // ALOKASI DATA KE POPULASI JIKA BERHASIL
                PopulasiAyam::create([
@@ -133,9 +133,9 @@ class PengadaanAyamController extends Controller
                     'pic_user_id' => $picUserId,
                     'jenis_pemeriksaan' => 'pengadaan ayam',
                     'tanggal' => $validated['tanggal'],
-                    'kandang_id' => $item['kandang_id'],
+                    'kandang_id' => $pipe->flock->kandang->id,
                     'umur_ayam_record' => $validated['umur_ayam'],
-                    'flock_id' => $item['flock_id'],
+                    'flock_id' => $pipe->flock->id,
                     'pipe_id' => $item['pipe_id'],
                     'ayam_sehat' => $jumlah,
                 ]);
@@ -191,7 +191,7 @@ class PengadaanAyamController extends Controller
             $pengadaanAyam = $pengadaan_ayam->load([
                 'pic_user',
                 'berkasSupplier',
-                'distribusi.pengadaanAyam.distribusi.pipe.flock.kandang',
+                'distribusi.pipe.flock.kandang',
                 'dokumentasi'
             ]);
          return view("kandang::pengadaan-ayam.show", compact('pengadaanAyam'));
@@ -205,16 +205,14 @@ class PengadaanAyamController extends Controller
         $pengadaan_ayam->load([
             'berkasSupplier',
             'dokumentasi',
-            'distribusi.kandang',
-            'distribusi.flock',
-            'distribusi.pipe'
+            'distribusi.pipe.flock.kandang'
         ]);
         
-        $listPeternakan = Peternakan::with('kandang.flocks.pipes')->get(); 
+        $listKandang = Kandang::with('flocks.pipes')->get(); 
         $listNamaBerkas = BerkasName::cases();
 
         return view("kandang::pengadaan-ayam.edit",
-        compact("listPeternakan", "pengadaan_ayam", "listNamaBerkas"));
+        compact("listKandang", "pengadaan_ayam", "listNamaBerkas"));
     }
 
     /**
@@ -288,20 +286,22 @@ class PengadaanAyamController extends Controller
             $totalAyamMasuk += $jumlah;
             $distribusiRecord = PengadaanAyamDistribusi::create([
                 'pengadaan_ayam_id' => $pengadaan_ayam->id,
-                'kandang_id' => $item['kandang_id'],
-                'flock_id' => $item['flock_id'],
                 'pipe_id' => $item['pipe_id'],
                 'jumlah_ayam' => $jumlah,
             ]);
 
+            // Get kandang_id and flock_id from pipe relationship
+            $pipe = \Modules\Kandang\Models\Pipe::with('flock.kandang')->find($item['pipe_id']);
+            
             // ALOKASI DATA KE POPULASI
             PopulasiAyam::create([
                 'pengadaan_ayam_distribusi_id' => $distribusiRecord->id, 
                 'pic_user_id' => $picUserId,
                 'jenis_pemeriksaan' => 'pengadaan ayam',
                 'tanggal' => $validated['tanggal'],
-                'kandang_id' => $item['kandang_id'],
-                'flock_id' => $item['flock_id'],
+                'kandang_id' => $pipe->flock->kandang->id,
+                'umur_ayam_record' => $validated['umur_ayam'],
+                'flock_id' => $pipe->flock->id,
                 'pipe_id' => $item['pipe_id'],
                 'ayam_sehat' => $jumlah,
             ]);

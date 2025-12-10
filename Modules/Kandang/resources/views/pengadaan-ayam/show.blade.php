@@ -289,8 +289,8 @@
                     @forelse ($pengadaanAyam->distribusi as $i => $dist)
                         <tr>
                             <td class="text-center">{{ $i + 1 }}</td>
-                           <td>{{ $dist->kandang->nama ?? '-' }}</td>
-                            <td>{{ $dist->flock->nama ?? '-' }}</td>
+                           <td>{{ $dist->pipe->flock->kandang->nama ?? '-' }}</td>
+                            <td>{{ $dist->pipe->flock->nama ?? '-' }}</td>
                             <td>{{ $dist->pipe->nama  ?? '-' }}</td>
                             <td class="text-center">{{ $dist->jumlah_ayam ?? 0 }}</td>
 

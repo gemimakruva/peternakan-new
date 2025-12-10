@@ -35,6 +35,41 @@
         </div>
 
         {{-- ===========================
+            Select: Pilih Kandang
+            Kandang yang akan digunakan untuk distribusi ayam
+        ============================ --}}
+        <div class="mb-4">
+            @php
+                $selectedKandangId = null;
+                if(isset($data) && $data->distribusi->count() > 0) {
+                    $selectedKandangId = $data->distribusi->first()->pipe->flock->kandang->id;
+                }
+            @endphp
+            <x-adminlte-select 
+                name="kandang_id_main"
+                label="Pilih Kandang"
+                id="kandangMainSelect"
+                igroup-size="lg"
+                fgroup-class="col-12"
+                class="form-control form-control-lg py-1">
+
+                <x-slot name="prependSlot">
+                    <div class="input-group-text bg-white">
+                        <i class="fas fa-warehouse text-muted"></i>
+                    </div>
+                </x-slot>
+
+                <option selected disabled>Pilih Kandang...</option>
+                @foreach ($listKandang as $kandang)
+                    <option value="{{ $kandang->id }}" 
+                        {{ $selectedKandangId == $kandang->id ? 'selected' : '' }}>
+                        {{ $kandang->nama }}
+                    </option>
+                @endforeach
+            </x-adminlte-select>
+        </div>
+
+        {{-- ===========================
             Input: Jumlah Ayam
             Jumlah ayam saat datang
         ============================ --}}
