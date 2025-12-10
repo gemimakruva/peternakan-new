@@ -14,8 +14,8 @@ return [
     |
     */
 
-    'title' => 'SPMS',
-    'title_prefix' => '',
+    'title'         => 'SPMS',
+    'title_prefix'  => '',
     'title_postfix' => '',
 
     /*
@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'use_ico_only' => false,
+    'use_ico_only'     => false,
     'use_full_favicon' => false,
 
     /*
@@ -63,12 +63,12 @@ return [
     |
     */
 
-    'logo' => '<b>Admin</b>LTE',
-    'logo_img' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-    'logo_img_class' => 'brand-image img-circle elevation-3',
-    'logo_img_xl' => null,
+    'logo'              => '<b>Admin</b>LTE',
+    'logo_img'          => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+    'logo_img_class'    => 'brand-image img-circle elevation-3',
+    'logo_img_xl'       => null,
     'logo_img_xl_class' => 'brand-image-xs',
-    'logo_img_alt' => 'Admin Logo',
+    'logo_img_alt'      => 'Admin Logo',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,11 +85,11 @@ return [
 
     'auth_logo' => [
         'enabled' => false,
-        'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'Auth Logo',
-            'class' => '',
-            'width' => 50,
+        'img'     => [
+            'path'   => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'alt'    => 'Auth Logo',
+            'class'  => '',
+            'width'  => 50,
             'height' => 50,
         ],
     ],
@@ -111,12 +111,12 @@ return [
 
     'preloader' => [
         'enabled' => false,
-        'mode' => 'fullscreen',
-        'img' => [
-            'path' => 'vendor/adminlte/dist/img/AdminLTELogo.png',
-            'alt' => 'AdminLTE Preloader Image',
+        'mode'    => 'fullscreen',
+        'img'     => [
+            'path'   => 'vendor/adminlte/dist/img/AdminLTELogo.png',
+            'alt'    => 'AdminLTE Preloader Image',
             'effect' => 'animation__shake',
-            'width' => 60,
+            'width'  => 60,
             'height' => 60,
         ],
     ],
@@ -133,12 +133,12 @@ return [
     |
     */
 
-    'usermenu_enabled' => true,
-    'usermenu_header' => true,
+    'usermenu_enabled'      => true,
+    'usermenu_header'       => true,
     'usermenu_header_class' => 'bg-primary',
-    'usermenu_image' => true,
-    'usermenu_desc' => true,
-    'usermenu_profile_url' => false,
+    'usermenu_image'        => true,
+    'usermenu_desc'         => true,
+    'usermenu_profile_url'  => false,
 
     /*
     |--------------------------------------------------------------------------
@@ -152,12 +152,12 @@ return [
     |
     */
 
-    'layout_topnav' => null,
-    'layout_boxed' => null,
+    'layout_topnav'        => null,
+    'layout_boxed'         => null,
     'layout_fixed_sidebar' => null,
-    'layout_fixed_navbar' => null,
-    'layout_fixed_footer' => null,
-    'layout_dark_mode' => null,
+    'layout_fixed_navbar'  => null,
+    'layout_fixed_footer'  => null,
+    'layout_dark_mode'     => null,
 
     /*
     |--------------------------------------------------------------------------
@@ -171,12 +171,12 @@ return [
     |
     */
 
-    'classes_auth_card' => 'card-outline card-primary',
+    'classes_auth_card'   => 'card-outline card-primary',
     'classes_auth_header' => '',
-    'classes_auth_body' => '',
+    'classes_auth_body'   => '',
     'classes_auth_footer' => '',
-    'classes_auth_icon' => '',
-    'classes_auth_btn' => 'btn-flat btn-primary',
+    'classes_auth_icon'   => '',
+    'classes_auth_btn'    => 'btn-flat btn-primary',
 
     /*
     |--------------------------------------------------------------------------
@@ -190,16 +190,16 @@ return [
     |
     */
 
-    'classes_body' => '',
-    'classes_brand' => '',
-    'classes_brand_text' => '',
-    'classes_content_wrapper' => '',
-    'classes_content_header' => '',
-    'classes_content' => '',
-    'classes_sidebar' => 'sidebar-dark-primary elevation-4',
-    'classes_sidebar_nav' => '',
-    'classes_topnav' => 'navbar-white navbar-light',
-    'classes_topnav_nav' => 'navbar-expand',
+    'classes_body'             => '',
+    'classes_brand'            => '',
+    'classes_brand_text'       => '',
+    'classes_content_wrapper'  => '',
+    'classes_content_header'   => '',
+    'classes_content'          => '',
+    'classes_sidebar'          => 'sidebar-dark-primary elevation-4',
+    'classes_sidebar_nav'      => '',
+    'classes_topnav'           => 'navbar-white navbar-light',
+    'classes_topnav_nav'       => 'navbar-expand',
     'classes_topnav_container' => 'container',
 
     /*
@@ -214,15 +214,15 @@ return [
     |
     */
 
-    'sidebar_mini' => 'lg',
-    'sidebar_collapse' => false,
-    'sidebar_collapse_auto_size' => false,
-    'sidebar_collapse_remember' => false,
+    'sidebar_mini'                            => 'lg',
+    'sidebar_collapse'                        => false,
+    'sidebar_collapse_auto_size'              => false,
+    'sidebar_collapse_remember'               => false,
     'sidebar_collapse_remember_no_transition' => true,
-    'sidebar_scrollbar_theme' => 'os-theme-light',
-    'sidebar_scrollbar_auto_hide' => 'l',
-    'sidebar_nav_accordion' => true,
-    'sidebar_nav_animation_speed' => 300,
+    'sidebar_scrollbar_theme'                 => 'os-theme-light',
+    'sidebar_scrollbar_auto_hide'             => 'l',
+    'sidebar_nav_accordion'                   => true,
+    'sidebar_nav_animation_speed'             => 300,
 
     /*
     |--------------------------------------------------------------------------
@@ -236,12 +236,12 @@ return [
     |
     */
 
-    'right_sidebar' => false,
-    'right_sidebar_icon' => 'fas fa-cogs',
-    'right_sidebar_theme' => 'dark',
-    'right_sidebar_slide' => true,
-    'right_sidebar_push' => true,
-    'right_sidebar_scrollbar_theme' => 'os-theme-light',
+    'right_sidebar'                     => false,
+    'right_sidebar_icon'                => 'fas fa-cogs',
+    'right_sidebar_theme'               => 'dark',
+    'right_sidebar_slide'               => true,
+    'right_sidebar_push'                => true,
+    'right_sidebar_scrollbar_theme'     => 'os-theme-light',
     'right_sidebar_scrollbar_auto_hide' => 'l',
 
     /*
@@ -256,14 +256,14 @@ return [
     |
     */
 
-    'use_route_url' => true,
-    'dashboard_url' => 'home',
-    'logout_url' => 'logout',
-    'login_url' => 'login',
-    'register_url' => 'register',
-    'password_reset_url' => 'password/reset',
-    'password_email_url' => 'password/email',
-    'profile_url' => 'user.index',
+    'use_route_url'           => true,
+    'dashboard_url'           => 'home',
+    'logout_url'              => 'logout',
+    'login_url'               => 'login',
+    'register_url'            => 'register',
+    'password_reset_url'      => 'password/reset',
+    'password_email_url'      => 'password/email',
+    'profile_url'             => 'user.index',
     'disable_darkmode_routes' => true,
 
     /*
@@ -283,8 +283,8 @@ return [
     */
 
     'laravel_asset_bundling' => false,
-    'laravel_css_path' => 'css/app.css',
-    'laravel_js_path' => 'js/app.js',
+    'laravel_css_path'       => 'css/app.css',
+    'laravel_js_path'        => 'js/app.js',
 
     /*
     |--------------------------------------------------------------------------
@@ -301,45 +301,41 @@ return [
     'menu' => [
         // Notification top right nav
         [
-            'type' => 'navbar-notification',
-            'id' => 'my-notification',
-            'icon' => 'fas fa-bell',
-            'url' => 'notifications/show',
-            'topnav_right' => true,
-            'dropdown_mode' => true,
+            'type'            => 'navbar-notification',
+            'id'              => 'my-notification',
+            'icon'            => 'fas fa-bell',
+            'url'             => 'notifications/show',
+            'topnav_right'    => true,
+            'dropdown_mode'   => true,
             'dropdown_flabel' => 'All notifications',
-            'update_cfg' => [
-                'url' => 'notifications/get',
+            'update_cfg'      => [
+                'url'    => 'notifications/get',
                 'period' => 30,
             ],
         ],
 
         // Navbar items:
         [
-            'type' => 'navbar-search',
-            'text' => 'search',
-            'topnav_right' => true,
-        ],
-    
-        
-        [
-            'type' => 'fullscreen-widget',
+            'type'         => 'navbar-search',
+            'text'         => 'search',
             'topnav_right' => true,
         ],
 
-        
+        [
+            'type'         => 'fullscreen-widget',
+            'topnav_right' => true,
+        ],
 
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-        
-      
+
         [
-            'text' => 'Home',
+            'text'  => 'Home',
             'route' => 'home',
-            'icon' => 'fas fa-fw fa-home',
+            'icon'  => 'fas fa-fw fa-home',
         ],
         // [
         //     'text' => 'pages',
@@ -349,80 +345,75 @@ return [
         //     'label_color' => 'success',
         // ],
         // ==================== MASTER DATA ==========================
-      [
-        'header' => 'Master Data',
-        'can' => [
-            'Lihat Semua Kandang',
-            'Lihat Semua Flock',
-            'Lihat Semua Pipe',
-            'Lihat Pengadaan Kandang',
-            'Lihat Riwayat Kandang',
-            'Lihat Standar Produksi',
+        [
+            'header' => 'Master Data',
+            'can'    => [
+                'Lihat Semua Kandang',
+                'Lihat Semua Flock',
+                'Lihat Semua Pipe',
+                'Lihat Pengadaan Kandang',
+                'Lihat Riwayat Kandang',
+                'Lihat Standar Produksi',
             ],
-         ],
+        ],
         [
-            'text' => 'List Peternakan',
+            'text'  => 'List Peternakan',
             'route' => 'master-data.peternakan.index',
-            'icon' => 'bi bi-house-fill',
-            'can'  => 'Lihat List Peternakan',
+            'icon'  => 'bi bi-house-fill',
+            'can'   => 'Lihat List Peternakan',
         ],
         [
-            'text' => 'Strain Ayam',
+            'text'  => 'Strain Ayam',
             'route' => 'master-data.strain-ayam.index',
-            'icon' => 'fas fa-solid fa-industry',
-            'can'  => 'Lihat Standar Produksi',
+            'icon'  => 'fas fa-solid fa-industry',
+            'can'   => 'Lihat Standar Produksi',
         ],
         [
-            'text' => 'List Kandang',
+            'text'  => 'List Kandang',
             'route' => 'master-data.kandang.index',
-            'icon' => 'bi bi-house-fill', 
-            'can' => 'Lihat Semua Kandang',
-        ],
-    [
-        'text'  => 'List Baris',
-        'route' => 'master-data.flock.index',
-        'icon'  => 'bi bi-box-seam',
-        'can'   => 'Lihat Semua Flock', 
-    ],
-    [
-        'text'  => 'List Pipa',
-        'route' => 'master-data.pipe.index',
-        'icon'  => 'bi bi-diagram-3', 
-        'can'   => 'Lihat Semua Pipe', 
+            'icon'  => 'bi bi-house-fill',
+            'can'   => 'Lihat Semua Kandang',
         ],
         [
-        'text'  => 'Jenis Pakan',
-        'route' => 'master-data.jenis-pakan.index',
-        'icon'  => 'bi-leaf-fill', 
-        'can'   => 'Lihat Semua Pipe', 
+            'text'  => 'List Baris',
+            'route' => 'master-data.flock.index',
+            'icon'  => 'bi bi-box-seam',
+            'can'   => 'Lihat Semua Flock',
+        ],
+        [
+            'text'  => 'List Pipa',
+            'route' => 'master-data.pipe.index',
+            'icon'  => 'bi bi-diagram-3',
+            'can'   => 'Lihat Semua Pipe',
+        ],
+        [
+            'text'  => 'Jenis Pakan',
+            'route' => 'master-data.jenis-pakan.index',
+            'icon'  => 'bi-leaf-fill',
+            'can'   => 'Lihat Semua Pipe',
         ],
 
-         [
-            'text' => 'Jenis Disinfektan',
+        [
+            'text'  => 'Jenis Disinfektan',
             'route' => 'master-data.jenis-disinfectan.index',
-            'icon' => 'fas fa-clipboard-list',
-            'can'  => 'Lihat Rekapan Pakan Harian',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
         ],
 
         [
-            'text' => 'Jenis Treatment',
+            'text'  => 'Jenis Treatment',
             'route' => 'master-data.jenis-treatment.index',
-            'icon' => 'fas fa-prescription-bottle-alt',
-            'can'  => 'Lihat Jenis Treatment',
+            'icon'  => 'fas fa-prescription-bottle-alt',
+            'can'   => 'Lihat Jenis Treatment',
         ],
 
         [
-    'text' => 'Metode Treatment',
-    'route' => 'master-data.metode-treatment.index',
-    'icon' => 'fas fa-vials',
-    'can'  => 'Lihat Metode Treatment',
-],
+            'text'  => 'Metode Treatment',
+            'route' => 'master-data.metode-treatment.index',
+            'icon'  => 'fas fa-vials',
+            'can'   => 'Lihat Metode Treatment',
+        ],
 
-
-
-
-
-       
         // [
         //     'text' => 'Flock',
         //     'route' => 'master-data.flock.index',
@@ -436,349 +427,360 @@ return [
         //     'can' => 'Lihat Semua Pipe',
         // ],
 
-          // ==================== RIWAYAT KESELURUHAN ==========================
-         [
-        'header' => 'Riwayat Keseluruhan',
-        'can' => [
-            'Lihat Rekapan Keseluruhan',
-        ],
-         ],
+        // ==================== RIWAYAT KESELURUHAN ==========================
         [
-            'text' => 'Rekapan Produksi',
+            'header' => 'Riwayat Keseluruhan',
+            'can'    => [
+                'Lihat Rekapan Keseluruhan',
+            ],
+        ],
+        [
+            'text'  => 'Rekapan Produksi',
             'route' => '',
-            'icon' => 'fas fa-clipboard-list',
-            'can'  => 'Lihat Rekapan Produksi',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Produksi',
         ],
-        
-        
-         // ====================  MENU PENGADAAN AYAM  ==========================
+
+        // ====================  MENU PENGADAAN AYAM  ==========================
         [
-        'header' => 'Pengadaan Ayam',
-        'can' => [
-            'Menampilkan overview pengadaan ayam',
-            'Melakukan penambahan data pengadaan ayam'
+            'header' => 'Pengadaan Ayam',
+            'can'    => [
+                'Menampilkan overview pengadaan ayam',
+                'Melakukan penambahan data pengadaan ayam',
+            ],
         ],
-         ],
-          [
-            'text' => 'Overview',
+        [
+            'text'  => 'Overview',
             'route' => 'pengadaan-ayam.index',
-            'icon' => 'fas fa-clipboard-check',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-clipboard-check',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
         [
-        'text' => 'Pengadaan Ayam',
-        'route' => 'pengadaan-ayam.create',
-        'icon' => 'fas fa-plus-circle',
-        'can'  => 'Menambah Pengadaan Ayam',
-         ],
-
-
-          // ====================  MENU RECORDING HARIAN  ==========================
-
-           [
-        'header' => 'Recording Harian',
-        'can' => [
-            'Melakukan Pencatatan Populasi Ayam Harian'
+            'text'  => 'Pengadaan Ayam',
+            'route' => 'pengadaan-ayam.create',
+            'icon'  => 'fas fa-plus-circle',
+            'can'   => 'Menambah Pengadaan Ayam',
         ],
-         ],
-          [
-            'text' => 'Pencatatan Harian',
+
+        // ====================  MENU RECORDING HARIAN  ==========================
+
+        [
+            'header' => 'Recording Harian',
+            'can'    => [
+                'Melakukan Pencatatan Populasi Ayam Harian',
+            ],
+        ],
+        [
+            'text'  => 'Pencatatan Harian',
             'route' => 'populasi-ayam.create',
-            'icon' => 'fas fa-clipboard-list',
-            'can'  => 'Pencatatan Populasi Harian',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Pencatatan Populasi Harian',
         ],
 
         // ====================   PENGADAAN AYAM AFKIR  ==========================
 
-          [
-        'header' => 'Ayam Afkir',
-        'can' => [
-            'Menampilkan Riwayat ayam Afkir',
-            'Menampilkan Form  ayam afkir'
+        [
+            'header' => 'Ayam Afkir',
+            'can'    => [
+                'Menampilkan Riwayat ayam Afkir',
+                'Menampilkan Form  ayam afkir',
+            ],
         ],
-         ],
-         [
-            'text' => 'Riwayat Ayam Afkir',
+        [
+            'text'  => 'Riwayat Ayam Afkir',
             'route' => 'ayam-afkir.index',
-            'icon' => 'fas fa-clipboard-list',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
         [
-            'text' => 'Form Ayam Afkir',
+            'text'  => 'Form Ayam Afkir',
             'route' => 'ayam-afkir.create',
-            'icon' => 'fas fa-plus-circle',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-plus-circle',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
 
+        // ====================   PENGADAAN AYAM KARANTINA  ==========================
 
-          // ====================   PENGADAAN AYAM KARANTINA  ==========================
-
-          [
-        'header' => 'Ayam Karantina',
-        'can' => [
-            'Menampilkan overview populasi ayam karantina ',
-            'Menampilkan Form recording ayam karantina',
-            'Menambah populasi dengan form pengadaan ayam karantina'
+        [
+            'header' => 'Ayam Karantina',
+            'can'    => [
+                'Menampilkan overview populasi ayam karantina ',
+                'Menampilkan Form recording ayam karantina',
+                'Menambah populasi dengan form pengadaan ayam karantina',
+            ],
         ],
-         ],
-         [
-            'text' => 'Overview',
+        [
+            'text'  => 'Overview',
             'route' => 'ayam-karantina.overview',
-            'icon' => 'fas fa-clipboard-check',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-clipboard-check',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
         [
-            'text' => 'Form Ayam Karantina',
+            'text'  => 'Form Ayam Karantina',
             'route' => 'ayam-karantina.create',
-            'icon' => 'fas fa-plus-circle',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-plus-circle',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
-        
-         [
-            'text' => 'Riwayat Karantina',
+
+        [
+            'text'  => 'Riwayat Karantina',
             'route' => 'ayam-karantina.index',
-            'icon' => 'fas fa-history',
-            'can'  => 'Lihat Riwayat Kandang',
-         ],
+            'icon'  => 'fas fa-history',
+            'can'   => 'Lihat Riwayat Kandang',
+        ],
 
-         [
-            'text' => 'Ayam Masuk Karantina',
+        [
+            'text'  => 'Ayam Masuk Karantina',
             'route' => 'ayam-karantina.masuk',
-            'icon' => 'fas fa-arrow-right',
-            'can'  => 'Lihat Riwayat Kandang',
-         ],
+            'icon'  => 'fas fa-arrow-right',
+            'can'   => 'Lihat Riwayat Kandang',
+        ],
 
-         [
-            'text' => 'Ayam Keluar Karantina',
+        [
+            'text'  => 'Ayam Keluar Karantina',
             'route' => 'ayam-karantina.keluar',
-            'icon' => 'fas fa-arrow-left',
-            'can'  => 'Lihat Riwayat Kandang',
-         ],
+            'icon'  => 'fas fa-arrow-left',
+            'can'   => 'Lihat Riwayat Kandang',
+        ],
 
+        // ====================   PEMBERIAN PAKAN  ==========================
+        [
+            'header' => 'Pemberian Pakan',
+            'can'    => [
+                'Lihat Pemberian Pakan',
+                'Lihat Perhitungan Pakan',
+                'Lihat Sisa Pakan',
+                'Lihat Rekapan Pakan Harian',
+            ],
+        ],
+        [
+            'text'    => 'Pakan Harian',
+            'icon'    => 'fas fa-calculator',
+            'can'     => 'Lihat Perhitungan Pakan',
+            'submenu' => [
+                [
+                    'text'  => 'List Data Harian',
+                    'route' => 'perhitungan-pakan.listdata',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat list data harian',
+                ],
+                [
+                    'text'  => 'Form Harian',
+                    'route' => 'perhitungan-pakan.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'Lihat list data harian',
+                ],
+            ],
+        ],
+        [
+            'text' => 'Sisa pakan',
 
-   // ====================   PEMBERIAN PAKAN  ==========================
-  [   
-'header' => 'Pemberian Pakan',
-    'can' => [
-        'Lihat Pemberian Pakan',
-        'Lihat Perhitungan Pakan',
-        'Lihat Sisa Pakan',
-        'Lihat Rekapan Pakan Harian',
-    ],
+            'icon'    => 'fas fa-box-open',
+            'can'     => 'Lihat Sisa Pakan',
+            'submenu' => [
+                [
+                    'text'  => 'List Data Sisa Pakan',
+                    'route' => 'sisa-pakan.listDataSisaPakanHarian',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat list data sisa pakan',
+                ],
+                [
+                    'text'  => 'Form Sisa Pakan',
+                    'route' => 'sisa-pakan.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'Lihat list data sisa pakan',
+                ],
+            ],
         ],
-    [
-    'text' => 'Pakan Harian',
-    'icon' => 'fas fa-calculator',
-    'can'  => 'Lihat Perhitungan Pakan',
-    'submenu' => [
         [
-            'text' => "List Data Harian",
-            'route' => "perhitungan-pakan.listdata",
-            'icon' => 'fas fa-history',
-            'can' => 'Lihat list data harian'
+            'text'  => 'Rekapan Pakan Harian',
+            'route' => 'perhitungan-pakan.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
         ],
-          [
-            'text' => "Form Harian",
-            'route' => "perhitungan-pakan.create",
-            'icon' => 'fas fa-plus',
-            'can' => 'Lihat list data harian'
-        ]
-    ]
-     ],
-    [
-    'text' => 'Sisa pakan',
-  
-    'icon' => 'fas fa-box-open',
-    'can'  => 'Lihat Sisa Pakan',
-    'submenu' => [
+        // ====================   RECORDING PRODUKSI TELUR  ==================
         [
-            'text' => "List Data Sisa Pakan",
-            'route' => "sisa-pakan.listDataSisaPakanHarian",
-            'icon' => 'fas fa-history',
-            'can' => 'Lihat list data sisa pakan'
+            'header' => 'Recording Telur',
+            'can'    => [
+                'Lihat Pemberian Pakan',
+                'Lihat Perhitungan Pakan',
+                'Lihat Sisa Pakan',
+                'Lihat Rekapan Pakan Harian',
+            ],
         ],
-         [
-            'text' => "Form Sisa Pakan",
-             'route' => 'sisa-pakan.create',
-            'icon' => 'fas fa-plus',
-            'can' => 'Lihat list data sisa pakan'
-        ]
-    ]
-],
-[
-    'text' => 'Rekapan Pakan Harian',
-    'route' => 'perhitungan-pakan.index',
-    'icon' => 'fas fa-clipboard-list',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-   // ====================   RECORDING PRODUKSI TELUR  ==================
- [   
-'header' => 'Recording Telur',
-    'can' => [
-        'Lihat Pemberian Pakan',
-        'Lihat Perhitungan Pakan',
-        'Lihat Sisa Pakan',
-        'Lihat Rekapan Pakan Harian',
-    ],
-        ],
-            [
-            'text' => 'Tambah Recording Telur',
+        [
+            'text'  => 'Tambah Recording Telur',
             'route' => 'recording-telur.create',
-            'icon' => 'fas fa-plus-circle',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-plus-circle',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
         [
-            'text' => 'Overview',
+            'text'  => 'Overview',
             'route' => 'recording-telur.index',
-            'icon' => 'fas fa-clipboard-check',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-clipboard-check',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
 
-    
-   // ====================   SAMPLING AYAM MENU    ==========================
- [   
-'header' => 'Sampling Ayam',
-    'can' => [
-        'Lihat Pemberian Pakan',
-        'Lihat Perhitungan Pakan',
-        'Lihat Sisa Pakan',
-        'Lihat Rekapan Pakan Harian',
-    ],
+        // ====================   SAMPLING AYAM MENU    ==========================
+        [
+            'header' => 'Sampling Ayam',
+            'can'    => [
+                'Lihat Pemberian Pakan',
+                'Lihat Perhitungan Pakan',
+                'Lihat Sisa Pakan',
+                'Lihat Rekapan Pakan Harian',
+            ],
         ],
-    [
-    'text' => 'Rekapan Sampling',
-    'route' => 'sampling-ayam.index',
-    'icon' => 'fas fa-clipboard-list',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
- [
-    'text' => 'Tambah Sampling',
-    'route' => 'sampling-ayam.create',
-    'icon' => 'fas fa-plus-circle',
-    'can'  => 'Lihat Pengadaan Kandang',
-],
+        [
+            'text'  => 'Rekapan Sampling',
+            'route' => 'sampling-ayam.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+        [
+            'text'  => 'Tambah Sampling',
+            'route' => 'sampling-ayam.create',
+            'icon'  => 'fas fa-plus-circle',
+            'can'   => 'Lihat Pengadaan Kandang',
+        ],
 
-    
-   // ====================   PENJADWALAAN TREATMENT  =================
- [   
-'header' => 'Kalender Treatment',
-    'can' => [
-        'Lihat Pemberian Pakan',
-        'Lihat Perhitungan Pakan',
-        'Lihat Sisa Pakan',
-        'Lihat Rekapan Pakan Harian',
-    ],
+        // ====================   PENJADWALAAN TREATMENT  =================
+        [
+            'header' => 'Kalender Treatment',
+            'can'    => [
+                'Lihat Pemberian Pakan',
+                'Lihat Perhitungan Pakan',
+                'Lihat Sisa Pakan',
+                'Lihat Rekapan Pakan Harian',
+            ],
         ],
 
         [
-    'text' => 'Kalender Treatment',
-    'route' => '',
-    'icon' => 'fas fa-calendar-alt',
-    'can'  => 'Lihat Pengadaan Kandang',
-        ],
-
-     [
-            'text' => 'Tambah Treatment',
+            'text'  => 'Kalender Treatment',
             'route' => '',
-            'icon' => 'fas fa-plus-circle',
-            'can'  => 'Lihat Pengadaan Kandang',
+            'icon'  => 'fas fa-calendar-alt',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
 
-
-
- // ====================   Perhitungan Obat  =================
-
-   [   
-'header' => 'Perhitungan Obat',
-    'can' => [
-        'Lihat Pemberian Pakan',
-        'Lihat Perhitungan Pakan',
-        'Lihat Sisa Pakan',
-        'Lihat Rekapan Pakan Harian',
-    ],
+        [
+            'text'  => 'Penjadwalan Disinfektan',
+            'icon'  => 'fas fa-calendar-alt',
+            'can'   => 'Penjadwalan Disinfektan',
+            'submenu' => [
+                [
+                    'text'  => 'List Penjadwalan Disinfektan',
+                    'route' => 'penjadwalan-disinfektan.index',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat list penjadwalan disinfektan',
+                ],
+                [
+                    'text'  => 'Form Penjadwalan Disinfektan',
+                    'route' => 'penjadwalan-disinfektan.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'tambah penjadwalan disinfektan',
+                ],
+            ],
         ],
 
-    [
-    'text' => 'OVK via Pakan',
-    'route' => '',
-    'icon' => 'fas fa-clipboard-list',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-
- [
-    'text' => 'Vaksin Minum',
-    'route' => '',
-    'icon' => 'fas fa-clipboard-list',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-
- [
-    'text' => 'Vitamin Obat Minum',
-    'route' => '',
-    'icon' => 'fas fa-clipboard-list',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-
- [
-    'text' => 'Bahan Treatment',
-    'route' => '',
-    'icon' => 'fas fa-vials',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-
-[
-    'text' => 'Form Pelaksanaan',
-    'route' => '',
-    'icon' => 'fas fa-file-signature',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-
- // ====================   Monitoring Kesehatan  ========================
-
-   [   
-'header' => 'Monitoring Kesehatan',
-    'can' => [
-        'Lihat Pemberian Pakan',
-        'Lihat Perhitungan Pakan',
-        'Lihat Sisa Pakan',
-        'Lihat Rekapan Pakan Harian',
-    ],
+        [
+            'text'  => 'Tambah Treatment',
+            'route' => '',
+            'icon'  => 'fas fa-plus-circle',
+            'can'   => 'Lihat Pengadaan Kandang',
         ],
 
-[
-    'text' => 'Form Monitoring',
-    'route' => '',
-    'icon' => 'fas fa-clipboard-check',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
-[
-    'text' => 'Riwayat Monitoring',
-    'route' => '',
-    'icon' => 'fas fa-history',
-    'can'  => 'Lihat Rekapan Pakan Harian',
-],
+        // ====================   Perhitungan Obat  =================
 
+        [
+            'header' => 'Perhitungan Obat',
+            'can'    => [
+                'Lihat Pemberian Pakan',
+                'Lihat Perhitungan Pakan',
+                'Lihat Sisa Pakan',
+                'Lihat Rekapan Pakan Harian',
+            ],
+        ],
 
-// ====================   USER AND ACCESS   ============================
+        [
+            'text'  => 'OVK via Pakan',
+            'route' => '',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
 
-        [   
+        [
+            'text'  => 'Vaksin Minum',
+            'route' => '',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+
+        [
+            'text'  => 'Vitamin Obat Minum',
+            'route' => '',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+
+        [
+            'text'  => 'Bahan Treatment',
+            'route' => '',
+            'icon'  => 'fas fa-vials',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+
+        [
+            'text'  => 'Form Pelaksanaan',
+            'route' => '',
+            'icon'  => 'fas fa-file-signature',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+
+        // ====================   Monitoring Kesehatan  ========================
+
+        [
+            'header' => 'Monitoring Kesehatan',
+            'can'    => [
+                'Lihat Pemberian Pakan',
+                'Lihat Perhitungan Pakan',
+                'Lihat Sisa Pakan',
+                'Lihat Rekapan Pakan Harian',
+            ],
+        ],
+
+        [
+            'text'  => 'Form Monitoring',
+            'route' => '',
+            'icon'  => 'fas fa-clipboard-check',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+        [
+            'text'  => 'Riwayat Monitoring',
+            'route' => '',
+            'icon'  => 'fas fa-history',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+        ],
+
+        // ====================   USER AND ACCESS   ============================
+
+        [
             'header' => 'User and Access',
-            'can' => [
+            'can'    => [
                 'Lihat Semua User',
                 'Lihat Semua Role',
-            ]
+            ],
         ],
         [
-            'text' => 'User',
+            'text'  => 'User',
             'route' => 'user.index',
-            'icon' => 'fas fa-fw fa-cube',
-            'can' => 'Lihat Semua User',
+            'icon'  => 'fas fa-fw fa-cube',
+            'can'   => 'Lihat Semua User',
         ],
         [
-            'text' => 'Role',
+            'text'  => 'Role',
             'route' => 'role.index',
-            'icon' => 'fas fa-fw fa-cube',
-            'can' => 'Lihat Semua Role',
+            'icon'  => 'fas fa-fw fa-cube',
+            'can'   => 'Lihat Semua Role',
         ],
         // ['header' => 'account_settings'],
         // [
@@ -884,116 +886,116 @@ return [
     'plugins' => [
         'BootstrapIcons' => [
             'active' => true,
-            'files' => [
+            'files'  => [
                 [
-                    'type' => 'css',
-                    'asset' => false,
+                    'type'     => 'css',
+                    'asset'    => false,
                     'location' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
                 ],
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
                 ],
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
-                    'defer' => true, 
+                    'defer'    => true,
                 ],
             ],
             [
-                'type' => 'js',
-                'asset' => false,
+                'type'     => 'js',
+                'asset'    => false,
                 'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
             ],
         ],
         'Datatables' => [
             'active' => true,
-            'files' => [
+            'files'  => [
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => '//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js',
                 ],
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => '//cdn.datatables.net/1.10.19/js/dataTables.bootstrap4.min.js',
                 ],
                 [
-                    'type' => 'css',
-                    'asset' => false,
+                    'type'     => 'css',
+                    'asset'    => false,
                     'location' => '//cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css',
                 ],
             ],
         ],
         'Select2' => [
             'active' => true,
-            'files' => [
+            'files'  => [
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.min.js',
                 ],
                 [
-                    'type' => 'css',
-                    'asset' => false,
+                    'type'     => 'css',
+                    'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.css',
                 ],
                 [
-                    'type' => 'css',
-                    'asset' => false,
+                    'type'     => 'css',
+                    'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-theme/0.1.0-beta.10/select2-bootstrap.min.css',
                 ],
-                    // [
-                    //     'type' => 'js',
-                    //     'asset' => true,
-                    //     'location' => 'vendor/select2/js/select2.full.min.js',
-                    // ],
-                    // [
-                    //     'type' => 'css',
-                    //     'asset' => true,
-                    //     'location' => 'vendor/select2/css/select2.min.css',
-                    // ],
-                    [
-                        'type' => 'css',
-                        'asset' => true,
-                        'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
-                    ],
+                // [
+                //     'type' => 'js',
+                //     'asset' => true,
+                //     'location' => 'vendor/select2/js/select2.full.min.js',
+                // ],
+                // [
+                //     'type' => 'css',
+                //     'asset' => true,
+                //     'location' => 'vendor/select2/css/select2.min.css',
+                // ],
+                [
+                    'type'     => 'css',
+                    'asset'    => true,
+                    'location' => 'vendor/select2-bootstrap4-theme/select2-bootstrap4.min.css',
+                ],
             ],
         ],
         'Chartjs' => [
             'active' => false,
-            'files' => [
+            'files'  => [
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
                 ],
             ],
         ],
         'Sweetalert2' => [
             'active' => true,
-            'files' => [
+            'files'  => [
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
                 ],
             ],
         ],
         'Pace' => [
             'active' => false,
-            'files' => [
+            'files'  => [
                 [
-                    'type' => 'css',
-                    'asset' => false,
+                    'type'     => 'css',
+                    'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/themes/blue/pace-theme-center-radar.min.css',
                 ],
                 [
-                    'type' => 'js',
-                    'asset' => false,
+                    'type'     => 'js',
+                    'asset'    => false,
                     'location' => '//cdnjs.cloudflare.com/ajax/libs/pace/1.0.2/pace.min.js',
                 ],
             ],
@@ -1015,21 +1017,21 @@ return [
 
     'iframe' => [
         'default_tab' => [
-            'url' => null,
+            'url'   => null,
             'title' => null,
         ],
         'buttons' => [
-            'close' => true,
-            'close_all' => true,
+            'close'           => true,
+            'close_all'       => true,
             'close_all_other' => true,
-            'scroll_left' => true,
-            'scroll_right' => true,
-            'fullscreen' => true,
+            'scroll_left'     => true,
+            'scroll_right'    => true,
+            'fullscreen'      => true,
         ],
         'options' => [
-            'loading_screen' => 1000,
+            'loading_screen'    => 1000,
             'auto_show_new_tab' => true,
-            'use_navbar_items' => true,
+            'use_navbar_items'  => true,
         ],
     ],
 
