@@ -163,43 +163,5 @@ $(document).ready(function() {
     loadTanggalPakan();
 });
 
-$('#tanggal_pemberian_pakan').on('change', function() {
-    let tanggalId = $(this).val();
-    if (!tanggalId) return;
-
-    $.ajax({
-        url: "{{ route('ajax.show-detail-by-pipe', ['tanggalId' => 'TANGGAL_ID']) }}"
-        .replace('TANGGAL_ID', tanggalId),
-        type: "GET",
-        dataType: "json",
-         success: function(response) {
-            console.log(response.results.pakanPerFlock)
-                let kandangSelect = $('#kandang_id');
-                kandangSelect.empty();
-                kandangSelect.append('<option value="">-- Pilih Kandang --</option>');
-                 if(response.results && response.results.kandang && response.results.kandang.length > 0) {
-                    // load select kandang
-                        $.each(response.results.kandang, function(index, kandang) {
-                            kandangSelect.append('<option value="' + kandang.id + '">' +
-                                 kandang.nama + '</option>');
-                        });
-                        // load input Flock
-                        let flockSelect = $('#flock_id');
-                        flockSelect.empty();
-                        flockSelect.append('<option value="">-- Pilih Flock --</option>');
-                        if(response.results && response.results.flock) {
-                            $.each(response.results.flock, function(index, flock) {
-                                flockSelect.append('<option value="' + flock.id + '">' + flock.nama + '</option>');
-                            });
-                        }
-                        }
-            },
-
-        error: function(xhr) {
-            console.error(xhr.responseText);
-        }
-    });
-});
-
 </script>
 @endpush
