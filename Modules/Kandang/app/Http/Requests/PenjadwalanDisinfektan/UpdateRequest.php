@@ -12,9 +12,6 @@ class UpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'kandang_id'                    => ['sometimes', 'integer', 'exists:kandang,id'],
-            'tanggal'                       => ['sometimes', 'date_format:Y-m-d'],
-            'detail_waktu'                  => ['sometimes', 'string'],
             'flocks'                        => ['sometimes', 'array', 'min:1'],
             'flocks.*.jenis_disinfektan_id' => ['sometimes', 'integer', 'exists:jenis_disinfektan,id'],
             'flocks.*.flock_id'             => ['sometimes', 'integer', 'exists:flock,id'],

@@ -31,7 +31,7 @@ class PenjadwalanDisinfektan extends Model
         return $this->belongsTo(User::class, 'pic_user_id');
     }
 
-    public function penjadwalanFlock(): HasMany
+    public function penjadwalanFlocks(): HasMany
     {
         return $this->hasMany(PenjadwalanDisinfektanFlock::class, 'penjadwalan_disinfektan_id');
     }

@@ -19,7 +19,7 @@ class PenjadwalanDisinfektanController extends Controller
 
     public function create()
     {
-        $jenisDisinfektan = $this->service->getJenisDisinfektan();
+        $jenisDisinfektan = $this->service->getJenisDisinfektan()->toArray();
 
         return view('kandang::penjadwalan-disinfektan.create', compact('jenisDisinfektan'));
     }
@@ -29,25 +29,34 @@ class PenjadwalanDisinfektanController extends Controller
         try {
             $this->service->store($request->validated());
         } catch (\Throwable $th) {
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('danger', 'Gagal Menyimpan karena ' . $th->getMessage());
         }
 
-        return redirect()->route('kandang.penjadwalan-disinfektan.index');
+        return redirect()->route('kandang::penjadwalan-disinfektan.index');
     }
 
-    public function show(PenjadwalanDisinfektan $model) {}
-
-    public function edit(PenjadwalanDisinfektan $model)
+    public function show(PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
-        return view('kandang::penjadwalan-disinfektan.edit');
+        dd($penjadwalanDisinfektan->toArray());
     }
 
-    public function update(UpdateRequest $request, PenjadwalanDisinfektan $model)
+    public function edit(PenjadwalanDisinfektan $penjadwalanDisinfektan)
+    {
+        $jenisDisinfektan = $this->service->getJenisDisinfektan()->toArray();
+
+        return view('kandang::penjadwalan-disinfektan.edit', compact('penjadwalanDisinfektan', 'jenisDisinfektan'));
+    }
+
+    public function update(UpdateRequest $request, PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
         try {
-            $this->service->update($request->validated(), $model);
+            $this->service->update($request->validated(), $penjadwalanDisinfektan);
         } catch (\Throwable $th) {
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+            return redirect()->back()
+                ->withInput()
+                ->with('danger', 'Gagal memperbarui data karena ' . $th->getMessage());
         }
 
         return redirect()->route('kandang.penjadwalan-disinfektan.index')

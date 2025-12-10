@@ -31,17 +31,13 @@ class PenjadwalanDisinfektanService
         try {
             DB::beginTransaction();
 
-            $jadwal = $this->repository->store($data);
-            $jadwal->penjadwalanFlock()->insert($data['flocks']);
+            $data['pic_user_id'] = auth()->id();
+            $jadwal              = $this->repository->store($data);
+            $jadwal->penjadwalanFlocks()->createMany($data['flocks']);
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('Store Penjadwalan Disinfektan Error', [
-                'user_id' => auth()->user()->id,
-                'data'    => $data,
-                'error'   => $th->getMessage(),
-            ]);
             throw new \Exception($th->getMessage());
         }
 
@@ -58,22 +54,16 @@ class PenjadwalanDisinfektanService
         try {
             DB::beginTransaction();
 
-            $jadwal = $this->repository->update($data, $jadwal);
-            $jadwal->penjadwalanFlock()->delete();
-            $jadwal->penjadwalanFlock()->insert($data['flocks']);
+            $jadwal->penjadwalanFlocks()->delete();
+            $jadwal->penjadwalanFlocks()->createMany($data['flocks']);
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('Update Penjadwalan Disinfektan Error', [
-                'user_id' => auth()->user()->id,
-                'data'    => $data,
-                'error'   => $th->getMessage(),
-            ]);
             throw new \Exception($th->getMessage());
         }
 
-        return $jadwal;
+        return $jadwal->refresh()->load('penjadwalanFlocks');
     }
 
     public function getJenisDisinfektan(): Collection
@@ -91,17 +81,12 @@ class PenjadwalanDisinfektanService
         try {
             DB::beginTransaction();
 
-            $jadwal->penjadwalanFlock()->delete();
+            $jadwal->penjadwalanFlocks()->delete();
             $jadwal->delete();
 
             DB::commit();
         } catch (\Throwable $th) {
             DB::rollBack();
-            Log::error('Delete Penjadwalan Disinfektan Error', [
-                'user_id' => auth()->user()->id,
-                'data'    => $jadwal,
-                'error'   => $th->getMessage(),
-            ]);
             throw new \Exception($th->getMessage());
         }
     }

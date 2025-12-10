@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('tanggal');
             $table->string('detail_waktu');
             $table->timestamps();
+            $table->unique(['kandang_id', 'tanggal']);
         });
 
         Schema::create('penjadwalan_disinfektan_flock', function (Blueprint $table) {
