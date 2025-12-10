@@ -37,7 +37,7 @@
                 </div>
             </x-slot>
 
-            <option value="">-- Pilih Flock --</option>
+            <option value="">-- Pilih baris --</option>
             {{-- Opsi akan diisi lewat AJAX --}}
         </x-adminlte-select>
     </div>
@@ -51,7 +51,7 @@
                     <i class="fas fa-cogs text-muted"></i>
                 </div>
             </x-slot>
-                <option value="">-- Pilih Flock --</option>
+                <option value="">-- Pilih Pipa --</option>
         </x-adminlte-select>
     </div>
 
@@ -304,7 +304,7 @@
         type: 'GET',
         dataType: 'json',
         success: function(response) {
-            $('#pipe_id').empty().append('<option value="">-- Pilih Pipe --</option>');
+            $('#pipe_id').empty().append('<option value="">-- Pilih Pipa --</option>');
             $.each(response.results, function(index, pipe) {
                 $('#pipe_id').append(
                     $('<option>', {
@@ -319,7 +319,7 @@
         },
         error: function(xhr, status, error) {
             console.log("Gagal memuat data pipe: " + error);
-            $('#pipe_id').empty().append('<option value="">Gagal memuat data pipe</option>');
+            $('#pipe_id').empty().append('<option value="">Gagal memuat data pipa</option>');
         }
          });
     })

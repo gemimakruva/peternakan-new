@@ -132,8 +132,9 @@
                 label="Jam Pemberian Pagi (WIB)" 
                 type="time" 
                 igroup-size="md"
-                value="{{ old('jam_pemberian_pagi', isset($data->waktu_pemberian_pagi) 
-                ? \Carbon\Carbon::parse($data->jam_pemberian_pagi)->format('H:i') : '') }}"
+                 value="{{ old('jam_pemberian_pagi', isset($data->waktu_pemberian_pagi) 
+            ? \Carbon\Carbon::parse($data->waktu_pemberian_pagi)->format('H:i') 
+            : '07:00') }}"  
                 min="05:00"
                 max="09:30">
     
@@ -173,7 +174,6 @@
             </x-slot>
         </x-adminlte-input>
     </div>
-
     <div class="col-md-6">
         <x-adminlte-input 
             name="jam_pemberian_sore" 
@@ -280,18 +280,18 @@ $(document).ready(function () {
         let kandangID = $(this).val();
         if (!kandangID) {
             $('#flock_id').html('<option value="">-- Pilih Kandang dulu --</option>');
-            $('#pipe_id').html('<option value="">-- Pilih Flock dulu --</option>');
+            $('#pipe_id').html('<option value="">-- Pilih Baris dulu --</option>');
             return;
         }
 
-        $('#flock_id').html('<option value="">Memuat data Flock...</option>');
+        $('#flock_id').html('<option value="">Memuat data baris...</option>');
 
         $.ajax({
             url: '/master-data/ajax/flock/' + kandangID,
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                $('#flock_id').empty().append('<option value="">-- Pilih Flock --</option>');
+                $('#flock_id').empty().append('<option value="">-- Pilih baris --</option>');
                 $.each(response.results, function(index, flock) {
                     $('#flock_id').append(
                         $('<option>', { value: flock.id, text: flock.text })
@@ -309,7 +309,7 @@ $(document).ready(function () {
     $('#flock_id').on('change', function() {
         let flockID = $(this).val();
         if (!flockID) {
-            $('#pipe_id').html('<option value="">-- Pilih Flock dulu --</option>');
+            $('#pipe_id').html('<option value="">-- Pilih baris dulu --</option>');
             return;
         }
 

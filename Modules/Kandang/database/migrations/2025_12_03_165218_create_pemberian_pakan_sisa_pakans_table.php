@@ -21,6 +21,10 @@ return new class extends Migration
             $table->foreignId('jenis_pakan_id')
                   ->constrained("jenis_pakan")
                   ->onDelete("cascade");
+                //  user executor
+            $table->foreignId('user_executor_id')
+                  ->constrained("users")
+                  ->onDelete("cascade");
                 // tanggal
             $table->date("tanggal");
 
