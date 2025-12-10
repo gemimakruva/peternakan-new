@@ -26,13 +26,15 @@
                 <div class="card">
                     <div class="card-body">
                         {{-- Include form partial, kirim data model --}}
-                        @include('kandang::perhitungan-pakan._form_edit', ['perhitunganPakan' => $data])
+                        @include('kandang::perhitungan-pakan._form_edit',
+                         ['perhitunganPakan' => $data])
                     </div>
                 </div>
 
                 {{-- Button Submit --}}
                 <div class="mt-4 d-flex justify-content-between px-3">
-                    <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-secondary px-4 py-2">
+                    <a href="{{ route('perhitungan-pakan.index') }}" 
+                    class="btn btn-secondary px-4 py-2">
                         <i class="fas fa-arrow-left me-2"></i> Kembali
                     </a>
                     <button id="btnSubmitPopulasi" type="submit"
