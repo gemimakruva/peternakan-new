@@ -26,9 +26,12 @@
         {{-- Filter Tanggal --}}
         <div class="col-md-3 col-6">
             <label class="form-label fw-semibold">Tanggal Pemberian Pakan</label>
-            <select name="tanggal" id="tanggal_pemberian_pakan" class="form-control">
-                <option value="">-- Pilih Tanggal --</option>
-            </select>
+            <input 
+            type="date" 
+            name="tanggal"
+            id="tanggal_pemberian_pakan"
+            class="form-control"
+            >
         </div>
 
     {{-- Filter Kandang --}}
@@ -125,38 +128,38 @@
 
 @push('js')
 <script>
-$(document).ready(function() {
-    function loadTanggalPakan(query = '') {
-        $.ajax({
-            url: "{{ route('ajax.tanggal-perhitungan') }}",
-            type: "GET",
-            data: { q: query },
-            dataType: "json",
-            success: function(response) {
-                let select = $('#tanggal_pemberian_pakan');
-                select.empty();
-                select.append('<option value="">-- Pilih Tanggal --</option>');
+// $(document).ready(function() {
+//     function loadTanggalPakan(query = '') {
+//         $.ajax({
+//             url: "{{ route('ajax.tanggal-perhitungan') }}",
+//             type: "GET",
+//             data: { q: query },
+//             dataType: "json",
+//             success: function(response) {
+//                 let select = $('#tanggal_pemberian_pakan');
+//                 select.empty();
+//                 select.append('<option value="">-- Pilih Tanggal --</option>');
 
-                $.each(response.results, function(index, item) {
+//                 $.each(response.results, function(index, item) {
 
-                    let parts = item.text.split('-');
-                    let dateObj = new Date(parts[2], parts[1]-1, parts[0]);
-                    let formattedDate = dateObj.toLocaleDateString('id-ID', {
-                        day: '2-digit',
-                        month: 'long',
-                        year: 'numeric'
-                    });
+//                     let parts = item.text.split('-');
+//                     let dateObj = new Date(parts[2], parts[1]-1, parts[0]);
+//                     let formattedDate = dateObj.toLocaleDateString('id-ID', {
+//                         day: '2-digit',
+//                         month: 'long',
+//                         year: 'numeric'
+//                     });
 
-                    select.append('<option value="' + item.id + '">' + formattedDate + '</option>');
-                });
-            },
-            error: function(xhr) {
-                console.error(xhr.responseText);
-            }
-        });
-    }    
-    loadTanggalPakan();
-});
+//                     select.append('<option value="' + item.id + '">' + formattedDate + '</option>');
+//                 });
+//             },
+//             error: function(xhr) {
+//                 console.error(xhr.responseText);
+//             }
+//         });
+//     }    
+//     loadTanggalPakan();
+// });
 
 $('.btn-delete').click(function(e) {
         e.preventDefault();
@@ -179,31 +182,6 @@ $('.btn-delete').click(function(e) {
             }
         });
     });
-
-// $('#tanggal_pemberian_pakan').on('change', function() {
-//     let tanggal = $(this).val();
-//     if (!tanggal) return;
-//     console.log(tanggal);
-//     $.ajax({
-        
-//         url: "{{ route('ajax.getKandangByTanggalId', ['tanggal' => 'TANGGAL']) }}"
-//         .replace('TANGGAL', tanggal),
-//         type: "GET",
-//         dataType: "json",
-//          success: function(response) {
-//               let kandang = $('#kandang_id');
-//               kandang.empty();
-//               kandang.append('<option value="">-- Pilih Kandang --</option>');
-//                $.each(response.data, function(index, item) {
-//                     kandang.append('<option value="' + item.id + '">' + item.nama + '</option>');
-//                 });
-//             },
-
-//         error: function(xhr) {
-//             console.error(xhr.responseText);
-//         }
-//     });
-// });
 
 </script>
 @endpush
