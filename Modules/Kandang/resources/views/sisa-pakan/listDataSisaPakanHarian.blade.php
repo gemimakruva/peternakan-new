@@ -4,9 +4,9 @@
 
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">List Pakan Harian</h2>
+    <h2 class="h4 fw-bold text-dark">List Sisa Pakan Harian</h2>
     <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk menampilkan list data pakan harian
+        Halaman ini digunakan untuk menampilkan list sisa pakan harian
     </span>
 </div>
 @endsection
@@ -15,7 +15,7 @@
 <div class="card" style="max-width: 1200px">
     <div class="card-header text-white d-flex justify-content-between align-items-center"
         style="background-color: #495057; border-color: #495057;">
-        <h2 class="card-title mb-0 text-center">Rekapan Pemberian Pakan</h2>
+        <h2 class="card-title mb-0 text-center">Rekapan Sisa Pakan</h2>
     </div>
 
     {{-- FILTER DIBAWAH HEADER --}}
@@ -67,19 +67,19 @@
             <thead  style="background-color: #495057; border-color: #495057;" class="table-light text-center text-white">
                 <tr>
                     <th>No</th>
-                    <th>Tanggal</th>
+                    <th>Tanggal Transaksi</th>
                     <th>Petugas pencatat</th>
                     <th>Kandang</th>
                     <th>Baris</th>
                     <th>Pipa</th>
-                    <th>Jumlah ayam</th>
-                    <th>Pemberian pakan per ekor</th>
+                    <th>Pemberian Paykan per Flock</th>
+                    <th>Sisa Pakan per Flock</th>
                     <th>Action</th>
                 </tr>
             </thead>
-            {{-- <tbody>
-                @forelse ($perhitunganPakan as $pp)
-                    <tr class="text-center">
+            <tbody>
+                @forelse ($data  as $pp)
+                    {{-- <tr class="text-center">
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ \Carbon\Carbon::parse($pp->tanggal_pemberian_pakan)
                         ->translatedFormat('d F Y') }}</td>
@@ -103,13 +103,13 @@
                                 </button>
                             </form>
                         </td>
-                    </tr>
+                    </tr> --}}
                 @empty
                     <tr>
                         <td colspan="14" class="text-center text-muted">Tidak ada data</td>
                     </tr>
                 @endforelse
-            </tbody> --}}
+            </tbody>
         </table>
     </div>
      {{-- <div class="card-footer d-flex justify-content-end">

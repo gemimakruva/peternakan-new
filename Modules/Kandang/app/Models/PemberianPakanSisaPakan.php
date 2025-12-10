@@ -27,12 +27,6 @@ class PemberianPakanSisaPakan extends Model
     return $this->belongsTo(Flock::class, 'flock_id', 'id');
 }
 
-        public function perhitungan_pakan()
-    {
-        return $this->belongsTo(PerhitunganPakan::class,
-         'perhitungan_pakan_id', 'id');
-    }
-
     protected static function newFactory()
 {
     return PemberianPakanSisaPakanFactory::new();
