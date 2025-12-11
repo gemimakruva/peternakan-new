@@ -1,8 +1,11 @@
 <?php
 
 namespace Modules\Kandang\Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Modules\Kandang\Database\Seeders\AyamKarantinaSeeder;
+use Modules\Kandang\Database\Seeders\PenjadwalaanTreatmentSeeder;
+
 
 class KandangDatabaseSeeder extends Seeder
 {
@@ -28,7 +31,9 @@ class KandangDatabaseSeeder extends Seeder
             PemberianPakanSisaPakanSeeder::class,
             JenisDisinfektanSeeder::class,
             JenisTreatmentSeeder::class,
-            MetodeTreatmentSeeder::class
+            MetodeTreatmentSeeder::class,
+            PenjadwalaanTreatmentSeeder::class,
+            penjadwalanTreatmentFlockSeeder::class
         ]);
     }
 }
