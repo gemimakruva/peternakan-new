@@ -3,33 +3,39 @@
 namespace Modules\Kandang\Services;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 
-class KandangService 
+class KandangService
 {
     private Pipe $pipe;
+
     private PopulasiAyam $populasiAyam;
+
     private PengadaanAyamDistribusi $pengadaanAyamDistribusi;
+
     private KarantinaPopulasi $karantinaPopulasi;
 
-    public function __construct() {
-        $this->pipe = app(Pipe::class);
-        $this->populasiAyam = app(PopulasiAyam::class);
+    public function __construct(private KandangRepository $repository)
+    {
+        $this->pipe                    = app(Pipe::class);
+        $this->populasiAyam            = app(PopulasiAyam::class);
         $this->pengadaanAyamDistribusi = app(PengadaanAyamDistribusi::class);
-        $this->karantinaPopulasi = app(KarantinaPopulasi::class);
+        $this->karantinaPopulasi       = app(KarantinaPopulasi::class);
     }
 
-    public function getCurrentAyamSehatByPipe(int $pipeId, Carbon $tanggalPerbandingan = null)
+    public function getCurrentAyamSehatByPipe(int $pipeId, ?Carbon $tanggalPerbandingan = null)
     {
         $tanggalPerbandingan ??= now();
 
         $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
 
         $jumlahAyamSehatDariPengadaan = $this->pengadaanAyamDistribusi
-            ->whereRelation('pengadaanAyam', function($query) use($tanggalPerbandingan, $hMin1TanggalPerbandingan) {
+            ->whereRelation('pengadaanAyam', function ($query) use ($tanggalPerbandingan, $hMin1TanggalPerbandingan) {
                 $query
                     ->whereDate('tanggal', '=', $tanggalPerbandingan->format('Y-m-d'))
                     ->orWhereDate('tanggal', '=', $hMin1TanggalPerbandingan->format('Y-m-d'));
@@ -52,16 +58,16 @@ class KandangService
         return $jumlahAyamSehat;
     }
 
-    public function getCurrentAyamKarantinaByKandang(int $asalKandangId, Carbon $tanggalPerbandingan = null)
+    public function getCurrentAyamKarantinaByKandang(int $asalKandangId, ?Carbon $tanggalPerbandingan = null)
     {
         $totalAyamKarantina = $this->karantinaPopulasi
             ->where('kandang_id', '=', $asalKandangId)
-            ->when($tanggalPerbandingan, function($query, $tanggalPerbandingan) {
+            ->when($tanggalPerbandingan, function ($query, $tanggalPerbandingan) {
                 $query->where('tanggal', '=', $tanggalPerbandingan->format('Y-m-d'));
             })
             ->latest('tanggal')
             ->value('total_ayam_karantina');
-        
+
         return $totalAyamKarantina;
     }
 
@@ -76,5 +82,10 @@ class KandangService
             ->value('ayam_sehat');
 
         return max([$kapasitas - $currentAyamSehat, 0]);
+    }
+
+    public function all(): Collection
+    {
+        return $this->repository->all();
     }
 }

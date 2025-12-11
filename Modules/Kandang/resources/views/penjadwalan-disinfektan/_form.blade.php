@@ -303,7 +303,7 @@
                 let areaHtml = `<input type="text" name="flocks[${index}][area]" class="form-control" placeholder="Area" required>`;
                 let jenisSelectHtml = `<select name="flocks[${index}][jenis_disinfektan_id]" class="form-control select-jenis" required>${renderJenisOptions(prevJenis)}</select>`;
                 let merkHtml = `<input type="text" name="flocks[${index}][merk_disinfektan]" class="form-control" placeholder="Merk Disinfektan" required>`;
-                let dosisHtml = `<input type="number" name="flocks[${index}][dosis_per_tangki]" class="form-control" placeholder="Dosis Per Tangki (gram/ml)" required>`;
+                let dosisHtml = `<input type="text" name="flocks[${index}][dosis_per_tangki]" class="form-control" placeholder="Dosis Per Tangki (gram/ml)" required>`;
                 let delBtn = `<button type="button" class="btn btn-danger btn-sm deleteRowBtn"><i class="fa fa-trash"></i></button>`;
 
                 const rowNode = table.row.add([selectHtml, areaHtml, jenisSelectHtml, merkHtml, dosisHtml, delBtn]).draw(false).node();

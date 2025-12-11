@@ -2,13 +2,13 @@
 
 namespace Modules\Kandang\Repositories\Disinfektan;
 
-use Illuminate\Support\Collection;
 use Modules\Kandang\Models\JenisDisinfektan;
+use Modules\Kandang\Repositories\EloquentRepository;
 
-class JenisDisinfektanRepository
+class JenisDisinfektanRepository extends EloquentRepository
 {
-    public function index(): Collection
+    public function __construct(JenisDisinfektan $model)
     {
-        return JenisDisinfektan::all();
+        parent::__construct($model);
     }
 }
