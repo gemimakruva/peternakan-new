@@ -110,4 +110,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
     Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)
         ->names('penjadwalan-disinfektan');
+    Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])
+        ->name('penjadwalan-disinfektan.ajax-detail');
 });

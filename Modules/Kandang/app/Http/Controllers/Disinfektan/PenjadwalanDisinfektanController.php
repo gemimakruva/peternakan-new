@@ -3,18 +3,26 @@
 namespace Modules\Kandang\Http\Controllers\Disinfektan;
 
 use App\Http\Controllers\Controller;
+use Modules\Kandang\Http\Requests\PenjadwalanDisinfektan\IndexRequest;
 use Modules\Kandang\Http\Requests\PenjadwalanDisinfektan\StoreRequest;
 use Modules\Kandang\Http\Requests\PenjadwalanDisinfektan\UpdateRequest;
 use Modules\Kandang\Models\PenjadwalanDisinfektan;
+use Modules\Kandang\Services\KandangService;
 use Modules\Kandang\Services\PenjadwalanDisinfektanService;
 
 class PenjadwalanDisinfektanController extends Controller
 {
-    public function __construct(private PenjadwalanDisinfektanService $service) {}
+    public function __construct(
+        private PenjadwalanDisinfektanService $service,
+        private KandangService $kandangService
+    ) {}
 
-    public function index()
+    public function index(IndexRequest $request)
     {
-        return view('kandang::penjadwalan-disinfektan.index');
+        $data    = $this->service->getDatatable($request->validated());
+        $kandang = $this->kandangService->all();
+
+        return view('kandang::penjadwalan-disinfektan.index', compact('data', 'kandang'));
     }
 
     public function create()
@@ -34,12 +42,18 @@ class PenjadwalanDisinfektanController extends Controller
                 ->with('danger', 'Gagal Menyimpan karena ' . $th->getMessage());
         }
 
-        return redirect()->route('kandang::penjadwalan-disinfektan.index');
+        return redirect()->route('penjadwalan-disinfektan.index');
     }
 
-    public function show(PenjadwalanDisinfektan $penjadwalanDisinfektan)
+    public function show(PenjadwalanDisinfektan $penjadwalanDisinfektan) {}
+
+    public function getDetail(PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
-        dd($penjadwalanDisinfektan->toArray());
+        return response()->json([
+            'success' => true,
+            'message' => 'Data berhasil diambil.',
+            'data'    => $penjadwalanDisinfektan->load(['kandang', 'penjadwalanFlocks.flock', 'penjadwalanFlocks.jenisDisinfektan']),
+        ]);
     }
 
     public function edit(PenjadwalanDisinfektan $penjadwalanDisinfektan)
@@ -59,7 +73,7 @@ class PenjadwalanDisinfektanController extends Controller
                 ->with('danger', 'Gagal memperbarui data karena ' . $th->getMessage());
         }
 
-        return redirect()->route('kandang.penjadwalan-disinfektan.index')
+        return redirect()->route('penjadwalan-disinfektan.index')
             ->with('success', 'Data berhasil diubah');
     }
 
@@ -67,7 +81,7 @@ class PenjadwalanDisinfektanController extends Controller
     {
         $this->service->delete($model);
 
-        return redirect()->route('kandang.penjadwalan-disinfektan.index')
+        return redirect()->route('penjadwalan-disinfektan.index')
             ->with('success', 'Data berhasil dihapus');
     }
 }
