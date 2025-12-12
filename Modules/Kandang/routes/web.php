@@ -113,4 +113,6 @@ Route::middleware(['auth'])->group(function () {
         ->names('penjadwalan-disinfektan');
       Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)
         ->names('penjadwalan-treatment');
+    Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])
+        ->name('penjadwalan-disinfektan.ajax-detail');
 });

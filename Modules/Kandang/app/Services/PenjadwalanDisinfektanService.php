@@ -2,6 +2,7 @@
 
 namespace Modules\Kandang\Services;
 
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -16,9 +17,16 @@ class PenjadwalanDisinfektanService
         private JenisDisinfektanRepository $jenisDisinfektanRepository
     ) {}
 
-    public function index(): Collection
+    public function index(array $filter): Collection
     {
-        return $this->repository->index();
+        return $this->repository->index($filter, false);
+    }
+
+    public function getDatatable(array $filter): LengthAwarePaginator
+    {
+        return $this->repository->index($filter, true)
+            ->paginate(10)
+            ->withQueryString();
     }
 
     public function store(array $data): PenjadwalanDisinfektan
@@ -68,7 +76,7 @@ class PenjadwalanDisinfektanService
 
     public function getJenisDisinfektan(): Collection
     {
-        return $this->jenisDisinfektanRepository->index();
+        return $this->jenisDisinfektanRepository->all();
     }
 
     public function delete(PenjadwalanDisinfektan $jadwal): void

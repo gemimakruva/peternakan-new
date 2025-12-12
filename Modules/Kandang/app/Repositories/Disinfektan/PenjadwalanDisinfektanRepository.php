@@ -2,37 +2,38 @@
 
 namespace Modules\Kandang\Repositories\Disinfektan;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Modules\Kandang\Models\PenjadwalanDisinfektan;
+use Modules\Kandang\Repositories\EloquentRepository;
 
-class PenjadwalanDisinfektanRepository
+class PenjadwalanDisinfektanRepository extends EloquentRepository
 {
-    public function index(): Collection
+    public function __construct(PenjadwalanDisinfektan $model)
     {
-        return PenjadwalanDisinfektan::with(['kandang', 'penjadwalanFlock'])
-            ->get();
+        parent::__construct($model);
     }
 
-    public function find(int $id): PenjadwalanDisinfektan
+    public function index(array $filter, bool $isBuilder = false): Collection|Builder
     {
-        return PenjadwalanDisinfektan::with(['kandang', 'penjadwalanFlock'])
-            ->findOrFail($id);
+        $query = PenjadwalanDisinfektan::with(['kandang'])
+            ->when(isset($filter['kandang_id']), function ($query) use ($filter) {
+                $query->where('kandang_id', $filter['kandang_id']);
+            })
+            ->when(isset($filter['start_date']), function ($query) use ($filter) {
+                $query->whereBetween('tanggal', [$filter['start_date'], $filter['end_date']]);
+            })
+            ->orderByDesc('tanggal');
+
+        if ($isBuilder) {
+            return $query;
+        }
+
+        return $query->get();
     }
 
     public function store(array $data): PenjadwalanDisinfektan
     {
         return PenjadwalanDisinfektan::create($data);
-    }
-
-    public function update(array $data, PenjadwalanDisinfektan $model): PenjadwalanDisinfektan
-    {
-        $model->update($data);
-
-        return $model;
-    }
-
-    public function delete(PenjadwalanDisinfektan $model): bool
-    {
-        return $model->delete();
     }
 }
