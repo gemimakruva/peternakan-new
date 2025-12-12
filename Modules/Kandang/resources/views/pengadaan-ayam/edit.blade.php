@@ -45,6 +45,22 @@
                                     </div>
                                 </div>
 
+                                {{-- Ayam Mati --}}
+                               <div class="col-md-4">
+                                    <div class="info-box">
+                                            <span style="width: 50px" class="info-box-icon 
+                                            bg-warning">
+                                                <i class="fas fa-home"></i>
+                                            </span>
+                                            <div class="info-box-content">
+                                                <span style="font-size:15px" 
+                                                class="info-box-text">Ayam Mati</span>
+                                                <span class="info-box-number"
+                                                id="ayamMatiInfo">0</span>
+                                            </div>
+                                        </div>
+                                </div>
+
                                 {{-- Ayam Masuk Kandang --}}
                                <div class="col-md-4">
                                     <div class="info-box">
@@ -600,7 +616,7 @@ $(document).ready(function(){
             TotalMasukKandang += parseInt(item.jumlah) || 0;
         });
 
-        TotalBelumMasukKandang = TotalAyamDatang - TotalMasukKandang;
+        TotalBelumMasukKandang = TotalAyamDatang - (TotalAyamMati + TotalMasukKandang);
 
         $('#ayamMasukKandangInfo').text(TotalMasukKandang.toLocaleString('id-ID'));
         $('#AyamBelumMasukKandang').text(TotalBelumMasukKandang.toLocaleString('id-ID'));
