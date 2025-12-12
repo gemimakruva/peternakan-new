@@ -657,9 +657,16 @@ return [
 
         [
             'text'  => 'Kalender Treatment',
-            'route' => '',
             'icon'  => 'fas fa-calendar-alt',
             'can'   => 'Lihat Pengadaan Kandang',
+            'submenu' =>[
+                 [
+                    'text'  => 'Form Treatment',
+                    'route' => 'penjadwalan-treatment.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'membuat jadwal treatment',
+                ],
+            ]
         ],
 
         [
