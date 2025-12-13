@@ -666,6 +666,12 @@ return [
                     'icon'  => 'fas fa-plus',
                     'can'   => 'membuat jadwal treatment',
                 ],
+                 [
+                    'text'  => 'Jadwalan Treatment',
+                    'route' => 'penjadwalan-treatment.index',
+                   'icon'  => 'fas fa-calendar',   
+                    'can'   => 'Melihat jadwal treatment',
+                ],
             ]
         ],
 

@@ -30,10 +30,9 @@ class PenjadwalanTreatmentFlock extends Model
     }
 
      public function jenisTreatment()
-    {
-         return $this->belongsTo(JenisTreatment::class,
-        'jenis_treatment_id','id');
-    }    
+{
+    return $this->belongsTo(JenisTreatment::class, 'jenis_treatment_id');
+}
 
     public function metodeTreatment()
     {

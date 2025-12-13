@@ -105,6 +105,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('ajax/getFlockByKandangId/{kandangId}',
         [AjaxController::class, 'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
+    Route::get('ajax/getFlockByKandangId/{kandangId}/treatment',
+        [AjaxController::class, 'getFlockByKandangTreatment'])->name('ajax.getFlockByKandangTreatment');
     Route::get('ajax/getPemberianPakanByFlockId/{tanggal}/{flock}', [AjaxController::class, 'getPemberianPakanByFlockId'])
         ->name('ajax.getPemberianPakanByFlockId');
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');

@@ -31,6 +31,14 @@ class PenjadwalanTreatment extends Model
         return $this->belongsTo(Kandang::class, 'kandang_id', 'id');
     }
 
+    public function treatmentFlocks()
+    {
+        return $this->hasMany(
+            PenjadwalanTreatmentFlock::class,
+            'penjadwalan_treatment_id', 
+            'id'                         
+        );
+    }
     protected static function newFactory()
     {
         return \Modules\Kandang\Database\Factories\PenjadwalanTreatmentFactor::new();

@@ -25,6 +25,7 @@
                             @include('kandang::penjadwalan-treatment._form')
                         </div>
                     </div>
+                    
                     {{-- Button Submit --}}
                     <div class="mt-4 d-flex justify-content-between px-3">
                         <a href="" class="btn btn-secondary px-4 py-2">
