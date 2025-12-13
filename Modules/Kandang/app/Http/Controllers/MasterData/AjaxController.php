@@ -129,6 +129,8 @@ class AjaxController extends Controller
         }
     }
 
+    
+
     $flocks = collect($flocks)->unique('id')->values()->all();
     
     return response()->json([
@@ -137,6 +139,18 @@ class AjaxController extends Controller
     ]);
 
     }
+
+    public function getFlockByKandangTreatment($kandangId)
+{
+    $flocks = Flock::where('kandang_id', $kandangId)
+        ->get(['id', 'nama']);
+
+    return response()->json([
+        'status' => true,
+        'results' => $flocks
+    ]);
+}
+
 
     public function getPemberianPakanByFlockId($tanggal,$flockId)
     {

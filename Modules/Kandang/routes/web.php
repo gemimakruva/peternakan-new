@@ -12,6 +12,7 @@ use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
+use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
@@ -104,12 +105,16 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('ajax/getFlockByKandangId/{kandangId}',
         [AjaxController::class, 'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
+    Route::get('ajax/getFlockByKandangId/{kandangId}/treatment',
+        [AjaxController::class, 'getFlockByKandangTreatment'])->name('ajax.getFlockByKandangTreatment');
     Route::get('ajax/getPemberianPakanByFlockId/{tanggal}/{flock}', [AjaxController::class, 'getPemberianPakanByFlockId'])
         ->name('ajax.getPemberianPakanByFlockId');
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
     Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)
         ->names('penjadwalan-disinfektan');
+      Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)
+        ->names('penjadwalan-treatment');
     Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])
         ->name('penjadwalan-disinfektan.ajax-detail');
 });

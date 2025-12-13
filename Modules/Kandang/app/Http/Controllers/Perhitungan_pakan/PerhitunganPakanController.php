@@ -269,38 +269,43 @@ class PerhitunganPakanController extends Controller
 }
 
     public function listDataPakanHarian(Request $request)
-    {
-        $kandang = Kandang::latest()->get();
-        $query = PerhitunganPakan::with('userExecutor', 'pipe.flock.kandang')->latest();
-        
-        if ($request->filled('tanggal')) {
-            $query->where('tanggal_pemberian_pakan', $request->tanggal);
-        }
-        if ($request->filled('kandang')) {
-        $query->whereHas('pipe.flock',
-        function ($q) use ($request) {
+{
+    $kandang = Kandang::latest()->get();
+
+    $query = PerhitunganPakan::with([
+        'jenis_pakan',
+        'pipe.flock.kandang',
+        'pipe.flock.pemberianPakanSisaPakan'
+    ])
+    ->orderBy('tanggal_pemberian_pakan', 'desc'); // TANGGAL TERBARU
+
+    if ($request->filled('tanggal')) {
+        $query->where('tanggal_pemberian_pakan', $request->tanggal);
+    }
+
+    if ($request->filled('kandang')) {
+        $query->whereHas('pipe.flock', function ($q) use ($request) {
             $q->where('kandang_id', $request->kandang);
         });
-        }
-
-        if ($request->filled('petugas_pencatatan')) {
-                    $query->whereHas('userExecutor', function 
-                    ($q) use ($request) {
-                        $q->where('name', 'like', '%' .
-                         $request->petugas_pencatatan . '%');
-                    });
-            }
-    
-        $perhitunganPakan = $query->paginate(10);
-        return view("kandang::perhitungan-pakan.listPakanHarian",
-        compact('perhitunganPakan', 'kandang'));
     }
+
+    if ($request->filled('petugas_pencatatan')) {
+        $query->whereHas('userExecutor', function ($q) use ($request) {
+            $q->where('name', 'like', '%' . $request->petugas_pencatatan . '%');
+        });
+    }
+    $perhitunganPakan = $query->paginate(10)->withQueryString();
+    return view("kandang::perhitungan-pakan.listPakanHarian",
+        compact('perhitunganPakan', 'kandang')
+    );
+}
+
 
     public function listDataSisaPakanHarian(Request $request)
     {
         $query = PemberianPakanSisaPakan::with([
             'flock.kandang', 'jenisPakan','userExecutor'
-        ])->latest();
+        ])->orderBy('tanggal', 'desc'); ;
          if ($request->filled('tanggal')) {
             $query->where('tanggal', $request->tanggal);
         }
@@ -319,7 +324,7 @@ class PerhitunganPakanController extends Controller
                     });
             }
             
-        $data = $query->paginate(10);
+        $data = $query->paginate(10)->withQueryString();
         $kandang = Kandang::latest()->get();
         return view("kandang::sisa-pakan.listDataSisaPakanHarian",
          compact('kandang','data'));
