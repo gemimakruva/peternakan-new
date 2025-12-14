@@ -5,7 +5,7 @@
             label="Tanggal Pemberian Pakan" 
             type="date" 
             igroup-size="md"
-            value="{{ old('tanggal', @$data->tanggal ?? 
+            value="{{ old('tanggal', @$data->tanggal_pemberian_pakan ?? 
             \Carbon\Carbon::now()->format('Y-m-d')) }}">
             
             <x-slot name="prependSlot">
