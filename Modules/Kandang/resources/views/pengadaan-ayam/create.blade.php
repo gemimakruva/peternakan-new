@@ -466,7 +466,7 @@ $(document).ready(function(){
             $(this)[0].reset();
             $('#pipeSelect').empty().append('<option selected disabled>Pilih Pipe...</option>');
             $('#flockSelect').empty().append('<option selected disabled>Pilih Flock...</option>');
-            $('#kandangSelect').empty().append('<option selected disabled>Pilih Kandang...</option>');
+            // $('#kandangSelect').empty().append('<option selected disabled>Pilih Kandang...</option>');
             
             $('#modalDistribusi').modal('hide');
             setModalMode('add');
