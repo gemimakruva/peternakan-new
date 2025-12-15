@@ -20,6 +20,7 @@ class PenjadwalanTreatmentController extends Controller
           $query = PenjadwalanTreatment::with(
                     'treatmentFlocks.jenisTreatment',
                     'treatmentFlocks.metodeTreatment',
+                    'treatmentFlocks.flock',
                     'picUser',
                     'kandang'
                 )->latest();
@@ -106,6 +107,9 @@ class PenjadwalanTreatmentController extends Controller
      */
     public function edit(PenjadwalanTreatment $penjadwalan_treatment)
     {
+        $kandang = Kandang::latest()->get();
+        $jenisTreatment = JenisTreatment::latest()->get();
+        $metodeTreatment = MetodeTreatment::latest()->get();
         $penjadwalan_treatment->load(
         'treatmentFlocks.jenisTreatment',
         'treatmentFlocks.metodeTreatment',
@@ -114,16 +118,47 @@ class PenjadwalanTreatmentController extends Controller
     );
         $kandang = Kandang::latest()->get();
         return view('kandang::penjadwalan-treatment.edit', 
-        compact('penjadwalan_treatment', 'kandang'));
+        compact('penjadwalan_treatment', 'kandang','metodeTreatment','jenisTreatment'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, PenjadwalanTreatment $penjadwalanTretment)
-    {
-        //
+    public function update(Request $request, PenjadwalanTreatment $penjadwalan_treatment)
+{
+    $validated = $request->validate([
+        'tanggal' => 'required|date',
+        'waktu_pelaksanaan' => 'required|date_format:H:i',
+        'treatment' => 'required|array',
+        'treatment.*.flock_id' => 'required|integer|exists:flock,id',
+        'treatment.*.jenis_treatment_id' => 'required|integer',
+        'treatment.*.metode_pemberian_id' => 'required|integer',
+        'treatment.*.dosis' => 'required|numeric|min:0',
+    ]);
+    // Update data utama
+    $penjadwalan_treatment->update([
+        'kandang_id' => $penjadwalan_treatment->kandang_id,
+        'tanggal' => $validated['tanggal'],
+        'detail_waktu' => $validated['waktu_pelaksanaan'],
+    ]);
+
+    // Hapus semua detail lama (treatmentFlocks)
+    $penjadwalan_treatment->treatmentFlocks()->delete();
+
+    // Simpan detail treatment baru
+    foreach ($validated['treatment'] as $t) {
+        PenjadwalanTreatmentFlock::create([
+            'penjadwalan_treatment_id' => $penjadwalan_treatment->id,
+            'flock_id' => $t['flock_id'],
+            'jenis_treatment_id' => $t['jenis_treatment_id'],
+            'metode_treatment_id' => $t['metode_pemberian_id'],
+            'dosis_pemberian' => $t['dosis'],
+        ]);
     }
+
+    return redirect()->route('penjadwalan-treatment.index')
+                     ->with('success', 'Data berhasil diupdate.');
+}
 
     /**
      * Remove the specified resource from storage.
