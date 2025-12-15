@@ -354,3 +354,28 @@
         placeholder="Tambahkan catatan jika perlu" 
         rows="4">{{ old('catatan', @$data->catatan) }}</x-adminlte-textarea>
 </div>
+
+
+@pushOnce('js')
+    <script>
+        var populasiAyamId, tanggalKarantina = null;
+        function getKarantinaPopulasiData() {
+            console.log({populasiAyamId, tanggalKarantina});
+            if (!populasiAyamId || !tanggalKarantina) {
+                return;
+            }
+            $(`{{ url('') }}/ajax/karantina-populasi/${populasiAyamId}/${tanggalKarantina}`)
+                .then(function(res) {
+                    console.log(res);                    
+                })
+        }
+        $('select[name=populasi_ayam_id]').on('change', function() {
+            populasiAyamId = this.value;
+            getKarantinaPopulasiData();
+        });
+        $('input[name=tanggal_karantina]').on('change', function() {
+            tanggalKarantina = this.value;
+            getKarantinaPopulasiData();
+        })
+    </script>
+@endPushOnce
