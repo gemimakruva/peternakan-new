@@ -26,19 +26,12 @@
                 <i class="fas fa-warehouse text-muted"></i>
             </div>
         </x-slot>
-
-        @php
-            $selected = old('kandang_id', @$data->kandang_id ?? 1); 
-        @endphp
-           <option value="" {{ $selected === '' ? 'selected' : '' }}>Pilih Kandang</option>
-
+           <option value="">Pilih Kandang</option>
         @foreach($kandang as $item)
-        {{-- @dd($item->id) --}}
-            <option value={{ $item->id }} {{ $selected == $item->id ? 'selected' : '' }}>
+            <option value={{ $item->id }} >
                 {{ $item->nama }}
             </option>
         @endforeach
-
     </x-adminlte-select>
 </div>
 
@@ -64,7 +57,8 @@
 <div class="mb-3">
     <div class="table-responsive">
         <table class="table table-bordered" id="treatmentTable">
-            <thead class="text-white" style="background-color: #495057; border-color: #495057; text-align: center;">
+            <thead class="text-white" style="background-color: #495057; border-color:
+             #495057; text-align: center;">
                 <tr>
                     <th style="width: 10%; min-height: 50px; line-height: 1.4;">Baris</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Jenis Treatment</th>
@@ -97,7 +91,8 @@
                     </td>
 
                     <td>
-                        <input type="text" name="treatment[0][dosis]" class="form-control" placeholder="Dosis...">
+                        <input type="text" name="treatment[0][dosis]" class="form-control"
+                         placeholder="Dosis...">
                     </td>
 
                     <td>
@@ -170,7 +165,8 @@
                 </td>
 
                 <td>
-                    <input type="text" name="treatment[${index}][dosis]" class="form-control" placeholder="Dosis...">
+                    <input type="text" name="treatment[${index}][dosis]" 
+                    class="form-control" placeholder="Dosis...">
                 </td>
 
                 <td>

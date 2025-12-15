@@ -20,8 +20,11 @@
         <div class="col-md-8">
             <x-form-alert />
 
-            <form action="{{ isset($data) ? route('penjadwalan-treatment.update',
-             $data->id) : route('penjadwalan-treatment.store') }}" method="POST">
+        <form action="{{ route('penjadwalan-treatment.update',
+            $penjadwalan_treatment->id) }}" method="POST">
+    @csrf
+    @method('PUT')
+
                 @csrf
                 @if(isset($data))
                     @method('PUT')
@@ -29,7 +32,7 @@
 
                 <div class="card">
                     <div class="card-body">
-                        @include('kandang::penjadwalan-treatment._form_edit', ['data' => $data ?? null])
+                        @include('kandang::penjadwalan-treatment._form_edit', ['data' => $penjadwalan_treatment])
                     </div>
                 </div>
                 

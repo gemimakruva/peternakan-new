@@ -24,10 +24,12 @@
                     <label class="form-label">Range Tanggal</label>
                     <div class="row">
                         <div class="col-6">
-                            <input type="date" name="start_date" value="{{ request('start_date') }}" class="form-control">
+                            <input type="date" name="start_date" value="{{ request('start_date') }}" 
+                            class="form-control">
                         </div>
                         <div class="col-6">
-                            <input type="date" name="end_date" value="{{ request('end_date') }}" class="form-control">
+                            <input type="date" name="end_date" value="{{ request('end_date') }}" 
+                            class="form-control">
                         </div>
                     </div>
                 </div>
@@ -37,7 +39,8 @@
                     <select name="kandang_id" class="form-control">
                         <option selected disabled>Pilih Kandang...</option>
                         @foreach ($kandang as $item)
-                            <option value="{{ $item->id }}" {{ $item->id == request('kandang_id') ? 'selected' : '' }}>
+                            <option value="{{ $item->id }}"
+                                 {{ $item->id == request('kandang_id') ? 'selected' : '' }}>
                                 {{ $item->nama }}
                             </option>
                         @endforeach
@@ -85,6 +88,7 @@
                                 class="btn btn-primary btn-sm btn-detail"
                                 data-id="{{ $item->id }}"
                                 data-kandang="{{ $item->kandang->nama }}"
+                                data-flock={{ $item->treatmentFlocks }}
                                 data-pic="{{ $item->picUser->name }}"
                                 data-tanggal="{{ $item->tanggal }}"
                                 data-waktu="{{ $item->detail_waktu }}"
@@ -204,7 +208,7 @@ $(document).on('click', '.btn-detail', function () {
             html += `
                 <tr>
                     <th scope="row">${index + 1}</th>
-                    <td>Baris ${index + 1}</td>
+                    <td>${t.flock.nama}</td>
                     <td>${t.jenis_treatment?.nama ?? '-'}</td>
                     <td>${t.metode_treatment?.nama ?? '-'}</td>
                     <td>${t.dosis_pemberian ?? '-'}</td>

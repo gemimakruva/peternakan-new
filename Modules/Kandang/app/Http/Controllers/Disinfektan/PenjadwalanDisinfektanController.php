@@ -59,7 +59,6 @@ class PenjadwalanDisinfektanController extends Controller
     public function edit(PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
         $jenisDisinfektan = $this->service->getJenisDisinfektan()->toArray();
-
         return view('kandang::penjadwalan-disinfektan.edit', compact('penjadwalanDisinfektan', 'jenisDisinfektan'));
     }
 
