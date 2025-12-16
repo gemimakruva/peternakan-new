@@ -656,7 +656,7 @@ return [
         ],
 
         [
-            'text'  => 'Kalender Treatment',
+            'text'  => 'Treatment',
             'icon'  => 'fas fa-calendar-alt',
             'can'   => 'Lihat Pengadaan Kandang',
             'submenu' =>[
@@ -676,12 +676,12 @@ return [
         ],
 
         [
-            'text'  => 'Penjadwalan Disinfektan',
+            'text'  => 'Disinfektan',
             'icon'  => 'fas fa-calendar-alt',
             'can'   => 'Penjadwalan Disinfektan',
             'submenu' => [
                 [
-                    'text'  => 'List Penjadwalan Disinfektan',
+                    'text'  => 'List Penjadwalan',
                     'route' => 'penjadwalan-disinfektan.index',
                     'icon'  => 'fas fa-history',
                     'can'   => 'Lihat list penjadwalan disinfektan',
@@ -693,13 +693,6 @@ return [
                     'can'   => 'tambah penjadwalan disinfektan',
                 ],
             ],
-        ],
-
-        [
-            'text'  => 'Tambah Treatment',
-            'route' => '',
-            'icon'  => 'fas fa-plus-circle',
-            'can'   => 'Lihat Pengadaan Kandang',
         ],
 
         // ====================   Perhitungan Obat  =================
@@ -716,9 +709,22 @@ return [
 
         [
             'text'  => 'OVK via Pakan',
-            'route' => '',
             'icon'  => 'fas fa-clipboard-list',
             'can'   => 'Lihat Rekapan Pakan Harian',
+             'submenu' => [
+                [
+                    'text'  => 'Jadwal OVK',
+                    'route' => 'ovk-pakan.index',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat list penjadwalan disinfektan',
+                ],
+                [
+                    'text'  => 'Create OVK',
+                    'route' => 'ovk-pakan.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'tambah list penjadwalan disinfektan',
+                ],
+            ],
         ],
 
         [
