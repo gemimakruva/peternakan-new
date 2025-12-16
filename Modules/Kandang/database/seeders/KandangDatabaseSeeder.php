@@ -34,7 +34,8 @@ class KandangDatabaseSeeder extends Seeder
             MetodeTreatmentSeeder::class,
             PenjadwalaanTreatmentSeeder::class,
             penjadwalanTreatmentFlockSeeder::class,
-            OvkPakanSeeder::class
+            OvkPakanSeeder::class,
+            FormRequestOvkSeeder::class
         ]);
     }
 }

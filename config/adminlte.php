@@ -718,14 +718,39 @@ return [
                     'icon'  => 'fas fa-history',
                     'can'   => 'Lihat list penjadwalan disinfektan',
                 ],
+                  
                 [
                     'text'  => 'Create OVK',
                     'route' => 'ovk-pakan.create',
                     'icon'  => 'fas fa-plus',
                     'can'   => 'tambah list penjadwalan disinfektan',
                 ],
+              
             ],
         ],
+
+        [
+            'text'  => 'Order OVK',
+            'icon'  => 'fas fa-clipboard-list',
+            'can'   => 'Lihat Rekapan Pakan Harian',
+             'submenu' => [
+                [
+                    'text'  => 'List Order ',
+                    'route' => 'order-ovk.index',
+                    'icon' => 'fas fa-clipboard-list',
+                    'can'   => 'Request order bahan untuk OVK ',
+                ],
+                  
+                [
+                    'text'  => 'Form Order',
+                    'route' => 'order-ovk.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'tambah list penjadwalan disinfektan',
+                ],
+              
+            ],
+        ],
+
 
         [
             'text'  => 'Vaksin Minum',
