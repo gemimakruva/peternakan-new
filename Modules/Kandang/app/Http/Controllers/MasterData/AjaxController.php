@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
@@ -24,7 +25,8 @@ class AjaxController extends Controller
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
         private PerhitunganPakan $perhitunganPakan,
         private PopulasiAyam $populasiAyam,
-        private JenisPakan $jenisPakan
+        private JenisPakan $jenisPakan,
+        private KarantinaPopulasi $karantinaPopulasi,
     ) { }
 
     public function kandang()
@@ -286,6 +288,15 @@ class AjaxController extends Controller
                 $tanggalPerbandingan
             ),
         ];
+    }
+
+    public function ayamKarantina($kandangId, $tanggal)
+    {
+        return $this->karantinaPopulasi
+            ->getQuery()
+            ->where('kandang_id', '=', $kandangId)
+            ->whereDate('tanggal', '=', $tanggal)
+            ->firstOrFail();
     }
 
        public function getKandangByTanggalId($tanggal)

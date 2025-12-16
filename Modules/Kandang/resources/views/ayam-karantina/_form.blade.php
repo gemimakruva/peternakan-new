@@ -1,10 +1,10 @@
-{{-- Populasi Ayam --}}
+{{-- Pilih Kandang --}}
 <div class="mb-3">
     <x-adminlte-select2 
-        name="populasi_ayam_id" 
-        label="Pilih Populasi Ayam" 
+        name="kandang_id" 
+        label="Pilih Kandang" 
         igroup-size="md" 
-        data-placeholder="Pilih Populasi Ayam...">
+        data-placeholder="Pilih Kandang...">
         
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
@@ -12,29 +12,23 @@
             </div>
         </x-slot>
 
-        <option disabled selected>Pilih Populasi Ayam...</option>
-        @foreach($listPopulasiAyam as $populasi)
-        {{-- @dd( $populasi->pengadaanDistribusi->pipe->nama) --}}
-        @php
-            $pipe = $populasi->pengadaanDistribusi->pipe ?? null;
-            $flock = $pipe->flock ?? null;
-            $kandang = $flock->kandang ?? null;
-        @endphp
-            <option value="{{ $populasi->id }}"
-                {{ old('populasi_ayam_id', @$data->populasi_ayam_id) == $populasi->id ? 'selected' : '' }}>
-               {{ $kandang->nama ?? '-' }} - Flock: {{ $flock->nama ?? '-' }} - Pipe: {{ $pipe->nama ?? '-' }}
+        <option disabled selected>Pilih Kandang...</option>
+        @foreach($listKandangAyam as $kandang)
+            <option value="{{ $kandang->id }}" @selected($kandang->id = old('kandang_id', @$data->kandang_id))>
+               {{ $kandang->nama }}
+            </option>
         @endforeach
     </x-adminlte-select2>
 </div>
 
-{{-- Tanggal Transaksi --}}
+{{-- Tanggal --}}
 <div class="mb-3">
     <x-adminlte-input 
-        name="tanggal_karantina" 
-        label="Tanggal Transaksi" 
+        name="tanggal" 
+        label="Tanggal" 
         type="date" 
         igroup-size="md"
-        value="{{ old('tanggal', @$data->tanggal ?? \Carbon\Carbon::now()->format('Y-m-d')) }}">
+        value="{{ old('tanggal', @$data->tanggal ?? now()->format('Y-m-d')) }}">
         
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
@@ -44,17 +38,17 @@
     </x-adminlte-input>
 </div>
 
-{{-- Ayam Masuk Karantina --}}
+{{-- Total Ayam Karantina --}}
 <div class="mb-3">
     <x-adminlte-input 
-        name="ayam_masuk_karantina" 
-        label="Ayam Masuk Karantina" 
+        id="total_ayam_karantina"
+        name="total_ayam_karantina" 
+        label="Total Ayam Karantina" 
         type="number" 
         igroup-size="md"
-        value="{{ old('ayam_masuk_karantina', @$data->ayam_masuk_karantina) }}"
-        placeholder="Masukkan jumlah ayam masuk karantina" 
+        value="{{ old('total_ayam_karantina', @$data->total_ayam_karantina) }}"
+        placeholder="Total Ayam Karantina" 
         required>
-        
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
                 <i class="fas fa-warehouse text-muted"></i>
@@ -66,6 +60,7 @@
 {{-- Ayam Mati --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="ayam_mati"
         name="ayam_mati" 
         label="Ayam Mati" 
         type="number" 
@@ -85,8 +80,9 @@
 {{-- ayam afkir --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="ayam_afkir"
         name="ayam_afkir" 
-        label="Ayam Afkri" 
+        label="Ayam Afkir" 
         type="number" 
         igroup-size="md"
         value="{{ old('ayam_afkir', @$data->ayam_afkir) }}"
@@ -102,27 +98,10 @@
     </x-adminlte-input>
 </div>
 
-
-{{-- Ayam Keluar Karantina --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        name="ayam_keluar_karantina" 
-        label="Ayam Keluar Karantina" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('ayam_keluar_karantina', @$data->ayam_keluar_karantina) }}"
-        placeholder="Masukkan jumlah ayam keluar karantina" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-dove text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-
 {{-- Pemberian Pakan --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="pemberian_pakan"
         name="pemberian_pakan" 
         label="Pemberian Pakan (kg)" 
         type="number" step="0.01"
@@ -140,6 +119,7 @@
 {{-- Sisa Pakan --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="sisa_pakan"
         name="sisa_pakan" 
         label="Sisa Pakan (kg)" 
         type="number" step="0.01"
@@ -157,6 +137,7 @@
 {{-- Jumlah Telur Bagus --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="jumlah_telur_bagus"
         name="jumlah_telur_bagus" 
         label="Jumlah Telur Bagus" 
         type="number" 
@@ -174,6 +155,7 @@
 {{-- Jumlah Telur Retak --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="jumlah_telur_retak"
         name="jumlah_telur_retak" 
         label="Jumlah Telur Retak" 
         type="number" 
@@ -191,6 +173,7 @@
 {{-- Jumlah Telur Rusak --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="jumlah_telur_rusak"
         name="jumlah_telur_rusak" 
         label="Jumlah Telur Rusak" 
         type="number" 
@@ -208,6 +191,7 @@
 {{-- Berat Telur Bagus --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="berat_telur_bagus"
         name="berat_telur_bagus" 
         label="Berat Telur Bagus (gram)" 
         type="number" step="0.01"
@@ -225,6 +209,7 @@
 {{-- Berat Telur Retak --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="berat_telur_retak"
         name="berat_telur_retak" 
         label="Berat Telur Retak (gram)" 
         type="number" step="0.01"
@@ -242,6 +227,7 @@
 {{-- Berat Telur Rusak --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="berat_telur_rusak"
         name="berat_telur_rusak" 
         label="Berat Telur Rusak (gram)" 
         type="number" step="0.01"
@@ -256,30 +242,10 @@
     </x-adminlte-input>
 </div>
 
-{{-- Penyebab ayam karantina  --}}
-<div class="mb-3">
-    <x-adminlte-textarea
-        name="penyebab_karantina"
-        label="Penyebab Karantina"
-        igroup-size="md"
-        placeholder="Masukkan penyebab ayam masuk karantina"
-        rows="3">
-        
-        {{ old('penyebab_karantina', @$data->penyebab_karantina) }}
-        
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-info-circle text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-textarea>
-</div>
-
-
-
 {{-- Pengobatan yang Dilakukan --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="pengobatan_yang_dilakukan"
         name="pengobatan_yang_dilakukan" 
         label="Pengobatan yang Dilakukan" 
         type="text" 
@@ -297,6 +263,7 @@
 {{-- Jumlah Ayam Diobati --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="jumlah_ayam_diobati"
         name="jumlah_ayam_diobati" 
         label="Jumlah Ayam Diobati" 
         type="number" 
@@ -314,6 +281,7 @@
 {{-- Penyemprotan --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="penyemprotan"
         name="penyemprotan" 
         label="Penyemprotan" 
         type="text" 
@@ -331,6 +299,7 @@
 {{-- Vaksin --}}
 <div class="mb-3">
     <x-adminlte-input 
+        id="vaksin"
         name="vaksin" 
         label="Vaksin" 
         type="text" 
@@ -348,9 +317,54 @@
 {{-- Catatan --}}
 <div class="mb-3">
     <x-adminlte-textarea 
+        id="catatan"
         name="catatan" 
         label="Catatan" 
         igroup-size="md" 
         placeholder="Tambahkan catatan jika perlu" 
         rows="4">{{ old('catatan', @$data->catatan) }}</x-adminlte-textarea>
 </div>
+
+@pushOnce('js')
+    <script>
+        var kandangId, tanggal = null;
+        function getKarantinaPopulasiData() {
+            console.log({ kandangId, tanggal });
+            
+            if (!kandangId || !tanggal) {
+                return;
+            }
+            $.getJSON(`{{ url('') }}/master-data/ajax/karantina-populasi/${kandangId}/${tanggal}`)
+                .then(function(res) {
+                    if (!res) return;
+                    $('#total_ayam_karantina').val(res.total_ayam_karantina);
+                    $('#ayam_mati').val(res.ayam_mati);
+                    $('#ayam_afkir').val(res.ayam_afkir);
+                    $('#pemberian_pakan').val(res.pemberian_pakan);
+                    $('#sisa_pakan').val(res.sisa_pakan);
+                    $('#jumlah_telur_bagus').val(res.jumlah_telur_bagus);
+                    $('#jumlah_telur_retak').val(res.jumlah_telur_retak);
+                    $('#jumlah_telur_rusak').val(res.jumlah_telur_rusak);
+                    $('#berat_telur_bagus').val(res.berat_telur_bagus);
+                    $('#berat_telur_retak').val(res.berat_telur_retak);
+                    $('#berat_telur_rusak').val(res.berat_telur_rusak);
+                    $('#pengobatan_yang_dilakukan').val(res.pengobatan_yang_dilakukan);
+                    $('#jumlah_ayam_diobati').val(res.jumlah_ayam_diobati);
+                    $('#penyemprotan').val(res.penyemprotan);
+                    $('#vaksin').val(res.vaksin);
+                    $('#catatan').val(res.catatan);
+                })
+                .catch(function() {
+                    console.log('Tidak ada karantina ayam di tanggal tersebut.');
+                })
+        }
+        $('select[name=kandang_id]').on('change', function() {
+            kandangId = this.value;
+            getKarantinaPopulasiData();
+        });
+        $('input[name=tanggal]').on('change', function() {
+            tanggal = this.value;
+            getKarantinaPopulasiData();
+        })
+    </script>
+@endPushOnce

@@ -39,7 +39,7 @@
                         </button>
 
                         @can('Tambah Ayam Akfir')
-                        <a href="{{ route('ayam-afkir.create') }}" 
+                        <a href="{{ route('ayam-karantina.create') }}" 
                            class="btn btn-light btn-sm text-dark" 
                            title="Tambah Transaksi">
                             <i class="fas fa-plus"></i>
@@ -62,11 +62,8 @@
                         <th style="width: 50px;">#</th>
                         <th>Tanggal Karantina</th>
                         <th>Nama Pencatat</th>
-                        <th>Identitas Populasi</th>
-                        <th>Ayam Masuk</th>
                         <th>Ayam Mati</th>
                         <th>Ayam Afkir</th>
-                        <th>Ayam Keluar</th>
                         <th>Pakan Diberikan (kg)</th>
                         <th>Sisa Pakan (kg)</th>
                         <th>Telur Bagus</th>
@@ -83,22 +80,11 @@
               <tbody>
                 @forelse($listAyamKarantina as $item)
                 <tr>
-                    <td>{{ $loop->iteration }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->tanggal_karantina)
-                     ->translatedFormat('l, d F Y') }}</td>
+                    <td>{{ ($listAyamKarantina->currentPage() - 1) * $listAyamKarantina->perPage() + $loop->iteration }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                     <td>{{ $item->pic_user->name ?? '-' }}</td>
-                    <td>
-                        <button class="btn btn-info btn-sm"
-                            onclick="showPopulasi('{{ $item->populasi->kandang->nama ?? '-' }}',
-                                                '{{ $item->populasi->flock->nama ?? '-' }}',
-                                                '{{ $item->populasi->pipe->nama ?? '-' }}')">
-                            Lihat
-                        </button>
-                    </td>
-                    <td>{{ $item->ayam_masuk_karantina ?? 0 }}</td>
                     <td>{{ $item->ayam_mati ?? 0 }}</td>
                     <td>{{ $item->ayam_afkir ?? 0 }}</td>
-                    <td>{{ $item->ayam_keluar_karantina ?? 0 }}</td>
                     <td>{{ $item->pemberian_pakan ?? 0 }}</td>
                     <td>{{ $item->sisa_pakan ?? 0 }}</td>
                     <td>{{ $item->jumlah_telur_bagus ?? 0 }}</td>
@@ -130,9 +116,9 @@
             </table>
         </div>
 
-         {{-- <div class="card-footer d-flex justify-content-end">
-            {{ $listAyamAfkir->links('components.pagination') }}
-        </div> --}}
+        <div class="card-footer d-flex justify-content-end">
+            {{ $listAyamKarantina->links('components.pagination') }}
+        </div>
     </div>
 </div>
 </div>
