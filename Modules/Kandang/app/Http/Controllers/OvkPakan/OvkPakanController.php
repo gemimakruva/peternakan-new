@@ -13,26 +13,35 @@ class OvkPakanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+public function index(Request $request)
 {
-    $query = OvkPakan::with('flock.kandang')->latest();
-
-    // Filter berdasarkan tanggal
+    $query = OvkPakan::with('flock.kandang');
     if ($request->filled('start_date') && $request->filled('end_date')) {
-        $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
+        if ($request->start_date <= $request->end_date) {
+            $query->whereBetween('tanggal', [
+                $request->start_date,
+                $request->end_date
+            ]);
+        }
     } elseif ($request->filled('start_date')) {
         $query->whereDate('tanggal', '>=', $request->start_date);
     } elseif ($request->filled('end_date')) {
         $query->whereDate('tanggal', '<=', $request->end_date);
     }
     if ($request->filled('kandang_id')) {
-        $query->where('kandang_id', $request->kandang_id);
+        $query->whereHas('flock.kandang', 
+        function ($q) use ($request) {
+            $q->where('id', $request->kandang_id);
+        });
     }
+    $data = $query
+        ->latest('tanggal')
+        ->paginate(10)
+        ->withQueryString();
 
-    $data = $query->paginate(10);
     $kandang = Kandang::all();
-
-    return view('kandang::ovk-pakan.index', compact('data', 'kandang'));
+    return view('kandang::ovk-pakan.index', 
+    compact('data', 'kandang'));
 }
 
 
