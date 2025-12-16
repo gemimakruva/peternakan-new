@@ -290,13 +290,13 @@ class AjaxController extends Controller
         ];
     }
 
-    public function ayamKarantina($karantinaPopulasiId, $tanggal)
+    public function ayamKarantina($kandangId, $tanggal)
     {
         return $this->karantinaPopulasi
             ->getQuery()
-            ->where('id', '=', $karantinaPopulasiId)
+            ->where('kandang_id', '=', $kandangId)
             ->whereDate('tanggal', '=', $tanggal)
-            ->first();
+            ->firstOrFail();
     }
 
        public function getKandangByTanggalId($tanggal)

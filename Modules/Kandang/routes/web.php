@@ -56,7 +56,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('ajax/umur-ayam-by-kandang/{kandangId}', [AjaxController::class, 'umurAyamByKandang'])->name('ajax.umur_ayam_by_kandang');
         Route::get('ajax/jumlah-ayam-sehat/{tanggal}', [AjaxController::class, 'jumlahAyamSehat'])->name('ajax.jumlah_ayam_sehat');
-        Route::get('ajax/karantina-populasi/{karantinaPopulasiId}/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
+        Route::get('ajax/karantina-populasi/{kandangId}/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
     });
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
     Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
