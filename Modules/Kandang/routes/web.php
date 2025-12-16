@@ -11,6 +11,7 @@ use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
+use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\JenisPakanController;
@@ -113,8 +114,9 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
     Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)
         ->names('penjadwalan-disinfektan');
-      Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)
+    Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)
         ->names('penjadwalan-treatment');
     Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])
         ->name('penjadwalan-disinfektan.ajax-detail');
+    Route::resource('ovk-pakan', OvkPakanController::class)->names('ovk-pakan');    
 });
