@@ -1,16 +1,20 @@
 <?php
+
 namespace Modules\Kandang\Http\Controllers\PopulasiAyam;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Modules\Kandang\Enums\JenisPemeriksaan;
+use Modules\Kandang\Http\Requests\PopulasiAyam\GetSummaryRequest;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
-use Illuminate\Http\Request;
 use Modules\Kandang\Services\KandangService;
+use Modules\Kandang\Services\PopulasiAyamService;
 
 class PopulasiAyamController extends Controller
 {
@@ -21,31 +25,33 @@ class PopulasiAyamController extends Controller
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private AyamAfkir $ayamAfkir,
         private Pipe $pipe,
-    ) { }
-    
+        private PopulasiAyamService $service
+    ) {}
+
     public function index()
     {
-       return view("kandang::populasi-ayam.index");
+        return view('kandang::populasi-ayam.index');
     }
 
     /**
      * Show the form for creating a new resource.
      */
 
-     /**
+    /**
      * Show the list of pengadaan
      */
-    
     public function create()
     {
         $list_kandang = Kandang::all();
-        return view("kandang::populasi-ayam.list-tanggal-pengadaan", compact('list_kandang'));
+
+        return view('kandang::populasi-ayam.list-tanggal-pengadaan', compact('list_kandang'));
     }
 
     public function createByDate($kandangId)
     {
         $kandang = $this->kandang->findOrFail($kandangId);
-        return view("kandang::populasi-ayam.create", compact('kandang'));
+
+        return view('kandang::populasi-ayam.create', compact('kandang'));
     }
 
     /**
@@ -58,14 +64,14 @@ class PopulasiAyamController extends Controller
                 - $request->input('ayam_mati')
                 - $request->input('ayam_afkir')
                 - $request->input('ayam_masuk_karantina')
-                + $request->input('ayam_masuk_karantina')
+                + $request->input('ayam_masuk_karantina'),
         ]);
 
         $validated = $request->validate([
             'tanggal_transaksi' => ['required', 'date'],
-            'kandang_id' => ['required', 'exists:kandang,id'],
-            'flock_id' => ['required', 'exists:flock,id'],
-            'pipe_id' => ['required', 'exists:pipe,id', function($attr, $value, $fail) {
+            'kandang_id'        => ['required', 'exists:kandang,id'],
+            'flock_id'          => ['required', 'exists:flock,id'],
+            'pipe_id'           => ['required', 'exists:pipe,id', function ($attr, $value, $fail) {
                 $isExist = $this->populasiAyam
                     ->getQuery()
                     ->where('pipe_id', '=', $value)
@@ -76,18 +82,18 @@ class PopulasiAyamController extends Controller
                     $fail("Recording untuk pipe $pipe->nama sudah dilakukan.");
                 }
             }],
-            'umur_ayam_record' => ['required', 'min:1'],
-            'ayam_sehat' => ['nullable', 'min:0'],
-            'ayam_mati' => ['nullable', 'min:0'],
-            'ayam_afkir' => ['nullable', 'min:0'],
-            'ayam_masuk_karantina' => ['nullable', 'min:0', function($attr, $value, $fail) {
+            'umur_ayam_record'     => ['required', 'min:1'],
+            'ayam_sehat'           => ['nullable', 'min:0'],
+            'ayam_mati'            => ['nullable', 'min:0'],
+            'ayam_afkir'           => ['nullable', 'min:0'],
+            'ayam_masuk_karantina' => ['nullable', 'min:0', function ($attr, $value, $fail) {
                 $value = (int) $value;
 
                 if ($value > app(KandangService::class)->getCurrentAyamSehatByPipe(request()->input('pipe_id'))) {
                     $fail('ayam masuk karantina tidak boleh melebihi populasi ayam.');
                 }
             }],
-            'ayam_keluar_karantina' => ['nullable', 'min:0', function($attr, $value, $fail) {
+            'ayam_keluar_karantina' => ['nullable', 'min:0', function ($attr, $value, $fail) {
                 $value = (int) $value;
 
                 if ($value > app(KandangService::class)->getCurrentAyamKarantinaByKandang(request()->input('kandang_id'))) {
@@ -108,19 +114,19 @@ class PopulasiAyamController extends Controller
             'umur_ayam_record'      => $validated['umur_ayam_record'],
             'tanggal'               => $validated['tanggal_transaksi'],
             'ayam_sehat'            => $validated['ayam_sehat'],
-            'ayam_mati'             => @$validated['ayam_mati'] ?? 0,
-            'ayam_afkir'            => @$validated['ayam_afkir'] ?? 0,
-            'ayam_masuk_karantina'  => @$validated['ayam_masuk_karantina'] ?? 0,
+            'ayam_mati'             => @$validated['ayam_mati']             ?? 0,
+            'ayam_afkir'            => @$validated['ayam_afkir']            ?? 0,
+            'ayam_masuk_karantina'  => @$validated['ayam_masuk_karantina']  ?? 0,
             'ayam_keluar_karantina' => @$validated['ayam_keluar_karantina'] ?? 0,
-            'catatan'               => $validated['catatan'] ?? null,
+            'catatan'               => $validated['catatan']                ?? null,
         ]);
 
         if (@$validated['ayam_afkir'] > 0) {
             $this->ayamAfkir->create([
-                'populasi_ayam_id' => $populasiAyam->id,
-                'pic_user_id' => auth()->id(),
-                'tanggal' => $validated['tanggal_transaksi'],
-                'umur_ayam' => $validated['umur_ayam_record'],
+                'populasi_ayam_id'  => $populasiAyam->id,
+                'pic_user_id'       => auth()->id(),
+                'tanggal'           => $validated['tanggal_transaksi'],
+                'umur_ayam'         => $validated['umur_ayam_record'],
                 'jumlah_ayam_afkir' => $validated['ayam_afkir'],
             ]);
         }
@@ -133,10 +139,10 @@ class PopulasiAyamController extends Controller
 
             $this->karantinaPopulasiPipe->create([
                 'populasi_ayam_asal_id' => $populasiAyam->id,
-                'tanggal' => $populasiAyam->tanggal,
-                'pipe_asal_id' => @$validated['ayam_masuk_karantina'] ? $validated['pipe_id'] : null,
-                'ayam_masuk_karantina' => @$validated['ayam_masuk_karantina'],
-                'pipe_tujuan_id' => @$validated['ayam_keluar_karantina'] ? @$validated['pipe_id'] : null,
+                'tanggal'               => $populasiAyam->tanggal,
+                'pipe_asal_id'          => @$validated['ayam_masuk_karantina'] ? $validated['pipe_id'] : null,
+                'ayam_masuk_karantina'  => @$validated['ayam_masuk_karantina'],
+                'pipe_tujuan_id'        => @$validated['ayam_keluar_karantina'] ? @$validated['pipe_id'] : null,
                 'ayam_keluar_karantina' => @$validated['ayam_keluar_karantina'],
             ]);
 
@@ -150,9 +156,9 @@ class PopulasiAyamController extends Controller
 
             $this->karantinaPopulasi->updateOrCreate([
                 'kandang_id' => $populasiAyam->pipe->flock->kandang_id,
-                'tanggal' => $populasiAyam->tanggal,
+                'tanggal'    => $populasiAyam->tanggal,
             ], [
-                'pic_user_id' => $populasiAyam->pic_user_id,
+                'pic_user_id'          => $populasiAyam->pic_user_id,
                 'total_ayam_karantina' => $currentKarantinaPopulasi,
             ]);
         }
@@ -199,5 +205,10 @@ class PopulasiAyamController extends Controller
     public function destroy(PopulasiAyam $populasiAyam)
     {
         //
+    }
+
+    public function getSummary(GetSummaryRequest $request): JsonResponse
+    {
+        return response()->json($this->service->getChickensPerRow($request->validated()));
     }
 }

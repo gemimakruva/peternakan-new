@@ -763,7 +763,21 @@ return [
             'text'  => 'Vitamin Obat Minum',
             'route' => '',
             'icon'  => 'fas fa-clipboard-list',
-            'can'   => 'Lihat Rekapan Pakan Harian',
+            'can'   => 'Lihat obat vitamin minum',
+            'submenu' => [
+                [
+                    'text'  => 'List Vitamin Obat Minum',
+                    'route' => 'perhitungan-obat.vitamin-obat-minum.index',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat obat vitamin minum',
+                ],
+                [
+                    'text'  => 'Tambah Vitamin Obat Minum',
+                    'route' => 'perhitungan-obat.vitamin-obat-minum.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'Tambah obat vitamin minum',
+                ],
+            ],
         ],
 
         [
