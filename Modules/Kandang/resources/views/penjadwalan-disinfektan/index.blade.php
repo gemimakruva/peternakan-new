@@ -63,9 +63,10 @@
                     <tr>
                         <th style="width:5%">No</th>
                         <th style="width:20%">Tanggal</th>
-                        <th style="width:20%">Kandang</th>
-                        <th style="width:20%">Waktu Treatment</th>
-                        <th style="width:30%">Data Kebutuhan Disinfektan per Baris</th>
+                        <th style="width:15%">Kandang</th>
+                        <th style="width:17%">Waktu Treatment</th>
+                        <th style="width:28%">Data Kebutuhan Disinfektan per Baris</th>
+                        <th style="width:15%">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -80,6 +81,21 @@
                                         <button type="button" class="btn btn-info btn-sm btn-detail" data-id="{{ $item->id }}">
                                             <i class="fa fa-eye"></i> Detail
                                         </button>
+                                    </td>
+                                    <td class="text-center">
+                                        <a href="{{ route('penjadwalan-disinfektan.edit', $item->id) }}" class="btn btn-info btn-sm">
+                                            <i class="fa fa-eye"></i> Edit
+                                        </a>
+                                        <form action="{{ route('penjadwalan-disinfektan.destroy', $item->id) }}"
+                                            method="POST"
+                                            class="d-inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus data ini?')">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm">
+                                                <i class="fa fa-trash"></i> Delete
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                     @empty
