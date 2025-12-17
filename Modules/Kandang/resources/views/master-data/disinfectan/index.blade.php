@@ -79,7 +79,6 @@
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     @endcan
-
                                     @can('Hapus Jenis Disinfektan')
                                     <form action="{{ route('master-data.jenis-disinfectan.destroy', 
                                     $row->id) }}"

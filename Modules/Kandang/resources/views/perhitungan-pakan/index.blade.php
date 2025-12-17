@@ -82,10 +82,10 @@
                     <th>Estimasi Pemberian Per Ekor (gram)</th>
                     <th>Jenis Pakan</th>
                     <th>Pemberian Per Pipa</th>
-                    <th>Presentasi Pagi</th>
-                    <th>Presentasi Sore</th>
-                    <th>Pagi</th>
-                    <th>Sore</th>
+                    <th>Persentase Pagi (%)</th>
+                    <th>Persentase Sore (%) </th>
+                    <th>Pagi (%)</th>
+                    <th>Sore (%)</th>
                     <th>Sisa Pakan Per Baris</th>
                 </tr>
             </thead>
@@ -105,10 +105,10 @@
                         <td>{{ $pp->proporsi_pemberian_pagi }}%</td>
                         <td>{{ $pp->proporsi_pemberian_sore }}%</td>
                         <td>
-                            {{ number_format($pp->proporsi_pemberian_pagi) }} kg
+                            {{ number_format($pp->proporsi_pemberian_pagi) }} %
                         </td>
                         <td>
-                       {{ number_format($pp->proporsi_pemberian_sore) }} kg
+                       {{ number_format($pp->proporsi_pemberian_sore) }} %
                            @php
                                 $sisaPakanRelasi = $pp->pipe->flock->pemberianPakanSisaPakan;
                                 $sisaPakanPerBaris = $sisaPakanRelasi->sum(function($item) {

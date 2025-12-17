@@ -60,33 +60,39 @@
 
 <tbody>
     @forelse($datas as $row)
+    {{-- @dd($row->nama === 'Disenfectan') --}}
         <tr>
             {{-- Nomor urut mengikuti pagination --}}
             <td>{{ ($loop->index + 1) + (request()->get('page', 1) * $datas->perPage() - $datas->perPage()) }}</td>
 
             <td>{{ $row->nama }}</td>
-
             <td class="text-center">
                 <div class="d-flex justify-content-center" style="gap: .5em">
                     @can('Edit Jenis Treatment')
-                    <a href="{{ route('master-data.jenis-treatment.edit', $row->id) }}"
-                       class="btn btn-sm btn-warning text-white"
-                       title="Edit">
+                  <a href="{{ $row->nama === 'Disinfektan' ? '#' : route('master-data.jenis-treatment.edit', $row->id) }}"
+                    class="btn btn-sm btn-warning text-white {{ $row->nama === 'Disinfektan' ? 'disabled' : '' }}"
+                    title="Edit"
+                    {{ $row->nama == 'Disinfektan' ? 'aria-disabled=true tabindex=-1' : '' }}>
                         <i class="fas fa-edit"></i>
                     </a>
                     @endcan
 
                     @can('Hapus Jenis Treatment')
-                    <form action="{{ route('master-data.jenis-treatment.destroy', $row->id) }}"
-                          method="post"
-                          data-nama="{{ $row->nama }}"
-                          class="form-delete">
+                   <form action="{{ route('master-data.jenis-treatment.destroy', $row->id) }}"
+                        method="post"
+                        data-nama="{{ $row->nama }}"
+                        class="form-delete">
                         @csrf
                         @method('delete')
-                        <button class="btn btn-sm btn-danger" title="Hapus">
+                        <button type="submit"
+                                class="btn btn-sm btn-danger {{ $row->nama == 'Disinfektan' ? 'disabled' : '' }}"
+                                title="Hapus"
+                                {{ $row->nama == 'Disinfektan' ? 'aria-disabled=true tabindex=-1' : '' }}
+                                {{ $row->nama == 'Disinfektan' ? 'disabled' : '' }}>
                             <i class="fas fa-trash"></i>
                         </button>
                     </form>
+
                     @endcan
 
                 </div>

@@ -14,9 +14,9 @@
 
 @section('content')
 <div>
-        <div style="max-width: 1200px" class="row justify-content-start px-3">
+        <div  class="row justify-content-start px-3">
             {{-- Form Content --}}
-            <div class="col-md-8">
+            <div class="col-12">
                   <x-form-alert />
             <form action="{{ route('penjadwalan-treatment.store') }}" method="POST">
                 @csrf

@@ -57,25 +57,36 @@
 <div class="mb-3">
     <div class="table-responsive">
         <table class="table table-bordered" id="treatmentTable">
-            <thead class="text-white" style="background-color: #495057; border-color:
-             #495057; text-align: center;">
+            <thead>
                 <tr>
-                    <th style="width: 10%; min-height: 50px; line-height: 1.4;">Baris</th>
-                    <th style="width: 25%; min-height: 50px; line-height: 1.4;">Jenis Treatment</th>
-                    <th style="width: 25%; min-height: 50px; line-height: 1.4;">Metode Pemberian</th>
-                    <th style="width: 25%; min-height: 50px; line-height: 1.4;">Dosis Pemberian (gram/ml)</th>
-                    <th style="width: 15%; min-height: 50px; line-height: 1.4;">Aksi</th>
-                </tr>
+                   <th style="width: 20%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
+                        Baris
+                    </th>
+                    <th style="width: 25%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
+                        Jenis Treatment
+                    </th>
+                    <th style="width: 25%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
+                        Metode Pemberian
+                    </th>
+                    <th style="width: 25%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
+                        Dosis Pemberian (gram/ml)
+                    </th>
+                    <th style="width: 15%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
+                        <button type="button" class="btn btn-success mt-2" id="addRow">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </th>
             </thead>
                 <tbody>
                 <tr>
                     <td>
-                        <select id="flock_id" name="treatment[0][flock_id]" class="form-select">
-                           <option value="">-- Pilih Flock --</option>  
+                        <select id="flock_id" name="treatment[0][flock_id]" 
+                        class="form-control" style="max-width: 200px;">
+                        <option value="">-- Pilih Flock --</option>  
                         </select>
                     </td>
                     <td>
-                        <select name="treatment[0][jenis_treatment_id]" class="form-select">
+                        <select name="treatment[0][jenis_treatment_id]" class="form-control">
                             @foreach ($jenisTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
@@ -83,7 +94,7 @@
                     </td>
 
                     <td>
-                        <select name="treatment[0][metode_pemberian_id]" class="form-select">
+                        <select name="treatment[0][metode_pemberian_id]" class="form-control">
                             @foreach ($metodeTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
@@ -100,13 +111,8 @@
                     </td>
                 </tr>
                 </tbody>
-
         </table>
     </div>
-
-    <button type="button" class="btn btn-primary mt-2" id="addRow">
-        <i class="fas fa-plus"></i> Tambah Baris
-    </button>
 </div>
 
 @push('js')
@@ -143,13 +149,13 @@
         let newRow = $(`
             <tr>
                 <td>
-                    <select name="treatment[${index}][flock_id]" class="form-select">
+                    <select name="treatment[${index}][flock_id]" class="form-control">
                         <option value="">-- Pilih Flock --</option>
                     </select>
                 </td>
 
                 <td>
-                    <select name="treatment[${index}][jenis_treatment_id]" class="form-select">
+                    <select name="treatment[${index}][jenis_treatment_id]" class="form-control">
                          @foreach ($jenisTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
@@ -157,7 +163,7 @@
                 </td>
 
                 <td>
-                    <select name="treatment[${index}][metode_pemberian_id]" class="form-select">
+                    <select name="treatment[${index}][metode_pemberian_id]" class="form-control">
                        @foreach ($metodeTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
