@@ -17,6 +17,7 @@ use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\Perhitungan_pakan\PerhitunganPakanController;
+use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
@@ -60,6 +61,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('ajax/karantina-populasi/{kandangId}/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
     });
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
+    Route::get('populasi-ayam/summary', [PopulasiAyamController::class, 'getSummary'])->name('populasi-ayam.summary');
     Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
     Route::get('populasi-ayam/{kandangId}/create', [PopulasiAyamController::class, 'createByDate'])
         ->name('populasi-ayam.createByDate');
@@ -121,5 +123,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])
         ->name('penjadwalan-disinfektan.ajax-detail');
     Route::resource('ovk-pakan', OvkPakanController::class)->names('ovk-pakan');
-    Route::resource('orders-ovk', OrderOvkController::class)->names('order-ovk');        
+    Route::resource('orders-ovk', OrderOvkController::class)->names('order-ovk');
+    Route::group(['prefix' => 'perhitungan-obat', 'as' => 'perhitungan-obat.'], function () {
+        Route::resource('vitamin-obat-minum', VitaminObatMinumController::class)
+            ->names('vitamin-obat-minum');
+    });
 });
