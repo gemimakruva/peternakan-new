@@ -59,6 +59,7 @@ class PenjadwalanDisinfektanController extends Controller
     public function edit(PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
         $jenisDisinfektan = $this->service->getJenisDisinfektan()->toArray();
+
         return view('kandang::penjadwalan-disinfektan.edit', compact('penjadwalanDisinfektan', 'jenisDisinfektan'));
     }
 
@@ -76,9 +77,9 @@ class PenjadwalanDisinfektanController extends Controller
             ->with('success', 'Data berhasil diubah');
     }
 
-    public function destroy(PenjadwalanDisinfektan $model)
+    public function destroy(PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
-        $this->service->delete($model);
+        $this->service->delete($penjadwalanDisinfektan);
 
         return redirect()->route('penjadwalan-disinfektan.index')
             ->with('success', 'Data berhasil dihapus');

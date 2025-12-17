@@ -15,6 +15,7 @@ class JenisTreatmentFactory extends Factory
         static $counter = [];
 
         $nama = $this->faker->randomElement([
+            'Disinfektan',
             'Pembersihan Kandang',
             'Penyemprotan Disinfektan',
             'Perawatan Lantai Kandang',
@@ -24,11 +25,11 @@ class JenisTreatmentFactory extends Factory
             'Sterilisasi Kandang',
             'Kontrol Hama',
             'Penggantian Sekam',
-            'Cuci Minum Otomatis'
+            'Cuci Minum Otomatis',
         ]);
 
         // cek apakah nama sudah pernah keluar
-        if (!isset($counter[$nama])) {
+        if (! isset($counter[$nama])) {
             $counter[$nama] = 1;
         } else {
             $counter[$nama]++;

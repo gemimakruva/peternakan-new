@@ -85,7 +85,7 @@
                             <td class="text-center">
                                 <a href="{{ route('perhitungan-obat.vitamin-obat-minum.edit', $item->id) }}" class="btn btn-info btn-sm">
                                     <i class="fa fa-eye"></i> Edit
-                                </button>
+                                </a>
                             </td>
                         </tr>
                     @empty
