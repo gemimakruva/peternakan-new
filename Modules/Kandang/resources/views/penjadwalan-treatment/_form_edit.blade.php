@@ -60,28 +60,31 @@
 <div class="mb-3">
     <div class="table-responsive">
         <table class="table table-bordered" id="treatmentTable">
-            <thead class="text-white" style="background-color: #495057; border-color:
-             #495057; text-align: center;">
+            <thead class="table table-bordered" id="treatmentTable">
                 <tr>
-                    <th style="width: 10%; min-height: 50px; line-height: 1.4;">Baris</th>
+                    <th style="width: 15%; min-height: 50px; line-height: 1.4;">Baris</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Jenis Treatment</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Metode Pemberian</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Dosis Pemberian (gram/ml)</th>
-                    <th style="width: 15%; min-height: 50px; line-height: 1.4;">Aksi</th>
+                    <th style="width: 15%; min-height: 50px; line-height: 1.4;"> 
+                    <button type="button" class="btn btn-primary mt-2" id="addRow">
+                         <i class="fas fa-plus"></i>
+                    </button>
+                    </th>
                 </tr>
             </thead>
               <tbody>
                 @foreach ($penjadwalan_treatment->treatmentFlocks as $tf)
                 <tr>
                     <td>
-                        <select name="treatment[{{ $loop->index }}][flock_id]" class="form-select flock-select"
+                        <select name="treatment[{{ $loop->index }}][flock_id]" class="form-control flock-select"
                             data-selected="{{ $tf->flock_id ?? '' }}">
                             <option value="">-- Pilih Flock --</option>
                         </select>
                     </td>
 
                         <td>
-                            <select name="treatment[{{ $loop->index }}][jenis_treatment_id]" class="form-select">
+                            <select name="treatment[{{ $loop->index }}][jenis_treatment_id]" class="form-control">
                                 @foreach ($jenisTreatment as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $item->id == $tf->jenis_treatment_id ? 'selected' : '' }}>
@@ -92,7 +95,7 @@
                         </td>
 
                         <td>
-                            <select name="treatment[{{ $loop->index }}][metode_pemberian_id]" class="form-select">
+                            <select name="treatment[{{ $loop->index }}][metode_pemberian_id]" class="form-control">
                                 @foreach ($metodeTreatment as $item)
                                     <option value="{{ $item->id }}"
                                         {{ $item->id == $tf->metodeTreatment->id ? 'selected' : '' }}>
@@ -122,9 +125,7 @@
     </div>
 
     {{-- Tombol Tambah Baris --}}
-    <button type="button" class="btn btn-primary mt-2" id="addRow">
-        <i class="fas fa-plus"></i> Tambah Baris
-    </button>
+   
 </div>
 
 @push('js')
@@ -170,19 +171,19 @@ $(document).ready(() => {
         const newRow = $(`
             <tr>
                 <td>
-                    <select name="treatment[${index}][flock_id]" class="form-select flock-select">
+                    <select name="treatment[${index}][flock_id]" class="form-control flock-select">
                         <option value="">-- Pilih Flock --</option>
                     </select>
                 </td>
                 <td>
-                    <select name="treatment[${index}][jenis_treatment_id]" class="form-select">
+                    <select name="treatment[${index}][jenis_treatment_id]" class="form-control">
                         @foreach ($jenisTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                         @endforeach
                     </select>
                 </td>
                 <td>
-                    <select name="treatment[${index}][metode_pemberian_id]" class="form-select">
+                    <select name="treatment[${index}][metode_pemberian_id]" class="form-control">
                         @foreach ($metodeTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                         @endforeach
