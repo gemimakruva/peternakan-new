@@ -17,47 +17,47 @@ class PerhitunganPakanController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request)
+public function index(Request $request)
 {
-    
-   $query = PerhitunganPakan::with([
-    'jenis_pakan',
-    'pipe.flock.kandang',
-    'pipe.flock.pemberianPakanSisaPakan'
-])->latest();
-
-
-     if ($request->filled('tanggal')) {
-        $query->where('id', $request->tanggal);
-    }
-
-    if ($request->filled('kandang')) {
-        $query->whereHas('pipe.flock.kandang',
-         function($q) use ($request) {
-            $q->where('id', $request->kandang);
-        });
-    }
-
-    if ($request->filled('flock')) {
-        $query->whereHas('pipe.flock', 
-        function($q) use ($request) {
-            $q->where('id', $request->flock); 
-        });
-    }
-
-   if ($request->filled('jenis_pakan')) {
-        $query->whereHas('jenis_pakan', 
-        function($q) use ($request) {
-            $q->where('nama', $request->jenis_pakan);
-        });
-    }
-
-    $perhitunganPakan = $query->get();
+    $query = PerhitunganPakan::with([
+        'jenis_pakan',
+        'pipe.flock.kandang',
+        'pipe.flock.pemberianPakanSisaPakan'
+    ])->latest()
+      ->when($request->filled('tanggal'), fn($q) => 
+          $q->where('tanggal_pemberian_pakan', $request->tanggal))
+      ->when($request->filled('kandang'), fn($q) => 
+          $q->whereHas('pipe.flock.kandang', fn($q2) => 
+              $q2->where('id', $request->kandang)))
+      ->when($request->filled('flock'), fn($q) => 
+          $q->whereHas('pipe.flock', fn($q2) => 
+              $q2->where('id', $request->flock)))
+      ->when($request->filled('jenis_pakan'), fn($q) => 
+          $q->whereHas('jenis_pakan', fn($q2) => 
+              $q2->where('nama', $request->jenis_pakan)));
+    $perhitunganPakan = (clone $query)->paginate(10);
+    $perhitunganPakan->appends($request->all()); 
+    $allData = $query->get(); 
+    $dataKandang = $allData
+        ->groupBy(fn($item) => $item->pipe->flock->kandang->id)
+        ->map(fn($items) => [
+            'kandang_id' => $items->first()->pipe->flock->kandang->id,
+            'kandang_nama' => $items->first()->pipe->flock->kandang->nama,
+            'total_ayam' => $items->sum('jumlah_ayam_per_pipe'),
+            'estimasi_pakan_per_ekor' => $items->avg('jumlah_pakan_per_ekor_gram'),
+            'estimasi_pakan_per_pipe' => $items->sum(fn($item)
+             => $item->jumlah_ayam_per_pipe * $item->jumlah_pakan_per_ekor_gram / 1000),
+            'pemberian_pagi' => $items->avg('proporsi_pemberian_pagi'),
+            'pemberian_sore' => $items->avg('proporsi_pemberian_sore'),
+        ])
+        ->values();
     $jenisPakanList = JenisPakan::all();
-
     return view('kandang::perhitungan-pakan.index', 
-    compact('perhitunganPakan','jenisPakanList'));
+    compact('perhitunganPakan','jenisPakanList','dataKandang'));
 }
+
+
+
 
     /**
      * Show the form for creating a new resource.

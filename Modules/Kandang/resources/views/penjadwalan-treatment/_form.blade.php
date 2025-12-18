@@ -94,7 +94,7 @@
                     </td>
 
                     <td>
-                        <select name="treatment[0][metode_pemberian_id]" class="form-control">
+                        <select name="treatment[0][metode_pemberian_id]" class="">
                             @foreach ($metodeTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
