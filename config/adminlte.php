@@ -808,13 +808,13 @@ return [
 
         [
             'text'  => 'Form Monitoring',
-            'route' => '',
+            'route' => 'monitoring-kesehatan.create',
             'icon'  => 'fas fa-clipboard-check',
             'can'   => 'Lihat Rekapan Pakan Harian',
         ],
         [
             'text'  => 'Riwayat Monitoring',
-            'route' => '',
+            'route' => 'monitoring-kesehatan.index',
             'icon'  => 'fas fa-history',
             'can'   => 'Lihat Rekapan Pakan Harian',
         ],

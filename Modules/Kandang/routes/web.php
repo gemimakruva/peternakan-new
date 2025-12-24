@@ -11,6 +11,7 @@ use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
+use Modules\Kandang\Http\Controllers\MonitoringKesehatan\MonitoringKesehatanController;
 use Modules\Kandang\Http\Controllers\OvkPakan\OrderOvkController;
 use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
@@ -128,4 +129,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('vitamin-obat-minum', VitaminObatMinumController::class)
             ->names('vitamin-obat-minum');
     });
+    Route::resource('monitoring-kesehatan', MonitoringKesehatanController::class)
+        ->names('monitoring-kesehatan');
 });
