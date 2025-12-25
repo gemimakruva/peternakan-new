@@ -16,9 +16,9 @@ return new class extends Migration
             $table->foreignId('populasi_ayam_id')->constrained('populasi_ayam') ;
             $table->foreignId('pic_user_id')->constrained('users');
             $table->date('tanggal');
-            $table->integer('umur_ayam'); 
+            $table->integer('umur_ayam');
             $table->integer('jumlah_ayam_afkir');
-            $table->string('penyebab_afkir');
+            $table->string('penyebab_afkir')->nullable();
             $table->string('pembeli_afkir')->nullable();
             $table->decimal('harga_jual', 15, 2)->nullable();
             $table->timestamps();
