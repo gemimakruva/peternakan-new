@@ -12,6 +12,19 @@ class MetodeTreatmentSeeder extends Seeder
      */
     public function run(): void
     {
-        MetodeTreatment::factory()->count(10)->create();
+        // MetodeTreatment::factory()->count(10)->create();
+
+         $data = [
+            ['id' => 1, 'nama' => 'Pakan'],
+            ['id' => 2, 'nama' => 'Minum'],
+            ['id' => 3, 'nama' => 'Semprot'],
+        ];
+
+        foreach ($data as $item) {
+            MetodeTreatment::updateOrCreate(
+                ['id' => $item['id']],
+                ['nama' => $item['nama']]
+            );
+        }
     }
 }

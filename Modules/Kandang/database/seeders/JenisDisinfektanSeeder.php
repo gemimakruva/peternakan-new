@@ -12,6 +12,20 @@ class JenisDisinfektanSeeder extends Seeder
      */
     public function run(): void
     {
-        JenisDisinfektan::factory()->count(10)->create();
+        // JenisDisinfektan::factory()->count(10)->create();
+
+        $data = [
+            ['id' => 1, 'nama' => 'Disinfektan'],
+            ['id' => 2, 'nama' => 'Vaksin'],
+            ['id' => 3, 'nama' => 'Vitamin dan/atau Mineral'],
+            ['id' => 4, 'nama' => 'Antibiotik dan Obat']
+        ];
+
+        foreach ($data as $item) {
+            JenisDisinfektan::updateOrCreate(
+                ['id' => $item['id']],
+                ['nama' => $item['nama']]
+            );
+        }
     }
 }

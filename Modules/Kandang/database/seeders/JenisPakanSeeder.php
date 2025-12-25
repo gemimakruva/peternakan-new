@@ -12,20 +12,27 @@ class JenisPakanSeeder extends Seeder
      */
     public function run(): void
     {
-        $datas = [
-            ['nama' => 'Pakan Starter'],
-            ['nama' => 'Pakan Grower'],
-            ['nama' => 'Pakan Finisher'],
-            ['nama' => 'Pakan Layer'],
-            ['nama' => 'Pakan Konsentrat'],
-            ['nama' => 'Pakan Protein Tinggi'],
-            ['nama' => 'Pakan Jagung Giling'],
-            ['nama' => 'Pakan Bekatul'],
-            ['nama' => 'Pakan Fermentasi'],
-            ['nama' => 'Pakan Organik']
+         $data = [
+            ['id' => 1, 'nama' => 'Pakan Starter'],
+            ['id' => 2, 'nama' => 'Pakan Grower'],
+            ['id' => 3, 'nama' => 'Pakan Finisher'],
+            ['id' => 4, 'nama' => 'Pakan Pre-Layer'],
+            ['id' => 5, 'nama' => 'Pakan Layer'],
+            ['id' => 6, 'nama' => 'Pakan Breeder'],
+            ['id' => 7, 'nama' => 'Pakan Konsentrat'],
+            ['id' => 8, 'nama' => 'Pakan Crumble'],
+            ['id' => 9, 'nama' => 'Pakan Mash'],
+            ['id' => 10, 'nama' => 'Pakan Pellet'],
+            ['id' => 11, 'nama' => 'Pakan Organik / Herbal'],
+            ['id' => 12, 'nama' => 'Pakan Medicated (mengandung obat)'],
+            ['id' => 13, 'nama' => 'Pakan Alternatif (jagung giling, dedak, bekatul, dll)']
         ];
-        foreach ($datas as $data) {
-            JenisPakan::firstOrCreate($data);
+
+        foreach ($data as $item) {
+            JenisPakan::updateOrCreate(
+                ['id' => $item['id']],
+                ['nama' => $item['nama']]
+            );
         }
     }
 
