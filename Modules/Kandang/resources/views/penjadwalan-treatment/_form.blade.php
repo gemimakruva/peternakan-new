@@ -1,12 +1,12 @@
  <div class="mb-3">
-        <x-adminlte-input 
-            name="tanggal" 
-            label="Tanggal Penjadwalan Treatment" 
-            type="date" 
+        <x-adminlte-input
+            name="tanggal"
+            label="Tanggal Penjadwalan Treatment"
+            type="date"
             igroup-size="md"
-            value="{{ old('tanggal', @$data->tanggal ?? 
+            value="{{ old('tanggal', @$data->tanggal ??
             \Carbon\Carbon::now()->format('Y-m-d')) }}">
-            
+
             <x-slot name="prependSlot">
                 <div class="input-group-text bg-white">
                     <i class="fas fa-calendar-alt text-muted"></i>
@@ -20,7 +20,7 @@
         name="kandang_id"
         label="Pilih Kandang"
         igroup-size="md">
-        
+
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
                 <i class="fas fa-warehouse text-muted"></i>
@@ -38,14 +38,14 @@
 
 
 <div class="mb-3">
-    <x-adminlte-input 
-        name="waktu_pelaksanaan" 
-        label="Waktu Pelaksanaan Treatment" 
-        type="time" 
+    <x-adminlte-input
+        name="waktu_pelaksanaan"
+        label="Waktu Pelaksanaan Treatment"
+        type="time"
         igroup-size="md"
-        value="{{ old('detail_waktu', @$data->waktu_pelaksanaan ?? 
+        value="{{ old('detail_waktu', @$data->waktu_pelaksanaan ??
         \Carbon\Carbon::now()->format('H:i')) }}">
-        
+
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
                 <i class="fas fa-clock text-muted"></i>
@@ -80,9 +80,9 @@
                 <tbody>
                 <tr>
                     <td>
-                        <select id="flock_id" name="treatment[0][flock_id]" 
+                        <select id="flock_id" name="treatment[0][flock_id]"
                         class="form-control" style="max-width: 200px;">
-                        <option value="">-- Pilih Flock --</option>  
+                        <option value="">-- Pilih Flock --</option>
                         </select>
                     </td>
                     <td>
@@ -94,7 +94,7 @@
                     </td>
 
                     <td>
-                        <select name="treatment[0][metode_pemberian_id]" class="">
+                        <select name="treatment[0][metode_pemberian_id]" class="form-control">
                             @foreach ($metodeTreatment as $item)
                             <option value="{{ $item->id }}">{{ $item->nama }}</option>
                             @endforeach
@@ -171,7 +171,7 @@
                 </td>
 
                 <td>
-                    <input type="text" name="treatment[${index}][dosis]" 
+                    <input type="text" name="treatment[${index}][dosis]"
                     class="form-control" placeholder="Dosis...">
                 </td>
 

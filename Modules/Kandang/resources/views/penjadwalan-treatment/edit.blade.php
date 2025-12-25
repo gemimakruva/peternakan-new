@@ -34,16 +34,15 @@
                     <div class="card-body">
                         @include('kandang::penjadwalan-treatment._form_edit', ['data' => $penjadwalan_treatment])
                     </div>
-                </div>
-                
-                {{-- Button Submit --}}
-                <div class="mt-4 d-flex justify-content-between px-3">
-                    <a href="{{ route('penjadwalan-treatment.index') }}" class="btn btn-secondary px-4 py-2">
-                        <i class="fas fa-arrow-left me-2"></i> Kembali
-                    </a>
-                    <button type="submit" class="btn btn-success px-4 py-2 shadow-sm">
-                        <i class="fas fa-save me-2"></i> {{ isset($data) ? 'Update' : 'Simpan' }}
-                    </button>
+                    {{-- Button Submit --}}
+                    <div class="mt-4 d-flex justify-content-between px-3">
+                        <a href="{{ route('penjadwalan-treatment.index') }}" class="btn btn-secondary px-4 py-2">
+                            <i class="fas fa-arrow-left me-2"></i> Kembali
+                        </a>
+                        <button type="submit" class="btn btn-success px-4 py-2 shadow-sm">
+                            <i class="fas fa-save me-2"></i> {{ isset($data) ? 'Update' : 'Simpan' }}
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>

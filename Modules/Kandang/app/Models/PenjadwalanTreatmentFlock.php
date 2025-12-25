@@ -36,7 +36,7 @@ class PenjadwalanTreatmentFlock extends Model
 
     public function metodeTreatment()
     {
-        return  $this->belongsTo(JenisTreatment::class,'metode_treatment_id','id');
+        return  $this->belongsTo(MetodeTreatment::class,'metode_treatment_id','id');
     }
 
      protected static function newFactory()
