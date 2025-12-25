@@ -417,9 +417,11 @@ Table monitoring_kesehatan {
   detail_kondisi_umum text
   nekropsi_jumlah_ayam integer
   tindakan_pengobatan text
-  tindakan_rekomendasi text
+  tindakan_rekomendasi_jangka_panjang text
+  tindakan_rekomendasi_jangka_pendek text
   evaluasi_efektivitas_pengobatan text
   evaluasi_catatan text
+  dokumentasi json
   created_at timestamp
   updated_at timestamp
 }

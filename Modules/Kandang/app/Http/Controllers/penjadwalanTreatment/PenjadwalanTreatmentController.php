@@ -23,8 +23,8 @@ class PenjadwalanTreatmentController extends Controller
                     'treatmentFlocks.flock',
                     'picUser',
                     'kandang'
-                )->latest();
-            
+                )->latest('tanggal');
+
 
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $query->whereBetween('tanggal', [$request->start_date, $request->end_date]);
@@ -34,11 +34,13 @@ class PenjadwalanTreatmentController extends Controller
             $query->whereDate('tanggal', '<=', $request->end_date);
         }
 
-    if ($request->filled('kandang_id')) {
-        $query->where('kandang_id', $request->kandang_id);
-    }
+        if ($request->filled('kandang_id')) {
+            $query->where('kandang_id', $request->kandang_id);
+        }
+
         $kandang = Kandang::latest()->get();
-       $data = $query->paginate(10)->withQueryString();
+        $data = $query->paginate(10)->withQueryString();
+
         return view('kandang::penjadwalan-treatment.index',
         compact('kandang','data'));
     }
@@ -69,28 +71,29 @@ class PenjadwalanTreatmentController extends Controller
                 'treatment.*.flock_id' => 'required|integer|exists:flock,id',
                 'treatment.*.jenis_treatment_id' => 'required|integer',
                 'treatment.*.metode_pemberian_id' => 'required|integer',
-                'treatment.*.dosis' => 'required|numeric|min:0',
-    ]);
+                'treatment.*.dosis' => 'required',
+                ]);
 
-    $userId = auth()->id();
+        $userId = auth()->id();
 
-    $PenjadwalaanTreatment = PenjadwalanTreatment::create([
-        'kandang_id' => $validated['kandang_id'],
-        'tanggal' => $validated['tanggal'],
-        'pic_user_id' => $userId,
-        'detail_waktu' => $validated['waktu_pelaksanaan']
-    ]);
-
-    foreach ($validated['treatment'] as $index => $t) {
-        PenjadwalanTreatmentFlock::create([
-            'penjadwalan_treatment_id' => $PenjadwalaanTreatment->id,
-            'flock_id'                 => $t['flock_id'],
-            'jenis_treatment_id'       => $t['jenis_treatment_id'],
-            'metode_treatment_id'      => $t['metode_pemberian_id'],
-            'dosis_pemberian'          => $t['dosis'],
+        $PenjadwalaanTreatment = PenjadwalanTreatment::create([
+            'kandang_id' => $validated['kandang_id'],
+            'tanggal' => $validated['tanggal'],
+            'pic_user_id' => $userId,
+            'detail_waktu' => $validated['waktu_pelaksanaan']
         ]);
-    }
-   return back()->with('success', 'Data berhasil disimpan.');
+
+        foreach ($validated['treatment'] as $index => $t) {
+            PenjadwalanTreatmentFlock::create([
+                'penjadwalan_treatment_id' => $PenjadwalaanTreatment->id,
+                'flock_id'                 => $t['flock_id'],
+                'jenis_treatment_id'       => $t['jenis_treatment_id'],
+                'metode_treatment_id'      => $t['metode_pemberian_id'],
+                'dosis_pemberian'          => $t['dosis'],
+            ]);
+        }
+
+        return back()->with('success', 'Data berhasil disimpan.');
 
     }
 
@@ -117,7 +120,7 @@ class PenjadwalanTreatmentController extends Controller
         'kandang'
     );
         $kandang = Kandang::latest()->get();
-        return view('kandang::penjadwalan-treatment.edit', 
+        return view('kandang::penjadwalan-treatment.edit',
         compact('penjadwalan_treatment', 'kandang','metodeTreatment','jenisTreatment'));
     }
 
@@ -133,7 +136,7 @@ class PenjadwalanTreatmentController extends Controller
         'treatment.*.flock_id' => 'required|integer|exists:flock,id',
         'treatment.*.jenis_treatment_id' => 'required|integer',
         'treatment.*.metode_pemberian_id' => 'required|integer',
-        'treatment.*.dosis' => 'required|numeric|min:0',
+        'treatment.*.dosis' => 'required',
     ]);
     // Update data utama
     $penjadwalan_treatment->update([
@@ -166,7 +169,7 @@ class PenjadwalanTreatmentController extends Controller
     public function destroy(PenjadwalanTreatment $penjadwalanTreatment)
     {
         try {
-            $penjadwalanTreatment->delete(); 
+            $penjadwalanTreatment->delete();
             return redirect()->route('penjadwalan-treatment.index')
                             ->with('success', 'Data berhasil dihapus!');
         } catch (\Exception $e) {
