@@ -12,11 +12,11 @@
     <div class="card-body pt-4">
         {{-- ===========================
             Input: Tanggal Pengadaan
-            Digunakan untuk input tanggal Pengadaan 
+            Digunakan untuk input tanggal Pengadaan
             Dilaksanakan
         ============================ --}}
         <div class="mb-4">
-            <x-adminlte-input 
+            <x-adminlte-input
                 name="tanggal"
                 label="Tanggal Pengadaan"
                 type="date"
@@ -45,7 +45,7 @@
                     $selectedKandangId = $data->distribusi->first()->pipe->flock->kandang->id;
                 }
             @endphp
-            <x-adminlte-select 
+            <x-adminlte-select
                 name="kandang_id_main"
                 label="Pilih Kandang"
                 id="kandangMainSelect"
@@ -61,7 +61,7 @@
 
                 <option selected disabled>Pilih Kandang...</option>
                 @foreach ($listKandang as $kandang)
-                    <option value="{{ $kandang->id }}" 
+                    <option value="{{ $kandang->id }}"
                         {{ $selectedKandangId == $kandang->id ? 'selected' : '' }}>
                         {{ $kandang->nama }}
                     </option>
@@ -70,11 +70,35 @@
         </div>
 
         {{-- ===========================
+            Input: Umur Ayam
+            Umur ayam saat datang
+        ============================ --}}
+        <div class="mb-4">
+            <x-adminlte-input
+                name="umur_ayam"
+                label="Umur Ayam (satuan minggu)"
+                type="number"
+                min="0"
+                placeholder="Masukkan umur ayam.."
+                :value="old('umur_ayam', @$data->umur_ayam)"
+                igroup-size="lg"
+                fgroup-class="col-12"
+                class="form-control form-control-lg py-3">
+
+               <x-slot name="prependSlot">
+                    <div class="input-group-text bg-white">
+                        <i class="fas fa-calendar-alt text-muted"></i>
+                    </div>
+                </x-slot>
+            </x-adminlte-input>
+        </div>
+
+        {{-- ===========================
             Input: Jumlah Ayam
             Jumlah ayam saat datang
         ============================ --}}
         <div class="mb-4">
-            <x-adminlte-input 
+            <x-adminlte-input
                 name="jumlah_ayam_datang"
                 label="Jumlah Ayam Datang"
                 type="number"
@@ -88,31 +112,7 @@
 
                <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
-                        <i class="fas fa-drumstick-bite text-muted"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-input>
-        </div>
-
-         {{-- ===========================
-            Input: Umur Ayam
-            Umur ayam saat datang
-        ============================ --}}
-        <div class="mb-4">
-            <x-adminlte-input 
-                name="umur_ayam"
-                label="Umur Ayam (satuan minggu)"
-                type="number"
-                min="0"
-                placeholder="Masukkan umur ayam.."
-                :value="old('umur_ayam', @$data->umur_ayam)"
-                igroup-size="lg"
-                fgroup-class="col-12"
-                class="form-control form-control-lg py-3">
-
-               <x-slot name="prependSlot">
-                    <div class="input-group-text bg-white">
-                        <i class="fas fa-drumstick-bite text-muted"></i>
+                        <i class="fas fa-truck text-muted"></i>
                     </div>
                 </x-slot>
             </x-adminlte-input>
@@ -123,9 +123,10 @@
             Jumlah Ayam sakit dari supplier
         ============================ --}}
         <div class="mb-4">
-            <x-adminlte-input 
+            <x-adminlte-input
                 name="jumlah_ayam_sakit"
                 label="Jumlah Ayam Sakit"
+                id="inputAyamSakit"
                 type="number"
                 min="0"
                 placeholder="Masukkan jumlah ayam sakit..."
@@ -136,7 +137,7 @@
 
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
-                       <i class="fas fa-drumstick-bite text-muted"></i>
+                       <i class="fas fa-thermometer-half text-muted"></i>
                     </div>
                 </x-slot>
             </x-adminlte-input>
@@ -147,7 +148,7 @@
             Jumlah Ayam mati dari supplier
         ============================ --}}
         <div class="mb-4">
-            <x-adminlte-input 
+            <x-adminlte-input
                 name="jumlah_ayam_mati"
                 label="Jumlah Ayam Mati"
                 id="inputAyamMati"
@@ -172,7 +173,7 @@
             Kondisi Ayam datang dari supplier
         ============================ --}}
         <div class="mb-4">
-            <x-adminlte-input 
+            <x-adminlte-input
                 name="kondisi_ayam"
                 label="Kondisi Ayam"
                 type="text"
