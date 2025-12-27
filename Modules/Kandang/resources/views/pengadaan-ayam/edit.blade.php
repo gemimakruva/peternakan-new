@@ -16,7 +16,7 @@
         {{-- Form Content --}}
           <div class="col-md-8">
               <form enctype="multipart/form-data"
-               action="{{ route('pengadaan-ayam.update', $pengadaan_ayam->id) }}" 
+               action="{{ route('pengadaan-ayam.update', $pengadaan_ayam->id) }}"
                method="post" id="form_pengadaan">
                  @method('PUT')
                  @csrf
@@ -33,9 +33,9 @@
                             <div class="row mb-4 p-2">
                                 <div class="col-md-4">
                                     <div class="info-box">
-                                        <span style="width: 50px" class="info-box-icon 
+                                        <span style="width: 50px" class="info-box-icon
                                         bg-warning">
-                                            <i class="fas fa-drumstick-bite"></i>
+                                            <i class="fas fa-truck"></i>
                                         </span>
                                         <div class="info-box-content">
                                             <span class="info-box-text">Ayam Datang</span>
@@ -48,12 +48,12 @@
                                 {{-- Ayam Mati --}}
                                <div class="col-md-4">
                                     <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon 
+                                            <span style="width: 50px" class="info-box-icon
                                             bg-warning">
-                                                <i class="fas fa-home"></i>
+                                                <i class="fas fa-skull"></i>
                                             </span>
                                             <div class="info-box-content">
-                                                <span style="font-size:15px" 
+                                                <span style="font-size:15px"
                                                 class="info-box-text">Ayam Mati</span>
                                                 <span class="info-box-number"
                                                 id="ayamMatiInfo">0</span>
@@ -61,15 +61,31 @@
                                         </div>
                                 </div>
 
+                                {{-- Ayam Sakit --}}
+                               <div class="col-md-4">
+                                    <div class="info-box">
+                                            <span style="width: 50px" class="info-box-icon
+                                            bg-warning">
+                                                <i class="fas fa-thermometer-half"></i>
+                                            </span>
+                                            <div class="info-box-content">
+                                                <span style="font-size:15px"
+                                                class="info-box-text">Ayam Sakit</span>
+                                                <span class="info-box-number"
+                                                id="ayamSakitInfo">0</span>
+                                            </div>
+                                        </div>
+                                </div>
+
                                 {{-- Ayam Masuk Kandang --}}
                                <div class="col-md-4">
                                     <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon 
+                                            <span style="width: 50px" class="info-box-icon
                                             bg-warning">
-                                                <i class="fas fa-home"></i>
+                                                <i class="fas fa-warehouse"></i>
                                             </span>
                                             <div class="info-box-content">
-                                                <span style="font-size:15px" 
+                                                <span style="font-size:15px"
                                                 class="info-box-text">Masuk Kandang</span>
                                                 <span class="info-box-number"
                                                 id="ayamMasukKandangInfo">0</span>
@@ -80,12 +96,12 @@
                                 {{-- Ayam Belum Masuk Kandang --}}
                                <div class="col-md-4">
                                     <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon 
+                                            <span style="width: 50px" class="info-box-icon
                                             bg-warning">
                                             <i class="fas fa-balance-scale"></i>
                                             </span>
                                             <div class="info-box-content">
-                                                <span style="font-size:15px" 
+                                                <span style="font-size:15px"
                                                 class="info-box-text">Sisa Ayam</span>
                                                 <span class="info-box-number"
                                                 id="AyamBelumMasukKandang">0</span>
@@ -105,13 +121,13 @@
                                         </h5>
                                     </div>
                                     <button type="button" data-toggle="modal" data-target=
-                                    "#modalDistribusi" 
+                                    "#modalDistribusi"
                                     class="btn btn-primary btn-sm" id="btnAddDistribusi">
                                         <i class="fas fa-plus me-1"></i> Tambah Distribusi
                                     </button>
                                 </div>
 
-                                <table  id="tableDistribusi" class="table table-bordered table-striped 
+                                <table  id="tableDistribusi" class="table table-bordered table-striped
                                 text-center align-middle">
                                     <thead class="bg-secondary text-white">
                                         <tr>
@@ -146,11 +162,11 @@
                             @include('kandang::pengadaan-ayam._form_documentation', ['data' => $pengadaan_ayam->dokumentasi])
                               {{-- card submit --}}
                             <div class="mt-4 d-flex justify-content-between px-3">
-                                <a href="" 
+                                <a href=""
                                 class="btn btn-secondary px-4 py-2">
                                     <i class="fas fa-arrow-left me-2"></i> Kembali
                                 </a>
-                                <button type="submit" 
+                                <button type="submit"
                                         class="btn btn-success px-4 py-2 shadow-sm">
                                     <i class="fas fa-save me-2"></i> Simpan
                                 </button>
@@ -180,7 +196,7 @@
                                 dari kandang
                             </li>
 
-                            <li class="mt-2"> 
+                            <li class="mt-2">
                                 <strong>Jumlah Ayam Datang</strong>
                                 <br class="text-center"> - Masukan jumlah keseluruhan ayam yang datang
                                 baik ayam sehat, ayam sakit maupun ayam mati
@@ -196,21 +212,21 @@
                                 Masukan jumlah ayam sakit pada saat proses pengadaan ayam
                             </li>
 
-                            <li class="mt-2"> 
+                            <li class="mt-2">
                                 <strong>Jumlah Ayam Mati</strong>
                                 <br class="text-center"> - Masukan jumlah ayam yang mati pada
                                 saat proses pengadaan ayam
                             </li>
 
-                             <li class="mt-2"> 
+                             <li class="mt-2">
                                 <strong>Kondisi Ayam</strong>
-                                <br class="text-center"> - Masukan kondisi rata rata kesuluhan 
+                                <br class="text-center"> - Masukan kondisi rata rata kesuluhan
                                 ayam yang datang dalam proses pengadaan ayam
                             </li>
 
-                             <li class="mt-2"> 
+                             <li class="mt-2">
                                 <strong>Catatan</strong>
-                                <br class="text-center"> - Masukan catatan yang diperlukan 
+                                <br class="text-center"> - Masukan catatan yang diperlukan
                                 dalam proses pengadaan ayam
                             </li>
 
@@ -222,10 +238,10 @@
                                 Petugas diharapkan melakukan input dengan benar
                                  dan teliti sesuai data yang tersedia.
                                 <br>
-                                - Jumlah ayam yang diinput tidak boleh melebihi kapasitas 
+                                - Jumlah ayam yang diinput tidak boleh melebihi kapasitas
                                 yang telah ditetapkan pada setiap Pipe.
                                 <br>
-                                - Setelah input distribusi dilakukan, sistem akan secara 
+                                - Setelah input distribusi dilakukan, sistem akan secara
                                 otomatis menghitung jumlah ayam yang
                                 belum masuk kandang
                             </li>
@@ -266,7 +282,7 @@
 </div>
 
 {{-- =================== MODAL FORM DISTRIBUSI ====================== --}}
-<div class="modal fade" id="modalDistribusi" tabindex="-1" role="dialog" 
+<div class="modal fade" id="modalDistribusi" tabindex="-1" role="dialog"
     aria-labelledby="modalDistribusiLabel"
     aria-hidden="true">
   <div class="modal-dialog modal-lg" role="document">
@@ -300,7 +316,7 @@
 
                 {{-- Pilih Flock --}}
                 <div >
-                    <x-adminlte-select id="flockSelect" name="flock_id" label="Flock" 
+                    <x-adminlte-select id="flockSelect" name="flock_id" label="Flock"
                         igroup-size="lg">
                         <x-slot name="prependSlot">
                             <div class="input-group-text bg-white">
@@ -313,7 +329,7 @@
 
                 {{-- Pilih Pipe --}}
                 <div >
-                <x-adminlte-select id="pipeSelect" name="pipe_id" 
+                <x-adminlte-select id="pipeSelect" name="pipe_id"
                 label="Pipe" igroup-size="lg">
                     <x-slot name="prependSlot">
                         <div class="input-group-text bg-white">
@@ -357,15 +373,16 @@
 @push('js')
 <script>
 
-    // {{-- CASCADING SELECT FORM FUNCTION  --}}
-
-$(document).ready(function(){
+        // {{-- CASCADING SELECT FORM FUNCTION  --}}
+        $(document).ready(function(){
         var kandangData = @json($listKandang);
         let editingId = null;
         let distribusiData = [];
         let count = 0;
         let selectedPipe = [];
         let TotalAyamDatang = 0;
+        let TotalAyamSakit = 0;
+        let TotalAyamMati = 0;
         let TotalMasukKandang = 0;
         let TotalBelumMasukKandang = 0;
 
@@ -439,7 +456,7 @@ $(document).ready(function(){
                                     currentEditPipe = editItem.pipe_id;
                                 }
                             }
-                            
+
                             if (!selectedPipe.includes(String(pipe.id)) || pipe.id == currentEditPipe) {
                                 pipeSelect.append(
                                     `<option value="${pipe.id}" data-kapasitas="${pipe.kapasitas}">
@@ -447,7 +464,7 @@ $(document).ready(function(){
                                     </option>`
                                 );
                             }
-                        
+
                         });
                     }
                 }
@@ -457,7 +474,7 @@ $(document).ready(function(){
        // {{-- SUBMITION TEMPORARY FUNCTION  --}}
         $('#formDistribusi').submit(function(e){
             e.preventDefault();
-            
+
             const kandangText = $('#kandangSelect option:selected').text();
             const flockText = $('#flockSelect option:selected').text();
             const pipeText = $('#pipeSelect option:selected').text();
@@ -465,10 +482,10 @@ $(document).ready(function(){
             const kandangId = $('#kandangSelect option:selected').val();
             const flockId = $('#flockSelect option:selected').val();
             const jumlah = $(this).find('input[name="jumlah_ayam"]').val();
-        
+
             if (editingId) {
                 const index = distribusiData.findIndex(item => item.id == editingId);
-                
+
                 if (index !== -1) {
                     if (distribusiData[index].pipe_id !== pipeId) {
                         selectedPipe = selectedPipe.filter(p => p !== distribusiData[index].pipe_id);
@@ -476,7 +493,7 @@ $(document).ready(function(){
                             selectedPipe.push(pipeId);
                         }
                     }
-                    
+
                     distribusiData[index] = {
                         id: editingId,
                         kandang: kandangText,
@@ -493,7 +510,7 @@ $(document).ready(function(){
                 if (!selectedPipe.includes(pipeId)) {
                     selectedPipe.push(pipeId);
                 }
-                    
+
                 distribusiData.push({
                     id: ++count,
                     kandang: kandangText,
@@ -505,23 +522,23 @@ $(document).ready(function(){
                     jumlah: jumlah
                 });
             }
-            
+
             $(this)[0].reset();
             $('#pipeSelect').empty().append('<option selected disabled>Pilih Pipe...</option>');
             $('#flockSelect').empty().append('<option selected disabled>Pilih Flock...</option>');
             $('#kandangSelect').empty().append('<option selected disabled>Pilih Kandang...</option>');
-            
+
             $('#modalDistribusi').modal('hide');
             setModalMode('add');
             renderTableDistribusi();
             updateAyamStatus();
         });
 
-    //  =============== FUNCTION RENDER TABEL ================
-    function renderTableDistribusi() {
-        var tbody = $('#tableDistribusi tbody');
-        tbody.empty();
-        
+         //  =============== FUNCTION RENDER TABEL ================
+        function renderTableDistribusi() {
+            var tbody = $('#tableDistribusi tbody');
+            tbody.empty();
+
         if (distribusiData.length === 0) {
             tbody.append(`
                 <tr>
@@ -532,7 +549,7 @@ $(document).ready(function(){
             `);
         } else {
             $.each(distribusiData, function(index, item) {
-                
+
                 var tr = `
                     <tr>
                         <td>${index + 1}</td>
@@ -541,15 +558,15 @@ $(document).ready(function(){
                         <td>${item.pipe}</td>
                         <td>${item.jumlah}</td>
                         <td>
-                            <button class="btn btn-sm btn-warning edit-btn" 
+                            <button class="btn btn-sm btn-warning edit-btn"
                                 type="button"
-                                data-id="${item.id}" 
+                                data-id="${item.id}"
                                 data-kandang="${item.kandang_id}"
                                 data-flock="${item.flock_id}"
                                 data-pipe="${item.pipe_id}"
                                 data-jumlah="${item.jumlah}">
                                 <i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-danger delete-btn" 
+                            <button class="btn btn-sm btn-danger delete-btn"
                                 data-id="${item.id}">
                                 <i class="fas fa-trash"></i></button>
                         </td>
@@ -567,7 +584,7 @@ $(document).ready(function(){
 
         if(inputJumlah > kapasitasPipe){
             $(this).addClass('is-invalid');
-            $('#jumlah_ayam_feedback').remove(); 
+            $('#jumlah_ayam_feedback').remove();
             $(this).
             after('<div id="jumlah_ayam_feedback" class="invalid-feedback">Jumlah melebihi kapasitas pipe ('
                 +kapasitasPipe+')</div>');
@@ -577,21 +594,71 @@ $(document).ready(function(){
         }
     });
 
+    // ===== FUNCTION REFRESH PIPE SELECT ===========
+    function refreshPipeSelect() {
+        var kandangId = $('#kandangSelect').val();
+        var flockId = $('#flockSelect').val();
+        var pipeSelect = $('#pipeSelect');
+
+        if (!flockId || !kandangId) return;
+
+        var kandang = kandangData.find(k => k.id == kandangId);
+        if (!kandang) return;
+
+        var flock = kandang.flocks.find(f => f.id == flockId);
+        if (!flock || !flock.pipes.length) return;
+
+        // Simpan nilai yang sedang dipilih (jika ada)
+        var currentValue = pipeSelect.val();
+
+        pipeSelect.empty().append('<option selected disabled>Pilih Pipe...</option>');
+
+        $.each(flock.pipes, function(i, pipe){
+            var currentEditPipe = null;
+            if (editingId) {
+                var editItem = distribusiData.find(d => d.id == editingId);
+                if (editItem) {
+                    currentEditPipe = String(editItem.pipe_id);
+                }
+            }
+
+            // Tampilkan pipe jika tidak ada di selectedPipe ATAU sedang di-edit
+            if (!selectedPipe.includes(String(pipe.id)) || String(pipe.id) === currentEditPipe) {
+                pipeSelect.append(
+                    `<option value="${pipe.id}" data-kapasitas="${pipe.kapasitas}">
+                        ${pipe.nama} (Kapasitas: ${pipe.kapasitas})
+                    </option>`
+                );
+            }
+        });
+
+        // Restore nilai jika masih valid
+        if (currentValue && pipeSelect.find(`option[value="${currentValue}"]`).length > 0) {
+            pipeSelect.val(currentValue);
+        }
+    }
+
     //  ====== FUNCTION DELEGATIN FOR DELETE DATA ========
     $(document).on('click', '.delete-btn', function() {
          var id = $(this).data('id');
          var item = distribusiData.find(d => d.id == id);
+
          if (item) {
              selectedPipe = selectedPipe.filter(p => p !== item.pipe_id);
          }
          distribusiData = distribusiData.filter(item => item.id != id);
          renderTableDistribusi();
          updateAyamStatus();
+
+         // REFRESH DROPDOWN PIPE jika modal sedang terbuka
+        if ($('#modalDistribusi').hasClass('show')) {
+        refreshPipeSelect();
+        }
     })
 
     // ===== SUBMIT DISTRIBUTION DATA INTO REQUEST CONTROLLER ======
     $('#form_pengadaan').submit(function(e){
-        e.preventDefault(); 
+        e.preventDefault();
         $('#distribusi_json').val(JSON.stringify(distribusiData));
         this.submit();
     });
@@ -601,7 +668,7 @@ $(document).ready(function(){
         TotalAyamDatang = parseInt($(this).val()) || 0;
         $('#ayamDatangInfo').text(TotalAyamDatang.toLocaleString('id-ID'));
         updateAyamStatus();
-    }); 
+    });
 
     $('#inputAyamMati').on('input', function () {
         let TotalAyamMati = parseInt($(this).val()) || 0;
@@ -609,14 +676,25 @@ $(document).ready(function(){
         updateAyamStatus();
     });
 
+    $('#inputAyamSakit').on('input', function () {
+        let TotalAyamSakit = parseInt($(this).val()) || 0;
+        $('#ayamSakitInfo').text(TotalAyamSakit.toLocaleString('id-ID'));
+        updateAyamStatus();
+    });
+
     function updateAyamStatus() {
+        // Baca nilai terbaru dari input form
+        TotalAyamDatang = parseInt($('#inputAyamDatang').val()) || 0;
+        TotalAyamMati = parseInt($('#inputAyamMati').val()) || 0;
+        TotalAyamSakit = parseInt($('#inputAyamSakit').val()) || 0;
+
         TotalMasukKandang = 0;
 
         $.each(distribusiData, function (index, item) {
             TotalMasukKandang += parseInt(item.jumlah) || 0;
         });
 
-        TotalBelumMasukKandang = TotalAyamDatang - (TotalAyamMati + TotalMasukKandang);
+        TotalBelumMasukKandang = TotalAyamDatang - (TotalAyamMati + TotalAyamSakit + TotalMasukKandang);
 
         $('#ayamMasukKandangInfo').text(TotalMasukKandang.toLocaleString('id-ID'));
         $('#AyamBelumMasukKandang').text(TotalBelumMasukKandang.toLocaleString('id-ID'));
@@ -631,25 +709,25 @@ $(document).ready(function(){
             $('#formDistribusi button[type="submit"]').html('<i class="fas fa-save me-1"></i> Simpan');
             editingId = null;
         }
-    } 
+    }
 
     $(document).on('click', '.edit-btn', function() {
         editingId = $(this).data('id');
         const item = distribusiData.find(d => d.id == editingId);
-        
+
         if (item) {
             setModalMode('edit');
             $('#kandangSelect').val(item.kandang_id).prop('disabled', true).trigger('change');
-            
+
             setTimeout(() => {
                 $('#flockSelect').val(item.flock_id).trigger('change');
-                
+
                 setTimeout(() => {
                     $('#pipeSelect').val(item.pipe_id);
                     $('#jumlah_ayam').val(item.jumlah);
                 }, 100);
             }, 100);
-            
+
             $('#modalDistribusi').modal('show');
         }
     });
@@ -670,9 +748,11 @@ $(document).ready(function(){
     // LOAD INITIAL AYAM DATANG VALUE
     @if(isset($pengadaan_ayam))
         TotalAyamDatang = {{ $pengadaan_ayam->jumlah_ayam_datang }};
-        var TotalAyamMati = {{ $pengadaan_ayam->jumlah_ayam_mati }};
+        TotalAyamMati = {{ $pengadaan_ayam->jumlah_ayam_mati }};
+        TotalAyamSakit = {{ $pengadaan_ayam->jumlah_ayam_sakit }};
         $('#ayamDatangInfo').text(TotalAyamDatang.toLocaleString('id-ID'));
         $('#ayamMatiInfo').text(TotalAyamMati.toLocaleString('id-ID'));
+        $('#ayamSakitInfo').text(TotalAyamSakit.toLocaleString('id-ID'));
         updateAyamStatus();
     @endif
 
