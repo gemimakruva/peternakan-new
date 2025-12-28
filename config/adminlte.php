@@ -754,9 +754,22 @@ return [
 
         [
             'text'  => 'Vaksin Minum',
-            'route' => '',
             'icon'  => 'fas fa-clipboard-list',
             'can'   => 'Lihat Rekapan Pakan Harian',
+            'submenu' => [
+                [
+                    'text'  => 'List Data Vaksin Minum',
+                    'route' => 'vaksin-minum.index',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat list data vaksin minum',
+                ],
+                [
+                    'text'  => 'Form Vaksin Minum',
+                    'route' => 'vaksin-minum.create',
+                    'icon'  => 'fas fa-plus',
+                    'can'   => 'Lihat list data vaksin minum',
+                ],
+            ],
         ],
 
         [
