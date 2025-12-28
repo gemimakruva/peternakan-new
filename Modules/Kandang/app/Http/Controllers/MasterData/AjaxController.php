@@ -319,4 +319,21 @@ class AjaxController extends Controller
             'data'    => $data
         ]);
     }
+
+    public function getJumlahAyamPerKandang(Request $request)
+    {
+        $jumlahAyam = pengadaanAyamDistribusi::whereHas('pengadaanAyam', function ($q) use ($request) {
+                $q->whereDate('tanggal', $request->tanggal);
+            })
+            ->whereHas('pipe.flock.kandang', function ($q) use ($request) {
+                $q->where('id', $request->kandang_id);
+            })
+            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
+            ->value('pengadaan_ayam.jumlah_ayam_masuk_kandang');
+
+        return response()->json([
+            'jumlah_ayam' => $jumlahAyam ?? 0,
+        ]);
+    }
+
 }

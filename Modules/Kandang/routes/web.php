@@ -22,6 +22,7 @@ use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
+use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
 use Modules\Kandang\Http\Controllers\treatment\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\treatment\MetodeTreatmentController;
 
@@ -60,7 +61,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('ajax/umur-ayam-by-kandang/{kandangId}', [AjaxController::class, 'umurAyamByKandang'])->name('ajax.umur_ayam_by_kandang');
         Route::get('ajax/jumlah-ayam-sehat/{tanggal}', [AjaxController::class, 'jumlahAyamSehat'])->name('ajax.jumlah_ayam_sehat');
         Route::get('ajax/karantina-populasi/{kandangId}/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
+        Route::get('ajax/jumlah-ayam-per-kandang', [AjaxController::class, 'getJumlahAyamPerKandang'])->name('ajax.jumlah_ayam_per_kandang');
     });
+    Route::resource('vaksin-minum', VaksinMinumController::class)->names('vaksin-minum');
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
     Route::get('populasi-ayam/summary', [PopulasiAyamController::class, 'getSummary'])->name('populasi-ayam.summary');
     Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
