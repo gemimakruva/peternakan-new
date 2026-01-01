@@ -371,6 +371,9 @@
   </div>
 </div>
 @push('js')
+<script src="/vendor/jquery/jquery.min.js"></script>
+<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="/vendor/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <script>
 
         // {{-- CASCADING SELECT FORM FUNCTION  --}}
@@ -398,7 +401,8 @@
                     pipe: "{{ $dist->pipe->nama }}",
                     pipe_id: {{ $dist->pipe_id }},
                     jumlah: {{ $dist->jumlah_ayam }},
-                    isExisting: true
+                    isEditable: @js($dist->populasiAyam === null),
+                    isExisting: true,
                 });
                 selectedPipe.push("{{ $dist->pipe_id }}");
             @endforeach
@@ -475,6 +479,10 @@
         $('#formDistribusi').submit(function(e){
             e.preventDefault();
 
+            if (confirm("Anda yakin akan dihapus. Tekan ya yakin?")) {
+                console.log('Menghapus data distribusi yang dipilih');
+            }
+
             const kandangText = $('#kandangSelect option:selected').text();
             const flockText = $('#flockSelect option:selected').text();
             const pipeText = $('#pipeSelect option:selected').text();
@@ -524,9 +532,9 @@
             }
 
             $(this)[0].reset();
-            $('#pipeSelect').empty().append('<option selected disabled>Pilih Pipe...</option>');
-            $('#flockSelect').empty().append('<option selected disabled>Pilih Flock...</option>');
-            $('#kandangSelect').empty().append('<option selected disabled>Pilih Kandang...</option>');
+            // $('#pipeSelect').empty().append('<option selected disabled>Pilih Pipe...</option>');
+            // $('#flockSelect').empty().append('<option selected disabled>Pilih Flock...</option>');
+            // $('#kandangSelect').empty().append('<option selected disabled>Pilih Kandang...</option>');
 
             $('#modalDistribusi').modal('hide');
             setModalMode('add');
@@ -564,10 +572,12 @@
                                 data-kandang="${item.kandang_id}"
                                 data-flock="${item.flock_id}"
                                 data-pipe="${item.pipe_id}"
-                                data-jumlah="${item.jumlah}">
+                                data-jumlah="${item.jumlah}"
+                                ${item.isEditable ? '' : 'disabled'}>
                                 <i class="fas fa-edit"></i></button>
                             <button class="btn btn-sm btn-danger delete-btn"
-                                data-id="${item.id}">
+                                data-id="${item.id}"
+                                ${item.isEditable ? '' : 'disabled'}>
                                 <i class="fas fa-trash"></i></button>
                         </td>
                     </tr>

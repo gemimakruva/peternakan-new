@@ -24,6 +24,11 @@ class PopulasiAyam extends Model
         'catatan',
     ];
 
+    public function karantinaPopulasiPipe()
+    {
+        return $this->hasOne(KarantinaPopulasiPipe::class, 'populasi_ayam_asal_id', 'id');
+    }
+
     public function pengadaanDistribusi()
     {
         return $this->belongsTo(PengadaanAyamDistribusi::class, 'pengadaan_ayam_distribusi_id');
