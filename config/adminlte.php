@@ -320,7 +320,6 @@ return [
             'text'         => 'search',
             'topnav_right' => true,
         ],
-
         [
             'type'         => 'fullscreen-widget',
             'topnav_right' => true,
@@ -331,19 +330,11 @@ return [
             'type' => 'sidebar-menu-search',
             'text' => 'search',
         ],
-
         [
             'text'  => 'Home',
             'route' => 'home',
             'icon'  => 'fas fa-fw fa-home',
         ],
-        // [
-        //     'text' => 'pages',
-        //     'url' => 'admin/pages',
-        //     'icon' => 'far fa-fw fa-file',
-        //     'label' => 4,
-        //     'label_color' => 'success',
-        // ],
         // ==================== MASTER DATA ==========================
         [
             'header' => 'Master Data',
@@ -357,75 +348,73 @@ return [
             ],
         ],
         [
-            'text'  => 'List Peternakan',
-            'route' => 'master-data.peternakan.index',
-            'icon'  => 'bi bi-house-fill',
-            'can'   => 'Lihat List Peternakan',
+            'text'    => 'Master Data',
+            'icon'    => 'fas fa-home',
+            'can'     => [
+                'Lihat Semua Kandang',
+                'Lihat Semua Flock',
+                'Lihat Semua Pipe',
+                'Lihat Pengadaan Kandang',
+                'Lihat Riwayat Kandang',
+                'Lihat Standar Produksi',
+            ],
+            'submenu' => [
+                [
+                    'text'  => 'List Peternakan',
+                    'route' => 'master-data.peternakan.index',
+                    'icon'  => 'bi bi-house-fill',
+                    'can'   => 'Lihat List Peternakan',
+                ],
+                [
+                    'text'  => 'Strain Ayam',
+                    'route' => 'master-data.strain-ayam.index',
+                    'icon'  => 'fas fa-solid fa-industry',
+                    'can'   => 'Lihat Standar Produksi',
+                ],
+                [
+                    'text'  => 'List Kandang',
+                    'route' => 'master-data.kandang.index',
+                    'icon'  => 'bi bi-house-fill',
+                    'can'   => 'Lihat Semua Kandang',
+                ],
+                [
+                    'text'  => 'List Baris',
+                    'route' => 'master-data.flock.index',
+                    'icon'  => 'bi bi-box-seam',
+                    'can'   => 'Lihat Semua Flock',
+                ],
+                [
+                    'text'  => 'List Pipa',
+                    'route' => 'master-data.pipe.index',
+                    'icon'  => 'bi bi-diagram-3',
+                    'can'   => 'Lihat Semua Pipe',
+                ],
+                [
+                    'text'  => 'Jenis Pakan',
+                    'route' => 'master-data.jenis-pakan.index',
+                    'icon'  => 'bi-leaf-fill',
+                    'can'   => 'Lihat Semua Pipe',
+                ],
+                [
+                    'text'  => 'Jenis Disinfektan',
+                    'route' => 'master-data.jenis-disinfectan.index',
+                    'icon'  => 'fas fa-clipboard-list',
+                    'can'   => 'Lihat Rekapan Pakan Harian',
+                ],
+                [
+                    'text'  => 'Jenis Treatment',
+                    'route' => 'master-data.jenis-treatment.index',
+                    'icon'  => 'fas fa-prescription-bottle-alt',
+                    'can'   => 'Lihat Jenis Treatment',
+                ],
+                [
+                    'text'  => 'Metode Treatment',
+                    'route' => 'master-data.metode-treatment.index',
+                    'icon'  => 'fas fa-vials',
+                    'can'   => 'Lihat Metode Treatment',
+                ],
+            ],
         ],
-        [
-            'text'  => 'Strain Ayam',
-            'route' => 'master-data.strain-ayam.index',
-            'icon'  => 'fas fa-solid fa-industry',
-            'can'   => 'Lihat Standar Produksi',
-        ],
-        [
-            'text'  => 'List Kandang',
-            'route' => 'master-data.kandang.index',
-            'icon'  => 'bi bi-house-fill',
-            'can'   => 'Lihat Semua Kandang',
-        ],
-        [
-            'text'  => 'List Baris',
-            'route' => 'master-data.flock.index',
-            'icon'  => 'bi bi-box-seam',
-            'can'   => 'Lihat Semua Flock',
-        ],
-        [
-            'text'  => 'List Pipa',
-            'route' => 'master-data.pipe.index',
-            'icon'  => 'bi bi-diagram-3',
-            'can'   => 'Lihat Semua Pipe',
-        ],
-        [
-            'text'  => 'Jenis Pakan',
-            'route' => 'master-data.jenis-pakan.index',
-            'icon'  => 'bi-leaf-fill',
-            'can'   => 'Lihat Semua Pipe',
-        ],
-
-        [
-            'text'  => 'Jenis Disinfektan',
-            'route' => 'master-data.jenis-disinfectan.index',
-            'icon'  => 'fas fa-clipboard-list',
-            'can'   => 'Lihat Rekapan Pakan Harian',
-        ],
-
-        [
-            'text'  => 'Jenis Treatment',
-            'route' => 'master-data.jenis-treatment.index',
-            'icon'  => 'fas fa-prescription-bottle-alt',
-            'can'   => 'Lihat Jenis Treatment',
-        ],
-
-        [
-            'text'  => 'Metode Treatment',
-            'route' => 'master-data.metode-treatment.index',
-            'icon'  => 'fas fa-vials',
-            'can'   => 'Lihat Metode Treatment',
-        ],
-
-        // [
-        //     'text' => 'Flock',
-        //     'route' => 'master-data.flock.index',
-        //     'icon' => 'fas fa-fw fa-cube',
-        //     'can' => 'Lihat Semua Flock',
-        // ],
-        // [
-        //     'text' => 'Pipe',
-        //     'route' => 'master-data.pipe.index',
-        //     'icon' => 'fas fa-fw fa-cube',
-        //     'can' => 'Lihat Semua Pipe',
-        // ],
 
         // ==================== RIWAYAT KESELURUHAN ==========================
         [
@@ -510,38 +499,46 @@ return [
             ],
         ],
         [
-            'text'  => 'Overview',
-            'route' => 'ayam-karantina.overview',
-            'icon'  => 'fas fa-clipboard-check',
-            'can'   => 'Lihat Pengadaan Kandang',
+            'text'    => 'Ayam Karantina',
+            'icon'    => 'fas fa-home',
+            'can'     => [
+                'Lihat Pengadaan Kandang',
+                'Lihat Riwayat Kandang',
+            ],
+            'submenu' => [
+                [
+                    'text'  => 'Overview',
+                    'route' => 'ayam-karantina.overview',
+                    'icon'  => 'fas fa-clipboard-check',
+                    'can'   => 'Lihat Pengadaan Kandang',
+                ],
+                [
+                    'text'  => 'Form Ayam Karantina',
+                    'route' => 'ayam-karantina.create',
+                    'icon'  => 'fas fa-plus-circle',
+                    'can'   => 'Lihat Pengadaan Kandang',
+                ],
+                [
+                    'text'  => 'Riwayat Karantina',
+                    'route' => 'ayam-karantina.index',
+                    'icon'  => 'fas fa-history',
+                    'can'   => 'Lihat Riwayat Kandang',
+                ],
+                [
+                    'text'  => 'Ayam Masuk Karantina',
+                    'route' => 'ayam-karantina.masuk',
+                    'icon'  => 'fas fa-arrow-right',
+                    'can'   => 'Lihat Riwayat Kandang',
+                ],
+                [
+                    'text'  => 'Ayam Keluar Karantina',
+                    'route' => 'ayam-karantina.keluar',
+                    'icon'  => 'fas fa-arrow-left',
+                    'can'   => 'Lihat Riwayat Kandang',
+                ],
+            ]
         ],
-        [
-            'text'  => 'Form Ayam Karantina',
-            'route' => 'ayam-karantina.create',
-            'icon'  => 'fas fa-plus-circle',
-            'can'   => 'Lihat Pengadaan Kandang',
-        ],
-
-        [
-            'text'  => 'Riwayat Karantina',
-            'route' => 'ayam-karantina.index',
-            'icon'  => 'fas fa-history',
-            'can'   => 'Lihat Riwayat Kandang',
-        ],
-
-        [
-            'text'  => 'Ayam Masuk Karantina',
-            'route' => 'ayam-karantina.masuk',
-            'icon'  => 'fas fa-arrow-right',
-            'can'   => 'Lihat Riwayat Kandang',
-        ],
-
-        [
-            'text'  => 'Ayam Keluar Karantina',
-            'route' => 'ayam-karantina.keluar',
-            'icon'  => 'fas fa-arrow-left',
-            'can'   => 'Lihat Riwayat Kandang',
-        ],
+        
 
         // ====================   PEMBERIAN PAKAN  ==========================
         [
@@ -598,6 +595,7 @@ return [
             'icon'  => 'fas fa-clipboard-list',
             'can'   => 'Lihat Rekapan Pakan Harian',
         ],
+
         // ====================   RECORDING PRODUKSI TELUR  ==================
         [
             'header' => 'Recording Telur',
@@ -654,27 +652,25 @@ return [
                 'Lihat Rekapan Pakan Harian',
             ],
         ],
-
         [
             'text'  => 'Treatment',
             'icon'  => 'fas fa-calendar-alt',
             'can'   => 'Lihat Pengadaan Kandang',
             'submenu' =>[
-                 [
+                [
                     'text'  => 'Form Treatment',
                     'route' => 'penjadwalan-treatment.create',
                     'icon'  => 'fas fa-plus',
                     'can'   => 'membuat jadwal treatment',
                 ],
-                 [
+                [
                     'text'  => 'Jadwalan Treatment',
                     'route' => 'penjadwalan-treatment.index',
-                   'icon'  => 'fas fa-calendar',   
+                    'icon'  => 'fas fa-calendar',   
                     'can'   => 'Melihat jadwal treatment',
                 ],
             ]
         ],
-
         [
             'text'  => 'Disinfektan',
             'icon'  => 'fas fa-calendar-alt',
@@ -696,7 +692,6 @@ return [
         ],
 
         // ====================   Perhitungan Obat  =================
-
         [
             'header' => 'Perhitungan Obat',
             'can'    => [
@@ -706,7 +701,6 @@ return [
                 'Lihat Rekapan Pakan Harian',
             ],
         ],
-
         [
             'text'  => 'OVK via Pakan',
             'icon'  => 'fas fa-clipboard-list',
@@ -728,30 +722,25 @@ return [
               
             ],
         ],
-
         [
             'text'  => 'Order OVK',
             'icon'  => 'fas fa-clipboard-list',
             'can'   => 'Lihat Rekapan Pakan Harian',
-             'submenu' => [
+            'submenu' => [
                 [
                     'text'  => 'List Order ',
                     'route' => 'order-ovk.index',
                     'icon' => 'fas fa-clipboard-list',
                     'can'   => 'Request order bahan untuk OVK ',
                 ],
-                  
                 [
                     'text'  => 'Form Order',
                     'route' => 'order-ovk.create',
                     'icon'  => 'fas fa-plus',
                     'can'   => 'tambah list penjadwalan disinfektan',
                 ],
-              
             ],
         ],
-
-
         [
             'text'  => 'Vaksin Minum',
             'icon'  => 'fas fa-clipboard-list',
@@ -792,14 +781,12 @@ return [
                 ],
             ],
         ],
-
         [
             'text'  => 'Bahan Treatment',
             'route' => '',
             'icon'  => 'fas fa-vials',
             'can'   => 'Lihat Rekapan Pakan Harian',
         ],
-
         [
             'text'  => 'Form Pelaksanaan',
             'route' => '',
@@ -808,7 +795,6 @@ return [
         ],
 
         // ====================   Monitoring Kesehatan  ========================
-
         [
             'header' => 'Monitoring Kesehatan',
             'can'    => [
@@ -818,7 +804,6 @@ return [
                 'Lihat Rekapan Pakan Harian',
             ],
         ],
-
         [
             'text'  => 'Form Monitoring',
             'route' => 'monitoring-kesehatan.create',
@@ -853,71 +838,6 @@ return [
             'icon'  => 'fas fa-fw fa-cube',
             'can'   => 'Lihat Semua Role',
         ],
-        // ['header' => 'account_settings'],
-        // [
-        //     'text' => 'profile',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-user',
-        // ],
-        // [
-        //     'text' => 'change_password',
-        //     'url' => 'admin/settings',
-        //     'icon' => 'fas fa-fw fa-lock',
-        // ],
-        // [
-        //     'text' => 'multilevel',
-        //     'icon' => 'fas fa-fw fa-share',
-        //     'submenu' => [
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //             'submenu' => [
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                 ],
-        //                 [
-        //                     'text' => 'level_two',
-        //                     'url' => '#',
-        //                     'submenu' => [
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                         [
-        //                             'text' => 'level_three',
-        //                             'url' => '#',
-        //                         ],
-        //                     ],
-        //                 ],
-        //             ],
-        //         ],
-        //         [
-        //             'text' => 'level_one',
-        //             'url' => '#',
-        //         ],
-        //     ],
-        // ],
-        // ['header' => 'labels'],
-        // [
-        //     'text' => 'important',
-        //     'icon_color' => 'red',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'warning',
-        //     'icon_color' => 'yellow',
-        //     'url' => '#',
-        // ],
-        // [
-        //     'text' => 'information',
-        //     'icon_color' => 'cyan',
-        //     'url' => '#',
-        // ],
     ],
 
     /*
