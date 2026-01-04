@@ -63,37 +63,29 @@
                     }
                 }">
                 
-                <div class="mx-200">
-                    <div class="input-group">
-                        <select 
-                            id="peternakanFilter"
-                            name="peternakan_id" 
-                            class="form-control"
-                            x-model="selectedPeternakan"
-                            @change="onPeternakanChange()">
-                            <option value="">Semua Peternakan</option>
-                            <template x-for="item in peternakanData" :key="item.id">
-                                <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
-                            </template>
-                        </select>
-                    </div>
-                </div>
-    
-                <div class="mx-200">
-                    <div class="input-group">
-                        <select 
-                            id="kandangFilter"
-                            name="kandang_id" 
-                            class="form-control"
-                            x-model="selectedKandang"
-                            :disabled="!selectedPeternakan">
-                            <option value="">Semua Kandang</option>
-                            <template x-for="kandang in kandangList" :key="kandang.id">
-                                <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
-                            </template>
-                        </select>
-                    </div>
-                </div>
+                <select 
+                    id="peternakanFilter"
+                    name="peternakan_id" 
+                    class="form-control mx-200"
+                    x-model="selectedPeternakan"
+                    @change="onPeternakanChange()">
+                    <option value="">Semua Peternakan</option>
+                    <template x-for="item in peternakanData" :key="item.id">
+                        <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
+                    </template>
+                </select>
+                
+                <select 
+                    id="kandangFilter"
+                    name="kandang_id" 
+                    class="form-control mx-200"
+                    x-model="selectedKandang"
+                    :disabled="!selectedPeternakan">
+                    <option value="">Semua Kandang</option>
+                    <template x-for="kandang in kandangList" :key="kandang.id">
+                        <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
+                    </template>
+                </select>
     
                 <div>
                     <button type="submit" class="btn btn-primary btn-block">

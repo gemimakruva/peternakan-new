@@ -86,14 +86,6 @@ class PipeController extends Controller
     }
 
     /**
-     * Menampilkan detail satu Pipe (opsional).
-     */
-    public function show($id)
-    {
-        return view('kandang::master-data.pipe.show');
-    }
-
-    /**
      * Menampilkan form edit Pipe berdasarkan ID.
      */
     public function edit(Pipe $pipe)
@@ -109,18 +101,17 @@ class PipeController extends Controller
     public function update(Request $request, Pipe $pipe)
     {
         Gate::authorize('Edit Pipe');
+
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
-            'kapasitas' => ['required', 'numeric', 'min:0'],
+            'kapasitas' => ['required', 'numeric', 'min:1'],
         ]);
 
         try {
             $pipe->update($validated);
-           return redirect()->route('master-data.pipe.byFlock', $pipe->flock_id)
-            ->with('success', 'Data Pipe berhasil diperbarui!');
+            return to_route('master-data.pipe.index')->with('success', 'Data Pipe berhasil diperbarui.');
         } catch (\Exception $e) {
-            // Tangkap error jika terjadi masalah
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data Pipe.');
+            return redirect()->back()->with('danger', 'Terjadi kesalahan saat memperbarui data Pipe.');
         }
     }
 
@@ -134,30 +125,12 @@ class PipeController extends Controller
         Gate::authorize('Hapus Pipe');
         
         if($this->pipe->pengadaanAyamDistribusi()->exists()) {
-            return redirect()
-                ->route('master-data.pipe.index')
+            return to_route('master-data.pipe.index')
                 ->with('error', 'Tidak dapat menghapus Pipa yang memiliki Pengadaan Ayam Distribusi.');
         }
 
         $pipe->delete();
 
-        return to_route('master-data.pipe.index')
-            ->with('danger', 'Data Pipe berhasil dihapus.');
-    }
-
-
-      public function destroyByFlock(Pipe $pipe)
-    {
-        Gate::authorize('Hapus Pipe');
-        $flockId = $pipe->flock_id;
-        $pipe->delete();
-        try {
-        $pipe->delete();
-        return redirect()->route('master-data.flock.pipes', $flockId)
-            ->with('success', 'Data Pipe berhasil dihapus.');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 
-            'Terjadi kesalahan saat menghapus data Pipe.');
-    }
+        return to_route('master-data.pipe.index')->with('success', 'Data Pipe berhasil dihapus.');
     }
 }

@@ -42,9 +42,7 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('flock', FlockController::class)->names('flock');
         Route::resource('flock.pipe', FlockPipeController::class)->names('flock.pipe')->only(['edit', 'update', 'destroy']);
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
-        
-        // Route::delete('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'destroyByFlock'])->name('pipe.destroyByFlock');
-        
+
         Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
         Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
         Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
