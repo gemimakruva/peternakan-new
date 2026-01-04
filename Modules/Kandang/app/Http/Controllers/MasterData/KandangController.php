@@ -4,10 +4,13 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
+use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Peternakan;
+use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\Strain;
 
 class KandangController extends Controller
@@ -17,6 +20,8 @@ class KandangController extends Controller
      */
     public function __construct(
         private Kandang $kandang,
+        private Flock $flock,
+        private Pipe $pipe,
     ) { }
 
     /**
@@ -56,20 +61,61 @@ class KandangController extends Controller
     {
         Gate::authorize('Tambah Kandang');
 
-        $validated = $request->validate([
-            'nama'   => ['required', 'string', 'max:255'],
+        $request->validate([
+            'nama' => ['required', 'string', 'max:255'],
             'peternakan_id' => ['required', 'integer'],
             'strain_id' => ['required', 'integer'],
+            'nama_baris' => ['nullable', 'string', 'max:255'],
+            'banyak_baris' => ['nullable', 'integer', 'min:1'],
+            'nama_pipa' => ['nullable', 'string', 'max:255'],
+            'banyak_pipa_per_baris' => ['nullable', 'string', 'min:1'],
+            'kapasitas_pipa' => ['nullable', 'integer', 'min:1'],
         ]);
 
+        DB::beginTransaction();
         try{
-            $this->kandang->create($validated);
-            return to_route('master-data.kandang.index')
-                ->with('success', 'Data Berhasil Ditambahkan.');   
-                
+            $kandang = $this->kandang->create($request->only([
+                'nama',
+                'peternakan_id',
+                'strain_id',
+            ]));
+
+            $namaBaris = $request->input('nama_baris');
+            $banyakBaris = $request->integer('banyak_baris', 0);
+
+            $namaPipa = $request->input('nama_pipa');
+            $banyakPipaPerBaris = $request->integer('banyak_pipa_per_baris', 0);
+            $kapasitasPipa = $request->integer('kapasitas_pipa', 0);
+
+            if ($namaBaris && $banyakBaris > 0) {
+                $noPipa = 1;
+                for ($i=1; $i <= $banyakBaris; $i++) { 
+                    $padNoBaris = str_pad($i, 2, '0', STR_PAD_LEFT);
+                    $flock = $this->flock->create([
+                        'nama' => "{$namaBaris} {$padNoBaris}",
+                        'kandang_id' => $kandang->id,
+                    ]);
+
+                    if ($namaPipa && $banyakPipaPerBaris > 0 && $kapasitasPipa > 0) {
+                        for ($j=1; $j <= $banyakPipaPerBaris; $j++) { 
+                            $padNoPipa = str_pad($noPipa, 2, '0', STR_PAD_LEFT);
+                            $this->pipe->create([
+                                'nama' => "{$namaPipa} {$padNoPipa}",
+                                'flock_id' => $flock->id,
+                                'kapasitas' => $kapasitasPipa,
+                            ]);
+                            $noPipa++;
+                        }
+                    }
+                }
+            }
+
+            DB::commit();
+            return to_route('master-data.kandang.index')->with('success', 'Data Berhasil Ditambahkan.');
         }catch(\Exception $e){
-            return to_route('master-data.kandang.index')
-            ->with('danger', 'Data Gagal Ditambahkan. Error: '.$e->getMessage());
+
+            DB::rollBack();
+            return back()->withInput()->with('danger', 'Data Gagal Ditambahkan. Error: '.$e->getMessage());
         }
     }
 

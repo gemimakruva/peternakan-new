@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Data Kandang')
+@section('title', 'Kandang')
 
 @section('content_header')
     <div class="container-fluid">

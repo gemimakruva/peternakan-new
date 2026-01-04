@@ -66,22 +66,6 @@ class PipeController extends Controller
     }
 
     /**
-     * Menampilkan daftar Pipe berdasarkan Flock tertentu.
-     * Digunakan ketika user ingin melihat semua Pipe milik satu Flock (kandang).
-     */
-    public function indexByFlock(Flock $flock)
-    {
-        Gate::authorize('Lihat Semua Pipe');
-        $flock->load('pipes');
-        $pipes = $flock->pipes;
-
-        return view(
-            'kandang::master-data.pipe.index_by_flock',
-            compact('flock', 'pipes')
-        );
-    }
-
-    /**
      * Menampilkan form untuk membuat Pipe secara manual.
      * (Biasanya jarang digunakan jika Pipe digenerate otomatis saat membuat Flock)
      */

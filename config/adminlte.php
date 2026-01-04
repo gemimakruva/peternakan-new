@@ -341,34 +341,36 @@ return [
         ],
         [
             'text'    => 'Master Data',
-            'icon'    => 'fas fa-home',
+            'icon'    => 'fas fa-database',
             'active'  => ['master-data/*'],
             'submenu' => [
                 [
                     'text'  => 'Strain Ayam',
                     'route' => 'master-data.strain-ayam.index',
-                    'icon'  => 'fas fa-solid fa-industry',
+                    'icon'  => 'far fa-circle',
                 ],
                 [
                     'text'  => 'Peternakan',
                     'route' => 'master-data.peternakan.index',
-                    'icon'  => 'bi bi-house-fill',
+                    'icon'  => 'far fa-circle',
                     'active' => ['master-data/peternakan*'],
                 ],
                 [
                     'text'  => 'Kandang',
                     'route' => 'master-data.kandang.index',
-                    'icon'  => 'bi bi-house-fill',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/kandang*'],
                 ],
                 [
                     'text'  => 'Baris',
                     'route' => 'master-data.flock.index',
-                    'icon'  => 'bi bi-box-seam',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/flock*'],
                 ],
                 [
                     'text'  => 'Pipa',
                     'route' => 'master-data.pipe.index',
-                    'icon'  => 'bi bi-diagram-3',
+                    'icon'  => 'far fa-circle',
                 ],
                 [
                     'text'  => 'Jenis Pakan',

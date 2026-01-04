@@ -1,29 +1,25 @@
 .flex-1 {
-    flex: 1;
+  flex: 1;
 }
 
 .gap-1 {
-    gap: .25rem;
+  gap: .25rem;
 }
 .gap-2 {
-    gap: .5rem;
+  gap: .5rem;
 }
 .gap-3 {
-    gap: 1rem;
+  gap: 1rem;
 }
 
-.mx-1400 {
-    max-width: 1400px;
+$maxWidths: 1400, 1200, 1000, 900, 400, 200, 100;
+@each $n in $maxWidths {
+  .mx-#{$n} {
+    max-width: #{$n}px;
+  }
 }
 
-.mx-1200 {
-    max-width: 1200px;
-}
-
-.mx-1000 {
-    max-width: 1000px;
-}
-
-.mx-900 {
-    max-width: 900px;
+.sticy-form-action {
+  position: sticky;
+  top: 16px;
 }

@@ -7,6 +7,7 @@ use Modules\Kandang\Http\Controllers\Disinfektan\JenisDisinfektanController;
 use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
+use Modules\Kandang\Http\Controllers\MasterData\FlockPipeController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
@@ -38,13 +39,11 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('metode-treatment', MetodeTreatmentController::class)->names('metode-treatment');
 
         Route::resource('kandang', KandangController::class)->names('kandang')->except('show');
-        Route::resource('flock', FlockController::class)->names('flock')->except('show');
+        Route::resource('flock', FlockController::class)->names('flock');
+        Route::resource('flock.pipe', FlockPipeController::class)->names('flock.pipe')->only(['edit', 'update', 'destroy']);
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
-        Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock'])->name('pipe.byFlock');
         
-        Route::delete('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'destroyByFlock'])->name('pipe.destroyByFlock');
-        Route::put('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'updateByFlock'])->name('pipe.updateByFlock');
-        Route::put('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'updateByFlock'])->name('pipe.updateByFlock');
+        // Route::delete('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'destroyByFlock'])->name('pipe.destroyByFlock');
         
         Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
         Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
