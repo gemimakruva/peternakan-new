@@ -44,7 +44,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kandang.flock', KandangFlockController::class)->names('kandang.flock')->except('index');
         Route::resource('kandang.flock.pipe', KandangFlockPipeController::class)->names('kandang.flock.pipe')->except('index');
         Route::resource('flock', FlockController::class)->names('flock');
-        Route::resource('flock.pipe', FlockPipeController::class)->names('flock.pipe')->only(['edit', 'update', 'destroy']);
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
 
         Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
