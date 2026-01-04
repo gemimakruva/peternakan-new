@@ -19,11 +19,6 @@
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Baris</h1>
-                @can('Tambah Baris')
-                    <a href="{{ route('master-data.flock.create') }}" class="btn btn-primary" title="Tambah Baris">
-                        Tambah Baris
-                    </a>
-                @endcan
             </div>
           </div>
           <div class="col-sm-6">
@@ -37,7 +32,7 @@
 @endsection
 
 @section('content')
-<div class="mx-1000">
+<div class="mx-1200">
     <x-form-alert />
 
     {{-- Filter --}}
@@ -128,6 +123,7 @@
                 <thead class="bg-light">
                     <tr>
                         <th style="width: 50px;">#</th>
+                        <th>Nama Peternakan</th>
                         <th>Nama Kandang</th>
                         <th>Nama Baris</th>
                         <th style="width: 180px;">Aksi</th>
@@ -137,12 +133,12 @@
                     @forelse($datas as $row)
                     <tr>    
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->kandang->nama ?? '-' }}</td>
-                        <td>{{ $row->nama }}</td>
+                        <td class="text-left">{{ $row->kandang->peternakan->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->kandang->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama }}</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2" role="group">
-                                <a href="{{ route('master-data.flock.show',
-                                 $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
+                                <a href="{{ route('master-data.flock.show', $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
 

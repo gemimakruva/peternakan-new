@@ -10,19 +10,11 @@ use Modules\Kandang\Models\Peternakan;
 
 class FlockController extends Controller
 {
-    /**
-     * Dependency Injection model Flock
-     * Digunakan agar pemanggilan model lebih konsisten.
-     */
     public function __construct(
         private Peternakan $peternakan,
         private Flock $flock,
     ) { }
 
-    /**
-     * Menampilkan daftar seluruh Flock.
-     * Menggunakan pagination & eager load relasi pipes.
-     */
     public function index()
     {
         $search = request()->input('search');
@@ -56,68 +48,25 @@ class FlockController extends Controller
         return view('kandang::master-data.flock.index', compact('datas', 'peternakan', 'kandangId', 'peternakanId', 'search'));
     }
 
-    /**
-     * Menampilkan form untuk membuat Flock baru.
-     * Mengambil seluruh data kandang untuk kebutuhan dropdown.
-     */
-    public function create()
-    {
-        Gate::authorize('Tambah Flock');
-        $peternakan = $this->peternakan->with('kandang')->get();
-        return view('kandang::master-data.flock.create', compact('peternakan'));
-    }
-
-    /**
-     * Menyimpan Flock baru beserta auto-generate Pipe.
-     * Pipe dibuat berdasarkan jumlah yang diminta dan keyword nama pipe.
-     */
-    public function store(Request $request)
-    {
-        // Validasi data input
-        $validated = $request->validate([
-            'nama'         => 'required|string|max:255',
-            'kandang_id'   => 'required|exists:kandang,id',
-        ]);
-
-        try {
-            // Membuat Flock baru
-            $this->flock->create([
-                'nama' => $validated['nama'],
-                'kandang_id' => $validated['kandang_id'],
-            ]);
-
-            return redirect()
-                ->route('master-data.flock.index')
-                ->with('success', 'Baris dan Pipa berhasil dibuat!');
-         }
-            catch (\Exception $e) {
-                return redirect()
-                    ->back()
-                    ->withInput()
-                    ->with('danger', 'Terjadi kesalahan saat menyimpan data, silahkan coba lagi' );
-         }
-    }
-
-    /**
-     * Menampilkan detail Flock (optional page).
-     */
     public function show(Flock $flock)
     {
-        $flock->load('pipes');
-
-        return view('kandang::master-data.flock.show', compact('flock'));
+        return to_route('master-data.kandang.flock.show', [
+            'kandang' => $flock->kandang,
+            'flock' => $flock,
+            'back_uri' => route('master-data.flock.index')
+        ]);
     }
 
-    /**
-     * Menampilkan form edit Flock.
-     * Sekaligus mengambil data pipes untuk ditampilkan.
-     */
     public function edit(Flock $flock)
     {
         Gate::authorize('Edit Flock');
-        $flock->load('kandang.peternakan');
-        $peternakan = Peternakan::with('kandang')->get();
-        return view('kandang::master-data.flock.edit', compact('flock', 'peternakan'));
+
+        $flock->load([
+            'kandang:id,peternakan_id,nama',
+            'kandang.peternakan:id,nama',
+        ]);
+
+        return view('kandang::master-data.flock.edit', compact('flock'));
     }
 
     /**
@@ -126,6 +75,7 @@ class FlockController extends Controller
     public function update(Request $request, Flock $flock)
     {
         Gate::authorize('Edit Flock');
+        
         $validated = $request->validate([
             'nama'=> ['required', 'string', 'max:255']
         ]);
@@ -137,13 +87,12 @@ class FlockController extends Controller
             
             return to_route('master-data.flock.index')->with('success', 'Flock berhasil diperbarui.');
         } catch (\Throwable $th) {
-            return to_route('master-data.flock.index')->with('danger', 'Flock gagal diperbarui. Silahkan coba lagi');
+            return back()
+                ->withInput()
+                ->with('danger', 'Flock gagal diperbarui.');
         }
     }
 
-    /**
-     * Menghapus Flock beserta relasinya (cascade tergantung DB).
-     */
     public function destroy(Flock $flock)
     {
         Gate::authorize('Hapus Baris');

@@ -120,7 +120,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex gap-3 mb-3">
-                        <a href="{{ route('master-data.kandang.show', $kandang) }}" class="btn btn-outline-secondary flex-1">Kembali</a>
+                        <a href="{{ request()->query('back_uri', route('master-data.kandang.show', $kandang)) }}" class="btn btn-outline-secondary flex-1">Kembali</a>
                         <a href="{{ route('master-data.kandang.flock.edit', [$kandang, $flock]) }}" class="btn btn-warning flex-1">Edit</a>
                     </div>
                     <a href="{{ route('master-data.kandang.flock.pipe.create', [$kandang, $flock]) }}" class="btn btn-primary btn-block">Tambah Pipa</a>
