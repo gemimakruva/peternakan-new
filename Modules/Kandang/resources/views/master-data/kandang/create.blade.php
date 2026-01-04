@@ -1,51 +1,54 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
 @section('title', 'Tambah Kandang')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Form Kandang</h2>
-    <span class="text-muted mb-0" style="max-width: 500px;">
-        Form ini digunakan untuk menambahkan data kandang
-    </span>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        <div class="d-flex align-items-center gap-1">
+            <h1>Tambah Kandang</h1>
+        </div>
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Master Data</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
+            <li class="breadcrumb-item active">Tambah</li>
+        </ol>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('content')
-<div style="max-width: 1200px; padding: 0 15px;" class="container-fluid px-2 px-md-4">
-    <div class="row justify-content-center">
-        <div class="col-md-8 col-12">
-            
-            <div class="card shadow-sm border-0" >
-                <div class="card-header" style="background-color: #f8f9fa;">
-                    <h4 class="card-title m-0 fw-semibold text-secondary">
-                        <i class="fas fa-home me-2 text-muted"></i> Form Tambah Kandang
-                    </h4>
-                </div>
-
-               <div class="card-body d-flex justify-content-center">
-                    <form action="{{ route('master-data.kandang.store') }}" 
-                        method="post" 
-                        id="form-kandang"
-                        style="max-width: 650px; width: 100%;">
-                        @csrf
-                        @include('kandang::master-data.kandang._form')
-
-                        <hr class="my-4">
-
-                        <div class="d-flex justify-content-between" style="gap: 1rem; margin-top: 1.5rem;">
-                            <a href="{{ route('master-data.kandang.index') }}" 
-                            class="btn btn-outline-secondary px-4 py-2">
-                                <i class="fas fa-arrow-left me-2"></i> Kembali
-                            </a>
-
-                            <button type="submit" 
-                               class="btn btn-success px-4 py-2 shadow-sm" 
-                               style="background-color: #28a745; border-color: #28a745;">
-                               <i class="fas fa-save me-2"></i> Simpan
-                            </button>
-                        </div>
-                    </form>
+<div class="mx-1200 row">
+    <div class="col-md-9 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">Form Kandang</h4>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('master-data.kandang.store') }}" method="post" id="form-kandang">
+                    @csrf
+                    @include('kandang::master-data.kandang._form')
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Aksi</h2>
+            </div>
+            <div class="card-body">
+                <div class="d-flex gap-3">
+                    <a href="{{ route('master-data.kandang.index') }}" class="btn btn-outline-secondary flex-1">
+                        Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary flex-1" form="form-kandang">
+                        Simpan
+                    </button>
                 </div>
             </div>
         </div>
