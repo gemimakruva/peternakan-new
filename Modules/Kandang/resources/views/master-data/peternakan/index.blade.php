@@ -41,7 +41,7 @@
             </div>
 
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-striped table-bordered text-center mb-0">
+                <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
                         <th>Nama</th>
