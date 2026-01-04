@@ -1,6 +1,6 @@
 @if ($paginator->hasPages())
 <nav class="d-flex justify-content-center mb-0">
-    <ul class="pagination pagination-sm justify-content-center mb-0">
+    <ul class="pagination justify-content-center mb-0">
 
         {{-- Tombol Previous --}}
         @if ($paginator->onFirstPage())

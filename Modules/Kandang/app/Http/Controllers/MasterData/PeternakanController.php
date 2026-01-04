@@ -16,7 +16,9 @@ class PeternakanController extends Controller
     {
         $search = request()->input('search');
 
-        $datas = Peternakan::when($search, function ($query) use ($search) {
+        $datas = Peternakan::query()
+            ->with('kandang:peternakan_id')
+            ->when($search, function ($query) use ($search) {
                 $query->where('nama', 'like', "%{$search}%")
                       ->orWhere('lokasi', 'like', "%{$search}%");
             })

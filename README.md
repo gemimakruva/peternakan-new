@@ -16,3 +16,8 @@
 - Petugas Kandang
     - email : petugas-kandang@peternakan.com
     - password : password
+
+## Penggunaan Blade Laravel Template
+- gunakan resources/views/components/form-alert.blade.php untuk menampilkan alert hasil aksi mutasi data
+- gunakan resources/views/components/pagination.blade.php untuk menampilkan link paginasi pada tiap table
+- gunakan resources/views/layouts/dashboard.blade.php untuk @extends base layout page aplikasi

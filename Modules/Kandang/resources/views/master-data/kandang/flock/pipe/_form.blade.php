@@ -1,41 +1,39 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Form Pipa</h2>
+        <h2 class="card-title">Form Baris</h2>
     </div>
     <div class="card-body">
-        <x-adminlte-input 
-            :value="$pipe->flock->kandang->peternakan->nama"
+        <x-adminlte-input
             label="Nama Peternakan"
             name="nama_peternakan"
+            :value="$kandang->peternakan->nama"
             readonly
         />
 
-        <x-adminlte-input 
-            :value="$pipe->flock->kandang->nama"
+        <x-adminlte-input
             label="Nama Kandang"
             name="nama_kandang"
+            :value="$kandang->nama"
             readonly
         />
 
-        <x-adminlte-input 
-            :value="$pipe->flock->nama"
-            label="Nama Flock"
-            name="nama_flock"
+        <x-adminlte-input
+            label="Nama Baris"
+            name="nama_baris"
+            :value="$flock->nama"
             readonly
         />
 
-        <x-adminlte-input 
-            name="nama"
+        <x-adminlte-input
             label="Nama Pipa"
-            type="text"
-            placeholder="Masukkan nama Pipa..."
+            name="nama"
+            placeholder="Masukkan nama pipa..."
             :value="old('nama', @$pipe->nama)"
         />
 
-        <x-adminlte-input 
-            name="kapasitas"
+        <x-adminlte-input
             label="Kapasitas"
-            type="number"
+            name="kapasitas"
             placeholder="Masukkan kapasitas..."
             :value="old('kapasitas', @$pipe->kapasitas)"
         />

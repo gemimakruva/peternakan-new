@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
 @section('title', 'Baris')
 
@@ -14,93 +14,86 @@
 @endpush
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">Manajemen Baris</h2>
-    <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk mengelola data Baris, termasuk penambahan,
-         pembaruan, dan penghapusan data.
-    </span>
-</div>
+    <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-1">
+                <h1>Baris</h1>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Master Data</a></li>
+              <li class="breadcrumb-item active">Baris</li>
+            </ol>
+          </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
-<div>
+<div class="mx-1200">
     <x-form-alert />
-    <div class="card-body px-0">
-        <form 
-            action="{{ route('master-data.flock.index') }}" 
-            method="GET" 
-            class="row g-2 align-items-end"
-            x-data="{
-                peternakanData: {{ Js::from($peternakan) }},
-                selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
-                selectedKandang: '{{ request('kandang_id') ?? '' }}',
-                get kandangList() {
-                    if (!this.selectedPeternakan) {
-                        return [];
+
+    {{-- Filter --}}
+    <div class="card">
+        <div class="card-body">
+            <form 
+                action="{{ route('master-data.flock.index') }}" 
+                method="GET" 
+                class="d-flex gap-3 align-items-end"
+                x-data="{
+                    peternakanData: {{ Js::from($peternakan) }},
+                    selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
+                    selectedKandang: '{{ request('kandang_id') ?? '' }}',
+                    get kandangList() {
+                        if (!this.selectedPeternakan) {
+                            return [];
+                        }
+                        const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
+                        return peternakan ? peternakan.kandang : [];
+                    },
+                    onPeternakanChange() {
+                        this.selectedKandang = '';
                     }
-                    const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
-                    return peternakan ? peternakan.kandang : [];
-                },
-                onPeternakanChange() {
-                    this.selectedKandang = '';
-                }
-            }">
-            
-            <div class="col-md-3 col-5">
-                <label for="peternakanFilter">Pilih Peternakan</label>
-                <div class="input-group input-group-lg">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text bg-white">
-                            <i class="fas fa-warehouse text-muted"></i>
-                        </span>
-                    </div>
-                    <select 
-                        id="peternakanFilter"
-                        name="peternakan_id" 
-                        class="form-control"
-                        x-model="selectedPeternakan"
-                        @change="onPeternakanChange()">
-                        <option value="">Semua Peternakan</option>
-                        <template x-for="item in peternakanData" :key="item.id">
-                            <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
-                        </template>
-                    </select>
+                }">
+                
+                <select 
+                    id="peternakanFilter"
+                    name="peternakan_id" 
+                    class="form-control mx-200"
+                    x-model="selectedPeternakan"
+                    @change="onPeternakanChange()">
+                    <option value="">Semua Peternakan</option>
+                    <template x-for="item in peternakanData" :key="item.id">
+                        <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
+                    </template>
+                </select>
+                
+                <select 
+                    id="kandangFilter"
+                    name="kandang_id" 
+                    class="form-control mx-200"
+                    x-model="selectedKandang"
+                    :disabled="!selectedPeternakan">
+                    <option value="">Semua Kandang</option>
+                    <template x-for="kandang in kandangList" :key="kandang.id">
+                        <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
+                    </template>
+                </select>
+    
+                <div>
+                    <button type="submit" class="btn btn-primary btn-block">
+                        <i class="fas fa-filter"></i>
+                    </button>
                 </div>
-            </div>
-
-            <div class="col-md-3 col-5">
-                <label for="kandangFilter">Pilih Kandang</label>
-                <div class="input-group input-group-lg">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text bg-white">
-                            <i class="fas fa-home text-muted"></i>
-                        </span>
-                    </div>
-                    <select 
-                        id="kandangFilter"
-                        name="kandang_id" 
-                        class="form-control"
-                        x-model="selectedKandang"
-                        :disabled="!selectedPeternakan">
-                        <option value="">Semua Kandang</option>
-                        <template x-for="kandang in kandangList" :key="kandang.id">
-                            <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
-                        </template>
-                    </select>
-                </div>
-            </div>
-
-            <div class="col-md-1 col-1" style="max-width:80px;">
-                <button type="submit" class="btn btn-primary btn-block btn-lg">
-                    <i class="fas fa-filter"></i>
-                </button>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-    <div style="max-width: 1200px;" class="card shadow-sm">
-        <div class="card-header text-white d-flex justify-content-between align-items-center"
-             style="background-color: #495057; border-color: #495057;">
+
+    {{-- Table --}}
+    <div class="card">
+        <div class="card-header text-white d-flex justify-content-between align-items-center">
             <form action="{{ route('master-data.flock.index') }}" method="get" class="w-100">
                 @if(request('peternakan_id'))
                     <input type="hidden" name="peternakan_id" value="{{ request('peternakan_id') }}">
@@ -113,20 +106,13 @@
                     <h2 class="card-title mb-0">List Baris</h2>
                     <div class="d-flex" style="gap: .5em">
                         <input type="search" 
-                               name="search" 
-                               class="form-control form-control-sm" 
-                               placeholder="Cari baris..." 
-                               value="{{ request()->query('search') }}">
-                        <button class="btn btn-dark btn-sm" title="Cari">
+                            name="search" 
+                            class="form-control" 
+                            placeholder="Cari baris..." 
+                            value="{{ request()->query('search') }}">
+                        <button class="btn btn-primary" title="Cari">
                             <i class="fas fa-search"></i>
                         </button>
-
-                        @can('Tambah Baris')
-                        <a href="{{ route('master-data.flock.create') }}" 
-                        class="btn btn-light btn-sm text-dark" title="Tambah Kandang">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                        @endcan
                     </div>
                 </div>
             </form>
@@ -137,6 +123,7 @@
                 <thead class="bg-light">
                     <tr>
                         <th style="width: 50px;">#</th>
+                        <th>Nama Peternakan</th>
                         <th>Nama Kandang</th>
                         <th>Nama Baris</th>
                         <th style="width: 180px;">Aksi</th>
@@ -144,14 +131,14 @@
                 </thead>
                 <tbody>
                     @forelse($datas as $row)
-                    <tr>
+                    <tr>    
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->kandang->nama ?? '-' }}</td>
-                        <td>{{ $row->nama }}</td>
+                        <td class="text-left">{{ $row->kandang->peternakan->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->kandang->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama }}</td>
                         <td>
-                            <div style="gap: 6px" class="btn-group" role="group">
-                                <a href="{{ route('master-data.pipe.byFlock',
-                                 $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
+                            <div class="d-flex justify-content-center gap-2" role="group">
+                                <a href="{{ route('master-data.flock.show', $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">
                                     <i class="fas fa-eye"></i>
                                 </a>
 
@@ -159,19 +146,20 @@
                                  $row) }}" class="btn btn-warning text-white btn-sm" title="Edit">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                @can('Hapus Flock')
-                                <form action="{{ route('master-data.flock.destroy', 
-                                $row) }}" 
-                                      method="post" 
-                                      data-nama="{{ $row->nama }}" 
-                                      class="form-delete d-inline">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-sm btn-danger" title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                                @endcan
+
+                                @if (auth()->user()->can('Hapus Flock') && !$row->pipes()->exists())    
+                                    <form
+                                        action="{{ route('master-data.flock.destroy', $row) }}"
+                                        method="post" 
+                                        data-nama="{{ $row->nama }}" 
+                                        class="form-delete d-inline">
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-sm btn-danger" title="Hapus">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>

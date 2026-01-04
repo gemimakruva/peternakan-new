@@ -1,83 +1,50 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
 @section('title', 'Edit Pipa')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Edit Pipa</h2>
-    <span class="text-muted mb-0" style="max-width: 500px;">
-        Form Ini Digunakan Untuk Mengubah Nama dan Kapasitas Pipa
-    </span>
-</div>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center gap-1">
+                    <h1>Edit Pipa</h1>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
+                    <li class="breadcrumb-item active">Pipa</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
-<div class="container-fluid px-2 px-md-4">
-    <div class="row justify-content-center">
-        {{-- Form Content --}}
-       <div class="col-md-8">
-            <div class="card shadow-sm border-0 p-3">
-                <form action="{{ route('master-data.pipe.update',$pipe) }}" method="post" id="form-flock">
-                    @csrf
-                    @method('PUT')
-                    @include('kandang::master-data.pipe._form')
-                    <hr class="my-4">
-                    <div class="d-flex justify-content-between px-2" style="gap: 1rem; margin-top: 1.5rem;">
-                        <a href="{{ route('master-data.flock.index') }}" 
-                             class="btn btn-outline-secondary px-4 py-2">
-                             <i class="fas fa-arrow-left me-2"></i> Kembali
-                        </a>
+<div class="mx-900">
+    <x-form-alert />
 
-                        <button type="submit" 
-                            class="btn btn-success px-4 py-2 shadow-sm" 
-                            style="background-color: #28a745; border-color: #28a745;">
-                            <i class="fas fa-save me-2"></i> Simpan
-                        </button>
-
-                    </div>
-                </form>
-            </div>
-        
-       </div>
-       {{-- Petunjuk Form --}}
-    <div class="col-md-4">
-             <div class="card border-0 shadow-sm">
-                <div class="card-header bg-light">
-                    <h5 class="m-0 fw-semibold text-secondary">
-                        <i class="fas fa-info-circle me-2"></i> Informasi Pengisian Pipa
-                    </h5>
+    <div class="row">
+        <div class="col-md-9 col-12">
+            <form action="{{ route('master-data.pipe.update',$pipe) }}" method="post" id="form-pipe">
+                @csrf
+                @method('PUT')
+                @include('kandang::master-data.pipe._form')
+            </form>        
+        </div>
+        <div class="col-md-3 col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Aksi</h2>
                 </div>
-
                 <div class="card-body">
-                        <p class="text-muted mb-3">
-                            Pastikan mengisi data Pipa dengan benar sesuai petunjuk berikut:
-                        </p>
-                    <ul class="small text-muted ps-3">
-                        <li>
-                            <strong>Nama Pipa</strong><br>
-                            Digunakan untuk mengganti nama pipa yang sudah ada dan tidak sesuai standar penamaan.
-                        </li>
-
-                        <li class="mt-2"> 
-                            <strong>Kapasitas</strong>
-                            <br class="text-center"> Kapasitas digunakan untuk menginisalisasi
-                            jumlah maksimum entitas (misalnya ayam) yang dapat ditampung oleh pipa tersebut.
-                        </li>
-
-                    </ul>
-                    <hr>
-                    <p class="text-muted small">
-                        Jika terjadi masalah dalam pengisian data pipa, pastikan Anda sudah menambahkan:
-                    </p>
-                    <ul class="small text-muted ps-3">
-                        <li>Data Peternakan</li>
-                        <li>Data Kandang</li>
-                        <li>Data Strain</li>
-                        <li>Data Baris</li>
-                    </ul>
+                    <div class="d-flex gap-3">
+                        <a href="{{ route('master-data.pipe.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
+                        <button class="btn btn-primary flex-1" form="form-pipe">Simpan</button>
+                    </div>
                 </div>
             </div>
-       </div>
+        </div>
     </div>
 </div>
 @endsection

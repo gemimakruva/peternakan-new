@@ -1,0 +1,25 @@
+.flex-1 {
+  flex: 1;
+}
+
+.gap-1 {
+  gap: .25rem;
+}
+.gap-2 {
+  gap: .5rem;
+}
+.gap-3 {
+  gap: 1rem;
+}
+
+$maxWidths: 1400, 1200, 1000, 900, 400, 200, 100;
+@each $n in $maxWidths {
+  .mx-#{$n} {
+    max-width: #{$n}px;
+  }
+}
+
+.sticy-form-action {
+  position: sticky;
+  top: 16px;
+}

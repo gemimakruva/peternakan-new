@@ -16,6 +16,7 @@ class PipeController extends Controller
      * Memudahkan pemanggilan model di seluruh method.
      */
     public function __construct(
+        private Peternakan $peternakan,
         private Pipe $pipe,
     ) { }
 
@@ -36,12 +37,10 @@ class PipeController extends Controller
         $datas = $this->pipe
             ->with(['flock.kandang.peternakan'])
             ->when($search, function ($query) use ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('nama', 'like', "%{$search}%")
-                        ->orWhereHas('flock', function ($sub) use ($search) {
-                            $sub->where('nama', 'like', "%{$search}%");
-                        });
-                });
+                $query->where('nama', 'like', "%{$search}%")
+                    ->orWhereHas('flock', function ($sub) use ($search) {
+                        $sub->where('nama', 'like', "%{$search}%");
+                    });
             })
             ->when($flockId, function ($query) use ($flockId) {
                 $query->where('flock_id', $flockId);
@@ -59,54 +58,14 @@ class PipeController extends Controller
             ->orderBy('updated_at', 'desc')
             ->paginate($perPage)
             ->withQueryString();
-        
-        $peternakan = Peternakan::with(['kandang.flocks'])->get();
 
-        return view('kandang::master-data.pipe.index', compact('datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId', 'search'));
-    }
+        $peternakan = $this->peternakan
+            ->with([
+                'kandang:id,nama',
+                'kandang.flocks:id,nama'
+            ])->get();
 
-    /**
-     * Menampilkan daftar Pipe berdasarkan Flock tertentu.
-     * Digunakan ketika user ingin melihat semua Pipe milik satu Flock (kandang).
-     */
-    public function indexByFlock(Flock $flock)
-    {
-        Gate::authorize('Lihat Semua Pipe');
-        $flock->load('pipes');
-        $pipes = $flock->pipes;
-
-        return view(
-            'kandang::master-data.pipe.index_by_flock',
-            compact('flock', 'pipes')
-        );
-    }
-
-    /**
-     * Menampilkan form untuk membuat Pipe secara manual.
-     * (Biasanya jarang digunakan jika Pipe digenerate otomatis saat membuat Flock)
-     */
-    public function create()
-    {
-        Gate::authorize('Tambah Pipe');
-
-        return view('kandang::master-data.pipe.create');
-    }
-
-    /**
-     * Menyimpan Pipe baru (jika fitur create digunakan).
-     * Saat ini masih kosong karena Pipe biasanya di-generate otomatis.
-     */
-    public function store(Request $request)
-    {
-        
-    }
-
-    /**
-     * Menampilkan detail satu Pipe (opsional).
-     */
-    public function show($id)
-    {
-        return view('kandang::master-data.pipe.show');
+        return view('kandang::master-data.pipe.index', compact(['datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId', 'search']));
     }
 
     /**
@@ -115,6 +74,13 @@ class PipeController extends Controller
     public function edit(Pipe $pipe)
     {
         Gate::authorize('Edit Pipe');
+
+        $pipe->load([
+            'flock.kandang.peternakan:id,nama',
+            'flock.kandang:id,peternakan_id,nama',
+            'flock:id,kandang_id,nama',
+        ]);
+
         return view('kandang::master-data.pipe.edit', compact('pipe'));
     }
 
@@ -125,18 +91,17 @@ class PipeController extends Controller
     public function update(Request $request, Pipe $pipe)
     {
         Gate::authorize('Edit Pipe');
+
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
-            'kapasitas' => ['required', 'numeric', 'min:0'],
+            'kapasitas' => ['required', 'numeric', 'min:1'],
         ]);
 
         try {
             $pipe->update($validated);
-           return redirect()->route('master-data.pipe.byFlock', $pipe->flock_id)
-            ->with('success', 'Data Pipe berhasil diperbarui!');
+            return to_route('master-data.pipe.index')->with('success', 'Data Pipe berhasil diperbarui.');
         } catch (\Exception $e) {
-            // Tangkap error jika terjadi masalah
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat memperbarui data Pipe.');
+            return redirect()->back()->with('danger', 'Terjadi kesalahan saat memperbarui data Pipe.');
         }
     }
 
@@ -150,30 +115,12 @@ class PipeController extends Controller
         Gate::authorize('Hapus Pipe');
         
         if($this->pipe->pengadaanAyamDistribusi()->exists()) {
-            return redirect()
-                ->route('master-data.pipe.index')
+            return to_route('master-data.pipe.index')
                 ->with('error', 'Tidak dapat menghapus Pipa yang memiliki Pengadaan Ayam Distribusi.');
         }
 
         $pipe->delete();
 
-        return to_route('master-data.pipe.index')
-            ->with('danger', 'Data Pipe berhasil dihapus.');
-    }
-
-
-      public function destroyByFlock(Pipe $pipe)
-    {
-        Gate::authorize('Hapus Pipe');
-        $flockId = $pipe->flock_id;
-        $pipe->delete();
-        try {
-        $pipe->delete();
-        return redirect()->route('master-data.flock.pipes', $flockId)
-            ->with('success', 'Data Pipe berhasil dihapus.');
-    } catch (\Exception $e) {
-        return redirect()->back()->with('error', 
-            'Terjadi kesalahan saat menghapus data Pipe.');
-    }
+        return to_route('master-data.pipe.index')->with('success', 'Data Pipe berhasil dihapus.');
     }
 }

@@ -7,7 +7,10 @@ use Modules\Kandang\Http\Controllers\Disinfektan\JenisDisinfektanController;
 use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
+use Modules\Kandang\Http\Controllers\MasterData\FlockPipeController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
+use Modules\Kandang\Http\Controllers\MasterData\KandangFlockController;
+use Modules\Kandang\Http\Controllers\MasterData\KandangFlockPipeController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
@@ -37,15 +40,13 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('jenis-treatment', JenisTreatmentController::class)->names('jenis-treatment');
         Route::resource('metode-treatment', MetodeTreatmentController::class)->names('metode-treatment');
 
-        Route::resource('kandang', KandangController::class)->names('kandang')->except('show');
-        Route::resource('flock', FlockController::class)->names('flock')->except('show');
+        Route::resource('kandang', KandangController::class)->names('kandang');
+        Route::resource('kandang.flock', KandangFlockController::class)->names('kandang.flock')->except('index');
+        Route::resource('kandang.flock.pipe', KandangFlockPipeController::class)->names('kandang.flock.pipe')->except('index');
+        Route::resource('flock', FlockController::class)->names('flock');
+        Route::resource('flock.pipe', FlockPipeController::class)->names('flock.pipe')->only(['edit', 'update', 'destroy']);
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
-        Route::get('flock/{flock}/pipes', [PipeController::class, 'indexByFlock'])->name('pipe.byFlock');
-        
-        Route::delete('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'destroyByFlock'])->name('pipe.destroyByFlock');
-        Route::put('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'updateByFlock'])->name('pipe.updateByFlock');
-        Route::put('master-data/pipe/byFlock/{pipe}', [PipeController::class, 'updateByFlock'])->name('pipe.updateByFlock');
-        
+
         Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
         Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
         Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
