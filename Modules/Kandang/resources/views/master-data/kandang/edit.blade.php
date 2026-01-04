@@ -14,6 +14,7 @@
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Master Data</a></li>
             <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.show', $data) }}">{{ $data->nama }}</a></li>
             <li class="breadcrumb-item active">Edit</li>
         </ol>
         </div>
@@ -37,7 +38,7 @@
             </div>
             <div class="card-body">
                 <div class="d-flex gap-3">
-                    <a href="{{ route('master-data.kandang.index') }}" class="btn btn-outline-secondary flex-1">
+                    <a href="{{ request()->query('back_uri') ?? route('master-data.kandang.index') }}" class="btn btn-outline-secondary flex-1">
                         Kembali
                     </a>
                     <button type="submit" class="btn btn-primary flex-1" form="form-kandang">

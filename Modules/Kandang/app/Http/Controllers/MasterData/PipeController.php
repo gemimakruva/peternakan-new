@@ -16,6 +16,7 @@ class PipeController extends Controller
      * Memudahkan pemanggilan model di seluruh method.
      */
     public function __construct(
+        private Peternakan $peternakan,
         private Pipe $pipe,
     ) { }
 
@@ -36,12 +37,10 @@ class PipeController extends Controller
         $datas = $this->pipe
             ->with(['flock.kandang.peternakan'])
             ->when($search, function ($query) use ($search) {
-                $query->where(function ($q) use ($search) {
-                    $q->where('nama', 'like', "%{$search}%")
-                        ->orWhereHas('flock', function ($sub) use ($search) {
-                            $sub->where('nama', 'like', "%{$search}%");
-                        });
-                });
+                $query->where('nama', 'like', "%{$search}%")
+                    ->orWhereHas('flock', function ($sub) use ($search) {
+                        $sub->where('nama', 'like', "%{$search}%");
+                    });
             })
             ->when($flockId, function ($query) use ($flockId) {
                 $query->where('flock_id', $flockId);
@@ -59,30 +58,14 @@ class PipeController extends Controller
             ->orderBy('updated_at', 'desc')
             ->paginate($perPage)
             ->withQueryString();
-        
-        $peternakan = Peternakan::with(['kandang.flocks'])->get();
 
-        return view('kandang::master-data.pipe.index', compact('datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId', 'search'));
-    }
+        $peternakan = $this->peternakan
+            ->with([
+                'kandang:id,nama',
+                'kandang.flocks:id,nama'
+            ])->get();
 
-    /**
-     * Menampilkan form untuk membuat Pipe secara manual.
-     * (Biasanya jarang digunakan jika Pipe digenerate otomatis saat membuat Flock)
-     */
-    public function create()
-    {
-        Gate::authorize('Tambah Pipe');
-
-        return view('kandang::master-data.pipe.create');
-    }
-
-    /**
-     * Menyimpan Pipe baru (jika fitur create digunakan).
-     * Saat ini masih kosong karena Pipe biasanya di-generate otomatis.
-     */
-    public function store(Request $request)
-    {
-        
+        return view('kandang::master-data.pipe.index', compact(['datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId', 'search']));
     }
 
     /**
@@ -91,6 +74,13 @@ class PipeController extends Controller
     public function edit(Pipe $pipe)
     {
         Gate::authorize('Edit Pipe');
+
+        $pipe->load([
+            'flock.kandang.peternakan:id,nama',
+            'flock.kandang:id,peternakan_id,nama',
+            'flock:id,kandang_id,nama',
+        ]);
+
         return view('kandang::master-data.pipe.edit', compact('pipe'));
     }
 

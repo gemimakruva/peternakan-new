@@ -1,6 +1,6 @@
 @php
     $title = "Detail Baris - {$flock->nama}";
-    $pipes = $flock->pipes;
+    $pipes = $flock->pipes()->orderByDesc('created_at')->get(['id', 'nama', 'kapasitas']);
 @endphp
 
 @extends('layouts.dashboard')
@@ -18,7 +18,9 @@
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.flock.index') }}">Baris</a></li>
+                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
+                    <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
+                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.show', $kandang) }}">Detail</a></li>
                     <li class="breadcrumb-item active">{{ $flock->nama }}</li>
                     <li class="breadcrumb-item active">Detail</li>
                 </ol>
@@ -28,14 +30,38 @@
 @endsection
 
 @section('content')
-<div class="mx-900">
+<div class="mx-1200">
     <x-form-alert />
 
     <div class="row">
         <div class="col-md-9 col-12">
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Daftar Pipa</h2>
+                    <h2 class="card-title">Informasi Kandang</h2>
+                </div>
+                <div class="card-body">
+                    <table class="w-100">
+                        <tbody>
+                            <tr>
+                                <td class="w-25">Nama Strain</td>
+                                <td class="w-25">: {{ $kandang->strain->nama }}</td>
+                                <td class="w-25">Nama Kandang</td>
+                                <td class="w-25">: {{ $kandang->nama }}</td>
+                            </tr>
+                            <tr>
+                                <td class="w-25">Nama Peternakan</td>
+                                <td class="w-25">: {{ $kandang->peternakan->nama }}</td>
+                                <td class="w-25">Nama Flock</td>
+                                <td class="w-25">: {{ $flock->nama }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Daftar Pipa pada Baris</h2>
                 </div>
 
                 <div class="card-body table-responsive p-0">
@@ -57,14 +83,14 @@
                                     <td>
                                         <div class="d-flex justify-content-center gap-2" role="group">
                                             <a 
-                                                href="{{ route('master-data.flock.pipe.edit', compact('flock', 'pipe')) }}"
+                                                href="{{ route('master-data.kandang.flock.pipe.edit', [$kandang, $flock, $pipe]) }}"
                                                 class="btn btn-warning text-white btn-sm" 
                                                 title="Edit"
                                             >
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                             <form 
-                                                action="{{ route('master-data.flock.pipe.destroy', compact('flock', 'pipe')) }}" 
+                                                action="{{ route('master-data.kandang.flock.pipe.destroy', [$kandang, $flock, $pipe]) }}" 
                                                 method="POST" class="form-delete d-inline"
                                                 data-nama="{{ $pipe->nama }}"
                                             >
@@ -93,7 +119,11 @@
                     <h2 class="card-title">Aksi</h2>
                 </div>
                 <div class="card-body">
-                    <a href="{{ route('master-data.flock.index') }}" class="btn btn-outline-secondary btn-block">Kembali</a>
+                    <div class="d-flex gap-3 mb-3">
+                        <a href="{{ route('master-data.kandang.show', $kandang) }}" class="btn btn-outline-secondary flex-1">Kembali</a>
+                        <a href="{{ route('master-data.kandang.flock.edit', [$kandang, $flock]) }}" class="btn btn-warning flex-1">Edit</a>
+                    </div>
+                    <a href="{{ route('master-data.kandang.flock.pipe.create', [$kandang, $flock]) }}" class="btn btn-primary btn-block">Tambah Pipa</a>
                 </div>
             </div>
         </div>

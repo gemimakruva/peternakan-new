@@ -19,6 +19,8 @@ class KandangController extends Controller
      * Dependency Injection model Kandang
      */
     public function __construct(
+        private Strain $strain,
+        private Peternakan $peternakan,
         private Kandang $kandang,
         private Flock $flock,
         private Pipe $pipe,
@@ -30,16 +32,30 @@ class KandangController extends Controller
     public function index()
     {
         Gate::authorize('Lihat Semua Kandang');
-        $search = request()->input('search');
+
+        $strain = $this->strain->get(['id', 'nama']);
+        $peternakan = $this->peternakan->get(['id', 'nama']);
+
         $kandang = $this->kandang
-                ->with(['strain','peternakan'])
-                ->when($search, function ($query, $search) {
-                    $query->where('nama', 'like', "%{$search}%");
-                })
-                ->orderBy('created_at', 'desc')
-                ->paginate(request()->get('perPage', 10))
-                ->withQueryString(); 
-        return view('kandang::master-data.kandang.index', compact('kandang'));
+            ->with(['strain','peternakan'])
+            ->when(request()->query('search'), function ($query, $search) {
+                $query->where('nama', 'like', "%{$search}%");
+            })
+            ->when(request()->query('strain_id'), function ($query,  $strainId) {
+                $query->where('strain_id', '=', $strainId);
+            })
+            ->when(request()->query('peternakan_id'), function ($query, $peternakanId) {
+                $query->where('peternakan_id', '=', $peternakanId);
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(request()->get('perPage', 10))
+            ->withQueryString(); 
+
+        return view('kandang::master-data.kandang.index', compact([
+            'strain',
+            'peternakan',
+            'kandang',
+        ]));
     }
 
     /**
@@ -119,18 +135,38 @@ class KandangController extends Controller
         }
     }
 
+    public function show(Kandang $kandang)
+    {
+        $kandang->load([
+            'peternakan:id,nama',
+            'strain:id,nama',
+        ]);
+
+        $flocks = $this->flock
+            ->query()
+            ->where('kandang_id', '=', $kandang->id)
+            ->when(request()->query('search'), function ($query, $search) {
+                $query->where('nama', 'like', "%$search%");
+            })
+            ->orderByDesc('nama')
+            ->paginate(request()->query('perPage', 10))
+            ->withQueryString();
+
+        return view('kandang::master-data.kandang.show', compact(['kandang', 'flocks']));
+    }
+
     /**
      * Menampilkan form edit data kandang.
      */
     public function edit(Kandang $kandang)
     {
-       
         Gate::authorize('Edit Kandang');
+
         $peternakanList = Peternakan::all();
         $data = $kandang;
         $strainList = Strain::all();
-        return view('kandang::master-data.kandang.edit',
-         compact('data','peternakanList','strainList'));
+
+        return view('kandang::master-data.kandang.edit', compact('data','peternakanList','strainList'));
     }
 
     /**
@@ -141,8 +177,12 @@ class KandangController extends Controller
         Gate::authorize('Edit Kandang');
 
         $validated = $request->validate([
-            'nama'   => ['required', 'string', 'max:255', 
-            Rule::unique('kandang', 'nama')->ignore($kandang)],
+            'nama' => [
+                'required',
+                'string',
+                'max:255', 
+                Rule::unique('kandang', 'nama')->ignore($kandang)
+            ],
             'peternakan_id' => ['required', 'integer'],
             'strain_id' => ['required', 'integer'],
         ]);
@@ -162,7 +202,7 @@ class KandangController extends Controller
         $kandang = $this->kandang->findOrFail($id);
         if ($kandang->flocks()->exists()) {
             return redirect()->back()->with('error', 
-                'Kandang ini tidak bisa dihapus karena masih memiliki Baris terkait.');
+                'Kandang ini tidak bisa dihapus karena memiliki Baris terkait.');
         }
         try {
             $kandang->delete();

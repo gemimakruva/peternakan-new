@@ -14,7 +14,7 @@
         <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="#">Master Data</a></li>
             <li class="breadcrumb-item"><a href="{{ route('master-data.peternakan.index') }}">Peternakan</a></li>
-            <li class="breadcrumb-item active">Tambah</li>
+            <li class="breadcrumb-item active">Tambah Peternakan</li>
         </ol>
         </div>
     </div>

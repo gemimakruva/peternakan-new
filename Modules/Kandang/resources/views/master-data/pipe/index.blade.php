@@ -20,11 +20,6 @@
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Pipa</h1>
-                @can('Tambah Pipa')
-                    <a href="{{ route('master-data.pipe.create') }}" class="btn btn-primary" title="Tambah Pipa">
-                        Tambah Pipa
-                    </a>
-                @endcan
             </div>
           </div>
           <div class="col-sm-6">
@@ -38,7 +33,7 @@
 @endsection
 
 @section('content')
-<div class="mx-1400">
+<div class="mx-1200">
     <x-form-alert />
 
     <div class="card">
@@ -135,7 +130,7 @@
                 @endif
                 
                 <div class="d-flex justify-content-end align-items-center">
-                    <div class="d-flex" style="gap: .5em">
+                    <div class="d-flex gap-2">
                         <input type="search" 
                                name="search" 
                                class="form-control" 
@@ -153,13 +148,11 @@
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead class="bg-light">
                   <tr>
-                        <th class="mx-50">#</th>
-                        <th>Kandang</th>
-                        <th>Baris</th>
-                        <th>Nama</th>
+                        <th width="50">#</th>
                         <th>Nama Peternakan</th>
                         <th>Nama Kandang</th>
                         <th>Nama Baris</th>
+                        <th>Nama Pipa</th>
                         <th>Kapasitas</th>
                         <th>Aksi</th>
                     </tr>
@@ -168,13 +161,11 @@
                     @forelse($datas as $row)
                     <tr>
                         <td>{{ ($loop->index + 1) + (request()->get('page', 1) - 1) * $datas->perPage() }}</td>
-                        <td>{{ $row->flock->nama }}</td> 
-                        <td>{{ $row->flock->kandang->nama  }}</td> 
-                        <td>{{ $row->nama }}</td>
-                        <td>{{ $row->flock->kandang->peternakan->nama ?? '-' }}</td>
-                        <td>{{ $row->flock->kandang->nama ?? '-' }}</td>
-                        <td>{{ $row->flock->nama ?? '-' }}</td>
-                        <td>{{ $row->kapasitas }}</td>
+                        <td class="text-left">{{ $row->flock->kandang->peternakan->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->flock->kandang->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->flock->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama ?? '-' }}</td>
+                        <td class="text-right">{{ $row->kapasitas }}</td>
                         <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
                             @can('Edit Pipe')

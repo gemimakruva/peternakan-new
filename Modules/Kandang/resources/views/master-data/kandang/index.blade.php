@@ -26,6 +26,52 @@
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
+
+        {{-- Filter --}}
+        <div class="card">
+            <div class="card-body">
+                <form 
+                    action="{{ route('master-data.kandang.index') }}" 
+                    method="GET" 
+                    class="d-flex gap-3 align-items-end"
+                    x-data="{
+                        strainData: {{ Js::from($strain) }},
+                        peternakanData: {{ Js::from($peternakan) }},
+                        selectedStrain: '{{ request('strain_id') ?? '' }}',
+                        selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
+                    }">
+                    
+                    <select 
+                        id="strainFilter"
+                        name="strain_id" 
+                        class="form-control mx-200"
+                        x-model="selectedStrain">
+                        <option value="">Semua Strain</option>
+                        <template x-for="strain in strainData" :key="strain.id">
+                            <option :value="strain.id" x-text="strain.nama" :selected="strain.id == '{{ request('strain_id') ?? '' }}'"></option>
+                        </template>
+                    </select>
+
+                    <select 
+                        id="peternakanFilter"
+                        name="peternakan_id" 
+                        class="form-control mx-200"
+                        x-model="selectedPeternakan">
+                        <option value="">Semua Peternakan</option>
+                        <template x-for="item in peternakanData" :key="item.id">
+                            <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
+                        </template>
+                    </select>
+                    
+                    <div>
+                        <button type="submit" class="btn btn-primary btn-block">
+                            <i class="fas fa-filter"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
         <div class="card">
             <div class="card-header text-white d-flex justify-content-between align-items-center" >
                 <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
@@ -44,20 +90,24 @@
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
-                        <th>Nama</th>
-                        <th>Nama Peternakan</th>
                         <th>Strain</th>
+                        <th>Nama Peternakan</th>
+                        <th>Nama Kandang</th>
                         <th style="width: 150px;">Aksi</th>
                     </thead>
                     <tbody>
                         @forelse($kandang as $row)
                             <tr>
                                 <td class="text-center">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
-                                <td>{{ $row->nama }}</td>
-                                <td>{{ $row->peternakan->nama }}</td>
-                                <td>{{ $row->strain?->nama }}</td>
+                                <td class="text-left">{{ $row->strain->nama }}</td>
+                                <td class="text-left">{{ $row->peternakan->nama }}</td>
+                                <td class="text-left">{{ $row->nama }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
+                                        <a href="{{ route('master-data.kandang.show', $row) }}" class="btn btn-sm btn-info text-white" title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+
                                         @can('Edit Kandang')
                                             <a href="{{ route('master-data.kandang.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
                                                 <i class="fas fa-edit"></i>

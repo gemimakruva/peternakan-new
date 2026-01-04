@@ -58,17 +58,17 @@
                     @forelse ($strainMetrics as $row)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td>{{ $row->umur }}</td>
-                            <td>{{ $row->berat_badan_min }}</td>
-                            <td>{{ $row->berat_badan_max }}</td>
-                            <td>{{ $row->berat_badan }}</td>
-                            <td>{{ $row->persentase_kematian }}</td>
-                            <td>{{ $row->feed_intake }}</td>
-                            <td>{{ $row->fcr }}</td>
-                            <td>{{ $row->hdp }}</td>
-                            <td>{{ $row->hhp }}</td>
-                            <td>{{ $row->egg_weight }}</td>
-                            <td>{{ $row->egg_mass }}</td>
+                            <td class="text-right">{{ $row->umur }}</td>
+                            <td class="text-right">{{ $row->berat_badan_min }}</td>
+                            <td class="text-right">{{ $row->berat_badan_max }}</td>
+                            <td class="text-right">{{ $row->berat_badan }}</td>
+                            <td class="text-right">{{ $row->persentase_kematian }}</td>
+                            <td class="text-right">{{ $row->feed_intake }}</td>
+                            <td class="text-right">{{ $row->fcr }}</td>
+                            <td class="text-right">{{ $row->hdp }}</td>
+                            <td class="text-right">{{ $row->hhp }}</td>
+                            <td class="text-right">{{ $row->egg_weight }}</td>
+                            <td class="text-right">{{ $row->egg_mass }}</td>
                         </tr>
                     @empty
                         <tr>
