@@ -1,6 +1,6 @@
 .SILENT:
 
-DOCKER_COMPOSE = docker-compose
+DOCKER_COMPOSE = docker compose
 DOCKER_COMPOSE_FILE = docker-compose.yml
 DOCKER_PHP_CONTAINER_EXEC= $(DOCKER_COMPOSE) exec app
 

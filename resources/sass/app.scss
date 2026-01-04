@@ -1,12 +1,38 @@
 // Fonts
-@import url("https://fonts.bunny.net/css?family=Nunito");
+// @import url("https://fonts.bunny.net/css?family=Nunito");
 
 // Variables
-@import "variables";
+// @import "variables";
 
 // Bootstrap
-@import "bootstrap/scss/bootstrap";
+// @import "bootstrap/scss/bootstrap";
 
 .flex-1 {
     flex: 1;
+}
+
+.gap-1 {
+    gap: .25rem;
+}
+.gap-2 {
+    gap: .5rem;
+}
+.gap-3 {
+    gap: 1rem;
+}
+
+.mx-1400 {
+    max-width: 1400px;
+}
+
+.mx-1200 {
+    max-width: 1200px;
+}
+
+.mx-1000 {
+    max-width: 1000px;
+}
+
+.mx-900 {
+    max-width: 900px;
 }

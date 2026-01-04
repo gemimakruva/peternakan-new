@@ -15,7 +15,7 @@
         <div clas>
             @foreach ($strains as $strain)
                 <a href="{{ route('master-data.strain-ayam.index', ['strain_id' => $strain->id]) }}" 
-                class="btn {{ $filterStrainId == $strain->id ? 'btn-success' : 'btn-outline-secondary' }}">
+                class="btn {{ $filterStrainId == $strain->id ? 'btn-primary' : 'btn-outline-primary' }}">
                 {{ $strain->nama }}
                 </a>
             @endforeach

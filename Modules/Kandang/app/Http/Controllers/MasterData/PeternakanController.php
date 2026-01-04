@@ -21,7 +21,7 @@ class PeternakanController extends Controller
                       ->orWhere('lokasi', 'like', "%{$search}%");
             })
             ->orderBy('created_at', 'desc')
-            ->paginate(10)
+            ->paginate(request()->query('perPage', 10))
             ->withQueryString();
 
         return view('kandang::master-data.peternakan.index', compact('datas', 'search'));

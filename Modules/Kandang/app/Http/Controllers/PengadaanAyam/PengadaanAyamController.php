@@ -205,6 +205,7 @@ class PengadaanAyamController extends Controller
         $pengadaan_ayam->load([
             'berkasSupplier',
             'dokumentasi',
+            'distribusi.populasiAyam:id,pengadaan_ayam_distribusi_id',
             'distribusi.pipe.flock.kandang'
         ]);
         
@@ -273,15 +274,16 @@ class PengadaanAyamController extends Controller
         ]);
 
         // HAPUS DISTRIBUSI LAMA DAN POPULASI TERKAIT
-        foreach ($pengadaan_ayam->distribusi as $oldDist) {
+        // foreach ($pengadaan_ayam->distribusi as $oldDist) {
             // Hapus populasi yang terkait dengan distribusi ini
-            PopulasiAyam::where('pengadaan_ayam_distribusi_id', $oldDist->id)->delete();
-        }
-        $pengadaan_ayam->distribusi()->delete();
+            // PopulasiAyam::where('pengadaan_ayam_distribusi_id', $oldDist->id)->delete();
+        // }
+        // $pengadaan_ayam->distribusi()->delete();
 
         // SIMPAN DISTRIBUSI BARU
         foreach ($distribusi as $item) 
         {
+            if (!@$item['isEditable']) continue;
             $jumlah = (int) $item['jumlah'];
             $totalAyamMasuk += $jumlah;
             $distribusiRecord = PengadaanAyamDistribusi::create([

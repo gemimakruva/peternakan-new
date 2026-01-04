@@ -34,4 +34,9 @@ class PengadaanAyamDistribusi extends Model
         return $this->belongsTo(Pipe::class, 'pipe_id');
     }
 
+    public function populasiAyam()
+    {
+        return $this->hasOne(PopulasiAyam::class, 'pengadaan_ayam_distribusi_id', 'id');
+    }
+
 }
