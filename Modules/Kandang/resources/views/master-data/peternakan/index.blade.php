@@ -62,7 +62,7 @@
                                             </a>
                                         @endcan
 
-                                        @can('Hapus Peternakan')
+                                        @if (auth()->user()->can('Hapus Peternakan') && !$row->kandang()->exists())
                                             <form action="{{ route('master-data.peternakan.destroy', $row->id) }}" method="post"
                                                 data-nama="{{ $row->nama }}" class="form-delete">
                                                 @csrf
@@ -71,7 +71,7 @@
                                                     <i class="fas fa-trash"></i>
                                                 </button>
                                             </form>
-                                        @endcan
+                                        @endif
                                     </div>
                                 </td>
                             </tr>
