@@ -1,5 +1,5 @@
 @extends('adminlte::page')
 
 @push('css')
-    @vite('resources/sass/app.scss')
+    @vite('resources/sass/dashboard.scss')
 @endpush
