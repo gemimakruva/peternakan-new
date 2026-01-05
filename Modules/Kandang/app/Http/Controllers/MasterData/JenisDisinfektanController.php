@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Kandang\Http\Controllers\Disinfektan;
+namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -23,7 +23,7 @@ class JenisDisinfektanController extends Controller
             ->orderByDesc('created_at')
             ->paginate(request()->query('perPage', 10));
 
-        return view('kandang::master-data.disinfektan.index', compact('jenisDisinfektan'));
+        return view('kandang::master-data.jenis-disinfektan.index', compact('jenisDisinfektan'));
     }
 
     /**
@@ -31,7 +31,7 @@ class JenisDisinfektanController extends Controller
      */
     public function create()
     {
-        return view('kandang::master-data.disinfektan.create');
+        return view('kandang::master-data.jenis-disinfektan.create');
     }
 
     /**
@@ -55,7 +55,7 @@ class JenisDisinfektanController extends Controller
     {
         $data = $jenisDisinfektan;
 
-        return view('kandang::master-data.disinfektan.edit', compact('data'));
+        return view('kandang::master-data.jenis-disinfektan.edit', compact('data'));
     }
 
     /**

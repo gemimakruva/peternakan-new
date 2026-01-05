@@ -3,14 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
-use Modules\Kandang\Http\Controllers\Disinfektan\JenisDisinfektanController;
 use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
-use Modules\Kandang\Http\Controllers\MasterData\FlockPipeController;
+use Modules\Kandang\Http\Controllers\MasterData\JenisDisinfektanController;
+use Modules\Kandang\Http\Controllers\MasterData\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockPipeController;
+use Modules\Kandang\Http\Controllers\MasterData\MetodeTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
@@ -26,8 +27,6 @@ use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
 use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
-use Modules\Kandang\Http\Controllers\treatment\JenisTreatmentController;
-use Modules\Kandang\Http\Controllers\treatment\MetodeTreatmentController;
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('master-data')->as('master-data.')->group(function () {
