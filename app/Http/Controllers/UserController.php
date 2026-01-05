@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -14,7 +17,19 @@ class UserController extends Controller
     {
         Gate::authorize('Lihat Semua User');
 
-        return view('user.index');
+        $search = request()->input('search');
+
+        $datas = User::query()
+            ->with('roles')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%")
+                      ->orWhere('email', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(request()->query('perPage', 10))
+            ->withQueryString();
+
+        return view('user.index', compact('datas', 'search'));
     }
 
     /**
@@ -23,6 +38,10 @@ class UserController extends Controller
     public function create()
     {
         Gate::authorize('Tambah User');
+
+        $roles = Role::all();
+
+        return view('user.create', compact('roles'));
     }
 
     /**
@@ -31,6 +50,26 @@ class UserController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('Tambah User');
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|confirmed',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,name',
+        ]);
+
+        $user = User::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        $user->assignRole($validated['roles']);
+
+        return redirect()
+            ->route('user.index')
+            ->with('success', 'Data user berhasil ditambahkan.');
     }
 
     /**
@@ -39,6 +78,11 @@ class UserController extends Controller
     public function edit(string $id)
     {
         Gate::authorize('Edit User');
+
+        $user = User::findOrFail($id);
+        $roles = Role::all();
+
+        return view('user.edit', compact('user', 'roles'));
     }
 
     /**
@@ -47,6 +91,28 @@ class UserController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize('Edit User');
+
+        $user = User::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'roles' => 'required|array|min:1',
+            'roles.*' => 'exists:roles,name',
+        ]);
+
+        $user->update([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => $validated['password'] ? Hash::make($validated['password']) : $user->password,
+        ]);
+
+        $user->syncRoles($validated['roles']);
+
+        return redirect()
+            ->route('user.index')
+            ->with('success', 'Data user berhasil diperbarui.');
     }
 
     /**
@@ -55,5 +121,14 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         Gate::authorize('Hapus User');
+
+        $user = User::findOrFail($id);
+
+        try {
+            $user->delete();
+            return redirect()->back()->with('success', 'Data user berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data.');
+        }
     }
 }
