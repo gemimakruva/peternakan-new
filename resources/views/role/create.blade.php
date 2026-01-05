@@ -32,14 +32,10 @@
                 <form action="{{ route('role.store') }}" method="post" id="form-role">
                     @csrf
                     @include('role._form')
-
-                    <div class="d-flex justify-content-between"
-                    style="gap: 1rem; margin-top: 1.5rem;">
-
-                    </div>
                 </form>
             </div>
         </div>
+        @include('role._form_permissions')
     </div>
     <div class="col-md-3 col-12">
         <div class="card">

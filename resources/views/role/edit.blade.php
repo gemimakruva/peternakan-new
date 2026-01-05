@@ -36,6 +36,7 @@
                 </form>
             </div>
         </div>
+        @include('role._form_permissions')
     </div>
     <div class="col-md-3 col-12">
         <div class="card">
