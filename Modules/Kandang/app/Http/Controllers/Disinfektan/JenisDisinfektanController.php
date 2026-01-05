@@ -1,35 +1,37 @@
 <?php
 
 namespace Modules\Kandang\Http\Controllers\Disinfektan;
-use Illuminate\Validation\Rule;
+
 use App\Http\Controllers\Controller;
-use Modules\Kandang\Models\JenisDisinfektan;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use Modules\Kandang\Models\JenisDisinfektan;
 
 class JenisDisinfektanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-   public function index(Request $request)
-        {
-        
-            $search = $request->query('search');
-            $query = JenisDisinfektan::query();
-            if ($search) {
-                $query->where('nama', 'LIKE', "%{$search}%");
-            }
-             $datas = $query->orderBy('nama', 'ASC')->paginate(10)->withQueryString();
-            return view('kandang::master-data.disinfectan.index', compact('datas'));
-        }
+    public function __construct(
+        private JenisDisinfektan $jenisDisinfektan,
+    ) { }
 
+    public function index()
+    {
+        $jenisDisinfektan = $this->jenisDisinfektan
+            ->query()
+            ->when(request()->query('search'), function($query, $search) {
+                $query->where('nama', 'like', "%$search%");
+            })
+            ->orderByDesc('created_at')
+            ->paginate(request()->query('perPage', 10));
+
+        return view('kandang::master-data.disinfektan.index', compact('jenisDisinfektan'));
+    }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
-        return view ('kandang::master-data.disinfectan.create');
+        return view('kandang::master-data.disinfektan.create');
     }
 
     /**
@@ -37,95 +39,50 @@ class JenisDisinfektanController extends Controller
      */
     public function store(Request $request)
     {
-          // 🧾 Validasi request
         $validated = $request->validate([
-            'nama' => 'required|string|max:255|unique:jenis_disinfektan,nama',
+            'nama' => 'required|string|max:100|unique:jenis_disinfektan,nama',
         ]);
 
+        $this->jenisDisinfektan->create($validated);
 
-    try {
-        JenisDisinfektan::create([
-            'nama' => $validated['nama'],
-        ]);
-        return redirect()
-            ->route('master-data.jenis-disinfectan.index')
-            ->with('success', 'Jenis Disinfektan berhasil ditambahkan!');
-            
-    } catch (\Throwable $e) {
-        return back()
-            ->with('error', 'Terjadi kesalahan saat menyimpan data: ' . $e->getMessage())
-            ->withInput();
-    }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(JenisDisinfektan $jenisDisinfectan)
-    {
-        //
+        return to_route('master-data.jenis-disinfektan.index')->with('success', 'Jenis disinfektan berhasil ditambahkan!');
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JenisDisinfektan $jenisDisinfectan)
+    public function edit(JenisDisinfektan $jenisDisinfektan)
     {
-        $data = $jenisDisinfectan;
-        return view('kandang::master-data.disinfectan.edit', compact('data'));
+        $data = $jenisDisinfektan;
+
+        return view('kandang::master-data.disinfektan.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JenisDisinfektan $jenisDisinfectan)
+    public function update(Request $request, JenisDisinfektan $jenisDisinfektan)
     {
-        // validasi input
         $validated = $request->validate([
-        'nama' => [
-        'required',
-        'string',
-        'max:255',
-        Rule::unique('jenis_disinfektan', 'nama')->ignore($jenisDisinfectan->id),
-    ],
-]);
+            'nama' => [
+                "required",
+                "string",
+                "max:100",
+                Rule::unique("jenis_disinfektan","nama")->ignore($jenisDisinfektan->id)
+            ]
+        ]);
 
-        try {
-            $jenisDisinfectan->update([
-                'nama' => $validated['nama'],
-            ]);
-            return redirect()
-                ->route('master-data.jenis-disinfectan.index')
-                ->with('success', 'Jenis disenfectan berhasil diperbarui.');
+        $jenisDisinfektan->update($validated);
 
-        } catch (\Throwable $th) {
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan saat memperbarui data. Error: ' . $th->getMessage());
-        }
+        return to_route('master-data.jenis-disinfektan.index')->with('success', 'Jenis disinfektan berhasil diperbarui!');
     }
-
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JenisDisinfektan $jenisDisinfectan)
-        {
-            try {
-                $jenisDisinfectan->delete();
-
-                return redirect()
-                    ->route('master-data.jenis-disinfectan.index')
-                    ->with('success', 'Jenis Disinfektan
- berhasil dihapus.');
-            } catch (\Throwable $th) {
-
-                return redirect()
-                    ->route('master-data.jenis-disinfectan.index')
-                    ->with('error', 'Terjadi kesalahan saat menghapus 
-                    disinfectan: ' . $th->getMessage());
-            }
-        }
-
+    public function destroy(JenisDisinfektan $jenisDisinfektan)
+    {
+        $jenisDisinfektan->delete();
+        return back()->with('success', 'Jenis disinfektan berhasil dihapus!');
+    }
 }

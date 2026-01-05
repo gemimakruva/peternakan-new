@@ -379,7 +379,7 @@ return [
                 ],
                 [
                     'text'  => 'Jenis Disinfektan',
-                    'route' => 'master-data.jenis-disinfectan.index',
+                    'route' => 'master-data.jenis-disinfektan.index',
                     'icon'  => 'fas fa-clipboard-list',
                 ],
                 [
