@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('strain-ayam', [StrainAyamController::class, 'index'])->name('strain-ayam.index');
 
-        Route::resource('jenis-pakan', JenisPakanController::class)->names('jenis-pakan');
+        Route::resource('jenis-pakan', JenisPakanController::class)->names('jenis-pakan')->except('show');
         Route::resource('jenis-disinfectan', JenisDisinfektanController::class)->names('jenis-disinfectan');
         Route::resource('jenis-treatment', JenisTreatmentController::class)->names('jenis-treatment');
         Route::resource('metode-treatment', MetodeTreatmentController::class)->names('metode-treatment');

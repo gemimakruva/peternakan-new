@@ -1,123 +1,117 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
-@section('title', 'Baris')
+@section('title', 'Jenis Pakan')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">Jenis Pakan</h2>
-    <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk mengelolah jenis pakan yang akan diberikan
-        kepada hewan ternak peternakan
-    </span>
-</div>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center gap-1">
+                    <h1>Jenis Pakan</h1>
+                    @can('Tambah Jenis Pakan')
+                        <a href="{{ route('master-data.jenis-pakan.create') }}" class="btn btn-primary">Tambah Jenis Pakan</a>
+                    @endcan
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
+                    <li class="breadcrumb-item active">Jenis Pakan</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 @endsection
 
 @section('content')
-<div>
-    <x-form-alert />
-    <div style="max-width: 1200px;" class="card shadow-sm">
-        <div class="card-header text-white d-flex justify-content-between align-items-center"
-             style="background-color: #495057; border-color: #495057;">
-            <form action="" 
-                method="get" class="w-100">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">Daftar Baris</h2>
-                    <div class="d-flex" style="gap: .5em">
-                        <input type="search" 
-                               name="search" 
-                               class="form-control form-control-sm" 
-                               placeholder="Cari baris..." 
-                               value="{{ request()->query('search') }}">
-                        <button class="btn btn-dark btn-sm" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
+    <div class="mx-1200">
+        <x-form-alert />
 
-                        @can('Tambah Baris')
-                      <a href="{{ route('master-data.jenis-pakan.create') }}" 
-                            class="btn btn-light btn-sm text-dark" title="Tambah Jenis Pakan">
-                            <i class="fas fa-plus"></i>
-                        </a>
-
-                        @endcan
+        <div class="card">
+            <div class="card-header text-white d-flex justify-content-between align-items-center" >
+                <form action="{{ route('master-data.jenis-pakan.index', request()->all()) }}" method="get" class="w-100">
+                    <div class="d-flex justify-content-end align-items-center">
+                        <div class="d-flex gap-2">
+                            <input type="search" name="search" class="form-control" placeholder="Cari Jenis Pakan..." value="{{ request()->query('search') }}">
+                            <button class="btn btn-primary" title="Cari">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>
-        </div>
+                </form>
+            </div>
 
-        <div class="card-body table-responsive p-0">
-            <table class="table table-hover table-striped table-bordered text-center mb-0">
-                <thead class="bg-light">
-                    <tr>
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover table-striped table-bordered text-center">
+                    <thead class="bg-light">
                         <th style="width: 50px;">#</th>
                         <th>Nama Pakan</th>
-                        <th style="width: 180px;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @forelse($jenisPakan as $row)
-                    <tr>
-                        <td>{{ ($loop->index + 1) + ($jenisPakan->currentPage() - 1) * $jenisPakan->perPage() }}</td>
-                        <td>{{ $row->nama ?? '-' }}</td>
-                        <td>
-                            <div style="gap: 6px" class="btn-group" role="group">
-                                <a href="{{ route('master-data.jenis-pakan.edit',$row) }}"
-                                 class="btn btn-warning text-white btn-sm" title="Edit">
-                                    <i class="fas fa-edit"></i>
-                                </a>
-                                @can('Jenis Pakan')
-                                <form action="{{ route('master-data.jenis-pakan.destroy', $row) }}" 
-                                      method="post" 
-                                      data-nama="{{ $row->nama }}" 
-                                      class="form-delete d-inline">
-                                    @csrf
-                                    @method('delete')
-                                    <button class="btn btn-sm btn-danger" title="Hapus">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </form>
-                                @endcan
-                            </div>
-                        </td>
-                    </tr>
-                    @empty
-                    <tr>
-                        <td colspan="6" class="text-muted">Belum ada data baris.</td>
-                    </tr>
-                    @endforelse
-                </tbody>
-            </table>
-        </div>
+                        <th style="width: 150px;">Aksi</th>
+                    </thead>
+                    <tbody>
+                        @forelse($jenisPakan as $row)
+                            <tr>
+                                <td class="text-center">{{ ($loop->index + 1) + ($jenisPakan->currentPage() - 1) * $jenisPakan->perPage() }}</td>
+                                <td class="text-left">{{ $row->nama }}</td>
+                                <td class="text-center">
+                                    <div class="d-flex justify-content-center" style="gap: .5em">
+                                        @can('Edit Jenis Pakan')
+                                            <a href="{{ route('master-data.jenis-pakan.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        @endcan
 
-        <div class="card-footer d-flex justify-content-end">
-            {{ $jenisPakan->links('components.pagination') }}
+                                        @can('Hapus Jenis Pakan')
+                                            <form action="{{ route('master-data.jenis-pakan.destroy', $row) }}" method="post"
+                                                data-nama="{{ $row->nama }}" class="form-delete">
+                                                @csrf
+                                                @method('delete')
+                                                <button class="btn btn-sm btn-danger" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @endcan
+                                    </div>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center text-muted py-3">
+                                    Tidak ada data jenis pakan ditemukan.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            @if ($jenisPakan->hasPages())
+                <div class="card-footer d-flex justify-content-end">
+                    {{ $jenisPakan->links('components.pagination') }}
+                </div>
+            @endif
         </div>
     </div>
-</div>
 @endsection
-
 @push('js')
-   <script>
-    $(document).on('submit', '.form-delete', function(e) {
-        e.preventDefault(); 
-        let form = this;
-        let nama = $(this).data('nama'); 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        $(document).on('submit', '.form-delete', function (e) {
+            e.preventDefault();
+            const nama = $(this).data('nama');
 
-        Swal.fire({
-            title: "Yakin ingin menghapus?",
-            text: "Data \"" + nama + "\" akan dihapus permanen!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#d33",
-            cancelButtonColor: "#3085d6",
-            confirmButtonText: "Ya, hapus!",
-            cancelButtonText: "Batal"
-        }).then((result) => {
-            console.log(result)
-            if (result.value) {
-                form.submit(); 
-            }
+            Swal.fire({
+                title: `Hapus Jenis Pakan "${nama}"?`,
+                text: "Data yang dihapus tidak dapat dikembalikan.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Hapus",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
         });
-    });
-</script>
-
+    </script>
 @endpush
