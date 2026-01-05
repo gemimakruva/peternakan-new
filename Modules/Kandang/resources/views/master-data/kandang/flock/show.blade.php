@@ -78,8 +78,8 @@
                             @forelse($pipes as $pipe)
                                 <tr>
                                     <td>{{ $loop->iteration }}</td>
-                                    <td>{{ $pipe->nama }}</td>
-                                    <td>{{ number_format($pipe->kapasitas) }}</td>
+                                    <td class="text-left">{{ $pipe->nama }}</td>
+                                    <td class="text-right">{{ number_format($pipe->kapasitas) }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-2" role="group">
                                             <a 

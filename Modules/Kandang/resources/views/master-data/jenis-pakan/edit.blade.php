@@ -1,46 +1,58 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
-@section('title', 'Edit Jenis pakan')
+@section('title', 'Edit Jenis Pakan')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Form Edit Jenis Pakan</h2>
-    <span class="text-muted mb-0" style="max-width: 500px;">
-        Form ini digunakan untuk Mengubah jenis pakan peternakan
-    </span>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+        <div class="d-flex align-items-center gap-1">
+            <h1>Edit Jenis Pakan</h1>
+        </div>
+        </div>
+        <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Master Data</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('master-data.jenis-pakan.index') }}">Jenis Pakan</a></li>
+            <li class="breadcrumb-item active">Edit</li>
+        </ol>
+        </div>
+    </div>
 </div>
 @endsection
 
 @section('content')
-<div class="container-fluid px-2 px-md-4" style="max-width: 1200px">
-    <div class="row justify-content-center">
-        {{-- Form Content --}}
-       <div class="col-md-8">
-          <div class="card shadow-sm border-0">
-                <div class="card-body">
-                 <form action="{{ route('master-data.jenis-pakan.update', $data) }}" 
-                        method="post" id="form-flock">
-                            @csrf
-                            @method("PUT") 
-                            @include('kandang::master-data.jenis-pakan._form')
-                            <hr class="my-4">
-                            <div class="d-flex justify-content-end" style="gap: 1rem; margin-top: 1.5rem;">
-                                <a href="{{ route('master-data.jenis-pakan.index') }}" 
-                                class="btn btn-outline-secondary px-4 py-2">
-                                <i class="fas fa-arrow-left me-2"></i> Kembali
-                                </a>
-
-                            <button type="submit" 
-                                 class="btn btn-success px-4 py-2 shadow-sm" 
-                                 style="background-color: #28a745; border-color: #28a745;">
-                                 <i class="fas fa-save me-2"></i> Simpan
-                            </button>
-                        </div>
-                    </form>
+<div class="mx-1200 row">
+    <div class="col-md-9 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Form Jenis Pakan</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('master-data.jenis-pakan.update', $data) }}" method="post" id="form-jenis-pakan" >
+                    @csrf
+                    @method('PUT')
+                    @include('kandang::master-data.jenis-pakan._form')
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-12">
+        <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Aksi</h2>
+            </div>
+            <div class="card-body">
+                <div class="d-flex gap-3">
+                    <a href="{{ route('master-data.jenis-pakan.index') }}" class="btn btn-outline-secondary flex-1">
+                        Kembali
+                    </a>
+                    <button type="submit" class="btn btn-primary flex-1" form="form-jenis-pakan">
+                        Simpan
+                    </button>
                 </div>
-         </div>
-       </div>
-
+            </div>
+        </div>
     </div>
 </div>
 @endsection

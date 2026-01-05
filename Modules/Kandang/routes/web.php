@@ -3,14 +3,15 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
-use Modules\Kandang\Http\Controllers\Disinfektan\JenisDisinfektanController;
 use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
-use Modules\Kandang\Http\Controllers\MasterData\FlockPipeController;
+use Modules\Kandang\Http\Controllers\MasterData\JenisDisinfektanController;
+use Modules\Kandang\Http\Controllers\MasterData\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockPipeController;
+use Modules\Kandang\Http\Controllers\MasterData\MetodeTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
@@ -26,8 +27,6 @@ use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
 use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
-use Modules\Kandang\Http\Controllers\treatment\JenisTreatmentController;
-use Modules\Kandang\Http\Controllers\treatment\MetodeTreatmentController;
 
 Route::middleware(['auth'])->group(function () {
     Route::prefix('master-data')->as('master-data.')->group(function () {
@@ -35,8 +34,8 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('strain-ayam', [StrainAyamController::class, 'index'])->name('strain-ayam.index');
 
-        Route::resource('jenis-pakan', JenisPakanController::class)->names('jenis-pakan');
-        Route::resource('jenis-disinfectan', JenisDisinfektanController::class)->names('jenis-disinfectan');
+        Route::resource('jenis-pakan', JenisPakanController::class)->names('jenis-pakan')->except('show');
+        Route::resource('jenis-disinfektan', JenisDisinfektanController::class)->names('jenis-disinfektan');
         Route::resource('jenis-treatment', JenisTreatmentController::class)->names('jenis-treatment');
         Route::resource('metode-treatment', MetodeTreatmentController::class)->names('metode-treatment');
 
@@ -44,7 +43,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kandang.flock', KandangFlockController::class)->names('kandang.flock')->except('index');
         Route::resource('kandang.flock.pipe', KandangFlockPipeController::class)->names('kandang.flock.pipe')->except('index');
         Route::resource('flock', FlockController::class)->names('flock');
-        Route::resource('flock.pipe', FlockPipeController::class)->names('flock.pipe')->only(['edit', 'update', 'destroy']);
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
 
         Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');

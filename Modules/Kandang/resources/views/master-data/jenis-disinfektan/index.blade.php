@@ -1,22 +1,22 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Metode Treatment')
+@section('title', 'Jenis Disinfektan')
 
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
-                    <h1>Metode Treatment</h1>
-                    @can('Tambah Metode Treatment')
-                        <a href="{{ route('master-data.metode-treatment.create') }}" class="btn btn-primary">Tambah Metode Treatment</a>
+                    <h1>Jenis Disinfektan</h1>
+                    @can('Tambah Jenis Disinfektan')
+                        <a href="{{ route('master-data.jenis-disinfektan.create') }}" class="btn btn-primary">Tambah Jenis Disinfektan</a>
                     @endcan
                 </div>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Metode Treatment</li>
+                    <li class="breadcrumb-item active">Jenis Disinfektan</li>
                 </ol>
             </div>
         </div>
@@ -29,10 +29,10 @@
 
         <div class="card">
             <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('master-data.metode-treatment.index', request()->all()) }}" method="get" class="w-100">
+                <form action="{{ route('master-data.jenis-disinfektan.index', request()->all()) }}" method="get" class="w-100">
                     <div class="d-flex justify-content-end align-items-center">
                         <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari Metode Treatment..." value="{{ request()->query('search') }}">
+                            <input type="search" name="search" class="form-control" placeholder="Cari Jenis Disinfektan..." value="{{ request()->query('search') }}">
                             <button class="btn btn-primary" title="Cari">
                                 <i class="fas fa-search"></i>
                             </button>
@@ -45,24 +45,24 @@
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
-                        <th>Metode Treatment</th>
+                        <th>Nama Disinfektan</th>
                         <th style="width: 150px;">Aksi</th>
                     </thead>
                     <tbody>
-                        @forelse($metodeTreatment as $row)
+                        @forelse($jenisDisinfektan as $row)
                             <tr>
-                                <td class="text-center">{{ ($loop->index + 1) + ($metodeTreatment->currentPage() - 1) * $metodeTreatment->perPage() }}</td>
+                                <td class="text-center">{{ ($loop->index + 1) + ($jenisDisinfektan->currentPage() - 1) * $jenisDisinfektan->perPage() }}</td>
                                 <td class="text-left">{{ $row->nama }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
-                                        @can('Edit Metode Treatment')
-                                            <a href="{{ route('master-data.metode-treatment.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                        @can('Edit Jenis Disinfektan')
+                                            <a href="{{ route('master-data.jenis-disinfektan.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         @endcan
 
-                                        @can('Hapus Metode Treatment')
-                                            <form action="{{ route('master-data.metode-treatment.destroy', $row) }}" method="post"
+                                        @can('Hapus Jenis Disinfektan')
+                                            <form action="{{ route('master-data.jenis-disinfektan.destroy', $row) }}" method="post"
                                                 data-nama="{{ $row->nama }}" class="form-delete">
                                                 @csrf
                                                 @method('delete')
@@ -77,7 +77,7 @@
                         @empty
                             <tr>
                                 <td colspan="3" class="text-center text-muted py-3">
-                                    Tidak ada data metode treatment ditemukan.
+                                    Tidak ada data jenis disinfektan ditemukan.
                                 </td>
                             </tr>
                         @endforelse
@@ -85,9 +85,9 @@
                 </table>
             </div>
 
-            @if ($metodeTreatment->hasPages())
+            @if ($jenisDisinfektan->hasPages())
                 <div class="card-footer d-flex justify-content-end">
-                    {{ $metodeTreatment->links('components.pagination') }}
+                    {{ $jenisDisinfektan->links('components.pagination') }}
                 </div>
             @endif
         </div>
@@ -101,7 +101,7 @@
             const nama = $(this).data('nama');
 
             Swal.fire({
-                title: `Hapus Metode Treatment "${nama}"?`,
+                title: `Hapus Jenis Disinfektan "${nama}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,

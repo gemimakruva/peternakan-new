@@ -1,8 +1,8 @@
 <x-adminlte-input
     name="nama"
-    label="Jenis Pakan"
+    label="Metode Treatment"
     type="text"
-    placeholder="Masukkan jenis pakan..."
+    placeholder="Masukkan metode treatment..."
     :value="old('nama', @$data->nama)"
     igroup-size="md">
 </x-adminlte-input>

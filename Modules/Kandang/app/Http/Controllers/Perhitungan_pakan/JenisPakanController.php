@@ -9,14 +9,21 @@ use Modules\Kandang\Models\JenisPakan;
 
 class JenisPakanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public function __construct(
+        private JenisPakan $jenisPakan,
+    ) { }
+
     public function index()
     {
-         $jenisPakan = JenisPakan::orderBy('created_at', 'DESC')->paginate(10); 
-          return view('kandang::master-data.jenis-pakan.index', 
-          compact('jenisPakan'));
+        $jenisPakan = $this->jenisPakan
+            ->query()
+            ->when(request()->query('search'), function($query, $search) {
+                $query->where('nama', 'like', "%$search%");
+            })
+            ->orderByDesc('created_at')
+            ->paginate(request()->query('perPage', 10));
+
+        return view('kandang::master-data.jenis-pakan.index', compact('jenisPakan'));
     }
 
     /**
@@ -32,63 +39,49 @@ class JenisPakanController extends Controller
      */
     public function store(Request $request)
     {
-         $validated = $request->validate([
+        $validated = $request->validate([
             'nama' => 'required|string|max:100|unique:jenis_pakan,nama',
         ]);
-        JenisPakan::create($validated);
-         return redirect()
-        ->route('master-data.jenis-pakan.index')
-        ->with('success', 'Jenis pakan berhasil ditambahkan!');
+
+        $this->jenisPakan->create($validated);
+        
+        return to_route('master-data.jenis-pakan.index')->with('success', 'Jenis pakan berhasil ditambahkan!');
     }
    
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(JenisPakan $jenisPakan)
-    {
-        //
-    }
-
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(JenisPakan $Jenis_pakan)
+    public function edit(JenisPakan $jenisPakan)
     {
-        $data = $Jenis_pakan;
-         return view('kandang::master-data.jenis-pakan.edit', compact('data'));
+        $data = $jenisPakan;
+        return view('kandang::master-data.jenis-pakan.edit', compact('data'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, JenisPakan $Jenis_pakan)
+    public function update(Request $request, JenisPakan $jenisPakan)
     {
-         $validated = $request->validate([
+        $validated = $request->validate([
             'nama' => [
                 "required",
                 "string",
                 "max:100",
-                Rule::unique("jenis_pakan","nama")->ignore($Jenis_pakan->id)
+                Rule::unique("jenis_pakan","nama")->ignore($jenisPakan->id)
             ]
         ]);
 
+        $jenisPakan->update($validated);
 
-         $Jenis_pakan->update([
-        'nama' => $validated['nama'],
-         ]);
-        return redirect()
-        ->route('master-data.jenis-pakan.index')
-        ->with('success', 'Jenis pakan berhasil diperbarui!');
-         
+        return to_route('master-data.jenis-pakan.index')->with('success', 'Jenis pakan berhasil diperbarui!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(JenisPakan $Jenis_pakan)
+    public function destroy(JenisPakan $jenisPakan)
     {
-        $Jenis_pakan->delete();
+        $jenisPakan->delete();
         return back()->with('success', 'Jenis pakan berhasil dihapus!');
     }
 }
