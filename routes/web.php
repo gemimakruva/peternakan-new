@@ -20,7 +20,7 @@ Route::group([
     'middleware' => ['auth']
 ], function() {
     Route::get('master-data/ajax/user', [AjaxController::class, 'user'])->name('ajax.user');
-    Route::resource('user', UserController::class)->names('user')->except('show');
+    Route::resource('user', UserController::class)->names('user');
     Route::resource('role', RoleController::class)->names('role')->except('show');
 
     Route::get('notifications/get', [NotificationsController::class, 'getNotificationsData'])->name('notifications.get');

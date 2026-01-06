@@ -2,10 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Modul;
 use App\Models\Permission;
 use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 
@@ -34,19 +32,19 @@ class UserSeeder extends Seeder
         $adminUser->assignRole($roleAdminUser);
 
         $systemPermissionsNames = [
-            'Lihat Semua User',
-            'Tambah User',
-            'Edit User',
-            'Hapus User',
-            'Lihat Semua Role',
-            'Tambah Role',
-            'Edit Role',
-            'Hapus Role',
+            'master-data.user.user-list',
+            'master-data.user.user-tambah',
+            'master-data.user.user-edit',
+            'master-data.user.user-hapus',
+
+            'master-data.role.role-list',
+            'master-data.role.role-tambah',
+            'master-data.role.role-edit',
+            'master-data.role.role-hapus',
         ];
         foreach ($systemPermissionsNames as $name) {
             $sistemPermissions[] = Permission::create([
                 'name' => $name,
-                'modul' => Modul::SISTEM->value,
             ]);
         }
         $roleAdminUser->permissions()->attach($sistemPermissions);
@@ -61,23 +59,51 @@ class UserSeeder extends Seeder
         $userPetugasKandang->assignRole($rolePetugasKandang);
 
         $kandangPermissionsNames = [
-            'Lihat Semua Kandang',
-            'Tambah Kandang',
-            'Edit Kandang',
-            'Hapus Kandang',
-            'Lihat Semua Flock',
-            'Tambah Flock',
-            'Edit Flock',
-            'Hapus Flock',
-            'Lihat Semua Pipe',
-            'Tambah Pipe',
-            'Edit Pipe',
-            'Hapus Pipe',
+            'master-data.strain.strain-list',
+
+            'master-data.peternakan.peternakan-list',
+            'master-data.peternakan.peternakan-tambah',
+            'master-data.peternakan.peternakan-edit',
+            'master-data.peternakan.peternakan-hapus',
+
+            'master-data.kandang.kandang-list',
+            'master-data.kandang.kandang-tambah',
+            'master-data.kandang.kandang-edit',
+            'master-data.kandang.kandang-hapus',
+
+            'master-data.flock.flock-list',
+            'master-data.flock.flock-tambah',
+            'master-data.flock.flock-edit',
+            'master-data.flock.flock-hapus',
+
+            'master-data.pipe.pipe-list',
+            'master-data.pipe.pipe-tambah',
+            'master-data.pipe.pipe-edit',
+            'master-data.pipe.pipe-hapus',
+
+            'master-data.jenis-pakan.jenis-pakan-list',
+            'master-data.jenis-pakan.jenis-pakan-tambah',
+            'master-data.jenis-pakan.jenis-pakan-edit',
+            'master-data.jenis-pakan.jenis-pakan-hapus',
+
+            'master-data.jenis-disinfektan.jenis-disinfektan-list',
+            'master-data.jenis-disinfektan.jenis-disinfektan-tambah',
+            'master-data.jenis-disinfektan.jenis-disinfektan-edit',
+            'master-data.jenis-disinfektan.jenis-disinfektan-hapus',
+
+            'master-data.jenis-treatment.jenis-treatment-list',
+            'master-data.jenis-treatment.jenis-treatment-tambah',
+            'master-data.jenis-treatment.jenis-treatment-edit',
+            'master-data.jenis-treatment.jenis-treatment-hapus',
+
+            'master-data.metode-treatment.metode-treatment-list',
+            'master-data.metode-treatment.metode-treatment-tambah',
+            'master-data.metode-treatment.metode-treatment-edit',
+            'master-data.metode-treatment.metode-treatment-hapus',
         ];
         foreach ($kandangPermissionsNames as $name) {
             $kandangPermissions[] = Permission::create([
                 'name' => $name,
-                'modul' => Modul::KANDANG->value,
             ]);
         }
         $rolePetugasKandang->permissions()->attach($kandangPermissions);

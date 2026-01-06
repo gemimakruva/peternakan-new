@@ -5,7 +5,7 @@ namespace App\Enums;
 enum Modul : string
 {
     case SISTEM = 'sistem';
-    case MASTER_DATA = 'MASTER_DATA';
+    case MASTER_DATA = 'master_data';
     case KANDANG = 'kandang';
     case GUDANG_PAKAN = 'gudang_pakan';
     case GUDANG_TELUR = 'gudang_telur';

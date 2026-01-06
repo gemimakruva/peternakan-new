@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class RoleController extends Controller
 {
@@ -14,7 +16,18 @@ class RoleController extends Controller
     {
         Gate::authorize('Lihat Semua Role');
 
-        return view('role.index');
+        $search = request()->input('search');
+
+        $datas = Role::query()
+            ->with('permissions')
+            ->when($search, function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%");
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate(request()->query('perPage', 10))
+            ->withQueryString();
+
+        return view('role.index', compact('datas', 'search'));
     }
 
     /**
@@ -23,6 +36,10 @@ class RoleController extends Controller
     public function create()
     {
         Gate::authorize('Tambah Role');
+
+        $permissions = Permission::all();
+
+        return view('role.create', compact('permissions'));
     }
 
     /**
@@ -31,6 +48,30 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         Gate::authorize('Tambah Role');
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:roles,name',
+            'permissions' => 'array',
+            'permissions.*' => 'exists:permissions,id',
+        ]);
+
+        $role = Role::create(['name' => $validated['name']]);
+
+        if (isset($validated['permissions'])) {
+            $role->syncPermissions($validated['permissions']);
+        }
+
+        return redirect()
+            ->route('role.index')
+            ->with('success', 'Role berhasil ditambahkan.');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
     }
 
     /**
@@ -39,6 +80,11 @@ class RoleController extends Controller
     public function edit(string $id)
     {
         Gate::authorize('Edit Role');
+
+        $role = Role::with('permissions')->findOrFail($id);
+        $permissions = Permission::all();
+
+        return view('role.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -47,6 +93,26 @@ class RoleController extends Controller
     public function update(Request $request, string $id)
     {
         Gate::authorize('Edit Role');
+
+        $role = Role::findOrFail($id);
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255|unique:roles,name,' . $role->id,
+            'permissions' => 'array',
+            'permissions.*' => 'exists:permissions,id',
+        ]);
+
+        $role->update(['name' => $validated['name']]);
+
+        if (isset($validated['permissions'])) {
+            $role->syncPermissions($validated['permissions']);
+        } else {
+            $role->syncPermissions([]);
+        }
+
+        return redirect()
+            ->route('role.index')
+            ->with('success', 'Role berhasil diperbarui.');
     }
 
     /**
@@ -55,5 +121,15 @@ class RoleController extends Controller
     public function destroy(string $id)
     {
         Gate::authorize('Hapus Role');
+
+        $role = Role::findOrFail($id);
+
+        if ($role->users()->exists()) {
+            return redirect()->back()->with('error', 'Role ini tidak bisa dihapus karena masih digunakan oleh user.');
+        }
+
+        $role->delete();
+
+        return redirect()->back()->with('success', 'Role berhasil dihapus.');
     }
 }
