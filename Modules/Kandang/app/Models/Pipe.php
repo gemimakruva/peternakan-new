@@ -17,43 +17,32 @@ class Pipe extends Model
         'kapasitas',
     ];
 
-    /**
-     * Relasi ke flock
-     */
     public function flock()
     {
         return $this->belongsTo(Flock::class, 'flock_id', 'id');
     }
 
-    /**
-     * Relasi ke log populasi
-     */
+    public function populasiAyam()
+    {
+        return $this->hasMany(PopulasiAyam::class, 'pipe_id', 'id');
+    }
 
-    /**
-     * Accessor: Mendapatkan nama flock
-     */
     public function getFlockNameAttribute()
     {
         return $this->flock->flock_name ?? '-';
     }
 
-    /**
-     * Accessor: Mendapatkan nama kandang dari flock
-     */
     public function getKandangNameAttribute()
     {
         return $this->flock->kandang->name ?? '-';
     }
 
-    /**
-     * Relasi ke PengadaanAyamDistribusi
-     */
     public function pengadaanAyamDistribusi()
     {
         return $this->hasMany(PengadaanAyamDistribusi::class, 'pipe_id', 'id');
     }
 
-   public function perhitunganPakan()
+    public function perhitunganPakan()
     {
         return $this->hasMany(PerhitunganPakan::class, 'pipe_id', 'id');
     }

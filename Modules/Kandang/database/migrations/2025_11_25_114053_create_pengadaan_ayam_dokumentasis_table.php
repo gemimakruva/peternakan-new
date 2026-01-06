@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('pengadaan_ayam_dokumentasi', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pengadaan_ayam_id')->constrained('pengadaan_ayam')->cascadeOnDelete();
+            $table->foreignId('pengadaan_ayam_id')->constrained('pengadaan_ayam');
             $table->string('file_path');
             $table->timestamps();
         });

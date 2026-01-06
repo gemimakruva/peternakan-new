@@ -18,7 +18,7 @@ class AyamKarantinaController extends Controller
     {
         $listAyamKarantina = KarantinaPopulasi::query()
             ->with([
-                'pic_user:id,name',
+                'picUser:id,name',
                 'kandang:id,nama',
             ])
             ->latest()

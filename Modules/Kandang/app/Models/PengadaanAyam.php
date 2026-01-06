@@ -10,6 +10,7 @@ class PengadaanAyam extends Model
     protected $table = 'pengadaan_ayam';
 
     protected $fillable = [
+        'kandang_id',
         'pic_user_id',
         'tanggal',
         'umur_ayam',
@@ -25,7 +26,12 @@ class PengadaanAyam extends Model
         'tanggal' => 'date',
     ];
 
-    public function pic_user(){
+    public function kandang()
+    {
+        return $this->belongsTo(Kandang::class, 'kandang_id', 'id');
+    }
+
+    public function picUser(){
         return $this->belongsTo(User::class, 'pic_user_id', 'id');
     }
 
@@ -36,14 +42,30 @@ class PengadaanAyam extends Model
 
     public function distribusi()
     {
-            return $this->hasMany(PengadaanAyamDistribusi::class, 
-            'pengadaan_ayam_id', 'id');
+        return $this->hasMany(PengadaanAyamDistribusi::class, 'pengadaan_ayam_id', 'id');
     }
 
     public function dokumentasi()
     {
-            return $this->hasMany(PengadaanAyamDokumentasi::class, 
-            'pengadaan_ayam_id', 'id');
+        return $this->hasMany(PengadaanAyamDokumentasi::class, 'pengadaan_ayam_id', 'id');
+    }
+
+    public function getDistribusiJsonAttribute()
+    {
+        if (!$this->distribusi) return null;
+
+        return $this->distribusi->map(function($item) {
+            return [
+                'id' => $item->id,
+                'is_editable' => !!@$item?->pipe?->is_editable,
+                'pengadaan_ayam_id' => $item->pengadaan_ayam_id,
+                'flock_id' => $item->pipe->flock_id,
+                'pipe_id' => $item->pipe_id,
+                'jumlah_ayam' => $item->jumlah_ayam,
+                'nama_flock' => $item->pipe->nama,
+                'nama_pipa' => $item->pipe->flock->nama,
+            ];
+        });
     }
 
     /**

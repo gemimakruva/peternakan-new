@@ -1,358 +1,65 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Pencatatan Ayam Masuk')
+@section('title', 'Pengadaan Ayam')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center pt-3">
-    <h2 class="h4 fw-bold text-dark"> Form Pengadaan Ayam</h2>
-    <span class="text-muted mb-0" style="max-width: 500px;">
-        Halaman ini digunakan untuk input form pengadaan ayam
-</div>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Pengadaan Ayam</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="{{ route('pengadaan-ayam.index') }}">Pengadaan Ayam</a></li>
+                    <li class="breadcrumb-item active">Tambah</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 @stop
 
 @section('content')
-<div class="container-fluid px-2 px-md-4" style="max-width: 1200px">
-    <div class="row justify-content-center">
-        {{-- Form Content --}}
-          <div class="col-md-8">
-              <form enctype="multipart/form-data"
-               action="{{ route('pengadaan-ayam.store') }}"
-               method="post" id="form_pengadaan">
-                 <input type="hidden" name="distribusi_json" id="distribusi_json"
-                  >
-                   <div class="card shadow-sm border-0">
-                        <div class="card-body">
-                            @csrf
-                            @include('kandang::pengadaan-ayam._form')
-                            {{-- ===========================
-                             Status Ayam (3 sejajar)
-                            =========================== --}}
-                            <div class="row mb-4 p-2">
-                                <div class="col-md-4">
-                                    <div class="info-box">
-                                        <span style="width: 50px" class="info-box-icon
-                                        bg-warning">
-                                            <i class="fas fa-truck"></i>
-                                        </span>
-                                        <div class="info-box-content">
-                                            <span class="info-box-text">Ayam Datang</span>
-                                            <span class="info-box-number"
-                                             id="ayamDatangInfo">0</span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Ayam Mati --}}
-                               <div class="col-md-4">
-                                    <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon
-                                            bg-warning">
-                                                <i class="fas fa-skull"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span style="font-size:15px"
-                                                class="info-box-text">Ayam Mati</span>
-                                                <span class="info-box-number"
-                                                id="ayamMatiInfo">0</span>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                {{-- Ayam Sakit --}}
-                               <div class="col-md-4">
-                                    <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon
-                                            bg-warning">
-                                                <i class="fas fa-thermometer-half"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span style="font-size:15px"
-                                                class="info-box-text">Ayam Sakit</span>
-                                                <span class="info-box-number"
-                                                id="ayamSakitInfo">0</span>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                {{-- Ayam Masuk Kandang --}}
-                               <div class="col-md-4">
-                                    <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon
-                                            bg-warning">
-                                                <i class="fas fa-warehouse"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span style="font-size:15px"
-                                                class="info-box-text">Masuk Kandang</span>
-                                                <span class="info-box-number"
-                                                id="ayamMasukKandangInfo">0</span>
-                                            </div>
-                                        </div>
-                                </div>
-
-                                {{-- Ayam Belum Masuk Kandang --}}
-                               <div class="col-md-4">
-                                    <div class="info-box">
-                                            <span style="width: 50px" class="info-box-icon
-                                            bg-warning">
-                                            <i class="fas fa-balance-scale"></i>
-                                            </span>
-                                            <div class="info-box-content">
-                                                <span style="font-size:15px"
-                                                class="info-box-text">Sisa Ayam</span>
-                                                <span class="info-box-number"
-                                                id="AyamBelumMasukKandang">0</span>
-                                            </div>
-                                        </div>
-                                </div>
-                            </div>
-                            {{-- Tabel data distribusi  --}}
-                            <div class="mb-4">
-                                <div class="d-flex justify-content-between align-items-center mb-3">
-                                    <h5 class="font-weight-bold">Data Distribusi Ayam</h5>
-                                    <button type="button" data-toggle="modal" data-target=
-                                    "#modalDistribusi"
-                                    class="btn btn-primary btn-sm" id="btnAddDistribusi">
-                                        <i class="fas fa-plus me-1"></i> Tambah Distribusi
-                                    </button>
-                                </div>
-
-                                <table  id="tableDistribusi" class="table table-bordered table-striped
-                                text-center align-middle">
-                                    <thead class="bg-secondary text-white">
-                                        <tr>
-                                            <th style="width: 60px;">No</th>
-                                            <th>Kandang</th>
-                                            <th>Flock</th>
-                                            <th>Pipe</th>
-                                            <th>Jumlah Masuk</th>
-                                            <th style="width: 120px;">Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {{-- row content --}}
-                                    </tbody>
-                                </table>
-                            </div>
-
-                            @include('kandang::pengadaan-ayam._form_berkas',['listNamaBerkas' => $listNamaBerkas])
-                            @include('kandang::pengadaan-ayam._form_documentation')
-                              {{-- card submit --}}
-                            <div class="mt-4 d-flex justify-content-between px-3">
-                                <a href=""
-                                class="btn btn-secondary px-4 py-2">
-                                    <i class="fas fa-arrow-left me-2"></i> Kembali
-                                </a>
-                                <button type="submit"
-                                        class="btn btn-success px-4 py-2 shadow-sm">
-                                    <i class="fas fa-save me-2"></i> Simpan
-                                </button>
-                            </div>
-                        </div>
+    <div class="mx-1200">
+        <x-form-alert />
+        <div class="row">
+            <div class="col-md-9 col-12">
+                <form
+                    enctype="multipart/form-data"
+                    action="{{ route('pengadaan-ayam.store') }}"
+                    method="post"
+                    id="form-pengadaan"
+                >
+                    @csrf
+                    <input type="hidden" name="distribusi_json" id="distribusi_json">
+                    @include('kandang::pengadaan-ayam._form')
+                    {{-- @include('kandang::pengadaan-ayam._form_berkas',['listNamaBerkas' => $listNamaBerkas]) --}}
+                    {{-- @include('kandang::pengadaan-ayam._form_documentation') --}}
+                </form>
+            </div>
+            <div class="col-md-3 col-12">
+                <div class="card sticy-form-action">
+                    <div class="card-header">
+                        <h2 class="card-title">Aksi</h2>
                     </div>
-              </form>
-       </div>
-
-       {{-- Petunjuk Form --}}
-        <div class="col-md-4">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-header bg-light">
-                        <h5 class="m-0 fw-semibold text-secondary">
-                            <i class="fas fa-info-circle me-2"></i> Informasi Pengadaan Ayam
-                        </h5>
-                    </div>
-
                     <div class="card-body">
-                            <p class="text-muted mb-3">
-                                Pastikan mengisi data pengadaan ayam dengan benar sesuai petunjuk berikut:
-                            </p>
-                        <ul class="small text-muted ps-3">
-                            <li>
-                                <strong>Tanggal Pengadaan</strong><br>
-                                Tanggal pengadaan diinput saat ayam dari supplier Datang
-                                dari kandang
-                            </li>
-
-                            <li class="mt-2">
-                                <strong>Jumlah Ayam Datang</strong>
-                                <br class="text-center"> - Masukan jumlah keseluruhan ayam yang datang
-                                baik ayam sehat, ayam sakit maupun ayam mati
-                            </li>
-
-                            <li class="mt-2">
-                                <strong>Umur Ayam</strong><br>
-                                Masukan rata rata populasi umur ayam datang dalam format mingguan
-                            </li>
-
-                            <li class="mt-2">
-                                <strong>Jumlah Ayam Sakit</strong><br>
-                                Masukan jumlah ayam sakit pada saat proses pengadaan ayam
-                            </li>
-
-                            <li class="mt-2">
-                                <strong>Jumlah Ayam Mati</strong>
-                                <br class="text-center"> - Masukan jumlah ayam yang mati pada
-                                saat proses pengadaan ayam
-                            </li>
-
-                             <li class="mt-2">
-                                <strong>Kondisi Ayam</strong>
-                                <br class="text-center"> - Masukan kondisi rata rata kesuluhan
-                                ayam yang datang dalam proses pengadaan ayam
-                            </li>
-
-                             <li class="mt-2">
-                                <strong>Catatan</strong>
-                                <br class="text-center"> - Masukan catatan yang diperlukan
-                                dalam proses pengadaan ayam
-                            </li>
-
-                            <li class="mt-2">
-                                <strong>Input Form Distribusi Ayam</strong>
-                                <br>
-                                - Digunakan untuk melakukan plotting distribusi pengadaan
-                                 ayam berdasarkan Kandang, Flock, dan Pipe.
-                                Petugas diharapkan melakukan input dengan benar
-                                 dan teliti sesuai data yang tersedia.
-                                <br>
-                                - Jumlah ayam yang diinput tidak boleh melebihi kapasitas
-                                yang telah ditetapkan pada setiap Pipe.
-                                <br>
-                                - Setelah input distribusi dilakukan, sistem akan secara
-                                otomatis menghitung jumlah ayam yang
-                                belum masuk kandang
-                            </li>
-
-                             <li class="mt-2">
-                                <strong>Input Form Berkas Supplier</strong>
-                                <br>
-                                - petugas diharapkan menginput nama (jenis) Berkas
-                                dalam proses pengadaan Ayam
-                                <br>
-                                - setelah itu petugas diharapkan menguploud file
-                                baik berupa file PNG , JPG atau PDF (disarankan JPG)
-                            </li>
-
-                              <li class="mt-2">
-                                <strong>Upload Dokumentasi</strong>
-                                <br>
-                                - petugas diharapkan menguploud bukti proses
-                                  dokumentasi saat pelaksanaan proses pengadaan ayam
-                                  (bisa uploud lebih dari 1 foto)
-                            </li>
-
-                        </ul>
-                        <hr>
-                        <p class="text-muted small">
-                            Jika pilihan dropdown tidak muncul atau pipe tidak tergenerate, pastikan Anda
-                             sudah menambahkan:
-                        </p>
-                        <ul class="small text-muted ps-3">
-                            <li>Data Peternakan</li>
-                            <li>Data Kandang</li>
-                            <li>Data Strain</li>
-                        </ul>
+                        <div class="d-flex gap-3">
+                            <a href="{{ route('pengadaan-ayam.index') }}" class="btn btn-outline-secondary flex-1">
+                                Kembali
+                            </a>
+                            <button type="submit" class="btn btn-primary flex-1" form="form-pengadaan">
+                                Simpan
+                            </button>
+                        </div>
                     </div>
                 </div>
+            </div>
         </div>
     </div>
-</div>
+@endsection
 
-{{-- =================== MODAL FORM DISTRIBUSI ====================== --}}
-<div class="modal fade" id="modalDistribusi" tabindex="-1" role="dialog"
-    aria-labelledby="modalDistribusiLabel"
-    aria-hidden="true">
-  <div class="modal-dialog modal-lg" role="document">
-    <div class="modal-content">
-
-      <div class="modal-header bg-secondary text-white">
-        <h5 class="modal-title" id="modalDistribusiLabel">Tambah Distribusi Ayam</h5>
-        <button type="button" class="close text-white" data-dismiss="modal">
-          <span>&times;</span>
-        </button>
-      </div>
-
-      <form id="formDistribusi">
-        <div class="modal-body">
-          <div class="">
-                {{-- Pilih Kandang --}}
-                <div >
-                    <x-adminlte-select name="kandang_id"  label="Kandang" igroup-size="lg" id="kandangSelect"
-                        class="form-control form-control-lg py-1">
-                            <x-slot name="prependSlot">
-                                <div class="input-group-text bg-white">
-                                    <i class="fas fa-warehouse text-muted"></i>
-                                </div>
-                            </x-slot>
-                            <option selected disabled>Pilih Kandang...</option>
-                            @foreach ($listKandang as $kandang)
-                                <option value="{{ $kandang->id }}">{{ $kandang->nama }}</option>
-                            @endforeach
-                    </x-adminlte-select>
-                </div>
-
-                {{-- Pilih Flock --}}
-                <div >
-                    <x-adminlte-select id="flockSelect" name="flock_id" label="Flock"
-                        igroup-size="lg">
-                        <x-slot name="prependSlot">
-                            <div class="input-group-text bg-white">
-                                <i class="fas fa-feather-alt text-muted"></i>
-                            </div>
-                        </x-slot>
-                        <option selected disabled>Pilih Flock...</option>
-                    </x-adminlte-select>
-                </div>
-
-                {{-- Pilih Pipe --}}
-                <div >
-                <x-adminlte-select id="pipeSelect" name="pipe_id"
-                label="Pipe" igroup-size="lg">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-white">
-                            <i class="fas fa-tint text-muted"></i>
-                        </div>
-                    </x-slot>
-                    <option selected disabled>Pilih Pipe...</option>
-                </x-adminlte-select>
-                </div>
-
-                {{-- Jumlah Ayam --}}
-                <div >
-                <x-adminlte-input
-                    id="jumlah_ayam"
-                    name="jumlah_ayam"
-                    label="Jumlah Ayam"
-                    type="number"
-                    min="0"
-                    placeholder="Input jumlah ayam..."
-                    class="form-control form-control-lg py-3"
-                    igroup-size="lg">
-                    <x-slot name="prependSlot">
-                        <div class="input-group-text bg-white">
-                            <i class="fas fa-drumstick-bite text-muted"></i>
-                        </div>
-                    </x-slot>
-                </x-adminlte-input>
-                </div>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
-          <button type="submit" class="btn btn-success">
-            <i class="fas fa-save me-1"></i> Simpan
-          </button>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-@push('js')
+@push('jsx')
 <script>
-
-    // {{-- CASCADING SELECT FORM FUNCTION  --}}
-
-$(document).ready(function(){
+    $(document).ready(function(){
         var kandangData = @json($listKandang);
         let editingId = null;
 
@@ -424,10 +131,10 @@ $(document).ready(function(){
             }
         });
 
-       // {{-- SUBMITION TEMPORARY FUNCTION  --}}
-       let distribusiData = [];
-       let  count = 0;
-       let selectedPipe = [];
+        // {{-- SUBMITION TEMPORARY FUNCTION  --}}
+        let distribusiData = [];
+        let  count = 0;
+        let selectedPipe = [];
         $('#formDistribusi').submit(function(e){
             e.preventDefault();
 
@@ -503,17 +210,20 @@ $(document).ready(function(){
                         <td>${item.pipe}</td>
                         <td>${item.jumlah}</td>
                         <td>
-                            <button class="btn btn-sm btn-warning edit-btn"
+                            <button 
+                                class="btn btn-sm btn-warning edit-btn"
                                 type="button"
                                 data-id="${item.id}"
                                 data-kandang="${item.kandang_id}"
                                 data-flock="${item.flock_id}"
                                 data-pipe="${item.pipe_id}"
-                                data-jumlah="${item.jumlah}">
-                                <i class="fas fa-edit"></i></button>
-                            <button class="btn btn-sm btn-danger delete-btn"
-                                data-id="${item.id}">
-                                <i class="fas fa-trash"></i></button>
+                                data-jumlah="${item.jumlah}"
+                            >
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm btn-danger delete-btn" data-id="${item.id}">
+                                <i class="fas fa-trash"></i>
+                            </button>
                         </td>
                     </tr>
                 `;
@@ -547,7 +257,7 @@ $(document).ready(function(){
     })
 
     // ===== SUBMIT DISTRIBUTION DATA INTO REQUEST CONTROLLER ======
-    $('#form_pengadaan').submit(function(e){
+    $('#form-pengadaan').submit(function(e){
         e.preventDefault();
         $('#distribusi_json').val(JSON.stringify(distribusiData));
         this.submit();
@@ -635,5 +345,3 @@ $(document).ready(function(){
 </script>
 @endpush
 
-
-@endsection

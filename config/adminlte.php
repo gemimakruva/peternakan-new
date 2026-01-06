@@ -800,7 +800,7 @@ return [
             ],
         ],
         'Datatables' => [
-            'active' => true,
+            'active' => false,
             'files'  => [
                 [
                     'type'     => 'js',
@@ -890,7 +890,7 @@ return [
             ],
         ],
         'BsCustomFileInput' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

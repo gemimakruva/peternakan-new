@@ -11,15 +11,14 @@ class PopulasiAyamSeeder extends Seeder
 {
     public function run(): void
     {
-        $tanggal = Carbon::createFromFormat('Y-m-d', '2025-10-01'); // tanggal pengadaan ayam
-        $tanggalTambahHari = 1;
+        $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-01'); // tanggal pengadaan ayam, dikurang 1 karena diawal sudah ada addDay
+        $tanggalTambahHari = 0;
         $pengadaanAyam = PengadaanAyam::first();
 
         for ($i=0; $i < 30; $i++) { 
             $pengadaanAyam->distribusi->map(function($distribusi) use($tanggal, $tanggalTambahHari, $pengadaanAyam) {
                 $ayamSehat = PopulasiAyam::getAyamSehatTerakhir($distribusi->pipe_id) ?? $distribusi->jumlah_ayam;
                 $tanggalPencatatan = $tanggal->clone()->addDays($tanggalTambahHari);
-                $hari = $tanggalPencatatan->format('l');
                 $tanggalDMY = $tanggalPencatatan->format('d-m-Y');
 
                 $populasi = [
@@ -30,21 +29,21 @@ class PopulasiAyamSeeder extends Seeder
                     'ayam_keluar_karantina' => 0,
                 ];
 
-                if ($hari === 'Friday') { // tiap hari jumat ayam mati 1
+                if ($tanggalDMY === '03-01-2025') {  // pada tanggal 3, 1 ayam mati di semua pipe
                     $populasi['ayam_sehat'] = $ayamSehat - 1;
                     $populasi['ayam_mati'] = 1;
-                } else if ($hari === 'Saturday') { // tiap hari sabtu ayam afkir 2
+                } else if ($tanggalDMY === '05-01-2025') { // pada tanggal 5, 2 ayam afkir di semua pipe
                     $populasi['ayam_sehat'] = $ayamSehat - 2;
                     $populasi['ayam_afkir'] = 2;
-                } else if ($hari === 'Sunday') { // tiap hari minggu ayam masuk karantina 3
-                    $populasi['ayam_sehat'] = $ayamSehat - 3;
-                    $populasi['ayam_masuk_karantina'] = 3;
-                } else if ($hari === 'Tuesday') { // tiap hari senin ayam masuk karantina 3
-                    $populasi['ayam_sehat'] = $ayamSehat + 3;
-                    $populasi['ayam_keluar_karantina'] = 3;
+                } else if ($tanggalDMY === '07-01-2025') { // pada tanggal 7, 5 ayam masuk karantina di semua pipe
+                    $populasi['ayam_sehat'] = $ayamSehat - 5;
+                    $populasi['ayam_masuk_karantina'] = 5;
+                } else if ($tanggalDMY === '15-01-2025') { // pada tanggal 15, 5 ayam keluar karantina di semua pipe
+                    $populasi['ayam_sehat'] = $ayamSehat + 5;
+                    $populasi['ayam_keluar_karantina'] = 5;
                 }
 
-                echo "pencatatan hari $hari tanggal $tanggalDMY pipe id - $distribusi->pipe_id" . PHP_EOL;
+                echo "pencatatan tanggal $tanggalDMY pipe id - $distribusi->pipe_id" . PHP_EOL;
 
                 PopulasiAyam::create([
                     'pengadaan_ayam_distribusi_id' => $distribusi->id,
@@ -56,6 +55,8 @@ class PopulasiAyamSeeder extends Seeder
                     'catatan' => 'Pemeriksaan rutin harian berjalan baik.',
                     ...$populasi,
                 ]);
+
+                // afkir dan karantina belum ditambahkan
 
             });
             $tanggalTambahHari++;

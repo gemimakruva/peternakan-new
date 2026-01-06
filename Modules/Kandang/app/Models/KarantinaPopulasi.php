@@ -41,7 +41,7 @@ class KarantinaPopulasi extends Model
         return $this->belongsTo(Kandang::class, 'kandang_id');
     }
 
-    public function pic_user()
+    public function picUser()
     {
         return $this->belongsTo(User::class, 'pic_user_id');
     }

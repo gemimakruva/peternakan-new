@@ -18,11 +18,9 @@ return new class extends Migration
         Schema::create('pengadaan_ayam_distribusi', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(PengadaanAyam::class, 'pengadaan_ayam_id')
-                  ->constrained('pengadaan_ayam', 'id')
-                  ->cascadeOnDelete();
+                  ->constrained('pengadaan_ayam', 'id');
             $table->foreignIdFor(Pipe::class, 'pipe_id')
-                  ->constrained('pipe', 'id')
-                  ->cascadeOnDelete();
+                  ->constrained('pipe', 'id');
             $table->integer('jumlah_ayam')->default(0);
             $table->timestamps();
         });
