@@ -61,9 +61,7 @@ class User extends Authenticatable
         return 'desc';
     }
 
-   public function pengadaan_ayam(){
+    public function pengadaanAyam(){
         return $this->hasMany(PengadaanAyam::class, 'pic_user_id', 'id');
-   }
-
-
+    }
 }

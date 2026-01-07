@@ -101,7 +101,7 @@ class PengadaanAyamController extends Controller
     public function show(PengadaanAyam $pengadaanAyam)
     {
         $pengadaanAyam = $pengadaanAyam->load([
-            'pic_user',
+            'picUser',
             'berkasSupplier',
             'distribusi.pipe.flock.kandang',
             'dokumentasi'

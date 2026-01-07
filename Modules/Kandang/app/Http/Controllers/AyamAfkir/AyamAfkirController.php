@@ -15,10 +15,9 @@ class AyamAfkirController extends Controller
 
     public function index()
     {
-         $listAyamAfkir = AyamAfkir::with([
-         'populasi.pengadaanDistribusi.pipe.flock', 'pic_user'])
-        ->orderBy('updated_at', 'desc') 
-        ->paginate(10);
+        $listAyamAfkir = AyamAfkir::with(['populasi.pengadaanDistribusi.pipe.flock', 'picUser'])
+            ->orderBy('updated_at', 'desc') 
+            ->paginate(10);
         return view("kandang::ayam-afkir.index", 
         compact('listAyamAfkir'));
     }
