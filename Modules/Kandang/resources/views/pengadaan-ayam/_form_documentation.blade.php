@@ -3,56 +3,68 @@
         <h5 class="card-title">Upload Dokumentasi</h5>
     </div>
     <div class="card-body">
-            @if(isset($data) && $data->count() > 0)
-                <div class="mb-4">
-                    <h6 class="text-muted mb-3">
-                        <i class="fas fa-images mr-1"></i> Dokumentasi yang Sudah Ada
-                    </h6>
-                    <div class="row g-2 mb-3">
-                        @foreach($data as $doc)
-                            <div class="col-md-3 col-4">
-                                <div class="position-relative dokumentasi-item" data-doc-id="{{ $doc->id }}">
-                                    <img src="{{ Storage::url($doc->file_path) }}" 
-                                        class="img-thumbnail shadow-sm rounded" 
-                                        style="height: 150px; width: 100%; object-fit: cover;" />
-                                    <button type="button" 
-                                            class="btn btn-danger btn-sm position-absolute btn-delete-existing-doc" 
-                                            style="top: 5px; right: 5px;"
-                                            data-doc-id="{{ $doc->id }}">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                    <input type="hidden" name="delete_doc_ids[]" value="" class="delete-doc-input-{{ $doc->id }}">
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-                    <hr class="my-4">
+        <x-adminlte-input-file 
+            name="dokumentasi_new[][file]"
+            label="Upload Dokumentasi"
+            placeholder="Pilih gambar..."
+            accept="image/*"
+            multiple
+            id="multiImageInput"
+        />
+        <div id="previewContainer" class="row mt-3 g-2">
+            @foreach ($pengadaanAyam->dokumentasi as $dokumentasi)
+                <div class="col-3">
+                    <input type="hidden" name="dokumentasi_persisted[][id]" value="{{ $dokumentasi->id }}">
+                    <button class="btn btn-danger btn-sm btn-delete" type="button">
+                        <i class="fas fa-trash"></i> - {{ $dokumentasi->id }}
+                    </button>
+                    <img src="{{ $dokumentasi->file_url }}" alt="" class="preview-image">
                 </div>
-            @endif
-
-          {{-- ===========================
-                Input: Uploud Photo
-                Digunakan untuk photo dokuemntasi 
-            ============================ --}}
-          <div class="mb-4">
-            
-            <x-adminlte-input-file 
-                name="image_files_doc[]"
-                label="Upload Dokumentasi"
-                placeholder="Pilih gambar..."
-                accept="image/*"
-                multiple
-                igroup-size="lg"
-                fgroup-class="col-12"
-                class="form-control form-control-lg py-3"
-                id="multiImageInput">
-                <x-slot name="prependSlot">
-                    <div class="input-group-text bg-white">
-                        <i class="fas fa-camera text-muted"></i>
-                    </div>
-                </x-slot>
-            </x-adminlte-input-file>
-            <div id="previewContainer" class="row mt-3 g-2"></div>
-         </div>
+            @endforeach
+        </div>
     </div>
 </div>
+
+@push('js')
+    <script>
+        $('#multiImageInput').on('change', function() {
+            const files = Array.from(this.files);
+            const previewContainer = $('#previewContainer');
+
+            files.forEach(file => {
+                const reader = new FileReader();
+                reader.onload = function (ev) {
+                    const img = $('<img>').addClass('preview-image').attr('src', ev.target.result);
+                    const col = $('<div>').addClass('col-3').append(img);
+                    previewContainer.append(col);
+                };
+                reader.readAsDataURL(file);
+            });
+        });
+
+        $('#previewContainer .col-3 .btn-delete').on('click', function(e) {
+            e.preventDefault();
+            $(this).closest('.col-3').remove();
+        })
+    </script>
+@endpush
+
+@push('css')
+    <style>
+        #previewContainer .col-3 {
+            position: relative;
+        }
+        #previewContainer .col-3 .btn-delete {
+            position: absolute;
+            top: 8px;
+            right: 16px;
+        }
+        #previewContainer .preview-image {
+            height: 150px;
+            width: 100%;
+            object-fit: cover;
+            margin-bottom: 16px;
+            border: 1px solid #dddd;
+        }
+    </style>
+@endpush

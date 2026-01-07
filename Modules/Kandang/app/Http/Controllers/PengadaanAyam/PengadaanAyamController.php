@@ -23,6 +23,7 @@ class PengadaanAyamController extends Controller
         private PengadaanAyam $pengadaanAyam,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
         private BerkasPengadaanAyam $berkasPengadaanAyam,
+        private PengadaanAyamDokumentasi $pengadaanAyamDokumentasi,
     ) { }
 
     public function index()
@@ -171,7 +172,7 @@ class PengadaanAyamController extends Controller
 
             'berkas_supplier' => ['nullable', 'array'],
             'berkas_supplier.*.id' => ['nullable', 'exists:pengadaan_ayam_berkas_supplier,id'],
-            'berkas_supplier.*.nama_berkas' => ['nullable', 'string', 'max:255'],
+            'berkas_supplier.*.nama_berkas' => ['required', 'string', 'max:255'],
             'berkas_supplier.*.nama_berkas_lainnya' => ['nullable', 'string', 'max:255'],
             'berkas_supplier.*.file' => [
                 'nullable',
@@ -180,16 +181,15 @@ class PengadaanAyamController extends Controller
                 'max:2048'
             ],
 
-            // 'image_files_doc' => ['nullable', 'array'],
-            // 'image_files_doc.*' => [
-            //     'nullable',
-            //     'image',
-            //     'mimes:jpg,jpeg,png',
-            //     'max:2048'
-            // ],
-
-            // 'delete_berkas_ids' => ['nullable', 'array'],
-            // 'delete_doc_ids' => ['nullable', 'array'],
+            'dokumentasi_persisted' => ['nullable', 'array'],
+            'dokumentasi_persisted.*.id' => ['required', 'exists:pengadaan_ayam_dokumentasi'],
+            'dokumentasi_new' => ['nullable', 'array'],
+            'dokumentasi_new.*.file' => [
+                'nullable',
+                'image',
+                'mimes:jpg,jpeg,png',
+                'max:2048'
+            ],
         ]);
 
         $distribusi = json_decode($validated['distribusi_json'], true);
@@ -242,58 +242,53 @@ class PengadaanAyamController extends Controller
         ]);
 
         // simpan berkas supplier
-        if (count($validated['berkas_supplier']) > 0) {
-            foreach ($validated['berkas_supplier'] as $index => $berkasSupplier) {
+        $savedBerkasPengadaanAyamIds = [];
+        foreach ($validated['berkas_supplier'] ?? [] as $index => $berkasSupplier) {
 
-                $file = $request->file("berkas_supplier.$index.file");
+            $file = $request->file("berkas_supplier.$index.file");
 
-                if ($file !== null) {
-                    $row['file_path'] = $file->store('pengadaan/berkas-supplier', 'public');
-                }
-
-                if ($berkasSupplier['nama_berkas'] === 'lainnya') {
-                    $row['nama_berkas'] = $berkasSupplier['nama_berkas_lainnya'];
-                } else {
-                    $row['nama_berkas'] = $berkasSupplier['nama_berkas'];
-                }
-
-                $row['pengadaan_ayam_id'] = $pengadaanAyam->id;
-
-                $berkasPengadaanAyam = $this->berkasPengadaanAyam->firstOrNew(['id' => $berkasSupplier['id']]);
-                $berkasPengadaanAyam->fill($row);
-                $berkasPengadaanAyam->save();
-                $savedBerkasPengadaanAyamIds[] = $berkasPengadaanAyam->id;
+            if ($file !== null) {
+                $row['file_path'] = $file->store('pengadaan/berkas-supplier', 'public');
             }
+
+            if ($berkasSupplier['nama_berkas'] === 'lainnya') {
+                $row['nama_berkas'] = $berkasSupplier['nama_berkas_lainnya'];
+            } else {
+                $row['nama_berkas'] = $berkasSupplier['nama_berkas'];
+            }
+
+            $row['pengadaan_ayam_id'] = $pengadaanAyam->id;
+
+            $berkasPengadaanAyam = $this->berkasPengadaanAyam->firstOrNew(['id' => $berkasSupplier['id']]);
+            $berkasPengadaanAyam->fill($row);
+            $berkasPengadaanAyam->save();
+            $savedBerkasPengadaanAyamIds[] = $berkasPengadaanAyam->id;
         }
         // hapus berkas yang tidak terpakai
-        $pengadaanAyam->berkasSupplier()->whereNotIn('id', $savedBerkasPengadaanAyamIds)->delete(); // handle berkas yang terupdate dan terhapus.
+        $pengadaanAyam->berkasSupplier()->whereNotIn('id', $savedBerkasPengadaanAyamIds)->get()->each->delete();
 
-        // // HAPUS DOKUMENTASI YANG DITANDAI UNTUK DIHAPUS
-        // if (!empty($validated['delete_doc_ids'])) {
-        //     foreach ($validated['delete_doc_ids'] as $docId) {
-        //         if ($docId) {
-        //             $doc = PengadaanAyamDokumentasi::find($docId);
-        //             if ($doc && $doc->pengadaan_ayam_id == $pengadaanAyam->id) {
-        //                 if (Storage::disk('public')->exists($doc->file_path)) {
-        //                     Storage::disk('public')->delete($doc->file_path);
-        //                 }
-        //                 $doc->delete();
-        //             }
-        //         }
-        //     }
-        // }
+        // simpan dokumentasi
+        $savedPengadaanAyamDokumentasiIds = [];
+        foreach ($validated['dokumentasi_new'] ?? [] as $index => $dokumentasi) {
+            $file = $request->file("dokumentasi_new.$index.file");
 
-        // // TAMBAH DOKUMENTASI BARU
-        // if ($request->hasFile('image_files_doc')) {
-        //     foreach ($validated['image_files_doc'] as $image) {
-        //         $storedPath = $image->store('pengadaan/dokumentasi', 'public');
+            if ($file !== null) {
+                $row['file_path'] = $file->store('pengadaan/dokumentasi', 'public');
+            }
 
-        //         PengadaanAyamDokumentasi::create([
-        //             'pengadaan_ayam_id' => $pengadaanAyam->id,
-        //             'file_path' => $storedPath,
-        //         ]);
-        //     }
-        // }
+            $row['pengadaan_ayam_id'] = $pengadaanAyam->id;
+
+            $pengadaanAyamDokumentasi = $this->pengadaanAyamDokumentasi->newInstance();
+            $pengadaanAyamDokumentasi->fill($row);
+            $pengadaanAyamDokumentasi->save();
+
+            $savedPengadaanAyamDokumentasiIds[] = $pengadaanAyamDokumentasi->id;
+        }
+        foreach ($validated['dokumentasi_persisted'] ?? [] as $index => $dokumentasi) {
+            $savedPengadaanAyamDokumentasiIds[] = @$dokumentasi['id'];
+        }
+        // hapus dokumentasi yang tidak terpakai
+        $pengadaanAyam->dokumentasi()->whereNotIn('id', $savedPengadaanAyamDokumentasiIds)->get()->each->delete();
 
         return back()->with('success', 'Data pengadaan ayam berhasil diupdate!');
     }

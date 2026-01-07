@@ -35,7 +35,7 @@
                     @include('kandang::pengadaan-ayam._form', ['data' => $pengadaanAyam])
                     @include('kandang::pengadaan-ayam._form_distribusi')
                     @include('kandang::pengadaan-ayam._form_berkas')
-                    @include('kandang::pengadaan-ayam._form_documentation', ['data' => $pengadaanAyam->dokumentasi])
+                    @include('kandang::pengadaan-ayam._form_documentation')
                 </form>
         </div>
         <div class="col-md-3 col-12">
