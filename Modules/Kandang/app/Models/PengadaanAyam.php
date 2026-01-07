@@ -62,8 +62,8 @@ class PengadaanAyam extends Model
                 'flock_id' => $item->pipe->flock_id,
                 'pipe_id' => $item->pipe_id,
                 'jumlah_ayam' => $item->jumlah_ayam,
-                'nama_flock' => $item->pipe->nama,
-                'nama_pipa' => $item->pipe->flock->nama,
+                'nama_flock' => $item->pipe->flock->nama,
+                'nama_pipa' => $item->pipe->nama,
             ];
         });
     }

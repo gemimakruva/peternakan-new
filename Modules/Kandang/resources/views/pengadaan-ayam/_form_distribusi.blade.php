@@ -5,7 +5,7 @@
             cleanModalForm()
         });
         $('#modalDistribusi').on('shown.bs.modal', function() {
-            if (summaryMasukKandang >= summary_ayam_datang) {
+            if (summaryMasukKandang >= summary_ayam_datang && modal_form_mode === 'create') {
                 Swal.fire({
                     title: `Tidak dapat mendistribusikan ayam!`,
                     text: `Semua ayam telah didistribusikan pada pipa.`,
@@ -102,7 +102,7 @@
             {{-- Tabel data distribusi  --}}
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="font-weight-bold">Data Distribusi Ayam</h5>
-                <button type="button" data-toggle="modal" data-target="#modalDistribusi" class="btn btn-primary btn-sm" id="btnAddDistribusi">
+                <button type="button" class="btn btn-primary btn-sm" x-on:click="onCreateClick">
                     Tambah Distribusi
                 </button>
             </div>
@@ -123,14 +123,14 @@
                             <tr>
                                 <td x-text="i+1"></td>
                                 <td class="text-left" x-text="d.nama_flock"></td>
-                                <td class="text-left"  x-text="d.nama_pipa"></td>
-                                <td class="text-right"  x-text="d.jumlah_ayam"></td>
+                                <td class="text-left" x-text="d.nama_pipa"></td>
+                                <td class="text-right" x-text="d.jumlah_ayam"></td>
                                 <td>
                                     <div class="d-flex gap-1">
-                                        <button type="button" class="btn btn-sm btn-warning">
+                                        <button type="button" class="btn btn-sm btn-warning" x-on:click="onEditClick(d)">
                                             <i class="fas fa-edit"></i>
                                         </button>
-                                        <button type="button" class="btn btn-sm btn-danger">
+                                        <button type="button" class="btn btn-sm btn-danger" x-on:click="onDeleteClick(i)">
                                             <i class="fas fa-trash"></i>
                                         </button>
                                     </div>
@@ -246,12 +246,13 @@
             'summary_ayam_sakit' => $pengadaanAyam->jumlah_ayam_sakit,
             'list_flocks' => $pengadaanAyam->kandang->flocks->values(),
             'list_pipes' => [],
-            'selected_pengadaan_ayam_id' => null,
+            'selected_pengadaan_ayam_distribusi_id' => null,
             'selected_flock_id' => null,
             'selected_pipe_id' => null,
             'jumlah_ayam' => null,
             'jumlah_ayam_error' => null,
             'distribusi' => json_decode(old('distribusi_json') ?? @$pengadaanAyam?->distribusi_json ?? '[]'),
+            'modal_form_mode' => null,
         ]);
 
         var pengadaan = {
@@ -274,14 +275,61 @@
                 return `${filledPipe}/${emptyPipe}`;
             },
             get flocksOptions() {
+                // tampilkan flock dengan pipe yang masih tersedia atau belum terisi dengan ayam, 
+                // dan kecualikan ketika modal_form_mode === 'edit'
                 const distributedPipeIds = this.distribusi.map((item) => Number(item.pipe_id));
-                return this.list_flocks.filter(function(item) {
-                    return item.pipes.filter(item2 => !distributedPipeIds.includes(item2.id)).length;
+                return this.list_flocks.filter((item) => {
+                    return item.pipes.filter((item2) => {
+                        if (this.modal_form_mode === 'create') {
+                            return !distributedPipeIds.includes(item2.id);
+                        } else {
+                            return !distributedPipeIds.includes(item2.id) 
+                                || item2.id == this.selected_pipe_id;
+                        }
+                    }).length;
                 });
             },
             get pipesOptions() {
+                // tampilkan pipe yang masih tersedia atau belum terisi dengan ayam, 
+                // dan kecualikan ketika modal_form_mode === 'edit'
                 const distributedPipeIds = this.distribusi.map((item) => Number(item.pipe_id));
-                return this.list_pipes.filter((item) => !distributedPipeIds.includes(item.id));
+                return this.list_pipes.filter((item) => {
+                    if (this.modal_form_mode === 'create') {
+                        return !distributedPipeIds.includes(item.id);
+                    } else {
+                        return !distributedPipeIds.includes(item.id) 
+                            || item.id == this.selected_pipe_id;
+                    }
+                });
+            },
+            onDeleteClick(i) {            
+                this.distribusi = this.distribusi.filter(function(item, idx) {
+                    return idx != i
+                });
+            },
+            onEditClick(d) {
+                this.selected_flock_id = d.flock_id;
+                this.selected_pipe_id = d.pipe_id;
+                this.selected_pengadaan_ayam_distribusi_id = d.id;
+                this.pengadaan_ayam_id = d.pengadaan_ayam_id;
+                this.jumlah_ayam = d.jumlah_ayam;
+
+                this.modal_form_mode = 'edit';
+
+                $('#modalDistribusi').modal('show');
+
+                // re-mapping select options
+                setTimeout(() => {
+                    $('#flockSelect').val(d.flock_id).trigger('change')
+                    this.list_pipes = this.list_flocks.find((item) => item.id == d.flock_id)?.pipes;
+                }, 10);
+                setTimeout(() => {
+                    $('#pipeSelect').val(d.pipe_id).trigger('change')
+                }, 10);
+            },
+            onCreateClick() {
+                this.modal_form_mode = 'create';
+                $('#modalDistribusi').modal('show');
             },
             onFlockChange(e) {
                 let flockId = e.target.value;
@@ -317,7 +365,7 @@
                 const pipe = this.list_pipes.find((item) => item.id == this.selected_pipe_id)                
                 const nama_pipa = pipe?.nama;
                 this.distribusi.push({
-                    id: this.selected_pengadaan_ayam_id,
+                    id: this.selected_pengadaan_ayam_distribusi_id,
                     pengadaan_ayam_id: this.pengadaan_ayam_id,
                     flock_id: this.selected_flock_id,
                     pipe_id: this.selected_pipe_id,
@@ -334,7 +382,7 @@
             cleanModalForm() {
                 this.selected_flock_id = null;
                 this.selected_pipe_id = null;
-                this.selected_pengadaan_ayam_id = null;
+                this.selected_pengadaan_ayam_distribusi_id = null;
                 this.pengadaan_ayam_id = null;
                 this.jumlah_ayam = null;
                 this.jumlah_ayam_error = null;
