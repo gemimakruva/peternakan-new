@@ -32,11 +32,9 @@
                 >
                     @method('PUT')
                     @csrf
-                    <input type="hidden" name="distribusi_json" id="distribusi_json">
-
                     @include('kandang::pengadaan-ayam._form', ['data' => $pengadaanAyam])
                     @include('kandang::pengadaan-ayam._form_distribusi')
-                    @include('kandang::pengadaan-ayam._form_berkas', ['data' => $pengadaanAyam->berkasSupplier])
+                    @include('kandang::pengadaan-ayam._form_berkas')
                     @include('kandang::pengadaan-ayam._form_documentation', ['data' => $pengadaanAyam->dokumentasi])
                 </form>
         </div>

@@ -68,6 +68,17 @@ class PengadaanAyam extends Model
         });
     }
 
+    public function getBerkasSupplierJsonAttribute()
+    {
+        if (!$this->berkasSupplier) return null;
+
+        return $this->berkasSupplier->map(function($item) {
+            return [
+                
+            ];
+        });
+    }
+
     /**
      * get umur ayam dalam satuan minggu
      * @param Carbon $tanggalPembanding

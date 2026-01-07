@@ -156,83 +156,82 @@
                     </button>
                 </div>
 
-                <form id="formDistribusi">
-                    <div class="modal-body">
-                        <x-adminlte-input 
-                            name="kandang_name"
-                            label="Kandang"
-                            :value="$pengadaanAyam->kandang->nama"
-                            disabled
-                        />
+                <div class="modal-body">
+                    <x-adminlte-input 
+                        name="kandang_name"
+                        label="Kandang"
+                        :value="$pengadaanAyam->kandang->nama"
+                        disabled
+                    />
 
-                        <x-adminlte-select 
-                            id="flockSelect"
-                            name="flock_id"
-                            label="Flock"
-                            x-model="selected_flock_id"
-                            x-on:change="onFlockChange($event)"
-                        >
-                            <option selected value="">Pilih Flock...</option>
-                            <template x-for="flock in flocksOptions">
-                                <option
-                                    x-text="flock.nama"
-                                    :value="flock.id"
-                                ></option>
-                            </template>
-                        </x-adminlte-select>
-
-                        <x-adminlte-select
-                            id="pipeSelect"
-                            name="pipe_id"
-                            label="Pipe"
-                            x-model="selected_pipe_id"
-                            x-bind:disabled="!selected_flock_id"
-                            x-on:change="onPipeChange($event)"
-                        >
-                            <option selected value="">Pilih Pipe...</option>
-                            <template x-for="pipe in pipesOptions">
-                                <option
-                                    x-text="`${pipe.nama} (Kapasitas: ${pipe.kapasitas})`"
-                                    :value="pipe.id"
-                                ></option>
-                            </template>
-                        </x-adminlte-select>
-
-                        <x-adminlte-input
-                            id="jumlah_ayam"
-                            name="jumlah_ayam"
-                            label="Jumlah Ayam"
-                            type="number"
-                            min="0"
-                            placeholder="Input jumlah ayam..."
-                            x-model="jumlah_ayam"
-                            x-bind:disabled="!selected_pipe_id"
-                            class="mb-0"
-                            x-bind:class="{'border-danger': jumlah_ayam_error}"
-                            x-on:input="onJumlahAyamInput($event)"
-                        />
-                        <template x-if="jumlah_ayam_error">
-                            <p class="text-danger mb-0" x-text="jumlah_ayam_error"></p>
+                    <x-adminlte-select 
+                        id="flockSelect"
+                        name="flock_id"
+                        label="Flock"
+                        x-model="selected_flock_id"
+                        x-on:change="onFlockChange($event)"
+                    >
+                        <option selected value="">Pilih Flock...</option>
+                        <template x-for="flock in flocksOptions">
+                            <option
+                                x-text="flock.nama"
+                                :value="flock.id"
+                            ></option>
                         </template>
-                    </div>
+                    </x-adminlte-select>
 
-                    <div class="modal-footer">
-                        <button 
-                            type="button"
-                            class="btn btn-secondary"
-                            x-on:click="onBatalClick"
-                        >
-                            Batal
-                        </button>
-                        <button
-                            type="button"
-                            class="btn btn-primary"
-                            x-on:click="onSimpanClick"
-                        >
-                            Simpan
-                        </button>
-                    </div>
-                </form>
+                    <x-adminlte-select
+                        id="pipeSelect"
+                        name="pipe_id"
+                        label="Pipe"
+                        x-model="selected_pipe_id"
+                        x-bind:disabled="!selected_flock_id"
+                        x-on:change="onPipeChange($event)"
+                    >
+                        <option selected value="">Pilih Pipe...</option>
+                        <template x-for="pipe in pipesOptions">
+                            <option
+                                x-text="`${pipe.nama} (Kapasitas: ${pipe.kapasitas})`"
+                                :value="pipe.id"
+                            ></option>
+                        </template>
+                    </x-adminlte-select>
+
+                    <x-adminlte-input
+                        id="jumlah_ayam"
+                        name="jumlah_ayam"
+                        label="Jumlah Ayam"
+                        type="number"
+                        min="0"
+                        placeholder="Input jumlah ayam..."
+                        x-model="jumlah_ayam"
+                        x-bind:disabled="!selected_pipe_id"
+                        class="mb-0"
+                        x-bind:class="{'border-danger': jumlah_ayam_error}"
+                        x-on:input="onJumlahAyamInput($event)"
+                    />
+                    <template x-if="jumlah_ayam_error">
+                        <p class="text-danger mb-0" x-text="jumlah_ayam_error"></p>
+                    </template>
+                </div>
+
+                <div class="modal-footer">
+                    <button 
+                        type="button"
+                        class="btn btn-secondary"
+                        x-on:click="onBatalClick"
+                    >
+                        Batal
+                    </button>
+                    <button
+                        type="button"
+                        class="btn btn-primary"
+                        x-on:click="onSimpanClick"
+                    >
+                        Simpan
+                    </button>
+                </div>
+            
             </div>
         </div>
     </div>

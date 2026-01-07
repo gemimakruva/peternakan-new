@@ -167,20 +167,18 @@ class PengadaanAyamController extends Controller
             'kondisi_ayam' => ['required', 'string', 'max:255'],
             'catatan' => ['nullable', 'string'],
 
-            // 'nama_berkas' => ['nullable', 'array'],
-            // 'nama_berkas.*' => ['nullable', 'string', 'max:255'],
-            // 'nama_berkas_lainnya' => ['nullable', 'array'],
-            // 'nama_berkas_lainnya.*' => ['nullable', 'string', 'max:255'],
-
             'distribusi_json' => ['required', 'string'],
 
-            // 'file_path_berkas' => ['nullable', 'array'],
-            // 'file_path_berkas.*' => [
-            //     'nullable',
-            //     'file',
-            //     'mimes:pdf,jpg,jpeg,png',
-            //     'max:2048'
-            // ],
+            'berkas_supplier' => ['nullable', 'array'],
+            'berkas_supplier.*.id' => ['nullable', 'exists:pengadaan_ayam_berkas_supplier,id'],
+            'berkas_supplier.*.nama_berkas' => ['nullable', 'string', 'max:255'],
+            'berkas_supplier.*.nama_berkas_lainnya' => ['nullable', 'string', 'max:255'],
+            'berkas_supplier.*.file' => [
+                'nullable',
+                'file',
+                'mimes:pdf,jpg,jpeg,png',
+                'max:2048'
+            ],
 
             // 'image_files_doc' => ['nullable', 'array'],
             // 'image_files_doc.*' => [
@@ -243,41 +241,32 @@ class PengadaanAyamController extends Controller
             'jumlah_ayam_masuk_kandang' => $totalAyamMasuk
         ]);
 
-        // // hapus berkas yang ditandai untuk dihapus
-        // if (!empty($validated['delete_berkas_ids'])) {
-        //     foreach ($validated['delete_berkas_ids'] as $berkasId) {
-        //         if ($berkasId) {
-        //             $berkas = $this->berkasPengadaanAyam->find($berkasId);
-        //             if ($berkas && $berkas->pengadaan_ayam_id == $pengadaanAyam->id) {
-        //                 if (Storage::disk('public')->exists($berkas->file_path)) {
-        //                     Storage::disk('public')->delete($berkas->file_path);
-        //                 }
-        //                 $berkas->delete();
-        //             }
-        //         }
-        //     }
-        // }
+        // simpan berkas supplier
+        if (count($validated['berkas_supplier']) > 0) {
+            foreach ($validated['berkas_supplier'] as $index => $berkasSupplier) {
 
-        // // tambah berkas baru
-        // if ($request->hasFile('file_path_berkas')) {
-        //     $namaBerkasLainnya = $validated['nama_berkas_lainnya'] ?? [];
+                $file = $request->file("berkas_supplier.$index.file");
 
-        //     foreach ($request->file('file_path_berkas') as $index => $file) {
-        //         $path = $file->store('pengadaan/files_supplier', 'public');
-                
-        //         // Jika nama berkas adalah "lainnya", ambil dari input nama_berkas_lainnya
-        //         $namaBerkas = $validated['nama_berkas'][$index];
-        //         if ($namaBerkas === 'lainnya' && isset($namaBerkasLainnya[$index])) {
-        //             $namaBerkas = $namaBerkasLainnya[$index];
-        //         }
-                
-        //         BerkasPengadaanAyam::create([
-        //             'pengadaan_ayam_id' => $pengadaanAyam->id,
-        //             'nama_berkas'       => $namaBerkas, 
-        //             'file_path'         => $path,
-        //         ]);
-        //     }
-        // }
+                if ($file !== null) {
+                    $row['file_path'] = $file->store('pengadaan/berkas-supplier', 'public');
+                }
+
+                if ($berkasSupplier['nama_berkas'] === 'lainnya') {
+                    $row['nama_berkas'] = $berkasSupplier['nama_berkas_lainnya'];
+                } else {
+                    $row['nama_berkas'] = $berkasSupplier['nama_berkas'];
+                }
+
+                $row['pengadaan_ayam_id'] = $pengadaanAyam->id;
+
+                $berkasPengadaanAyam = $this->berkasPengadaanAyam->firstOrNew(['id' => $berkasSupplier['id']]);
+                $berkasPengadaanAyam->fill($row);
+                $berkasPengadaanAyam->save();
+                $savedBerkasPengadaanAyamIds[] = $berkasPengadaanAyam->id;
+            }
+        }
+        // hapus berkas yang tidak terpakai
+        $pengadaanAyam->berkasSupplier()->whereNotIn('id', $savedBerkasPengadaanAyamIds)->delete(); // handle berkas yang terupdate dan terhapus.
 
         // // HAPUS DOKUMENTASI YANG DITANDAI UNTUK DIHAPUS
         // if (!empty($validated['delete_doc_ids'])) {
