@@ -157,8 +157,9 @@ document.addEventListener('DOMContentLoaded', function () {
                 title: "Hapus Data?",
                 text: "Data " + tanggal + " akan dihapus permanen!",
                 showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#6c757d",
+                icon: "warning",
+                confirmButtonColor: "var(--danger)",
+                cancelButtonColor: "var(--secondary)",
                 confirmButtonText: "Ya, hapus!",
                 cancelButtonText: "Batal"
             }).then(function (result) {
