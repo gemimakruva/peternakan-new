@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('pengadaan_ayam_berkas_supplier', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pengadaan_ayam_id')
-                  ->constrained('pengadaan_ayam', 'id')
-                  ->cascadeOnDelete();
+                ->constrained('pengadaan_ayam', 'id');
             $table->string('file_path');
             $table->string('nama_berkas');
             $table->timestamps();

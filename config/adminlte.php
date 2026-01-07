@@ -800,7 +800,7 @@ return [
             ],
         ],
         'Datatables' => [
-            'active' => true,
+            'active' => false,
             'files'  => [
                 [
                     'type'     => 'js',
@@ -870,7 +870,7 @@ return [
                 [
                     'type'     => 'js',
                     'asset'    => false,
-                    'location' => '//cdn.jsdelivr.net/npm/sweetalert2@8',
+                    'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
                 ],
             ],
         ],
@@ -890,7 +890,7 @@ return [
             ],
         ],
         'BsCustomFileInput' => [
-            'active' => false,
+            'active' => true,
             'files' => [
                 [
                     'type' => 'js',

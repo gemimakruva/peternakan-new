@@ -29,7 +29,7 @@ class AyamAfkir extends Model
         return $this->belongsTo(PopulasiAyam::class,'populasi_ayam_id','id');
     }
 
-    public function pic_user()
+    public function picUser()
     {
         return $this->belongsTo(User::class, 'pic_user_id');
     }

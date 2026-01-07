@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('pengadaan_ayam', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kandang_id')
+                ->constrained('kandang', 'id');
             $table->foreignId('pic_user_id')
-                  ->constrained('users', 'id')
-                  ->cascadeOnDelete();
+                ->constrained('users', 'id');
             $table->date('tanggal');
             $table->string('kondisi_ayam');
             $table->integer('umur_ayam');
@@ -33,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pengadaan_ayams');
+        Schema::dropIfExists('pengadaan_ayam');
     }
 };

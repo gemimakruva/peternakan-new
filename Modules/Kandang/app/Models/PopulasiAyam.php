@@ -24,6 +24,10 @@ class PopulasiAyam extends Model
         'catatan',
     ];
 
+    protected $casts = [
+        'tanggal' => 'date'
+    ];
+
     public function karantinaPopulasiPipe()
     {
         return $this->hasOne(KarantinaPopulasiPipe::class, 'populasi_ayam_asal_id', 'id');
@@ -34,7 +38,7 @@ class PopulasiAyam extends Model
         return $this->belongsTo(PengadaanAyamDistribusi::class, 'pengadaan_ayam_distribusi_id');
     }
 
-    public function pic_user()
+    public function picUser()
     {
         return $this->belongsTo(User::class, 'pic_user_id');
     }

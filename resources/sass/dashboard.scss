@@ -12,10 +12,13 @@
   gap: 1rem;
 }
 
-$maxWidths: 1400, 1200, 1000, 900, 400, 200, 100;
-@each $n in $maxWidths {
+$widths: 1400, 1200, 1000, 900, 400, 200, 100;
+@each $n in $widths {
   .mx-#{$n} {
     max-width: #{$n}px;
+  }
+  .w-#{$n}-px {
+    width: #{$n}px;
   }
 }
 
