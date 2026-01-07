@@ -208,19 +208,21 @@ class PengadaanAyamController extends Controller
         ]);
 
         // update distribusi ayam
-        foreach ($distribusi as $item) 
-        {
+        $savedPengadaanAyamDistribusiIds = [];
+        foreach ($distribusi as $item) {
             if (!@$item['is_editable']) continue;
 
             $jumlah = (int) $item['jumlah_ayam'];
             $totalAyamMasuk += $jumlah;
             $pengadaanAyamDistribusi = $this->pengadaanAyamDistribusi->updateOrCreate([
                 'id' => $item['id'],
-                'pengadaan_ayam_id' => $item['pengadaan_ayam_id'],
+                'pengadaan_ayam_id' => $pengadaanAyam->id,
             ], [
                 'pipe_id' => $item['pipe_id'],
                 'jumlah_ayam' => $jumlah,
             ]);
+
+            $savedPengadaanAyamDistribusiIds[] = $pengadaanAyamDistribusi->id;
 
             // update data populasi
             $this->populasiAyam->updateOrCreate([
@@ -236,6 +238,16 @@ class PengadaanAyamController extends Controller
                 'ayam_sehat' => $jumlah,
             ]);
         }
+        $pengadaanAyam
+            ->distribusi()
+            ->whereNotIn('id', $savedPengadaanAyamDistribusiIds)
+            ->get()
+            ->map(function($item) {
+                // delete populasi yang tidak valid
+                $item->populasiAyam()->delete();
+                // delete distribusi yang tidak valid
+                $item->delete();
+            });
 
         $pengadaanAyam->update([
             'jumlah_ayam_masuk_kandang' => $totalAyamMasuk
