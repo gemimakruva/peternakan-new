@@ -12,8 +12,6 @@ class MetodeTreatmentSeeder extends Seeder
      */
     public function run(): void
     {
-        // MetodeTreatment::factory()->count(10)->create();
-
          $data = [
             ['id' => 1, 'nama' => 'Pakan'],
             ['id' => 2, 'nama' => 'Minum'],
