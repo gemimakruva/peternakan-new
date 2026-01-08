@@ -2,6 +2,9 @@
 
 namespace Modules\Kandang\Repositories\Kandang;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -10,5 +13,76 @@ class KandangRepository extends EloquentRepository
     public function __construct(Kandang $model)
     {
         parent::__construct($model);
+    }
+
+    public function populasiAyam(Collection $filter): Builder
+    {
+        $query = $this->model
+            ->newQuery()
+            ->leftJoinSub(
+                // pengadaan ayam terbaru per kandang
+                DB::table('pengadaan_ayam as pa1')
+                    ->select(
+                        'pa1.kandang_id',
+                        'pa1.tanggal',
+                        'pa1.umur_ayam',
+                        'pa1.jumlah_ayam_masuk_kandang'
+                    )
+                    ->whereRaw('pa1.tanggal = (
+                        SELECT MAX(pa2.tanggal)
+                        FROM pengadaan_ayam pa2
+                        WHERE pa2.kandang_id = pa1.kandang_id
+                    )'),
+                'pa',
+                'pa.kandang_id',
+                '=',
+                'kandang.id'
+            )
+            ->leftJoinSub(
+                // akumulasi populasi ayam per kandang
+                DB::table('populasi_ayam as pa')
+                    ->join('pipe as p', 'p.id', '=', 'pa.pipe_id')
+                    ->join('flock as f', 'f.id', '=', 'p.flock_id')
+                    ->when($filter->get('date_range'), function($query, $dateRange) {
+                        $query->whereBetween('pa.tanggal', $dateRange);
+                    })
+                    ->groupBy('f.kandang_id')
+                    ->select(
+                        'f.kandang_id',
+                        DB::raw('SUM(pa.ayam_mati) as ayam_mati'),
+                        DB::raw('SUM(pa.ayam_afkir) as ayam_afkir'),
+                        DB::raw('SUM(pa.ayam_masuk_karantina) as ayam_masuk_karantina'),
+                        DB::raw('SUM(pa.ayam_keluar_karantina) as ayam_keluar_karantina'),
+                        DB::raw('MAX(pa.tanggal) as terakhir_diperharui')
+                    ),
+                'x_total',
+                'x_total.kandang_id',
+                '=',
+                'kandang.id'
+            )
+            ->select([
+                'kandang.id',
+                'kandang.nama',
+                'pa.tanggal',
+                'pa.umur_ayam',
+            ])
+            ->selectRaw('
+                (
+                    pa.jumlah_ayam_masuk_kandang
+                    - COALESCE(x_total.ayam_mati, 0)
+                    - COALESCE(x_total.ayam_afkir, 0)
+                    - COALESCE(x_total.ayam_masuk_karantina, 0)
+                    + COALESCE(x_total.ayam_keluar_karantina, 0)
+                ) AS ayam_sehat
+            ')
+            ->addSelect([
+                'x_total.ayam_mati',
+                'x_total.ayam_afkir',
+                'x_total.ayam_masuk_karantina',
+                'x_total.ayam_keluar_karantina',
+                'x_total.terakhir_diperharui',
+            ]);
+        
+        return $query;
     }
 }

@@ -29,7 +29,7 @@ class PengadaanAyamController extends Controller
     public function index()
     {
         $listPengadaanAyam = $this->pengadaanAyam->query()
-            ->with('picUser')
+            ->with(['picUser', 'kandang'])
             ->when(request()->query('search'), function ($query, $search) {
                 $query->whereRelation('picUser', 'name', 'like', "%$search%");
             })

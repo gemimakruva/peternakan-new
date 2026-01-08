@@ -64,7 +64,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('vaksin-minum', VaksinMinumController::class)->names('vaksin-minum');
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
     Route::get('populasi-ayam/summary', [PopulasiAyamController::class, 'getSummary'])->name('populasi-ayam.summary');
-    Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
+    Route::resource('populasi-ayam', PopulasiAyamController::class)->parameter('populasi-ayam', 'kandang')->names('populasi-ayam');
     Route::get('populasi-ayam/{kandangId}/create', [PopulasiAyamController::class, 'createByDate'])->name('populasi-ayam.createByDate');
     Route::resource('ayam-afkir', AyamAfkirController::class)->names('ayam-afkir');
     Route::resource('ayam-karantina', AyamKarantinaController::class)->names('ayam-karantina');

@@ -5,6 +5,7 @@ namespace Modules\Kandang\Http\Controllers\PopulasiAyam;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Http\Requests\PopulasiAyam\GetSummaryRequest;
 use Modules\Kandang\Models\AyamAfkir;
@@ -13,6 +14,7 @@ use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Services\KandangService;
 use Modules\Kandang\Services\PopulasiAyamService;
 
@@ -25,12 +27,26 @@ class PopulasiAyamController extends Controller
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private AyamAfkir $ayamAfkir,
         private Pipe $pipe,
-        private PopulasiAyamService $service
+        private PopulasiAyamService $service,
+        private KandangRepository $kandangRepository,
     ) {}
 
     public function index()
     {
-        return view('kandang::populasi-ayam.index');
+        $listKandang = $this->kandangRepository
+            ->populasiAyam(request()->collect())
+            ->with([
+                'latestPengadaanAyam.distribusi:pengadaan_ayam_id,pipe_id',
+                'latestPengadaanAyam.distribusi.latestPopulasiAyam:pipe_id,ayam_sehat',
+            ])
+            ->paginate(request()->query('perPage', 10));
+
+        $listKandang->transform(function($item) {
+            $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
+            return $item;
+        });
+
+        return view('kandang::populasi-ayam.index', compact('listKandang'));
     }
 
     /**
@@ -178,9 +194,9 @@ class PopulasiAyamController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(PopulasiAyam $populasiAyam)
+    public function show(Kandang $kandang)
     {
-        //
+        return view('kandang::populasi-ayam.show', compact('kandang'));
     }
 
     /**

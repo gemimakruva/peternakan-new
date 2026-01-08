@@ -400,9 +400,9 @@ return [
             ],
         ],
 
-        // ==================== RIWAYAT KESELURUHAN ==========================
+        // ==================== REKAPAN PRODUKSI ==========================
         [
-            'header' => 'Riwayat Keseluruhan',
+            'header' => 'Rekapan Produksi',
         ],
         [
             'text'  => 'Rekapan Produksi',
@@ -415,25 +415,22 @@ return [
             'header' => 'Pengadaan Ayam',
         ],
         [
-            'text'  => 'Overview',
+            'text'  => 'Pengadaan Ayam',
             'route' => 'pengadaan-ayam.index',
             'icon'  => 'fas fa-clipboard-check',
-        ],
-        [
-            'text'  => 'Pengadaan Ayam',
-            'route' => 'pengadaan-ayam.create',
-            'icon'  => 'fas fa-plus-circle',
+            'active' => ['pengadaan-ayam/*']
         ],
 
-        // ====================  MENU RECORDING HARIAN  ==========================
+        // ====================  MENU POPULASI AYAM  ==========================
 
         [
-            'header' => 'Recording Harian',
+            'header' => 'POPULASI AYAM',
         ],
         [
-            'text'  => 'Pencatatan Harian',
-            'route' => 'populasi-ayam.create',
+            'text'  => 'Populasi Ayam',
+            'route' => 'populasi-ayam.index',
             'icon'  => 'fas fa-clipboard-list',
+            'active' => ['populasi-ayam/*']
         ],
 
         // ====================   PENGADAAN AYAM AFKIR  ==========================
