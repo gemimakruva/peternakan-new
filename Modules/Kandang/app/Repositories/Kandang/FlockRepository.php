@@ -5,22 +5,22 @@ namespace Modules\Kandang\Repositories\Kandang;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
-use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Repositories\EloquentRepository;
 
-class KandangRepository extends EloquentRepository
+class FlockRepository extends EloquentRepository
 {
-    public function __construct(Kandang $model)
+    public function __construct(Flock $model)
     {
         parent::__construct($model);
     }
 
     public function populasiAyam(Collection $filter): Builder
     {
-        $query = $this->model
-            ->newQuery()
+        return $this->model
+            ->leftJoin('kandang as k', 'k.id', '=', 'flock.kandang_id')
+            // pengadaan ayam terbaru per kandang
             ->leftJoinSub(
-                // pengadaan ayam terbaru per kandang
                 DB::table('pengadaan_ayam as pa1')
                     ->select(
                         'pa1.kandang_id',
@@ -36,19 +36,22 @@ class KandangRepository extends EloquentRepository
                 'pa',
                 'pa.kandang_id',
                 '=',
-                'kandang.id'
+                'k.id'
             )
+            // akumulasi populasi ayam per flock
             ->leftJoinSub(
-                // akumulasi populasi ayam per kandang
                 DB::table('populasi_ayam as pa')
                     ->join('pipe as p', 'p.id', '=', 'pa.pipe_id')
-                    ->join('flock as f', 'f.id', '=', 'p.flock_id')
+                    ->join('flock as f2', 'f2.id', '=', 'p.flock_id')
                     ->when($filter->get('date_range'), function($query, $dateRange) {
                         $query->whereBetween('pa.tanggal', $dateRange);
                     })
-                    ->groupBy('f.kandang_id')
+                    ->when($filter->get('kandang_id'), function($query, $kandangId) {
+                        $query->where('f2.kandang_id', $kandangId);
+                    })
+                    ->groupBy('p.flock_id')
                     ->select(
-                        'f.kandang_id',
+                        'p.flock_id',
                         DB::raw('SUM(pa.ayam_mati) as ayam_mati'),
                         DB::raw('SUM(pa.ayam_afkir) as ayam_afkir'),
                         DB::raw('SUM(pa.ayam_masuk_karantina) as ayam_masuk_karantina'),
@@ -56,15 +59,19 @@ class KandangRepository extends EloquentRepository
                         DB::raw('MAX(pa.tanggal) as terakhir_diperharui')
                     ),
                 'x_total',
-                'x_total.kandang_id',
+                'x_total.flock_id',
                 '=',
-                'kandang.id'
+                'flock.id'
             )
+            ->when($filter->get('kandang_id'), function($query, $kandangId) {
+                $query->where('flock.kandang_id', $kandangId);
+            })
             ->select([
-                'kandang.id',
-                'kandang.nama',
+                'flock.id',
+                'flock.nama',
                 'pa.tanggal',
                 'pa.umur_ayam',
+                'pa.jumlah_ayam_masuk_kandang'
             ])
             ->selectRaw('
                 (
@@ -82,7 +89,5 @@ class KandangRepository extends EloquentRepository
                 'x_total.ayam_keluar_karantina',
                 'x_total.terakhir_diperharui',
             ]);
-        
-        return $query;
     }
 }

@@ -16,7 +16,7 @@
                 <div class="col-3">
                     <input type="hidden" name="dokumentasi_persisted[][id]" value="{{ $dokumentasi->id }}">
                     <button class="btn btn-danger btn-sm btn-delete" type="button">
-                        <i class="fas fa-trash"></i> - {{ $dokumentasi->id }}
+                        <i class="fas fa-trash"></i>
                     </button>
                     <img src="{{ $dokumentasi->file_url }}" alt="" class="preview-image">
                 </div>

@@ -90,7 +90,7 @@
                             ],
                             [
                                 'title' => 'PIC User Input',
-                                'text' => $pengadaanAyam->pic_user->name ?? 'Tidak Diketahui',
+                                'text' => $pengadaanAyam->picUser->name ?? 'Tidak Diketahui',
                                 'icon' => 'fas fa-user',
                             ],
                             [

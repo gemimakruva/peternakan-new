@@ -364,16 +364,34 @@
                 const nama_flock = this.list_flocks.find((item) => item.id == this.selected_flock_id)?.nama;
                 const pipe = this.list_pipes.find((item) => item.id == this.selected_pipe_id)                
                 const nama_pipa = pipe?.nama;
-                this.distribusi.push({
-                    id: this.selected_pengadaan_ayam_distribusi_id,
-                    pengadaan_ayam_id: this.pengadaan_ayam_id,
-                    flock_id: this.selected_flock_id,
-                    pipe_id: this.selected_pipe_id,
-                    jumlah_ayam: this.jumlah_ayam,
-                    is_editable: !!pipe?.is_editable,
-                    nama_flock,
-                    nama_pipa, 
-                })
+                if (this.modal_form_mode === 'create') {
+                    this.distribusi.push({
+                        id: this.selected_pengadaan_ayam_distribusi_id,
+                        pengadaan_ayam_id: this.pengadaan_ayam_id,
+                        flock_id: this.selected_flock_id,
+                        pipe_id: this.selected_pipe_id,
+                        jumlah_ayam: this.jumlah_ayam,
+                        is_editable: !!pipe?.is_editable,
+                        nama_flock,
+                        nama_pipa, 
+                    })
+                } else {
+                    this.distribusi =  this.distribusi.map((item) => {
+                        if (item.id == this.selected_pengadaan_ayam_distribusi_id) {
+                            item = {
+                                id: this.selected_pengadaan_ayam_distribusi_id,
+                                pengadaan_ayam_id: this.pengadaan_ayam_id,
+                                flock_id: this.selected_flock_id,
+                                pipe_id: this.selected_pipe_id,
+                                jumlah_ayam: this.jumlah_ayam,
+                                is_editable: !!pipe?.is_editable,
+                                nama_flock,
+                                nama_pipa, 
+                            }
+                        };
+                        return item;
+                    })
+                }
                 $('#modalDistribusi').modal('hide');
             },
             onBatalClick() {

@@ -7,7 +7,7 @@
     fgroup-class="col-12"
     class="form-control-lg mb-3"
     max="{{ today()->format('Y-m-d') }}"
-    :value="old('tanggal_transaksi', @$data->tanggal_transaksi)"
+    :value="old('tanggal_transaksi', @$data->tanggal->format('Y-m-d'))"
 />
 
 <x-adminlte-input
@@ -21,7 +21,7 @@
     :value="$kandang->nama"
 />
 
-<input type="hidden" name="kandang_id" value="{{ request()->route('kandangId') }}">
+<input type="hidden" name="kandang_id" value="{{ $kandangId }}">
 
 <div class="form-group col-12">
     <label for="flock_id">Baris</label>
@@ -81,11 +81,42 @@
 @endpush
 
 @push('js')
+    @if ($tanggal = old('tanggal_transaksi', @$data->tanggal->format('Y-m-d')))
+        <script>
+            tanggalTransaksi = @js($tanggal);
+        </script>
+    @endif
+    @if ($flockId = old('flock_id', @$flock->id))
+        @php
+            $flockName = Modules\Kandang\Models\Flock::whereId($flockId)->value('nama');
+        @endphp
+        <script>
+            // $(() => { 
+                $('#flock_id').val(@js($flockId));
+                $('#flock_id').append(`<option value="{{ $flockId }}">{{ $flockName }}</option>`)
+                $('#flock_id').trigger('change'); 
+            // });
+        </script>
+    @endif
+    @if ($pipeId = old('pipe_id', @$pipe->id))
+        @php
+            $pipeName = Modules\Kandang\Models\Pipe::whereId($pipeId)->value('nama');
+        @endphp
+        <script>
+            // $(() => {
+                $('#pipe_id').val(@js($pipeId));
+                $('#pipe_id').append(`<option value="{{ $pipeId }}">{{ $pipeName }}</option>`)
+                $('#pipe_id').trigger('change'); 
+
+                pipeId = @js($pipeId);
+            // });
+        </script>
+    @endif
     <script>
         $(function() {
             $('#flock_id').select2({
                 ajax: {
-                    url: @js(route('master-data.ajax.flock', request()->route('kandangId'))),
+                    url: @js(route('master-data.ajax.flock', $kandangId)),
                     datType: 'json'
                 },
                 placeholder: "Pilih Flock",
@@ -107,6 +138,11 @@
 
             var pipeId, tanggalTransaksi;
 
+            @if ($pipeId && $tanggal)
+                pipeId = @js($pipeId);
+                tanggalTransaksi = @js($tanggal);
+            @endif
+
             async function getUmurAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
                 let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
@@ -122,18 +158,24 @@
             }
 
             async function getRecordPopulasi() {
-                if (!tanggalTransaksi) return;
-                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ request()->route('kandangId') }}/${tanggalTransaksi}/record-populasi`);
+                if (!pipeId || !tanggalTransaksi) return;
+                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ $kandangId }}/${tanggalTransaksi}/record-populasi`);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {
+                    const editUri = `/populasi-ayam/${populasi.id}/edit`;
                     $('#record-harian').append(`
                         <tr>
-                            <td style='text-align: center;'>${populasi.pipe.nama}</td>
-                            <td style='text-align: center;'>${populasi.ayam_sehat}</td>
-                            <td style='text-align: center;'>${populasi.ayam_mati}</td>
-                            <td style='text-align: center;'>${populasi.ayam_afkir}</td>
-                            <td style='text-align: center;'>${populasi.ayam_masuk_karantina}</td>
-                            <td style='text-align: center;'>${populasi.ayam_keluar_karantina}</td>
+                            <td class='text-left'>${populasi.pipe.nama}</td>
+                            <td class='text-right'>${populasi.ayam_sehat}</td>
+                            <td class='text-right'>${populasi.ayam_mati}</td>
+                            <td class='text-right'>${populasi.ayam_afkir}</td>
+                            <td class='text-right'>${populasi.ayam_masuk_karantina}</td>
+                            <td class='text-right'>${populasi.ayam_keluar_karantina}</td>
+                            <td class='text-center'>
+                                <a href='${editUri}' class='btn btn-sm btn-primary'>
+                                    <i class='fas fa-eye'></i>
+                                </a>
+                            </td>
                         </tr>
                     `);
                 })
@@ -143,6 +185,7 @@
                 pipeId = this.value;
                 getUmurAyam();
                 getKesehatanAyam();
+                getRecordPopulasi();
             });
 
             $('#tanggal_transaksi').on('change', function() {
@@ -151,30 +194,12 @@
                 getKesehatanAyam();
                 getRecordPopulasi();
             });
+
+            if (pipeId && tanggalTransaksi) {
+                getKesehatanAyam();
+                getRecordPopulasi();
+            }
         })
     </script>
-    @if ($flockId = old('flock_id'))
-        @php
-            $flockName = Modules\Kandang\Models\Flock::whereId($flockId)->value('nama');
-        @endphp
-        <script>
-            $(() => { 
-                $('#flock_id').val(@js($flockId));
-                $('#flock_id').append(`<option value="{{ $flockId }}">{{ $flockName }}</option>`)
-                $('#flock_id').trigger('change'); 
-            });
-        </script>
-    @endif
-    @if ($pipeId = old('pipe_id'))
-        @php
-            $pipeName = Modules\Kandang\Models\Pipe::whereId($pipeId)->value('nama');
-        @endphp
-        <script>
-            $(() => {
-                $('#pipe_id').val(@js(old('pipe_id')));
-                $('#pipe_id').append(`<option value="{{ $pipeId }}">{{ $pipeName }}</option>`)
-                $('#pipe_id').trigger('change'); 
-            });
-        </script>
-    @endif
+    
 @endpush

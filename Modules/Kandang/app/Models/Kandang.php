@@ -36,4 +36,9 @@ class Kandang extends Model
     public function strain(){
         return $this->belongsTo(Strain::class, 'strain_id', 'id');
     }
+
+    public function latestPengadaanAyam()
+    {
+        return $this->hasOne(PengadaanAyam::class, 'kandang_id', 'id')->latest()->limit(1);
+    }
 }

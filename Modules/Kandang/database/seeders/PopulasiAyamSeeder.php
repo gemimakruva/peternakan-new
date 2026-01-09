@@ -11,10 +11,16 @@ class PopulasiAyamSeeder extends Seeder
 {
     public function run(): void
     {
-        $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-01'); // tanggal pengadaan ayam, dikurang 1 karena diawal sudah ada addDay
-        $tanggalTambahHari = 0;
-        $pengadaanAyam = PengadaanAyam::first();
+        $listPengadaanAyam = PengadaanAyam::get();
+        foreach ($listPengadaanAyam as $pengadaanAyam) {
+            $this->createPopulasiAyam($pengadaanAyam);
+        }
+    }
 
+    private function createPopulasiAyam(PengadaanAyam $pengadaanAyam)
+    {
+        $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-01'); // tanggal awal pengadaan ayam.
+        $tanggalTambahHari = 0;
         for ($i=0; $i < 30; $i++) { 
             $pengadaanAyam->distribusi->map(function($distribusi) use($tanggal, $tanggalTambahHari, $pengadaanAyam) {
                 $ayamSehat = PopulasiAyam::getAyamSehatTerakhir($distribusi->pipe_id) ?? $distribusi->jumlah_ayam;
@@ -43,23 +49,27 @@ class PopulasiAyamSeeder extends Seeder
                     $populasi['ayam_keluar_karantina'] = 5;
                 }
 
-                echo "pencatatan tanggal $tanggalDMY pipe id - $distribusi->pipe_id" . PHP_EOL;
+                $namaKandang = $distribusi->pengadaanAyam->kandang->nama;
+                echo "pencatatan kandang $namaKandang tanggal $tanggalDMY pipe id - $distribusi->pipe_id" . PHP_EOL;
+
+                $umurAyamRecord = $pengadaanAyam->getUmurAyam($tanggalPencatatan);
 
                 PopulasiAyam::create([
                     'pengadaan_ayam_distribusi_id' => $distribusi->id,
                     'pic_user_id' => 1,
                     'pipe_id' => $distribusi->pipe_id,
-                    'umur_ayam_record' => $pengadaanAyam->getUmurAyam($tanggalPencatatan),
+                    'umur_ayam_record' => $umurAyamRecord,
                     'jenis_pemeriksaan' => 'harian',
                     'tanggal' => $tanggalPencatatan,
                     'catatan' => 'Pemeriksaan rutin harian berjalan baik.',
                     ...$populasi,
                 ]);
 
-                // afkir dan karantina belum ditambahkan
+                // karantina belum ditambahkan
+
 
             });
             $tanggalTambahHari++;
         }
-    }
+    }    
 }

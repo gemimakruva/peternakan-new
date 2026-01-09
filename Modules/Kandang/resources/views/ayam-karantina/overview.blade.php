@@ -269,7 +269,7 @@
                     <td>{{ $loop->iteration }}</td>
                     <td>{{ \Carbon\Carbon::parse($item->tanggal_karantina)
                      ->translatedFormat('l, d F Y') }}</td>
-                    <td>{{ $item->pic_user->name ?? '-' }}</td>
+                    <td>{{ $item->picUser->name ?? '-' }}</td>
                     <td>
                         <button class="btn btn-info btn-sm"
                             onclick="showPopulasi('{{ $item->populasi->kandang->nama ?? '-' }}',

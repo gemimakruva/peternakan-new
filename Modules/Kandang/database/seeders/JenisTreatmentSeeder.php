@@ -12,8 +12,6 @@ class JenisTreatmentSeeder extends Seeder
      */
     public function run(): void
     {
-        // JenisTreatment::factory()->count(10)->create();
-
         $data = [
             ['id' => 1, 'nama' => 'Disinfektan'],
             ['id' => 2, 'nama' => 'Vaksin'],

@@ -5,7 +5,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
-    :value="old('ayam_mati')"
+    :value="old('ayam_mati', @$data->ayam_mati)"
 />
 
 <x-adminlte-input
@@ -15,7 +15,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
-    :value="old('ayam_afkir')"
+    :value="old('ayam_afkir', @$data->ayam_afkir)"
 />
 
 <x-adminlte-input
@@ -25,7 +25,7 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
-    :value="old('ayam_masuk_karantina')"
+    :value="old('ayam_masuk_karantina', @$data->ayam_masuk_karantina)"
 />
 
 <x-adminlte-input
@@ -35,5 +35,5 @@
     igroup-size="lg"
     fgroup-class="col-12"
     class="form-control-lg mb-3"
-    :value="old('ayam_keluar_karantina')"
+    :value="old('ayam_keluar_karantina', @$data->ayam_keluar_karantina)"
 />

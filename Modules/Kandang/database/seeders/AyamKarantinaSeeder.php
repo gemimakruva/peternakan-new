@@ -65,6 +65,9 @@ class AyamKarantinaSeeder extends Seeder
             echo "keluar karantina tanggal $pdak->tanggal sebanyak: $totalAyamKarantina" . PHP_EOL;
         }
 
+        $pemberianPakanPerEkor = 100;
+        $sisaPakanPerEkor = 10;
+
         $karantinaKandang = KarantinaPopulasi::updateOrCreate([
             'kandang_id'             => $pdak->pipe->flock->kandang_id,
             'pic_user_id'            => $pdak->pic_user_id,
@@ -73,18 +76,18 @@ class AyamKarantinaSeeder extends Seeder
             'ayam_afkir'             => 0,
             'total_ayam_karantina'   => $totalAyamKarantina,
         ], [
-            'pemberian_pakan'        => $faker->randomFloat(2, 0, 20),
-            'sisa_pakan'             => $faker->randomFloat(2, 0, 20),
-            'jumlah_telur_bagus'     => $faker->numberBetween(0, 80),
-            'jumlah_telur_retak'     => $faker->numberBetween(0, 20),
-            'jumlah_telur_rusak'     => $faker->numberBetween(0, 10),
-            'berat_telur_bagus'      => $faker->numberBetween(5, 10),
-            'berat_telur_retak'      => $faker->numberBetween(0, 3),
-            'berat_telur_rusak'      => $faker->numberBetween(0, 3),
+            'pemberian_pakan'        => $totalAyamKarantina * $pemberianPakanPerEkor,
+            'sisa_pakan'             => $totalAyamKarantina * $sisaPakanPerEkor,
+            'jumlah_telur_bagus'     => $totalAyamKarantina - 3,
+            'jumlah_telur_retak'     => 2,
+            'jumlah_telur_rusak'     => 1,
+            'berat_telur_bagus'      => ($totalAyamKarantina - 3)/16,
+            'berat_telur_retak'      => 2/16,
+            'berat_telur_rusak'      => 1/16,
             'pengobatan_yang_dilakukan' => $faker->randomElement([
                 'Antibiotik', 'Vitamin tambahan', 'Pembersihan kandang', null
             ]),
-            'jumlah_ayam_diobati'       => $faker->numberBetween(0, 50),
+            'jumlah_ayam_diobati'    => $faker->numberBetween(0, $totalAyamKarantina),
             'penyemprotan' => $faker->randomElement([
                 'Desinfektan Virkon',
                 'Desinfektan Benzalkonium',

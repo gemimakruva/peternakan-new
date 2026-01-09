@@ -21,7 +21,7 @@
 @stop
 
 @section('content')
-    <div class="mx-1200">
+    <div class="mx-1400">
         <x-form-alert />
 
         <div class="card">
@@ -55,7 +55,8 @@
                     <thead class="text-center">
                         <tr>
                             <th class="align-middle" style="width:40px">#</th>
-                            <th class="align-middle" style="width:400px">Tanggal</th>
+                            <th class="align-middle" style="width:200px">Tanggal</th>
+                            <th class="align-middle" style="width:160px">Nama Kandang</th>
                             <th class="align-middle" style="width:160px">Nama Pencatat</th>
                             <th class="align-middle" style="width:150px">Umur Ayam</th>
                             <th class="align-middle" style="width:100px">Kondisi Ayam</th>
@@ -71,6 +72,7 @@
                             <tr>
                                 <td class="text-left">{{ $loop->iteration }}</td>
                                 <td class="text-left">{{ $item->tanggal->translatedFormat('l, d F Y') }}</td>
+                                <td class="text-left">{{ $item->kandang->nama }}</td>
                                 <td class="text-left">{{ $item->picUser->name ?? '-' }}</td>
                                 <td class="text-left">{{ $item->umur_ayam }} Minggu</td>
                                 <td class="text-left">{{ $item->kondisi_ayam }}</td>

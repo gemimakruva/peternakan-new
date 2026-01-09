@@ -64,8 +64,11 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('vaksin-minum', VaksinMinumController::class)->names('vaksin-minum');
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
     Route::get('populasi-ayam/summary', [PopulasiAyamController::class, 'getSummary'])->name('populasi-ayam.summary');
-    Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam');
-    Route::get('populasi-ayam/{kandangId}/create', [PopulasiAyamController::class, 'createByDate'])->name('populasi-ayam.createByDate');
+    Route::resource('populasi-ayam', PopulasiAyamController::class)->parameter('populasi-ayam', 'kandang')->names('populasi-ayam')->only(['index', 'store']);
+    Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam')->only(['edit', 'update']);
+    Route::get('populasi-ayam/{kandang}/create', [PopulasiAyamController::class, 'create'])->name('populasi-ayam.create');
+    Route::get('populasi-ayam/{kandang}/flock', [PopulasiAyamController::class, 'flockIndex'])->name('populasi-ayam.flock.index');
+    Route::get('populasi-ayam/{kandang}/flock/{flock}/pipe', [PopulasiAyamController::class, 'flockPipeIndex'])->name('populasi-ayam.flock.pipe.index');
     Route::resource('ayam-afkir', AyamAfkirController::class)->names('ayam-afkir');
     Route::resource('ayam-karantina', AyamKarantinaController::class)->names('ayam-karantina');
     Route::get('ayam-karantina-overview', [AyamKarantinaController::class, 'overview'])->name('ayam-karantina.overview');

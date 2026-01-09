@@ -14,9 +14,16 @@ class PengadaanAyamSedeer extends Seeder
      */
     public function run(): void
     {
-        $kandang = Kandang::with('flocks.pipes')->first();
+        $listKandang = Kandang::with('flocks.pipes')->get();
         $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-01');
-        
+
+        foreach ($listKandang as $kandang) {
+            $this->createPengadaanAyam($kandang, $tanggal);
+        }
+    }
+
+    private function createPengadaanAyam(Kandang $kandang, Carbon $tanggal)
+    {
         $kapasitasKandang = $kandang->flocks->reduce(function($total, $flock) {
             return $total += $flock->pipes->sum('kapasitas');
         }, 0);

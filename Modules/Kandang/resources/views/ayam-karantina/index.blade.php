@@ -82,7 +82,7 @@
                 <tr>
                     <td>{{ ($listAyamKarantina->currentPage() - 1) * $listAyamKarantina->perPage() + $loop->iteration }}</td>
                     <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
-                    <td>{{ $item->pic_user->name ?? '-' }}</td>
+                    <td>{{ $item->picUser->name ?? '-' }}</td>
                     <td>{{ $item->ayam_mati ?? 0 }}</td>
                     <td>{{ $item->ayam_afkir ?? 0 }}</td>
                     <td>{{ $item->pemberian_pakan ?? 0 }}</td>

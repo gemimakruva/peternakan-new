@@ -79,13 +79,20 @@ class PengadaanAyam extends Model
         });
     }
 
+    public function getUmurAyamSaatIniAttribute()
+    {
+        if (!$this->attributes['tanggal'] || !$this->attributes['umur_ayam']) return null;
+        return $this->getUmurAyam(today());
+    }
+
     /**
      * get umur ayam dalam satuan minggu
      * @param Carbon $tanggalPembanding
-     * @return float
+     * @return float|null
      */
     public function getUmurAyam(Carbon $tanggalPembanding)
     {
+        if (!$this->attributes['tanggal'] || !$this->attributes['umur_ayam']) return null;
         $tanggalPerbandingan = $tanggalPembanding->diffInWeeks($this->attributes['tanggal']);
         return $this->attributes['umur_ayam'] + floor(abs($tanggalPerbandingan));
     }

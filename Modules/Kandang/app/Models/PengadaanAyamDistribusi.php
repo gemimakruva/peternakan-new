@@ -39,4 +39,9 @@ class PengadaanAyamDistribusi extends Model
         return $this->hasOne(PopulasiAyam::class, 'pengadaan_ayam_distribusi_id', 'id');
     }
 
+    public function latestPopulasiAyam()
+    {
+        return $this->hasOne(PopulasiAyam::class, 'pipe_id', 'pipe_id')->latest()->limit(1);
+    }
+
 }

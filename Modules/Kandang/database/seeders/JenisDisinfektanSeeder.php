@@ -12,8 +12,6 @@ class JenisDisinfektanSeeder extends Seeder
      */
     public function run(): void
     {
-        // JenisDisinfektan::factory()->count(10)->create();
-
         $data = [
             ['id' => 1, 'nama' => 'Lalat'],
             ['id' => 2, 'nama' => 'Gurem'],
