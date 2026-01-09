@@ -7,7 +7,7 @@
     fgroup-class="col-12"
     class="form-control-lg mb-3"
     max="{{ today()->format('Y-m-d') }}"
-    :value="old('tanggal_transaksi', @$data->tanggal->format('Y-m-d'))"
+    :value="old('tanggal_transaksi', @$data->tanggal?->format('Y-m-d'))"
 />
 
 <x-adminlte-input
@@ -81,7 +81,7 @@
 @endpush
 
 @push('js')
-    @if ($tanggal = old('tanggal_transaksi', @$data->tanggal->format('Y-m-d')))
+    @if ($tanggal = old('tanggal_transaksi', @$data->tanggal?->format('Y-m-d')))
         <script>
             tanggalTransaksi = @js($tanggal);
         </script>
