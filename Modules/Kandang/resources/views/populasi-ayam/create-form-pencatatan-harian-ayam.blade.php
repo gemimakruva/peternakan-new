@@ -21,7 +21,7 @@
     :value="$kandang->nama"
 />
 
-<input type="hidden" name="kandang_id" value="{{ request()->route('kandangId') }}">
+<input type="hidden" name="kandang_id" value="{{ $kandangId }}">
 
 <div class="form-group col-12">
     <label for="flock_id">Baris</label>
@@ -85,7 +85,7 @@
         $(function() {
             $('#flock_id').select2({
                 ajax: {
-                    url: @js(route('master-data.ajax.flock', request()->route('kandangId'))),
+                    url: @js(route('master-data.ajax.flock', $kandangId)),
                     datType: 'json'
                 },
                 placeholder: "Pilih Flock",
@@ -123,17 +123,23 @@
 
             async function getRecordPopulasi() {
                 if (!tanggalTransaksi) return;
-                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ request()->route('kandangId') }}/${tanggalTransaksi}/record-populasi`);
+                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ $kandangId }}/${tanggalTransaksi}/record-populasi`);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {
+                    const editUri = `/populasi-ayam/${populasi.id}/edit`;
                     $('#record-harian').append(`
                         <tr>
-                            <td style='text-align: center;'>${populasi.pipe.nama}</td>
-                            <td style='text-align: center;'>${populasi.ayam_sehat}</td>
-                            <td style='text-align: center;'>${populasi.ayam_mati}</td>
-                            <td style='text-align: center;'>${populasi.ayam_afkir}</td>
-                            <td style='text-align: center;'>${populasi.ayam_masuk_karantina}</td>
-                            <td style='text-align: center;'>${populasi.ayam_keluar_karantina}</td>
+                            <td class='text-left'>${populasi.pipe.nama}</td>
+                            <td class='text-right'>${populasi.ayam_sehat}</td>
+                            <td class='text-right'>${populasi.ayam_mati}</td>
+                            <td class='text-right'>${populasi.ayam_afkir}</td>
+                            <td class='text-right'>${populasi.ayam_masuk_karantina}</td>
+                            <td class='text-right'>${populasi.ayam_keluar_karantina}</td>
+                            <td class='text-center'>
+                                <a href='${editUri}' class='btn btn-sm btn-primary'>
+                                    <i class='fas fa-eye'></i>
+                                </a>
+                            </td>
                         </tr>
                     `);
                 })

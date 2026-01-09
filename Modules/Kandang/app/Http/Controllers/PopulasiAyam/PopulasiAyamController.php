@@ -9,11 +9,13 @@ use Illuminate\Support\Carbon;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Http\Requests\PopulasiAyam\GetSummaryRequest;
 use Modules\Kandang\Models\AyamAfkir;
+use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Repositories\Kandang\FlockRepository;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Services\KandangService;
 use Modules\Kandang\Services\PopulasiAyamService;
@@ -29,6 +31,7 @@ class PopulasiAyamController extends Controller
         private Pipe $pipe,
         private PopulasiAyamService $service,
         private KandangRepository $kandangRepository,
+        private FlockRepository $flockRepository,
     ) {}
 
     public function index()
@@ -49,30 +52,49 @@ class PopulasiAyamController extends Controller
         return view('kandang::populasi-ayam.index', compact('listKandang'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-
-    /**
-     * Show the list of pengadaan
-     */
-    public function create()
+    public function flockIndex(Kandang $kandang)
     {
-        $list_kandang = Kandang::all();
+        request()->merge(['kandang_id' => $kandang->id]);
 
-        return view('kandang::populasi-ayam.list-tanggal-pengadaan', compact('list_kandang'));
+        $listFlock = $this->flockRepository
+            ->populasiAyam(request()->collect())
+            ->paginate(request()->query('perPage', 10));
+
+        $listFlock->transform(function($item) {
+            $item->tanggal = Carbon::createFromFormat('Y-m-d', $item->tanggal);
+            $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
+            $item->ayam_sehat = (int) $item->ayam_sehat;
+            $item->ayam_mati = (int) $item->ayam_mati;
+            $item->ayam_afkir = (int) $item->ayam_afkir;
+            return $item;
+        });
+
+        return view('kandang::populasi-ayam.flock-index', compact(['kandang', 'listFlock']));
     }
 
-    public function createByDate($kandangId)
+    public function flockPipeIndex(Kandang $kandang, Flock $flock)
     {
-        $kandang = $this->kandang->findOrFail($kandangId);
-
-        return view('kandang::populasi-ayam.create', compact('kandang'));
+        $listPopulasiAyam = $this->populasiAyam
+            ->query()
+            ->with([
+                'picUser:id,name',
+                'pipe:id,nama'
+            ])
+            ->whereRelation('pipe', 'flock_id', '=', $flock->id)
+            ->orderByDesc('tanggal')
+            ->paginate(request()->query('perPage', 10))
+            ->withQueryString()
+            ->onEachSide(3);
+        
+        return view('kandang::populasi-ayam.pipe-index', compact(['kandang', 'flock', 'listPopulasiAyam']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
+    public function create(Kandang $kandang)
+    {
+        $kandangId = $kandang->id;
+        return view('kandang::populasi-ayam.create', compact(['kandang', 'kandangId']));
+    }
+
     public function store(Request $request)
     {
         $request->merge([
@@ -182,6 +204,11 @@ class PopulasiAyamController extends Controller
         return back()->with('success', 'Data populasi berhasil disimpan.');
     }
 
+    public function edit(PopulasiAyam $populasiAyam)
+    {
+        dd($populasiAyam);
+    }
+
     public function getRecordedPopulasi($kandangId, $tanggal)
     {
         return $this->populasiAyam
@@ -189,38 +216,6 @@ class PopulasiAyamController extends Controller
             ->where('tanggal', '=', $tanggal)
             ->with('pipe:id,nama')
             ->get();
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Kandang $kandang)
-    {
-        return view('kandang::populasi-ayam.show', compact('kandang'));
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PopulasiAyam $populasiAyam)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, PopulasiAyam $populasiAyam)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PopulasiAyam $populasiAyam)
-    {
-        //
     }
 
     public function getSummary(GetSummaryRequest $request): JsonResponse

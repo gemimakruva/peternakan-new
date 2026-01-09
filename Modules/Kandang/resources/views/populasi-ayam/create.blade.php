@@ -1,24 +1,35 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Recording Harian')
+@section('title', 'Populasi Ayam')
 
 @section('content_header')
-    <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-        <h2 class="h4 fw-bold text-dark">Recording Harian - {{ $kandang->nama }}</h2>
-        <span class="text-muted mb-0" style="max-width: 600px;">
-            Halaman ini digunakan untuk Melakukan Pencatatan Populasi Ayam Harian
-        </span>
+    <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-1">
+                <h1>Tambah Populasi Ayam</h1>
+            </div>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">  
+              <li class="breadcrumb-item"><a href="{{ route('populasi-ayam.index') }}">Populasi Ayam</a></li>
+              <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
+              <li class="breadcrumb-item"><a href="{{ route('populasi-ayam.flock.index', $kandang) }}">Flock</a></li>
+              <li class="breadcrumb-item active">Tambah Populasi Ayam</li>
+            </ol>
+          </div>
+        </div>
     </div>
 @endsection
 
 @section('content')
-    <div style="max-width: 1400px">
+    <div class="mx-1400">
         @include('components.form-alert')
 
         <div class="row justify-content-center">
             {{-- Form Content --}}
             <div class="col-md-12 col-xl-6">
-                <form action="{{ route('populasi-ayam.store') }}" method="POST">
+                <form action="{{ route('populasi-ayam.store') }}" method="POST" id="form-populasi-ayam">
                     @csrf
                     <div class="card">
                         <div class="card-header">
@@ -36,24 +47,30 @@
                             @include('kandang::populasi-ayam.create-form-kondisi-harian-ayam')
                         </div>
                     </div>
-                    {{-- Button Submit --}}
-                    <div class="mt-4 d-flex justify-content-between px-3">
-                        <a href="" class="btn btn-secondary px-4 py-2">
-                            <i class="fas fa-arrow-left me-2"></i> Kembali
-                        </a>
-                        <button id="btnSubmitPopulasi" type="submit" class="btn btn-success px-4 py-2 shadow-sm">
-                            <i class="fas fa-save me-2"></i> Simpan
-                        </button>
-                    </div>
                 </form>
             </div>
 
             <div class="col-md-12 col-xl-6">
                 <div class="card">
                     <div class="card-header">
-                        <h2 class="card-title">Log Pencatatan Harian</h2>
+                        <h2 class="card-title">Aksi</h2>
                     </div>
                     <div class="card-body">
+                        <div class="d-flex gap-3">
+                            <a href="{{ route('populasi-ayam.flock.index', $kandang) }}" class="btn btn-secondary flex-1">
+                                Kembali
+                            </a>
+                            <button id="btnSubmitPopulasi" type="submit" class="btn btn-primary flex-1" form="form-populasi-ayam">
+                                Simpan
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Log Pencatatan Harian</h2>
+                    </div>
+                    <div class="card-body p-0">
                         <table class="table table-sm table-bordered">
                             <thead>
                                 <tr style="vertical-align: middle; text-align: center;">
@@ -62,6 +79,7 @@
                                     <th rowspan="2" style="vertical-align: middle; text-align: center;">Mati</th>
                                     <th rowspan="2" style="vertical-align: middle; text-align: center;">Afkir</th>
                                     <th colspan="2" style="vertical-align: middle; text-align: center;">Karantina</th>
+                                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Aksi</th>
                                 </tr>
                                 <tr style="vertical-align: middle; text-align: center;">
                                     <th style="vertical-align: middle; text-align: center;">Masuk</th>
