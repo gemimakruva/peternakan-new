@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Populasi Ayam')
+@section('title', 'Edit Populasi Ayam')
 
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Tambah Populasi Ayam</h1>
+                <h1>Edit Populasi Ayam</h1>
             </div>
           </div>
           <div class="col-sm-6">
@@ -15,7 +15,8 @@
               <li class="breadcrumb-item"><a href="{{ route('populasi-ayam.index') }}">Populasi Ayam</a></li>
               <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
               <li class="breadcrumb-item"><a href="{{ route('populasi-ayam.flock.index', $kandang) }}">Flock</a></li>
-              <li class="breadcrumb-item active">Tambah Populasi Ayam</li>
+              <li class="breadcrumb-item active">{{ $flock->nama }}</li>
+              <li class="breadcrumb-item active">Edit</li>
             </ol>
           </div>
         </div>
@@ -29,7 +30,8 @@
         <div class="row justify-content-center">
             {{-- Form Content --}}
             <div class="col-md-12 col-xl-6">
-                <form action="{{ route('populasi-ayam.store') }}" method="POST" id="form-populasi-ayam">
+                <form action="{{ route('populasi-ayam.update', @$data->id) }}" method="POST" id="form-populasi-ayam">
+                    @method('PUT')
                     @csrf
                     <div class="card">
                         <div class="card-header">

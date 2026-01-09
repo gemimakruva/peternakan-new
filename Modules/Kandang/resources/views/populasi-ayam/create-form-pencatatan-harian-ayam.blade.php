@@ -7,7 +7,7 @@
     fgroup-class="col-12"
     class="form-control-lg mb-3"
     max="{{ today()->format('Y-m-d') }}"
-    :value="old('tanggal_transaksi', @$data->tanggal_transaksi)"
+    :value="old('tanggal_transaksi', @$data->tanggal->format('Y-m-d'))"
 />
 
 <x-adminlte-input
@@ -81,6 +81,37 @@
 @endpush
 
 @push('js')
+    @if ($tanggal = old('tanggal_transaksi', @$data->tanggal->format('Y-m-d')))
+        <script>
+            tanggalTransaksi = @js($tanggal);
+        </script>
+    @endif
+    @if ($flockId = old('flock_id', @$flock->id))
+        @php
+            $flockName = Modules\Kandang\Models\Flock::whereId($flockId)->value('nama');
+        @endphp
+        <script>
+            // $(() => { 
+                $('#flock_id').val(@js($flockId));
+                $('#flock_id').append(`<option value="{{ $flockId }}">{{ $flockName }}</option>`)
+                $('#flock_id').trigger('change'); 
+            // });
+        </script>
+    @endif
+    @if ($pipeId = old('pipe_id', @$pipe->id))
+        @php
+            $pipeName = Modules\Kandang\Models\Pipe::whereId($pipeId)->value('nama');
+        @endphp
+        <script>
+            // $(() => {
+                $('#pipe_id').val(@js($pipeId));
+                $('#pipe_id').append(`<option value="{{ $pipeId }}">{{ $pipeName }}</option>`)
+                $('#pipe_id').trigger('change'); 
+
+                pipeId = @js($pipeId);
+            // });
+        </script>
+    @endif
     <script>
         $(function() {
             $('#flock_id').select2({
@@ -107,6 +138,11 @@
 
             var pipeId, tanggalTransaksi;
 
+            @if ($pipeId && $tanggal)
+                pipeId = @js($pipeId);
+                tanggalTransaksi = @js($tanggal);
+            @endif
+
             async function getUmurAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
                 let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
@@ -122,7 +158,7 @@
             }
 
             async function getRecordPopulasi() {
-                if (!tanggalTransaksi) return;
+                if (!pipeId || !tanggalTransaksi) return;
                 const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ $kandangId }}/${tanggalTransaksi}/record-populasi`);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {
@@ -149,6 +185,7 @@
                 pipeId = this.value;
                 getUmurAyam();
                 getKesehatanAyam();
+                getRecordPopulasi();
             });
 
             $('#tanggal_transaksi').on('change', function() {
@@ -157,30 +194,12 @@
                 getKesehatanAyam();
                 getRecordPopulasi();
             });
+
+            if (pipeId && tanggalTransaksi) {
+                getKesehatanAyam();
+                getRecordPopulasi();
+            }
         })
     </script>
-    @if ($flockId = old('flock_id'))
-        @php
-            $flockName = Modules\Kandang\Models\Flock::whereId($flockId)->value('nama');
-        @endphp
-        <script>
-            $(() => { 
-                $('#flock_id').val(@js($flockId));
-                $('#flock_id').append(`<option value="{{ $flockId }}">{{ $flockName }}</option>`)
-                $('#flock_id').trigger('change'); 
-            });
-        </script>
-    @endif
-    @if ($pipeId = old('pipe_id'))
-        @php
-            $pipeName = Modules\Kandang\Models\Pipe::whereId($pipeId)->value('nama');
-        @endphp
-        <script>
-            $(() => {
-                $('#pipe_id').val(@js(old('pipe_id')));
-                $('#pipe_id').append(`<option value="{{ $pipeId }}">{{ $pipeName }}</option>`)
-                $('#pipe_id').trigger('change'); 
-            });
-        </script>
-    @endif
+    
 @endpush
