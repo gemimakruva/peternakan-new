@@ -301,6 +301,8 @@ class PopulasiAyamController extends Controller
                 'umur_ayam'         => $validated['umur_ayam_record'],
                 'jumlah_ayam_afkir' => $validated['ayam_afkir'],
             ]);
+        } else {
+            $this->ayamAfkir->where('populasi_ayam_id', '=', $populasiAyam->id)->delete();
         }
 
         if (@$validated['ayam_masuk_karantina'] || @$validated['ayam_keluar_karantina']) {

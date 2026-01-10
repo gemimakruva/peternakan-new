@@ -20,11 +20,14 @@ class AyamAfkir extends Model
         'jumlah_ayam_afkir',
         'penyebab_afkir',
         'pembeli_afkir',
-        'harga_jual'
+        'harga_jual',
     ];
 
-    // Relasi ke Kandang
-   public function populasi()
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+    
+    public function populasi()
     {
         return $this->belongsTo(PopulasiAyam::class,'populasi_ayam_id','id');
     }

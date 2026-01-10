@@ -439,14 +439,10 @@ return [
             'header' => 'Ayam Afkir',
         ],
         [
-            'text'  => 'Riwayat Ayam Afkir',
+            'text'  => 'Ayam Afkir',
             'route' => 'ayam-afkir.index',
             'icon'  => 'fas fa-clipboard-list',
-        ],
-        [
-            'text'  => 'Form Ayam Afkir',
-            'route' => 'ayam-afkir.create',
-            'icon'  => 'fas fa-plus-circle',
+            'active' => ['ayam-afkir/*']
         ],
 
         // ====================   PENGADAAN AYAM KARANTINA  ==========================
