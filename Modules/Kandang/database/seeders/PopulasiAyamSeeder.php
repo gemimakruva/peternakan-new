@@ -44,9 +44,9 @@ class PopulasiAyamSeeder extends Seeder
                 } else if ($tanggalDMY === '07-01-2025') { // pada tanggal 7, 5 ayam masuk karantina di semua pipe
                     $populasi['ayam_sehat'] = $ayamSehat - 5;
                     $populasi['ayam_masuk_karantina'] = 5;
-                } else if ($tanggalDMY === '15-01-2025') { // pada tanggal 15, 5 ayam keluar karantina di semua pipe
-                    $populasi['ayam_sehat'] = $ayamSehat + 5;
-                    $populasi['ayam_keluar_karantina'] = 5;
+                } else if ($tanggalDMY === '15-01-2025') { // pada tanggal 15, 2 ayam keluar karantina di semua pipe, dengan asumsi 2 ayam afkir dan 1 ayam mati di semua pipe
+                    $populasi['ayam_sehat'] = $ayamSehat + 2;
+                    $populasi['ayam_keluar_karantina'] = 2;
                 }
 
                 $namaKandang = $distribusi->pengadaanAyam->kandang->nama;
@@ -66,7 +66,7 @@ class PopulasiAyamSeeder extends Seeder
                 ]);
 
                 // karantina belum ditambahkan
-
+                
 
             });
             $tanggalTambahHari++;

@@ -64,7 +64,7 @@
 <x-adminlte-input
     id="jumlah_ayam_sehat_pada_pipa_saat_ini"
     name="jumlah_ayam_sehat_pada_pipa_saat_ini"
-    label="Jumlah Ayam Sehat pada Pipa saat ini"
+    label="Jumlah Ayam Sehat sebelum pencatatan"
     type="number"
     igroup-size="lg"
     fgroup-class="col-12"
@@ -152,13 +152,18 @@
 
             async function getKesehatanAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
-                let kesehatanAyamSekarang = await $.ajax(`/master-data/ajax/kesehatan-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
-                    .then(res => res.total_ayam_sehat_terakhir); // satuan ekor
+                const json = await $.ajax(`/master-data/ajax/kesehatan-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`);
+
+                let kesehatanAyamSekarang = json.total_ayam_sehat_terakhir// satuan ekor
                 $('#jumlah_ayam_sehat_pada_pipa_saat_ini').val(kesehatanAyamSekarang);
+
+                // if (json?.total_ayam_sakit_terakhir && $('[for="ayam_keluar_karantina"]').text()) {
+                //     $('[for="ayam_keluar_karantina"]').text(`Ayam Keluar dari Karantina (ayam dikarantina: ${json?.total_ayam_sakit_terakhir})`);
+                // }
             }
 
             async function getRecordPopulasi() {
-                if (!pipeId || !tanggalTransaksi) return;
+                if (!tanggalTransaksi) return;
                 const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ $kandangId }}/${tanggalTransaksi}/record-populasi`);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {

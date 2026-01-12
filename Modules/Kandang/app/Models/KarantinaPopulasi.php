@@ -34,9 +34,11 @@ class KarantinaPopulasi extends Model
         'catatan',
     ];
 
-    
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
 
-     public function kandang()
+    public function kandang()
     {
         return $this->belongsTo(Kandang::class, 'kandang_id');
     }

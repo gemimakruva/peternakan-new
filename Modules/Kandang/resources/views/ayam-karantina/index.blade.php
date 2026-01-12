@@ -1,180 +1,178 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
-@section('title', 'Transaksi Ayam Karantina')
+@section('title', 'Ayam Karantina')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-    <h2 class="h4 fw-bold text-dark">List Ayam karantina</h2>
-    <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk Menampilkan detail ayam karantina
-    </span>
-</div>
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <div class="d-flex align-items-center gap-1">
+                    <h1>Ayam Karantina</h1>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">  
+                    <li class="breadcrumb-item active">Ayam Karantina</li>
+                </ol>
+            </div>
+        </div>
+    </div>
 @endsection
 
 
 @section('content')
-<div>
-    <div>
-    <x-form-alert />
-    <div style="max-width: 1200px" class="card shadow-sm">
-        <div class="card-header text-white d-flex justify-content-between
-         align-items-center"
-             style="background-color: #495057; border-color: #495057;">
-            <form action="{{ route('master-data.kandang.index', request()->all()) }}" 
-                  method="get" 
-                  class="w-100">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">Transaksi Ayam Afkir</h2>
-                    <div class="d-flex" style="gap: .5em">
-                        <input 
-                            type="search" 
-                            name="search" 
-                            class="form-control form-control-sm" 
-                            placeholder="Kandang atau Flock"
-                            value="{{ request()->query('search') }}"
-                        >
-
-                        <button class="btn btn-dark btn-sm" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        @can('Tambah Ayam Akfir')
-                        <a href="{{ route('ayam-karantina.create') }}" 
-                           class="btn btn-light btn-sm text-dark" 
-                           title="Tambah Transaksi">
-                            <i class="fas fa-plus"></i>
-                        </a>
-                        @endcan
-
+    <div class="mx-1400">
+        <x-form-alert />
+        <div class="card">
+            <div class="card-header">
+                <form
+                    action="{{ route('ayam-karantina.index', request()->all()) }}" 
+                    method="get" 
+                    class="w-100"
+                >
+                    <div class="d-flex justify-content-end">
+                        <div class="d-flex gap-3">
+                            <input 
+                                type="search" 
+                                name="search" 
+                                class="form-control" 
+                                placeholder="Nama Pencatat"
+                                value="{{ request()->query('search') }}"
+                            >
+                            <button class="btn btn-primary" title="Cari">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
                     </div>
+                </form>
+            </div>
 
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover table-striped table-bordered text-center mb-0">
+                    <thead>
+                        <tr>
+                            <th class="align-middle" style="width: 40px;">#</th>
+                            <th class="align-middle" style="width: 200px;">Tanggal</th>
+                            <th class="align-middle" style="width: 160px;">Kandang</th>
+                            <th class="align-middle">Nama Pencatat</th>
+                            <th class="align-middle">Ayam Mati</th>
+                            <th class="align-middle">Ayam Afkir</th>
+                            <th class="align-middle">Pakan Diberikan (kg)</th>
+                            <th class="align-middle">Sisa Pakan (kg)</th>
+                            <th class="align-middle">Telur Bagus</th>
+                            <th class="align-middle">Telur retak</th>
+                            <th class="align-middle">Telur rusak</th>
+                            {{-- <th class="align-middle">Pengobatan</th> --}}
+                            {{-- <th class="align-middle">Jumlah Ayam Diobati</th> --}}
+                            {{-- <th class="align-middle">Penyemprotan</th> --}}
+                            {{-- <th class="align-middle">Vaksin</th> --}}
+                            <th class="align-middle" style="width: 160px;">Aksi</th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    @forelse($listKarantinaPopulasi as $item)
+                    <tr>
+                        <td class="text-right">{{ ($listKarantinaPopulasi->currentPage() - 1) * $listKarantinaPopulasi->perPage() + $loop->iteration }}</td>
+                        <td class="text-left">{{ $item->tanggal->translatedFormat('l, d F Y') }}</td>
+                        <td class="text-left">{{ $item->kandang->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $item->picUser->name ?? '-' }}</td>
+                        <td class="text-right">{{ number_format($item->ayam_mati ?? 0, 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($item->ayam_afkir ?? 0, 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($item->pemberian_pakan ?? 0, 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($item->sisa_pakan ?? 0, 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($item->jumlah_telur_bagus ?? 0, 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($item->jumlah_telur_retak ?? 0, 0, ',', '.') }}</td>
+                        <td class="text-right">{{ number_format($item->jumlah_telur_rusak ?? 0, 0, ',', '.') }}</td>
+                        {{-- <td class="text-left">{{ $item->pengobatan_yang_dilakukan ?? '-' }}</td> --}}
+                        {{-- <td class="text-right">{{ number_format($item->jumlah_ayam_diobati ?? 0, 0, ',', '.') }}</td> --}}
+                        {{-- <td class="text-left">{{ $item->penyemprotan ?? '-' }}</td> --}}
+                        {{-- <td class="text-left">{{ $item->vaksin ?? '-' }}</td> --}}
+                        <td>
+                            <div class="d-flex justify-content-center gap-1">
+                                <button
+                                    onclick="showCatatan(`{{ $item->catatan ?? 'Tidak ada catatan' }}`)" 
+                                    class="btn btn-info btn-sm"
+                                >
+                                    <i class="fas fa-info-circle"></i>
+                                </button>
+                                <a href="{{ route('ayam-karantina.edit', $item->id) }}" class="btn btn-sm btn-warning">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                {{-- <button
+                                    class="btn btn-danger btn-sm"
+                                    onclick="deleteData('{{ route('ayam-karantina.destroy', $item->id) }}')"
+                                >
+                                    <i class="fas fa-trash"></i>
+                                </button> --}}
+                            </div>
+                        </td>
+                    </tr>
+                    @empty
+                        <tr>
+                            <td colspan="18" class="text-center text-muted">Data Ayam Karantina belum tersedia</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+                </table>
+            </div>
+
+            @if ($listKarantinaPopulasi->hasPages())
+                <div class="card-footer d-flex justify-content-end">
+                    {{ $listKarantinaPopulasi->links('components.pagination') }}
                 </div>
-
-            </form>
-        </div>
-
-
-        <div class="card-body table-responsive p-0">
-            <table class="table table-hover table-striped table-bordered text-center mb-0">
-                {{-- Column Headers --}}
-                <thead class="bg-light">
-                    <tr>
-                        <th style="width: 50px;">#</th>
-                        <th>Tanggal Karantina</th>
-                        <th>Nama Pencatat</th>
-                        <th>Ayam Mati</th>
-                        <th>Ayam Afkir</th>
-                        <th>Pakan Diberikan (kg)</th>
-                        <th>Sisa Pakan (kg)</th>
-                        <th>Telur Bagus</th>
-                        <th>Telur retak</th>
-                         <th>Telur rusak</th>
-                        <th>Pengobatan</th>
-                        <th>Jumlah Ayam Diobati</th>
-                        <th>Penyemprotan</th>
-                        <th>Vaksin</th>
-                        <th>Catatan</th>
-                        <th style="width: 180px;">Aksi</th>
-                    </tr>
-                </thead>
-              <tbody>
-                @forelse($listAyamKarantina as $item)
-                <tr>
-                    <td>{{ ($listAyamKarantina->currentPage() - 1) * $listAyamKarantina->perPage() + $loop->iteration }}</td>
-                    <td>{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
-                    <td>{{ $item->picUser->name ?? '-' }}</td>
-                    <td>{{ $item->ayam_mati ?? 0 }}</td>
-                    <td>{{ $item->ayam_afkir ?? 0 }}</td>
-                    <td>{{ $item->pemberian_pakan ?? 0 }}</td>
-                    <td>{{ $item->sisa_pakan ?? 0 }}</td>
-                    <td>{{ $item->jumlah_telur_bagus ?? 0 }}</td>
-                    <td>{{ $item->jumlah_telur_retak ?? 0 }}</td>
-                    <td>{{ $item->jumlah_telur_rusak ?? 0 }}</td>
-                    <td>{{ $item->pengobatan_yang_dilakukan ?? '-' }}</td>
-                    <td>{{ $item->jumlah_ayam_diobati ?? 0 }}</td>
-                    <td>{{ $item->penyemprotan ?? '-' }}</td>
-                    <td>{{ $item->vaksin ?? '-' }}</td>
-                    <td>
-                        <button onclick="showCatatan(`{{ $item->catatan ?? 'Tidak ada catatan' }}`)"
-                                class="btn btn-warning btn-sm">
-                            Detail
-                        </button>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger btn-sm"
-                            onclick="deleteData('{{ route('ayam-karantina.destroy', $item->id) }}')">
-                            Hapus
-                        </button>
-                    </td>
-                </tr>
-                @empty
-                    <tr>
-                        <td colspan="18" class="text-center text-muted">Data Ayam Karantina belum tersedia</td>
-                    </tr>
-                @endforelse
-            </tbody>
-            </table>
-        </div>
-
-        <div class="card-footer d-flex justify-content-end">
-            {{ $listAyamKarantina->links('components.pagination') }}
+            @endif
         </div>
     </div>
-</div>
-</div>
 @endsection
 @push('js')
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script>
-// Identitas Populasi
-function showPopulasi(kandang, flock, pipe) {
-    Swal.fire({
-        title: "Identitas Populasi",
-        html: `
-            <div style="text-align:left">
-                <p><strong>Kandang:</strong> ${kandang}</p>
-                <p><strong>Flock:</strong> ${flock}</p>
-                <p><strong>Pipe:</strong> ${pipe}</p>
-            </div>`,
-        icon: "info",
-    });
-}
-
-// Catatan
-function showCatatan(catatan) {
-    Swal.fire({
-        title: "Catatan",
-        text: catatan,
-        icon: "info",
-    });
-}
-
-// Delete
-function deleteData(url) {
-    Swal.fire({
-        title: "Yakin ingin menghapus?",
-        text: "Data yang sudah dihapus tidak dapat dikembalikan",
-        icon: "warning",
-        showCancelButton: true,
-        confirmButtonColor: "#d33",
-        cancelButtonColor: "#3085d6",
-        confirmButtonText: "Ya, hapus!",
-        cancelButtonText: "Batal",
-    }).then((result) => {
-        if (result.isConfirmed) {
-            let form = document.createElement("form");
-            form.action = url;
-            form.method = "POST";
-            form.innerHTML = `
-                @csrf
-                @method('DELETE')
-            `;
-            document.body.appendChild(form);
-            form.submit();
+    <script>
+        function showPopulasi(kandang, flock, pipe) {
+            Swal.fire({
+                title: "Identitas Populasi",
+                html: `
+                    <div style="text-align:left">
+                        <p><strong>Kandang:</strong> ${kandang}</p>
+                        <p><strong>Flock:</strong> ${flock}</p>
+                        <p><strong>Pipe:</strong> ${pipe}</p>
+                    </div>`,
+                icon: "info",
+            });
         }
-    });
-}
-</script>
+
+        function showCatatan(catatan) {
+            Swal.fire({
+                title: "Catatan",
+                text: catatan,
+                icon: "info",
+            });
+        }
+
+        // Delete
+        function deleteData(url) {
+            Swal.fire({
+                title: "Yakin ingin menghapus?",
+                text: "Data yang sudah dihapus tidak dapat dikembalikan",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#d33",
+                cancelButtonColor: "#3085d6",
+                confirmButtonText: "Ya, hapus!",
+                cancelButtonText: "Batal",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let form = document.createElement("form");
+                    form.action = url;
+                    form.method = "POST";
+                    form.innerHTML = `
+                        @csrf
+                        @method('DELETE')
+                    `;
+                    document.body.appendChild(form);
+                    form.submit();
+                }
+            });
+        }
+    </script>
 @endpush
 
 

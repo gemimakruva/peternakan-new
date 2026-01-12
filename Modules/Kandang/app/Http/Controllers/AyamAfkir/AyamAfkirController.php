@@ -17,7 +17,7 @@ class AyamAfkirController extends Controller
     {
         $listAyamAfkir = $this->ayamAfkir
             ->with([
-                'populasi.pengadaanDistribusi.pipe.flock', 
+                'populasi.pipe.flock.kandang', 
                 'picUser'
             ])
             ->orderBy('created_at', 'desc') 

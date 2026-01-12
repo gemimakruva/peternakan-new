@@ -77,8 +77,8 @@
                                         <button 
                                             type="button" 
                                             class="btn btn-sm btn-info btn-populasi" 
-                                            data-kandang="{{ $afkir->populasi->kandang->nama ?? '-' }}"
-                                            data-flock="{{ $afkir->populasi->flock->nama ?? '-' }}"
+                                            data-kandang="{{ $afkir->populasi->pipe->flock->kandang->nama ?? '-' }}"
+                                            data-flock="{{ $afkir->populasi->pipe->flock->nama ?? '-' }}"
                                             data-pipe="{{ $afkir->populasi->pipe->nama ?? '-' }}"
                                         >
                                             <i class="fas fa-info-circle"></i>
