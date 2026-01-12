@@ -17,6 +17,11 @@ abstract class EloquentRepository implements RepositoryInterface
         $this->model = $model;
     }
 
+    public function getModel(): Model
+    {
+        return $this->model;
+    }
+
     /**
      * Apply eager loads to a query builder.
      */

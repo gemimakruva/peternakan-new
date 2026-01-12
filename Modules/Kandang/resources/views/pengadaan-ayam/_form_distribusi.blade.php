@@ -264,7 +264,7 @@
             },
             get summarySisaAyam() {
                 return this.distribusi.reduce((total, item) => {
-                    return this.summary_ayam_datang - this.summaryMasukKandang
+                    return (this.summary_ayam_datang - this.summary_ayam_mati - this.summary_ayam_sakit) - this.summaryMasukKandang
                 }, 0);
             },
             get summaryPipaTerisi() {

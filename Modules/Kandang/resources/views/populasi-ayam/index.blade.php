@@ -46,16 +46,16 @@
                     <tbody>
                         @forelse($listKandang as $row)
                             <tr>
-                                <td>{{ ($listKandang->currentPage() - 1) * $listKandang->perPage() + $loop->iteration }}</td>
-                                <td>{{ $row['nama'] }}</td>
-                                <td>{{ @$row->latestPengadaanAyam->tanggal?->translatedFormat('l, d F Y') }}</td>
-                                <td>{{ @$row->latestPengadaanAyam->umur_ayam }}</td>
-                                <td>{{ @$row->latestPengadaanAyam->umur_ayam_saat_ini }}</td>
-                                <td>{{ @$row->ayam_sehat }}</td>
-                                <td>{{ @$row->ayam_mati }}</td>
-                                <td>{{ @$row->ayam_masuk_karantina }}</td>
-                                <td>{{ @$row->ayam_keluar_karantina }}</td>
-                                <td>{{ @$row->terakhir_diperharui->translatedFormat('l, d F Y') }}</td>
+                                <td class="text-right">{{ ($listKandang->currentPage() - 1) * $listKandang->perPage() + $loop->iteration }}</td>
+                                <td class="text-left">{{ $row['nama'] }}</td>
+                                <td class="text-left">{{ @$row->latestPengadaanAyam->tanggal?->translatedFormat('l, d F Y') }}</td>
+                                <td class="text-right">{{ number_format(@$row->latestPengadaanAyam->umur_ayam, 0, ',', '.') }}</td>
+                                <td class="text-right">{{ number_format(@$row->latestPengadaanAyam->umur_ayam_saat_ini, 0, ',', '.') }}</td>
+                                <td class="text-right">{{ number_format(@$row->ayam_sehat, 0, ',', '.') }}</td>
+                                <td class="text-right">{{ number_format(@$row->ayam_mati, 0, ',', '.') }}</td>
+                                <td class="text-right">{{ number_format(@$row->ayam_masuk_karantina, 0, ',', '.') }}</td>
+                                <td class="text-right">{{ number_format(@$row->ayam_keluar_karantina, 0, ',', '.') }}</td>
+                                <td class="text-left">{{ @$row->terakhir_diperharui->translatedFormat('l, d F Y') }}</td>
                                 <td>
                                     <a href="{{ route('populasi-ayam.flock.index', $row->id)  }}" class="btn btn-sm btn-info">
                                         <i class="fas fa-eye"></i>

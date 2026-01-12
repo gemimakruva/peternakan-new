@@ -15,6 +15,7 @@ use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Services\KandangService;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\JenisPakan;
+use Modules\Kandang\Services\PopulasiAyamService;
 
 class AjaxController extends Controller
 {
@@ -272,9 +273,14 @@ class AjaxController extends Controller
         }
  
         $jumlahAyamSehat = $kandangService->getCurrentAyamSehatByPipe($pipeId, $tanggalPerbandingan);
+
+        $pipe = $this->pipe->find($pipeId, ['id', 'flock_id']);
+        $kandang = $pipe->flock->kandang;
+        $latestTotalKarantinaPopulasi = app(PopulasiAyamService::class)->getLatestKarantinaPopulasi($kandang->id, $tanggalPerbandingan);
         
         return [
             'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+            'total_ayam_sakit_terakhir' => $latestTotalKarantinaPopulasi,
         ];
     }
 
@@ -292,10 +298,13 @@ class AjaxController extends Controller
 
     public function ayamKarantina($kandangId, $tanggal)
     {
+        // take latest or today populasi karantina
         return $this->karantinaPopulasi
             ->getQuery()
             ->where('kandang_id', '=', $kandangId)
-            ->whereDate('tanggal', '=', $tanggal)
+            ->whereDate('tanggal', '<=', $tanggal)
+            ->orderByDesc('tanggal')
+            ->orderByDesc('updated_at')
             ->firstOrFail();
     }
 

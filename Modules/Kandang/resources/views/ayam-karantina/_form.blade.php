@@ -1,336 +1,186 @@
-{{-- Pilih Kandang --}}
-<div class="mb-3">
-    <x-adminlte-select2 
-        name="kandang_id" 
-        label="Pilih Kandang" 
-        igroup-size="md" 
-        data-placeholder="Pilih Kandang...">
-        
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-layer-group text-muted"></i>
-            </div>
-        </x-slot>
+<x-adminlte-input
+    name="kandang_name" 
+    label="Pilih Kandang" 
+    :value="@$data->kandang->nama"
+    readonly
+/>
 
-        <option disabled selected>Pilih Kandang...</option>
-        @foreach($listKandangAyam as $kandang)
-            <option value="{{ $kandang->id }}" @selected($kandang->id = old('kandang_id', @$data->kandang_id))>
-               {{ $kandang->nama }}
-            </option>
-        @endforeach
-    </x-adminlte-select2>
-</div>
+<x-adminlte-input
+    name="tanggal"
+    label="Tanggal"
+    type="date"
+    :value="@$data->tanggal?->format('Y-m-d')"
+    readonly
+/>
 
-{{-- Tanggal --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        name="tanggal" 
-        label="Tanggal" 
-        type="date" 
-        igroup-size="md"
-        value="{{ old('tanggal', @$data->tanggal ?? now()->format('Y-m-d')) }}">
-        
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-calendar-alt text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="total_ayam_karantina"
+    name="total_ayam_karantina" 
+    label="Total Ayam Karantina" 
+    type="number" 
+    :value="old('total_ayam_karantina', @$data->total_ayam_karantina)"
+    placeholder="Total Ayam Karantina" 
+    disabled
+/>
 
-{{-- Total Ayam Karantina --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="total_ayam_karantina"
-        name="total_ayam_karantina" 
-        label="Total Ayam Karantina" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('total_ayam_karantina', @$data->total_ayam_karantina) }}"
-        placeholder="Total Ayam Karantina" 
-        required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-warehouse text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="ayam_mati"
+    name="ayam_mati" 
+    label="Ayam Mati" 
+    type="number" 
+    :value="old('ayam_mati', @$data->ayam_mati)"
+    placeholder="Masukkan jumlah ayam mati" 
+    required
+/>
 
-{{-- Ayam Mati --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="ayam_mati"
-        name="ayam_mati" 
-        label="Ayam Mati" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('ayam_mati', @$data->ayam_mati) }}"
-        placeholder="Masukkan jumlah ayam mati" 
-        required>
-        
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-skull text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="ayam_afkir"
+    name="ayam_afkir" 
+    label="Ayam Afkir" 
+    type="number" 
+    :value="old('ayam_afkir', @$data->ayam_afkir)"
+    placeholder="Masukkan jumlah ayam afkir" 
+    required
+/>
 
-{{-- ayam afkir --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="ayam_afkir"
-        name="ayam_afkir" 
-        label="Ayam Afkir" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('ayam_afkir', @$data->ayam_afkir) }}"
-        placeholder="Masukkan jumlah ayam afkir" 
-        required>
-        
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-              <i class="fas fa-drumstick-bite text-muted"></i>
+<x-adminlte-input 
+    id="pemberian_pakan"
+    name="pemberian_pakan" 
+    label="Pemberian Pakan (kg)" 
+    type="number"
+    step="0.01"
+    :value="old('pemberian_pakan', @$data->pemberian_pakan)"
+    placeholder="Masukkan jumlah pakan"
+    required
+/>
 
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="sisa_pakan"
+    name="sisa_pakan" 
+    label="Sisa Pakan (kg)" 
+    type="number"
+    step="0.01"
+    :value="old('sisa_pakan', @$data->sisa_pakan)"
+    placeholder="Masukkan sisa pakan"
+    required
+/>
 
-{{-- Pemberian Pakan --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="pemberian_pakan"
-        name="pemberian_pakan" 
-        label="Pemberian Pakan (kg)" 
-        type="number" step="0.01"
-        igroup-size="md"
-        value="{{ old('pemberian_pakan', @$data->pemberian_pakan) }}"
-        placeholder="Masukkan jumlah pakan" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-seedling text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="jumlah_telur_bagus"
+    name="jumlah_telur_bagus" 
+    label="Jumlah Telur Bagus" 
+    type="number" 
+    :value="old('jumlah_telur_bagus', @$data->jumlah_telur_bagus)"
+    placeholder="Masukkan jumlah telur bagus"
+    required
+/>
 
-{{-- Sisa Pakan --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="sisa_pakan"
-        name="sisa_pakan" 
-        label="Sisa Pakan (kg)" 
-        type="number" step="0.01"
-        igroup-size="md"
-        value="{{ old('sisa_pakan', @$data->sisa_pakan) }}"
-        placeholder="Masukkan sisa pakan" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-seedling text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="jumlah_telur_retak"
+    name="jumlah_telur_retak" 
+    label="Jumlah Telur Retak" 
+    type="number" 
+    :value="old('jumlah_telur_retak', @$data->jumlah_telur_retak)"
+    placeholder="Masukkan jumlah telur retak"
+    required
+/>
 
-{{-- Jumlah Telur Bagus --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="jumlah_telur_bagus"
-        name="jumlah_telur_bagus" 
-        label="Jumlah Telur Bagus" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('jumlah_telur_bagus', @$data->jumlah_telur_bagus) }}"
-        placeholder="Masukkan jumlah telur bagus" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-egg text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="jumlah_telur_rusak"
+    name="jumlah_telur_rusak" 
+    label="Jumlah Telur Rusak" 
+    type="number" 
+    :value="old('jumlah_telur_rusak', @$data->jumlah_telur_rusak)"
+    placeholder="Masukkan jumlah telur rusak"
+    required
+/>
 
-{{-- Jumlah Telur Retak --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="jumlah_telur_retak"
-        name="jumlah_telur_retak" 
-        label="Jumlah Telur Retak" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('jumlah_telur_retak', @$data->jumlah_telur_retak) }}"
-        placeholder="Masukkan jumlah telur retak" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-egg text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="berat_telur_bagus"
+    name="berat_telur_bagus" 
+    label="Berat Telur Bagus (gram)" 
+    type="number"
+    step="0.01"
+    :value="old('berat_telur_bagus', @$data->berat_telur_bagus)"
+    placeholder="Masukkan berat telur bagus"
+    required
+/>
 
-{{-- Jumlah Telur Rusak --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="jumlah_telur_rusak"
-        name="jumlah_telur_rusak" 
-        label="Jumlah Telur Rusak" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('jumlah_telur_rusak', @$data->jumlah_telur_rusak) }}"
-        placeholder="Masukkan jumlah telur rusak" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-egg text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="berat_telur_retak"
+    name="berat_telur_retak" 
+    label="Berat Telur Retak (gram)" 
+    type="number"
+    step="0.01"
+    :value="old('berat_telur_retak', @$data->berat_telur_retak)"
+    placeholder="Masukkan berat telur retak"
+    required
+/>
 
-{{-- Berat Telur Bagus --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="berat_telur_bagus"
-        name="berat_telur_bagus" 
-        label="Berat Telur Bagus (gram)" 
-        type="number" step="0.01"
-        igroup-size="md"
-        value="{{ old('berat_telur_bagus', @$data->berat_telur_bagus) }}"
-        placeholder="Masukkan berat telur bagus" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-weight text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="berat_telur_rusak"
+    name="berat_telur_rusak" 
+    label="Berat Telur Rusak (gram)" 
+    type="number" 
+    step="0.01"
+    :value="old('berat_telur_rusak', @$data->berat_telur_rusak)"
+    placeholder="Masukkan berat telur rusak" required
+/>
 
-{{-- Berat Telur Retak --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="berat_telur_retak"
-        name="berat_telur_retak" 
-        label="Berat Telur Retak (gram)" 
-        type="number" step="0.01"
-        igroup-size="md"
-        value="{{ old('berat_telur_retak', @$data->berat_telur_retak) }}"
-        placeholder="Masukkan berat telur retak" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-weight text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="pengobatan_yang_dilakukan"
+    name="pengobatan_yang_dilakukan" 
+    label="Pengobatan yang Dilakukan" 
+    type="text" 
+    :value="old('pengobatan_yang_dilakukan', @$data->pengobatan_yang_dilakukan)"
+    placeholder="Masukkan jenis pengobatan"
+    required
+/>
 
-{{-- Berat Telur Rusak --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="berat_telur_rusak"
-        name="berat_telur_rusak" 
-        label="Berat Telur Rusak (gram)" 
-        type="number" step="0.01"
-        igroup-size="md"
-        value="{{ old('berat_telur_rusak', @$data->berat_telur_rusak) }}"
-        placeholder="Masukkan berat telur rusak" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-weight text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="jumlah_ayam_diobati"
+    name="jumlah_ayam_diobati" 
+    label="Jumlah Ayam Diobati" 
+    type="number" 
+    :value="old('jumlah_ayam_diobati', @$data->jumlah_ayam_diobati)"
+    placeholder="Masukkan jumlah ayam diobati"
+    required
+/>
 
-{{-- Pengobatan yang Dilakukan --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="pengobatan_yang_dilakukan"
-        name="pengobatan_yang_dilakukan" 
-        label="Pengobatan yang Dilakukan" 
-        type="text" 
-        igroup-size="md"
-        value="{{ old('pengobatan_yang_dilakukan', @$data->pengobatan_yang_dilakukan) }}"
-        placeholder="Masukkan jenis pengobatan" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-pills text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="penyemprotan"
+    name="penyemprotan" 
+    label="Penyemprotan" 
+    type="text" 
+    :value="old('penyemprotan', @$data->penyemprotan)"
+    placeholder="Masukkan jenis penyemprotan"
+    required
+/>
 
-{{-- Jumlah Ayam Diobati --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="jumlah_ayam_diobati"
-        name="jumlah_ayam_diobati" 
-        label="Jumlah Ayam Diobati" 
-        type="number" 
-        igroup-size="md"
-        value="{{ old('jumlah_ayam_diobati', @$data->jumlah_ayam_diobati) }}"
-        placeholder="Masukkan jumlah ayam diobati" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-user-md text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input 
+    id="vaksin"
+    name="vaksin" 
+    label="Vaksin" 
+    type="text" 
+    :value="old('vaksin', @$data->vaksin)"
+    placeholder="Masukkan jenis vaksin" 
+    required
+/>
 
-{{-- Penyemprotan --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="penyemprotan"
-        name="penyemprotan" 
-        label="Penyemprotan" 
-        type="text" 
-        igroup-size="md"
-        value="{{ old('penyemprotan', @$data->penyemprotan) }}"
-        placeholder="Masukkan jenis penyemprotan" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-spray-can text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-
-{{-- Vaksin --}}
-<div class="mb-3">
-    <x-adminlte-input 
-        id="vaksin"
-        name="vaksin" 
-        label="Vaksin" 
-        type="text" 
-        igroup-size="md"
-        value="{{ old('vaksin', @$data->vaksin) }}"
-        placeholder="Masukkan jenis vaksin" required>
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-syringe text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-
-{{-- Catatan --}}
-<div class="mb-3">
-    <x-adminlte-textarea 
-        id="catatan"
-        name="catatan" 
-        label="Catatan" 
-        igroup-size="md" 
-        placeholder="Tambahkan catatan jika perlu" 
-        rows="4">{{ old('catatan', @$data->catatan) }}</x-adminlte-textarea>
-</div>
+<x-adminlte-textarea 
+    id="catatan"
+    name="catatan" 
+    label="Catatan" 
+    placeholder="Tambahkan catatan jika perlu" 
+    rows="4"
+>{{ old('catatan', @$data->catatan) }}</x-adminlte-textarea>
 
 @pushOnce('js')
     <script>
-        var kandangId, tanggal = null;
-        function getKarantinaPopulasiData() {
-            console.log({ kandangId, tanggal });
-            
+        var kandangId = $('select[name=kandang_id]').val();
+        var tanggal = $('input[name=tanggal]').val();
+
+        function getKarantinaPopulasiData() {            
             if (!kandangId || !tanggal) {
                 return;
             }

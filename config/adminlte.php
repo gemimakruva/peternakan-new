@@ -424,7 +424,7 @@ return [
         // ====================  MENU POPULASI AYAM  ==========================
 
         [
-            'header' => 'POPULASI AYAM',
+            'header' => 'Populasi Ayam',
         ],
         [
             'text'  => 'Populasi Ayam',
@@ -439,14 +439,10 @@ return [
             'header' => 'Ayam Afkir',
         ],
         [
-            'text'  => 'Riwayat Ayam Afkir',
+            'text'  => 'Ayam Afkir',
             'route' => 'ayam-afkir.index',
             'icon'  => 'fas fa-clipboard-list',
-        ],
-        [
-            'text'  => 'Form Ayam Afkir',
-            'route' => 'ayam-afkir.create',
-            'icon'  => 'fas fa-plus-circle',
+            'active' => ['ayam-afkir/*']
         ],
 
         // ====================   PENGADAAN AYAM KARANTINA  ==========================
@@ -457,31 +453,19 @@ return [
         [
             'text'    => 'Ayam Karantina',
             'icon'    => 'fas fa-home',
+            'active'  => ['ayam-karantina/*', 'ayam-karantina-overview'],
             'submenu' => [
+                [
+                    'text'  => 'Ayam Karantina',
+                    'route' => 'ayam-karantina.index',
+                    'icon' => 'fas fa-clipboard-list',
+                    'active'  => ['ayam-karantina/*'],
+                ],
                 [
                     'text'  => 'Overview',
                     'route' => 'ayam-karantina.overview',
                     'icon'  => 'fas fa-clipboard-check',
-                ],
-                [
-                    'text'  => 'Form Ayam Karantina',
-                    'route' => 'ayam-karantina.create',
-                    'icon'  => 'fas fa-plus-circle',
-                ],
-                [
-                    'text'  => 'Riwayat Karantina',
-                    'route' => 'ayam-karantina.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Ayam Masuk Karantina',
-                    'route' => 'ayam-karantina.masuk',
-                    'icon'  => 'fas fa-arrow-right',
-                ],
-                [
-                    'text'  => 'Ayam Keluar Karantina',
-                    'route' => 'ayam-karantina.keluar',
-                    'icon'  => 'fas fa-arrow-left',
+                    'active'  => ['ayam-karantina-overview'],
                 ],
             ]
         ],

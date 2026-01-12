@@ -63,7 +63,7 @@ class KandangService
         $totalAyamKarantina = $this->karantinaPopulasi
             ->where('kandang_id', '=', $asalKandangId)
             ->when($tanggalPerbandingan, function ($query, $tanggalPerbandingan) {
-                $query->where('tanggal', '=', $tanggalPerbandingan->format('Y-m-d'));
+                $query->where('tanggal', '<=', $tanggalPerbandingan->format('Y-m-d'));
             })
             ->latest('tanggal')
             ->value('total_ayam_karantina');
