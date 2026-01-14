@@ -298,11 +298,6 @@
                         </button>
                     </td>
                     <td>
-                        <button class="btn btn-danger btn-sm"
-                            onclick="deleteData('{{ route('ayam-karantina.destroy',
-                             $item->id) }}')">
-                            Hapus
-                        </button>
                     </td>
                 </tr>
                 @empty
