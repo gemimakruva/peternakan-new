@@ -26,7 +26,8 @@ class AyamKarantinaController extends Controller
                 'picUser:id,name',
                 'kandang:id,nama',
             ])
-            ->latest()
+            ->orderByDesc('kandang_id')
+            ->orderByDesc('tanggal')
             ->paginate(request()->query('perPage', 10))
             ->withQueryString();
 
