@@ -49,7 +49,9 @@ class PopulasiAyamController extends Controller
             ->paginate(request()->query('perPage', 10));
 
         $listKandang->transform(function($item) {
-            $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
+            if ($item->terakhir_diperharui) {
+                $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
+            }
             return $item;
         });
 
