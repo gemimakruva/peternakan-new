@@ -58,17 +58,17 @@
                     @forelse ($strainMetrics as $row)
                         <tr>
                             <td>{{ $loop->iteration }}</td>
-                            <td class="text-right">{{ $row->umur }}</td>
-                            <td class="text-right">{{ $row->berat_badan_min }}</td>
-                            <td class="text-right">{{ $row->berat_badan_max }}</td>
-                            <td class="text-right">{{ $row->berat_badan }}</td>
-                            <td class="text-right">{{ $row->persentase_kematian }}</td>
-                            <td class="text-right">{{ $row->feed_intake }}</td>
-                            <td class="text-right">{{ $row->fcr }}</td>
-                            <td class="text-right">{{ $row->hdp }}</td>
-                            <td class="text-right">{{ $row->hhp }}</td>
-                            <td class="text-right">{{ $row->egg_weight }}</td>
-                            <td class="text-right">{{ $row->egg_mass }}</td>
+                            <td class="text-right">{{ format_angka($row->umur) }}</td>
+                            <td class="text-right">{{ format_angka($row->berat_badan_min) }}</td>
+                            <td class="text-right">{{ format_angka($row->berat_badan_max) }}</td>
+                            <td class="text-right">{{ format_angka($row->berat_badan) }}</td>
+                            <td class="text-right">{{ format_angka($row->persentase_kematian) }}</td>
+                            <td class="text-right">{{ format_angka($row->feed_intake) }}</td>
+                            <td class="text-right">{{ format_angka($row->fcr) }}</td>
+                            <td class="text-right">{{ format_angka($row->hdp) }}</td>
+                            <td class="text-right">{{ format_angka($row->hhp) }}</td>
+                            <td class="text-right">{{ format_angka($row->egg_weight) }}</td>
+                            <td class="text-right">{{ format_angka($row->egg_mass) }}</td>
                         </tr>
                     @empty
                         <tr>
