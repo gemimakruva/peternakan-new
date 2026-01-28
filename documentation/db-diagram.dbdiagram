@@ -83,10 +83,16 @@
       "y": 1060
     },
     {
+      "name": "karantina_populasi_pipe",
+      "schemaName": "public",
+      "x": 3889.1318359375,
+      "y": 12
+    },
+    {
       "name": "ayam_afkir",
       "schemaName": "public",
-      "x": 2751.6303327415453,
-      "y": 1009.6576087872403
+      "x": 2705.6303327415453,
+      "y": 1228.6576087872404
     },
     {
       "name": "jenis_pakan",
@@ -99,12 +105,6 @@
       "schemaName": "public",
       "x": 638.36279296875,
       "y": 936
-    },
-    {
-      "name": "perhitungan_pakan_items",
-      "schemaName": "public",
-      "x": 1995.6455078125,
-      "y": 3303
     },
     {
       "name": "pemberian_pakan_sisa_pakan",
@@ -131,6 +131,24 @@
       "y": 1169
     },
     {
+      "name": "jenis_disinfektan",
+      "schemaName": "public",
+      "x": 12,
+      "y": 1028
+    },
+    {
+      "name": "jenis_treatment",
+      "schemaName": "public",
+      "x": 12,
+      "y": 1234
+    },
+    {
+      "name": "metode_treatment",
+      "schemaName": "public",
+      "x": 12,
+      "y": 1440
+    },
+    {
       "name": "penjadwalan_disinfektan",
       "schemaName": "public",
       "x": 1261.05810546875,
@@ -155,40 +173,52 @@
       "y": 1678
     },
     {
-      "name": "perhitungan_treatment",
+      "name": "ovk_pakan",
       "schemaName": "public",
-      "x": 1995.6455078125,
-      "y": 1948
+      "x": 2014.857421875,
+      "y": 1207
     },
     {
-      "name": "perhitungan_treatment_items",
+      "name": "vaksin_minum",
       "schemaName": "public",
-      "x": 2684.6865234375,
-      "y": 495
+      "x": 2014.857421875,
+      "y": 1637
     },
     {
-      "name": "18_perhitungan_vaksinasi_vita",
+      "name": "vitamin_obat_minum",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 3608
+      "x": 2014.857421875,
+      "y": 3166
     },
     {
-      "name": "19_form_request_order_ovk",
+      "name": "form_request_order_ovk",
       "schemaName": "public",
-      "x": 1197.0673828125,
-      "y": 838
+      "x": 1298.88623046875,
+      "y": 2294
     },
     {
-      "name": "20_pelaksanaan_treatment",
+      "name": "pelaksanaan_treatment",
       "schemaName": "public",
-      "x": 2028.14453125,
-      "y": 4262
+      "x": 2697.1240234375,
+      "y": 870
     },
     {
-      "name": "21_monitoring_kesehatan_ternak",
+      "name": "pelaksanaan_treatment_dokumentasi",
       "schemaName": "public",
-      "x": 1197.0673828125,
-      "y": 1237
+      "x": 3310.54833984375,
+      "y": 611
+    },
+    {
+      "name": "monitoring_kesehatan",
+      "schemaName": "public",
+      "x": 1298.88623046875,
+      "y": 3080
+    },
+    {
+      "name": "monitoring_kesehatan_dokumentasi",
+      "schemaName": "public",
+      "x": 2014.857421875,
+      "y": 3564
     }
   ],
   "tableGroupCollapseStates": [],
