@@ -23,7 +23,7 @@ class FlockRepository extends EloquentRepository
             ->join('kandang', 'kandang.id', '=', 'flock.kandang_id')
             ->join('peternakan', 'peternakan.id', '=', 'kandang.peternakan_id')
             ->selectRaw(<<<SQL
-                *
+                flock.*
                 , flock.nama AS nama_flock
                 , kandang.nama AS nama_kandang
                 , peternakan.nama AS nama_peternakan

@@ -5,9 +5,9 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
-use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Models\Pipe;
+use Modules\Kandang\Repositories\Kandang\PipeRepository;
 
 class PipeController extends Controller
 {
@@ -18,6 +18,7 @@ class PipeController extends Controller
     public function __construct(
         private Peternakan $peternakan,
         private Pipe $pipe,
+        private PipeRepository $repository,
     ) { }
 
     /**
@@ -27,45 +28,25 @@ class PipeController extends Controller
     public function index()
     {
         Gate::authorize('Lihat Semua Pipe');
-        
-        $search = request()->input('search');
+
         $flockId = request()->input('flock_id');
         $kandangId = request()->input('kandang_id');
         $peternakanId = request()->input('peternakan_id');
         $perPage = request()->query('perPage', 10);
         
-        $datas = $this->pipe
-            ->with(['flock.kandang.peternakan'])
-            ->when($search, function ($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%")
-                    ->orWhereHas('flock', function ($sub) use ($search) {
-                        $sub->where('nama', 'like', "%{$search}%");
-                    });
-            })
-            ->when($flockId, function ($query) use ($flockId) {
-                $query->where('flock_id', $flockId);
-            })
-            ->when($kandangId, function ($query) use ($kandangId) {
-                $query->whereHas('flock', function ($q) use ($kandangId) {
-                    $q->where('kandang_id', $kandangId);
-                });
-            })
-            ->when($peternakanId, function ($query) use ($peternakanId) {
-                $query->whereHas('flock.kandang', function ($q) use ($peternakanId) {
-                    $q->where('peternakan_id', $peternakanId);
-                });
-            })
-            ->orderBy('updated_at', 'desc')
-            ->paginate($perPage)
-            ->withQueryString();
+        $datas = $this->repository->paginate(
+            request()->query('search'),
+            request()->collect()->only(['peternakan_id', 'kandang_id', 'flock_id']),
+            request()->collect('orders'),
+        );
 
         $peternakan = $this->peternakan
             ->with([
-                'kandang:id,nama',
-                'kandang.flocks:id,nama'
+                'kandang:id,peternakan_id,nama',
+                'kandang.flocks:id,kandang_id,nama'
             ])->get();
 
-        return view('kandang::master-data.pipe.index', compact(['datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId', 'search']));
+        return view('kandang::master-data.pipe.index', compact(['datas', 'peternakan', 'flockId', 'kandangId', 'peternakanId']));
     }
 
     /**

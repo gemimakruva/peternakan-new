@@ -22,7 +22,7 @@ class KandangRepository extends EloquentRepository
             ->join('strain', 'strain.id', '=', 'kandang.strain_id')
             ->join('peternakan', 'peternakan.id', '=', 'kandang.peternakan_id')
             ->selectRaw(<<<SQL
-                *
+                kandang.*
                 , kandang.nama AS nama_kandang
                 , strain.nama AS nama_strain
                 , peternakan.nama AS nama_peternakan

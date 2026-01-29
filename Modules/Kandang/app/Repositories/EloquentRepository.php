@@ -110,7 +110,7 @@ abstract class EloquentRepository implements RepositoryInterface
             $q->orderBy("$tableName.id", 'desc');
         }
 
-        return $q->paginate($perPage, $columns);
+        return $q->paginate($perPage, $columns)->withQueryString();
     }
 
     /**
