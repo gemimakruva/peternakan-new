@@ -37,6 +37,9 @@
 
     {{-- Filter --}}
     <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Filter</h2>
+        </div>
         <div class="card-body">
             <form 
                 action="{{ route('master-data.flock.index') }}" 
@@ -81,11 +84,20 @@
                         <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
                     </template>
                 </select>
+
+                <input type="search" 
+                    name="search" 
+                    class="form-control mx-200" 
+                    placeholder="Nama Flock..." 
+                    value="{{ request()->query('search') }}">
     
-                <div>
+                <div class="d-flex justify-content-end gap-2">
                     <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fas fa-filter"></i>
+                        <i class="fas fa-search"></i>
                     </button>
+                    <a href="{{ route('master-data.flock.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
                 </div>
             </form>
         </div>
@@ -93,39 +105,14 @@
 
     {{-- Table --}}
     <div class="card">
-        <div class="card-header text-white d-flex justify-content-between align-items-center">
-            <form action="{{ route('master-data.flock.index') }}" method="get" class="w-100">
-                @if(request('peternakan_id'))
-                    <input type="hidden" name="peternakan_id" value="{{ request('peternakan_id') }}">
-                @endif
-                @if(request('kandang_id'))
-                    <input type="hidden" name="kandang_id" value="{{ request('kandang_id') }}">
-                @endif
-                
-                <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">List Flock</h2>
-                    <div class="d-flex" style="gap: .5em">
-                        <input type="search" 
-                            name="search" 
-                            class="form-control" 
-                            placeholder="Cari flock..." 
-                            value="{{ request()->query('search') }}">
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead class="bg-light">
                     <tr>
                         <th style="width: 50px;">#</th>
-                        <th>Nama Peternakan</th>
-                        <th>Nama Kandang</th>
-                        <th>Nama Flock</th>
+                        <x-sort-th label="Nama Peternakan" name="nama_peternakan" />
+                        <x-sort-th label="Nama Kandang" name="nama_kandang" />
+                        <x-sort-th label="Nama Flock" name="nama_flock" />
                         <th style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
@@ -133,9 +120,9 @@
                     @forelse($datas as $row)
                     <tr>    
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
-                        <td class="text-left">{{ $row->kandang->peternakan->nama ?? '-' }}</td>
-                        <td class="text-left">{{ $row->kandang->nama ?? '-' }}</td>
-                        <td class="text-left">{{ $row->nama }}</td>
+                        <td class="text-left">{{ $row->nama_peternakan ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama_kandang ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama_flock }}</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2" role="group">
                                 <a href="{{ route('master-data.flock.show', $row) }}" class="btn btn-info btn-sm" title="Lihat Detail">

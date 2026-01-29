@@ -2,6 +2,7 @@
 
 namespace Modules\Kandang\Repositories\Kandang;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\JenisPemeriksaan;
@@ -13,6 +14,29 @@ class FlockRepository extends EloquentRepository
     public function __construct(Flock $model)
     {
         parent::__construct($model);
+    }
+
+    public function getQuery(): Builder
+    {
+        return $this->model
+            ->query()
+            ->join('kandang', 'kandang.id', '=', 'flock.kandang_id')
+            ->join('peternakan', 'peternakan.id', '=', 'kandang.peternakan_id')
+            ->selectRaw(<<<SQL
+                *
+                , flock.nama AS nama_flock
+                , kandang.nama AS nama_kandang
+                , peternakan.nama AS nama_peternakan
+            SQL);
+    }
+
+    public function searchQuery(Builder $q, string $search): void
+    {
+        $q->where(function($q2) use($search) {
+            $q2->where('flock.nama', 'LIKE', "%$search%")
+                ->orWhere('kandang.nama', 'LIKE', "%$search%")
+                ->orWhere('peternakan.nama', 'LIKE', "%$search%");
+        });
     }
 
     public function populasiAyam(Collection $filter)

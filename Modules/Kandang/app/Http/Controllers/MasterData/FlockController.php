@@ -7,45 +7,31 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Peternakan;
+use Modules\Kandang\Repositories\Kandang\FlockRepository;
 
 class FlockController extends Controller
 {
     public function __construct(
         private Peternakan $peternakan,
         private Flock $flock,
+        private FlockRepository $repository,
     ) { }
 
     public function index()
     {
-        $search = request()->input('search');
         $kandangId = request()->input('kandang_id');
         $peternakanId = request()->input('peternakan_id');
-        $perPage = request()->query('perPage', 10);
-        
-        $datas = $this->flock
-            ->with(['pipes', 'kandang.peternakan'])
-            ->when($search, function ($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%")
-                    ->orWhereHas('kandang', function ($sub) use ($search) {
-                        $sub->where('nama', 'like', "%{$search}%");
-                    });
-            })
-            ->when($kandangId, function ($query) use ($kandangId) {
-                $query->where('kandang_id', $kandangId);
-            })
-            ->when($peternakanId, function ($query) use ($peternakanId) {
-                $query->whereHas('kandang', function ($q) use ($peternakanId) {
-                    $q->where('peternakan_id', $peternakanId);
-                });
-            })
-            ->orderBy('nama', 'desc')
-            ->orderBy('updated_at', 'desc')
-            ->paginate($perPage)
-            ->withQueryString();
+
+        $datas = $this->repository->paginate(
+            request()->query('search'),
+            request()->collect()->only(['peternakan_id', 'kandang_id']),
+            request()->collect('orders'),
+            request()->query('perPage', 10)
+        );
         
         $peternakan = $this->peternakan->with('kandang')->get();
         
-        return view('kandang::master-data.flock.index', compact('datas', 'peternakan', 'kandangId', 'peternakanId', 'search'));
+        return view('kandang::master-data.flock.index', compact('datas', 'peternakan', 'kandangId', 'peternakanId'));
     }
 
     public function show(Flock $flock)
