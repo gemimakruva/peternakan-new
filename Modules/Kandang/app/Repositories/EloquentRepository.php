@@ -11,6 +11,7 @@ use Modules\Kandang\Repositories\Contracts\RepositoryInterface;
 abstract class EloquentRepository implements RepositoryInterface
 {
     protected Model $model;
+    protected ?Builder $query = null;
 
     public function __construct(Model $model)
     {
@@ -23,15 +24,93 @@ abstract class EloquentRepository implements RepositoryInterface
     }
 
     /**
+     * Return a query builder
+     */
+    public function getQuery(): Builder
+    {
+        $query = $this->query ?? $this->model->newQuery();
+
+        return $query;
+    }
+
+    /**
      * Apply eager loads to a query builder.
      */
-    protected function applyWith(Builder $query, array|string|null $with): Builder
+    public function applyWith(Builder $query, array|string|null $with): Builder
     {
         if (empty($with)) {
             return $query;
         }
 
         return $query->with($with);
+    }
+
+    public function searchQuery(Builder $q, string $search): void
+    {
+        // eg: $q->where('strain.nama', 'LIKE', "%{$search}%")->orWhere('kandang.nama', 'LIKE', "%{$search}%")
+    }
+
+    public function customWhereQuery(): array
+    {
+        // eg: ['nama_strain' => fn($q, $namaStrain) => $q->where('strain.nama', '=', $namaStrain)],
+        return [];
+    }
+
+    /**
+     * Summary of wheresQuery
+     * @param Builder $q
+     * @param ?Collection $wheres
+     * @return void
+     */
+    public function wheresQuery(Builder $q, ?Collection $wheres = null): void
+    {
+        $customWhereQueryKeys = array_keys($this->customWhereQuery());
+
+        $wheres->each(function($value, $column) use($q, $customWhereQueryKeys) {
+            if ($value === null) return;
+            if (in_array($column, $customWhereQueryKeys)) {
+                $q->when($value, $customWhereQueryKeys[$column]);
+            } else {
+                $q->where($column, '=', $value);
+            }
+        });
+    }
+
+    /**
+     * Paginate records, optionally eager loading relations.
+     * avoid to use 'with relation' in pagination data
+     * @param ?Collection $wheres eg: ['nama_strain' => 'Isa']
+     */
+    public function paginate(
+        ?string $search = null,
+        ?Collection $wheres = null,
+        ?Collection $orders = null,
+        int $perPage = 15,
+        array $columns = ['*'],
+    ): LengthAwarePaginator 
+    {
+        $q = $this->getQuery();
+
+        if ($search) {
+            $this->searchQuery($q, $search);
+        }
+
+        if ($wheres) {
+            $this->wheresQuery($q, $wheres);
+        }
+
+        if ($orders?->count()) {
+            foreach ($orders as $column => $direction) {
+                $q->orderBy($column, $direction);
+            }
+        } else {
+            // order default by latest updated data
+            $tableName = $this->model->getTable();
+            $q->orderBy("$tableName.updated_at", 'desc');
+            $q->orderBy("$tableName.id", 'desc');
+        }
+
+        return $q->paginate($perPage, $columns);
     }
 
     /**
@@ -43,17 +122,6 @@ abstract class EloquentRepository implements RepositoryInterface
         $q = $this->applyWith($q, $with);
 
         return $q->get($columns);
-    }
-
-    /**
-     * Paginate records, optionally eager loading relations.
-     */
-    public function paginate(int $perPage = 15, array|string|null $with = null, array $columns = ['*']): LengthAwarePaginator
-    {
-        $q = $this->model->newQuery();
-        $q = $this->applyWith($q, $with);
-
-        return $q->paginate($perPage, $columns);
     }
 
     /**
@@ -139,15 +207,5 @@ abstract class EloquentRepository implements RepositoryInterface
         }
 
         return (bool) $record->forceDelete();
-    }
-
-    /**
-     * Return a new query builder optionally preloaded with relations.
-     */
-    public function query(array|string|null $with = null): Builder
-    {
-        $q = $this->model->newQuery();
-
-        return $this->applyWith($q, $with);
     }
 }

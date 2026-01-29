@@ -5,39 +5,24 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\Peternakan;
 use Illuminate\Http\Request;
+use Modules\Kandang\Repositories\Kandang\PeternakanRepository;
 
 class PeternakanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * Menampilkan daftar peternakan dengan fitur pencarian dan paginasi.
-     */
+    public function __construct(
+        private PeternakanRepository $repository,
+    ) { }
+    
     public function index()
     {
         $search = request()->input('search');
 
-        // add default sorting
-        if (request()->query('order') === null) {
-            request()->merge([
-                'order' => ['created_at' => 'desc'],
-            ]);
-        } else {
-            request()->merge(request()->except('order.created_at'));
-        }
-
-        $datas = Peternakan::query()
-            ->with('kandang:peternakan_id')
-            ->when($search, function ($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%")
-                    ->orWhere('lokasi', 'like', "%{$search}%");
-            })
-            ->when(request()->query('order'), function($query, $order) {
-                foreach ($order as $key => $value) {
-                    $query->orderBy($key, $value);
-                }
-            })
-            ->paginate(request()->query('perPage', 10))
-            ->withQueryString();
+        $datas = $this->repository->paginate(
+            request()->query('search'),
+            null,
+            request()->collect('orders'),
+            request()->query('perPage', 10)
+        );
 
         return view('kandang::master-data.peternakan.index', compact('datas', 'search'));
     }

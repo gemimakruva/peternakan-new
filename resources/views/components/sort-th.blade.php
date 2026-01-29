@@ -7,7 +7,7 @@
     $route = request()->route()->getName();
 
     // Ambil semua order (array)
-    $orders = request()->query('order', []);
+    $orders = request()->query('orders', []);
 
     // Sort saat ini untuk kolom ini
     $sort = $orders[$name] ?? null;
@@ -21,8 +21,8 @@
     $sortUrl = route(
         $route,
         array_merge(
-            request()->except('order'),
-            empty($nextOrders) ? [] : ['order' => $nextOrders]
+            request()->except('orders'),
+            empty($nextOrders) ? [] : ['orders' => $nextOrders]
         )
     );
 @endphp

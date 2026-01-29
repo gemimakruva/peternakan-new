@@ -12,6 +12,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\Strain;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 
 class KandangController extends Controller
 {
@@ -24,6 +25,7 @@ class KandangController extends Controller
         private Kandang $kandang,
         private Flock $flock,
         private Pipe $pipe,
+        private KandangRepository $repository,
     ) { }
 
     /**
@@ -36,20 +38,12 @@ class KandangController extends Controller
         $strain = $this->strain->get(['id', 'nama']);
         $peternakan = $this->peternakan->get(['id', 'nama']);
 
-        $kandang = $this->kandang
-            ->with(['strain','peternakan'])
-            ->when(request()->query('search'), function ($query, $search) {
-                $query->where('nama', 'like', "%{$search}%");
-            })
-            ->when(request()->query('strain_id'), function ($query,  $strainId) {
-                $query->where('strain_id', '=', $strainId);
-            })
-            ->when(request()->query('peternakan_id'), function ($query, $peternakanId) {
-                $query->where('peternakan_id', '=', $peternakanId);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(request()->get('perPage', 10))
-            ->withQueryString(); 
+        $kandang = $this->repository->paginate(
+            request()->get('search'),
+            request()->collect()->only(['strain_id', 'peternakan_id']),
+            request()->collect('orders'),
+            request()->get('perPage', 10)
+        );
 
         return view('kandang::master-data.kandang.index', compact([
             'strain',
