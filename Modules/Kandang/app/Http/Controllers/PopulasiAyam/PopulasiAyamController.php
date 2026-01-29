@@ -62,6 +62,11 @@ class PopulasiAyamController extends Controller
     {
         request()->merge(['kandang_id' => $kandang->id]);
 
+        $kandang = $this->kandangRepository
+            ->populasiAyam(collect([]))
+            ->where('kandang.id', '=', $kandang->id)
+            ->first();
+
         $listFlock = $this->flockRepository
             ->populasiAyam(request()->collect())
             ->paginate(request()->query('perPage', 10));
