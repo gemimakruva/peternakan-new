@@ -27,10 +27,10 @@
 
     {{-- flock dropdown --}}
     <div class="form-group col-12">
-         <label for="flock_id">Pilih Baris</label>
+         <label for="flock_id">Pilih Flock</label>
         <div class="input-group input-group-lg">
             <select name="flock_id" id="flock_id" class="form-control form-control-lg">
-                <option value="">-- Pilih Baris --</option>
+                <option value="">-- Pilih Flock --</option>
             </select>
         </div>
     </div>
@@ -52,7 +52,7 @@
 
     {{-- pemberian pakan --}}
     <div class="mb-3">
-    <label for="pemberian_pakan" class="form-label">Pemberian Pakan per Baris (Kg)</label>
+    <label for="pemberian_pakan" class="form-label">Pemberian Pakan per Flock (Kg)</label>
     <div class="input-group">
         <!-- Prepend Icon -->
         <span class="input-group-text bg-white">
@@ -83,7 +83,7 @@
    <div class="mb-3">
     <x-adminlte-input 
         name="sisa_pakan"
-        label="Sisa Pakan per baris (Kg)"
+        label="Sisa Pakan per flock (Kg)"
         type="number"
         igroup-size="md"
         step="0.01"
@@ -128,7 +128,7 @@ $("#kandang_id").change(function() {
             // generate Flock
             let flockInput = $('#flock_id');
             flockInput.empty();
-            flockInput.append(`<option value="">-- Pilih Baris --</option>`);
+            flockInput.append(`<option value="">-- Pilih Flock --</option>`);
 
             if(response.results && response.results.length > 0) {
                 response.results.forEach(function(item) {

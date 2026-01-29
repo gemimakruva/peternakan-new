@@ -73,7 +73,7 @@
             <th style="width:5%">No</th>
             <th>Tanggal</th>
             <th>Kandang</th>
-            <th>Baris / Flock</th>
+            <th>Flock / Flock</th>
             <th>Total Kebutuhan Pakan</th>
             <th>Dosis OVK</th>
             <th>Waktu Pemberian Pakan</th>

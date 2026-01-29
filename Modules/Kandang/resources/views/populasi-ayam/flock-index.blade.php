@@ -7,7 +7,7 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Populasi Ayam - {{ $kandang->nama }} - Baris</h1>
+                <h1>Populasi Ayam - {{ $kandang->nama }} - Flock</h1>
                 <a href="{{ route('populasi-ayam.create', $kandang) }}" class="btn btn-primary">Tambah Populasi Ayam</a>
             </div>
           </div>
@@ -63,7 +63,7 @@
                     <thead class="bg-light">
                         <tr>
                             <th class="align-middle" width="40">#</th>
-                            <th class="align-middle">Baris</th>
+                            <th class="align-middle">Flock</th>
                             <th class="align-middle" width="100">Jumlah Ayam Fit</th>
                             <th class="align-middle" width="100">Akumulasi Kematian</th>
                             <th class="align-middle" width="100">Kematian (%)</th>

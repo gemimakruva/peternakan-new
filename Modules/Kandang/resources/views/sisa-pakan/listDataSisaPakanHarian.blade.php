@@ -74,7 +74,7 @@
                     <th>Tanggal Transaksi</th>
                     <th>Petugas pencatat</th>
                     <th>Kandang</th>
-                    <th>Baris</th>
+                    <th>Flock</th>
                     <th>Jenis Pakan</th>
                     <th>Pemberian Paykan per Flock</th>
                     <th>Sisa Pakan per Flock</th>

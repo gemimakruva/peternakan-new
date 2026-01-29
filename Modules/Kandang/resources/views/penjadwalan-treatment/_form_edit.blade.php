@@ -62,7 +62,7 @@
         <table class="table table-bordered" id="treatmentTable">
             <thead class="table table-bordered" id="treatmentTable">
                 <tr>
-                    <th style="width: 15%; min-height: 50px; line-height: 1.4;">Baris</th>
+                    <th style="width: 15%; min-height: 50px; line-height: 1.4;">Flock</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Jenis Treatment</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Metode Pemberian</th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4;">Dosis Pemberian (gram/ml)</th>
@@ -124,7 +124,7 @@
         </table>
     </div>
 
-    {{-- Tombol Tambah Baris --}}
+    {{-- Tombol Tambah Flock --}}
    
 </div>
 

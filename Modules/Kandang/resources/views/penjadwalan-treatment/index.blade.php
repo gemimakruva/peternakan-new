@@ -195,7 +195,7 @@ $(document).on('click', '.btn-detail', function () {
                 <thead>
                     <tr style="background-color: #495057; color: white;">
                         <th>#</th>
-                        <th>Baris</th>
+                        <th>Flock</th>
                         <th>Jenis Treatment</th>
                         <th>Metode Pemberian</th>
                         <th>Dosis Pemberian</th>

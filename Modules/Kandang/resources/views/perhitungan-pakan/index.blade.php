@@ -39,9 +39,9 @@
             </div>
 
             <div class="col-md-3 col-6">
-                <label class="form-label fw-semibold">Baris</label>
+                <label class="form-label fw-semibold">Flock</label>
                 <select id="flock_id" name="flock" class="form-control">
-                    <option value="">-- Pilih Baris --</option>
+                    <option value="">-- Pilih Flock --</option>
                 </select>
             </div>
 
@@ -75,7 +75,7 @@
                         <th>No</th>
                         <th>Tanggal</th>
                         <th>Kandang</th>
-                        <th>Baris</th>
+                        <th>Flock</th>
                         <th>Pipa</th>
                         <th>Jumlah Ayam</th>
                         <th>Estimasi Pemberian Per Ekor (gram)</th>
@@ -85,7 +85,7 @@
                         <th>Persentase Sore (%)</th>
                         <th>Pagi (%)</th>
                         <th>Sore (%)</th>
-                        <th>Sisa Pakan Per Baris</th>
+                        <th>Sisa Pakan Per Flock</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -106,11 +106,11 @@
                             <td>{{ number_format($pp->proporsi_pemberian_sore) }} %</td>
                             @php
                                 $sisaPakanRelasi = $pp->pipe->flock->pemberianPakanSisaPakan;
-                                $sisaPakanPerBaris = $sisaPakanRelasi->sum(function($item) {
+                                $sisaPakanPerFlock = $sisaPakanRelasi->sum(function($item) {
                                     return $item->pemberian_pakan_flock_kg - $item->sisa_pakan_per_flock_kg;
                                 });
                             @endphp
-                            <td>{{ $sisaPakanPerBaris }} kg</td>
+                            <td>{{ $sisaPakanPerFlock }} kg</td>
                         </tr>
                     @empty
                         <tr>

@@ -19,8 +19,8 @@ class StoreRequest extends FormRequest
             'dosis_pemberian'              => ['required', 'numeric'],
             'satuan_per_dosis'             => ['required', 'numeric'],
             'air_minum_per_ekor'           => ['required', 'numeric'],
-            'jumlah_ayam_per_baris'        => ['required', 'integer'],
-            'jumlah_air_di_tong_per_baris' => ['required', 'numeric'],
+            'jumlah_ayam_per_flock'        => ['required', 'integer'],
+            'jumlah_air_di_tong_per_flock' => ['required', 'numeric'],
         ];
     }
 }

@@ -95,11 +95,11 @@ class FlockController extends Controller
 
     public function destroy(Flock $flock)
     {
-        Gate::authorize('Hapus Baris');
+        Gate::authorize('Hapus Flock');
 
         if($flock->pipes()->exists()) {
             return to_route('master-data.flock.index')
-                ->with('danger', 'Data Baris tidak dapat dihapus karena memiliki pipa terkait.');
+                ->with('danger', 'Data Flock tidak dapat dihapus karena memiliki pipa terkait.');
         }
 
         try {

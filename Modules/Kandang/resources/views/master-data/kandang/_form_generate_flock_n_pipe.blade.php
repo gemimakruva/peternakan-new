@@ -1,22 +1,22 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Generate Baris dan Pipa</h2>
+        <h2 class="card-title">Generate Flock dan Pipa</h2>
     </div>
     <div class="card-body">
         <x-adminlte-input
-            name="nama_baris"
-            label="Nama Baris"
+            name="nama_flock"
+            label="Nama Flock"
             type="text"
-            placeholder="Masukkan nama baris..."
-            :value="old('nama_baris')"
+            placeholder="Masukkan nama flock..."
+            :value="old('nama_flock')"
         />
 
         <x-adminlte-input
-            name="banyak_baris"
-            label="Banyak Baris"
+            name="banyak_flock"
+            label="Banyak Flock"
             type="number"
-            placeholder="Masukkan banyak baris..."
-            :value="old('banyak_baris')"
+            placeholder="Masukkan banyak flock..."
+            :value="old('banyak_flock')"
         />
 
         <x-adminlte-input
@@ -28,11 +28,11 @@
         />
 
         <x-adminlte-input
-            name="banyak_pipa_per_baris"
-            label="Banyak Pipa per Baris"
+            name="banyak_pipa_per_flock"
+            label="Banyak Pipa per Flock"
             type="number"
-            placeholder="Masukkan Banyak Pipa per Baris..."
-            :value="old('banyak_pipa_per_baris')"
+            placeholder="Masukkan Banyak Pipa per Flock..."
+            :value="old('banyak_pipa_per_flock')"
         />
 
         <x-adminlte-input

@@ -27,9 +27,9 @@
             </select>
         </div>
 
-        {{-- Baris / Flock --}}
+        {{-- Flock / Flock --}}
         <div class="mb-3">
-            <label class="form-label">Baris / Flock</label>
+            <label class="form-label">Flock / Flock</label>
             <select id="flock_id"name="flock_id" class="form-control" required>
                 <option value="" disabled selected>Pilih Flock</option>
             </select>

@@ -21,8 +21,8 @@ class VitaminObatMinum extends Model
         'dosis_pemberian',
         'satuan_per_dosis',
         'air_minum_per_ekor',
-        'jumlah_ayam_per_baris',
-        'jumlah_air_di_tong_per_baris',
+        'jumlah_ayam_per_flock',
+        'jumlah_air_di_tong_per_flock',
     ];
 
     public function JenisTreatment(): BelongsTo

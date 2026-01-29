@@ -22,14 +22,14 @@
 </div>
 
 <div class="form-group col-12">
-    <x-adminlte-select id="input-baris-recording-telur" name="flock_id" label="Pilih Baris" class="select-nama-berkas"
+    <x-adminlte-select id="input-flock-recording-telur" name="flock_id" label="Pilih Flock" class="select-nama-berkas"
     igroup-size="lg" disabled>
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
                 <i class="fas fa-feather-alt text-muted"></i>
             </div>
         </x-slot>
-        <option selected disabled>Pilih Baris...</option>
+        <option selected disabled>Pilih Flock...</option>
     </x-adminlte-select>
 </div>
 
@@ -191,7 +191,7 @@
                     }
                 });
             }
-            function populateDataBaris(elementId, kandangId) {
+            function populateDataFlock(elementId, kandangId) {
                 let url = '/master-data/ajax/flock/' + kandangId;
                 let method = 'GET';
 
@@ -200,9 +200,9 @@
                     type: method,
                     success: function(response) {
                         console.log(response.results);
-                        barisData = response.results;
+                        flockData = response.results;
                         $(`#${elementId}`).empty();
-                        $(`#${elementId}`).append('<option selected disabled>Pilih Baris...</option>');
+                        $(`#${elementId}`).append('<option selected disabled>Pilih Flock...</option>');
                         $.each(response.results, function(index, item) {
                             $(`#${elementId}`).append('<option value="' + item.id + '">' + item.text + '</option>');
                         });
@@ -244,7 +244,7 @@
                 const kandangId = $(this).val();
                 const tanggal = $('#tanggal_produksi').val();
                 
-                populateDataBaris('input-baris-recording-telur', kandangId);
+                populateDataFlock('input-flock-recording-telur', kandangId);
                 getUsiaAyamByKandangId(kandangId, tanggal);
             });
             
@@ -278,7 +278,7 @@
                             
                             setTimeout(function() {
                                 console.log('flock:', editFlockId);
-                                $('#input-baris-recording-telur').val(editFlockId);
+                                $('#input-flock-recording-telur').val(editFlockId);
                             }, 100);
                         }
                     }

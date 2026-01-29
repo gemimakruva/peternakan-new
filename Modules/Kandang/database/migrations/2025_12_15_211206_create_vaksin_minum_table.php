@@ -18,9 +18,9 @@ return new class extends Migration
             $table->string('nama_vaksin');
             $table->double('total_dosis',10,3);
             $table->double('air_minum_per_ekor',10,3);
-            $table->integer('jumlah_ayam_per_baris');
-            $table->double('jumlah_ml_vaksin_per_baris',10,3);
-            $table->double('jumlah_air_di_tong_per_baris',10,3);
+            $table->integer('jumlah_ayam_per_flock');
+            $table->double('jumlah_ml_vaksin_per_flock',10,3);
+            $table->double('jumlah_air_di_tong_per_flock',10,3);
             $table->timestamps();
         });
     }

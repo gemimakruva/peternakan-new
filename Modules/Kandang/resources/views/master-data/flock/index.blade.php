@@ -1,6 +1,6 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Baris')
+@section('title', 'Flock')
 
 @push('css')
 <style>
@@ -18,13 +18,13 @@
         <div class="row mb-2">
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Baris</h1>
+                <h1>Flock</h1>
             </div>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-              <li class="breadcrumb-item active">Baris</li>
+              <li class="breadcrumb-item active">Flock</li>
             </ol>
           </div>
         </div>
@@ -103,12 +103,12 @@
                 @endif
                 
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2 class="card-title mb-0">List Baris</h2>
+                    <h2 class="card-title mb-0">List Flock</h2>
                     <div class="d-flex" style="gap: .5em">
                         <input type="search" 
                             name="search" 
                             class="form-control" 
-                            placeholder="Cari baris..." 
+                            placeholder="Cari flock..." 
                             value="{{ request()->query('search') }}">
                         <button class="btn btn-primary" title="Cari">
                             <i class="fas fa-search"></i>
@@ -125,7 +125,7 @@
                         <th style="width: 50px;">#</th>
                         <th>Nama Peternakan</th>
                         <th>Nama Kandang</th>
-                        <th>Nama Baris</th>
+                        <th>Nama Flock</th>
                         <th style="width: 180px;">Aksi</th>
                     </tr>
                 </thead>
@@ -165,7 +165,7 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="6" class="text-muted">Belum ada data baris.</td>
+                        <td colspan="6" class="text-muted">Belum ada data flock.</td>
                     </tr>
                     @endforelse
                 </tbody>
@@ -186,7 +186,7 @@
             e.preventDefault();
             const nama = $(this).data('nama');
             Swal.fire({
-                title: `Hapus Baris "${nama}"?`,
+                title: `Hapus Flock "${nama}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,

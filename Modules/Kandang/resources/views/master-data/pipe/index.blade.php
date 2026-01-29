@@ -103,7 +103,7 @@
                     class="form-control mx-200"
                     x-model="selectedFlock"
                     :disabled="!selectedKandang">
-                    <option value="">Semua Baris</option>
+                    <option value="">Semua Flock</option>
                     <template x-for="flock in flockList" :key="flock.id">
                         <option :value="flock.id" x-text="flock.nama" :selected="flock.id == '{{ request('flock_id') ?? '' }}'"></option>
                     </template>
@@ -134,7 +134,7 @@
                         <input type="search" 
                                name="search" 
                                class="form-control" 
-                               placeholder="Kandang atau Baris" 
+                               placeholder="Kandang atau Flock" 
                                value="{{ request()->query('search') }}">
                         <button class="btn btn-primary" title="Cari">
                             <i class="fas fa-search"></i>
@@ -151,7 +151,7 @@
                         <th width="50">#</th>
                         <th>Nama Peternakan</th>
                         <th>Nama Kandang</th>
-                        <th>Nama Baris</th>
+                        <th>Nama Flock</th>
                         <th>Nama Pipa</th>
                         <th>Kapasitas</th>
                         <th>Aksi</th>

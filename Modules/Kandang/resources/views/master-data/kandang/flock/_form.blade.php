@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Form Baris</h2>
+        <h2 class="card-title">Form Flock</h2>
     </div>
     <div class="card-body">
         <x-adminlte-input
@@ -18,9 +18,9 @@
         />
 
         <x-adminlte-input
-            label="Nama Baris"
+            label="Nama Flock"
             name="nama"
-            placeholder="Masukkan nama baris..."
+            placeholder="Masukkan nama flock..."
             :value="old('nama', @$flock->nama)"
         />
     </div>

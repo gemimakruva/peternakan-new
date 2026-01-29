@@ -53,7 +53,7 @@ class VitaminObatMinumController extends Controller
     public function edit(VitaminObatMinum $vitaminObatMinum)
     {
         $jenisTreatment                         = $this->service->getJenisTreatment();
-        $vitaminObatMinum->jumlah_ovk_per_baris = round($vitaminObatMinum->jumlah_air_di_tong_per_baris * ($vitaminObatMinum->dosis_pemberian / $vitaminObatMinum->satuan_per_dosis), 3);
+        $vitaminObatMinum->jumlah_ovk_per_flock = round($vitaminObatMinum->jumlah_air_di_tong_per_flock * ($vitaminObatMinum->dosis_pemberian / $vitaminObatMinum->satuan_per_dosis), 3);
 
         return view('kandang::vitamin-obat-minum.edit', compact('vitaminObatMinum', 'jenisTreatment'));
     }

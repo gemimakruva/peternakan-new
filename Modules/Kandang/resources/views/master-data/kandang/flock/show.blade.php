@@ -1,5 +1,5 @@
 @php
-    $title = "Detail Baris - {$flock->nama}";
+    $title = "Detail Flock - {$flock->nama}";
     $pipes = $flock->pipes()->orderByDesc('created_at')->get(['id', 'nama', 'kapasitas']);
 @endphp
 
@@ -61,7 +61,7 @@
 
             <div class="card">
                 <div class="card-header">
-                    <h2 class="card-title">Daftar Pipa pada Baris</h2>
+                    <h2 class="card-title">Daftar Pipa pada Flock</h2>
                 </div>
 
                 <div class="card-body table-responsive p-0">
@@ -105,7 +105,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-muted">Belum ada pipa untuk baris ini.</td>
+                                    <td colspan="5" class="text-muted">Belum ada pipa untuk flock ini.</td>
                                 </tr>
                             @endforelse
                         </tbody>

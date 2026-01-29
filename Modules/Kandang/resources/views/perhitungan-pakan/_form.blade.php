@@ -37,7 +37,7 @@
                 </div>
             </x-slot>
 
-            <option value="">-- Pilih baris --</option>
+            <option value="">-- Pilih flock --</option>
             {{-- Opsi akan diisi lewat AJAX --}}
         </x-adminlte-select>
     </div>
@@ -260,7 +260,7 @@
             $('#flock_id').empty().append('<option value="">-- Pilih Kandang dulu --</option>');
         return;
         }
-        $('#flock_id').empty().append('<option value="">Memuat data Baris...</option>');
+        $('#flock_id').empty().append('<option value="">Memuat data Flock...</option>');
     
         $.ajax({
         url: '/master-data/ajax/flock/' + kandangID, 
@@ -284,7 +284,7 @@
         },
             error: function(xhr, status, error) {
                 console.log("Gagal memuat data flock: " + error);
-                $('#flock_id').empty().append('<option value="">Gagal memuat data baris</option>');
+                $('#flock_id').empty().append('<option value="">Gagal memuat data flock</option>');
             }
         });
     });
@@ -294,7 +294,7 @@
     let flockID = $(this).val();
     console.log(flockID);
     if (!flockID) {
-            $('#pipe_id').empty().append('<option value="">-- Pilih Baris dulu --</option>');
+            $('#pipe_id').empty().append('<option value="">-- Pilih Flock dulu --</option>');
         return;
         }
      $('#pipe_id').empty().append('<option value="">Memuat data pipa...</option>');  

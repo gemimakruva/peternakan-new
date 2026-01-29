@@ -14,8 +14,8 @@ class UpdateRequest extends FormRequest
             'dosis_pemberian'              => ['sometimes', 'numeric'],
             'satuan_per_dosis'             => ['sometimes', 'numeric'],
             'air_minum_per_ekor'           => ['sometimes', 'numeric'],
-            'jumlah_ayam_per_baris'        => ['sometimes', 'integer'],
-            'jumlah_air_di_tong_per_baris' => ['sometimes', 'numeric'],
+            'jumlah_ayam_per_flock'        => ['sometimes', 'integer'],
+            'jumlah_air_di_tong_per_flock' => ['sometimes', 'numeric'],
         ];
     }
 

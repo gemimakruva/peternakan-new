@@ -280,18 +280,18 @@ $(document).ready(function () {
         let kandangID = $(this).val();
         if (!kandangID) {
             $('#flock_id').html('<option value="">-- Pilih Kandang dulu --</option>');
-            $('#pipe_id').html('<option value="">-- Pilih Baris dulu --</option>');
+            $('#pipe_id').html('<option value="">-- Pilih Flock dulu --</option>');
             return;
         }
 
-        $('#flock_id').html('<option value="">Memuat data baris...</option>');
+        $('#flock_id').html('<option value="">Memuat data flock...</option>');
 
         $.ajax({
             url: '/master-data/ajax/flock/' + kandangID,
             type: 'GET',
             dataType: 'json',
             success: function(response) {
-                $('#flock_id').empty().append('<option value="">-- Pilih baris --</option>');
+                $('#flock_id').empty().append('<option value="">-- Pilih flock --</option>');
                 $.each(response.results, function(index, flock) {
                     $('#flock_id').append(
                         $('<option>', { value: flock.id, text: flock.text })
@@ -309,7 +309,7 @@ $(document).ready(function () {
     $('#flock_id').on('change', function() {
         let flockID = $(this).val();
         if (!flockID) {
-            $('#pipe_id').html('<option value="">-- Pilih baris dulu --</option>');
+            $('#pipe_id').html('<option value="">-- Pilih flock dulu --</option>');
             return;
         }
 

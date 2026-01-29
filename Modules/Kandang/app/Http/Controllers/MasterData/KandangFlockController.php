@@ -36,7 +36,7 @@ class KandangFlockController extends Controller
             'nama' => request()->input('nama'),
         ]);
 
-        return to_route('master-data.kandang.show', $kandang)->with('success', 'Baris baru berhasil ditambahkan.');
+        return to_route('master-data.kandang.show', $kandang)->with('success', 'Flock baru berhasil ditambahkan.');
     }
 
     public function show(Kandang $kandang, Flock $flock)
@@ -57,17 +57,17 @@ class KandangFlockController extends Controller
 
         $flock->update(request()->only('nama'));
 
-        return to_route('master-data.kandang.show', $kandang)->with('success', 'Baris berhasil diubah.');
+        return to_route('master-data.kandang.show', $kandang)->with('success', 'Flock berhasil diubah.');
     }
 
     public function destroy(Kandang $kandang, Flock $flock)
     {
         if ($flock->pipes()->exists()) {
-            return back()->with('danger', 'Baris ini tidak bisa dihapus karena memiliki Pipa terkait.');
+            return back()->with('danger', 'Flock ini tidak bisa dihapus karena memiliki Pipa terkait.');
         }
 
         $flock->delete();
 
-        return to_route('master-data.kandang.show', $kandang)->with('success', 'Baris berhasil dihapus.');
+        return to_route('master-data.kandang.show', $kandang)->with('success', 'Flock berhasil dihapus.');
     }
 }

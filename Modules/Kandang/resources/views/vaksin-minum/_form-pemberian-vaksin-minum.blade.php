@@ -58,11 +58,11 @@
 </div>
 <div class="mb-4">
     <x-adminlte-input
-        id="jumlah-ayam-per-baris-vaksin-minum"
+        id="jumlah-ayam-per-flock-vaksin-minum"
         type="number"
-        name="jumlah_ayam_per_baris"
-        label="Jumlah Ayam per Baris"
-        value="{{ old('jumlah_ayam_per_baris', @$data->jumlah_ayam_per_baris) }}"
+        name="jumlah_ayam_per_flock"
+        label="Jumlah Ayam per Flock"
+        value="{{ old('jumlah_ayam_per_flock', @$data->jumlah_ayam_per_flock) }}"
         igroup-size="lg"
         fgroup-class="col-12"
         readonly
@@ -76,11 +76,11 @@
 </div>
 <div class="mb-4">
     <x-adminlte-input
-        id="jumlah-ml-vaksin-per-baris"
+        id="jumlah-ml-vaksin-per-flock"
         type="number"
-        name="jumlah_ml_vaksin_per_baris"
-        label="Jumlah ML Vaksin per Baris"
-        value="{{ old('jumlah_ml_vaksin_per_baris', @$data->jumlah_ml_vaksin_per_baris) }}"
+        name="jumlah_ml_vaksin_per_flock"
+        label="Jumlah ML Vaksin per Flock"
+        value="{{ old('jumlah_ml_vaksin_per_flock', @$data->jumlah_ml_vaksin_per_flock) }}"
         igroup-size="lg"
         fgroup-class="col-12"
         readonly
@@ -94,11 +94,11 @@
 </div>
 <div class="mb-4">
     <x-adminlte-input
-        id="jumlah-air-di-tong-per-baris"
+        id="jumlah-air-di-tong-per-flock"
         type="number"
-        name="jumlah_air_di_tong_per_baris"
-        label="Jumlah Air di Tong per Baris"
-        value="{{ old('jumlah_air_di_tong_per_baris', @$data->jumlah_air_di_tong_per_baris) }}"
+        name="jumlah_air_di_tong_per_flock"
+        label="Jumlah Air di Tong per Flock"
+        value="{{ old('jumlah_air_di_tong_per_flock', @$data->jumlah_air_di_tong_per_flock) }}"
         igroup-size="lg"
         fgroup-class="col-12"
         readonly
@@ -118,8 +118,8 @@
         $('document').ready(function() {
             $('#air_minum_per_ekor').on('keyup', function() {
                 let airMinumPerEkor = parseFloat($(this).val()) || 0;
-                let jmlAyamPerBaris = parseFloat($('#jumlah-ayam-per-baris-vaksin-minum').val()) || 0;
-                $('#jumlah-air-di-tong-per-baris').val(jmlAyamPerBaris * airMinumPerEkor / 1000);
+                let jmlAyamPerFlock = parseFloat($('#jumlah-ayam-per-flock-vaksin-minum').val()) || 0;
+                $('#jumlah-air-di-tong-per-flock').val(jmlAyamPerFlock * airMinumPerEkor / 1000);
             });
         });
     </script>

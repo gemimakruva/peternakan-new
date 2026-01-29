@@ -70,7 +70,7 @@ class RecordingTelurController extends Controller
             'jumlah_telur_reject'   => ['required', 'numeric'],
             'berat_telur_reject'   => ['required', 'numeric'],
         ], [
-            'tanggal.unique' => 'Data produksi telur untuk tanggal dan baris ini sudah ada.'
+            'tanggal.unique' => 'Data produksi telur untuk tanggal dan flock ini sudah ada.'
         ]);
         $validated['pic_user_id'] = Auth::id();
 
@@ -124,7 +124,7 @@ class RecordingTelurController extends Controller
             'jumlah_telur_reject'   => ['required', 'numeric'],
             'berat_telur_reject'   => ['required', 'numeric'],
         ], [
-            'tanggal.unique' => 'Data produksi telur untuk tanggal dan baris ini sudah ada.'
+            'tanggal.unique' => 'Data produksi telur untuk tanggal dan flock ini sudah ada.'
         ]);
 
         try{

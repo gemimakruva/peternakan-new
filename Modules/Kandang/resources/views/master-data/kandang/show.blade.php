@@ -33,7 +33,7 @@
         <div class="row">
             <div class="col-md-9 col-12">
                 @include('kandang::master-data.kandang.show_section_informasi')
-                @include('kandang::master-data.kandang.show_section_tabel_baris')
+                @include('kandang::master-data.kandang.show_section_tabel_flock')
             </div>
             <div class="col-md-3 col-12">
                 <div class="card">
@@ -61,7 +61,7 @@
                             href="{{ route('master-data.kandang.flock.create', $kandang) }}"
                             class="btn btn-primary btn-block"
                         >
-                            Tambah Baris
+                            Tambah Flock
                         </a>
                     </div>
                 </div>

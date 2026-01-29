@@ -24,7 +24,7 @@
 <input type="hidden" name="kandang_id" value="{{ $kandangId }}">
 
 <div class="form-group col-12">
-    <label for="flock_id">Baris</label>
+    <label for="flock_id">Flock</label>
     <div class="input-group input-group-lg @error('flock_id') adminlte-invalid-igroup @enderror">
         <select name="flock_id" id="flock_id" class="form-control form-control-lg @error('flock_id') is-invalid @enderror">
         </select>

@@ -72,7 +72,7 @@
                     <th style="width:400px">Tanggal Transaksi</th>
                     <th style="width:160px">Petugas Pencatat</th>
                     <th style="width:200px">Kandang</th>
-                    <th style="width:200px">Baris</th>
+                    <th style="width:200px">Flock</th>
                     <th style="width:150px">Umur Ayam</th>
                     <th style="width:150px">Telur Bagus</th>
                     <th style="width:150px">Berat Telur Bagus (kg)</th>

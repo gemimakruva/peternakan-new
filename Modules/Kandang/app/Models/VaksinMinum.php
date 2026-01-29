@@ -15,9 +15,9 @@ class VaksinMinum extends Model
         'nama_vaksin',
         'total_dosis',
         'air_minum_per_ekor',
-        'jumlah_ayam_per_baris',
-        'jumlah_ml_vaksin_per_baris',
-        'jumlah_air_di_tong_per_baris',
+        'jumlah_ayam_per_flock',
+        'jumlah_ml_vaksin_per_flock',
+        'jumlah_air_di_tong_per_flock',
     ];
 
     /**
