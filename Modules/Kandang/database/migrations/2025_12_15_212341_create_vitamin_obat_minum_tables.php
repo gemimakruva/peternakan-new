@@ -20,8 +20,8 @@ return new class extends Migration
             $table->decimal('dosis_pemberian', 10, 3);
             $table->decimal('satuan_per_dosis', 10, 3);
             $table->decimal('air_minum_per_ekor', 10, 3);
-            $table->unsignedInteger('jumlah_ayam_per_flock');
-            $table->decimal('jumlah_air_di_tong_per_flock', 10, 3);
+            $table->unsignedInteger('jumlah_ayam_per_baris');
+            $table->decimal('jumlah_air_di_tong_per_baris', 10, 3);
             $table->timestamps();
         });
     }
