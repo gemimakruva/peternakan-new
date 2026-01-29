@@ -4,6 +4,7 @@ namespace Modules\Kandang\Repositories\Kandang;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
+use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -72,7 +73,7 @@ class FlockRepository extends EloquentRepository
                     $query->where('f3.kandang_id', $kandangId);
                 })
                 ->groupBy('p2.flock_id')
-                ->where('jenis_pemeriksaan', '=', 'pengadaan ayam')
+                ->where('jenis_pemeriksaan', '=', JenisPemeriksaan::PENGADAAN->value)
                 ->select([
                     'p2.flock_id',
                     DB::raw('SUM(pa2.ayam_sehat) as ayam_sehat'),

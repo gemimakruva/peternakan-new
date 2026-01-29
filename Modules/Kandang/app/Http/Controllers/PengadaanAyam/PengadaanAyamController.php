@@ -7,6 +7,7 @@ use Modules\Kandang\Enums\BerkasName;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\BerkasPengadaanAyam;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PengadaanAyam;
@@ -229,7 +230,7 @@ class PengadaanAyamController extends Controller
                 'pengadaan_ayam_distribusi_id' => $pengadaanAyamDistribusi->id,
             ], [
                 'pic_user_id' => $picUserId,
-                'jenis_pemeriksaan' => 'pengadaan ayam',
+                'jenis_pemeriksaan' => JenisPemeriksaan::PENGADAAN->value,
                 'tanggal' => $pengadaanAyam['tanggal'],
                 'kandang_id' => $pengadaanAyam['kandang_id'],
                 'umur_ayam_record' => $pengadaanAyam['umur_ayam'],
