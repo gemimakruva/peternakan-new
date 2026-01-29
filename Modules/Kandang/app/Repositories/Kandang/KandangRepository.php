@@ -31,12 +31,7 @@ class KandangRepository extends EloquentRepository
 
     public function searchQuery(Builder $q, string $search): void
     {
-        $q->where('kandang.nama', '=', "%$search%");
-    }
-
-    public function customWhereQuery(): array
-    {
-        return [];
+        $q->where('kandang.nama', 'LIKE', "%$search%");
     }
 
     public function populasiAyam(Collection $filter): Builder
