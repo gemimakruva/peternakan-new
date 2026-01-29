@@ -23,7 +23,7 @@
 @endsection
 
 @section('content')
-    <div class="mx-1200">
+    <div class="mx-1400">
         <div class="card">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center mb-0">
@@ -38,7 +38,9 @@
                             <th class="align-middle" width="100">Afkir (%)</th>
                             <th class="align-middle" width="100">Akumulasi Kematian + Afkir</th>
                             <th class="align-middle" width="100">Kematian + Afkir (%)</th>
-                            <th class="align-middle">Aksi</th>
+                            <th class="align-middle" width="100">Masuk Karantina</th>
+                            <th class="align-middle" width="100">Keluar Karantina</th>
+                            <th class="align-middle" width="100">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -46,13 +48,15 @@
                             <tr>
                                 <td class="text-right">{{ ($listFlock->currentPage() - 1) * $listFlock->perPage() + $loop->iteration }}</td>
                                 <td class="text-left">{{ $row->nama }}</td>
-                                <td class="text-right">{{ number_format($row->ayam_sehat, 0, ',', '.') }}</td>
-                                <td class="text-right">{{ number_format($row->ayam_mati, 0, ',', '.') }}</td>
-                                <td class="text-right">{{ number_format($row->ayam_mati/$row->jumlah_ayam_masuk_kandang, 3, ',', '.') }}%</td>
-                                <td class="text-right">{{ number_format($row->ayam_afkir, 0, ',', '.') }}</td>
-                                <td class="text-right">{{ number_format($row->ayam_afkir/$row->jumlah_ayam_masuk_kandang, 3, ',', '.') }}%</td>
-                                <td class="text-right">{{ number_format($row->ayam_mati + $row->ayam_afkir, 0, ',', '.') }}</td>
-                                <td class="text-right">{{ number_format(($row->ayam_mati + $row->ayam_afkir)/$row->jumlah_ayam_masuk_kandang, 3, ',', '.') }}%</td>
+                                <td class="text-right">{{ format_angka($row->ayam_sehat) }}</td>
+                                <td class="text-right">{{ format_angka($row->ayam_mati) }}</td>
+                                <td class="text-right">{{ format_angka($row->ayam_mati/$row->jumlah_ayam_masuk_kandang, 3) }}%</td>
+                                <td class="text-right">{{ format_angka($row->ayam_afkir) }}</td>
+                                <td class="text-right">{{ format_angka($row->ayam_afkir/$row->jumlah_ayam_masuk_kandang, 3) }}%</td>
+                                <td class="text-right">{{ format_angka($row->ayam_mati + $row->ayam_afkir) }}</td>
+                                <td class="text-right">{{ format_angka(($row->ayam_mati + $row->ayam_afkir)/$row->jumlah_ayam_masuk_kandang, 3) }}%</td>
+                                <td class="text-right">{{ format_angka($row->ayam_masuk_karantina) }}</td>
+                                <td class="text-right">{{ format_angka($row->ayam_keluar_karantina) }}</td>
                                 <td>
                                     <a href="{{ route('populasi-ayam.flock.pipe.index', [$kandang, $row])  }}" class="btn btn-sm btn-info">
                                         <i class="fas fa-eye"></i>
