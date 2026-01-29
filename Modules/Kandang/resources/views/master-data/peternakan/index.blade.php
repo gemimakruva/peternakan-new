@@ -45,7 +45,7 @@
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
-                        <th>Nama Peternakan</th>
+                        <x-sort-th label="Nama Peternakan" name="nama"></x-sort-th>
                         <th>Lokasi</th>
                         <th style="width: 150px;">Aksi</th>
                     </thead>

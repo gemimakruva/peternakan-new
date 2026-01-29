@@ -16,13 +16,26 @@ class PeternakanController extends Controller
     {
         $search = request()->input('search');
 
+        // add default sorting
+        if (request()->query('order') === null) {
+            request()->merge([
+                'order' => ['created_at' => 'desc'],
+            ]);
+        } else {
+            request()->merge(request()->except('order.created_at'));
+        }
+
         $datas = Peternakan::query()
             ->with('kandang:peternakan_id')
             ->when($search, function ($query) use ($search) {
                 $query->where('nama', 'like', "%{$search}%")
-                      ->orWhere('lokasi', 'like', "%{$search}%");
+                    ->orWhere('lokasi', 'like', "%{$search}%");
             })
-            ->orderBy('created_at', 'desc')
+            ->when(request()->query('order'), function($query, $order) {
+                foreach ($order as $key => $value) {
+                    $query->orderBy($key, $value);
+                }
+            })
             ->paginate(request()->query('perPage', 10))
             ->withQueryString();
 
