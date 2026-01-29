@@ -42,6 +42,7 @@ class PopulasiAyamController extends Controller
     {
         $listKandang = $this->kandangRepository
             ->populasiAyam(request()->collect())
+            ->whereNotNull('terakhir_diperharui')
             ->with([
                 'latestPengadaanAyam.distribusi:pengadaan_ayam_id,pipe_id',
                 'latestPengadaanAyam.distribusi.latestPopulasiAyam:pipe_id,ayam_sehat',
@@ -49,9 +50,7 @@ class PopulasiAyamController extends Controller
             ->paginate(request()->query('perPage', 10));
 
         $listKandang->transform(function($item) {
-            if ($item->terakhir_diperharui) {
-                $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
-            }
+            $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
             return $item;
         });
 
