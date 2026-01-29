@@ -22,47 +22,39 @@
     </div>
 @endsection
 
-@php
-    $headerCard = [
-        ['Kandang', $kandang->nama],
-        ['Tanggal Pengadaan', $kandang->latestPengadaanAyam->tanggal?->translatedFormat('l, d F Y')],
-        ['Umur Ayam Awal', "{$kandang->latestPengadaanAyam->umur_ayam} Minggu"],
-        ['Umur Ayam Saat Ini', "{$kandang->latestPengadaanAyam->umur_ayam_saat_ini} Minggu"],
-        ['Ayam Sehat', $kandang->ayam_sehat],
-        ['Ayam Mati', $kandang->ayam_mati],
-        ['Ayam Masuk Karantin', $kandang->ayam_masuk_karantina],
-        ['Ayam Keluar Karantina', $kandang->ayam_keluar_karantina],
-        ['Terakhir Diperbarui', $kandang->ayam_keluar_karantina],
-    ];
-@endphp
-
-@push('css')
-    <style>
-        .header-card {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-        }
-        .header-card .item {
-            display: flex;
-            gap: 1rem;
-        }
-        .header-card .item .label {
-            width: 50%;
-            font-weight: bold;
-        }
-    </style>
-@endpush
-
 @section('content')
     <div class="mx-1400">
         <div class="card">
-            <div class="card-body header-card">
-                @foreach ($headerCard as $row)
-                    <div class="item">
-                        <div class="label">{{ $row[0] }}</div>
-                        <div class="value">: {{ $row[1] }}</div>
-                    </div>
-                @endforeach
+            <div class="card-body table-responsive">
+                <table class="w-100">
+                    <tbody>
+                        <tr>
+                            <td><strong>Kandang</strong></td>
+                            <td>: {{ $kandang->nama }}</td>
+                            <td><strong>Umur Ayam Saat Ini</strong></td>
+                            <td>: {{ $kandang->latestPengadaanAyam->umur_ayam_saat_ini }} Minggu</td>
+                            <td><strong>Ayam Masuk Karantina</strong></td>
+                            <td>: {{ format_angka($kandang->ayam_masuk_karantina) }}</td>
+                        </tr>
+
+                        <tr>
+                            <td><strong>Tanggal Pengadaan</strong></td>
+                            <td>: {{ $kandang->latestPengadaanAyam->tanggal?->translatedFormat('l, d F Y') }}</td>
+                            <td><strong>Ayam Sehat</strong></td>
+                            <td>: {{ format_angka($kandang->ayam_sehat) }}</td>
+                            <td><strong>Ayam Keluar Karantina</strong></td>
+                            <td>: {{ format_angka($kandang->ayam_keluar_karantina) }}</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Umur Ayam Awal</strong></td>
+                            <td>: {{ $kandang->latestPengadaanAyam->umur_ayam }} Minggu</td>
+                            <td><strong>Ayam Mati</strong></td>
+                            <td>: {{ format_angka($kandang->ayam_mati) }}</td>
+                            <td><strong>Terakhir Diperbarui</strong></td>
+                            <td>: {{ Carbon\Carbon::createFromFormat('Y-m-d', $kandang->terakhir_diperharui)->translatedFormat('l, d F Y') }}</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
         <div class="card">
