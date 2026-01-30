@@ -21,7 +21,7 @@
 
 
 @section('content')
-    <div class="mx-1400">
+    <div class="mx-1000">
         <x-form-alert />
         <div class="card">
             <div class="card-header">
@@ -52,21 +52,13 @@
                     <thead>
                         <tr>
                             <th class="align-middle" style="width: 40px;">#</th>
-                            <th class="align-middle" style="width: 200px;">Tanggal</th>
-                            <th class="align-middle" style="width: 160px;">Kandang</th>
-                            <th class="align-middle">Nama Pencatat</th>
-                            <th class="align-middle">Ayam Mati</th>
-                            <th class="align-middle">Ayam Afkir</th>
-                            <th class="align-middle">Pakan Diberikan (kg)</th>
-                            <th class="align-middle">Sisa Pakan (kg)</th>
-                            <th class="align-middle">Telur Bagus</th>
-                            <th class="align-middle">Telur retak</th>
-                            <th class="align-middle">Telur rusak</th>
-                            {{-- <th class="align-middle">Pengobatan</th> --}}
-                            {{-- <th class="align-middle">Jumlah Ayam Diobati</th> --}}
-                            {{-- <th class="align-middle">Penyemprotan</th> --}}
-                            {{-- <th class="align-middle">Vaksin</th> --}}
-                            <th class="align-middle" style="width: 160px;">Aksi</th>
+                            <x-sort-th class="align-middle" style="width: 200px;" label="Tanggal" name="tanggal" />
+                            <x-sort-th class="align-middle" style="width: 160px;" label="Kandang" name="nama_kandang" />
+                            <x-sort-th class="align-middle" label="Nama Pencatat" name="nama_pic_user" />
+                            <x-sort-th class="align-middle" label="Populasi" name="total_ayam_karantina" />
+                            <x-sort-th class="align-middle" label="Ayam Mati" name="ayam_mati" />
+                            <x-sort-th class="align-middle" label="Ayam Afkir" name="ayam_afkir" />
+                            <th class="align-middle" style="width: 40px;">Aksi</th>
                         </tr>
                     </thead>
                 <tbody>
@@ -74,36 +66,16 @@
                     <tr>
                         <td class="text-right">{{ ($listKarantinaPopulasi->currentPage() - 1) * $listKarantinaPopulasi->perPage() + $loop->iteration }}</td>
                         <td class="text-left">{{ $item->tanggal->translatedFormat('l, d F Y') }}</td>
-                        <td class="text-left">{{ $item->kandang->nama ?? '-' }}</td>
-                        <td class="text-left">{{ $item->picUser->name ?? '-' }}</td>
-                        <td class="text-right">{{ number_format($item->ayam_mati ?? 0, 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($item->ayam_afkir ?? 0, 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($item->pemberian_pakan ?? 0, 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($item->sisa_pakan ?? 0, 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($item->jumlah_telur_bagus ?? 0, 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($item->jumlah_telur_retak ?? 0, 0, ',', '.') }}</td>
-                        <td class="text-right">{{ number_format($item->jumlah_telur_rusak ?? 0, 0, ',', '.') }}</td>
-                        {{-- <td class="text-left">{{ $item->pengobatan_yang_dilakukan ?? '-' }}</td> --}}
-                        {{-- <td class="text-right">{{ number_format($item->jumlah_ayam_diobati ?? 0, 0, ',', '.') }}</td> --}}
-                        {{-- <td class="text-left">{{ $item->penyemprotan ?? '-' }}</td> --}}
-                        {{-- <td class="text-left">{{ $item->vaksin ?? '-' }}</td> --}}
+                        <td class="text-left">{{ $item->nama_kandang ?? '-' }}</td>
+                        <td class="text-left">{{ $item->nama_pic_user ?? '-' }}</td>
+                        <td class="text-right">{{ format_angka($item->total_ayam_karantina, 0) }}</td>
+                        <td class="text-right">{{ format_angka($item->ayam_mati, 0) }}</td>
+                        <td class="text-right">{{ format_angka($item->ayam_afkir, 0) }}</td>
                         <td>
-                            <div class="d-flex justify-content-center gap-1">
-                                <button
-                                    onclick="showCatatan(`{{ $item->catatan ?? 'Tidak ada catatan' }}`)" 
-                                    class="btn btn-info btn-sm"
-                                >
-                                    <i class="fas fa-info-circle"></i>
-                                </button>
+                            <div class="d-flex justify-content-center gap-2">
                                 <a href="{{ route('ayam-karantina.edit', $item->id) }}" class="btn btn-sm btn-warning">
                                     <i class="fas fa-edit"></i>
                                 </a>
-                                {{-- <button
-                                    class="btn btn-danger btn-sm"
-                                    onclick="deleteData('{{ route('ayam-karantina.destroy', $item->id) }}')"
-                                >
-                                    <i class="fas fa-trash"></i>
-                                </button> --}}
                             </div>
                         </td>
                     </tr>
@@ -124,56 +96,3 @@
         </div>
     </div>
 @endsection
-@push('js')
-    <script>
-        function showPopulasi(kandang, flock, pipe) {
-            Swal.fire({
-                title: "Identitas Populasi",
-                html: `
-                    <div style="text-align:left">
-                        <p><strong>Kandang:</strong> ${kandang}</p>
-                        <p><strong>Flock:</strong> ${flock}</p>
-                        <p><strong>Pipe:</strong> ${pipe}</p>
-                    </div>`,
-                icon: "info",
-            });
-        }
-
-        function showCatatan(catatan) {
-            Swal.fire({
-                title: "Catatan",
-                text: catatan,
-                icon: "info",
-            });
-        }
-
-        // Delete
-        function deleteData(url) {
-            Swal.fire({
-                title: "Yakin ingin menghapus?",
-                text: "Data yang sudah dihapus tidak dapat dikembalikan",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#d33",
-                cancelButtonColor: "#3085d6",
-                confirmButtonText: "Ya, hapus!",
-                cancelButtonText: "Batal",
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    let form = document.createElement("form");
-                    form.action = url;
-                    form.method = "POST";
-                    form.innerHTML = `
-                        @csrf
-                        @method('DELETE')
-                    `;
-                    document.body.appendChild(form);
-                    form.submit();
-                }
-            });
-        }
-    </script>
-@endpush
-
-
-

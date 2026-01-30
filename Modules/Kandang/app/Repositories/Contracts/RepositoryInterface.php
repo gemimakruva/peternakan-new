@@ -17,6 +17,8 @@ interface RepositoryInterface
 
     public function wheresQuery(Builder $q, ?Collection $wheres = null): void;
 
+    public function defaultOrder(Builder $q): void;
+
     public function paginate(
         ?string $search = null,
         ?Collection $wheres = null,

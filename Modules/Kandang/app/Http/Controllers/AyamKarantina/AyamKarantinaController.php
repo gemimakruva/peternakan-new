@@ -7,29 +7,24 @@ use Modules\Kandang\Http\Requests\AyamKarantina\UpdateRequest;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Illuminate\Http\Request;
+use Modules\Kandang\Repositories\Karantina\KarantinaPopulasiRepository;
 
 class AyamKarantinaController extends Controller
 {
     public function __construct(
+        private KarantinaPopulasiRepository $repository,
         private KarantinaPopulasi $karantinaPopulasi,
         private Kandang $kandang,
     ) { }
 
-    public function index()
+    public function index(Request $request)
     {
-        $listKarantinaPopulasi = $this->karantinaPopulasi
-            ->query()
-            ->when(request()->query('search'), function ($query, $search) {
-                $query->whereRelation('picUser', 'name', 'LIKE', "%$search%");
-            })
-            ->with([
-                'picUser:id,name',
-                'kandang:id,nama',
-            ])
-            ->orderByDesc('kandang_id')
-            ->orderByDesc('tanggal')
-            ->paginate(request()->query('perPage', 10))
-            ->withQueryString();
+        $listKarantinaPopulasi = $this->repository->paginate(
+            $request->query('search'),
+            null,
+            $request->collect('orders'),
+            $request->query('perPage', 10),
+        );
 
         return view('kandang::ayam-karantina.index', compact('listKarantinaPopulasi'));
     }

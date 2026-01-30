@@ -76,6 +76,14 @@ abstract class EloquentRepository implements RepositoryInterface
         });
     }
 
+    public function defaultOrder(Builder $q): void
+    {
+        // order default by latest updated data
+        $tableName = $this->model->getTable();
+        $q->orderBy("$tableName.updated_at", 'desc');
+        $q->orderBy("$tableName.id", 'desc');
+    }
+
     /**
      * Paginate records, optionally eager loading relations.
      * avoid to use 'with relation' in pagination data
@@ -104,10 +112,7 @@ abstract class EloquentRepository implements RepositoryInterface
                 $q->orderBy($column, $direction);
             }
         } else {
-            // order default by latest updated data
-            $tableName = $this->model->getTable();
-            $q->orderBy("$tableName.updated_at", 'desc');
-            $q->orderBy("$tableName.id", 'desc');
+            $this->defaultOrder($q);
         }
 
         return $q->paginate($perPage, $columns)->withQueryString();

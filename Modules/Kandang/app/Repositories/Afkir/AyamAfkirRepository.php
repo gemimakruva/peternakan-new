@@ -3,9 +3,6 @@
 namespace Modules\Kandang\Repositories\Afkir;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -29,7 +26,20 @@ class AyamAfkirRepository extends EloquentRepository
                 , users.name as nama_pic_user
                 , SUM(ayam_afkir_populasi.jumlah_ayam_afkir) AS total_jumlah_ayam_afkir
             SQL)
-            ->groupBy('ayam_afkir.id');
+            ->groupBy([
+                'ayam_afkir.id',
+                'ayam_afkir.kandang_id',
+                'ayam_afkir.pic_user_id',
+                'ayam_afkir.tanggal',
+                'ayam_afkir.umur_ayam',
+                'ayam_afkir.penyebab_afkir', 
+                'ayam_afkir.pembeli_afkir', 
+                'ayam_afkir.harga_jual',
+                'nama_kandang',
+                'nama_pic_user',
+                'ayam_afkir.created_at',
+                'ayam_afkir.updated_at'
+            ]);
     }
 
     public function searchQuery(Builder $q, string $search): void
