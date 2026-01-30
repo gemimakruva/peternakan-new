@@ -42,6 +42,7 @@ class PopulasiAyamController extends Controller
     {
         $listKandang = $this->kandangRepository
             ->populasiAyam(request()->collect())
+            ->whereNotNull('terakhir_diperharui')
             ->with([
                 'latestPengadaanAyam.distribusi:pengadaan_ayam_id,pipe_id',
                 'latestPengadaanAyam.distribusi.latestPopulasiAyam:pipe_id,ayam_sehat',
@@ -59,6 +60,11 @@ class PopulasiAyamController extends Controller
     public function flockIndex(Kandang $kandang)
     {
         request()->merge(['kandang_id' => $kandang->id]);
+
+        $kandang = $this->kandangRepository
+            ->populasiAyam(collect([]))
+            ->where('kandang.id', '=', $kandang->id)
+            ->first();
 
         $listFlock = $this->flockRepository
             ->populasiAyam(request()->collect())

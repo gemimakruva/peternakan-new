@@ -71,12 +71,12 @@
                     url: url,
                     type: method,
                     success: function(response) {
-                        $('#jumlah-ayam-per-baris-vaksin-minum').val(Number(response.ayam_sehat));
+                        $('#jumlah-ayam-per-flock-vaksin-minum').val(Number(response.ayam_sehat));
                         
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
-                        $('#jumlah-ayam-per-baris-vaksin-minum').val(0);
+                        $('#jumlah-ayam-per-flock-vaksin-minum').val(0);
                     }
                 });
             }

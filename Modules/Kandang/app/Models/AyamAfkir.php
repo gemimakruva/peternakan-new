@@ -13,13 +13,12 @@ class AyamAfkir extends Model
     protected $table = 'ayam_afkir';
 
     protected $fillable = [
-        'populasi_ayam_id',
+        'kandang_id',
         'pic_user_id',
         'tanggal',
         'umur_ayam',
-        'jumlah_ayam_afkir',
-        'penyebab_afkir',
-        'pembeli_afkir',
+        'penyebab_afkir', 
+        'pembeli_afkir', 
         'harga_jual',
     ];
 
@@ -27,13 +26,18 @@ class AyamAfkir extends Model
         'tanggal' => 'date',
     ];
     
-    public function populasi()
+    public function kandang()
     {
-        return $this->belongsTo(PopulasiAyam::class,'populasi_ayam_id','id');
+        return $this->belongsTo(Kandang::class, 'kandang_id', 'id');
     }
 
     public function picUser()
     {
-        return $this->belongsTo(User::class, 'pic_user_id');
+        return $this->belongsTo(User::class, 'pic_user_id', 'id');
+    }
+
+    public function ayamAfkirPopulasi()
+    {
+        return $this->hasMany(AyamAfkirPopulasi::class, 'ayam_afkir_id', 'id');
     }
 }

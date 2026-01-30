@@ -37,6 +37,9 @@
     <x-form-alert />
 
     <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Filter</h2>
+        </div>
         <div class="card-body">
             <form 
                 action="{{ route('master-data.pipe.index') }}" 
@@ -103,57 +106,40 @@
                     class="form-control mx-200"
                     x-model="selectedFlock"
                     :disabled="!selectedKandang">
-                    <option value="">Semua Baris</option>
+                    <option value="">Semua Flock</option>
                     <template x-for="flock in flockList" :key="flock.id">
                         <option :value="flock.id" x-text="flock.nama" :selected="flock.id == '{{ request('flock_id') ?? '' }}'"></option>
                     </template>
                 </select>
+
+                <input type="search" 
+                    name="search" 
+                    class="form-control mx-300" 
+                    placeholder="Kandang, Flock, Pipe ..." 
+                    value="{{ request()->query('search') }}">
                 
                 <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-filter"></i>
+                    <i class="fas fa-search"></i>
                 </button>
+
+                <a href="{{ route('master-data.pipe.index') }}" class="btn btn-secondary">
+                    <i class="fas fa-undo"></i>
+                </a>
             </form>
         </div>
     </div>
 
     <div class="card">
-        <div class="card-header">
-            <form action="{{ route('master-data.pipe.index') }}" method="get" class="w-100">
-                @if(request('peternakan_id'))
-                    <input type="hidden" name="peternakan_id" value="{{ request('peternakan_id') }}">
-                @endif
-                @if(request('kandang_id'))
-                    <input type="hidden" name="kandang_id" value="{{ request('kandang_id') }}">
-                @endif
-                @if(request('flock_id'))
-                    <input type="hidden" name="flock_id" value="{{ request('flock_id') }}">
-                @endif
-                
-                <div class="d-flex justify-content-end align-items-center">
-                    <div class="d-flex gap-2">
-                        <input type="search" 
-                               name="search" 
-                               class="form-control" 
-                               placeholder="Kandang atau Baris" 
-                               value="{{ request()->query('search') }}">
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead class="bg-light">
                   <tr>
                         <th width="50">#</th>
-                        <th>Nama Peternakan</th>
-                        <th>Nama Kandang</th>
-                        <th>Nama Baris</th>
-                        <th>Nama Pipa</th>
-                        <th>Kapasitas</th>
+                        <x-sort-th label="Nama Peternakan" name="nama_peternakan" />
+                        <x-sort-th label="Nama Kandang" name="nama_kandang" />
+                        <x-sort-th label="Nama Flock" name="nama_flock" />
+                        <x-sort-th label="Nama Pipa" name="nama" />
+                        <x-sort-th label="Kapasitas" name="kapasitas" />
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -161,11 +147,11 @@
                     @forelse($datas as $row)
                     <tr>
                         <td>{{ ($loop->index + 1) + (request()->get('page', 1) - 1) * $datas->perPage() }}</td>
-                        <td class="text-left">{{ $row->flock->kandang->peternakan->nama ?? '-' }}</td>
-                        <td class="text-left">{{ $row->flock->kandang->nama ?? '-' }}</td>
-                        <td class="text-left">{{ $row->flock->nama ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama_peternakan ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama_kandang ?? '-' }}</td>
+                        <td class="text-left">{{ $row->nama_flock ?? '-' }}</td>
                         <td class="text-left">{{ $row->nama ?? '-' }}</td>
-                        <td class="text-right">{{ $row->kapasitas }}</td>
+                        <td class="text-right">{{ format_angka($row->kapasitas) }}</td>
                         <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
                             @can('Edit Pipe')
@@ -205,9 +191,7 @@
 </div>
 @endsection
 
-@push('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    
+@push('js')    
     <script>
         $(document).on('submit', '.form-delete', function(e) {
             e.preventDefault();

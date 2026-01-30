@@ -60,7 +60,7 @@
             <thead>
                 <tr>
                    <th style="width: 20%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
-                        Baris
+                        Flock
                     </th>
                     <th style="width: 25%; min-height: 50px; line-height: 1.4; text-align: center; vertical-align: middle;">
                         Jenis Treatment

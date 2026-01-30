@@ -33,15 +33,15 @@
         </div>
 
         <div class="mb-3">
-            <x-adminlte-select id="form-flock" name="flock_id" label="Pilih Baris"
-                data-selected="{{ old('flock_id', $vitaminObatMinum->flock_id ?? '') }}" required class="select-baris"
+            <x-adminlte-select id="form-flock" name="flock_id" label="Pilih Flock"
+                data-selected="{{ old('flock_id', $vitaminObatMinum->flock_id ?? '') }}" required class="select-flock"
                 :disabled="isset($vitaminObatMinum)">
                 <x-slot name="prependSlot">
                     <div class="input-group-text bg-white">
                         <i class="fas fa-feather-alt text-muted"></i>
                     </div>
                 </x-slot>
-                <option selected disabled>Pilih Baris</option>
+                <option selected disabled>Pilih Flock</option>
             </x-adminlte-select>
         </div>
     </div>
@@ -93,20 +93,20 @@
         </div>
 
         <div class="mb-3">
-            <x-adminlte-input name="jumlah_ayam_per_baris" label="Jumlah Ayam per Baris" type="text" readonly
-                :value="old('jumlah_ayam_per_baris', $vitaminObatMinum->jumlah_ayam_per_baris ?? '')">
+            <x-adminlte-input name="jumlah_ayam_per_flock" label="Jumlah Ayam per Flock" type="text" readonly
+                :value="old('jumlah_ayam_per_flock', $vitaminObatMinum->jumlah_ayam_per_flock ?? '')">
             </x-adminlte-input>
         </div>
 
         <div class="mb-3">
-            <x-adminlte-input name="jumlah_air_di_tong_per_baris" label="Jumlah Air di Tong(liter) per Baris" readonly
-                type="text" :value="old('jumlah_air_di_tong_per_baris', $vitaminObatMinum->jumlah_air_di_tong_per_baris ?? '')">
+            <x-adminlte-input name="jumlah_air_di_tong_per_flock" label="Jumlah Air di Tong(liter) per Flock" readonly
+                type="text" :value="old('jumlah_air_di_tong_per_flock', $vitaminObatMinum->jumlah_air_di_tong_per_flock ?? '')">
             </x-adminlte-input>
         </div>
 
         <div class="mb-3">
-            <x-adminlte-input name="jumlah_ovk_per_baris" label="Jumlah OVK per Baris" type="text" readonly
-                :value="old('jumlah_ovk_per_baris', $vitaminObatMinum->jumlah_ovk_per_baris ?? '')">
+            <x-adminlte-input name="jumlah_ovk_per_flock" label="Jumlah OVK per Flock" type="text" readonly
+                :value="old('jumlah_ovk_per_flock', $vitaminObatMinum->jumlah_ovk_per_flock ?? '')">
             </x-adminlte-input>
         </div>
     </div>
@@ -143,7 +143,7 @@
                 });
             }
 
-            let barisData = [];
+            let flockData = [];
 
             $('#form-kandang').on('change', function () {
                 const kandangId = $(this).val();
@@ -151,14 +151,14 @@
                 if (!kandangId) return;
 
                 $.get(`/master-data/ajax/flock/${kandangId}`, function (response) {
-                    const barisData = response.results || [];
-                    const $jumlahAyam = $('input[name="jumlah_ayam_per_baris"]');
+                    const flockData = response.results || [];
+                    const $jumlahAyam = $('input[name="jumlah_ayam_per_flock"]');
 
                     if (!IS_EDIT) {
                         $jumlahAyam.val('').trigger('input');
                     }
 
-                    $('select.select-baris').each(function () {
+                    $('select.select-flock').each(function () {
                         const $sel = $(this);
 
                         const selected =
@@ -166,15 +166,15 @@
                             $sel.val() ??
                             '';
 
-                        let html = '<option value="">-- Pilih Baris --</option>';
-                        barisData.forEach(item => {
+                        let html = '<option value="">-- Pilih Flock --</option>';
+                        flockData.forEach(item => {
                             html += `<option value="${item.id}">${item.text}</option>`;
                         });
 
                         $sel.html(html)
-                            .prop('disabled', barisData.length === 0);
+                            .prop('disabled', flockData.length === 0);
 
-                        if (selected && barisData.some(i => String(i.id) === String(selected))) {
+                        if (selected && flockData.some(i => String(i.id) === String(selected))) {
                             $sel.val(selected);
                         } else {
                             $sel.val('');
@@ -190,12 +190,12 @@
 
             const $tanggal = $('input[name="tanggal"]');
             const $flock = $('#form-flock');
-            const $jumlahAyam = $('input[name="jumlah_ayam_per_baris"]');
+            const $jumlahAyam = $('input[name="jumlah_ayam_per_flock"]');
             const $airPerEkor = $('input[name="air_minum_per_ekor"]');
-            const $jumlahAir = $('input[name="jumlah_air_di_tong_per_baris"]');
+            const $jumlahAir = $('input[name="jumlah_air_di_tong_per_flock"]');
             const $dosis = $('input[name="dosis_pemberian"]');
             const $satuan = $('input[name="satuan_per_dosis"]');
-            const $jumlahOVK = $('input[name="jumlah_ovk_per_baris"]');
+            const $jumlahOVK = $('input[name="jumlah_ovk_per_flock"]');
 
             function fetchJumlahAyam() {
                 const tanggal = $tanggal.val();

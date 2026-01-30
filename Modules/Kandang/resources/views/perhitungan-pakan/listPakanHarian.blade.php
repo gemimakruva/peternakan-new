@@ -74,7 +74,7 @@
                     <th>Tanggal</th>
                     <th>Petugas pencatat</th>
                     <th>Kandang</th>
-                    <th>Baris</th>
+                    <th>Flock</th>
                     <th>Pipa</th>
                     <th>Jumlah ayam</th>
                     <th>Pemberian pakan per ekor</th>

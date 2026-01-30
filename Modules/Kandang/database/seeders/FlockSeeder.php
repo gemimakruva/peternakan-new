@@ -16,7 +16,7 @@ class FlockSeeder extends Seeder
             3 => 4, 
         ];
 
-        $totalFlocks = 15;
+        $totalFlocks = 6;
 
         foreach ($pipesPerKandang as $kandangId => $jumlahPipe) {
 
@@ -25,15 +25,15 @@ class FlockSeeder extends Seeder
                 // Buat flock
                 $flock = Flock::firstOrCreate([
                     'kandang_id' => $kandangId,
-                    'nama'       => "Kandang {$kandangId} Flock {$i}",
+                    'nama'       => "Flock {$i}",
                 ]);
 
                 // Buat pipe per flock sesuai aturan kandang
                 for ($p = 1; $p <= $jumlahPipe; $p++) {
                     Pipe::firstOrCreate([
                         'flock_id'  => $flock->id,
-                        'nama'      => "Flock {$i} Pipe {$p}",
-                        'kapasitas' => 20,
+                        'nama'      => "Pipe {$p}",
+                        'kapasitas' => 400,
                     ]);
                 }
             }

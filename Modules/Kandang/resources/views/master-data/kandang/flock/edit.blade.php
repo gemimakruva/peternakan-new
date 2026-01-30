@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Edit Baris')
+@section('title', 'Edit Flock')
 
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
-                    <h1>Edit Baris</h1>
+                    <h1>Edit Flock</h1>
                 </div>
             </div>
             <div class="col-sm-6">

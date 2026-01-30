@@ -1,13 +1,13 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Baris')
+@section('title', 'Tambah Flock')
 
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
-                    <h1>Tambah Baris</h1>
+                    <h1>Tambah Flock</h1>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -16,7 +16,7 @@
                     <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
                     <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
                     <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.show', $kandang) }}">Detail</a></li>
-                    <li class="breadcrumb-item active">Tambah Baris</li>
+                    <li class="breadcrumb-item active">Tambah Flock</li>
                 </ol>
             </div>
         </div>

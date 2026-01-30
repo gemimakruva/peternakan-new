@@ -76,10 +76,10 @@
                                 <td class="text-left">{{ $item->picUser->name ?? '-' }}</td>
                                 <td class="text-left">{{ $item->umur_ayam }} Minggu</td>
                                 <td class="text-left">{{ $item->kondisi_ayam }}</td>
-                                <td class="text-right">{{ number_format($item->jumlah_ayam_datang) }}</td>
-                                <td class="text-right">{{ number_format($item->jumlah_ayam_mati) }}</td>
-                                <td class="text-right">{{ number_format($item->jumlah_ayam_sakit) }}</td>
-                                <td class="text-right">{{ number_format($item->jumlah_ayam_masuk_kandang) }}</td>
+                                <td class="text-right">{{ format_angka($item->jumlah_ayam_datang) }}</td>
+                                <td class="text-right">{{ format_angka($item->jumlah_ayam_mati) }}</td>
+                                <td class="text-right">{{ format_angka($item->jumlah_ayam_sakit) }}</td>
+                                <td class="text-right">{{ format_angka($item->jumlah_ayam_masuk_kandang) }}</td>
                                 <td class="text-center">
                                     <div class="d-flex gap-2" role="group">
                                         @if ($item->catatan)

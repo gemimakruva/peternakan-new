@@ -5,7 +5,7 @@
 @section('content_header')
 <div class="mb-4 text-center d-flex flex-column align-items-center">
 
-    <h2 class="h4 fw-bold text-dark">Manajemen Baris<h2 
+    <h2 class="h4 fw-bold text-dark">Manajemen Flock<h2 
         class="h4 fw-bold text-dark"> <span class="text-primary fw-bold">
          {{ $flock->nama }}
         </span>
@@ -66,7 +66,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="text-muted">Belum ada pipa untuk baris ini.</td>
+                                    <td colspan="5" class="text-muted">Belum ada pipa untuk flock ini.</td>
                                 </tr>
                             @endforelse
                         </tbody>

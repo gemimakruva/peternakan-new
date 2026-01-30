@@ -66,9 +66,9 @@
                     <th style="width:1%">No</th>
                     <th style="width:150px">Tanggal Transaksi</th>
                     <th style="width:150px">Kandang</th>
-                    <th style="width:150px">Baris</th>
-                    <th style="width:120px">Perhitungan Jumlah ml Vaksin per Baris</th>
-                    <th style="width:150px">Jumlah Air di Tong (liter) per Baris</th>
+                    <th style="width:150px">Flock</th>
+                    <th style="width:120px">Perhitungan Jumlah ml Vaksin per Flock</th>
+                    <th style="width:150px">Jumlah Air di Tong (liter) per Flock</th>
                     <th style="width:80px">Aksi</th>
                 </tr>
             </thead>
@@ -79,8 +79,8 @@
                         <td class="align-middle text-center">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d F Y') }}</td>
                         <td class="align-middle">{{ $item->flock->kandang->nama }}</td>
                         <td class="align-middle text-center">{{ $item->flock->nama }}</td>
-                        <td class="align-middle text-center">{{ number_format($item->jumlah_ml_vaksin_per_baris, 2) }}</td>
-                        <td class="align-middle text-center">{{ number_format($item->jumlah_air_di_tong_per_baris, 2) }}</td>
+                        <td class="align-middle text-center">{{ number_format($item->jumlah_ml_vaksin_per_flock, 2) }}</td>
+                        <td class="align-middle text-center">{{ number_format($item->jumlah_air_di_tong_per_flock, 2) }}</td>
                         <td class="text-center align-middle">
                             <a href="{{ route('vaksin-minum.edit', $item->id) }}" 
                                 class="btn btn-warning btn-sm mr-2 text-white" 

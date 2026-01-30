@@ -3,33 +3,36 @@ namespace Modules\Kandang\Http\Controllers\AyamAfkir;
 
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\AyamAfkir;
-use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Modules\Kandang\Repositories\Afkir\AyamAfkirRepository;
 
 class AyamAfkirController extends Controller
 {
     public function __construct(
         private AyamAfkir $ayamAfkir,
+        private AyamAfkirRepository $repository,
     ) { }
 
-    public function index()
+    public function index(Request $request)
     {
-        $listAyamAfkir = $this->ayamAfkir
-            ->with([
-                'populasi.pipe.flock.kandang', 
-                'picUser'
-            ])
-            ->orderBy('created_at', 'desc') 
-            ->orderBy('id', 'desc')
-            ->paginate(request()->query('perPage', 10))
-            ->withQueryString();
+        $listAyamAfkir = $this->repository->paginate(
+            $request->query('search'),
+            null,
+            $request->collect('orders'),
+            $request->query('perPage', 10)
+        );
 
         return view("kandang::ayam-afkir.index", compact('listAyamAfkir'));
     }
 
     public function edit(AyamAfkir $ayamAfkir)
     {
+        $ayamAfkir->load([
+            'kandang',
+            'picUser',
+            'ayamAfkirPopulasi.pipe.flock',
+        ]);
+
         return view('kandang::ayam-afkir.edit', compact('ayamAfkir'));
     }
 
@@ -42,6 +45,7 @@ class AyamAfkirController extends Controller
         ]);
 
         $ayamAfkir->fill([
+            'pic_user_id'        => auth()->id(),
             'pembeli_afkir'      => $validated['pembeli_afkir'],
             'harga_jual'         => $validated['harga_jual'],
             'penyebab_afkir'     => $validated['penyebab_afkir'],

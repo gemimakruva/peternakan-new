@@ -28,7 +28,7 @@ class VitaminObatMinumService
             ->withQueryString();
 
         return $data->through(function ($item) {
-            $item->jumlah_ovk_per_baris = round($item->jumlah_air_di_tong_per_baris * ($item->dosis_pemberian / $item->satuan_per_dosis), 3);
+            $item->jumlah_ovk_per_flock = round($item->jumlah_air_di_tong_per_flock * ($item->dosis_pemberian / $item->satuan_per_dosis), 3);
 
             return $item;
         });

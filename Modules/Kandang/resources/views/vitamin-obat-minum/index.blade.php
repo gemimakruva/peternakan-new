@@ -64,10 +64,10 @@
                         <th>No</th>
                         <th>Tanggal Transaksi</th>
                         <th>Kandang</th>
-                        <th>Baris</th>
-                        <th>Jumlah Ayam per Baris</th>
-                        <th>Jumlah Air di Tong(liter) per Baris</th>
-                        <th>Jumlah OVK per Baris</th>
+                        <th>Flock</th>
+                        <th>Jumlah Ayam per Flock</th>
+                        <th>Jumlah Air di Tong(liter) per Flock</th>
+                        <th>Jumlah OVK per Flock</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -79,9 +79,9 @@
                 ->translatedFormat('l, d F Y') }}</td>
                             <td>{{ $item->flock->kandang->nama ?? '-' }}</td>
                             <td>{{ $item->flock->nama ?? '-' }}</td>
-                            <td>{{ $item->jumlah_ayam_per_baris }}</td>
-                            <td>{{ $item->jumlah_air_di_tong_per_baris }}</td>
-                            <td>{{ $item->jumlah_ovk_per_baris }}</td>
+                            <td>{{ $item->jumlah_ayam_per_flock }}</td>
+                            <td>{{ $item->jumlah_air_di_tong_per_flock }}</td>
+                            <td>{{ $item->jumlah_ovk_per_flock }}</td>
                             <td class="text-center">
                                 <a href="{{ route('perhitungan-obat.vitamin-obat-minum.edit', $item->id) }}" class="btn btn-info btn-sm">
                                     <i class="fa fa-eye"></i> Edit

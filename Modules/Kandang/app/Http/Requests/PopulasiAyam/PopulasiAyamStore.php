@@ -51,10 +51,17 @@ class PopulasiAyamStore extends FormRequest
             'ayam_keluar_karantina' => ['nullable', 'min:0', function ($attr, $value, $fail) {
                 $value = (int) $value;
 
-                if ($value > app(PopulasiAyamService::class)->getLatestKarantinaPopulasi(
-                    request()->input('kandang_id'), 
-                    request()->date('tanggal_transaksi')
-                )) {
+                if (!request()->date('tanggal_transaksi')) {
+                    $fail('The tanggal transaksi field is required.');
+                }
+
+                if (
+                    request()->date('tanggal_transaksi') !== NULL
+                    && $value > app(PopulasiAyamService::class)->getLatestKarantinaPopulasi(
+                        request()->input('kandang_id'), 
+                        request()->date('tanggal_transaksi')
+                    )
+                ) {
                     $fail('ayam keluar karantina tidak boleh melebihi populasi karantina.');
                 }
 

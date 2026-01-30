@@ -62,9 +62,9 @@ class VaksinMinumController extends Controller
             'nama_vaksin' => ['required', 'string', 'max:255'],
             'total_dosis'   => ['required', 'numeric'],
             'air_minum_per_ekor'   => ['required', 'numeric'],
-            'jumlah_ayam_per_baris'   => ['required', 'integer'],
-            'jumlah_ml_vaksin_per_baris'   => ['required', 'numeric'],
-            'jumlah_air_di_tong_per_baris'   => ['required', 'numeric'],
+            'jumlah_ayam_per_flock'   => ['required', 'integer'],
+            'jumlah_ml_vaksin_per_flock'   => ['required', 'numeric'],
+            'jumlah_air_di_tong_per_flock'   => ['required', 'numeric'],
 
         ]);
 
@@ -76,9 +76,9 @@ class VaksinMinumController extends Controller
                 'nama_vaksin' => $validated['nama_vaksin'],
                 'total_dosis' => $validated['total_dosis'],
                 'air_minum_per_ekor' => $validated['air_minum_per_ekor'],
-                'jumlah_ayam_per_baris' => (int) $validated['jumlah_ayam_per_baris'],
-                'jumlah_ml_vaksin_per_baris' =>  (float) $validated['jumlah_ml_vaksin_per_baris'],
-                'jumlah_air_di_tong_per_baris' => (float) $validated['jumlah_air_di_tong_per_baris'],
+                'jumlah_ayam_per_flock' => (int) $validated['jumlah_ayam_per_flock'],
+                'jumlah_ml_vaksin_per_flock' =>  (float) $validated['jumlah_ml_vaksin_per_flock'],
+                'jumlah_air_di_tong_per_flock' => (float) $validated['jumlah_air_di_tong_per_flock'],
             ]);
         
             return to_route('vaksin-minum.index')->with('success', 'Data Berhasil Ditambahkan.');   
@@ -119,9 +119,9 @@ class VaksinMinumController extends Controller
             'nama_vaksin' => ['required', 'string', 'max:255'],
             'total_dosis'   => ['required', 'numeric'],
             'air_minum_per_ekor'   => ['required', 'numeric'],
-            'jumlah_ayam_per_baris'   => ['required', 'integer'],
-            'jumlah_ml_vaksin_per_baris'   => ['required', 'numeric'],
-            'jumlah_air_di_tong_per_baris'   => ['required', 'numeric'],
+            'jumlah_ayam_per_flock'   => ['required', 'integer'],
+            'jumlah_ml_vaksin_per_flock'   => ['required', 'numeric'],
+            'jumlah_air_di_tong_per_flock'   => ['required', 'numeric'],
 
         ]);
 
@@ -135,9 +135,9 @@ class VaksinMinumController extends Controller
                 'nama_vaksin' => $validated['nama_vaksin'],
                 'total_dosis' => $validated['total_dosis'],
                 'air_minum_per_ekor' => $validated['air_minum_per_ekor'],
-                'jumlah_ayam_per_baris' => (int) $validated['jumlah_ayam_per_baris'],
-                'jumlah_ml_vaksin_per_baris' =>  (float) $validated['jumlah_ml_vaksin_per_baris'],
-                'jumlah_air_di_tong_per_baris' => (float) $validated['jumlah_air_di_tong_per_baris'],
+                'jumlah_ayam_per_flock' => (int) $validated['jumlah_ayam_per_flock'],
+                'jumlah_ml_vaksin_per_flock' =>  (float) $validated['jumlah_ml_vaksin_per_flock'],
+                'jumlah_air_di_tong_per_flock' => (float) $validated['jumlah_air_di_tong_per_flock'],
             ]);
         
             return to_route('vaksin-minum.index')->with('success', 'Data Berhasil Diubah.');   

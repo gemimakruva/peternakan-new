@@ -15,6 +15,29 @@ class KandangRepository extends EloquentRepository
         parent::__construct($model);
     }
 
+    public function getQuery(): Builder
+    {
+        return $this->model
+            ->query()
+            ->join('strain', 'strain.id', '=', 'kandang.strain_id')
+            ->join('peternakan', 'peternakan.id', '=', 'kandang.peternakan_id')
+            ->join('flock', 'flock.kandang_id', '=', 'kandang.id')
+            ->join('pipe', 'pipe.flock_id', '=', 'flock.id')
+            ->selectRaw(<<<SQL
+                kandang.*
+                , kandang.nama AS nama_kandang
+                , strain.nama AS nama_strain
+                , peternakan.nama AS nama_peternakan
+                , SUM(pipe.kapasitas) AS kapasitas_kandang
+            SQL)
+            ->groupBy('kandang.id');
+    }
+
+    public function searchQuery(Builder $q, string $search): void
+    {
+        $q->where('kandang.nama', 'LIKE', "%$search%");
+    }
+
     public function populasiAyam(Collection $filter): Builder
     {
         $query = $this->model

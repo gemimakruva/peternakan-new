@@ -1,5 +1,7 @@
 @if ($paginator->hasPages())
-<nav class="d-flex justify-content-center mb-0">
+<nav class="d-flex justify-content-center mb-0 gap-2">
+    <p class="mb-0" style="line-height: 2.4rem;">Menampilkan {{ $paginator->firstItem() }} hingga {{ $paginator->lastItem() }} dari {{ $paginator->total() }} entri</p>
+
     <ul class="pagination justify-content-center mb-0">
 
         {{-- Tombol Previous --}}

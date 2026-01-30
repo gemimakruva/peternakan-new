@@ -14,8 +14,8 @@
 
 <x-adminlte-input 
     name="nama" 
-    label="Nama Baris" 
+    label="Nama Flock" 
     type="text" 
-    placeholder="Masukkan nama baris..." 
+    placeholder="Masukkan nama flock..." 
     :value="old('nama', $flock->nama)" 
 />

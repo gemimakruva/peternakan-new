@@ -83,7 +83,7 @@
 <div class="mb-3">
     <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Data Kebutuhan Disinfektan per Baris</h3>
+            <h3 class="card-title">Data Kebutuhan Disinfektan per Flock</h3>
 
             <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-plus"></i>
@@ -94,7 +94,7 @@
             <table id="dynamicTable" class="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th style="width: 20%">Baris</th>
+                        <th style="width: 20%">Flock</th>
                         <th style="width: 20%">Area</th>
                         <th style="width: 20%">Jenis Disinfektan</th>
                         <th style="width: 15%">Merk Disinfektan</th>
@@ -123,7 +123,7 @@
                         @foreach($oldFlocks as $i => $f)
                             <tr data-row-index="{{ $i }}">
                                 <td>
-                                    <select name="flocks[{{ $i }}][flock_id]" class="form-control select-baris"
+                                    <select name="flocks[{{ $i }}][flock_id]" class="form-control select-flock"
                                         data-current="{{ $f['flock_id'] ?? '' }}"></select>
                                 </td>
                                 <td>
@@ -161,7 +161,7 @@
 
             const jenisData = {!! json_encode($jenisDisinfektan ?? []) !!};
 
-            let barisData = [];
+            let flockData = [];
             let rowCounter = 0; // incremental row index
 
             let table = $("#dynamicTable").DataTable({
@@ -172,19 +172,19 @@
                 columnDefs: [{ orderable: false, targets: [0, 1, 2, 3, 4, 5] }]
             });
 
-            function renderBarisOptions(currentSelected = '') {
-                let html = '<option value="">-- Pilih Baris --</option>';
-                if (!Array.isArray(barisData) || barisData.length === 0) {
+            function renderFlockOptions(currentSelected = '') {
+                let html = '<option value="">-- Pilih Flock --</option>';
+                if (!Array.isArray(flockData) || flockData.length === 0) {
                     return html;
                 }
 
                 const assigned = new Set();
-                $('select.select-baris').each(function () {
+                $('select.select-flock').each(function () {
                     const v = $(this).val();
                     if (v && v !== currentSelected) assigned.add(String(v));
                 });
 
-                barisData.forEach(function (item) {
+                flockData.forEach(function (item) {
                     if (assigned.has(String(item.id))) return;
                     let text = (item.text || '').replace(/Kandang\s*\d+/i, '').trim();
                     html += `<option value="${item.id}" ${String(item.id) === String(currentSelected) ? 'selected' : ''}>${text}</option>`;
@@ -210,13 +210,13 @@
 
             function updateAllSelectOptions() {
                 // flock selects
-                $('select.select-baris').each(function () {
+                $('select.select-flock').each(function () {
                     const $sel = $(this);
                     const current = $sel.data('current') ?? $sel.val() ?? '';
-                    const newHtml = renderBarisOptions(current);
+                    const newHtml = renderFlockOptions(current);
                     $sel.html(newHtml);
 
-                    const stillExists = barisData.some(item => String(item.id) === String(current));
+                    const stillExists = flockData.some(item => String(item.id) === String(current));
                     if (!current) {
                         $sel.val('');
                         $sel.data('current', '');
@@ -228,7 +228,7 @@
                         $sel.data('current', current);
                     }
 
-                    $sel.prop('disabled', !(Array.isArray(barisData) && barisData.length > 0));
+                    $sel.prop('disabled', !(Array.isArray(flockData) && flockData.length > 0));
                 });
 
                 $('select.select-jenis').each(function () {
@@ -253,7 +253,7 @@
             }
 
             function restoreSelectsFromDataCurrent() {
-                $('select.select-baris').each(function () {
+                $('select.select-flock').each(function () {
                     const $sel = $(this);
                     const desired = String($sel.attr('data-current') ?? $sel.data('current') ?? '');
                     if (!desired) return;
@@ -283,7 +283,7 @@
             function refreshRowNames() {
                 $('#dynamicTable tbody tr').each(function (i) {
                     $(this).attr('data-row-index', i);
-                    $(this).find('select.select-baris').attr('name', `flocks[${i}][flock_id]`);
+                    $(this).find('select.select-flock').attr('name', `flocks[${i}][flock_id]`);
                     $(this).find('input[name*="[area]"]').attr('name', `flocks[${i}][area]`);
                     $(this).find('select.select-jenis').attr('name', `flocks[${i}][jenis_disinfektan_id]`);
                     $(this).find('input[name*="[merk_disinfektan]"]').attr('name', `flocks[${i}][merk_disinfektan]`);
@@ -294,12 +294,12 @@
 
             function addRow(prevFlock = '', prevJenis = '') {
                 // if prevFlock already assigned elsewhere, ignore
-                const alreadyAssigned = Array.from($('select.select-baris')).some(s => $(s).val() && $(s).val() == prevFlock);
+                const alreadyAssigned = Array.from($('select.select-flock')).some(s => $(s).val() && $(s).val() == prevFlock);
                 if (prevFlock && alreadyAssigned) prevFlock = '';
 
                 const index = rowCounter;
 
-                let selectHtml = `<select name="flocks[${index}][flock_id]" class="form-control select-baris" required>${renderBarisOptions(prevFlock)}</select>`;
+                let selectHtml = `<select name="flocks[${index}][flock_id]" class="form-control select-flock" required>${renderFlockOptions(prevFlock)}</select>`;
                 let areaHtml = `<input type="text" name="flocks[${index}][area]" class="form-control" placeholder="Area" required>`;
                 let jenisSelectHtml = `<select name="flocks[${index}][jenis_disinfektan_id]" class="form-control select-jenis" required>${renderJenisOptions(prevJenis)}</select>`;
                 let merkHtml = `<input type="text" name="flocks[${index}][merk_disinfektan]" class="form-control" placeholder="Merk Disinfektan" required>`;
@@ -313,8 +313,8 @@
 
                 updateAllSelectOptions();
 
-                const $sel = $(rowNode).find('select.select-baris');
-                if (prevFlock && !$('select.select-baris').not($sel).filter(function () { return $(this).val() == prevFlock; }).length) {
+                const $sel = $(rowNode).find('select.select-flock');
+                if (prevFlock && !$('select.select-flock').not($sel).filter(function () { return $(this).val() == prevFlock; }).length) {
                     $sel.val(prevFlock);
                     $sel.data('current', prevFlock);
                 }
@@ -343,13 +343,13 @@
             $("#addRowBtn").on("click", function (e) {
                 e.preventDefault();
                 let lastFlock = '';
-                const $lastSelect = $('#dynamicTable tbody tr:last').find('select.select-baris');
+                const $lastSelect = $('#dynamicTable tbody tr:last').find('select.select-flock');
                 if ($lastSelect.length && $lastSelect.val()) lastFlock = $lastSelect.val();
                 addRow(lastFlock, ''); // no prevJenis
             });
 
             // change flock select -> update options uniq
-            $("#dynamicTable tbody").on("change", "select.select-baris", function () {
+            $("#dynamicTable tbody").on("change", "select.select-flock", function () {
                 $(this).data('current', $(this).val());
                 updateAllSelectOptions();
             });
@@ -396,11 +396,11 @@
                 });
             }
 
-            // when kandang changes load baris data then update selects and restore old values
+            // when kandang changes load flock data then update selects and restore old values
             $('#form-kandang').change(function () {
                 const kandangId = $(this).val();
                 if (!kandangId) {
-                    barisData = [];
+                    flockData = [];
                     updateAllSelectOptions();
                     return;
                 }
@@ -410,7 +410,7 @@
                     url: url,
                     type: 'GET',
                     success: function (response) {
-                        barisData = response.results || [];
+                        flockData = response.results || [];
 
                         // update both flock & jenis selects
                         updateAllSelectOptions();
@@ -428,7 +428,7 @@
             $('form').on('submit', function (e) {
                 let valid = true;
 
-                $('select.select-baris').each(function () {
+                $('select.select-flock').each(function () {
                     if ($(this).prop('disabled') || !$(this).val()) {
                         $(this).addClass('is-invalid');
                         valid = false;
@@ -457,7 +457,7 @@
 
                 if (!valid) {
                     e.preventDefault();
-                    alert('Harap isi semua Baris, Jenis dan Dosis sebelum menyimpan.');
+                    alert('Harap isi semua Flock, Jenis dan Dosis sebelum menyimpan.');
                     return false;
                 }
             });

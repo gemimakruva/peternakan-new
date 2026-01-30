@@ -166,13 +166,25 @@ Table karantina_populasi_pipe {
   ayam_keluar_karantina integer
 }
 
-Table ayam_afkir {
+Table ayam_afkir_populasi {
   id biginteger [PK, increment]
+  ayam_afkir_id biginteger [Ref : > ayam_afkir.id]
   populasi_ayam_id biginteger [Ref : > populasi_ayam.id]
+  pipe_id biginteger [Ref : > pipe.id]
+  flock_id biginteger [Ref : > flock.id]
+  kandang_id biginteger [Ref : > kandang.id]
   pic_user_id biginteger [Ref : > users.id]
   tanggal datetime
-  umur_ayam integer
   jumlah_ayam_afkir decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table ayam_afkir {
+  id biginteger [PK, increment]
+  kandang_id biginteger [Ref : > kandang.id]
+  tanggal datetime
+  umur_ayam integer
   penyebab_afkir varchar
   pembeli_afkir varchar
   harga_jual decimal

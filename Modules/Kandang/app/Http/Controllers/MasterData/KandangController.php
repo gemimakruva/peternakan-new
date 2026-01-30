@@ -12,6 +12,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\Strain;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 
 class KandangController extends Controller
 {
@@ -24,6 +25,7 @@ class KandangController extends Controller
         private Kandang $kandang,
         private Flock $flock,
         private Pipe $pipe,
+        private KandangRepository $repository,
     ) { }
 
     /**
@@ -36,20 +38,12 @@ class KandangController extends Controller
         $strain = $this->strain->get(['id', 'nama']);
         $peternakan = $this->peternakan->get(['id', 'nama']);
 
-        $kandang = $this->kandang
-            ->with(['strain','peternakan'])
-            ->when(request()->query('search'), function ($query, $search) {
-                $query->where('nama', 'like', "%{$search}%");
-            })
-            ->when(request()->query('strain_id'), function ($query,  $strainId) {
-                $query->where('strain_id', '=', $strainId);
-            })
-            ->when(request()->query('peternakan_id'), function ($query, $peternakanId) {
-                $query->where('peternakan_id', '=', $peternakanId);
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(request()->get('perPage', 10))
-            ->withQueryString(); 
+        $kandang = $this->repository->paginate(
+            request()->get('search'),
+            request()->collect()->only(['strain_id', 'peternakan_id']),
+            request()->collect('orders'),
+            request()->get('perPage', 10)
+        );
 
         return view('kandang::master-data.kandang.index', compact([
             'strain',
@@ -81,10 +75,10 @@ class KandangController extends Controller
             'nama' => ['required', 'string', 'max:255'],
             'peternakan_id' => ['required', 'integer'],
             'strain_id' => ['required', 'integer'],
-            'nama_baris' => ['nullable', 'string', 'max:255'],
-            'banyak_baris' => ['nullable', 'integer', 'min:1'],
+            'nama_flock' => ['nullable', 'string', 'max:255'],
+            'banyak_flock' => ['nullable', 'integer', 'min:1'],
             'nama_pipa' => ['nullable', 'string', 'max:255'],
-            'banyak_pipa_per_baris' => ['nullable', 'string', 'min:1'],
+            'banyak_pipa_per_flock' => ['nullable', 'string', 'min:1'],
             'kapasitas_pipa' => ['nullable', 'integer', 'min:1'],
         ]);
 
@@ -96,24 +90,24 @@ class KandangController extends Controller
                 'strain_id',
             ]));
 
-            $namaBaris = $request->input('nama_baris');
-            $banyakBaris = $request->integer('banyak_baris', 0);
+            $namaFlock = $request->input('nama_flock');
+            $banyakFlock = $request->integer('banyak_flock', 0);
 
             $namaPipa = $request->input('nama_pipa');
-            $banyakPipaPerBaris = $request->integer('banyak_pipa_per_baris', 0);
+            $banyakPipaPerFlock = $request->integer('banyak_pipa_per_flock', 0);
             $kapasitasPipa = $request->integer('kapasitas_pipa', 0);
 
-            if ($namaBaris && $banyakBaris > 0) {
+            if ($namaFlock && $banyakFlock > 0) {
                 $noPipa = 1;
-                for ($i=1; $i <= $banyakBaris; $i++) { 
-                    $padNoBaris = str_pad($i, 2, '0', STR_PAD_LEFT);
+                for ($i=1; $i <= $banyakFlock; $i++) { 
+                    $padNoFlock = str_pad($i, 2, '0', STR_PAD_LEFT);
                     $flock = $this->flock->create([
-                        'nama' => "{$namaBaris} {$padNoBaris}",
+                        'nama' => "{$namaFlock} {$padNoFlock}",
                         'kandang_id' => $kandang->id,
                     ]);
 
-                    if ($namaPipa && $banyakPipaPerBaris > 0 && $kapasitasPipa > 0) {
-                        for ($j=1; $j <= $banyakPipaPerBaris; $j++) { 
+                    if ($namaPipa && $banyakPipaPerFlock > 0 && $kapasitasPipa > 0) {
+                        for ($j=1; $j <= $banyakPipaPerFlock; $j++) { 
                             $padNoPipa = str_pad($noPipa, 2, '0', STR_PAD_LEFT);
                             $this->pipe->create([
                                 'nama' => "{$namaPipa} {$padNoPipa}",
@@ -202,7 +196,7 @@ class KandangController extends Controller
         $kandang = $this->kandang->findOrFail($id);
         if ($kandang->flocks()->exists()) {
             return redirect()->back()->with('error', 
-                'Kandang ini tidak bisa dihapus karena memiliki Baris terkait.');
+                'Kandang ini tidak bisa dihapus karena memiliki Flock terkait.');
         }
         try {
             $kandang->delete();

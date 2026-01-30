@@ -34,14 +34,14 @@
 </div>
 
 <div class="form-group col-12">
-    <x-adminlte-select id="input-flock-vaksin-minum" name="flock_id" label="Pilih Baris" class="select-nama-berkas"
+    <x-adminlte-select id="input-flock-vaksin-minum" name="flock_id" label="Pilih Flock" class="select-nama-berkas"
     igroup-size="lg">
         <x-slot name="prependSlot">
             <div class="input-group-text bg-white">
                 <i class="fas fa-feather-alt text-muted"></i>
             </div>
         </x-slot>
-        <option selected disabled>Pilih Baris...</option>
+        <option selected disabled>Pilih Flock...</option>
     </x-adminlte-select>
 </div>
 
@@ -50,16 +50,16 @@
     <script>
         $(document).ready(function() {
             let kandangId = $('#input-kandang-vaksin-minum').val();
-            populateDataBarisVaksinMinum ('input-flock-vaksin-minum', kandangId);
+            populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
 
             $('#input-kandang-vaksin-minum').on('change', function() {
                 let kandangId = $(this).val();
-                populateDataBarisVaksinMinum ('input-flock-vaksin-minum', kandangId);
+                populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
                 populateJumlahAyamByKandang(kandangId, $('#tanggal_vaksin_minum').val());
             });
 
 
-            function populateDataBarisVaksinMinum(elementId, kandangId) {
+            function populateDataFlockVaksinMinum(elementId, kandangId) {
                 let url = '/master-data/ajax/flock/' + kandangId;
                 let method = 'GET';
 
@@ -67,9 +67,9 @@
                     url: url,
                     type: method,
                     success: function(response) {
-                        barisData = response.results;
+                        flockData = response.results;
                         $(`#${elementId}`).empty();
-                        $(`#${elementId}`).append('<option selected disabled>Pilih Baris...</option>');
+                        $(`#${elementId}`).append('<option selected disabled>Pilih Flock...</option>');
                         $.each(response.results, function(index, item) {
                             $(`#${elementId}`).append('<option value="' + item.id + '">' + item.text + '</option>');
                         });
@@ -97,16 +97,16 @@
                     type: method,
                     success: function(response) {
                         let totalAyamPerKandang = response.jumlah_ayam;
-                        let jumlahAyamPerBaris = $('#jumlah-ayam-per-baris-vaksin-minum').val();
+                        let jumlahAyamPerFlock = $('#jumlah-ayam-per-flock-vaksin-minum').val();
                         let result = 0;
                         if (totalAyamPerKandang > 0) {
-                            result = jumlahAyamPerBaris / totalAyamPerKandang * 1000;
+                            result = jumlahAyamPerFlock / totalAyamPerKandang * 1000;
                         }
-                        $('#jumlah-ml-vaksin-per-baris').val(result);
+                        $('#jumlah-ml-vaksin-per-flock').val(result);
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
-                        $('#jumlah-ml-vaksin-per-baris').val(0);
+                        $('#jumlah-ml-vaksin-per-flock').val(0);
                     }
                 });
             }

@@ -65,7 +65,7 @@
                         <th style="width:20%">Tanggal</th>
                         <th style="width:15%">Kandang</th>
                         <th style="width:17%">Waktu Treatment</th>
-                        <th style="width:28%">Data Kebutuhan Disinfektan per Baris</th>
+                        <th style="width:28%">Data Kebutuhan Disinfektan per Flock</th>
                         <th style="width:15%">Aksi</th>
                     </tr>
                 </thead>
@@ -119,7 +119,7 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="detailModalLabel">Data Kebutuhan Disinfektan per Baris</h5>
+                    <h5 class="modal-title" id="detailModalLabel">Data Kebutuhan Disinfektan per Flock</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -148,7 +148,7 @@
                     <table class="table table-bordered table-striped" id="detailModalTable">
                         <thead>
                             <tr>
-                                <th>Baris</th>
+                                <th>Flock</th>
                                 <th>Area</th>
                                 <th>Jenis Disinfektan</th>
                                 <th>Merk Disinfektan</th>

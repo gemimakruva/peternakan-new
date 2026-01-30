@@ -5,26 +5,24 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\Peternakan;
 use Illuminate\Http\Request;
+use Modules\Kandang\Repositories\Kandang\PeternakanRepository;
 
 class PeternakanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * Menampilkan daftar peternakan dengan fitur pencarian dan paginasi.
-     */
+    public function __construct(
+        private PeternakanRepository $repository,
+    ) { }
+    
     public function index()
     {
         $search = request()->input('search');
 
-        $datas = Peternakan::query()
-            ->with('kandang:peternakan_id')
-            ->when($search, function ($query) use ($search) {
-                $query->where('nama', 'like', "%{$search}%")
-                      ->orWhere('lokasi', 'like', "%{$search}%");
-            })
-            ->orderBy('created_at', 'desc')
-            ->paginate(request()->query('perPage', 10))
-            ->withQueryString();
+        $datas = $this->repository->paginate(
+            request()->query('search'),
+            null,
+            request()->collect('orders'),
+            request()->query('perPage', 10)
+        );
 
         return view('kandang::master-data.peternakan.index', compact('datas', 'search'));
     }

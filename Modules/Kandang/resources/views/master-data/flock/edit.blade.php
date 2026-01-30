@@ -1,5 +1,5 @@
 @php
-    $title= "Edit Baris - $flock->nama";
+    $title= "Edit Flock - $flock->nama";
 @endphp
 
 @extends('layouts.dashboard')
@@ -17,9 +17,9 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-              <li class="breadcrumb-item"><a href="{{ route('master-data.flock.index') }}">Baris</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('master-data.flock.index') }}">Flock</a></li>
               <li class="breadcrumb-item active">{{ $flock->nama }}</li>
-              <li class="breadcrumb-item active">Baris</li>
+              <li class="breadcrumb-item active">Flock</li>
             </ol>
           </div>
         </div>

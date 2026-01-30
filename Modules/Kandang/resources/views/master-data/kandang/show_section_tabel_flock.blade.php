@@ -2,12 +2,12 @@
     <div class="card-header text-white d-flex justify-content-between align-items-center">
         <form action="{{ route('master-data.kandang.show', $kandang) }}" method="get" class="w-100">            
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="card-title mb-0 text-dark">Daftar Baris pada Kandang</h2>
+                <h2 class="card-title mb-0 text-dark">Daftar Flock pada Kandang</h2>
                 <div class="d-flex" style="gap: .5em">
                     <input type="search" 
                         name="search" 
                         class="form-control" 
-                        placeholder="Cari baris..." 
+                        placeholder="Cari flock..." 
                         value="{{ request()->query('search') }}">
                     <button class="btn btn-primary" title="Cari">
                         <i class="fas fa-search"></i>
@@ -22,7 +22,7 @@
             <thead class="bg-light">
                 <tr>
                     <th style="width: 50px;">#</th>
-                    <th>Nama Baris</th>
+                    <th>Nama Flock</th>
                     <th style="width: 180px;">Aksi</th>
                 </tr>
             </thead>
@@ -36,7 +36,7 @@
                             <a
                                 href="{{ route('master-data.kandang.flock.show', [$kandang, $row]) }}"
                                 class="btn btn-info btn-sm"
-                                title="Lihat Detail Baris"
+                                title="Lihat Detail Flock"
                             >
                                 <i class="fas fa-eye"></i>
                             </a>
@@ -44,7 +44,7 @@
                             <a 
                                 href="{{ route('master-data.kandang.flock.edit', [$kandang, $row]) }}"
                                 class="btn btn-warning text-white btn-sm"
-                                title="Edit Baris"
+                                title="Edit Flock"
                             >
                                 <i class="fas fa-edit"></i>
                             </a>
@@ -67,7 +67,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="6" class="text-muted">Belum ada data baris.</td>
+                    <td colspan="6" class="text-muted">Belum ada data flock.</td>
                 </tr>
                 @endforelse
             </tbody>

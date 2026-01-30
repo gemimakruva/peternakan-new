@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Form Baris</h2>
+        <h2 class="card-title">Form Flock</h2>
     </div>
     <div class="card-body">
         <x-adminlte-input
@@ -18,8 +18,8 @@
         />
 
         <x-adminlte-input
-            label="Nama Baris"
-            name="nama_baris"
+            label="Nama Flock"
+            name="nama_flock"
             :value="$flock->nama"
             readonly
         />

@@ -362,7 +362,7 @@ return [
                     'active' => ['master-data/kandang*'],
                 ],
                 [
-                    'text'  => 'Baris',
+                    'text'  => 'Flock',
                     'route' => 'master-data.flock.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/flock*'],

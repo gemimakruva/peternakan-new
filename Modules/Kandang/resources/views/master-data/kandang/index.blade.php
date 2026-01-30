@@ -29,6 +29,9 @@
 
         {{-- Filter --}}
         <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Filter</h2>
+            </div>
             <div class="card-body">
                 <form 
                     action="{{ route('master-data.kandang.index') }}" 
@@ -62,46 +65,46 @@
                             <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
                         </template>
                     </select>
+
+                    <input 
+                        type="search"
+                        name="search"
+                        class="form-control mx-200"
+                        placeholder="Nama Kandang..."
+                        value="{{ request()->query('search') }}"
+                    />
                     
-                    <div>
+                    <div class="d-flex gap-2 justify-content-end">
                         <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-filter"></i>
+                            <i class="fas fa-search"></i>
                         </button>
+                        <a href="{{ route('master-data.kandang.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-undo"></i>
+                        </a>
                     </div>
                 </form>
             </div>
         </div>
         
         <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari Kandang..." value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
-                        <th>Strain</th>
-                        <th>Nama Peternakan</th>
-                        <th>Nama Kandang</th>
+                        <x-sort-th label="Strain" name="nama_strain" />
+                        <x-sort-th label="Nama Peternakan" name="nama_peternakan" />
+                        <x-sort-th label="Nama Kandang" name="nama_kandang" />
+                        <x-sort-th label="Kapasitas Kandang" name="kapasitas_kandang" />
                         <th style="width: 150px;">Aksi</th>
                     </thead>
                     <tbody>
                         @forelse($kandang as $row)
                             <tr>
                                 <td class="text-center">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
-                                <td class="text-left">{{ $row->strain->nama }}</td>
-                                <td class="text-left">{{ $row->peternakan->nama }}</td>
-                                <td class="text-left">{{ $row->nama }}</td>
+                                <td class="text-left">{{ $row->nama_strain }}</td>
+                                <td class="text-left">{{ $row->nama_peternakan }}</td>
+                                <td class="text-left">{{ $row->nama_kandang }}</td>
+                                <td class="text-right">{{ format_angka($row->kapasitas_kandang) }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
                                         <a href="{{ route('master-data.kandang.show', $row) }}" class="btn btn-sm btn-info text-white" title="Detail">
@@ -149,7 +152,6 @@
 @endsection
 
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).on('submit', '.form-delete', function(e) {
             e.preventDefault();
