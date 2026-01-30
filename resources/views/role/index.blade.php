@@ -23,6 +23,13 @@
     </div>
 @endsection
 
+@php
+    function getRoleName($name) {
+        $slug = explode('.', $name)[2];
+        return str_replace('-', ' ', $slug);
+    }
+@endphp
+
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
@@ -56,7 +63,7 @@
                                 <td class="text-left">{{ $row->name }}</td>
                                 <td class="text-left">
                                     @foreach($row->permissions as $permission)
-                                        <span class="badge badge-secondary">{{ $permission->name }}</span>
+                                        <span class="badge badge-secondary text-capitalize">{{ getRoleName($permission->name) }}</span>
                                     @endforeach
                                 </td>
                                 <td class="text-center">
