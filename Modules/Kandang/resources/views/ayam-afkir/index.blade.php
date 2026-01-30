@@ -33,7 +33,7 @@
                                 type="search" 
                                 name="search" 
                                 class="form-control" 
-                                placeholder="Kandang atau Flock ..."
+                                placeholder="Kandang, PIC, Pembeli ..."
                                 value="{{ request()->query('search') }}"
                             >
 
