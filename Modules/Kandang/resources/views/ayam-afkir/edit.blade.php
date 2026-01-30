@@ -84,7 +84,7 @@ $informations = [
                                 <tfoot>
                                     <tr>
                                         <td colspan="2"><strong>Total</strong></td>
-                                        <td class="text-right">{{ format_angka($item->sum('jumlah_ayam_afkir'), 0) }}</td>
+                                        <td class="text-right">{{ format_angka($ayamAfkir->ayamAfkirPopulasi->sum('jumlah_ayam_afkir'), 0) }}</td>
                                     </tr>
                                 </tfoot>
                             </table>
