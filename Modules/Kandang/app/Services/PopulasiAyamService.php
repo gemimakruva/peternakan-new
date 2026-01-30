@@ -5,6 +5,7 @@ namespace Modules\Kandang\Services;
 use Illuminate\Http\Request;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
+use Modules\Kandang\Models\AyamAfkirPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\PopulasiAyam;
@@ -16,6 +17,7 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
     public function __construct(
         private PopulasiAyamRepository $populasiAyamRepository,
         private AyamAfkir $ayamAfkir,
+        private AyamAfkirPopulasi $ayamAfkirPopulasi,
         private KarantinaPopulasi $karantinaPopulasi,
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
     ) {}
@@ -56,14 +58,28 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
 
     public function saveAyamAfkir(PopulasiAyam $populasiAyam)
     {
+        $populasiAyam->load([
+            'pipe:id,flock_id',
+            'pipe.flock:id,kandang_id',
+        ]);
+
         if ($populasiAyam->ayam_afkir > 0) {
-            $this->ayamAfkir->updateOrCreate([
-                'populasi_ayam_id'  => $populasiAyam->id,
-            ], [
-                'pic_user_id'       => $populasiAyam->pic_user_id,
+            $ayamAfkir = $this->ayamAfkir->firstOrCreate([
+                'kandang_id'        => $populasiAyam->pipe->flock->kandang_id,
                 'tanggal'           => $populasiAyam->tanggal,
                 'umur_ayam'         => $populasiAyam->umur_ayam_record,
-                'jumlah_ayam_afkir' => $populasiAyam->ayam_afkir,
+            ]);
+
+            $this->ayamAfkirPopulasi->updateOrCreate([
+                'populasi_ayam_id'  => $populasiAyam->id,
+            ], [
+                'ayam_afkir_id'     => $ayamAfkir->id,
+                'pipe_id'           => $populasiAyam->pipe->id,
+                'flock_id'          => $populasiAyam->pipe->flock->id,
+                'kandang_id'        => $populasiAyam->pipe->flock->kandang_id,
+                'pic_user_id'       => $populasiAyam->pic_user_id,
+                'tanggal'           => $populasiAyam->tanggal,
+                'jumlah_ayam_afkir' => $populasiAyam->ayam_afkir
             ]);
         } else {
             $this->ayamAfkir->where('populasi_ayam_id', '=', $populasiAyam->id)->delete();

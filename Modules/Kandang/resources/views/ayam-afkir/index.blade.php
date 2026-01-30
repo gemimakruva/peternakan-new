@@ -51,30 +51,30 @@
                     <thead>
                         <tr>
                             <th class="align-middle" style="width: 40px;">#</th>
-                            <th class="align-middle" style="width: 200px;">Tanggal</th>
+                            <th class="align-middle" style="width: 150px;">Kandang</th>
+                            <th class="align-middle" style="width: 100px;">Tanggal</th>
                             <th class="align-middle" style="width: 100px;">Umur Ayam (mingguan)</th>
                             <th class="align-middle" style="width: 100px;">Jumlah Ayam Afkir</th>
-                            <th class="align-middle">Penyebab</th>
+                            <th class="align-middle" style="width: 150px;">PIC</th>
                             <th class="align-middle" style="width: 150px;">Pembeli</th>
-                            <th class="align-middle">Harga (per kg)</th>
-                            <th class="align-middle" style="width: 140px;">Aksi</th>
+                            <th class="align-middle" style="width: 150px;">Harga (per kg)</th>
+                            <th class="align-middle" style="width: 40px;">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($listAyamAfkir as $index => $afkir)
                             <tr>
                                 <td>{{ ($listAyamAfkir->currentPage() - 1) * $listAyamAfkir->perPage() + $loop->iteration }}</td>
+                                <td class="text-left">{{ $afkir->nama_kandang }}</td>
                                 <td class="text-left">{{ $afkir->tanggal->translatedFormat('l, d F Y') }}</td>
                                 <td class="text-right">{{ $afkir->umur_ayam }}</td>
-                                <td class="text-right">{{ $afkir->jumlah_ayam_afkir }}</td>
-                                <td class="text-left">{{ $afkir->penyebab_afkir }}</td>
+                                <td class="text-right">{{ format_angka($afkir->total_jumlah_ayam_afkir) }}</td>
+                                <td class="text-left">{{ $afkir->nama_pic_user ?? '-' }}</td>
                                 <td class="text-left">{{ $afkir->pembeli_afkir ?? '-' }}</td>
-                                <td class="text-right">
-                                    {{ isset($afkir->harga_jual) ? 'Rp. ' . number_format($afkir->harga_jual, 0, ',', '.') : '-' }}
-                                </td>
+                                <td class="text-right">{{ format_uang($afkir->harga_jual) ?? '-' }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        <button 
+                                        {{-- <button 
                                             type="button" 
                                             class="btn btn-sm btn-info btn-populasi" 
                                             data-kandang="{{ $afkir->populasi->pipe->flock->kandang->nama ?? '-' }}"
@@ -82,7 +82,7 @@
                                             data-pipe="{{ $afkir->populasi->pipe->nama ?? '-' }}"
                                         >
                                             <i class="fas fa-info-circle"></i>
-                                        </button>
+                                        </button> --}}
 
                                         <a href="{{ route('ayam-afkir.edit', $afkir->id) }}" class="btn btn-sm btn-warning">
                                             <i class="fas fa-edit"></i>

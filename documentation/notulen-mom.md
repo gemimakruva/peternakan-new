@@ -5,5 +5,5 @@
 - [x] tambah detail rekap di detail kandang
 - [x] handle error saat tambah populasi tanpa tanggal
 - [x] fix perhitungan populasi per-flock
-- ubah data afkir per-hari per-kandang  
+- [x] ubah data afkir per-hari per-kandang
 - [x] ubah desimal strain ayam 2 angka belakang koma

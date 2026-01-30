@@ -21,12 +21,16 @@ class KandangRepository extends EloquentRepository
             ->query()
             ->join('strain', 'strain.id', '=', 'kandang.strain_id')
             ->join('peternakan', 'peternakan.id', '=', 'kandang.peternakan_id')
+            ->join('flock', 'flock.kandang_id', '=', 'kandang.id')
+            ->join('pipe', 'pipe.flock_id', '=', 'flock.id')
             ->selectRaw(<<<SQL
                 kandang.*
                 , kandang.nama AS nama_kandang
                 , strain.nama AS nama_strain
                 , peternakan.nama AS nama_peternakan
-            SQL);
+                , SUM(pipe.kapasitas) AS kapasitas_kandang
+            SQL)
+            ->groupBy('kandang.id');
     }
 
     public function searchQuery(Builder $q, string $search): void

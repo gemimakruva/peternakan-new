@@ -94,6 +94,7 @@
                         <x-sort-th label="Strain" name="nama_strain" />
                         <x-sort-th label="Nama Peternakan" name="nama_peternakan" />
                         <x-sort-th label="Nama Kandang" name="nama_kandang" />
+                        <x-sort-th label="Kapasitas Kandang" name="kapasitas_kandang" />
                         <th style="width: 150px;">Aksi</th>
                     </thead>
                     <tbody>
@@ -102,7 +103,8 @@
                                 <td class="text-center">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
                                 <td class="text-left">{{ $row->nama_strain }}</td>
                                 <td class="text-left">{{ $row->nama_peternakan }}</td>
-                                <td class="text-left">{{ $row->nama_kandang}}</td>
+                                <td class="text-left">{{ $row->nama_kandang }}</td>
+                                <td class="text-right">{{ format_angka($row->kapasitas_kandang) }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
                                         <a href="{{ route('master-data.kandang.show', $row) }}" class="btn btn-sm btn-info text-white" title="Detail">
