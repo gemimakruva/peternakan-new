@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\Kandang\Http\Controllers\Perhitungan_pakan;
+namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
