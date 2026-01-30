@@ -41,7 +41,7 @@
                 </div>
             </div>
             <div class="col-md-3 col-12">
-                <div class="card">
+                <div class="card sticy-form-action">
                     <div class="card-header">
                         <h2 class="card-title">Aksi</h2>
                     </div>

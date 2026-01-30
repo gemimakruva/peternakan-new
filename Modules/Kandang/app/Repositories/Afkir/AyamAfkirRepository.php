@@ -3,9 +3,6 @@
 namespace Modules\Kandang\Repositories\Afkir;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
-use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Repositories\EloquentRepository;
 
