@@ -476,42 +476,48 @@ return [
             'header' => 'Pemberian Pakan',
         ],
         [
-            'text'    => 'Pakan Harian',
-            'icon'    => 'fas fa-calculator',
-            'submenu' => [
-                [
-                    'text'  => 'List Data Harian',
-                    'route' => 'perhitungan-pakan.listdata',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Form Harian',
-                    'route' => 'perhitungan-pakan.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-        [
-            'text'    => 'Sisa pakan',
-            'icon'    => 'fas fa-box-open',
-            'submenu' => [
-                [
-                    'text'  => 'List Data Sisa Pakan',
-                    'route' => 'sisa-pakan.listDataSisaPakanHarian',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Form Sisa Pakan',
-                    'route' => 'sisa-pakan.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-        [
-            'text'  => 'Rekapan Pakan Harian',
+            'text'  => 'Perhitungan Pemberian Pakan',
             'route' => 'perhitungan-pakan.index',
-            'icon'  => 'fas fa-clipboard-list',
+            'icon'  => 'fas fa-calculator',
+            'active' => ['perhitungan-pakan/*']
         ],
+        // [
+        //     'text'    => 'Pakan Harian',
+        //     'icon'    => 'fas fa-calculator',
+        //     'submenu' => [
+        //         [
+        //             'text'  => 'List Data Harian',
+        //             'route' => 'perhitungan-pakan.listdata',
+        //             'icon'  => 'fas fa-history',
+        //         ],
+        //         [
+        //             'text'  => 'Form Harian',
+        //             'route' => 'perhitungan-pakan.create',
+        //             'icon'  => 'fas fa-plus',
+        //         ],
+        //     ],
+        // ],
+        // [
+        //     'text'    => 'Sisa pakan',
+        //     'icon'    => 'fas fa-box-open',
+        //     'submenu' => [
+        //         [
+        //             'text'  => 'List Data Sisa Pakan',
+        //             'route' => 'sisa-pakan.listDataSisaPakanHarian',
+        //             'icon'  => 'fas fa-history',
+        //         ],
+        //         [
+        //             'text'  => 'Form Sisa Pakan',
+        //             'route' => 'sisa-pakan.create',
+        //             'icon'  => 'fas fa-plus',
+        //         ],
+        //     ],
+        // ],
+        // [
+        //     'text'  => 'Rekapan Pakan Harian',
+        //     'route' => 'perhitungan-pakan.index',
+        //     'icon'  => 'fas fa-clipboard-list',
+        // ],
 
         // ====================   RECORDING PRODUKSI TELUR  ==================
         [

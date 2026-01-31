@@ -4,74 +4,62 @@ namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Modules\Kandang\Models\JenisPakan;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PemberianPakanSisaPakan;
+use Modules\Kandang\Models\PerhitunganPakanItem;
 use Modules\Kandang\Models\Pipe;
+use Modules\Kandang\Repositories\Pakan\PerhitunganPakanRepository;
+use Modules\Kandang\Services\Pakan\PerhitunganPakanService;
 
 class PerhitunganPakanController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-public function index(Request $request)
-{
-    $query = PerhitunganPakan::with([
-        'jenis_pakan',
-        'pipe.flock.kandang',
-        'pipe.flock.pemberianPakanSisaPakan'
-    ])->latest()
-      ->when($request->filled('tanggal'), fn($q) => 
-          $q->where('tanggal_pemberian_pakan', $request->tanggal))
-      ->when($request->filled('kandang'), fn($q) => 
-          $q->whereHas('pipe.flock.kandang', fn($q2) => 
-              $q2->where('id', $request->kandang)))
-      ->when($request->filled('flock'), fn($q) => 
-          $q->whereHas('pipe.flock', fn($q2) => 
-              $q2->where('id', $request->flock)))
-      ->when($request->filled('jenis_pakan'), fn($q) => 
-          $q->whereHas('jenis_pakan', fn($q2) => 
-              $q2->where('nama', $request->jenis_pakan)));
-    $perhitunganPakan = (clone $query)->paginate(10);
-    $perhitunganPakan->appends($request->all()); 
-    $allData = $query->get(); 
-    $dataKandang = $allData
-        ->groupBy(fn($item) => $item->pipe->flock->kandang->id)
-        ->map(fn($items) => [
-            'kandang_id' => $items->first()->pipe->flock->kandang->id,
-            'kandang_nama' => $items->first()->pipe->flock->kandang->nama,
-            'total_ayam' => $items->sum('jumlah_ayam_per_pipe'),
-            'estimasi_pakan_per_ekor' => $items->avg('jumlah_pakan_per_ekor_gram'),
-            'estimasi_pakan_per_pipe' => $items->sum(fn($item)
-             => $item->jumlah_ayam_per_pipe * $item->jumlah_pakan_per_ekor_gram / 1000),
-            'pemberian_pagi' => $items->avg('proporsi_pemberian_pagi'),
-            'pemberian_sore' => $items->avg('proporsi_pemberian_sore'),
-        ])
-        ->values();
-    $jenisPakanList = JenisPakan::all();
-    return view('kandang::perhitungan-pakan.index', 
-    compact('perhitunganPakan','jenisPakanList','dataKandang'));
-}
+    public function __construct(
+        private PerhitunganPakanRepository $repository,
+        private PerhitunganPakanService $service,
+        private PerhitunganPakanItem $perhitunganPakanItem,
+        private JenisPakan $jenisPakan,
+        private Kandang $kandang,
+        private User $user,
+    ) { }
 
+    public function index(Request $request)
+    {
+        // columns: tanggal, kandang, petugas pencatatat, petugas pelaksana, jumlah ayam, berat pakan (kg), jenis pakan
+        // filters: kandang, jenis_pakan
 
+        $datas = $this->repository->paginate(
+            $request->query('search'),
+            null,
+            $request->collect('orders'),
+            $request->query('perPage', 10),
+        );
 
+        $listKandang = $this->kandang->pluck('nama', 'id');
+        $listJenisPakan = $this->jenisPakan->pluck('nama', 'id');
 
-    /**
-     * Show the form for creating a new resource.
-     */
+        return view('kandang::perhitungan-pakan.index', compact(['datas', 'listKandang', 'listJenisPakan']));
+    }
+
     public function create()
     {
-        $currentUserId = Auth::id();                     
-        $Users = User::where('id', '!=',
-         $currentUserId)->get(); 
-        $listJenisPakan = JenisPakan::all();   
-        $listPipe = Pipe::all();
+        $listKandang = $this->kandang
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+        $listUser = $this->user
+            ->where('id', '<>', auth()->id())
+            ->orderBy('name')
+            ->pluck('name', 'id');
+        $listJenisPakan = $this->jenisPakan
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
 
-        return view("kandang::perhitungan-pakan.create",
-         compact('Users','listJenisPakan','listPipe'));
+        return view("kandang::perhitungan-pakan.create", compact(['listKandang', 'listUser', 'listJenisPakan']));
     }
 
     /**
@@ -79,56 +67,44 @@ public function index(Request $request)
      */
     public function store(Request $request)
     {
-       try {
-         $validated = $request->validate([
-                'tanggal' => ['required', 'date'],
-                'pipe_id' => ['required', 'exists:pipe,id'],
-                'jenis_pakan_id' => ['required', 'exists:jenis_pakan,id'],
-                'jumlah_ayam' => ['required', 'integer', 'min:1'],
-                'jumlah_pakan_per_ekor_gram' => ['required', 'numeric', 'min:0'],
-                'proporsi_pemberian_pagi' => ['required', 'numeric'],
-                'proporsi_pemberian_sore' => ['required', 'numeric'],
-                'jam_pemberian_pagi' => ['required', 'date_format:H:i', 'after_or_equal:05:00', 
-                'before_or_equal:09:30'],
-                'jam_pemberian_sore' => ['required', 'date_format:H:i', 'after_or_equal:15:00',
-                 'before_or_equal:18:30'],
-                'catatan' => ['nullable', 'string', 'max:500'],
+        $validated = $request->validate([
+            'tanggal_pemberian_pakan'   => ['required', 'date'],
+            'kandang_id'                => ['required', 'exists:kandang,id'],
+            'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
+            'proporsi_pemberian_pagi'   => ['required', 'numeric'],
+            'proporsi_pemberian_sore'   => ['required', 'numeric'],
+            'waktu_pemberian_pagi'      => ['required', 'date_format:H:i', 'after_or_equal:05:00', 'before_or_equal:09:30'],
+            'waktu_pemberian_sore'      => ['required', 'date_format:H:i', 'after_or_equal:15:00', 'before_or_equal:18:30'],
+            'user_executor_id'          => ['required', 'exists:users,id'],
+            'catatan'                   => ['nullable', 'string', 'max:500'],
         ]);
-         $userId  = Auth::id();
-         $executor = User::where('id', '!=', Auth::id())->first();
 
-         $validated['user_creator_id'] = $userId;
-         $validated['user_executor_id'] = $executor;
+        try {
+            $perhitunganPakan = $this->repository->create([
+                'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
+                'kandang_id'                => $validated['kandang_id'],
+                'jenis_pakan_id'            => $validated['jenis_pakan_id'],
+                'proporsi_pemberian_pagi'   => $validated['proporsi_pemberian_pagi'],
+                'proporsi_pemberian_sore'   => $validated['proporsi_pemberian_sore'],
+                'waktu_pemberian_pagi'      => $validated['waktu_pemberian_pagi'],
+                'waktu_pemberian_sore'      => $validated['waktu_pemberian_sore'],
+                'user_creator_id'           => auth()->id(),
+                'user_executor_id'          => $validated['user_executor_id'],
+                'catatan'                   => $validated['catatan']
+            ]);
+            
+            return redirect()->route('perhitungan-pakan.edit', $perhitunganPakan)
+                ->with('success', 'Data Perhitungan Pakan berhasil disimpan!');
+        } catch (\Throwable $th) {
+            Log::error('Store method failed', [
+                'error' => $th->getMessage(),
+                'line' => $th->getLine(),
+                'file' => $th->getFile(),
+            ]);
 
-         PerhitunganPakan::create([
-            'tanggal_pemberian_pakan' => $validated["tanggal"],
-            'user_creator_id' => $userId,
-            'user_executor_id' => $executor->id,
-            'jenis_pakan_id' => $validated['jenis_pakan_id'],
-            'pipe_id' => $validated['pipe_id'],
-            'proporsi_pemberian_pagi' => $validated['proporsi_pemberian_pagi'],
-            'proporsi_pemberian_sore' => $validated['proporsi_pemberian_sore'],
-            'waktu_pemberian_pagi' => $validated['jam_pemberian_pagi'],
-             'waktu_pemberian_sore' => $validated['jam_pemberian_sore'],
-             'jumlah_ayam_per_pipe' => $validated['jumlah_ayam'],
-             'jumlah_pakan_per_ekor_gram' => $validated['jumlah_pakan_per_ekor_gram'],
-             'catatan' => $validated['catatan']
-         ]);
-             return redirect()->route('perhitungan-pakan.listdata')->with('success',
-              'Data Perhitungan Pakan berhasil disimpan!');
-       }
-        catch (\Illuminate\Validation\ValidationException $e) 
-       {
-             return redirect()->back()
-                         ->withErrors($e->errors())
-                         ->withInput();
-        } 
-       catch (\Throwable $th)
-        {
             return redirect()->back()
-                            ->with('error', 'Terjadi kesalahan: ' 
-                            . $th->getMessage())
-                            ->withInput();
+                ->with('error', 'Terjadi kesalahan: ' . $th->getMessage())
+                ->withInput();
         }
     }
 
@@ -145,15 +121,26 @@ public function index(Request $request)
      */
     public function edit(PerhitunganPakan $perhitunganPakan)
     {
-        $currentUserId = Auth::id();                     
-        $Users = User::where('id', '!=',
-         $currentUserId)->get();
-        $perhitunganPakan->load('pipe.flock.kandang'); 
-        $data = $perhitunganPakan;
-        $listJenisPakan = JenisPakan::all();   
-        $listPipe = Pipe::all();
-        return view("kandang::perhitungan-pakan.edit",
-         compact('Users','listJenisPakan','listPipe','data'));
+        [$data, $initialState] = $this->service->getTableInitialState($perhitunganPakan);
+
+        $listKandang = $this->kandang
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+        $listUser = $this->user
+            ->where('id', '<>', auth()->id())
+            ->orderBy('name')
+            ->pluck('name', 'id');
+        $listJenisPakan = $this->jenisPakan
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+
+        return view("kandang::perhitungan-pakan.edit", compact([
+            'data',
+            'initialState',
+            'listKandang',
+            'listUser',
+            'listJenisPakan',
+        ]));
     }
 
     /**
@@ -161,49 +148,70 @@ public function index(Request $request)
      */
     public function update(Request $request, PerhitunganPakan $perhitunganPakan)
     {
-
-         $validated = $request->validate([
-                'tanggal' => ['required', 'date'],
-                'pipe_id' => ['required', 'exists:pipe,id'],
-                'jenis_pakan_id' => ['required', 'exists:jenis_pakan,id'],
-                'jumlah_ayam' => ['required', 'integer', 'min:1'],
-                'jumlah_pakan_per_ekor_gram' => ['required', 'numeric', 'min:0'],
-                'proporsi_pemberian_pagi' => ['required', 'numeric'],
-                'proporsi_pemberian_sore' => ['required', 'numeric'],
-                'jam_pemberian_pagi' => ['required', 'date_format:H:i', 'after_or_equal:05:00', 
-                'before_or_equal:09:30'],
-                'jam_pemberian_sore' => ['required', 'date_format:H:i', 'after_or_equal:15:00',
-                 'before_or_equal:18:30'],
-                'catatan' => ['nullable', 'string', 'max:500'],
+        $validated = $request->validate([
+            'tanggal_pemberian_pakan'   => ['required', 'date'],
+            'kandang_id'                => ['required', 'exists:kandang,id'],
+            'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
+            'proporsi_pemberian_pagi'   => ['required', 'numeric'],
+            'proporsi_pemberian_sore'   => ['required', 'numeric'],
+            'waktu_pemberian_pagi'      => ['required', 'date_format:H:i:s', 'after_or_equal:05:00:00', 'before_or_equal:09:30:00'],
+            'waktu_pemberian_sore'      => ['required', 'date_format:H:i:s', 'after_or_equal:15:00:00', 'before_or_equal:18:30:00'],
+            'user_executor_id'          => ['required', 'exists:users,id'],
+            'catatan'                   => ['nullable', 'string', 'max:500'],
+            'items'                             => ['required', 'array'],
+            'items.*.id'                        => ['nullable', 'integer'],
+            'items.*.perhitungan_pakan_id'      => ['required', 'integer', 'exists:perhitungan_pakan,id'],
+            'items.*.kandang_id'                => ['required', 'integer', 'exists:kandang,id'],
+            'items.*.flock_id'                  => ['required', 'integer', 'exists:flock,id'],
+            'items.*.pipe_id'                   => ['required', 'integer', 'exists:pipe,id'],
+            'items.*.jumlah_ayam'               => ['required', 'integer', 'min:0'],
+            'items.*.pemberian_pakan_per_ekor'  => ['required', 'numeric', 'min:0'],
         ]);
 
-         $userId  = Auth::id();
-         $executor = User::where('id', '!=', Auth::id())->first();
-         $validated['user_creator_id'] = $userId;
-         $validated['user_executor_id'] = $executor;
-        
+        DB::beginTransaction();
         try {
-            $perhitunganPakan->update([
-                 'tanggal_pemberian_pakan' => $validated["tanggal"],
-                    'user_creator_id' => $userId,
-                    'user_executor_id' => $executor->id,
-                    'jenis_pakan_id' => $validated['jenis_pakan_id'],
-                    'pipe_id' => $validated['pipe_id'],
-                    'proporsi_pemberian_pagi' => $validated['proporsi_pemberian_pagi'],
-                    'proporsi_pemberian_sore' => $validated['proporsi_pemberian_sore'],
-                    'waktu_pemberian_pagi' => $validated['jam_pemberian_pagi'],
-                    'waktu_pemberian_sore' => $validated['jam_pemberian_sore'],
-                    'jumlah_ayam_per_pipe' => $validated['jumlah_ayam'],
-                    'jumlah_pakan_per_ekor_gram' => $validated['jumlah_pakan_per_ekor_gram'],
-                    'catatan' => $validated['catatan']
+            $perhitunganPakan->fill([
+                'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
+                'kandang_id'                => $validated['kandang_id'],
+                'jenis_pakan_id'            => $validated['jenis_pakan_id'],
+                'proporsi_pemberian_pagi'   => $validated['proporsi_pemberian_pagi'],
+                'proporsi_pemberian_sore'   => $validated['proporsi_pemberian_sore'],
+                'waktu_pemberian_pagi'      => $validated['waktu_pemberian_pagi'],
+                'waktu_pemberian_sore'      => $validated['waktu_pemberian_sore'],
+                'user_creator_id'           => auth()->id(),
+                'user_executor_id'          => $validated['user_executor_id'],
+                'catatan'                   => $validated['catatan']
             ]);
+            $perhitunganPakan->save();
+
+            foreach ($validated['items'] as $item) {
+                $this->perhitunganPakanItem->updateOrCreate([
+                    'id'                        => $item['id'],
+                    'perhitungan_pakan_id'      => $item['perhitungan_pakan_id'],
+                    'kandang_id'                => $item['kandang_id'],
+                    'flock_id'                  => $item['flock_id'],
+                    'pipe_id'                   => $item['pipe_id'],
+                    'tanggal_pemberian_pakan'   => $validated['tanggal_pemberian_pakan']
+                ], [
+                    'jumlah_ayam'               => $item['jumlah_ayam'],
+                    'pemberian_pakan_per_ekor'  => $item['pemberian_pakan_per_ekor'],
+                ]);
+            }
            
-            return redirect()
-                    ->route('perhitungan-pakan.listdata')
-                    ->with('success', 'Data Perhitungan Pakan berhasil disimpan!');
-        } catch (\Throwable $e) {
-            return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: '
-         . $e->getMessage());
+            DB::commit();
+            return back()->with('success', 'Data Perhitungan Pakan berhasil disimpan!');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+
+            Log::error('Store method failed', [
+                'error' => $th->getMessage(),
+                'line' => $th->getLine(),
+                'file' => $th->getFile(),
+            ]);
+
+            return redirect()->back()
+                ->with('error', 'Terjadi kesalahan: ' . $th->getMessage())
+                ->withInput();
         }
     }
 
