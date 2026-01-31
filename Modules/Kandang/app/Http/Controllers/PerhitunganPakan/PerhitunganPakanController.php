@@ -150,7 +150,6 @@ class PerhitunganPakanController extends Controller
     {
         $validated = $request->validate([
             'tanggal_pemberian_pakan'   => ['required', 'date'],
-            'kandang_id'                => ['required', 'exists:kandang,id'],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
             'proporsi_pemberian_pagi'   => ['required', 'numeric'],
             'proporsi_pemberian_sore'   => ['required', 'numeric'],
@@ -172,7 +171,6 @@ class PerhitunganPakanController extends Controller
         try {
             $perhitunganPakan->fill([
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
-                'kandang_id'                => $validated['kandang_id'],
                 'jenis_pakan_id'            => $validated['jenis_pakan_id'],
                 'proporsi_pemberian_pagi'   => $validated['proporsi_pemberian_pagi'],
                 'proporsi_pemberian_sore'   => $validated['proporsi_pemberian_sore'],
