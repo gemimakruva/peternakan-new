@@ -35,7 +35,7 @@ class PerhitunganPakanController extends Controller
 
         $datas = $this->repository->paginate(
             $request->query('search'),
-            null,
+            $request->collect(['kandang_id', 'jenis_pakan_id']),
             $request->collect('orders'),
             $request->query('perPage', 10),
         );

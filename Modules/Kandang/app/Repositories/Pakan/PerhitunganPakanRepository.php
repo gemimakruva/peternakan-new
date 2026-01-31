@@ -29,7 +29,7 @@ class PerhitunganPakanRepository extends EloquentRepository
                 , executor.name AS nama_pelaksana
                 , jenis_pakan.nama AS nama_jenis_pakan
                 , SUM(perhitungan_pakan_item.jumlah_ayam) AS jumlah_ayam
-                , SUM(perhitungan_pakan_item.pemberian_pakan_per_ekor) AS berat_pakan_gram
+                , SUM(perhitungan_pakan_item.pemberian_pakan_per_ekor * perhitungan_pakan_item.jumlah_ayam) AS berat_pakan_gram
             SQL)
             ->groupBy([
                 'perhitungan_pakan.id',
@@ -47,5 +47,14 @@ class PerhitunganPakanRepository extends EloquentRepository
                 ->orWhere('creator.name', 'LIKE', "%$search%")
                 ->orWhere('executor.name', 'LIKE', "%$search%");
         });
+    }
+
+    public function customWhereQuery(): array
+    {
+        return [
+            'kandang_id' => function($q, $kandangId) {
+                return $q->where('perhitungan_pakan.kandang_id', '=', $kandangId);
+            }
+        ];
     }
 }

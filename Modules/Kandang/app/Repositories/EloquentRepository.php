@@ -69,7 +69,7 @@ abstract class EloquentRepository implements RepositoryInterface
         $wheres->each(function($value, $column) use($q, $customWhereQueryKeys) {
             if ($value === null) return;
             if (in_array($column, $customWhereQueryKeys)) {
-                $q->when($value, $customWhereQueryKeys[$column]);
+                $q->when($value, $this->customWhereQuery()[$column]);
             } else {
                 $q->where($column, '=', $value);
             }
