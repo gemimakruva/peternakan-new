@@ -21,6 +21,7 @@ use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\JenisPakanController;
+use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
@@ -84,7 +85,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ayam-karantina-overview', [AyamKarantinaController::class, 'overview'])->name('ayam-karantina.overview');
 
     // ===== Menu Group Pemberian Pakan ====
-    Route::resource('perhitungan-pakan', PerhitunganPakanController::class)->names('perhitungan-pakan');
+    Route::resource('perhitungan-pakan', PerhitunganPakanController::class)->names('perhitungan-pakan')->except('show', 'destroy');
+    Route::resource('pemberian-pakan-sisa-pakan', PemberianPakanSisaPakanController::class)->names('pemberian-pakan-sisa-pakan')->parameters(['pemberian-pakan-sisa-pakan' => 'perhitungan-pakan']);
 
     Route::get('sisa-pakan', [PerhitunganPakanController::class, 'createSisaPakan'])->name('sisa-pakan.create');
     Route::post('sisa-pakan', [PerhitunganPakanController::class, 'storeSisaPakan'])->name('sisa-pakan.store');

@@ -481,6 +481,12 @@ return [
             'icon'  => 'fas fa-calculator',
             'active' => ['perhitungan-pakan/*']
         ],
+        [
+            'text'  => 'Pemberian Pakan Sisa Pakan',
+            'route' => 'pemberian-pakan-sisa-pakan.index',
+            'icon'  => 'fas fa-clipboard-check',
+            'active' => ['pemberian-pakan-sisa-pakan/*']
+        ],
         // [
         //     'text'    => 'Pakan Harian',
         //     'icon'    => 'fas fa-calculator',

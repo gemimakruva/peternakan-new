@@ -30,9 +30,6 @@ class PerhitunganPakanController extends Controller
 
     public function index(Request $request)
     {
-        // columns: tanggal, kandang, petugas pencatatat, petugas pelaksana, jumlah ayam, berat pakan (kg), jenis pakan
-        // filters: kandang, jenis_pakan
-
         $datas = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['kandang_id', 'jenis_pakan_id']),
@@ -106,14 +103,6 @@ class PerhitunganPakanController extends Controller
                 ->with('error', 'Terjadi kesalahan: ' . $th->getMessage())
                 ->withInput();
         }
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(PerhitunganPakan $perhitunganPakan)
-    {
-        //
     }
 
     /**
@@ -210,20 +199,6 @@ class PerhitunganPakanController extends Controller
             return redirect()->back()
                 ->with('error', 'Terjadi kesalahan: ' . $th->getMessage())
                 ->withInput();
-        }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(PerhitunganPakan $perhitunganPakan)
-    {
-        try {
-        $perhitunganPakan->delete();
-        return redirect()->back()->with('success', 'Data berhasil dihapus.');
-        } catch (\Throwable $e) {
-        return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data: '
-         . $e->getMessage());
         }
     }
 

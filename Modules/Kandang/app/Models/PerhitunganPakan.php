@@ -54,6 +54,11 @@ class PerhitunganPakan extends Model
         return $this->hasMany(PerhitunganPakanItem::class, 'perhitungan_pakan_id');
     }
 
+    public function pemberianPakanSisaPakan()
+    {
+        return $this->hasMany(PemberianPakanSisaPakan::class, 'perhitungan_pakan_id', 'id');
+    }
+
     protected static function newFactory()
     {
         return \Modules\Kandang\Database\Factories\PerhitunganPakanFactory::new();

@@ -88,7 +88,7 @@
                                 <input type="hidden" x-bind:value="pipes[pipe_id].jumlah_ayam" :name="`items[${pipe_id}][jumlah_ayam]`">
                                 <input 
                                     :name="`items[${pipe_id}][pemberian_pakan_per_ekor]`"
-                                    type="text"
+                                    type="number"
                                     class="form-control form-control-sm"
                                     x-model="pipes[pipe_id].pemberian_pakan_per_ekor"
                                 />
