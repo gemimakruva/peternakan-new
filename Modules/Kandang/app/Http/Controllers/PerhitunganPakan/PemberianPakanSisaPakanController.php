@@ -81,7 +81,7 @@ class PemberianPakanSisaPakanController extends Controller
             $tables[$id]['pemberian_pakan_kg']       = $collectByFlock->sum(fn($item2) => $item2->jumlah_ayam*$item2->pemberian_pakan_per_ekor)/1000;
             $tables[$id]['pemberian_pakan_pagi_kg']  = $tables[$id]['pemberian_pakan_kg'] * ($perhitunganPakan->proporsi_pemberian_pagi/100);
             $tables[$id]['pemberian_pakan_sore_kg']  = $tables[$id]['pemberian_pakan_kg'] * ($perhitunganPakan->proporsi_pemberian_sore/100);
-            $tables[$id]['sisa_pakan_per_flock_kg']  = $perhitunganPakan->pemberianPakanSisaPakan->first(fn($item) => $item->flock_id == $id)->sisa_pakan_per_flock_kg;
+            $tables[$id]['sisa_pakan_per_flock_kg']  = $perhitunganPakan->pemberianPakanSisaPakan->first(fn($item) => $item->flock_id == $id)?->sisa_pakan_per_flock_kg ?? 0;
         }
         $tables = collect($tables);
         return view('kandang::pemberian-pakan-sisa-pakan.edit', compact(['perhitunganPakan', 'tables']));

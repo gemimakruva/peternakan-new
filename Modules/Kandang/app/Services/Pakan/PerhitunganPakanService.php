@@ -38,7 +38,7 @@ class PerhitunganPakanService
         } else {
             $data->perhitunganPakanItems->each(function($item) use(&$initialState) {
                 // jumlah ayam belum update dari populasi
-                $initialState['pipes'][$item->id] = $item;
+                $initialState['pipes'][$item->pipe_id] = $item;
             });
         }
 
