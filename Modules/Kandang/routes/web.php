@@ -27,6 +27,7 @@ use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController
 use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
+use Modules\Kandang\Http\Controllers\Rekapan\ProduksiController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
 use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
 
@@ -93,6 +94,9 @@ Route::middleware(['auth'])->group(function () {
         ->parameters(['pemberian-pakan-sisa-pakan' => 'perhitungan-pakan'])
         ->except('create', 'show', 'update', 'destroy');
     Route::get('overview-pakan-harian', [OverviewPakanHarianController::class, 'index'])->name('overview-pakan-harian');
+
+    // ===== Menu Rekapan =====
+    Route::get('rekapan-produksi', [ProduksiController::class, 'index'])->name('rekapan-produksi.index');
 
     Route::get('ajax/getFlockByKandangId/{kandangId}', [AjaxController::class, 'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
     Route::get('ajax/getFlockByKandangId/{kandangId}/treatment',[AjaxController::class, 'getFlockByKandangTreatment'])->name('ajax.getFlockByKandangTreatment');

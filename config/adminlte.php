@@ -406,8 +406,8 @@ return [
         ],
         [
             'text'  => 'Rekapan Produksi',
-            'route' => '',
-            'icon'  => 'fas fa-clipboard-list',
+            'route' => 'rekapan-produksi.index',
+            'icon'  => 'fas fa-chart-line',
         ],
 
         // ====================  MENU PENGADAAN AYAM  ==========================
