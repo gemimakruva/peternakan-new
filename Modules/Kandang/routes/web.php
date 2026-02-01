@@ -94,12 +94,9 @@ Route::middleware(['auth'])->group(function () {
         ->except('create', 'show', 'update', 'destroy');
     Route::get('overview-pakan-harian', [OverviewPakanHarianController::class, 'index'])->name('overview-pakan-harian');
 
-    Route::get('ajax/tanggal-perhitungan-pakan', [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
-    Route::get('ajax/getKandangByTanggalId/{tanggal}', [AjaxController::class, 'getKandangByTanggalId'])->name('ajax.getKandangByTanggalId');
     Route::get('ajax/getFlockByKandangId/{kandangId}', [AjaxController::class, 'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
     Route::get('ajax/getFlockByKandangId/{kandangId}/treatment',[AjaxController::class, 'getFlockByKandangTreatment'])->name('ajax.getFlockByKandangTreatment');
 
-    Route::get('ajax/getPemberianPakanByFlockId/{tanggal}/{flock}', [AjaxController::class, 'getPemberianPakanByFlockId'])->name('ajax.getPemberianPakanByFlockId');
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
     

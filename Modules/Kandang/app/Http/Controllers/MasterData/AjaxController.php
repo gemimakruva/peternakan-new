@@ -93,27 +93,6 @@ class AjaxController extends Controller
         ];
     }
 
-    public function tanggalPerhitunganPakan()
-    {
-        $tanggal = $this->perhitunganPakan
-            ->getQuery()
-            ->select('id', 'tanggal_pemberian_pakan')
-            ->when(request()->query('q'), function($query, $q) {
-                $query->where('tanggal_pemberian_pakan', 'like', "%$q%");
-            })
-              ->latest()->get();
-
-        $result = $tanggal->map(function($k){
-            return [
-                'id' => $k->id, 
-                'text' => Carbon::parse($k->tanggal_pemberian_pakan)->format('d-m-Y'),
-            ];
-        });
-
-        return response()->json(['results' => $result]);
-    }
-
-
     public function getFlockByKandangId($kandangId)
     {
         $perhitungan = $this->perhitunganPakan
@@ -155,38 +134,6 @@ class AjaxController extends Controller
         'results' => $flocks
     ]);
 }
-
-
-    public function getPemberianPakanByFlockId($tanggal,$flockId)
-    {
-         $perhitungan = $this->perhitunganPakan
-        ->where('tanggal_pemberian_pakan', $tanggal)
-        ->first();
-
-           if (!$perhitungan) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Data perhitungan pakan tidak ditemukan untuk tanggal tersebut',
-            'result' => 0,
-        ]);
-    }
-        
-        $totalPakan = DB::table('perhitungan_pakan as pp')
-            ->join('pipe as p', 'pp.pipe_id', '=', 'p.id')
-            ->join('flock as f', 'p.flock_id', '=', 'f.id')
-            ->where('pp.tanggal_pemberian_pakan', $tanggal) 
-            ->where('f.id', $flockId)
-            ->selectRaw('(SUM(pp.jumlah_ayam_per_pipe * 
-            pp.jumlah_pakan_per_ekor_gram) / 1000) as total_pakan_kg')
-            ->value('total_pakan_kg');
-        
-   
-        return response()->json([
-        'status' => true,
-        'message' => 'Total pakan berhasil diambil',
-        'result' => $totalPakan ?? 0 ,
-    ]);
-    }
 
     public function umurAyamByFlock($flockId, Request $request)
     {
@@ -282,27 +229,6 @@ class AjaxController extends Controller
             ->orderByDesc('tanggal')
             ->orderByDesc('updated_at')
             ->firstOrFail();
-    }
-
-       public function getKandangByTanggalId($tanggal)
-    {
-        $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
-        $kandang = $this->perhitunganPakan
-        ->where('tanggal_pemberian_pakan', $tanggal)
-        ->with('pipe.flock.kandang') // relasi
-        ->get();
-        $data = $kandang->map(function ($item) {
-                return [
-                    'id'   => $item->id,
-                    'nama' => $item->pipe->flock->kandang->nama ?? null,
-                ];
-        });
-
-        return response()->json([
-            'status'  => true,
-            'message' => 'Data berhasil diambil',
-            'data'    => $data
-        ]);
     }
 
     public function getJumlahAyamPerKandang(Request $request)
