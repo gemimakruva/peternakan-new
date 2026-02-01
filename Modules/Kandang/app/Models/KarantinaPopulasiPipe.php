@@ -11,8 +11,12 @@ class KarantinaPopulasiPipe extends Model
     protected $fillable = [
         'populasi_ayam_asal_id',
         'tanggal',
+        'kandang_asal_id',
+        'flock_asal_id',
         'pipe_asal_id',
         'ayam_masuk_karantina',
+        'kandang_tujuan_id',
+        'flock_tujuan_id',
         'pipe_tujuan_id',
         'ayam_keluar_karantina',
     ];
@@ -22,9 +26,29 @@ class KarantinaPopulasiPipe extends Model
         return $this->belongsTo(PopulasiAyam::class, 'populasi_ayam_asal_id', 'id');
     }
 
+    public function kandangAsal()
+    {
+        return $this->belongsTo(Kandang::class, 'kandang_asal_id', 'id');
+    }
+
+    public function flockAsal()
+    {
+        return $this->belongsTo(Flock::class, 'flock_asal_id', 'id');
+    }
+
     public function pipeAsal()
     {
         return $this->belongsTo(Pipe::class, 'pipe_asal_id', 'id');
+    }
+
+    public function kandangTujuan()
+    {
+        return $this->belongsTo(Kandang::class, 'kandang_tujuan_id', 'id');
+    }
+
+    public function flockTujuan()
+    {
+        return $this->belongsTo(Flock::class, 'flock_tujuan_id', 'id');
     }
 
     public function pipeTujuan()

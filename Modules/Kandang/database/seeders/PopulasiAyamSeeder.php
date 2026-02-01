@@ -58,6 +58,8 @@ class PopulasiAyamSeeder extends Seeder
                 PopulasiAyam::create([
                     'pengadaan_ayam_distribusi_id' => $distribusi->id,
                     'pic_user_id' => 1,
+                    'kandang_id' => $distribusi->kandang_id,
+                    'flock_id' => $distribusi->flock_id,
                     'pipe_id' => $distribusi->pipe_id,
                     'umur_ayam_record' => $umurAyamRecord,
                     'jenis_pemeriksaan' => ($i === 0) ? JenisPemeriksaan::PENGADAAN : JenisPemeriksaan::HARIAN,
@@ -65,10 +67,6 @@ class PopulasiAyamSeeder extends Seeder
                     'catatan' => 'Pemeriksaan rutin harian berjalan baik.',
                     ...$populasi,
                 ]);
-
-                // karantina belum ditambahkan
-                
-
             });
             $tanggalTambahHari++;
         }

@@ -37,6 +37,8 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
     {
         $populasiAyam = $this->populasiAyamRepository->getModel()->updateOrCreate([
             'pic_user_id'           => auth()->id(),
+            'kandang_id'            => $request->input('kandang_id'),
+            'flock_id'              => $request->input('flock_id'),
             'pipe_id'               => $request->input('pipe_id'),
             'jenis_pemeriksaan'     => JenisPemeriksaan::HARIAN,
             'tanggal'               => $request->input('tanggal_transaksi', 0),
@@ -58,14 +60,9 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
 
     public function saveAyamAfkir(PopulasiAyam $populasiAyam)
     {
-        $populasiAyam->load([
-            'pipe:id,flock_id',
-            'pipe.flock:id,kandang_id',
-        ]);
-
         if ($populasiAyam->ayam_afkir > 0) {
             $ayamAfkir = $this->ayamAfkir->firstOrCreate([
-                'kandang_id'        => $populasiAyam->pipe->flock->kandang_id,
+                'kandang_id'        => $populasiAyam->kandang_id,
                 'tanggal'           => $populasiAyam->tanggal,
                 'umur_ayam'         => $populasiAyam->umur_ayam_record,
             ]);
@@ -74,28 +71,30 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
                 'populasi_ayam_id'  => $populasiAyam->id,
             ], [
                 'ayam_afkir_id'     => $ayamAfkir->id,
-                'pipe_id'           => $populasiAyam->pipe->id,
-                'flock_id'          => $populasiAyam->pipe->flock->id,
-                'kandang_id'        => $populasiAyam->pipe->flock->kandang_id,
+                'pipe_id'           => $populasiAyam->pipe_id,
+                'flock_id'          => $populasiAyam->flock_id,
+                'kandang_id'        => $populasiAyam->kandang_id,
                 'pic_user_id'       => $populasiAyam->pic_user_id,
                 'tanggal'           => $populasiAyam->tanggal,
                 'jumlah_ayam_afkir' => $populasiAyam->ayam_afkir
             ]);
         } else {
-            $this->ayamAfkir->where('populasi_ayam_id', '=', $populasiAyam->id)->delete();
+            $this->ayamAfkirPopulasi->where('populasi_ayam_id', '=', $populasiAyam->id)->delete();
         }
     }
 
     public function saveAyamKarantina(PopulasiAyam $populasiAyam)
     {
         // get kandangId
-        $kandangId = $populasiAyam->pipe->flock->kandang_id;
+        $kandangId = $populasiAyam->kandang_id;
 
         // save ayam masuk karantina
         if (@$populasiAyam->ayam_masuk_karantina) {
             $kpp = $this->karantinaPopulasiPipe->updateOrCreate([
                 'populasi_ayam_asal_id' => $populasiAyam->id,
                 'tanggal'               => $populasiAyam->tanggal,
+                'kandang_asal_id'       => $populasiAyam->kandang_id,
+                'flock_asal_id'         => $populasiAyam->flock_id,
                 'pipe_asal_id'          => $populasiAyam->pipe_id,
             ], [
                 'ayam_masuk_karantina'  => $populasiAyam->ayam_masuk_karantina,
@@ -107,6 +106,8 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
             $this->karantinaPopulasiPipe->where([
                 'populasi_ayam_asal_id' => $populasiAyam->id,
                 'tanggal'               => $populasiAyam->tanggal,
+                'kandang_asal_id'       => $populasiAyam->kandang_id,
+                'flock_asal_id'         => $populasiAyam->flock_id,
                 'pipe_asal_id'          => $populasiAyam->pipe_id,
             ])->delete();
         }
@@ -116,6 +117,8 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
             $kpp = $this->karantinaPopulasiPipe->updateOrCreate([
                 'populasi_ayam_asal_id' => $populasiAyam->id,
                 'tanggal'               => $populasiAyam->tanggal,
+                'kandang_tujuan_id'     => $populasiAyam->kandang_id,
+                'flock_tujuan_id'       => $populasiAyam->flock_id,
                 'pipe_tujuan_id'        => $populasiAyam->pipe_id,
             ], [
                 'ayam_keluar_karantina' => $populasiAyam->ayam_keluar_karantina,
@@ -127,6 +130,8 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
             $this->karantinaPopulasiPipe->where([
                 'populasi_ayam_asal_id' => $populasiAyam->id,
                 'tanggal'               => $populasiAyam->tanggal,
+                'kandang_tujuan_id'     => $populasiAyam->kandang_id,
+                'flock_tujuan_id'       => $populasiAyam->flock_id,
                 'pipe_tujuan_id'        => $populasiAyam->pipe_id,
             ])->delete();
         }
