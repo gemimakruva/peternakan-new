@@ -27,6 +27,15 @@
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
                         <x-sort-th class="align-middle" style="width: 150px;" label="Kandang" name="nama_kandang" />
+                        <x-sort-th class="align-middle" style="width: 150px;" label="Tanggal" name="tanggal" />
+                        <th class="align-middle" style="width: 150px;">Umur</th>
+                        <th class="align-middle" style="width: 150px;">Mati</th>
+                        <th class="align-middle" style="width: 150px;">Akumulasi</th>
+                        <th class="align-middle" style="width: 150px;">Persen</th>
+                        <th class="align-middle" style="width: 150px;">Afkir</th>
+                        <th class="align-middle" style="width: 150px;">Akumulasi</th>
+                        <th class="align-middle" style="width: 150px;">Persen</th>
+                        <th class="align-middle" style="width: 150px;">Sehat</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -34,6 +43,15 @@
                         <tr>
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
                             <td class="text-left">{{ $data->nama_kandang }}</td>
+                            <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y') }}</td>
+                            <td class="text-right">{{ format_angka($data->umur) }}</td>
+                            <td class="text-right">{{ format_angka($data->mati) }}</td>
+                            <td class="text-right">{{ format_angka($data->akumulasi_mati) }}</td>
+                            <td class="text-right">{{ format_angka($data->persen_mati*100) }}%</td>
+                            <td class="text-right">{{ format_angka($data->afkir) }}</td>
+                            <td class="text-right">{{ format_angka($data->akumulasi_afkir) }}</td>
+                            <td class="text-right">{{ format_angka($data->persen_afkir*100) }}%</td>
+                            <td class="text-right">{{ format_angka($data->sehat) }}</td>
                         </tr>
                     @empty
                         <tr>

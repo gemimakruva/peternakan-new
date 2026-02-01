@@ -4,6 +4,7 @@ namespace Modules\Kandang\Http\Controllers\Rekapan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
 
 class ProduksiController extends Controller
@@ -20,6 +21,13 @@ class ProduksiController extends Controller
             $request->collect('orders'),
             $request->query('perPage', 10)
         );
+
+        $datas->transform(function($item) {
+            if ($item->tanggal) {
+                $item->tanggal = Carbon::createFromFormat('Y-m-d', $item->tanggal);
+            }
+            return $item;
+        });
 
         return view('kandang::rekapan.produksi.index', compact('datas'));
     }
