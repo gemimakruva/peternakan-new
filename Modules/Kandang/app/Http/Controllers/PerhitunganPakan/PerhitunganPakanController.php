@@ -14,6 +14,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PemberianPakanSisaPakan;
 use Modules\Kandang\Models\PerhitunganPakanItem;
 use Modules\Kandang\Models\Pipe;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Pakan\PerhitunganPakanRepository;
 use Modules\Kandang\Services\Pakan\PerhitunganPakanService;
 
@@ -23,6 +24,7 @@ class PerhitunganPakanController extends Controller
         private PerhitunganPakanRepository $repository,
         private PerhitunganPakanService $service,
         private PerhitunganPakanItem $perhitunganPakanItem,
+        private KandangRepository $kandangRepository,
         private JenisPakan $jenisPakan,
         private Kandang $kandang,
         private User $user,
@@ -77,8 +79,10 @@ class PerhitunganPakanController extends Controller
         ]);
 
         try {
+            $umurAyam = $this->kandangRepository->getUmurAyamByKandangId($validated['kandang_id'], $request->date('tanggal_pemberian_pakan'))['usia_ayam'];
             $perhitunganPakan = $this->repository->create([
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
+                'umur_ayam'                 => $umurAyam,
                 'kandang_id'                => $validated['kandang_id'],
                 'jenis_pakan_id'            => $validated['jenis_pakan_id'],
                 'proporsi_pemberian_pagi'   => $validated['proporsi_pemberian_pagi'],
@@ -158,8 +162,10 @@ class PerhitunganPakanController extends Controller
 
         DB::beginTransaction();
         try {
+            $umurAyam = $this->kandangRepository->getUmurAyamByKandangId($perhitunganPakan->kandang->id, $request->date('tanggal_pemberian_pakan'))['usia_ayam'];
             $perhitunganPakan->fill([
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
+                'umur_ayam'                 => $umurAyam,
                 'jenis_pakan_id'            => $validated['jenis_pakan_id'],
                 'proporsi_pemberian_pagi'   => $validated['proporsi_pemberian_pagi'],
                 'proporsi_pemberian_sore'   => $validated['proporsi_pemberian_sore'],
@@ -178,8 +184,8 @@ class PerhitunganPakanController extends Controller
                     'kandang_id'                => $item['kandang_id'],
                     'flock_id'                  => $item['flock_id'],
                     'pipe_id'                   => $item['pipe_id'],
-                    'tanggal_pemberian_pakan'   => $validated['tanggal_pemberian_pakan']
                 ], [
+                    'tanggal_pemberian_pakan'   => $validated['tanggal_pemberian_pakan'],
                     'jumlah_ayam'               => $item['jumlah_ayam'],
                     'pemberian_pakan_per_ekor'  => $item['pemberian_pakan_per_ekor'],
                 ]);
