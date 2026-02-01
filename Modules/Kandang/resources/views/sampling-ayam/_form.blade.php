@@ -205,7 +205,7 @@
                         tanggal: tanggal
                     },
                     success: function(response) {
-                        $('input[name="usia_ayam_saat_ini"]').val(response.usia_ayam_saat_ini);
+                        $('input[name="usia_ayam_saat_ini"]').val(response.usia_ayam);
                         
                     },
                     error: function(xhr, status, error) {

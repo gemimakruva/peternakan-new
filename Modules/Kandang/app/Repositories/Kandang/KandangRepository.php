@@ -3,9 +3,11 @@
 namespace Modules\Kandang\Repositories\Kandang;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Repositories\EloquentRepository;
 
 class KandangRepository extends EloquentRepository
@@ -107,5 +109,42 @@ class KandangRepository extends EloquentRepository
             ]);
         
         return $query;
+    }
+
+    public function getUmurAyamByKandangId($kandangId, Carbon $tanggalPembanding): array|null
+    {
+        // Ambil distribusi melalui relasi pipe -> flock -> kandang
+        $distribusi = app(PengadaanAyamDistribusi::class)
+            ->with([
+                'pengadaanAyam:id,tanggal,umur_ayam',
+                'pipe.flock:id,kandang_id'
+            ])
+            ->whereHas('pipe.flock', function($query) use ($kandangId) {
+                $query->where('kandang_id', $kandangId);
+            })
+            ->firstOrFail(['id', 'pengadaan_ayam_id', 'pipe_id']);
+
+        $pengadaanAyam = $distribusi->pengadaanAyam;
+
+        // Validasi apakah tanggal pengadaan ada
+        if (!$pengadaanAyam || !$pengadaanAyam->tanggal) {
+            return null;
+        }
+
+        // Hitung umur ayam dalam minggu
+        $tanggalPengadaan = Carbon::parse($pengadaanAyam->tanggal)->startOfDay();
+        $usiaAyamSaatPengadaan = $pengadaanAyam->umur_ayam; // dalam minggu
+        $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($tanggalPembanding);
+        $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
+
+        $usiaAyamSaatIni = $usiaAyamSaatPengadaan + $selisihMingguDariPengadaan;
+
+        return [
+            'usia_ayam' => $usiaAyamSaatIni,
+            'usia_ayam_saat_pengadaan' => $usiaAyamSaatPengadaan,
+            'selisih_minggu_dari_pengadaan' => $selisihMingguDariPengadaan,
+            'tanggal_pengadaan' => $tanggalPengadaan->format('Y-m-d'),
+            'tanggal_pembanding' => $tanggalPembanding->format('Y-m-d')
+        ];
     }
 }
