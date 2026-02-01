@@ -14,6 +14,7 @@ class PerhitunganPakan extends Model
 
     protected $fillable = [
         'tanggal_pemberian_pakan',
+        'umur_ayam',
         'kandang_id',
         'user_creator_id',
         'user_executor_id',

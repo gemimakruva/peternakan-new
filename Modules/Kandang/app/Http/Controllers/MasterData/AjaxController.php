@@ -12,6 +12,7 @@ use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Services\KandangService;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\JenisPakan;
@@ -28,6 +29,7 @@ class AjaxController extends Controller
         private PopulasiAyam $populasiAyam,
         private JenisPakan $jenisPakan,
         private KarantinaPopulasi $karantinaPopulasi,
+        private KandangRepository $kandangRepository,
     ) { }
 
     public function kandang()
@@ -208,45 +210,19 @@ class AjaxController extends Controller
 
     public function umurAyamByKandang($kandangId, Request $request)
     {
-        // Ambil distribusi melalui relasi pipe -> flock -> kandang
-        $distribusi = $this->pengadaanAyamDistribusi
-            ->with([
-                'pengadaanAyam:id,tanggal,umur_ayam',
-                'pipe.flock:id,kandang_id'
-            ])
-            ->whereHas('pipe.flock', function($query) use ($kandangId) {
-                $query->where('kandang_id', $kandangId);
-            })
-            ->firstOrFail(['id', 'pengadaan_ayam_id', 'pipe_id']);
+        $targetDate = $request->input('tanggal')
+            ? Carbon::parse($request->input('tanggal'))->startOfDay()
+            : Carbon::now()->startOfDay();
 
-        $pengadaanAyam = $distribusi->pengadaanAyam;
-
-        // Validasi apakah tanggal pengadaan ada
-        if (!$pengadaanAyam || !$pengadaanAyam->tanggal) {
+        $result = $this->kandangRepository->getUmurAyamByKandangId($kandangId, $targetDate);
+        
+        if ($result === null) {
             return response()->json([
                 'error' => 'Data pengadaan ayam tidak ditemukan'
             ], 404);
         }
 
-        $targetDate = $request->input('tanggal')
-            ? Carbon::parse($request->input('tanggal'))->startOfDay()
-            : Carbon::now()->startOfDay();
-
-        // Hitung umur ayam dalam minggu
-        $tanggalPengadaan = Carbon::parse($pengadaanAyam->tanggal)->startOfDay();
-        $umurAyamSaatPengadaan = $pengadaanAyam->umur_ayam; // dalam minggu
-        $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($targetDate);
-        $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
-
-        $usiaAyamSaatIni = $umurAyamSaatPengadaan + $selisihMingguDariPengadaan;
-
-        return response()->json([
-            'usia_ayam_saat_ini' => $usiaAyamSaatIni,
-            'umur_saat_pengadaan' => $umurAyamSaatPengadaan,
-            'tambahan_minggu' => $selisihMingguDariPengadaan,
-            'tanggal_pengadaan' => $tanggalPengadaan->format('Y-m-d'),
-            'tanggal_perhitungan' => $targetDate->format('Y-m-d')
-        ]);
+        return $result;
     }
 
     public function jumlahAyamSehat($startDate)

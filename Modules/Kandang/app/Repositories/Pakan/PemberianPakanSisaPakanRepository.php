@@ -21,22 +21,30 @@ class PemberianPakanSisaPakanRepository extends EloquentRepository
             ->join('users AS executor', 'executor.id', '=', 'perhitungan_pakan.user_executor_id')
             ->join('kandang', 'kandang.id', '=', 'perhitungan_pakan.kandang_id')
             ->join('jenis_pakan', 'jenis_pakan.id', '=', 'perhitungan_pakan.jenis_pakan_id')
-            ->join('perhitungan_pakan_item', 'perhitungan_pakan_item.perhitungan_pakan_id', '=', 'perhitungan_pakan.id')
+            ->leftJoinSub(
+                function($q) {
+                    $q
+                        ->selectRaw(<<<SQL
+                            ppi.perhitungan_pakan_id
+                            , SUM(ppi.pemberian_pakan_per_ekor * ppi.jumlah_ayam) AS total_pakan
+                        SQL)
+                        ->from('perhitungan_pakan_item as ppi')
+                        ->groupBy('ppi.perhitungan_pakan_id');
+                }, 
+                'xppi', 
+                'xppi.perhitungan_pakan_id', 
+                '=', 
+                'perhitungan_pakan.id')
             ->selectRaw(<<<SQL
                 perhitungan_pakan.id
                 , perhitungan_pakan.tanggal_pemberian_pakan
                 , kandang.nama AS nama_kandang
                 , jenis_pakan.nama AS nama_jenis_pakan
                 , executor.name AS nama_pelaksana
-                , SUM(perhitungan_pakan_item.pemberian_pakan_per_ekor * perhitungan_pakan_item.jumlah_ayam)/1000 AS pemberian_pakan_kg
+                , xppi.total_pakan/1000 AS pemberian_pakan_kg
                 , SUM(pemberian_pakan_sisa_pakan.sisa_pakan_per_flock_kg) AS sisa_pakan_kg
             SQL)
-            ->groupBy([
-                'perhitungan_pakan.id',
-                'kandang.id',
-                'jenis_pakan.id',
-                'executor.id',
-            ]);
+            ->groupBy('perhitungan_pakan.id');
     }
 
     public function searchQuery(Builder $q, string $search): void

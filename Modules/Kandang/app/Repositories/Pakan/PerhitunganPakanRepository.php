@@ -21,15 +21,29 @@ class PerhitunganPakanRepository extends EloquentRepository
             ->join('users AS creator', 'creator.id', '=', 'perhitungan_pakan.user_creator_id')
             ->join('jenis_pakan', 'jenis_pakan.id', '=', 'perhitungan_pakan.jenis_pakan_id')
             ->leftJoin('users AS executor', 'executor.id', '=', 'perhitungan_pakan.user_executor_id')
-            ->leftJoin('perhitungan_pakan_item', 'perhitungan_pakan_item.perhitungan_pakan_id', '=', 'perhitungan_pakan.id')
+            ->leftJoinSub(
+                function($q) {
+                    $q
+                        ->selectRaw(<<<SQL
+                            ppi.perhitungan_pakan_id
+                            , SUM(ppi.pemberian_pakan_per_ekor * ppi.jumlah_ayam) AS berat_pakan_gram
+                            , SUM(ppi.jumlah_ayam) AS jumlah_ayam
+                        SQL)
+                        ->from('perhitungan_pakan_item as ppi')
+                        ->groupBy('ppi.perhitungan_pakan_id');
+                }, 
+                'xppi', 
+                'xppi.perhitungan_pakan_id', 
+                '=', 
+                'perhitungan_pakan.id')
             ->selectRaw(<<<SQL
                 perhitungan_pakan.*
                 , kandang.nama AS nama_kandang
                 , creator.name AS nama_pencatat
                 , executor.name AS nama_pelaksana
                 , jenis_pakan.nama AS nama_jenis_pakan
-                , SUM(perhitungan_pakan_item.jumlah_ayam) AS jumlah_ayam
-                , SUM(perhitungan_pakan_item.pemberian_pakan_per_ekor * perhitungan_pakan_item.jumlah_ayam) AS berat_pakan_gram
+                , xppi.jumlah_ayam AS jumlah_ayam
+                , xppi.berat_pakan_gram AS berat_pakan_gram
             SQL)
             ->groupBy([
                 'perhitungan_pakan.id',

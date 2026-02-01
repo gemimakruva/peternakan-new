@@ -21,6 +21,7 @@ use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\JenisPakanController;
+use Modules\Kandang\Http\Controllers\PerhitunganPakan\OverviewPakanHarianController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
@@ -85,18 +86,13 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ayam-karantina-overview', [AyamKarantinaController::class, 'overview'])->name('ayam-karantina.overview');
 
     // ===== Menu Group Pemberian Pakan ====
-    Route::resource('perhitungan-pakan', PerhitunganPakanController::class)->names('perhitungan-pakan')->except('show', 'destroy');
-    Route::resource('pemberian-pakan-sisa-pakan', PemberianPakanSisaPakanController::class)->names('pemberian-pakan-sisa-pakan')->parameters(['pemberian-pakan-sisa-pakan' => 'perhitungan-pakan']);
-
-    Route::get('sisa-pakan', [PerhitunganPakanController::class, 'createSisaPakan'])->name('sisa-pakan.create');
-    Route::post('sisa-pakan', [PerhitunganPakanController::class, 'storeSisaPakan'])->name('sisa-pakan.store');
-    Route::delete('sisa-pakan/{id}', [PerhitunganPakanController::class, 'deleteSisaPakan'])->name('sisa-pakan.delete');
-    Route::get('sisa-pakan/{id}/edit', [PerhitunganPakanController::class, 'editSisaPakan'])->name('sisa-pakan.edit');
-    Route::put('sisa-pakan/{id}', [PerhitunganPakanController::class, 'updateSisaPakan'])->name('sisa-pakan.update');
-
-    Route::get('list-data-pakan', [PerhitunganPakanController::class, 'listDataPakanHarian'])->name('perhitungan-pakan.listdata');
-    Route::get('list-data-sisa-pakan', [PerhitunganPakanController::class, 'listDataSisaPakanHarian'])->name('sisa-pakan.listDataSisaPakanHarian');
-
+    Route::resource('perhitungan-pakan', PerhitunganPakanController::class)
+        ->names('perhitungan-pakan')
+        ->except('show', 'destroy');
+    Route::resource('pemberian-pakan-sisa-pakan', PemberianPakanSisaPakanController::class)->names('pemberian-pakan-sisa-pakan')
+        ->parameters(['pemberian-pakan-sisa-pakan' => 'perhitungan-pakan'])
+        ->except('create', 'show', 'update', 'destroy');
+    Route::get('overview-pakan-harian', [OverviewPakanHarianController::class, 'index'])->name('overview-pakan-harian');
 
     Route::get('ajax/tanggal-perhitungan-pakan', [AjaxController::class, 'tanggalPerhitunganPakan'])->name('ajax.tanggal-perhitungan');
     Route::get('ajax/getKandangByTanggalId/{tanggal}', [AjaxController::class, 'getKandangByTanggalId'])->name('ajax.getKandangByTanggalId');

@@ -231,7 +231,7 @@
                     success: function(response) {
                         console.log(response);
                         data = response;
-                        $('input[name="usia_ayam"]').val(data.usia_ayam_saat_ini);
+                        $('input[name="usia_ayam"]').val(data.usia_ayam);
                     },
                     error: function(xhr, status, error) {
                         $('input[name="usia_ayam"]').val(0);

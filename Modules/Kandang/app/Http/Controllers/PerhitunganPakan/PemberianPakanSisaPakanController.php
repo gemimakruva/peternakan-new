@@ -86,14 +86,4 @@ class PemberianPakanSisaPakanController extends Controller
         $tables = collect($tables);
         return view('kandang::pemberian-pakan-sisa-pakan.edit', compact(['perhitunganPakan', 'tables']));
     }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }
