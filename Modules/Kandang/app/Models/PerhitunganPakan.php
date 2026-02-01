@@ -3,13 +3,10 @@
 namespace Modules\Kandang\Models;
 
 use App\Models\User;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class PerhitunganPakan extends Model
 {
-    use HasFactory;
-
     protected $table = "perhitungan_pakan";
 
     protected $fillable = [
@@ -58,10 +55,5 @@ class PerhitunganPakan extends Model
     public function pemberianPakanSisaPakan()
     {
         return $this->hasMany(PemberianPakanSisaPakan::class, 'perhitungan_pakan_id', 'id');
-    }
-
-    protected static function newFactory()
-    {
-        return \Modules\Kandang\Database\Factories\PerhitunganPakanFactory::new();
     }
 }

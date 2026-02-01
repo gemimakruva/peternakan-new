@@ -12,7 +12,6 @@ class PerhitunganPakanSeeder extends Seeder
      */
     public function run(): void
     {
-        // Generate 10 data dummy PerhitunganPakan
-        PerhitunganPakan::factory()->count(10)->create();
+        
     }
 }

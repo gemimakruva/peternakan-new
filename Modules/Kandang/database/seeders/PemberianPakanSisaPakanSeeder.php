@@ -10,7 +10,6 @@ class PemberianPakanSisaPakanSeeder extends Seeder
 {
     public function run(): void
     {
-        // Generate 30 data dummy menggunakan Factory
-        PemberianPakanSisaPakan::factory()->count(30)->create();
+        
     }
 }
