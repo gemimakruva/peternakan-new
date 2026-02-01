@@ -13,7 +13,11 @@ class PerhitunganPakanService
             'kandang',
             'kandang.flocks.pipes',
             'kandang.flocks.pipes.populasiAyam' => function($query) {
-                $query->latest()->select(['pipe_id', 'ayam_sehat'])->limit(1);
+                $query
+                    ->orderBy('tanggal', 'desc')
+                    ->orderBy('id', 'desc')
+                    ->select(['id', 'pipe_id', 'ayam_sehat'])
+                    ->limit(1);
             },
             'perhitunganPakanItems',
         ]);
