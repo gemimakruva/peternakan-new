@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Repositories\Rekapan;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -15,70 +16,56 @@ class RekapanProduksiRepository extends EloquentRepository
 
     public function getQuery(): Builder
     {
+        $base = DB::table('populasi_ayam as pa')
+            ->selectRaw('
+                pa.kandang_id,
+                pa.tanggal,
+                MAX(pa.umur_ayam_record) as umur,
+                SUM(pa.ayam_sehat) as sehat,
+                SUM(pa.ayam_mati) as mati,
+                SUM(pa.ayam_afkir) as afkir
+            ')
+            ->groupBy('pa.kandang_id', 'pa.tanggal');
+
+        $akumulasi = DB::table('populasi_ayam as pa2')
+            ->selectRaw('
+                pa2.kandang_id,
+                pa2.tanggal,
+                SUM(pa2.ayam_mati) as akumulasi_mati,
+                SUM(pa2.ayam_afkir) as akumulasi_afkir
+            ')
+            ->groupBy('pa2.kandang_id', 'pa2.tanggal');
+
         return $this->model
             ->query()
-            ->joinSub(function($q) {
-                $q 
-                    ->from('populasi_ayam AS pa')
-                    ->selectRaw(<<<SQL
-                        pa.kandang_id
-                        , pa.tanggal
-                        , pa.umur_ayam_record AS umur
-                        , (
-                            SELECT SUM(pa2.ayam_mati) AS akumulasi_mati 
-                            FROM populasi_ayam AS pa2
-                            WHERE pa2.kandang_id = pa.kandang_id AND pa2.tanggal = pa.tanggal
-                        ) AS mati
-                        , (
-                            SELECT SUM(pa2.ayam_mati) AS akumulasi_mati 
-                            FROM populasi_ayam AS pa2
-                            WHERE pa2.kandang_id = pa.kandang_id AND pa2.tanggal <= pa.tanggal
-                        ) AS akumulasi_mati
-                        , (
-                            SELECT SUM(pa2.ayam_mati) AS akumulasi_mati 
-                            FROM populasi_ayam AS pa2
-                            WHERE pa2.kandang_id = pa.kandang_id AND pa2.tanggal <= pa.tanggal
-                        )/SUM(pa.ayam_sehat) AS persen_mati
-                        , (
-                            SELECT SUM(pa2.ayam_afkir) AS akumulasi_afkir
-                            FROM populasi_ayam AS pa2
-                            WHERE pa2.kandang_id = pa.kandang_id AND pa2.tanggal = pa.tanggal
-                        ) AS afkir
-                        , (
-                            SELECT SUM(pa2.ayam_afkir) AS akumulasi_afkir
-                            FROM populasi_ayam AS pa2
-                            WHERE pa2.kandang_id = pa.kandang_id AND pa2.tanggal <= pa.tanggal
-                        ) AS akumulasi_afkir
-                        , (
-                            SELECT SUM(pa2.ayam_afkir) AS akumulasi_afkir
-                            FROM populasi_ayam AS pa2
-                            WHERE pa2.kandang_id = pa.kandang_id AND pa2.tanggal <= pa.tanggal
-                        )/SUM(pa.ayam_sehat) AS persen_afkir
-                        , SUM(pa.ayam_sehat) AS sehat
-                    SQL)
-                    ->groupBy([
-                        'pa.tanggal',
-                    ])
-                    ->orderBy('pa.tanggal');
-                // echo $q->get();die;
-            }, 'xpa', 'xpa.kandang_id', '=', 'kandang.id')
+            ->fromSub($base, 'xpa')
+            ->join('kandang', 'kandang.id', '=', 'xpa.kandang_id')
+            ->leftJoinSub($akumulasi, 'xa', function ($join) {
+                $join->on('xa.kandang_id', '=', 'xpa.kandang_id')
+                    ->whereColumn('xa.tanggal', '<=', 'xpa.tanggal');
+            })
             ->selectRaw(<<<SQL
-                kandang.id
-                , kandang.nama AS nama_kandang
-                , xpa.tanggal
-                , xpa.umur
-                , xpa.mati
-                , xpa.akumulasi_mati
-                , xpa.persen_mati
-                , xpa.afkir
-                , xpa.akumulasi_afkir
-                , xpa.persen_afkir
-                , xpa.sehat
+                kandang.id,
+                kandang.nama as nama_kandang,
+                xpa.tanggal,
+                xpa.umur,
+                xpa.sehat,
+                xpa.mati,
+                SUM(xa.akumulasi_mati) as akumulasi_mati,
+                SUM(xa.akumulasi_mati) / NULLIF(xpa.sehat, 0) as persen_mati,
+                xpa.afkir,
+                SUM(xa.akumulasi_afkir) as akumulasi_afkir,
+                SUM(xa.akumulasi_afkir) / NULLIF(xpa.sehat, 0) as persen_afkir
             SQL)
-            ->groupBy([
-                'kandang.id'
-                , 'xpa.tanggal'
-            ])
-            ->orderBy('xpa.tanggal', 'asc');
+            ->groupBy(
+                'kandang.id',
+                'xpa.tanggal',
+                'xpa.umur',
+                'xpa.sehat',
+                'xpa.mati',
+                'xpa.afkir'
+            )
+            ->orderBy('xpa.tanggal');
+
     }
 }
