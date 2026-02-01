@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('perhitungan_pakan', function (Blueprint $table) {
             $table->id();
             $table->date('tanggal_pemberian_pakan');
-            $table->foreignId('user_creator_id')->constrained('users')->cascadeOnDelete();   
-            $table->foreignId('user_executor_id')->constrained('users')->cascadeOnDelete();
-            $table->foreignId('jenis_pakan_id')->constrained('jenis_pakan')->cascadeOnDelete();
-            $table->foreignId('pipe_id')->constrained('pipe')->cascadeOnDelete();
+            $table->foreignId('user_creator_id')->constrained('users');   
+            $table->foreignId('user_executor_id')->constrained('users');
+            $table->foreignId('jenis_pakan_id')->constrained('jenis_pakan');
+            $table->foreignId('pipe_id')->constrained('pipe');
             $table->decimal('proporsi_pemberian_pagi', 8, 2)->nullable();
             $table->decimal('proporsi_pemberian_sore', 8, 2)->nullable();
             $table->time('waktu_pemberian_pagi');

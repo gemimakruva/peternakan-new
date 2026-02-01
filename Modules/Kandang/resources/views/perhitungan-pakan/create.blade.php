@@ -1,43 +1,63 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
-@section('title', 'Perhitungan Pakan')
+@section('title', 'Tambah Perhitungan Pemberian Pakan')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
-    <h2 class="h4 fw-bold text-dark">Perhitungan Pakan</h2>
-    <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan Mencatat Perhitungan pakan harian
-    </span>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-1">
+                <h1>Tambah Perhitungan Pemberian Pakan</h1>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">Pemberian Pakan</li>
+                <li class="breadcrumb-item"><a href="{{ route('perhitungan-pakan.index') }}">Perhitungan Pemberian Pakan</a></li>
+                <li class="breadcrumb-item active">Tambah</li>
+            </ol>
+        </div>
+    </div>
 </div>
 @endsection
 
 
 @section('content')
-<div>
-        <div style="max-width: 1200px" class="row justify-content-start px-3">
-            {{-- Form Content --}}
-            <div class="col-md-8">
-                  <x-form-alert />
-            <form action="{{ route('perhitungan-pakan.store') }}" method="POST">
+<div class="mx-1200">
+    <x-form-alert />
+
+    <div class="row">
+        <div class="col-12 col-md-9">
+            <form action="{{ route('perhitungan-pakan.store') }}" method="POST" id="form-perhitungan-pakan">
                 @csrf
-                    <div class="card">
-                        <div class="card-body">
-                            @include('kandang::perhitungan-pakan._form')
-                        </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Form Perhitungan Pakan</h2>
                     </div>
-                    {{-- Button Submit --}}
-                    <div class="mt-4 d-flex justify-content-between px-3">
-                        <a href="" class="btn btn-secondary px-4 py-2">
-                            <i class="fas fa-arrow-left me-2"></i> Kembali
+                    <div class="card-body">
+                        @include('kandang::perhitungan-pakan._form')
+                    </div>
+                </div>
+            </form>
+        </div>
+    
+        <div class="col-12 col-md-3">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Aksi</h2>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-2">
+                        <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-secondary flex-1">
+                            Kembali
                         </a>
-                        <button id="btnSubmitPopulasi" type="submit"
-                            class="btn btn-success px-4 py-2 shadow-sm">
-                            <i class="fas fa-save me-2"></i> Simpan
+                        <button form="form-perhitungan-pakan" type="submit" class="btn btn-primary flex-1">
+                            Simpan
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
+        </div>
     </div>
 </div>
-@include('components.snackbar')
 @endsection
