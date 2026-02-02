@@ -21,21 +21,52 @@
 @section('content')
 <div class="mx-1200">
     <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Filter</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
+                <x-adminlte-select
+                    name="kandang_id"
+                    class="mx-200"
+                    fgroup-class="mb-0"
+                    placeholder="Semua Kandang"
+                >
+                    <x-adminlte-options
+                        :options="$listKandang->toArray()"
+                        empty-option="Semua Kandang"
+                        :selected="request()->query('kandang_id')"
+                    />
+                </x-adminlte-select>
+                <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
+                <a href="{{ route('rekapan-produksi.index') }}">
+                    <x-adminlte-button icon="fas fa-undo" />
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
                     <tr>
-                        <th class="align-middle" style="width: 40px;">#</th>
-                        <x-sort-th class="align-middle" style="width: 150px;" label="Kandang" name="nama_kandang" />
-                        <x-sort-th class="align-middle" style="width: 150px;" label="Tanggal" name="tanggal" />
-                        <th class="align-middle" style="width: 150px;">Umur</th>
-                        <th class="align-middle" style="width: 150px;">Mati</th>
-                        <th class="align-middle" style="width: 150px;">Akumulasi</th>
-                        <th class="align-middle" style="width: 150px;">Persen</th>
-                        <th class="align-middle" style="width: 150px;">Afkir</th>
-                        <th class="align-middle" style="width: 150px;">Akumulasi</th>
-                        <th class="align-middle" style="width: 150px;">Persen</th>
-                        <th class="align-middle" style="width: 150px;">Sehat</th>
+                        <th class="align-middle" style="min-width: 40px;">#</th>
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Kandang" name="nama_kandang" />
+                        <x-sort-th class="align-middle" style="min-width: 200px;" label="Tanggal" name="tanggal" />
+                        <th class="align-middle" style="min-width: 80px;">Umur</th>
+                        <th class="align-middle" style="min-width: 80px;">Mati</th>
+                        <th class="align-middle" style="min-width: 80px;">Akumulasi Kematian (ekor)</th>
+                        <th class="align-middle" style="min-width: 80px;">Persentase Kematian (realisasi)</th>
+                        <th class="align-middle" style="min-width: 80px;">Afkir</th>
+                        <th class="align-middle" style="min-width: 80px;">Akumulasi Afkir (ekor)</th>
+                        <th class="align-middle" style="min-width: 80px;">Persentase Afkir (realisasi)</th>
+                        <th class="align-middle" style="min-width: 80px;">Akumulasi Kematian + Afkir (ekor)</th>
+                        <th class="align-middle" style="min-width: 80px;">Persentase Kematian + Afkir (realisasi)</th>
+                        <th class="align-middle" style="min-width: 80px;">Persentase Kematian + Afkir (standar)</th>
+                        <th class="align-middle" style="min-width: 80px;">Masuk Karantina</th>
+                        <th class="align-middle" style="min-width: 80px;">Keluar Karantina</th>
+                        <th class="align-middle" style="min-width: 80px;">Sehat</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -51,6 +82,11 @@
                             <td class="text-right">{{ format_angka($data->afkir) }}</td>
                             <td class="text-right">{{ format_angka($data->akumulasi_afkir) }}</td>
                             <td class="text-right">{{ format_angka($data->persen_afkir*100) }}%</td>
+                            <td class="text-right">{{ format_angka($data->akumulasi_mati_afkir) }}</td>
+                            <td class="text-right">{{ format_angka($data->persen_mati_afkir) }}</td>
+                            <td class="text-right">{{ format_angka($data->standar_mati_afkir) }}</td>
+                            <td class="text-right">{{ format_angka($data->masuk_karantina) }}</td>
+                            <td class="text-right">{{ format_angka($data->keluar_karantina) }}</td>
                             <td class="text-right">{{ format_angka($data->sehat) }}</td>
                         </tr>
                     @empty

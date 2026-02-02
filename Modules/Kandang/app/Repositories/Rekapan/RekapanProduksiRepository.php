@@ -36,6 +36,16 @@ class RekapanProduksiRepository extends EloquentRepository
             ')
             ->groupBy('pa2.kandang_id', 'pa2.tanggal');
 
+        $akumulasiKarantina = DB::table('karantina_populasi_pipe as kpp')
+            ->selectRaw(<<<SQL
+                kpp.tanggal
+                , kpp.kandang_asal_id
+                , kpp.kandang_tujuan_id
+                , SUM(kpp.ayam_masuk_karantina) as masuk_karantina
+                , SUM(kpp.ayam_keluar_karantina) as keluar_karantina
+            SQL)
+            ->groupBy('kpp.kandang_asal_id', 'kpp.kandang_tujuan_id', 'kpp.tanggal');
+
         return $this->model
             ->query()
             ->fromSub($base, 'xpa')
@@ -44,18 +54,34 @@ class RekapanProduksiRepository extends EloquentRepository
                 $join->on('xa.kandang_id', '=', 'xpa.kandang_id')
                     ->whereColumn('xa.tanggal', '<=', 'xpa.tanggal');
             })
+            ->leftJoin('strain_standart_metric as ssm', function($join) {
+                $join->on('ssm.strain_id', '=', 'kandang.strain_id')
+                    ->whereColumn('ssm.umur', 'xpa.umur');
+            })
+            ->leftJoinSub($akumulasiKarantina, 'xak', function($join) {
+                $join->on(function ($q) {
+                    $q->on('kandang.id', '=', 'xak.kandang_asal_id')
+                    ->orOn('kandang.id', '=', 'xak.kandang_tujuan_id');
+                })
+                ->whereColumn('xpa.tanggal', 'xak.tanggal');
+            })
             ->selectRaw(<<<SQL
-                kandang.id,
-                kandang.nama as nama_kandang,
-                xpa.tanggal,
-                xpa.umur,
-                xpa.sehat,
-                xpa.mati,
-                SUM(xa.akumulasi_mati) as akumulasi_mati,
-                SUM(xa.akumulasi_mati) / NULLIF(xpa.sehat, 0) as persen_mati,
-                xpa.afkir,
-                SUM(xa.akumulasi_afkir) as akumulasi_afkir,
-                SUM(xa.akumulasi_afkir) / NULLIF(xpa.sehat, 0) as persen_afkir
+                kandang.id
+                , kandang.nama as nama_kandang
+                , xpa.tanggal
+                , xpa.umur
+                , xpa.sehat
+                , xpa.mati
+                , SUM(xa.akumulasi_mati) as akumulasi_mati
+                , SUM(xa.akumulasi_mati) / NULLIF(xpa.sehat, 0) as persen_mati
+                , xpa.afkir
+                , SUM(xa.akumulasi_afkir) as akumulasi_afkir
+                , SUM(xa.akumulasi_afkir) / NULLIF(xpa.sehat, 0) as persen_afkir
+                , SUM(xa.akumulasi_mati) + SUM(xa.akumulasi_afkir) as akumulasi_mati_afkir
+                , SUM(xa.akumulasi_mati) + SUM(xa.akumulasi_afkir) / NULLIF(xpa.sehat, 0)  as persen_mati_afkir
+                , ssm.persentase_kematian as standar_mati_afkir
+                , xak.masuk_karantina
+                , xak.keluar_karantina
             SQL)
             ->groupBy(
                 'kandang.id',
@@ -66,6 +92,14 @@ class RekapanProduksiRepository extends EloquentRepository
                 'xpa.afkir'
             )
             ->orderBy('xpa.tanggal');
+    }
 
+    public function customWhereQuery(): array
+    {
+        return [
+            'kandang_id' => function ($q, $kandangId) {
+                $q->where('kandang.id', '=', $kandangId);
+            }
+        ];
     }
 }
