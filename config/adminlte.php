@@ -500,19 +500,15 @@ return [
             ]
         ],
 
-        // ====================   RECORDING PRODUKSI TELUR  ==================
+        // ====================   PRODUKSI TELUR  ==================
         [
-            'header' => 'Recording Telur',
+            'header' => 'Produksi Telur',
         ],
         [
-            'text'  => 'Tambah Recording Telur',
-            'route' => 'recording-telur.create',
-            'icon'  => 'fas fa-plus-circle',
-        ],
-        [
-            'text'  => 'Overview',
+            'text'  => 'Produksi Telur',
             'route' => 'recording-telur.index',
-            'icon'  => 'fas fa-clipboard-check',
+            'icon'  => 'fas fa-egg',
+            'active' => ['recording-telur/*']
         ],
 
         // ====================   SAMPLING AYAM MENU    ==========================

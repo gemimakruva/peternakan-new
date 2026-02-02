@@ -101,7 +101,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/getFlockByKandangId/{kandangId}', [AjaxController::class, 'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
     Route::get('ajax/getFlockByKandangId/{kandangId}/treatment',[AjaxController::class, 'getFlockByKandangTreatment'])->name('ajax.getFlockByKandangTreatment');
 
+    // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
+
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
     
     Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)->names('penjadwalan-disinfektan');
