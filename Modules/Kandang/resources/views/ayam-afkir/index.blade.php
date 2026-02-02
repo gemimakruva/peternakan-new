@@ -51,13 +51,13 @@
                     <thead>
                         <tr>
                             <th class="align-middle" style="width: 40px;">#</th>
-                            <x-sort-th class="align-middle" style="width: 150px;" label="Kandang" name="nama_kandang" />
-                            <x-sort-th class="align-middle" style="width: 100px;" label="Tanggal" name="tanggal" />
-                            <x-sort-th class="align-middle" style="width: 100px;" label="Umur Ayam (mingguan)" name="umur_ayam" />
-                            <x-sort-th class="align-middle" style="width: 100px;" label="Jumlah Ayam Afkir" name="total_jumlah_ayam_afkir" />
-                            <x-sort-th class="align-middle" style="width: 150px;" label="PIC" name="nama_pic_user" />
-                            <x-sort-th class="align-middle" style="width: 150px;" label="Pembeli" name="pembeli_afkir" />
-                            <x-sort-th class="align-middle" style="width: 150px;" label="Harga (per kg)" name="harga_jual" />
+                            <x-sort-th class="align-middle" style="min-width: 150px;" label="Kandang" name="nama_kandang" />
+                            <x-sort-th class="align-middle" style="min-width: 200px;" label="Tanggal" name="tanggal" />
+                            <x-sort-th class="align-middle" style="min-width: 100px;" label="Umur Ayam (mingguan)" name="umur_ayam" />
+                            <x-sort-th class="align-middle" style="min-width: 100px;" label="Jumlah Ayam Afkir" name="total_jumlah_ayam_afkir" />
+                            <x-sort-th class="align-middle" style="min-width: 150px;" label="PIC" name="nama_pic_user" />
+                            <x-sort-th class="align-middle" style="min-width: 150px;" label="Pembeli" name="pembeli_afkir" />
+                            <x-sort-th class="align-middle" style="min-width: 150px;" label="Harga (per kg)" name="harga_jual" />
                             <th class="align-middle" style="width: 40px;">Aksi</th>
                         </tr>
                     </thead>
