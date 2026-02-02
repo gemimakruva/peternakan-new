@@ -28,14 +28,15 @@
                 <thead>
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Kandang" name="nama_kandang" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Tanggal" name="tanggal_pemberian_pakan" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Umur Ayam" name="umur_ayam" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Pemberian" name="pemberian_kg" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Sisa" name="sisa_kg" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Feed Intake" name="feed_intake_kg" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Feed Intake per Ekor (realisasi)" name="feed_intake_per_ekor" />
-                        <x-sort-th class="align-middle" style="width: 100px;" label="Feed Intake per Ekor (standar)" name="feed_intake_per_ekor_standar" />
+                        <x-sort-th class="align-middle" style="min-width: 180px;" label="Kandang" name="nama_kandang" />
+                        <x-sort-th class="align-middle" style="min-width: 200px;" label="Tanggal" name="tanggal_pemberian_pakan" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Umur Ayam" name="umur_ayam" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Ayam" name="jumlah_ayam" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Pemberian" name="pemberian_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Sisa" name="sisa_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi" name="feed_intake_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi per Ekor (realisasi)" name="feed_intake_per_ekor" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi per Ekor (standar)" name="feed_intake_per_ekor_standar" />
                     </tr>
                 </thead>
                 <tbody>
@@ -45,6 +46,7 @@
                             <td class="text-left">{{ $data->nama_kandang }}</td>
                             <td class="text-left">{{ $data->tanggal_pemberian_pakan->translatedFormat('l, d F Y') }}</td>
                             <td class="text-right">{{ format_angka($data->umur_ayam) }}</td>
+                            <td class="text-right">{{ format_angka($data->jumlah_ayam) }}</td>
                             <td class="text-right">{{ format_angka($data->pemberian_kg) }}</td>
                             <td class="text-right">{{ format_angka($data->sisa_kg) }}</td>
                             <td class="text-right">{{ format_angka($data->feed_intake_kg) }}</td>

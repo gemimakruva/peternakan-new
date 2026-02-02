@@ -78,7 +78,7 @@ class RekapanProduksiRepository extends EloquentRepository
                 , SUM(xa.akumulasi_afkir) as akumulasi_afkir
                 , SUM(xa.akumulasi_afkir) / NULLIF(xpa.sehat, 0) as persen_afkir
                 , SUM(xa.akumulasi_mati) + SUM(xa.akumulasi_afkir) as akumulasi_mati_afkir
-                , SUM(xa.akumulasi_mati) + SUM(xa.akumulasi_afkir) / NULLIF(xpa.sehat, 0)  as persen_mati_afkir
+                , (SUM(xa.akumulasi_mati) + SUM(xa.akumulasi_afkir)) / NULLIF(xpa.sehat, 0)  as persen_mati_afkir
                 , ssm.persentase_kematian as standar_mati_afkir
                 , xak.masuk_karantina
                 , xak.keluar_karantina

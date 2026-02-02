@@ -19,7 +19,7 @@
 
 
 @section('content')
-<div class="mx-1200">
+<div class="mx-1400">
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Filter</h2>
@@ -83,7 +83,7 @@
                             <td class="text-right">{{ format_angka($data->akumulasi_afkir) }}</td>
                             <td class="text-right">{{ format_angka($data->persen_afkir*100) }}%</td>
                             <td class="text-right">{{ format_angka($data->akumulasi_mati_afkir) }}</td>
-                            <td class="text-right">{{ format_angka($data->persen_mati_afkir) }}</td>
+                            <td class="text-right">{{ format_angka($data->persen_mati_afkir*100) }}%</td>
                             <td class="text-right">{{ format_angka($data->standar_mati_afkir) }}</td>
                             <td class="text-right">{{ format_angka($data->masuk_karantina) }}</td>
                             <td class="text-right">{{ format_angka($data->keluar_karantina) }}</td>

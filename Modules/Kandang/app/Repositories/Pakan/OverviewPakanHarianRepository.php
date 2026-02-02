@@ -21,7 +21,7 @@ class OverviewPakanHarianRepository extends EloquentRepository
                 $q->selectRaw(<<<SQL
                     ppi.perhitungan_pakan_id
                     , SUM(ppi.pemberian_pakan_per_ekor * ppi.jumlah_ayam)/1000 AS pemberian_kg
-                    , ppi.jumlah_ayam
+                    , SUM(ppi.jumlah_ayam) as jumlah_ayam
                 SQL)
                 ->from('perhitungan_pakan_item AS ppi')
                 ->groupBy('ppi.perhitungan_pakan_id');
@@ -40,10 +40,11 @@ class OverviewPakanHarianRepository extends EloquentRepository
                 , kandang.nama as nama_kandang
                 , perhitungan_pakan.tanggal_pemberian_pakan
                 , perhitungan_pakan.umur_ayam
+                , xppi.jumlah_ayam
                 , xppi.pemberian_kg
                 , xppsp.sisa_kg
                 , (xppi.pemberian_kg - xppsp.sisa_kg) AS feed_intake_kg
-                , (xppi.pemberian_kg - xppsp.sisa_kg)/xppi.jumlah_ayam AS feed_intake_per_ekor
+                , (xppi.pemberian_kg - xppsp.sisa_kg)*1000/xppi.jumlah_ayam AS feed_intake_per_ekor
                 , (
                     SELECT feed_intake
                     FROM strain_standart_metric AS ssm 
