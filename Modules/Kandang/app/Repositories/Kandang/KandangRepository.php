@@ -113,27 +113,24 @@ class KandangRepository extends EloquentRepository
 
     public function getUmurAyamByKandangId($kandangId, Carbon $tanggalPembanding): array|null
     {
-        // Ambil distribusi melalui relasi pipe -> flock -> kandang
-        $distribusi = app(PengadaanAyamDistribusi::class)
-            ->with([
-                'pengadaanAyam:id,tanggal,umur_ayam',
-                'pipe.flock:id,kandang_id'
-            ])
-            ->whereHas('pipe.flock', function($query) use ($kandangId) {
-                $query->where('kandang_id', $kandangId);
-            })
-            ->firstOrFail(['id', 'pengadaan_ayam_id', 'pipe_id']);
-
-        $pengadaanAyam = $distribusi->pengadaanAyam;
+        $data = app(PengadaanAyamDistribusi::class)
+            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
+            ->where('pengadaan_ayam_distribusi.kandang_id', $kandangId)
+            ->orderByDesc('pengadaan_ayam_distribusi.id')
+            ->orderByDesc('pengadaan_ayam.tanggal')
+            ->firstOrFail([
+                'pengadaan_ayam.tanggal',
+                'pengadaan_ayam.umur_ayam',
+            ]);
 
         // Validasi apakah tanggal pengadaan ada
-        if (!$pengadaanAyam || !$pengadaanAyam->tanggal) {
+        if (!$data->tanggal || !$data->umur_ayam) {
             return null;
         }
 
         // Hitung umur ayam dalam minggu
-        $tanggalPengadaan = Carbon::parse($pengadaanAyam->tanggal)->startOfDay();
-        $usiaAyamSaatPengadaan = $pengadaanAyam->umur_ayam; // dalam minggu
+        $tanggalPengadaan = Carbon::parse($data->tanggal)->startOfDay();
+        $usiaAyamSaatPengadaan = $data->umur_ayam; // dalam minggu
         $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($tanggalPembanding);
         $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
 
