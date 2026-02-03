@@ -17,23 +17,23 @@ class RekapanProduksiRepository extends EloquentRepository
     public function getQuery(): Builder
     {
         $base = DB::table('populasi_ayam as pa')
-            ->selectRaw('
-                pa.kandang_id,
-                pa.tanggal,
-                MAX(pa.umur_ayam_record) as umur,
-                SUM(pa.ayam_sehat) as sehat,
-                SUM(pa.ayam_mati) as mati,
-                SUM(pa.ayam_afkir) as afkir
-            ')
+            ->selectRaw(<<<SQL
+                pa.kandang_id
+                , pa.tanggal
+                , MAX(pa.umur_ayam_record) as umur
+                , SUM(pa.ayam_sehat) as sehat
+                , SUM(pa.ayam_mati) as mati
+                , SUM(pa.ayam_afkir) as afkir
+            SQL)
             ->groupBy('pa.kandang_id', 'pa.tanggal');
 
         $akumulasi = DB::table('populasi_ayam as pa2')
-            ->selectRaw('
-                pa2.kandang_id,
-                pa2.tanggal,
-                SUM(pa2.ayam_mati) as akumulasi_mati,
-                SUM(pa2.ayam_afkir) as akumulasi_afkir
-            ')
+            ->selectRaw(<<<SQL
+                pa2.kandang_id
+                , pa2.tanggal
+                , SUM(pa2.ayam_mati) as akumulasi_mati
+                , SUM(pa2.ayam_afkir) as akumulasi_afkir
+            SQL)
             ->groupBy('pa2.kandang_id', 'pa2.tanggal');
 
         $akumulasiKarantina = DB::table('karantina_populasi_pipe as kpp')
