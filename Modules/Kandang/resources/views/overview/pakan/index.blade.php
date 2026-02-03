@@ -22,9 +22,34 @@
 <div class="mx-1200">
 
     <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Filter</h2>
+        </div>
+        <div class="card-body">
+            <form action="{{ route('overview-pakan-harian') }}" method="get" class="d-flex gap-2">
+                <x-adminlte-select
+                    name="kandang_id"
+                    fgroup-class="mb-0 mx-200"
+                >
+                    <x-adminlte-options
+                        :options="$listKandang"
+                        empty-option="Semua Kandang"
+                        :selected="request()->query('kandang_id')"
+                    />
+                </x-adminlte-select>
+
+                <x-adminlte-button type="submit" theme="primary" icon="fas fa-search" />
+
+                <a href="{{ route('overview-pakan-harian') }}" class="btn btn-secondary">
+                    <i class="fas fa-undo"></i>
+                </a>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
-
                 <thead>
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
@@ -37,6 +62,8 @@
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi" name="feed_intake_kg" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi per Ekor (realisasi)" name="feed_intake_per_ekor" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi per Ekor (standar)" name="feed_intake_per_ekor_standar" />
+                        <th class="align-middle" style="min-width: 80px;">Konsumsi per Kandang (realisasi)</th>
+                        <th class="align-middle" style="min-width: 80px;">Konsumsi per Kandang (standar)</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -52,6 +79,8 @@
                             <td class="text-right">{{ format_angka($data->feed_intake_kg) }}</td>
                             <td class="text-right">{{ format_angka($data->feed_intake_per_ekor) }}</td>
                             <td class="text-right">{{ format_angka($data->feed_intake_per_ekor_standar) }}</td>
+                            <td class="text-right">{{ format_angka(($data->feed_intake_per_ekor * $data->jumlah_ayam)/1000) }}</td>
+                            <td class="text-right">{{ format_angka(($data->feed_intake_per_ekor_standar * $data->jumlah_ayam)/1000) }}</td>
                         </tr>
                     @empty
                         <tr>
@@ -61,6 +90,11 @@
                 </tbody>
             </table>
         </div>
+        @if ($datas->hasPages())
+            <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
     </div>
 
 </div>

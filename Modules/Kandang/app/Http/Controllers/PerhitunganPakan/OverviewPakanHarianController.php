@@ -5,22 +5,27 @@ namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
 
 class OverviewPakanHarianController extends Controller
 {
     public function __construct(
         private OverviewPakanHarianRepository $repository,
+        private Kandang $kandang,
     ) { }
 
     public function index(Request $request)
     {
         $datas = $this->repository->paginate(
             $request->query('search'),
-            null,
-            $request->collect('orders')
+            $request->collect(['kandang_id']),
+            $request->collect('orders'),
+            $request->query('perPage', 10)
         );
+
+        $listKandang = $this->kandang->pluck('nama', 'id')->toArray();
         
-        return view('kandang::overview.pakan.index', compact('datas'));
+        return view('kandang::overview.pakan.index', compact(['datas', 'listKandang']));
     }
 }

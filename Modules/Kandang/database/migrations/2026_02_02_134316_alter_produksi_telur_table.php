@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Kandang::class, 'kandang_id')->constrained('kandang', 'id');
             $table->foreignIdFor(User::class, 'pic_user_id')->constrained('users', 'id');
             $table->date('tanggal');
-            $table->integer('umur_ayam');
+            $table->unsignedInteger('umur_ayam');
             $table->timestamps();
         });
 
@@ -31,12 +31,12 @@ return new class extends Migration
             $table->foreignIdFor(Kandang::class, 'kandang_id')->constrained('kandang', 'id');
             $table->foreignIdFor(Flock::class, 'flock_id')->constrained('flock', 'id');
             $table->date('tanggal');
-            $table->integer('jumlah_telur_bagus');
-            $table->integer('jumlah_telur_putih');
-            $table->integer('jumlah_telur_reject');
-            $table->decimal('berat_telur_bagus', 10, 3);
-            $table->decimal('berat_telur_putih', 10, 3);
-            $table->decimal('berat_telur_reject', 10, 3);
+            $table->unsignedInteger('jumlah_telur_bagus');
+            $table->unsignedInteger('jumlah_telur_putih');
+            $table->unsignedInteger('jumlah_telur_reject');
+            $table->decimal('berat_telur_bagus', 10, 2);
+            $table->decimal('berat_telur_putih', 10, 2);
+            $table->decimal('berat_telur_reject', 10, 2);
             $table->timestamps();
         });
     }
