@@ -26,6 +26,7 @@ use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanCon
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
+use Modules\Kandang\Http\Controllers\RecordingTelur\OverviewProduksiTelurController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\Rekapan\ProduksiController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
@@ -103,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
+    Route::get('overview-produksi-telur', [OverviewProduksiTelurController::class, 'index'])->name('overview-produksi-telur');
 
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
     

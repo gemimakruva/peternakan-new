@@ -510,6 +510,12 @@ return [
             'icon'  => 'fas fa-egg',
             'active' => ['recording-telur/*']
         ],
+        [
+            'text'  => 'Overview Produksi Telur',
+            'route' => 'overview-produksi-telur',
+            'icon'  => 'fas fa-chart-line',
+            'active' => ['overview-produksi-telur']
+        ],
 
         // ====================   SAMPLING AYAM MENU    ==========================
         [

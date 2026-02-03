@@ -116,8 +116,8 @@ class KandangRepository extends EloquentRepository
         $data = app(PengadaanAyamDistribusi::class)
             ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
             ->where('pengadaan_ayam_distribusi.kandang_id', $kandangId)
-            ->orderByDesc('pengadaan_ayam_distribusi.id')
             ->orderByDesc('pengadaan_ayam.tanggal')
+            ->orderByDesc('pengadaan_ayam_distribusi.id')
             ->firstOrFail([
                 'pengadaan_ayam.tanggal',
                 'pengadaan_ayam.umur_ayam',
