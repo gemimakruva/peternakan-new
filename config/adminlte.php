@@ -451,23 +451,16 @@ return [
             'header' => 'Ayam Karantina',
         ],
         [
-            'text'    => 'Ayam Karantina',
-            'icon'    => 'fas fa-home',
-            'active'  => ['ayam-karantina/*', 'ayam-karantina-overview'],
-            'submenu' => [
-                [
-                    'text'  => 'Ayam Karantina',
-                    'route' => 'ayam-karantina.index',
-                    'icon' => 'fas fa-clipboard-list',
-                    'active'  => ['ayam-karantina/*'],
-                ],
-                [
-                    'text'  => 'Overview',
-                    'route' => 'ayam-karantina.overview',
-                    'icon'  => 'fas fa-clipboard-check',
-                    'active'  => ['ayam-karantina-overview'],
-                ],
-            ]
+            'text'  => 'Ayam Karantina',
+            'route' => 'ayam-karantina.index',
+            'icon' => 'fas fa-clipboard-list',
+            'active'  => ['ayam-karantina/*'],
+        ],
+        [
+            'text'  => 'Overview Ayam Karantina',
+            'route' => 'ayam-karantina.overview',
+            'icon'  => 'fas fa-chart-line',
+            'active'  => ['ayam-karantina-overview'],
         ],
         
 

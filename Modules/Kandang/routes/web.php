@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('ayam-afkir', AyamAfkirController::class)->names('ayam-afkir')->except(['create', 'show', 'store', 'destroy']);
 
     // ===== Menu Group Ayam Karantina =====
-    Route::resource('ayam-karantina', AyamKarantinaController::class)->parameter('ayam-karantina', 'karantina-populasi')->names('ayam-karantina')->only(['index', 'edit', 'update']);
+    Route::resource('ayam-karantina', AyamKarantinaController::class)->parameter('ayam-karantina', 'karantina-populasi')->names('ayam-karantina')->only(['index', 'edit', 'update', 'create', 'store']);
     Route::get('ayam-karantina-overview', [AyamKarantinaController::class, 'overview'])->name('ayam-karantina.overview');
 
     // ===== Menu Group Pemberian Pakan ====
