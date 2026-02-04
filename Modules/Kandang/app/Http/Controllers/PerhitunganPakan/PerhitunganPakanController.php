@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Modules\Kandang\Models\JenisPakan;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PerhitunganPakanItem;
+use Modules\Kandang\Notifications\Pakan\PemberianPakanAssigned;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Pakan\PerhitunganPakanRepository;
 use Modules\Kandang\Services\Pakan\PerhitunganPakanService;
@@ -92,7 +93,9 @@ class PerhitunganPakanController extends Controller
                 'user_executor_id'          => $validated['user_executor_id'],
                 'catatan'                   => $validated['catatan']
             ]);
-            
+
+            $perhitunganPakan->userExecutor->notify(new PemberianPakanAssigned($perhitunganPakan));
+
             return redirect()->route('perhitungan-pakan.edit', $perhitunganPakan)
                 ->with('success', 'Data Perhitungan Pakan berhasil disimpan!');
         } catch (\Throwable $th) {

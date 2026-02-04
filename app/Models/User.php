@@ -64,7 +64,15 @@ class User extends Authenticatable
 
     public function adminlte_desc()
     {
-        return 'desc';
+        return null;
+    }
+
+    public function getEnabledNotificationAttribute()
+    {
+        return (boolean) Option::query()
+            ->where('user_id', '=', $this->attributes['id'])
+            ->where('key', 'enabled_notification')
+            ?->value('value') ?? false;
     }
 
     public function pengadaanAyam(){

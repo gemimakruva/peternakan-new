@@ -27,4 +27,5 @@ Route::group([
     Route::put('profile', [UserController::class, 'profileUpdate'])->name('profile.update');
 
     Route::get('notifications/get', [NotificationsController::class, 'getNotificationsData'])->name('notifications.get');
+    Route::get('notifications/show', [NotificationsController::class, 'show'])->name('notifications.show');
 });

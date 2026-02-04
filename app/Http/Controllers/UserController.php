@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Option;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -162,6 +163,13 @@ class UserController extends Controller
 
         $user->fill($updatedUser);
         $user->save();
+
+        app(Option::class)->updateOrCreate([
+            'user_id'   => auth()->id(),
+            'key'       => 'enabled_notification'
+        ], [
+            'value'     => $request->boolean('enabled_notification'),
+        ]);
 
         return back()->with('Data Profile berhasil diupdate.');
     }
