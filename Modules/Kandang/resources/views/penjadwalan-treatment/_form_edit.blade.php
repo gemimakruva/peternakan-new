@@ -139,15 +139,14 @@ $(document).ready(() => {
         }
 
         $.ajax({
-            url: "{{ route('ajax.getFlockByKandangTreatment', ':id') }}"
-            .replace(':id', kandangId),
+            url: @js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId),
             method: 'GET',
             success: (data) => {
                 console.log()
                 let options = '<option value="">-- Pilih Flock --</option>';
                 data.results.forEach(flock => {
                     options += `<option value="${flock.id}" ${selectedId == flock.id ? 
-                    'selected' : ''}>${flock.nama}</option>`;
+                    'selected' : ''}>${flock.text}</option>`;
                 });
                 $(selectElement).html(options);
             },

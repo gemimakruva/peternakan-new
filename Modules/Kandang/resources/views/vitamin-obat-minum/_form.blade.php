@@ -119,7 +119,7 @@
             populateDataKandang('form-kandang');
 
             function populateDataKandang(elementId) {
-                let url = '/master-data/ajax/kandang';
+                let url = @js(route('ajax.kandang'));
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -150,7 +150,7 @@
 
                 if (!kandangId) return;
 
-                $.get(`/master-data/ajax/flock/${kandangId}`, function (response) {
+                $.get(@js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId), function (response) {
                     const flockData = response.results || [];
                     const $jumlahAyam = $('input[name="jumlah_ayam_per_flock"]');
 

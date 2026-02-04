@@ -50,17 +50,25 @@
     <script>
         $(document).ready(function() {
             let kandangId = $('#input-kandang-vaksin-minum').val();
-            populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
+            let flockId = @js(old('flock_id', @$data->flock_id));
+            let tanggal = $('#tanggal_vaksin_minum').val();
+
+            if (kandangId) {
+                populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
+                if (tanggal) {
+                    countingAyamSehatVaksinMinum(kandangId, tanggal)
+                }
+            }
 
             $('#input-kandang-vaksin-minum').on('change', function() {
-                let kandangId = $(this).val();
+                kandangId = $(this).val();
+                if (!kandangId || !tanggal) return;
                 populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
-                populateJumlahAyamByKandang(kandangId, $('#tanggal_vaksin_minum').val());
+                populateJumlahAyamByKandang(kandangId, tanggal);
             });
 
-
             function populateDataFlockVaksinMinum(elementId, kandangId) {
-                let url = '/master-data/ajax/flock/' + kandangId;
+                let url = @js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId);
                 let method = 'GET';
 
                 $.ajax({
@@ -75,28 +83,29 @@
                         });
                         $(`#${elementId}`).prop('disabled', false);
 
-                        @if(old('flock_id', @$data->flock_id))
-                            $(`#${elementId}`).val('{{ old('flock_id', @$data->flock_id) }}');
-                        @endif
+                        if (flockId) {
+                            $(`#${elementId}`).val(flockId);
+                        }
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
                     }
                 });
             }
-            @if(old('flock_id', @$data->flock_id))
-                $(`#input-flock-vaksin-minum`).val('{{ old('flock_id', @$data->flock_id) }}');
-            @endif
 
             function populateJumlahAyamByKandang(kandangId, tanggal) {
-                let url = '/master-data/ajax/jumlah-ayam-per-kandang?kandang_id=' + kandangId + '&tanggal=' + tanggal;
+                if (!kandangId || !tanggal) return;
+
+                let url = @js(route('ajax.populasi-by-kandang', [':kandangId', ':tanggal']))
+                    .replace(':kandangId', kandangId)
+                    .replace(':tanggal', tanggal);
                 let method = 'GET';
 
                 $.ajax({
                     url: url,
                     type: method,
                     success: function(response) {
-                        let totalAyamPerKandang = response.jumlah_ayam;
+                        let totalAyamPerKandang = response.total_ayam_sehat_terakhir;
                         let jumlahAyamPerFlock = $('#jumlah-ayam-per-flock-vaksin-minum').val();
                         let result = 0;
                         if (totalAyamPerKandang > 0) {
@@ -107,6 +116,33 @@
                     error: function(xhr, status, error) {
                         console.error(error);
                         $('#jumlah-ml-vaksin-per-flock').val(0);
+                    }
+                });
+            }
+
+            $('#tanggal_vaksin_minum').on('change', function() {
+                tanggal = $(this).val();                
+                if (!kandangId || !tanggal) return;
+                countingAyamSehatVaksinMinum(kandangId, tanggal);
+            });
+
+            function countingAyamSehatVaksinMinum(kandangId, tanggal) {
+
+                let url = @js(route('ajax.populasi-by-kandang', [':kandangId', ':tanggal']))
+                    .replace(':kandangId', kandangId)
+                    .replace(':tanggal', tanggal);
+
+                let method = 'GET';
+
+                $.ajax({
+                    url: url,
+                    type: method,
+                    success: function(response) {
+                        $('#jumlah-ayam-per-flock-vaksin-minum').val(Number(response.total_ayam_sehat_terakhir));
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                        $('#jumlah-ayam-per-flock-vaksin-minum').val(0);
                     }
                 });
             }

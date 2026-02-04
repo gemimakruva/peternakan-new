@@ -215,7 +215,7 @@ $('#kandang_id').change(function() {
     var kandangId = $(this).val();
     if (kandangId) {
         $.ajax({
-            url: "{{ route('ajax.getFlockByKandangId', ':id') }}".replace(':id', kandangId), 
+            url: "{{ route('ajax.flock', ':id') }}".replace(':id', kandangId), 
             type: 'GET',
             dataType: 'json',
             success: function(data) {
@@ -223,8 +223,7 @@ $('#kandang_id').change(function() {
                 $('#flock_id').empty(); 
                 $('#flock_id').append('<option value="">Pilih Flock</option>');
                 $.each(data.results, function(key, value) {
-                      console.log(value)
-                    $('#flock_id').append('<option value="'+value.id+'">'+value.nama+'</option>');
+                    $('#flock_id').append('<option value="'+value.id+'">'+value.text+'</option>');
                 });
             },
             error: function() {

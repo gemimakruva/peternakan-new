@@ -3,11 +3,13 @@
 namespace Modules\Kandang\Services;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\AyamAfkirPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasiPipe;
+use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\PopulasiAyamRepository;
 use Modules\Kandang\Services\Contracts\PopulasiAyamServiceInterface;
@@ -20,6 +22,7 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
         private AyamAfkirPopulasi $ayamAfkirPopulasi,
         private KarantinaPopulasi $karantinaPopulasi,
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
+        private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
     ) {}
 
     public function getChickensPerRow(array $filter): array
@@ -30,6 +33,135 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
             'flock_id' => $filter['flock_id'],
             'date'     => $filter['date'],
             'total'    => $total,
+        ];
+    }
+
+    public function getCurrentAyamSehatByPipe(int $pipeId, ?Carbon $tanggalPerbandingan = null)
+    {
+        $tanggalPerbandingan ??= now();
+
+        $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
+
+        $jumlahAyamSehatHariIni = $this->populasiAyamRepository->getModel()
+            ->whereDate('tanggal', '=', $tanggalPerbandingan)
+            ->where('pipe_id', '=', $pipeId)
+            ->value('ayam_sehat');
+
+        $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
+            ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
+            ->where('pipe_id', '=', $pipeId)
+            ->value('ayam_sehat');
+
+        $jumlahAyamSehatTerakhir = $this->populasiAyamRepository->getModel()
+            ->where('pipe_id', '=', $pipeId)
+            ->latest('tanggal')
+            ->value('ayam_sehat');
+
+        $jumlahAyamSehat = $jumlahAyamSehatHariIni ?? $jumlahAyamSehatDariPopulasiSebelumnya ?? $jumlahAyamSehatTerakhir ?? 0;
+
+        return $jumlahAyamSehat;
+    }
+
+    public function getCurrentAyamSehatByKandang(int $kandangId, ?Carbon $tanggalPerbandingan = null)
+    {
+        $tanggalPerbandingan ??= now();
+
+        $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
+
+        $jumlahAyamSehatHariIni = $this->populasiAyamRepository->getModel()
+            ->whereDate('tanggal', '=', $tanggalPerbandingan)
+            ->where('kandang_id', '=', $kandangId)
+            ->sum('ayam_sehat');
+
+        if ($jumlahAyamSehatHariIni > 0) return (int) $jumlahAyamSehatHariIni;
+
+        $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
+            ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
+            ->where('kandang_id', '=', $kandangId)
+            ->sum('ayam_sehat');
+
+        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+
+        $tanggalTerakhir = $this->populasiAyamRepository->getModel()
+            ->where('kandang_id', $kandangId)
+            ->max('tanggal');
+
+        $jumlahAyamSehatTerakhir = $this->populasiAyamRepository->getModel()
+            ->where('kandang_id', $kandangId)
+            ->where('tanggal', $tanggalTerakhir)
+            ->sum('ayam_sehat');
+
+        if ($jumlahAyamSehatTerakhir > 0) return (int) $jumlahAyamSehatTerakhir;
+
+        return 0;
+    }
+
+    public function getUmurAyamByPipeId($pipeId, Carbon $tanggalPembanding): array|null
+    {
+        $data = app(PengadaanAyamDistribusi::class)
+            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
+            ->where('pengadaan_ayam_distribusi.pipe_id', $pipeId)
+            ->orderByDesc('pengadaan_ayam.tanggal')
+            ->orderByDesc('pengadaan_ayam_distribusi.id')
+            ->firstOrFail([
+                'pengadaan_ayam.tanggal',
+                'pengadaan_ayam.umur_ayam',
+            ]);
+
+        return $this->getUmurAyamResponse($data, $tanggalPembanding);
+    }
+
+    public function getUmurAyamByFlockId($flockId, Carbon $tanggalPembanding): array|null
+    {
+        $data = app(PengadaanAyamDistribusi::class)
+            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
+            ->where('pengadaan_ayam_distribusi.flock_id', $flockId)
+            ->orderByDesc('pengadaan_ayam.tanggal')
+            ->orderByDesc('pengadaan_ayam_distribusi.id')
+            ->firstOrFail([
+                'pengadaan_ayam.tanggal',
+                'pengadaan_ayam.umur_ayam',
+            ]);
+
+        return $this->getUmurAyamResponse($data, $tanggalPembanding);
+    }
+
+    public function getUmurAyamByKandangId($kandangId, Carbon $tanggalPembanding): array|null
+    {
+        $data = app(PengadaanAyamDistribusi::class)
+            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
+            ->where('pengadaan_ayam_distribusi.kandang_id', $kandangId)
+            ->orderByDesc('pengadaan_ayam.tanggal')
+            ->orderByDesc('pengadaan_ayam_distribusi.id')
+            ->firstOrFail([
+                'pengadaan_ayam.tanggal',
+                'pengadaan_ayam.umur_ayam',
+            ]);
+
+        return $this->getUmurAyamResponse($data, $tanggalPembanding);
+    }
+
+    private function getUmurAyamResponse(PengadaanAyamDistribusi $data, Carbon $tanggalPembanding)
+    {
+        // Validasi apakah tanggal pengadaan ada
+        if (!$data->tanggal || !$data->umur_ayam) {
+            return null;
+        }
+
+        // Hitung umur ayam dalam minggu
+        $tanggalPengadaan = Carbon::parse($data->tanggal)->startOfDay();
+        $usiaAyamSaatPengadaan = $data->umur_ayam; // dalam minggu
+        $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($tanggalPembanding);
+        $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
+
+        $usiaAyamSaatIni = $usiaAyamSaatPengadaan + $selisihMingguDariPengadaan;
+
+        return [
+            'umur_ayam' => $usiaAyamSaatIni,
+            'umur_ayam_saat_pengadaan' => $usiaAyamSaatPengadaan,
+            'selisih_minggu_dari_pengadaan' => $selisihMingguDariPengadaan,
+            'tanggal_pengadaan' => $tanggalPengadaan->format('Y-m-d'),
+            'tanggal_pembanding' => $tanggalPembanding->format('Y-m-d')
         ];
     }
 

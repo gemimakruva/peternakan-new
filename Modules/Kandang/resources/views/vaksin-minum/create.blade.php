@@ -51,34 +51,3 @@
     </div>
 
 @endsection
-
-@push('js')
-    <script>
-        $(document).ready(function() {
-            $('#tanggal_vaksin_minum').on('change', function() {
-                let tanggalVaksinMinum = $(this).val();
-                countingAyamSehatVaksinMinum(tanggalVaksinMinum);
-            });
-
-
-            function countingAyamSehatVaksinMinum(tanggal = new Date().toISOString().split('T')[0]) {
-
-                let url = '/master-data/ajax/jumlah-ayam-sehat/' + tanggal;
-                let method = 'GET';
-
-                $.ajax({
-                    url: url,
-                    type: method,
-                    success: function(response) {
-                        $('#jumlah-ayam-per-flock-vaksin-minum').val(Number(response.ayam_sehat));
-                        
-                    },
-                    error: function(xhr, status, error) {
-                        console.error(error);
-                        $('#jumlah-ayam-per-flock-vaksin-minum').val(0);
-                    }
-                });
-            }
-        });
-    </script>
-@endpush

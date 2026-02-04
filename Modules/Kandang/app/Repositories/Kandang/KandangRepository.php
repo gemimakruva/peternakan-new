@@ -3,11 +3,9 @@
 namespace Modules\Kandang\Repositories\Kandang;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Repositories\EloquentRepository;
 
 class KandangRepository extends EloquentRepository
@@ -109,39 +107,5 @@ class KandangRepository extends EloquentRepository
             ]);
         
         return $query;
-    }
-
-    public function getUmurAyamByKandangId($kandangId, Carbon $tanggalPembanding): array|null
-    {
-        $data = app(PengadaanAyamDistribusi::class)
-            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
-            ->where('pengadaan_ayam_distribusi.kandang_id', $kandangId)
-            ->orderByDesc('pengadaan_ayam.tanggal')
-            ->orderByDesc('pengadaan_ayam_distribusi.id')
-            ->firstOrFail([
-                'pengadaan_ayam.tanggal',
-                'pengadaan_ayam.umur_ayam',
-            ]);
-
-        // Validasi apakah tanggal pengadaan ada
-        if (!$data->tanggal || !$data->umur_ayam) {
-            return null;
-        }
-
-        // Hitung umur ayam dalam minggu
-        $tanggalPengadaan = Carbon::parse($data->tanggal)->startOfDay();
-        $usiaAyamSaatPengadaan = $data->umur_ayam; // dalam minggu
-        $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($tanggalPembanding);
-        $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
-
-        $usiaAyamSaatIni = $usiaAyamSaatPengadaan + $selisihMingguDariPengadaan;
-
-        return [
-            'usia_ayam' => $usiaAyamSaatIni,
-            'usia_ayam_saat_pengadaan' => $usiaAyamSaatPengadaan,
-            'selisih_minggu_dari_pengadaan' => $selisihMingguDariPengadaan,
-            'tanggal_pengadaan' => $tanggalPengadaan->format('Y-m-d'),
-            'tanggal_pembanding' => $tanggalPembanding->format('Y-m-d')
-        ];
     }
 }

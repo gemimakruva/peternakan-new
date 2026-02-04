@@ -120,26 +120,10 @@
 @push('js')
     <script>
         $(document).ready(function() {
-            let kandangData = [];
             let container = $('#container-sampling-ayam-bobot-ayam');
+
             removeBobotAyamRow();
             updateJumlahSampling();
-            
-            @if(old('tanggal'))
-            console.log('has old tanggal');
-                countingAyamSehat('{{ old('tanggal') }}');
-            @else
-            console.log('no old tanggal');
-                @if(isset($samplingBobotAyam))
-                    countingAyamSehat('{{ $samplingBobotAyam->tanggal->format('Y-m-d') }}');
-                @endif
-                
-            @endif
-
-            @if(old('kandang_id'))
-                countingDate('{{ old('kandang_id') }}');
-            @endif
-
 
             $('#btn-add-row-bobot-sampling-ayam').click(function() {
                 addBobotAyamRow();
@@ -168,7 +152,6 @@
                 });
             }
 
-
             function addBobotAyamRow() {
                 const rowCount = container.find('tr').length + 1;
                 const newRow = `
@@ -190,12 +173,11 @@
                 container.append(newRow);
             }
 
-            function countingDate(kandangId, tanggal = null) {
-                if (!tanggal) {
-                    tanggal = $('#tanggal_sampling_ayam').val() || new Date().toISOString().split('T')[0];
-                }
+            function getUmurAyam(kandangId, tanggal) {
                 
-                let url = '/master-data/ajax/umur-ayam-by-kandang/' + kandangId;
+                let url = @js(route('ajax.umur_ayam_by_kandang', ['kandangId' => ':kandangId', 'tanggal' => ':tanggal']))
+                    .replace(':kandangId', kandangId)
+                    .replace(':tanggal', tanggal);
                 let method = 'GET';
 
                 $.ajax({
@@ -205,7 +187,7 @@
                         tanggal: tanggal
                     },
                     success: function(response) {
-                        $('input[name="usia_ayam_saat_ini"]').val(response.usia_ayam);
+                        $('input[name="usia_ayam_saat_ini"]').val(response.umur_ayam);
                         
                     },
                     error: function(xhr, status, error) {
@@ -215,16 +197,18 @@
                 });
             }
 
-            function countingAyamSehat(tanggal = new Date().toISOString().split('T')[0]) {
+            function getPopulasiAyam(kandangId, tanggal = new Date().toISOString().split('T')[0]) {
 
-                let url = '/master-data/ajax/jumlah-ayam-sehat/' + tanggal;
+                let url = @js(route('ajax.populasi-by-kandang', [':kandangId', ':tanggal']))
+                    .replace(':kandangId', kandangId)
+                    .replace(':tanggal', tanggal);
                 let method = 'GET';
 
                 $.ajax({
                     url: url,
                     type: method,
                     success: function(response) {
-                        $('input[name="jumlah_ayam_saat_ini"]').val(response.ayam_sehat);
+                        $('input[name="jumlah_ayam_saat_ini"]').val(response.total_ayam_sehat_terakhir);
                         
                     },
                     error: function(xhr, status, error) {
@@ -234,22 +218,26 @@
                 });
             }
 
+            var kandangId = @js(old('kandang_id', @$samplingBobotAyam->kandang_id));
+            var tanggal = @js(old('tanggal', @$samplingBobotAyam?->tanggal?->format('Y-m-d') ?? now()->format('Y-m-d')));
+
+            if  (kandangId) {
+                getUmurAyam(kandangId, tanggal);
+                getPopulasiAyam(kandangId, tanggal);
+            }
 
             $('#input-kandang-recording-telur').change(function() {
-                const kandangId = $(this).val();
-                const tanggal = $('#tanggal_sampling_ayam').val();
-                countingDate(kandangId, tanggal);
+                kandangId = $(this).val();
+                if (!kandangId || !tanggal) return;
+                getUmurAyam(kandangId, tanggal);
+                getPopulasiAyam(kandangId, tanggal);
             });
 
             $('#tanggal_sampling_ayam').change(function() {
-                const startDate = $(this).val();
-                countingAyamSehat(startDate);
-                
-                // Update jika kandang selected
-                const kandangId = $('#input-kandang-recording-telur').val();
-                if (kandangId && kandangId !== 'Pilih Kandang...') {
-                    countingDate(kandangId, startDate);
-                }
+                tanggal = $(this).val();
+                if (!kandangId || tanggal) return;
+                getUmurAyam(kandangId, tanggal);
+                getPopulasiAyam(kandangId, tanggal);
             });
         });
     </script>

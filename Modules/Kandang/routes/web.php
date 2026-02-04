@@ -50,22 +50,30 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kandang.flock.pipe', KandangFlockPipeController::class)->names('kandang.flock.pipe')->except('index');
         Route::resource('flock', FlockController::class)->names('flock');
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
-
-        Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
-        Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
-        Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
-        Route::get('ajax/umur-ayam/{pipeId}', [AjaxController::class, 'umur_ayam'])->name('ajax.umur_ayam');
-
-        Route::get('ajax/umur-ayam-by-flock/{flockId}', [AjaxController::class, 'umurAyamByFlock'])->name('ajax.umur_ayam_by_flock');
-        Route::get('ajax/kandang/{kandangId}/{tanggal}/record-populasi', [PopulasiAyamController::class, 'getRecordedPopulasi'])->name('ajax.kandang.record-populasi');
-        Route::get('ajax/kesehatan-ayam/{pipeId}', [AjaxController::class, 'kesehatan_ayam'])->name('ajax.kesehatan_ayam');
-        Route::get('ajax/karantina-ayam/{pipeId}', [AjaxController::class, 'populasi_kandang_karantina'])->name('ajax.populasi_kandang_karantina');
-
-        Route::get('ajax/umur-ayam-by-kandang/{kandangId}', [AjaxController::class, 'umurAyamByKandang'])->name('ajax.umur_ayam_by_kandang');
-        Route::get('ajax/jumlah-ayam-sehat/{tanggal}', [AjaxController::class, 'jumlahAyamSehat'])->name('ajax.jumlah_ayam_sehat');
-        Route::get('ajax/karantina-populasi/{kandangId}/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
-        Route::get('ajax/jumlah-ayam-per-kandang', [AjaxController::class, 'getJumlahAyamPerKandang'])->name('ajax.jumlah_ayam_per_kandang');
     });
+
+    // ===== Ajax Start =====
+    Route::get('ajax/kandang', [AjaxController::class, 'kandang'])->name('ajax.kandang');
+    Route::get('ajax/flock/{kandangId}', [AjaxController::class, 'flock'])->name('ajax.flock');
+    Route::get('ajax/pipe/{flockId}', [AjaxController::class, 'pipe'])->name('ajax.pipe');
+
+    Route::get('ajax/umur-ayam-by-pipe/{pipeId}', [AjaxController::class, 'umurAyamByPipe'])->name('ajax.umur_ayam_by_pipe');
+    Route::get('ajax/umur-ayam-by-flock/{flockId}', [AjaxController::class, 'umurAyamByFlock'])->name('ajax.umur_ayam_by_flock');
+    Route::get('ajax/umur-ayam-by-kandang/{kandangId}', [AjaxController::class, 'umurAyamByKandang'])->name('ajax.umur_ayam_by_kandang');
+
+    Route::get('ajax/kandang/{kandangId}/record-populasi/{tanggal}', [PopulasiAyamController::class, 'getRecordedPopulasi'])->name('ajax.kandang.record-populasi');
+
+    Route::get('ajax/pipe/{pipeId}/populasi/{tanggal}', [AjaxController::class, 'populasiByPipe'])
+        ->whereNumber('pipeId')
+        ->where('tanggal', '\d{4}-\d{2}-\d{2}')    
+        ->name('ajax.populasi-by-pipe');
+    Route::get('ajax/kandang/{kandangId}/populasi/{tanggal}', [AjaxController::class, 'populasiByKandang'])
+        ->whereNumber('kandangId')
+        ->where('tanggal', '\d{4}-\d{2}-\d{2}')
+        ->name('ajax.populasi-by-kandang');
+
+    Route::get('ajax/karantina/{kandangId}/populasi/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
+    // ===== Ajax End =====
 
     Route::resource('vaksin-minum', VaksinMinumController::class)->names('vaksin-minum');
 
@@ -98,9 +106,6 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Menu Rekapan =====
     Route::get('rekapan-produksi', [ProduksiController::class, 'index'])->name('rekapan-produksi.index');
-
-    Route::get('ajax/getFlockByKandangId/{kandangId}', [AjaxController::class, 'getFlockByKandangId'])->name('ajax.getFlockByKandangId');
-    Route::get('ajax/getFlockByKandangId/{kandangId}/treatment',[AjaxController::class, 'getFlockByKandangTreatment'])->name('ajax.getFlockByKandangTreatment');
 
     // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');

@@ -184,7 +184,8 @@
             if (!kandangId || !tanggal) {
                 return;
             }
-            $.getJSON(`{{ url('') }}/master-data/ajax/karantina-populasi/${kandangId}/${tanggal}`)
+            const url = @js(route('ajax.karantina_populasi', [':kandangId', ':tanggal']))
+            $.getJSON(url)
                 .then(function(res) {
                     if (!res) return;
                     $('#total_ayam_karantina').val(res.total_ayam_karantina);

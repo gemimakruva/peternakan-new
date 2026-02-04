@@ -536,7 +536,7 @@
             populateDataKandang('kandang_id');
 
             function populateDataKandang(elementId) {
-                let url = '/master-data/ajax/kandang';
+                let url = @js(route('ajax.kandang'));
                 $.ajax({
                     url: url,
                     type: 'GET',

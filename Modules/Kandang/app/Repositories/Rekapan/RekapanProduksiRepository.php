@@ -90,8 +90,7 @@ class RekapanProduksiRepository extends EloquentRepository
                 'xpa.sehat',
                 'xpa.mati',
                 'xpa.afkir'
-            )
-            ->orderBy('xpa.tanggal');
+            );
     }
 
     public function customWhereQuery(): array

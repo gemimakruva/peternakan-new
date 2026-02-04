@@ -10,6 +10,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\ProduksiTelur;
 use Modules\Kandang\Models\ProduksiTelurItem;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
+use Modules\Kandang\Services\PopulasiAyamService;
 
 class RecordingTelurController extends Controller
 {
@@ -17,6 +18,7 @@ class RecordingTelurController extends Controller
         private ProduksiTelur $produksiTelur,
         private ProduksiTelurItem $produksiTelurItem,
         private KandangRepository $kandangRepository,
+        private PopulasiAyamService $populasiAyamService,
     ) { }
     
     public function index(Request $request)
@@ -72,10 +74,10 @@ class RecordingTelurController extends Controller
             'tanggal.unique' => 'Data produksi telur untuk tanggal dan flock ini sudah ada.'
         ]);
 
-        $validated['umur_ayam'] = $this->kandangRepository->getUmurAyamByKandangId(
+        $validated['umur_ayam'] = $this->populasiAyamService->getUmurAyamByKandangId(
             $validated['kandang_id'], 
             $request->date('tanggal')
-        )['usia_ayam'];
+        )['umur_ayam'];
 
         $validated['pic_user_id'] = auth()->id();
 
@@ -153,10 +155,10 @@ class RecordingTelurController extends Controller
             'tanggal.unique' => 'Data produksi telur untuk tanggal dan flock ini sudah ada.'
         ]);
 
-        $validated['umur_ayam'] = $this->kandangRepository->getUmurAyamByKandangId(
+        $validated['umur_ayam'] = $this->populasiAyamService->getUmurAyamByKandangId(
             $produksiTelur->kandang_id, 
             $request->date('tanggal')
-        )['usia_ayam'];
+        )['umur_ayam'];
 
         $validated['pic_user_id'] = auth()->id();
 

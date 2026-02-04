@@ -372,7 +372,7 @@
             populateDataKandang('form-kandang');
 
             function populateDataKandang(elementId) {
-                let url = '/master-data/ajax/kandang';
+                let url = @js(route('ajax.kandang'));
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -405,7 +405,7 @@
                     return;
                 }
 
-                let url = '/master-data/ajax/flock/' + kandangId;
+                let url = @js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId);
                 $.ajax({
                     url: url,
                     type: 'GET',

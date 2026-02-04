@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Requests\PopulasiAyam;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Services\KandangService;
 use Modules\Kandang\Services\PopulasiAyamService;
@@ -33,7 +34,7 @@ class PopulasiAyamStore extends FormRequest
                     ->where('tanggal', '=', request()->input('tanggal_transaksi'))
                     ->exists();
                 if ($isExist) {
-                    $pipe = $this->pipe->find($value);
+                    $pipe = app(Pipe::class)->find($value);
                     $fail("Recording untuk pipe $pipe->nama sudah dilakukan.");
                 }
             }],
@@ -44,7 +45,7 @@ class PopulasiAyamStore extends FormRequest
             'ayam_masuk_karantina' => ['nullable', 'min:0', function ($attr, $value, $fail) {
                 $value = (int) $value;
 
-                if ($value > app(KandangService::class)->getCurrentAyamSehatByPipe(request()->input('pipe_id'))) {
+                if ($value > app(PopulasiAyamService::class)->getCurrentAyamSehatByPipe(request()->input('pipe_id'))) {
                     $fail('ayam masuk karantina tidak boleh melebihi populasi ayam.');
                 }
             }],
