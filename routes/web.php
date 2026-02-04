@@ -23,5 +23,8 @@ Route::group([
     Route::resource('user', UserController::class)->names('user');
     Route::resource('role', RoleController::class)->names('role')->except('show');
 
+    Route::get('profile', [UserController::class, 'profile'])->name('profile');
+    Route::put('profile', [UserController::class, 'profileUpdate'])->name('profile.update');
+
     Route::get('notifications/get', [NotificationsController::class, 'getNotificationsData'])->name('notifications.get');
 });

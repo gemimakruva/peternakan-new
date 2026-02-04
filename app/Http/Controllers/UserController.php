@@ -25,6 +25,7 @@ class UserController extends Controller
                 $query->where('name', 'like', "%{$search}%")
                       ->orWhere('email', 'like', "%{$search}%");
             })
+            ->where('id', '<>', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(request()->query('perPage', 10))
             ->withQueryString();
@@ -79,7 +80,7 @@ class UserController extends Controller
     {
         Gate::authorize('Edit User');
 
-        $user = User::findOrFail($id);
+        $user = User::where('id', '<>', 1)->findOrFail($id);
         $roles = Role::all();
 
         return view('user.edit', compact('user', 'roles'));
@@ -92,7 +93,7 @@ class UserController extends Controller
     {
         Gate::authorize('Edit User');
 
-        $user = User::findOrFail($id);
+        $user = User::where('id', '<>', 1)->findOrFail($id);
 
         $validated = $request->validate([
             'name' => 'required|string|max:255',
@@ -122,7 +123,7 @@ class UserController extends Controller
     {
         Gate::authorize('Hapus User');
 
-        $user = User::findOrFail($id);
+        $user = User::where('id', '<>', 1)->findOrFail($id);
 
         try {
             $user->delete();
@@ -130,5 +131,38 @@ class UserController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->with('error', 'Terjadi kesalahan saat menghapus data.');
         }
+    }
+
+    public function profile()
+    {
+        $user = auth()->user();
+        return view('user.profile', compact('user'));
+    }
+
+    public function profileUpdate(Request $request)
+    {
+        $user = auth()->user();
+
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:8|confirmed',
+            'avatar_file' => 'nullable|file',
+        ]);
+
+        $updatedUser = $request->only('name', 'email');
+
+        if (@$request->has('password')) {
+            $updatedUser['password'] = Hash::make($request->input('password'));
+        }
+
+        if ($file = $request->file('avatar_file')) {
+            $updatedUser['avatar_filepath'] = $file->store('avatar', 'public');
+        }
+
+        $user->fill($updatedUser);
+        $user->save();
+
+        return back()->with('Data Profile berhasil diupdate.');
     }
 }
