@@ -519,17 +519,13 @@ return [
 
         // ====================   SAMPLING AYAM MENU    ==========================
         [
-            'header' => 'Sampling Ayam',
+            'header' => 'Sampling Bobot Ayam',
         ],
         [
-            'text'  => 'Rekapan Sampling',
+            'text'  => 'Sampling Bobot Ayam',
             'route' => 'sampling-ayam.index',
             'icon'  => 'fas fa-clipboard-list',
-        ],
-        [
-            'text'  => 'Tambah Sampling',
-            'route' => 'sampling-ayam.create',
-            'icon'  => 'fas fa-plus-circle',
+            'active' => ['sampling-ayam/*']
         ],
 
         // ====================   PENJADWALAAN TREATMENT  =================

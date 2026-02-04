@@ -4,61 +4,39 @@
     name="tanggal"
     label="Tanggal Produksi"
     value="{{ old('tanggal', isset($samplingBobotAyam) ? $samplingBobotAyam->tanggal->format('Y-m-d') : now()->format('Y-m-d')) }}"
-    igroup-size="lg"
-    fgroup-class="col-12"
-    class="form-control-lg mb-3"
 />
 
-<div class="form-group col-12">
-    <x-adminlte-select id="input-kandang-recording-telur" name="kandang_id" label="Pilih Kandang" class="select-nama-berkas"
-    igroup-size="lg">
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-feather-alt text-muted"></i>
-            </div>
-        </x-slot>
-        <option selected disabled>Pilih Kandang...</option>
-        @foreach ($kandangList as $kandang_id => $nama)
-            <option value="{{ $kandang_id }}" 
-                {{ old('kandang_id', isset($samplingBobotAyam) ? $samplingBobotAyam->kandang_id : '') == $kandang_id ? 'selected' : '' }}>
-                {{ $nama }}
-            </option>
-        @endforeach
-    </x-adminlte-select>
-</div>
-
+<x-adminlte-select id="input-kandang-recording-telur" name="kandang_id" label="Pilih Kandang">
+    <x-adminlte-options 
+        :options="$listKandang"
+        empty-option="Pilih Kandang"
+        :selected="old('kandang_id', @$samplingBobotAyam->kandang_id)"
+    />
+</x-adminlte-select>
 
 <x-adminlte-input
     name="usia_ayam_saat_ini"
     label="Umur Ayam (Minggu)"
-    value="{{ old('usia_ayam_saat_ini', isset($samplingBobotAyam) ? $samplingBobotAyam->umur : 0) }}"
+    value="{{ old('usia_ayam_saat_ini', @$samplingBobotAyam->umur) }}"
     type="number"
-    igroup-size="lg"
-    fgroup-class="col-12"
-    class="form-control-lg mb-3"
-    readonly
-/>
-<x-adminlte-input
-    name="jumlah_ayam_saat_ini"
-    label="Jumlah Ayam Saat Ini"
-    value="{{ old('jumlah_ayam_saat_ini', isset($samplingBobotAyam) ? $samplingBobotAyam->jumlah_ayam_saat_ini : 0) }}"
-    type="number"
-    igroup-size="lg"
-    fgroup-class="col-12"
-    class="form-control-lg mb-3"
-    readonly
-/>
-<x-adminlte-input
-    name="jumlah_ayam_disampling"
-    label="Jumlah Ayam yang Disampling"
-    value="{{ old('jumlah_ayam_disampling', isset($samplingBobotAyam) ? $samplingBobotAyam->jumlah_ayam_yang_disampling : 0) }}"
-    type="number"
-    igroup-size="lg"
-    fgroup-class="col-12"
-    class="form-control-lg mb-3"
     readonly
 />
 
+<x-adminlte-input
+    name="jumlah_ayam_saat_ini"
+    label="Jumlah Ayam Saat Ini"
+    value="{{ old('jumlah_ayam_saat_ini', @$samplingBobotAyam->jumlah_ayam_saat_ini) }}"
+    type="number"
+    readonly
+/>
+
+<x-adminlte-input
+    name="jumlah_ayam_disampling"
+    label="Jumlah Ayam yang Disampling"
+    value="{{ old('jumlah_ayam_disampling', @$samplingBobotAyam->jumlah_ayam_yang_disampling) }}"
+    type="number"
+    readonly
+/>
 
 <table class="table table-sm table-bordered table-striped">
     <thead>

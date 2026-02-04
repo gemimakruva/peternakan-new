@@ -4,19 +4,16 @@ namespace Modules\Kandang\Http\Controllers\SamplingAyam;
 use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Models\PengadaanAyam;
-use Modules\Kandang\Models\PengadaanAyamDistribusi;
-use Modules\Kandang\Models\ProduksiTelur;
 use Modules\Kandang\Models\SamplingBobotAyam;
 use Modules\Kandang\Models\SamplingBobotAyamPerEkor;
 
 class SamplingAyamController extends Controller
 {
     public function __construct(
+        private Kandang $kandang,
         private SamplingBobotAyam $samplingBobotAyam,
         private SamplingBobotAyamPerEkor $samplingBobotAyamPerEkor
     ) { }
@@ -96,27 +93,20 @@ class SamplingAyamController extends Controller
             ['path' => $request->url(), 'query' => $request->query()]
         );
         
-        $listKandang = Kandang::all();
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
 
         return view("kandang::sampling-ayam.index", [
             'listSamplingBobotAyam' => $paginatedData,
             'listKandang' => $listKandang
         ]);
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     
     public function create()
     {
-        $kandangList = Kandang::get(['id', 'nama'])->pluck('nama', 'id');
-        return view("kandang::sampling-ayam.create", compact('kandangList'));
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
+        return view("kandang::sampling-ayam.create", compact('listKandang'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(Request $request)
     {
         $request['umur'] = $request->usia_ayam_saat_ini;
@@ -139,15 +129,8 @@ class SamplingAyamController extends Controller
         ]);
 
         try{
-
             DB::beginTransaction();
-            Log::info('Creating sampling bobot ayam', [
-                'tanggal' => $validated['tanggal'],
-                'kandang_id' => $validated['kandang_id'],
-                'umur' => $validated['umur'],
-                'jumlah_ayam_saat_ini' => $validated['jumlah_ayam_saat_ini'],
-                'jumlah_ayam_disampling' => $validated['jumlah_ayam_disampling'],
-            ]);
+
             $create = $this->samplingBobotAyam->create([
                 'tanggal' => $validated['tanggal'],
                 'kandang_id' => $validated['kandang_id'],
@@ -156,18 +139,7 @@ class SamplingAyamController extends Controller
                 'jumlah_ayam_yang_disampling' => $validated['jumlah_ayam_disampling'],
             ]);
 
-            Log::info('Created sampling bobot ayam', ['id' => $create->id]);
-            Log::info('Berat badan array', [
-                'count' => count($validated['berat_badan_rata_rata']),
-                'data' => $validated['berat_badan_rata_rata']
-            ]);
-            
-            foreach($validated['berat_badan_rata_rata'] as $index => $bobot){
-                Log::info('Creating bobot per ekor - iteration ' . $index, [
-                    'sampling_bobot_ayam_id' => $create->id,
-                    'bobot_per_kg' => $bobot,
-                ]);
-                
+            foreach($validated['berat_badan_rata_rata'] as $index => $bobot){                
                 $this->samplingBobotAyamPerEkor->create([
                     'sampling_bobot_ayam_id' => $create->id,
                     'bobot_per_kg' => $bobot,
@@ -175,43 +147,29 @@ class SamplingAyamController extends Controller
             }
 
             DB::commit();
-            Log::info('Transaction committed successfully');
-        
-            return to_route('sampling-ayam.index')->with('success', 'Data Berhasil Ditambahkan.');   
-                
+            return to_route('sampling-ayam.index')->with('success', 'Data Berhasil Ditambahkan.');
         }catch(\Exception $e){
             DB::rollBack();
-            
+
             Log::error('Store method failed', [
                 'error' => $e->getMessage(),
                 'line' => $e->getLine(),
                 'file' => $e->getFile(),
             ]);
-            
+
             return to_route('sampling-ayam.index')->with('error', 'Data Gagal Ditambahkan. Error: '.$e->getMessage());
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(PopulasiAyam $populasiAyam)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit($id)
     {
         $samplingBobotAyam = $this->samplingBobotAyam
             ->with(['kandang', 'beratBadanRataRataPerEkor'])
             ->findOrFail($id);
         
-        $kandangList = Kandang::pluck('nama', 'id');
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
         
-        return view('kandang::sampling-ayam.edit', compact('samplingBobotAyam', 'kandangList'));
+        return view('kandang::sampling-ayam.edit', compact('samplingBobotAyam', 'listKandang'));
     }
 
     /**
@@ -239,9 +197,7 @@ class SamplingAyamController extends Controller
 
         try{
             DB::beginTransaction();
-            
-            Log::info('Updating sampling bobot ayam', ['id' => $id]);
-            
+
             $samplingBobotAyam = $this->samplingBobotAyam->findOrFail($id);
             
             $samplingBobotAyam->update([
@@ -253,12 +209,7 @@ class SamplingAyamController extends Controller
             ]);
             $samplingBobotAyam->beratBadanRataRataPerEkor()->delete();
             
-            foreach($validated['berat_badan_rata_rata'] as $index => $bobot){
-                Log::info('Creating bobot per ekor - iteration ' . $index, [
-                    'sampling_bobot_ayam_id' => $samplingBobotAyam->id,
-                    'bobot_per_kg' => $bobot,
-                ]);
-                
+            foreach($validated['berat_badan_rata_rata'] as $index => $bobot){                
                 $this->samplingBobotAyamPerEkor->create([
                     'sampling_bobot_ayam_id' => $samplingBobotAyam->id,
                     'bobot_per_kg' => $bobot,
@@ -266,8 +217,7 @@ class SamplingAyamController extends Controller
             }
 
             DB::commit();
-            Log::info('Update transaction committed successfully');
-        
+
             return to_route('sampling-ayam.index')->with('success', 'Data Berhasil Diupdate.');   
                 
         }catch(\Exception $e){

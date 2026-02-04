@@ -1,44 +1,58 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Form Produksi Telur')
+@section('title', 'Tambah Sampling Bobot Ayam')
 
 @section('content_header')
-    <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-        <h2 class="h4 fw-bold text-dark">Form Produksi Telur</h2>
-        <span class="text-muted mb-0" style="max-width: 600px;">
-            Halaman ini digunakan untuk input produksi telur
-        </span>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>Tambah Sampling Bobot Ayam</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="{{ route('sampling-ayam.index') }}">Sampling Bobot Ayam</a></li>
+                <li class="breadcrumb-item active">Tambah</li>
+            </ol>
+        </div>
     </div>
+</div>
 @endsection
 
 @section('content')
-    <div style="max-width: 1200px">
-        @include('components.form-alert')
+<div class="mx-1000">
+    @include('components.form-alert')
 
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <form action="{{ route('sampling-ayam.store') }}" method="POST">
-                    @csrf
-                    <div class="card">
-                        <div class="card-header">
-                            <h2 class="card-title">Form Produksi Telur</h2>
-                        </div>
-                        <div class="card-body">
-                            @include('kandang::sampling-ayam._form',['kandangList' => $kandangList])
-                        </div>
+    <div class="row">
+        <div class="col-12 col-md-9">
+            <form action="{{ route('sampling-ayam.store') }}" method="POST" id="form-sampling-ayam">
+                @csrf
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Form Sampling Bobot Ayam</h2>
                     </div>
-
-                    <div class="mt-4 d-flex justify-content-between px-3">
-                        <a href="{{ route('sampling-ayam.index') }}" class="btn btn-secondary px-4 py-2">
-                            <i class="fas fa-arrow-left me-2"></i> Kembali
+                    <div class="card-body">
+                        @include('kandang::sampling-ayam._form')
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card sticy-form-action">
+                <div class="card-header">
+                    <h2 class="card-title">Aksi</h2>
+                </div>
+                <div class="card-body">
+                    <div class="d-flex gap-3">
+                        <a href="{{ route('sampling-ayam.index') }}" class="btn btn-outline-secondary flex-1">
+                            Kembali
                         </a>
-                        <button type="submit" class="btn btn-success px-4 py-2 shadow-sm">
-                            <i class="fas fa-save me-2"></i> Simpan
+                        <button class="btn btn-primary flex-1" type="submit" form="form-sampling-ayam">
+                            Simpan
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
-
+</div>
 @endsection
