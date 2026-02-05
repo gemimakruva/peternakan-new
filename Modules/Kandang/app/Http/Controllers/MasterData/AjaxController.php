@@ -124,11 +124,24 @@ class AjaxController extends Controller
         return $result;
     }
 
-    public function populasiByPipe(PopulasiAyamService $populasiAyamService, Request $request, $pipeId, $tanggal)
+    public function populasiByPipe(PopulasiAyamService $populasiAyamService, $pipeId, $tanggal)
     {
         $tanggal = Carbon::createFromFormat('Y-m-d', $tanggal);
         $jumlahAyamSehat = $populasiAyamService->getCurrentAyamSehatByPipe($pipeId, $tanggal);
         $pipe = $this->pipe->find($pipeId, ['id', 'flock_id']);
+        $latestTotalKarantinaPopulasi = $populasiAyamService->getLatestKarantinaPopulasi($pipe->flock->kandang_id, $tanggal);
+        
+        return [
+            'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+            'total_ayam_sakit_terakhir' => $latestTotalKarantinaPopulasi,
+        ];
+    }
+
+    public function populasiByFlock(PopulasiAyamService $populasiAyamService, $flockId, $tanggal)
+    {
+        $tanggal = Carbon::createFromFormat('Y-m-d', $tanggal);
+        $jumlahAyamSehat = $populasiAyamService->getCurrentAyamSehatByFlock($flockId, $tanggal);
+        $pipe = $this->pipe->find($flockId, ['id', 'flock_id']);
         $latestTotalKarantinaPopulasi = $populasiAyamService->getLatestKarantinaPopulasi($pipe->flock->kandang_id, $tanggal);
         
         return [

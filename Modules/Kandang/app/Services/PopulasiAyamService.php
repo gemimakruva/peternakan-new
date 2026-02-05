@@ -14,7 +14,7 @@ use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\PopulasiAyamRepository;
 use Modules\Kandang\Services\Contracts\PopulasiAyamServiceInterface;
 
-class PopulasiAyamService implements PopulasiAyamServiceInterface
+class PopulasiAyamService
 {
     public function __construct(
         private PopulasiAyamRepository $populasiAyamRepository,
@@ -24,17 +24,6 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
     ) {}
-
-    public function getChickensPerRow(array $filter): array
-    {
-        $total = $this->populasiAyamRepository->getChickensPerRow($filter['flock_id'], $filter['date']);
-
-        return [
-            'flock_id' => $filter['flock_id'],
-            'date'     => $filter['date'],
-            'total'    => $total,
-        ];
-    }
 
     public function getCurrentAyamSehatByPipe(int $pipeId, ?Carbon $tanggalPerbandingan = null)
     {
@@ -47,19 +36,57 @@ class PopulasiAyamService implements PopulasiAyamServiceInterface
             ->where('pipe_id', '=', $pipeId)
             ->value('ayam_sehat');
 
+        if ($jumlahAyamSehatHariIni > 0) return (int) $jumlahAyamSehatHariIni;
+
         $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
             ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
             ->where('pipe_id', '=', $pipeId)
             ->value('ayam_sehat');
+
+        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
 
         $jumlahAyamSehatTerakhir = $this->populasiAyamRepository->getModel()
             ->where('pipe_id', '=', $pipeId)
             ->latest('tanggal')
             ->value('ayam_sehat');
 
-        $jumlahAyamSehat = $jumlahAyamSehatHariIni ?? $jumlahAyamSehatDariPopulasiSebelumnya ?? $jumlahAyamSehatTerakhir ?? 0;
+        if ($jumlahAyamSehatTerakhir > 0) return (int) $jumlahAyamSehatTerakhir;
 
-        return $jumlahAyamSehat;
+        return 0;
+    }
+
+    public function getCurrentAyamSehatByFlock(int $flockId, ?Carbon $tanggalPerbandingan = null)
+    {
+        $tanggalPerbandingan ??= now();
+
+        $hMin1TanggalPerbandingan = $tanggalPerbandingan->clone()->subDay();
+
+        $jumlahAyamSehatHariIni = $this->populasiAyamRepository->getModel()
+            ->whereDate('tanggal', '=', $tanggalPerbandingan)
+            ->where('flock_id', '=', $flockId)
+            ->sum('ayam_sehat');
+
+        if ($jumlahAyamSehatHariIni > 0) return (int) $jumlahAyamSehatHariIni;
+
+        $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
+            ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
+            ->where('flock_id', '=', $flockId)
+            ->sum('ayam_sehat');
+
+        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+
+        $tanggalTerakhir = $this->populasiAyamRepository->getModel()
+            ->where('flock_id', $flockId)
+            ->max('tanggal');
+
+        $jumlahAyamSehatTerakhir = $this->populasiAyamRepository->getModel()
+            ->where('flock_id', '=', $flockId)
+            ->where('tanggal', $tanggalTerakhir)
+            ->sum('ayam_sehat');
+
+        if ($jumlahAyamSehatTerakhir > 0) return (int) $jumlahAyamSehatTerakhir;
+
+        return 0;
     }
 
     public function getCurrentAyamSehatByKandang(int $kandangId, ?Carbon $tanggalPerbandingan = null)

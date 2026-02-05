@@ -1,25 +1,36 @@
-@extends('adminlte::page')
+@extends('layouts.dashboard')
 
 @section('title', 'Monitoring Kesehatan')
 
 @section('content_header')
-    <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-        <h2 class="h4 fw-bold text-dark">List Monitoring Kesehatan</h2>
-        <span class="text-muted mb-0" style="max-width: 600px;">
-            Halaman ini digunakan untuk Menampilkan daftar Monitoring Kesehatan
-        </span>
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <div class="d-flex align-items-center gap-1">
+                <h1>Monitoring Kesehatan</h1>
+                <a href="{{ route('monitoring-kesehatan.create') }}" class="btn btn-primary">Tambah Monitoring Kesehatan</a>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Monitoring Kesehatan</a></li>
+            </ol>
+        </div>
     </div>
+</div>
 @endsection
 
 @section('content')
+<div class="mx-1200">
     <x-form-alert />
-    <div class="card" style="max-width:1200px">
+    
+    <div class="card">
         <div class="card-header">
-            <h3 class="card-title">Filter Data Pencatatan</h3>
+            <h2 class="card-title">Filter</h2>
         </div>
 
         <div class="card-body">
-            <form action="" method="GET" class="row g-2 align-items-end">
+            <form action="{{ route('monitoring-kesehatan.index') }}" method="GET" class="row g-2 align-items-end">
                 <div class="col-md-4 col-5">
                     <label class="form-label">Range Tanggal</label>
                     <div class="row">
@@ -46,7 +57,7 @@
 
                 <div class="col-md-2 col-5">
                     <label class="form-label">Tim Pelaksana</label>
-                    <input type="text" name="tim_pelaksana" value="{{ request('tim_pelaksana') }}" class="form-control" placeholder="Masukkan Tim Pelaksana...">
+                    <input type="text" name="tim_pelaksana" value="{{ request('tim_pelaksana') }}" class="form-control" placeholder="Tim Pelaksana...">
                 </div>
 
                 <div class="col-md-2 col-2">
@@ -61,12 +72,13 @@
         </div>
     </div>
 
-    <div class="card mt-3" style="max-width:1200px">
-        <div class="card-body table-responsive">
+    <div class="card mt-3">
+        <div class="card-body table-responsive p-0">
             <table class="table table-bordered table-striped align-middle">
-                <thead class="text-center" style="background-color: #495057; border-color: #495057; color: white;">
+                <thead class="text-center">
                     <tr>
                         <th>No</th>
+                        <th>Tim Pelaksana</th>
                         <th>Tanggal Transaksi</th>
                         <th>Kandang</th>
                         <th>Total Populasi Ayam</th>
@@ -78,8 +90,8 @@
                     @forelse ($data as $item)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
-                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)
-                ->translatedFormat('l, d F Y') }}</td>
+                            <td>{{ $item->tim_pelaksana }}</td>
+                            <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                             <td>{{ $item->kandang->nama ?? '-' }}</td>
                             <td>{{ $item->total_populasi_ayam }}</td>
                             <td>{{ $item->detail_penyakit_ditemukan }}</td>
@@ -101,13 +113,13 @@
                     @endforelse
                 </tbody>
             </table>
-
-            <div class="d-flex justify-content-end mt-3">
-                {{ $data->links() }}
-            </div>
         </div>
+
+        @if ($data->hasPages())
+            <div class="card-footer d-flex justify-content-end">
+                {{ $data->links('components.pagination') }}
+            </div>
+        @endif
     </div>
-    </div>
+</div>
 @endsection
-@push('js')
-@endpush

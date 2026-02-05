@@ -67,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
         ->whereNumber('pipeId')
         ->where('tanggal', '\d{4}-\d{2}-\d{2}')    
         ->name('ajax.populasi-by-pipe');
+    Route::get('ajax/flock/{flockId}/populasi/{tanggal}', [AjaxController::class, 'populasiByFlock'])
+        ->whereNumber('flockId')
+        ->where('tanggal', '\d{4}-\d{2}-\d{2}')
+        ->name('ajax.populasi-by-flock');
     Route::get('ajax/kandang/{kandangId}/populasi/{tanggal}', [AjaxController::class, 'populasiByKandang'])
         ->whereNumber('kandangId')
         ->where('tanggal', '\d{4}-\d{2}-\d{2}')
@@ -81,7 +85,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
 
     // ===== Menu Group Populasi Ayam =====
-    Route::get('populasi-ayam/summary', [PopulasiAyamController::class, 'getSummary'])->name('populasi-ayam.summary');
     Route::resource('populasi-ayam', PopulasiAyamController::class)->parameter('populasi-ayam', 'kandang')->names('populasi-ayam')->only(['index', 'store']);
     Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam')->only(['edit', 'update']);
     Route::get('populasi-ayam/{kandang}/create', [PopulasiAyamController::class, 'create'])->name('populasi-ayam.create');
