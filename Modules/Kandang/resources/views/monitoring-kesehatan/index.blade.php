@@ -96,8 +96,8 @@
                             <td>{{ $item->total_populasi_ayam }}</td>
                             <td>{{ $item->detail_penyakit_ditemukan }}</td>
                             <td class="text-center">
-                                <a href="{{ route('monitoring-kesehatan.edit', $item->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fa fa-pen"></i>
+                                <a href="{{ route('monitoring-kesehatan.edit', $item->id) }}" class="btn btn-warning btn-sm">
+                                    <i class="fa fa-edit"></i>
                                 </a>
                                 <a href="{{ route('monitoring-kesehatan.show', $item->id) }}" class="btn btn-info btn-sm">
                                     <i class="fa fa-eye"></i>

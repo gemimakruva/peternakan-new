@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\Disinfektan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 use Modules\Kandang\Http\Requests\PenjadwalanDisinfektan\IndexRequest;
 use Modules\Kandang\Http\Requests\PenjadwalanDisinfektan\StoreRequest;
 use Modules\Kandang\Http\Requests\PenjadwalanDisinfektan\UpdateRequest;
@@ -59,6 +60,16 @@ class PenjadwalanDisinfektanController extends Controller
     public function edit(PenjadwalanDisinfektan $penjadwalanDisinfektan)
     {
         $jenisDisinfektan = $this->service->getJenisDisinfektan()->toArray();
+
+        if (
+            str_starts_with($penjadwalanDisinfektan->detail_waktu, 'Pagi jam ')
+            || str_starts_with($penjadwalanDisinfektan->detail_waktu, 'Siang jam ')
+            || str_starts_with($penjadwalanDisinfektan->detail_waktu, 'Sore jam ')
+        ) {
+            $jam = str_replace(['Sore jam ', 'Pagi jam ', 'Siang jam '], '', $penjadwalanDisinfektan->detail_waktu);
+            $jam = Carbon::createFromFormat('H.i', trim($jam)); // 10.45
+            $penjadwalanDisinfektan->detail_waktu = $jam->format('H:i');
+        }
 
         return view('kandang::penjadwalan-disinfektan.edit', compact('penjadwalanDisinfektan', 'jenisDisinfektan'));
     }
