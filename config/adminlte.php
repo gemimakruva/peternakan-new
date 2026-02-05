@@ -588,90 +588,67 @@ return [
                     'text'  => 'List Order ',
                     'route' => 'order-ovk.index',
                     'icon' => 'fas fa-clipboard-list',
-                    'can'   => 'Request order bahan untuk OVK ',
                 ],
                 [
                     'text'  => 'Form Order',
                     'route' => 'order-ovk.create',
                     'icon'  => 'fas fa-plus',
-                    'can'   => 'tambah list penjadwalan disinfektan',
                 ],
             ],
         ],
         [
             'text'  => 'Vaksin Minum',
             'icon'  => 'fas fa-clipboard-list',
-            'can'   => 'Lihat Rekapan Pakan Harian',
             'submenu' => [
                 [
                     'text'  => 'List Data Vaksin Minum',
                     'route' => 'vaksin-minum.index',
                     'icon'  => 'fas fa-history',
-                    'can'   => 'Lihat list data vaksin minum',
                 ],
                 [
                     'text'  => 'Form Vaksin Minum',
                     'route' => 'vaksin-minum.create',
                     'icon'  => 'fas fa-plus',
-                    'can'   => 'Lihat list data vaksin minum',
                 ],
             ],
         ],
 
         [
             'text'  => 'Vitamin Obat Minum',
-            'route' => '',
             'icon'  => 'fas fa-clipboard-list',
-            'can'   => 'Lihat obat vitamin minum',
             'submenu' => [
                 [
                     'text'  => 'List Vitamin Obat Minum',
                     'route' => 'perhitungan-obat.vitamin-obat-minum.index',
                     'icon'  => 'fas fa-history',
-                    'can'   => 'Lihat obat vitamin minum',
                 ],
                 [
                     'text'  => 'Tambah Vitamin Obat Minum',
                     'route' => 'perhitungan-obat.vitamin-obat-minum.create',
                     'icon'  => 'fas fa-plus',
-                    'can'   => 'Tambah obat vitamin minum',
                 ],
             ],
         ],
         [
             'text'  => 'Bahan Treatment',
             'route' => '',
-            'icon'  => 'fas fa-vials',
-            'can'   => 'Lihat Rekapan Pakan Harian',
+            'icon'  => 'fas fa-clipboard-list',
         ],
         [
             'text'  => 'Form Pelaksanaan',
             'route' => '',
-            'icon'  => 'fas fa-file-signature',
-            'can'   => 'Lihat Rekapan Pakan Harian',
+            'icon'  => 'fas fa-clipboard-list',
         ],
 
         // ====================   Monitoring Kesehatan  ========================
         [
             'header' => 'Monitoring Kesehatan',
-            'can'    => [
-                'Lihat Pemberian Pakan',
-                'Lihat Perhitungan Pakan',
-                'Lihat Sisa Pakan',
-                'Lihat Rekapan Pakan Harian',
-            ],
-        ],
-        [
-            'text'  => 'Form Monitoring',
-            'route' => 'monitoring-kesehatan.create',
-            'icon'  => 'fas fa-clipboard-check',
-            'can'   => 'Lihat Rekapan Pakan Harian',
         ],
         [
             'text'  => 'Riwayat Monitoring',
             'route' => 'monitoring-kesehatan.index',
-            'icon'  => 'fas fa-history',
-            'can'   => 'Lihat Rekapan Pakan Harian',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['monitoring-kesehatan/*']
         ],
 
         // ====================   USER AND ACCESS   ============================
