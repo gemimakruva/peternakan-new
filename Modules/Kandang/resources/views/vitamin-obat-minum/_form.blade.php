@@ -119,7 +119,7 @@
             populateDataKandang('form-kandang');
 
             function populateDataKandang(elementId) {
-                let url = '/master-data/ajax/kandang';
+                let url = @js(route('ajax.kandang'));
                 $.ajax({
                     url: url,
                     type: 'GET',
@@ -150,7 +150,7 @@
 
                 if (!kandangId) return;
 
-                $.get(`/master-data/ajax/flock/${kandangId}`, function (response) {
+                $.get(@js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId), function (response) {
                     const flockData = response.results || [];
                     const $jumlahAyam = $('input[name="jumlah_ayam_per_flock"]');
 
@@ -206,15 +206,15 @@
                     return;
                 }
 
+                const url = @js(route('ajax.populasi-by-flock', [':flockId', ':tanggal']))
+                    .replace(':flockId', flockId)
+                    .replace(':tanggal', tanggal)
+
                 $.ajax({
-                    url: '/populasi-ayam/summary',
+                    url,
                     method: 'GET',
-                    data: {
-                        date: tanggal,
-                        flock_id: flockId
-                    },
                     success: function (res) {
-                        $jumlahAyam.val(res.total ?? 0).trigger('input');
+                        $jumlahAyam.val(res.total_ayam_sehat_terakhir ?? 0).trigger('input');
                     },
                     error: function () {
                         $jumlahAyam.val('');

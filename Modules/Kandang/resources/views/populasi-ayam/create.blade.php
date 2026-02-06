@@ -57,7 +57,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex gap-3">
-                            <a href="{{ route('populasi-ayam.flock.index', $kandang) }}" class="btn btn-secondary flex-1">
+                            <a href="{{ route('populasi-ayam.flock.index', $kandang) }}" class="btn btn-outline-secondary flex-1">
                                 Kembali
                             </a>
                             <button id="btnSubmitPopulasi" type="submit" class="btn btn-primary flex-1" form="form-populasi-ayam">

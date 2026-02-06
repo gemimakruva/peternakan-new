@@ -23,14 +23,16 @@ class KandangDatabaseSeeder extends Seeder
             PopulasiAyamSeeder::class,
             AyamAfkirSeeder::class,
             AyamKarantinaSeeder::class,
-            
+
             JenisPakanSeeder::class,
             JenisDisinfektanSeeder::class,
             JenisTreatmentSeeder::class,
             MetodeTreatmentSeeder::class,
 
-            // PerhitunganPakanSeeder::class,
-            // PemberianPakanSisaPakanSeeder::class,
+            PerhitunganPakanSeeder::class,
+            PemberianPakanSisaPakanSeeder::class,
+            
+            ProduksiTelurSeeder::class,
 
             // PenjadwalaanTreatmentSeeder::class,
             // penjadwalanTreatmentFlockSeeder::class,

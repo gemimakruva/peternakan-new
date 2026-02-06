@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Storage;
 use Modules\Kandang\Models\PengadaanAyam;
 use Spatie\Permission\Traits\HasRoles;
 
@@ -23,6 +24,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'avatar_filepath',
     ];
 
     /**
@@ -50,6 +52,10 @@ class User extends Authenticatable
 
     public function adminlte_image()
     {
+        if ($this->attributes['avatar_filepath']) {
+            return Storage::url($this->attributes['avatar_filepath']);
+        }
+
         $email = $this->attributes['email'];
         $hash = md5(strtolower(trim($email)));
         $url = "https://www.gravatar.com/avatar/{$hash}?s=200&d=identicon&r=pg";
@@ -58,7 +64,15 @@ class User extends Authenticatable
 
     public function adminlte_desc()
     {
-        return 'desc';
+        return null;
+    }
+
+    public function getEnabledNotificationAttribute()
+    {
+        return (boolean) Option::query()
+            ->where('user_id', '=', $this->attributes['id'])
+            ->where('key', 'enabled_notification')
+            ?->value('value') ?? false;
     }
 
     public function pengadaanAyam(){

@@ -187,7 +187,7 @@ $(document).ready(function () {
     function loadFlocks(kandangId, selectedFlock = '') {
         if (kandangId) {
             $.ajax({
-                url: "{{ route('ajax.getFlockByKandangId', ':id') }}".replace(':id', kandangId), 
+                url: "{{ route('ajax.flock', ':id') }}".replace(':id', kandangId), 
                 type: 'GET',
                 dataType: 'json',
                 success: function(data) {
@@ -197,7 +197,7 @@ $(document).ready(function () {
                     if(selectedFlock) {
                         var oldOption = data.results.find(f => f.id == selectedFlock);
                         if(oldOption) {
-                            $('#flock_id').append('<option value="'+oldOption.id+'" selected>'+oldOption.nama+'</option>');
+                            $('#flock_id').append('<option value="'+oldOption.id+'" selected>'+oldOption.text+'</option>');
                         }
                     }
 

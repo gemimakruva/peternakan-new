@@ -11,6 +11,8 @@
     </div>
 @endsection
 
+@section('plugins.Datatables', true)
+
 @section('content')
     <div>
         <div style="max-width: 1200px" class="row justify-content-center px-3">

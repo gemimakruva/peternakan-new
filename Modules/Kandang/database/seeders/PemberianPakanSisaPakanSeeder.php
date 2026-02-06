@@ -3,14 +3,24 @@
 namespace Modules\Kandang\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\PemberianPakanSisaPakan;
+use Modules\Kandang\Models\PerhitunganPakan;
 
 
 class PemberianPakanSisaPakanSeeder extends Seeder
 {
     public function run(): void
     {
-        // Generate 30 data dummy menggunakan Factory
-        PemberianPakanSisaPakan::factory()->count(30)->create();
+        PerhitunganPakan::with('kandang.flocks')->get()->each(function(PerhitunganPakan $item) {
+            $item->kandang->flocks->each(function(Flock $item2) use($item) {
+                PemberianPakanSisaPakan::firstOrCreate([
+                    'perhitungan_pakan_id'      => $item->id,
+                    'flock_id'                  => $item2->id,
+                ], [
+                    'sisa_pakan_per_flock_kg'   => 1,
+                ]);
+            });
+        });
     }
 }

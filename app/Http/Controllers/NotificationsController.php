@@ -8,34 +8,19 @@ class NotificationsController extends Controller
 {
     public function getNotificationsData(Request $request)
     {
-        // For the sake of simplicity, assume we have a variable called
-        // $notifications with the unread notifications. Each notification
-        // have the next properties:
-        // icon: An icon for the notification.
-        // text: A text for the notification.
-        // time: The time since notification was created on the server.
-        // At next, we define a hardcoded variable with the explained format,
-        // but you can assume this data comes from a database query.
-
-        $notifications = [
-            [
-                'icon' => 'fas fa-fw fa-envelope',
-                'text' => rand(0, 10) . ' new messages',
-                'time' => rand(0, 10) . ' minutes',
-            ],
-            [
-                'icon' => 'fas fa-fw fa-users text-primary',
-                'text' => rand(0, 10) . ' friend requests',
-                'time' => rand(0, 60) . ' minutes',
-            ],
-            [
-                'icon' => 'fas fa-fw fa-file text-danger',
-                'text' => rand(0, 10) . ' new reports',
-                'time' => rand(0, 60) . ' minutes',
-            ],
-        ];
-
-        // Now, we create the notification dropdown main content.
+        $notifications = auth()->user()
+            ->notifications()
+            ->orderByDesc('created_at')
+            ->whereNull('read_at')
+            ->get(['data', 'created_at'])
+            ->map(function($item) {
+                return [
+                    'icon'  => $item->data['icon'],
+                    'text'  => $item->data['title'],
+                    'time'  => $item->created_at->translatedFormat('d F Y'),
+                    'url'   => $item->data['url'],
+                ];
+            })->toArray();
 
         $dropdownHtml = '';
 
@@ -46,7 +31,7 @@ class NotificationsController extends Controller
                    {$not['time']}
                  </span>";
 
-            $dropdownHtml .= "<a href='#' class='dropdown-item'>
+            $dropdownHtml .= "<a href='{$not['url']}' class='dropdown-item'>
                             {$icon}{$not['text']}{$time}
                           </a>";
 
@@ -63,5 +48,15 @@ class NotificationsController extends Controller
             'icon_color' => 'dark',
             'dropdown' => $dropdownHtml,
         ];
+    }
+
+    public function show()
+    {
+        $notifications = auth()->user()
+            ->notifications()
+            ->paginate(request()->query('perPage', 10))
+            ->withQueryString();
+
+        return view('notifications.show', compact('notifications'));
     }
 }

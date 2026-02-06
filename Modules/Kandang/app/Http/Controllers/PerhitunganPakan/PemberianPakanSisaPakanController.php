@@ -73,6 +73,11 @@ class PemberianPakanSisaPakanController extends Controller
         ]);
 
         $flockIds = $perhitunganPakan->perhitunganPakanItems->pluck('flock_id')->unique()->values();
+
+        if ($flockIds->count() === 0) {
+            return to_route('pemberian-pakan-sisa-pakan.index')->with('danger', 'Pemberian Pakan Belum Ditambahkan.');
+        }
+
         foreach ($flockIds as $id) {
             $collectByFlock = $perhitunganPakan->perhitunganPakanItems->filter(fn($item) => $item->flock_id == $id);
             $tables[$id]['flock_id']                 = $id;

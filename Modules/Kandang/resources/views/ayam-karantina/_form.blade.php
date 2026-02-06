@@ -1,16 +1,30 @@
-<x-adminlte-input
-    name="kandang_name" 
-    label="Pilih Kandang" 
-    :value="@$data->kandang->nama"
-    readonly
-/>
+@if (@$data->kandang_id)
+    <x-adminlte-input
+        name="kandang_name" 
+        label="Pilih Kandang" 
+        :value="@$data->kandang->nama"
+        readonly
+    />
+@else
+    <x-adminlte-select
+        name="kandang_id"
+        label="Pilih Kandang"
+    >
+        <x-adminlte-options 
+            :options="$listKandang"
+            empty-option="Pilih Kandang"
+            :selected="@$data->kandang_id"
+        />
+    </x-adminlte-select>
+@endif
+
 
 <x-adminlte-input
     name="tanggal"
     label="Tanggal"
     type="date"
     :value="@$data->tanggal?->format('Y-m-d')"
-    readonly
+    :readonly="@$data->tanggal"
 />
 
 <x-adminlte-input 
@@ -20,7 +34,6 @@
     type="number" 
     :value="old('total_ayam_karantina', @$data->total_ayam_karantina)"
     placeholder="Total Ayam Karantina" 
-    disabled
 />
 
 <x-adminlte-input 
@@ -180,11 +193,15 @@
         var kandangId = $('select[name=kandang_id]').val();
         var tanggal = $('input[name=tanggal]').val();
 
-        function getKarantinaPopulasiData() {            
+        function getKarantinaPopulasiData() {
+            console.log('attempt get karantin');            
             if (!kandangId || !tanggal) {
                 return;
             }
-            $.getJSON(`{{ url('') }}/master-data/ajax/karantina-populasi/${kandangId}/${tanggal}`)
+            const url = @js(route('ajax.karantina_populasi', [':kandangId', ':tanggal']))
+                .replace(':kandangId', kandangId)
+                .replace(':tanggal', tanggal);
+            $.getJSON(url)
                 .then(function(res) {
                     if (!res) return;
                     $('#total_ayam_karantina').val(res.total_ayam_karantina);

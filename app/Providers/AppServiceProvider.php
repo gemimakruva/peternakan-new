@@ -4,7 +4,6 @@ namespace App\Providers;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
-use Modules\Kandang\Models\Pipe;
 class AppServiceProvider extends ServiceProvider
 {
     /**

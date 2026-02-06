@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\AyamKarantina;
 
 use App\Http\Controllers\Controller;
+use Modules\Kandang\Http\Requests\AyamKarantina\StoreRequest;
 use Modules\Kandang\Http\Requests\AyamKarantina\UpdateRequest;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\KarantinaPopulasi;
@@ -21,12 +22,21 @@ class AyamKarantinaController extends Controller
     {
         $listKarantinaPopulasi = $this->repository->paginate(
             $request->query('search'),
-            null,
+            $request->collect(['kandang_id']),
             $request->collect('orders'),
             $request->query('perPage', 10),
         );
 
-        return view('kandang::ayam-karantina.index', compact('listKarantinaPopulasi'));
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
+
+        return view('kandang::ayam-karantina.index', compact(['listKarantinaPopulasi', 'listKandang']));
+    }
+
+    public function create()
+    {
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
+
+        return view("kandang::ayam-karantina.create", compact("listKandang"));
     }
 
     /**
@@ -34,14 +44,45 @@ class AyamKarantinaController extends Controller
      */
     public function edit(KarantinaPopulasi $karantinaPopulasi)
     {
-        $listKandang = $this->kandang->get();
         $karantinaPopulasi->load([
             'kandang:id,nama',
             'picUser:id,name',
         ]);
+
         $data = $karantinaPopulasi;
 
-        return view("kandang::ayam-karantina.edit", compact(['listKandang', 'data']));
+        return view("kandang::ayam-karantina.edit", compact('data'));
+    }
+
+    public function store(StoreRequest $request)
+    {
+        $request->merge([
+            'pic_user_id' => auth()->id(),
+        ]);
+
+        $this->karantinaPopulasi->fill($request->only([
+            'kandang_id',
+            'pic_user_id',
+            'total_ayam_karantina',
+            'tanggal',
+            'ayam_mati',
+            'ayam_afkir',
+            'pemberian_pakan',
+            'sisa_pakan',
+            'jumlah_telur_bagus',
+            'jumlah_telur_retak',
+            'jumlah_telur_rusak',
+            'berat_telur_bagus',
+            'berat_telur_retak',
+            'berat_telur_rusak',
+            'pengobatan_yang_dilakukan',
+            'jumlah_ayam_diobati',
+            'penyemprotan',
+            'vaksin',
+            'catatan',
+        ]));
+        $this->karantinaPopulasi->save();
+        return to_route('ayam-karantina.index')->with('success', 'Ayam Karantina berhasil dibuat.');
     }
 
     /**

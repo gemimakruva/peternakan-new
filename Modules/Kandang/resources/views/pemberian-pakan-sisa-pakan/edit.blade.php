@@ -68,7 +68,7 @@ $informations = [
                     <h2 class="card-title">Aksi</h2>
                 </div>
                 <div class="card-body d-flex gap-2">
-                    <a href="{{ route('pemberian-pakan-sisa-pakan.index') }}" class="btn btn-secondary flex-1">Kembali</a>
+                    <a href="{{ route('pemberian-pakan-sisa-pakan.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
                     <button class="btn btn-primary flex-1" form="form-pemberian-pakan-sisa-pakan">Simpan</button>
                 </div>
             </div>

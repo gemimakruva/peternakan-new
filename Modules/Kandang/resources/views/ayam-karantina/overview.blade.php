@@ -200,8 +200,8 @@
     {{-- =============== DAILY PRODUCTION RECORD ========--}}
 <div class="card mt-4">
     <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="m-0 fw-bold">Catatan Produksi Harian</h5>
-        <div x-data="{ open: false }" class="ms-auto position-relative">
+        <h5 class="m-0 fw-bold" style="flex: 1;">Catatan Produksi Harian</h5>
+        <div x-data="{ open: false }" class="position-relative">
             <button 
                 @click="open = !open" 
                 class="btn btn-sm btn-outline-primary d-flex align-items-center gap-2">

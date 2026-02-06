@@ -11,9 +11,11 @@ use Illuminate\Http\Request;
 use Modules\Kandang\Models\JenisPakan;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PerhitunganPakanItem;
+use Modules\Kandang\Notifications\Pakan\PemberianPakanAssigned;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Pakan\PerhitunganPakanRepository;
 use Modules\Kandang\Services\Pakan\PerhitunganPakanService;
+use Modules\Kandang\Services\PopulasiAyamService;
 
 class PerhitunganPakanController extends Controller
 {
@@ -21,6 +23,7 @@ class PerhitunganPakanController extends Controller
         private PerhitunganPakanRepository $repository,
         private PerhitunganPakanService $service,
         private PerhitunganPakanItem $perhitunganPakanItem,
+        private PopulasiAyamService $populasiAyamService,
         private KandangRepository $kandangRepository,
         private JenisPakan $jenisPakan,
         private Kandang $kandang,
@@ -76,7 +79,7 @@ class PerhitunganPakanController extends Controller
         ]);
 
         try {
-            $umurAyam = $this->kandangRepository->getUmurAyamByKandangId($validated['kandang_id'], $request->date('tanggal_pemberian_pakan'))['usia_ayam'];
+            $umurAyam = $this->populasiAyamService->getUmurAyamByKandangId($validated['kandang_id'], $request->date('tanggal_pemberian_pakan'))['umur_ayam'];
             $perhitunganPakan = $this->repository->create([
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
                 'umur_ayam'                 => $umurAyam,
@@ -90,7 +93,9 @@ class PerhitunganPakanController extends Controller
                 'user_executor_id'          => $validated['user_executor_id'],
                 'catatan'                   => $validated['catatan']
             ]);
-            
+
+            $perhitunganPakan->userExecutor->notify(new PemberianPakanAssigned($perhitunganPakan));
+
             return redirect()->route('perhitungan-pakan.edit', $perhitunganPakan)
                 ->with('success', 'Data Perhitungan Pakan berhasil disimpan!');
         } catch (\Throwable $th) {
@@ -159,7 +164,7 @@ class PerhitunganPakanController extends Controller
 
         DB::beginTransaction();
         try {
-            $umurAyam = $this->kandangRepository->getUmurAyamByKandangId($perhitunganPakan->kandang->id, $request->date('tanggal_pemberian_pakan'))['usia_ayam'];
+            $umurAyam = $this->populasiAyamService->getUmurAyamByKandangId($perhitunganPakan->kandang->id, $request->date('tanggal_pemberian_pakan'))['umur_ayam'];
             $perhitunganPakan->fill([
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
                 'umur_ayam'                 => $umurAyam,

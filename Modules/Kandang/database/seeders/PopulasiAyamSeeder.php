@@ -22,7 +22,7 @@ class PopulasiAyamSeeder extends Seeder
     {
         $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-01'); // tanggal awal pengadaan ayam.
         $tanggalTambahHari = 0;
-        for ($i=0; $i < 7; $i++) { 
+        for ($i=0; $i < 10; $i++) { 
             $pengadaanAyam->distribusi->map(function($distribusi) use($tanggal, $tanggalTambahHari, $pengadaanAyam, $i) {
                 $ayamSehat = PopulasiAyam::getAyamSehatTerakhir($distribusi->pipe_id) ?? $distribusi->jumlah_ayam;
                 $tanggalPencatatan = $tanggal->clone()->addDays($tanggalTambahHari);
@@ -36,10 +36,10 @@ class PopulasiAyamSeeder extends Seeder
                     'ayam_keluar_karantina' => 0,
                 ];
 
-                if ($tanggalDMY === '02-01-2025') {  // pada tanggal 2, 1 ayam mati di semua pipe
+                if (in_array($tanggalDMY, ['02-01-2025', '06-01-2025', '08-01-2025'])) {  // pada tanggal 2, 6 dan 8, 1 ayam mati di semua pipe
                     $populasi['ayam_sehat'] = $ayamSehat - 10;
                     $populasi['ayam_mati'] = 10;
-                } else if ($tanggalDMY === '03-01-2025') { // pada tanggal 3, 2 ayam afkir di semua pipe
+                } else if (in_array($tanggalDMY, ['03-01-2025', '07-01-2025', '09-01-2025'])) { // pada tanggal 3, 7 dan 9, 2 ayam afkir di semua pipe
                     $populasi['ayam_sehat'] = $ayamSehat - 20;
                     $populasi['ayam_afkir'] = 20;
                 } else if ($tanggalDMY === '04-01-2025') { // pada tanggal 4, 5 ayam masuk karantina di semua pipe
@@ -58,6 +58,8 @@ class PopulasiAyamSeeder extends Seeder
                 PopulasiAyam::create([
                     'pengadaan_ayam_distribusi_id' => $distribusi->id,
                     'pic_user_id' => 1,
+                    'kandang_id' => $distribusi->kandang_id,
+                    'flock_id' => $distribusi->flock_id,
                     'pipe_id' => $distribusi->pipe_id,
                     'umur_ayam_record' => $umurAyamRecord,
                     'jenis_pemeriksaan' => ($i === 0) ? JenisPemeriksaan::PENGADAAN : JenisPemeriksaan::HARIAN,
@@ -65,10 +67,6 @@ class PopulasiAyamSeeder extends Seeder
                     'catatan' => 'Pemeriksaan rutin harian berjalan baik.',
                     ...$populasi,
                 ]);
-
-                // karantina belum ditambahkan
-                
-
             });
             $tanggalTambahHari++;
         }

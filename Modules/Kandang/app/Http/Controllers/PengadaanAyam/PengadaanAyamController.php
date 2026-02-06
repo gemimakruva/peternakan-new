@@ -219,6 +219,8 @@ class PengadaanAyamController extends Controller
                 'id' => $item['id'],
                 'pengadaan_ayam_id' => $pengadaanAyam->id,
             ], [
+                'kandang_id' => $pengadaanAyam->kandang_id,
+                'flock_id' => $item['flock_id'],
                 'pipe_id' => $item['pipe_id'],
                 'jumlah_ayam' => $jumlah,
             ]);

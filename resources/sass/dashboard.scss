@@ -26,3 +26,7 @@ $widths: 1400, 1200, 1000, 900, 400, 300, 200, 100;
   position: sticky;
   top: 16px;
 }
+
+.navbar-nav .user-menu img {
+  object-fit: cover;
+}

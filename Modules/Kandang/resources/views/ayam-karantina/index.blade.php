@@ -8,6 +8,7 @@
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
                     <h1>Ayam Karantina</h1>
+                    <a href="{{ route('ayam-karantina.create') }}" class="btn btn-primary">Tambah Ayam Karantina</a>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -22,31 +23,49 @@
 
 @section('content')
     <div class="mx-1000">
+
         <x-form-alert />
+
         <div class="card">
             <div class="card-header">
+                <h2 class="card-title">Filter</h2>
+            </div>
+            <div class="card-body">
                 <form
-                    action="{{ route('ayam-karantina.index', request()->all()) }}" 
+                    action="{{ route('ayam-karantina.index') }}" 
                     method="get" 
                     class="w-100"
                 >
-                    <div class="d-flex justify-content-end">
-                        <div class="d-flex gap-3">
-                            <input 
-                                type="search" 
-                                name="search" 
-                                class="form-control" 
-                                placeholder="Nama Pencatat"
-                                value="{{ request()->query('search') }}"
-                            >
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+                    <div class="d-flex gap-2">
+                        <x-adminlte-select name="kandang_id" fgroup-class="mb-0 mx-200">
+                            <x-adminlte-options 
+                                :options="$listKandang"
+                                empty-option="Semua Kandang ..."
+                                :selected="request()->query('kandang_id')"
+                            />
+                        </x-adminlte-select>
+
+                        <input 
+                            type="search" 
+                            name="search" 
+                            class="form-control mx-200" 
+                            placeholder="Nama Pencatat"
+                            value="{{ request()->query('search') }}"
+                        >
+
+                        <button class="btn btn-primary" title="Cari">
+                            <i class="fas fa-search"></i>
+                        </button>
+
+                        <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-undo"></i>
+                        </a>
                     </div>
                 </form>
             </div>
+        </div>
 
+        <div class="card">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center mb-0">
                     <thead>

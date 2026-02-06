@@ -127,7 +127,7 @@
         }
 
         $.ajax({
-            url: "{{ route('ajax.getFlockByKandangTreatment', ':id') }}".replace(':id', kandangId),
+            url: @js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId),
             type: "GET",
             dataType: "json",
             success: function(response) {
@@ -135,7 +135,7 @@
                 $(selectElement).empty().append('<option value="">-- Pilih Flock --</option>');
                 $.each(response.results, function(i, flock) {
                     let selected = selectedId == flock.id ? 'selected' : '';
-                    $(selectElement).append(`<option value="${flock.id}" ${selected}>${flock.nama}</option>`);
+                    $(selectElement).append(`<option value="${flock.id}" ${selected}>${flock.text}</option>`);
                 });
             },
             error: function(xhr) {

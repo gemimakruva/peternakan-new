@@ -12,6 +12,7 @@
 </div>
 @stop
 
+@section('plugins.Datatables', true)
 
 @section('content')
     <div class="row">

@@ -46,7 +46,7 @@ class PopulasiAyamUpdate extends FormRequest
             'ayam_masuk_karantina' => ['nullable', 'min:0', function ($attr, $value, $fail) {
                 $value = (int) $value;
 
-                if ($value > app(KandangService::class)->getCurrentAyamSehatByPipe(request()->input('pipe_id'))) {
+                if ($value > app(PopulasiAyamService::class)->getCurrentAyamSehatByPipe(request()->input('pipe_id'))) {
                     $fail('ayam masuk karantina tidak boleh melebihi populasi ayam.');
                 }
             }],

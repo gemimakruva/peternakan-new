@@ -116,7 +116,7 @@
         $(function() {
             $('#flock_id').select2({
                 ajax: {
-                    url: @js(route('master-data.ajax.flock', $kandangId)),
+                    url: @js(route('ajax.flock', $kandangId)),
                     datType: 'json'
                 },
                 placeholder: "Pilih Flock",
@@ -128,7 +128,7 @@
                 $('#pipe_id').val('')
                 $('#pipe_id').select2({
                     ajax: {
-                        url: `/master-data/ajax/pipe/${this.value}`
+                        url: @js(route('ajax.pipe', ':flockId')).replace(':flockId', this.value)
                     },
                     placeholder: "Pilih Flock",
                     allowClear: true,
@@ -145,26 +145,27 @@
 
             async function getUmurAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
-                let umurAyamSekarang = await $.ajax(`/master-data/ajax/umur-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`)
-                    .then(res => res.umur_ayam_sekarang); // satuan minggu
+                const url = @js(route('ajax.umur_ayam_by_pipe', ['pipeId' => '_pipeId', 'tanggal' => '_tanggal']))
+                    .replace('_pipeId', pipeId)
+                    .replace('_tanggal', tanggalTransaksi);
+                let umurAyamSekarang = await $.ajax(url)
+                    .then(res => res.umur_ayam); // satuan minggu
                 $('#umur_ayam_record').val(umurAyamSekarang);
             }
 
             async function getKesehatanAyam() {
                 if (!pipeId || !tanggalTransaksi) return;
-                const json = await $.ajax(`/master-data/ajax/kesehatan-ayam/${pipeId}?tanggal_perbandingan=${tanggalTransaksi}`);
+                const url = @js(route('ajax.populasi-by-pipe', [':pipeId', ':tanggal'])).replace(':pipeId', pipeId).replace(':tanggal', tanggalTransaksi);
+                const json = await $.ajax(url);
 
                 let kesehatanAyamSekarang = json.total_ayam_sehat_terakhir// satuan ekor
                 $('#jumlah_ayam_sehat_pada_pipa_saat_ini').val(kesehatanAyamSekarang);
-
-                // if (json?.total_ayam_sakit_terakhir && $('[for="ayam_keluar_karantina"]').text()) {
-                //     $('[for="ayam_keluar_karantina"]').text(`Ayam Keluar dari Karantina (ayam dikarantina: ${json?.total_ayam_sakit_terakhir})`);
-                // }
             }
 
             async function getRecordPopulasi() {
                 if (!tanggalTransaksi) return;
-                const list_populasi = await $.ajax(`/master-data/ajax/kandang/{{ $kandangId }}/${tanggalTransaksi}/record-populasi`);
+                const url = @js(route('ajax.kandang.record-populasi', [$kandangId, ':tanggal'])).replace(':tanggal', tanggalTransaksi);
+                const list_populasi = await $.ajax(url);
                 $('#record-harian').html('');
                 list_populasi.map((populasi) => {
                     const editUri = `/populasi-ayam/${populasi.id}/edit`;

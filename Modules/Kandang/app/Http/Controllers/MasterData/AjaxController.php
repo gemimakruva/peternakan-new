@@ -34,7 +34,7 @@ class AjaxController extends Controller
 
     public function kandang()
     {
-        $kandangs = $this->kandang
+        $kandangs = $this->kandangRepository->getModel()
             ->getQuery()
             ->select('id', 'nama')
             ->when(request()->query('q'), function($query, $q) {
@@ -73,148 +73,13 @@ class AjaxController extends Controller
         return response()->json(['results' => $results]);
     }
 
-    public function umur_ayam($pipeId)
-    {
-        $pengadaanAyam = $this->pengadaanAyamDistribusi
-            ->with('pengadaanAyam:id,tanggal,umur_ayam')
-            ->where('pipe_id', '=', $pipeId)
-            ->firstOrFail(['pengadaan_ayam_id', 'pipe_id'])->pengadaanAyam;
-
-        $tanggalPerbandingan = request()->has('tanggal_perbandingan') 
-            ? request()->date('tanggal_perbandingan')->diffInWeeks($pengadaanAyam->tanggal)
-            : now()->diffInWeeks($pengadaanAyam->tanggal);
-
-        $umurAyamSekarang = $pengadaanAyam->umur_ayam + floor(abs($tanggalPerbandingan));
-
-        return [
-            'tanggal_ayam_datang' => $pengadaanAyam->tanggal,
-            'umur_ayam_datang' => $pengadaanAyam->umur_ayam,
-            'umur_ayam_sekarang' => $umurAyamSekarang,
-        ];
-    }
-
-    public function tanggalPerhitunganPakan()
-    {
-        $tanggal = $this->perhitunganPakan
-            ->getQuery()
-            ->select('id', 'tanggal_pemberian_pakan')
-            ->when(request()->query('q'), function($query, $q) {
-                $query->where('tanggal_pemberian_pakan', 'like', "%$q%");
-            })
-              ->latest()->get();
-
-        $result = $tanggal->map(function($k){
-            return [
-                'id' => $k->id, 
-                'text' => Carbon::parse($k->tanggal_pemberian_pakan)->format('d-m-Y'),
-            ];
-        });
-
-        return response()->json(['results' => $result]);
-    }
-
-
-    public function getFlockByKandangId($kandangId)
-    {
-        $perhitungan = $this->perhitunganPakan
-        ->with('pipe.flock.kandang')
-        ->whereHas('pipe.flock.kandang', 
-        function($q) use ($kandangId) {
-            $q->where('id', $kandangId);
-        })
-        ->get();
-          $flocks = [];
-        
-    foreach ($perhitungan as $pp) {
-        if ($pp->pipe && $pp->pipe->flock) {
-            $flocks[] = [
-                'id' => $pp->pipe->flock->id,
-                'nama' => $pp->pipe->flock->nama,
-            ];
-        }
-    }
-
-    
-
-    $flocks = collect($flocks)->unique('id')->values()->all();
-    
-    return response()->json([
-        'status' => true,
-        'results' => $flocks
-    ]);
-
-    }
-
-    public function getFlockByKandangTreatment($kandangId)
-{
-    $flocks = Flock::where('kandang_id', $kandangId)
-        ->get(['id', 'nama']);
-
-    return response()->json([
-        'status' => true,
-        'results' => $flocks
-    ]);
-}
-
-
-    public function getPemberianPakanByFlockId($tanggal,$flockId)
-    {
-         $perhitungan = $this->perhitunganPakan
-        ->where('tanggal_pemberian_pakan', $tanggal)
-        ->first();
-
-           if (!$perhitungan) {
-        return response()->json([
-            'status' => false,
-            'message' => 'Data perhitungan pakan tidak ditemukan untuk tanggal tersebut',
-            'result' => 0,
-        ]);
-    }
-        
-        $totalPakan = DB::table('perhitungan_pakan as pp')
-            ->join('pipe as p', 'pp.pipe_id', '=', 'p.id')
-            ->join('flock as f', 'p.flock_id', '=', 'f.id')
-            ->where('pp.tanggal_pemberian_pakan', $tanggal) 
-            ->where('f.id', $flockId)
-            ->selectRaw('(SUM(pp.jumlah_ayam_per_pipe * 
-            pp.jumlah_pakan_per_ekor_gram) / 1000) as total_pakan_kg')
-            ->value('total_pakan_kg');
-        
-   
-        return response()->json([
-        'status' => true,
-        'message' => 'Total pakan berhasil diambil',
-        'result' => $totalPakan ?? 0 ,
-    ]);
-    }
-
-    public function umurAyamByFlock($flockId, Request $request)
-    {
-        $distribusi = $this->pengadaanAyamDistribusi
-            ->with('pengadaanAyam:id,tanggal,umur_ayam')
-            ->where('flock_id', '=', $flockId)
-            ->firstOrFail(['pengadaan_ayam_id', 'flock_id']);
-
-        $pengadaanAyam = $distribusi->pengadaanAyam;
-
-        $targetDate = $request->input('tanggal') 
-            ? Carbon::parse($request->input('tanggal'))->startOfDay() 
-            : Carbon::now()->startOfDay();
-
-        $tanggalPerbandingan = floor($pengadaanAyam->tanggal->diffInDays($targetDate) / 7);
-        
-        return response()->json([
-            'usia_ayam_saat_ini' => $tanggalPerbandingan
-        ]);
-    }
-
-    public function umurAyamByKandang($kandangId, Request $request)
+    public function umurAyamByPipe(PopulasiAyamService $populasiAyamService, $pipeId, Request $request)
     {
         $targetDate = $request->input('tanggal')
             ? Carbon::parse($request->input('tanggal'))->startOfDay()
             : Carbon::now()->startOfDay();
 
-        $result = $this->kandangRepository->getUmurAyamByKandangId($kandangId, $targetDate);
+        $result = $populasiAyamService->getUmurAyamByPipeId($pipeId, $targetDate);
         
         if ($result === null) {
             return response()->json([
@@ -225,34 +90,46 @@ class AjaxController extends Controller
         return $result;
     }
 
-    public function jumlahAyamSehat($startDate)
+    public function umurAyamByFlock(PopulasiAyamService $populasiAyamService, $flockId, Request $request)
     {
-        $populasi_ayam = PopulasiAyam::whereDate('tanggal', '=', $startDate)
-        ->pluck('ayam_sehat')
-        ->first();
+        $targetDate = $request->input('tanggal')
+            ? Carbon::parse($request->input('tanggal'))->startOfDay()
+            : Carbon::now()->startOfDay();
 
-        if ($populasi_ayam === null) {
+        $result = $populasiAyamService->getUmurAyamByFlockId($flockId, $targetDate);
+        
+        if ($result === null) {
             return response()->json([
-                'ayam_sehat' => 0
-            ]);
+                'error' => 'Data pengadaan ayam tidak ditemukan'
+            ], 404);
         }
-        return response()->json([
-            'ayam_sehat' => $populasi_ayam
-        ]);
+
+        return $result;
     }
 
-    public function kesehatan_ayam(KandangService $kandangService, $pipeId)
+    public function umurAyamByKandang(PopulasiAyamService $populasiAyamService, $kandangId, Request $request)
     {
-        $tanggalPerbandingan = request()->date('tanggal_perbandingan');
-        if ($tanggalPerbandingan === null) {
-            abort(400, 'tanggal perbandingan tidak valid');
-        }
- 
-        $jumlahAyamSehat = $kandangService->getCurrentAyamSehatByPipe($pipeId, $tanggalPerbandingan);
+        $targetDate = $request->input('tanggal')
+            ? Carbon::parse($request->input('tanggal'))->startOfDay()
+            : Carbon::now()->startOfDay();
 
+        $result = $populasiAyamService->getUmurAyamByKandangId($kandangId, $targetDate);
+        
+        if ($result === null) {
+            return response()->json([
+                'error' => 'Data pengadaan ayam tidak ditemukan'
+            ], 404);
+        }
+
+        return $result;
+    }
+
+    public function populasiByPipe(PopulasiAyamService $populasiAyamService, $pipeId, $tanggal)
+    {
+        $tanggal = Carbon::createFromFormat('Y-m-d', $tanggal);
+        $jumlahAyamSehat = $populasiAyamService->getCurrentAyamSehatByPipe($pipeId, $tanggal);
         $pipe = $this->pipe->find($pipeId, ['id', 'flock_id']);
-        $kandang = $pipe->flock->kandang;
-        $latestTotalKarantinaPopulasi = app(PopulasiAyamService::class)->getLatestKarantinaPopulasi($kandang->id, $tanggalPerbandingan);
+        $latestTotalKarantinaPopulasi = $populasiAyamService->getLatestKarantinaPopulasi($pipe->flock->kandang_id, $tanggal);
         
         return [
             'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
@@ -260,15 +137,28 @@ class AjaxController extends Controller
         ];
     }
 
-    public function populasi_kandang_karantina(KandangService $kandangService, $kandangId)
+    public function populasiByFlock(PopulasiAyamService $populasiAyamService, $flockId, $tanggal)
     {
-        $tanggalPerbandingan = request()->date('tanggal_perbandingan');
-
+        $tanggal = Carbon::createFromFormat('Y-m-d', $tanggal);
+        $jumlahAyamSehat = $populasiAyamService->getCurrentAyamSehatByFlock($flockId, $tanggal);
+        $pipe = $this->pipe->find($flockId, ['id', 'flock_id']);
+        $latestTotalKarantinaPopulasi = $populasiAyamService->getLatestKarantinaPopulasi($pipe->flock->kandang_id, $tanggal);
+        
         return [
-            'total_ayam_karantina_terakhir' => $kandangService->getCurrentAyamKarantinaByKandang(
-                $kandangId, 
-                $tanggalPerbandingan
-            ),
+            'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+            'total_ayam_sakit_terakhir' => $latestTotalKarantinaPopulasi,
+        ];
+    }
+
+    public function populasiByKandang(PopulasiAyamService $populasiAyamService, $kandangId, $tanggal)
+    {
+        $tanggal = Carbon::createFromFormat('Y-m-d', $tanggal);
+        $jumlahAyamSehat = $populasiAyamService->getCurrentAyamSehatByKandang($kandangId, $tanggal);
+        $latestTotalKarantinaPopulasi = $populasiAyamService->getLatestKarantinaPopulasi($kandangId, $tanggal);
+        
+        return [
+            'total_ayam_sehat_terakhir' => $jumlahAyamSehat,
+            'total_ayam_sakit_terakhir' => $latestTotalKarantinaPopulasi,
         ];
     }
 
@@ -283,42 +173,4 @@ class AjaxController extends Controller
             ->orderByDesc('updated_at')
             ->firstOrFail();
     }
-
-       public function getKandangByTanggalId($tanggal)
-    {
-        $tanggal = Carbon::parse($tanggal)->format('Y-m-d');
-        $kandang = $this->perhitunganPakan
-        ->where('tanggal_pemberian_pakan', $tanggal)
-        ->with('pipe.flock.kandang') // relasi
-        ->get();
-        $data = $kandang->map(function ($item) {
-                return [
-                    'id'   => $item->id,
-                    'nama' => $item->pipe->flock->kandang->nama ?? null,
-                ];
-        });
-
-        return response()->json([
-            'status'  => true,
-            'message' => 'Data berhasil diambil',
-            'data'    => $data
-        ]);
-    }
-
-    public function getJumlahAyamPerKandang(Request $request)
-    {
-        $jumlahAyam = pengadaanAyamDistribusi::whereHas('pengadaanAyam', function ($q) use ($request) {
-                $q->whereDate('tanggal', $request->tanggal);
-            })
-            ->whereHas('pipe.flock.kandang', function ($q) use ($request) {
-                $q->where('id', $request->kandang_id);
-            })
-            ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
-            ->value('pengadaan_ayam.jumlah_ayam_masuk_kandang');
-
-        return response()->json([
-            'jumlah_ayam' => $jumlahAyam ?? 0,
-        ]);
-    }
-
 }

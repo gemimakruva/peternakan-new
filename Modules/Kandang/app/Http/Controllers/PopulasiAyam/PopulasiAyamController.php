@@ -167,9 +167,4 @@ class PopulasiAyamController extends Controller
             ->with('pipe:id,nama')
             ->get();
     }
-
-    public function getSummary(GetSummaryRequest $request): JsonResponse
-    {
-        return response()->json($this->service->getChickensPerRow($request->validated()));
-    }
 }

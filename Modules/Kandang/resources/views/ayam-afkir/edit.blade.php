@@ -100,7 +100,7 @@ $informations = [
                 </div>
                 <div class="card-body">
                     <div class="d-flex gap-3">
-                        <a href="{{ route('ayam-afkir.index') }}" class="btn btn-secondary flex-1">
+                        <a href="{{ route('ayam-afkir.index') }}" class="btn btn-outline-secondary flex-1">
                             Kembali
                         </a>
                         <button type="submit" class="btn btn-primary flex-1" form="form-ayam-afkir">

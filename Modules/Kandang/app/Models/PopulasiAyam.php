@@ -14,6 +14,8 @@ class PopulasiAyam extends Model
         'jenis_pemeriksaan',
         'pic_user_id',
         'tanggal',
+        'kandang_id',
+        'flock_id',
         'pipe_id',
         'umur_ayam_record',
         'ayam_sehat',
@@ -41,6 +43,16 @@ class PopulasiAyam extends Model
     public function picUser()
     {
         return $this->belongsTo(User::class, 'pic_user_id');
+    }
+
+    public function kandang()
+    {
+        return $this->belongsTo(Kandang::class, 'kandang_id');
+    }
+
+    public function flock()
+    {
+        return $this->belongsTo(Flock::class, 'flock_id');
     }
 
     public function pipe()

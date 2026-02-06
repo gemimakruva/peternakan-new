@@ -22,7 +22,7 @@ class UpdateRequest extends FormRequest
             "berat_telur_bagus" => ['required', 'numeric', 'min:0'],
             "berat_telur_retak" => ['required', 'numeric', 'min:0'],
             "berat_telur_rusak" => ['required', 'numeric', 'min:0'],
-            "pengobatan_yang_dilakukan", ['nullable', 'string', 'max:255'],
+            "pengobatan_yang_dilakukan" => ['nullable', 'string', 'max:255'],
             "jumlah_ayam_diobati" => ['required', 'numeric', 'min:0'],
             "penyemprotan" => ['nullable', 'string', 'max:255'],
             "vaksin" => ['nullable', 'string', 'max:255'],

@@ -49,6 +49,8 @@ class PengadaanAyamSedeer extends Seeder
             $flock->pipes->map(function($pipe) use($pengadaanAyam, $kapasitasKandang, $totalPipa, $flock) {
                 PengadaanAyamDistribusi::firstOrCreate([
                     'pengadaan_ayam_id' => $pengadaanAyam->id,
+                    'kandang_id' => $flock->kandang_id,
+                    'flock_id' => $flock->id,
                     'pipe_id' => $pipe->id,
                     'jumlah_ayam' => $kapasitasKandang/$totalPipa,
                 ]);
