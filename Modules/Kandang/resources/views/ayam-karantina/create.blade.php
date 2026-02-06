@@ -37,13 +37,13 @@
                 </form>
             </div>
             <div class="col-md-3 col-12">
-                <div class="card">
+                <div class="card sticy-form-action">
                     <div class="card-header">
                         <h2 class="card-title">Aksi</h2>
                     </div>
                     <div class="card-body">
                         <div class="d-flex gap-3">
-                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary flex-1">Kembali</a>
+                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
                             <button class="btn btn-primary flex-1" form="form-ayam-karantina">Simpan</button>
                         </div>
                     </div>

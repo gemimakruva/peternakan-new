@@ -45,7 +45,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex gap-3">
-                        <a href="{{ route('recording-telur.index') }}" class="btn btn-secondary flex-1">Kembali</a>
+                        <a href="{{ route('recording-telur.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
                         <button class="btn btn-primary flex-1" type="submit" form="form-produksi-telur">Simpan</button>
                     </div>
                 </div>

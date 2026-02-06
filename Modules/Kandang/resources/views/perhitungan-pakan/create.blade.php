@@ -48,7 +48,7 @@
                 </div>
                 <div class="card-body">
                     <div class="d-flex gap-2">
-                        <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-secondary flex-1">
+                        <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-outline-secondary flex-1">
                             Kembali
                         </a>
                         <button form="form-perhitungan-pakan" type="submit" class="btn btn-primary flex-1">
