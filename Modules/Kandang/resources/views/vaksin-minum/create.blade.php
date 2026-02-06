@@ -24,7 +24,7 @@
                             <h2 class="card-title">Form Vaksin Minum</h2>
                         </div>
                         <div class="card-body">
-                            @include('kandang::vaksin-minum._form',['kandangList' => $kandangList])
+                            @include('kandang::vaksin-minum._form')
                         </div>
                     </div>
 
@@ -33,7 +33,7 @@
                             <h2 class="card-title">Pemberian Vaksin Minum</h2>
                         </div>
                         <div class="card-body">
-                            @include('kandang::vaksin-minum._form-pemberian-vaksin-minum',['kandangList' => $kandangList])
+                            @include('kandang::vaksin-minum._form-pemberian-vaksin-minum')
                         </div>
                     </div>
 

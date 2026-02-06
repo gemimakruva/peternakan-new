@@ -5,16 +5,14 @@ use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Models\SamplingBobotAyam;
-use Modules\Kandang\Models\SamplingBobotAyamPerEkor;
 use Modules\Kandang\Models\VaksinMinum;
 
 class VaksinMinumController extends Controller
 {
     public function __construct(
         private VaksinMinum $vaksinMinum,
+        private Kandang $kandang,
     ) { }
     
     public function index(Request $request)
@@ -46,8 +44,8 @@ class VaksinMinumController extends Controller
     
     public function create()
     {
-        $kandangList = Kandang::get(['id', 'nama'])->pluck('nama', 'id');
-        return view("kandang::vaksin-minum.create", compact('kandangList'));
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
+        return view("kandang::vaksin-minum.create", compact('listKandang'));
     }
 
     /**
@@ -103,9 +101,8 @@ class VaksinMinumController extends Controller
     public function edit($id)
     {   
         $data = $this->vaksinMinum->with(['flock.kandang'])->findOrFail($id);
-        $kandangList = Kandang::get(['id', 'nama'])->pluck('nama', 'id');
-
-        return view("kandang::vaksin-minum.edit", compact('data', 'kandangList'));
+        $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
+        return view("kandang::vaksin-minum.edit", compact('data', 'listKandang'));
     }
 
     /**

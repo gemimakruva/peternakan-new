@@ -4,68 +4,34 @@
     name="tanggal"
     label="Tanggal Vaksin Minum"
     value="{{ old('tanggal', @$data->tanggal) }}"
-    igroup-size="lg"
-    fgroup-class="col-12"
-    class="form-control-lg py-3"
+/>
+
+<x-adminlte-select 
+    id="kandang_id"
+    name="kandang_id"
+    label="Pilih Kandang"
 >
-    <x-slot name="prependSlot">
-        <div class="input-group-text bg-white">
-            <i class="fas fa-calendar-alt text-muted"></i>
-        </div>
-    </x-slot>
-</x-adminlte-input>
+    <x-adminlte-options
+        :options="$listKandang"
+        empty-option="Pilih Kandang"
+        :selected="old('kandang_id', @$data->flock->kandang_id)"
+    />
+</x-adminlte-select>
 
-<div class="form-group col-12">
-    <x-adminlte-select id="input-kandang-vaksin-minum" name="kandang_id" label="Pilih Kandang" class="select-nama-berkas"
-    igroup-size="lg">
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-feather-alt text-muted"></i>
-            </div>
-        </x-slot>
-        <option selected disabled>Pilih Kandang...</option>
-        @foreach ($kandangList as $kandang_id => $nama)
-            <option value="{{ $kandang_id }}"
-                {{ (old('kandang_id', @$data->flock->kandang->id ?? @$data->kandang_id) == $kandang_id) ? 'selected' : '' }}>
-                {{ $nama }}
-            </option>
-        @endforeach
-    </x-adminlte-select>
-</div>
-
-<div class="form-group col-12">
-    <x-adminlte-select id="input-flock-vaksin-minum" name="flock_id" label="Pilih Flock" class="select-nama-berkas"
-    igroup-size="lg">
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-feather-alt text-muted"></i>
-            </div>
-        </x-slot>
-        <option selected disabled>Pilih Flock...</option>
-    </x-adminlte-select>
-</div>
-
+<x-adminlte-select
+    id="flock_id"
+    name="flock_id"
+    label="Pilih Flock"
+>
+    <option selected disabled>Pilih Flock...</option>
+</x-adminlte-select>
 
 @push('js')
     <script>
         $(document).ready(function() {
-            let kandangId = $('#input-kandang-vaksin-minum').val();
-            let flockId = @js(old('flock_id', @$data->flock_id));
+            let kandangId = $('#kandang_id').val();
+            let flockId = @js(old('flock_id', @$data->flock_id) ?? '');
             let tanggal = $('#tanggal_vaksin_minum').val();
-
-            if (kandangId) {
-                populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
-                if (tanggal) {
-                    countingAyamSehatVaksinMinum(kandangId, tanggal)
-                }
-            }
-
-            $('#input-kandang-vaksin-minum').on('change', function() {
-                kandangId = $(this).val();
-                if (!kandangId || !tanggal) return;
-                populateDataFlockVaksinMinum ('input-flock-vaksin-minum', kandangId);
-                populateJumlahAyamByKandang(kandangId, tanggal);
-            });
 
             function populateDataFlockVaksinMinum(elementId, kandangId) {
                 let url = @js(route('ajax.flock', ':kandangId')).replace(':kandangId', kandangId);
@@ -105,9 +71,11 @@
                     url: url,
                     type: method,
                     success: function(response) {
-                        let totalAyamPerKandang = response.total_ayam_sehat_terakhir;
-                        let jumlahAyamPerFlock = $('#jumlah-ayam-per-flock-vaksin-minum').val();
+                        let totalAyamPerKandang = Number(response.total_ayam_sehat_terakhir);
+                        let jumlahAyamPerFlock = Number($('#jumlah-ayam-per-flock-vaksin-minum').val());
                         let result = 0;
+                        console.log({ totalAyamPerKandang, jumlahAyamPerFlock });
+                        
                         if (totalAyamPerKandang > 0) {
                             result = jumlahAyamPerFlock / totalAyamPerKandang * 1000;
                         }
@@ -120,16 +88,11 @@
                 });
             }
 
-            $('#tanggal_vaksin_minum').on('change', function() {
-                tanggal = $(this).val();                
-                if (!kandangId || !tanggal) return;
-                countingAyamSehatVaksinMinum(kandangId, tanggal);
-            });
+            function countingAyamSehatVaksinMinum(flockId, tanggal) {
+                console.log({ a: 'countingAyamSehatVaksinMinum', flockId, flockId, tanggal });
 
-            function countingAyamSehatVaksinMinum(kandangId, tanggal) {
-
-                let url = @js(route('ajax.populasi-by-kandang', [':kandangId', ':tanggal']))
-                    .replace(':kandangId', kandangId)
+                let url = @js(route('ajax.populasi-by-flock', [':flockId', ':tanggal']))
+                    .replace(':flockId', flockId)
                     .replace(':tanggal', tanggal);
 
                 let method = 'GET';
@@ -137,7 +100,7 @@
                 $.ajax({
                     url: url,
                     type: method,
-                    success: function(response) {
+                    success: function(response) {              
                         $('#jumlah-ayam-per-flock-vaksin-minum').val(Number(response.total_ayam_sehat_terakhir));
                     },
                     error: function(xhr, status, error) {
@@ -147,6 +110,36 @@
                 });
             }
 
+            if (kandangId) {
+                populateDataFlockVaksinMinum ('flock_id', kandangId);
+            }
+
+            if (flockId && tanggal) {
+                countingAyamSehatVaksinMinum(flockId, tanggal)
+            }
+
+            $('#tanggal_vaksin_minum').on('change', function() {
+                tanggal = $(this).val();                
+                if (!flockId || !tanggal) return;
+                countingAyamSehatVaksinMinum(flockId, tanggal);
+                if (!kandangId || !tanggal) return;
+                populateJumlahAyamByKandang(kandangId, tanggal);
+            }); 
+
+            $('#kandang_id').on('change', function() {
+                kandangId = $(this).val();
+                if (!kandangId || !tanggal) return;
+                populateDataFlockVaksinMinum ('flock_id', kandangId);
+                populateJumlahAyamByKandang(kandangId, tanggal);
+            });
+
+            $('#flock_id').on('change', function() {
+                flockId = $(this).val();
+                if (!flockId || !tanggal) return;
+                countingAyamSehatVaksinMinum(flockId, tanggal);
+                if (!kandangId || !tanggal) return;
+                populateJumlahAyamByKandang(kandangId, tanggal);
+            });
         });
     </script>
 @endpush

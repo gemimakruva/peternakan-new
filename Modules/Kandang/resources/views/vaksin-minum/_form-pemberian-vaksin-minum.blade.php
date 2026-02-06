@@ -1,117 +1,58 @@
-<div class="mb-4">
-    <x-adminlte-input 
-        name="nama_vaksin"
-        label="Nama Vaksin Minum"
-        type="text"
-        id="nama-vaksin-minum"
-        min="0"
-        placeholder="Masukkan nama vaksin minum..."
-        :value="old('nama_vaksin', @$data->nama_vaksin)"
-        igroup-size="lg"
-        fgroup-class="col-12"
-        class="form-control form-control-lg py-3">
+<x-adminlte-input 
+    name="nama_vaksin"
+    label="Nama Vaksin Minum"
+    type="text"
+    id="nama-vaksin-minum"
+    placeholder="Masukkan nama vaksin minum..."
+    :value="old('nama_vaksin', @$data->nama_vaksin)"
+/>
 
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-drumstick-bite text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-<div class="mb-4">
-    <x-adminlte-input
-        name="total_dosis"
-        label="Total Dosis Vaksin Minum"
-        type="number"
-        id="total-dosis-vaksin-minum"
-        placeholder="Masukkan total dosis vaksin minum..."
-        :value="old('total_dosis', @$data->total_dosis)"
-        igroup-size="lg"
-        fgroup-class="col-12"
-        class="form-control form-control-lg py-3">
+<x-adminlte-input
+    name="total_dosis"
+    label="Total Dosis Vaksin Minum"
+    type="number"
+    min="0"
+    id="total-dosis-vaksin-minum"
+    placeholder="Masukkan total dosis vaksin minum..."
+    :value="old('total_dosis', @$data->total_dosis)"
+/>
 
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-drumstick-bite text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-<div class="mb-4">
-    <x-adminlte-input
-        id="air_minum_per_ekor"
-        type="number"
-        name="air_minum_per_ekor"
-        label="Kebutuhan Air Minum per Ekor"
-        value="{{ old('air_minum_per_ekor', @$data->air_minum_per_ekor) }}"
-        igroup-size="lg"
-        fgroup-class="col-12"
-        class="form-control form-control-lg py-3"
-        placeholder="Masukkan kebutuhan air minum per ekor..."
-    >
-    <x-slot name="prependSlot">
-        <div class="input-group-text bg-white">
-            <i class="fas fa-drumstick-bite text-muted"></i>
-        </div>
-    </x-slot>
-    </x-adminlte-input>
-</div>
-<div class="mb-4">
-    <x-adminlte-input
-        id="jumlah-ayam-per-flock-vaksin-minum"
-        type="number"
-        name="jumlah_ayam_per_flock"
-        label="Jumlah Ayam per Flock"
-        value="{{ old('jumlah_ayam_per_flock', @$data->jumlah_ayam_per_flock) }}"
-        igroup-size="lg"
-        fgroup-class="col-12"
-        readonly
-        class="form-control-lg py-3">
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-drumstick-bite text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-<div class="mb-4">
-    <x-adminlte-input
-        id="jumlah-ml-vaksin-per-flock"
-        type="number"
-        name="jumlah_ml_vaksin_per_flock"
-        label="Jumlah ML Vaksin per Flock"
-        value="{{ old('jumlah_ml_vaksin_per_flock', @$data->jumlah_ml_vaksin_per_flock) }}"
-        igroup-size="lg"
-        fgroup-class="col-12"
-        readonly
-        class="form-control-lg py-3">
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-drumstick-bite text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
-<div class="mb-4">
-    <x-adminlte-input
-        id="jumlah-air-di-tong-per-flock"
-        type="number"
-        name="jumlah_air_di_tong_per_flock"
-        label="Jumlah Air di Tong per Flock"
-        value="{{ old('jumlah_air_di_tong_per_flock', @$data->jumlah_air_di_tong_per_flock) }}"
-        igroup-size="lg"
-        fgroup-class="col-12"
-        readonly
-        class="form-control-lg py-3">
-        <x-slot name="prependSlot">
-            <div class="input-group-text bg-white">
-                <i class="fas fa-drumstick-bite text-muted"></i>
-            </div>
-        </x-slot>
-    </x-adminlte-input>
-</div>
+<x-adminlte-input
+    name="air_minum_per_ekor"
+    label="Kebutuhan Air Minum per Ekor"
+    type="number"
+    min="0"
+    id="air_minum_per_ekor"
+    placeholder="Masukkan kebutuhan air minum per ekor..."
+    :value="old('air_minum_per_ekor', @$data->air_minum_per_ekor)"
+/>
 
+<x-adminlte-input
+    name="jumlah_ayam_per_flock"
+    label="Jumlah Ayam per Flock"
+    type="number"
+    id="jumlah-ayam-per-flock-vaksin-minum"
+    :value="old('jumlah_ayam_per_flock', @$data->jumlah_ayam_per_flock)"
+    readonly
+/>
 
+<x-adminlte-input
+    name="jumlah_ml_vaksin_per_flock"
+    label="Jumlah ML Vaksin per Flock"
+    type="number"
+    id="jumlah-ml-vaksin-per-flock"
+    :value="old('jumlah_ml_vaksin_per_flock', @$data->jumlah_ml_vaksin_per_flock)"
+    readonly
+/>
+
+<x-adminlte-input
+    name="jumlah_air_di_tong_per_flock"
+    label="Jumlah Air di Tong per Flock"
+    type="number"
+    id="jumlah-air-di-tong-per-flock"
+    :value="old('jumlah_air_di_tong_per_flock', @$data->jumlah_air_di_tong_per_flock)"
+    readonly
+/>
 
 @push('js')
     <script>
