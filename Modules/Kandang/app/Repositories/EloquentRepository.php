@@ -118,6 +118,11 @@ abstract class EloquentRepository implements RepositoryInterface
         return $q->paginate($perPage, $columns)->withQueryString();
     }
 
+    public function getSelectItems(string $column = 'nama')
+    {
+        return $this->getModel()->orderBy($column)->pluck($column, 'id')->toArray();
+    }
+
     /**
      * Get all records, optionally eager loading relations.
      */

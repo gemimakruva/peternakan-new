@@ -7,13 +7,16 @@ use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanControlle
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
 use Modules\Kandang\Http\Controllers\MasterData\JenisDisinfektanController;
+use Modules\Kandang\Http\Controllers\MasterData\JenisOvkController;
 use Modules\Kandang\Http\Controllers\MasterData\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockPipeController;
 use Modules\Kandang\Http\Controllers\MasterData\MetodeTreatmentController;
+use Modules\Kandang\Http\Controllers\MasterData\OvkController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
+use Modules\Kandang\Http\Controllers\MasterData\SatuanController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\MonitoringKesehatan\MonitoringKesehatanController;
 use Modules\Kandang\Http\Controllers\OvkPakan\OrderOvkController;
@@ -50,6 +53,10 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kandang.flock.pipe', KandangFlockPipeController::class)->names('kandang.flock.pipe')->except('index');
         Route::resource('flock', FlockController::class)->names('flock');
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
+
+        Route::resource('jenis-ovk', JenisOvkController::class)->names('jenis-ovk');
+        Route::resource('satuan', SatuanController::class)->names('satuan');
+        Route::resource('ovk', OvkController::class)->names('ovk');
     });
 
     // ===== Ajax Start =====

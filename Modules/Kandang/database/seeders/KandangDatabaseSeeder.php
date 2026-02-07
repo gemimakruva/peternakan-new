@@ -15,24 +15,26 @@ class KandangDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
-            PeternakanSeeder::class,
-            StrainSeeder::class,
-            KandangSeeder::class,
-            FlockSeeder::class,
-            PengadaanAyamSedeer::class,
-            PopulasiAyamSeeder::class,
-            AyamAfkirSeeder::class,
-            AyamKarantinaSeeder::class,
+            // PeternakanSeeder::class,
+            // StrainSeeder::class,
+            // KandangSeeder::class,
+            // FlockSeeder::class,
+            // PengadaanAyamSedeer::class,
+            // PopulasiAyamSeeder::class,
+            // AyamAfkirSeeder::class,
+            // AyamKarantinaSeeder::class,
 
-            JenisPakanSeeder::class,
-            JenisDisinfektanSeeder::class,
-            JenisTreatmentSeeder::class,
-            MetodeTreatmentSeeder::class,
+            // JenisPakanSeeder::class,
+            // JenisDisinfektanSeeder::class,
+            // JenisTreatmentSeeder::class,
+            // MetodeTreatmentSeeder::class,
 
-            PerhitunganPakanSeeder::class,
-            PemberianPakanSisaPakanSeeder::class,
+            // PerhitunganPakanSeeder::class,
+            // PemberianPakanSisaPakanSeeder::class,
             
-            ProduksiTelurSeeder::class,
+            // ProduksiTelurSeeder::class,
+
+            TreatmentSeeder::class,
 
             // PenjadwalaanTreatmentSeeder::class,
             // penjadwalanTreatmentFlockSeeder::class,

@@ -397,6 +397,24 @@ return [
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/metode-treatment*'],
                 ],
+                [
+                    'text'  => 'Jenis OVK',
+                    'route' => 'master-data.jenis-ovk.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/jenis-ovk*'],
+                ],
+                [
+                    'text'  => 'Satuan',
+                    'route' => 'master-data.satuan.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/satuan*'],
+                ],
+                [
+                    'text'  => 'OVK',
+                    'route' => 'master-data.ovk.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/ovk*'],
+                ],
             ],
         ],
 
