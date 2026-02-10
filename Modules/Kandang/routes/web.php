@@ -14,14 +14,11 @@ use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\MonitoringKesehatan\MonitoringKesehatanController;
-use Modules\Kandang\Http\Controllers\OvkPakan\OrderOvkController;
-use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\OverviewPakanHarianController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController;
-use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\OverviewProduksiTelurController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
@@ -75,8 +72,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('ajax/karantina/{kandangId}/populasi/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
     // ===== Ajax End =====
-
-    Route::resource('vaksin-minum', VaksinMinumController::class)->names('vaksin-minum');
 
     // ===== Menu Group Pengadaan Ayam =====
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
