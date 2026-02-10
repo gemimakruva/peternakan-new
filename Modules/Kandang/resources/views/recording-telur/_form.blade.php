@@ -73,6 +73,7 @@
                             x-model="item.berat_telur_bagus"
                             :name="`items[${key}][berat_telur_bagus]`"
                             min="0"
+                            step="0.001"
                         />
                     </td>
                     <td>
@@ -91,6 +92,7 @@
                             x-model="item.berat_telur_putih"
                             :name="`items[${key}][berat_telur_putih]`"
                             min="0"
+                            step="0.001"
                         />
                     </td>
                     <td>
@@ -109,6 +111,7 @@
                             x-model="item.berat_telur_reject"
                             :name="`items[${key}][berat_telur_reject]`"
                             min="0"
+                            step="0.001"
                         />
                     </td>
                 </tr>
