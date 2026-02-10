@@ -25,6 +25,7 @@ use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\Rekapan\ProduksiController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
 use Modules\Kandang\Http\Controllers\Treatment\TreatmentController;
+use Modules\Kandang\Http\Controllers\Treatment\TreatmentPelaksanaanController;
 use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
 
 Route::middleware(['auth'])->group(function () {
@@ -109,6 +110,10 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
 
     Route::resource('treatment', TreatmentController::class)->names('treatment')->except('show');
+    Route::get('treatment-pelaksanaan', [TreatmentPelaksanaanController::class, 'index'])->name('treatment-pelaksanaan.index');
+    Route::get('treatment-pelaksanaan/{kandangId}/{bulan}/jadwal', [TreatmentPelaksanaanController::class, 'jadwal'])->name('treatment-pelaksanaan.jadwal');
+    Route::get('treatment-pelaksanaan/{kandangId}/{bulan}/jadwal/{treatmentJadwalId}/pelaksanaan', [TreatmentPelaksanaanController::class, 'pelaksanaan'])->name('treatment-pelaksanaan.jadwal.pelaksanaan');
+    Route::post('treatment-pelaksanaan/{kandangId}/{bulan}/jadwal/{treatmentJadwalId}/pelaksanaan', [TreatmentPelaksanaanController::class, 'pelaksanaanStore'])->name('treatment-pelaksanaan.jadwal.pelaksanaan.store');
 
     Route::resource('monitoring-kesehatan', MonitoringKesehatanController::class)->names('monitoring-kesehatan');
 });

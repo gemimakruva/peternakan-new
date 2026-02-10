@@ -507,6 +507,12 @@ return [
             'route' => 'treatment.index',
             'active' => ['treatment/*']
         ],
+        [
+            'text'  => 'Pelaksanaan Treatment',
+            'icon'  => 'fas fa-clipboard-list',
+            'route' => 'treatment-pelaksanaan.index',
+            'active' => ['treatment-pelaksanaan/*']
+        ],
 
         // ====================   Monitoring Kesehatan  ========================
         [

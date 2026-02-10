@@ -13,12 +13,10 @@ class MetodeTreatmentSeeder extends Seeder
     public function run(): void
     {
          $data = [
-            ['id' => 1, 'nama' => 'Pakan'],
-            ['id' => 2, 'nama' => 'Minum'],
-            ['id' => 3, 'nama' => 'Semprot'],
-            ['id' => 4, 'nama' => 'Cekok'],
-            ['id' => 5, 'nama' => 'Suntik (Intramuskular)'],
-            ['id' => 6, 'nama' => 'Suntik (Subkutan)'],
+            ['id' => 1, 'nama' => 'Semprot'],
+            ['id' => 2, 'nama' => 'Pakan'],
+            ['id' => 3, 'nama' => 'Minum'],
+            ['id' => 4, 'nama' => 'Suntik'],
         ];
 
         foreach ($data as $item) {

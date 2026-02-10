@@ -26,6 +26,21 @@ class TreatmentJadwal extends Model
         'executed_at'   => 'datetime'
     ];
 
+    public function treatment()
+    {
+        return $this->belongsTo(Treatment::class, 'treatment_id', 'id');
+    }
+
+    public function jenisTreatment()
+    {
+        return $this->belongsTo(JenisTreatment::class, 'jenis_treatment_id', 'id');
+    }
+
+    public function metodeTreatment()
+    {
+        return $this->belongsTo(MetodeTreatment::class, 'metode_treatment_id', 'id');
+    }
+
     public function treatmentJadwalFlocks()
     {
         return $this->hasMany(TreatmentJadwalFlock::class, 'treatment_jadwal_id', 'id');
