@@ -14,7 +14,7 @@ use Modules\Kandang\Models\PerhitunganPakanItem;
 use Modules\Kandang\Notifications\Pakan\PemberianPakanAssigned;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Pakan\PerhitunganPakanRepository;
-use Modules\Kandang\Services\Pakan\PerhitunganPakanService;
+use Modules\Kandang\Services\PerhitunganPakanService;
 use Modules\Kandang\Services\PopulasiAyamService;
 
 class PerhitunganPakanController extends Controller

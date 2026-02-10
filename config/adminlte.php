@@ -404,9 +404,9 @@ return [
             'icon'  => 'fas fa-chart-line',
         ],
 
-        // ====================  MENU PENGADAAN AYAM  ==========================
+        // ====================  POPULASI  ==========================
         [
-            'header' => 'Pengadaan Ayam',
+            'header' => 'Populasi Ayam',
         ],
         [
             'text'  => 'Pengadaan Ayam',
@@ -414,35 +414,17 @@ return [
             'icon'  => 'fas fa-clipboard-check',
             'active' => ['pengadaan-ayam/*']
         ],
-
-        // ====================  MENU POPULASI AYAM  ==========================
-
-        [
-            'header' => 'Populasi Ayam',
-        ],
         [
             'text'  => 'Populasi Ayam',
             'route' => 'populasi-ayam.index',
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['populasi-ayam/*']
         ],
-
-        // ====================   PENGADAAN AYAM AFKIR  ==========================
-
-        [
-            'header' => 'Ayam Afkir',
-        ],
         [
             'text'  => 'Ayam Afkir',
             'route' => 'ayam-afkir.index',
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['ayam-afkir/*']
-        ],
-
-        // ====================   PENGADAAN AYAM KARANTINA  ==========================
-
-        [
-            'header' => 'Ayam Karantina',
         ],
         [
             'text'  => 'Ayam Karantina',
@@ -451,7 +433,7 @@ return [
             'active'  => ['ayam-karantina/*'],
         ],
         [
-            'text'  => 'Overview Ayam Karantina',
+            'text'  => 'Overview Karantina',
             'route' => 'ayam-karantina.overview',
             'icon'  => 'fas fa-chart-line',
             'active'  => ['ayam-karantina-overview'],
@@ -520,124 +502,10 @@ return [
             'header' => 'Kalender Treatment',
         ],
         [
-            'text'  => 'Treatment',
+            'text'  => 'Penjadwalan Treatment',
             'icon'  => 'fas fa-clipboard-list',
             'route' => 'treatment.index',
             'active' => ['treatment/*']
-        ],
-        [
-            'text'  => 'Treatment',
-            'icon'  => 'fas fa-calendar-alt',
-            'submenu' =>[
-                [
-                    'text'  => 'Form Treatment',
-                    'route' => 'penjadwalan-treatment.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-                [
-                    'text'  => 'Jadwalan Treatment',
-                    'route' => 'penjadwalan-treatment.index',
-                    'icon'  => 'fas fa-calendar',
-                ],
-            ]
-        ],
-        [
-            'text'  => 'Disinfektan',
-            'icon'  => 'fas fa-calendar-alt',
-            'submenu' => [
-                [
-                    'text'  => 'List Penjadwalan',
-                    'route' => 'penjadwalan-disinfektan.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Form Penjadwalan Disinfektan',
-                    'route' => 'penjadwalan-disinfektan.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-
-        // ====================   Perhitungan Obat  =================
-        [
-            'header' => 'Perhitungan Obat',
-        ],
-        [
-            'text'  => 'OVK via Pakan',
-            'icon'  => 'fas fa-clipboard-list',
-             'submenu' => [
-                [
-                    'text'  => 'Jadwal OVK',
-                    'route' => 'ovk-pakan.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                  
-                [
-                    'text'  => 'Create OVK',
-                    'route' => 'ovk-pakan.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-              
-            ],
-        ],
-        [
-            'text'  => 'Order OVK',
-            'icon'  => 'fas fa-clipboard-list',
-            'submenu' => [
-                [
-                    'text'  => 'List Order ',
-                    'route' => 'order-ovk.index',
-                    'icon' => 'fas fa-clipboard-list',
-                ],
-                [
-                    'text'  => 'Form Order',
-                    'route' => 'order-ovk.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-        [
-            'text'  => 'Vaksin Minum',
-            'icon'  => 'fas fa-clipboard-list',
-            'submenu' => [
-                [
-                    'text'  => 'List Data Vaksin Minum',
-                    'route' => 'vaksin-minum.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Form Vaksin Minum',
-                    'route' => 'vaksin-minum.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-
-        [
-            'text'  => 'Vitamin Obat Minum',
-            'icon'  => 'fas fa-clipboard-list',
-            'submenu' => [
-                [
-                    'text'  => 'List Vitamin Obat Minum',
-                    'route' => 'perhitungan-obat.vitamin-obat-minum.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Tambah Vitamin Obat Minum',
-                    'route' => 'perhitungan-obat.vitamin-obat-minum.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-        [
-            'text'  => 'Bahan Treatment',
-            'route' => '',
-            'icon'  => 'fas fa-clipboard-list',
-        ],
-        [
-            'text'  => 'Form Pelaksanaan',
-            'route' => '',
-            'icon'  => 'fas fa-clipboard-list',
         ],
 
         // ====================   Monitoring Kesehatan  ========================
@@ -733,11 +601,6 @@ return [
                     'asset'    => false,
                     'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
                 ]
-            ],
-            [
-                'type'     => 'js',
-                'asset'    => false,
-                'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
             ],
         ],
         'Datatables' => [

@@ -11,11 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('jenis_disinfektan', function (Blueprint $table) {
-            $table->id();
-            $table->string('nama')->unique();      
-            $table->timestamps();
-        });
+        Schema::dropIfExists('unuse_treatment');
     }
 
     /**
@@ -23,6 +19,10 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('jenis_disinfektan');
+        Schema::create('unuse_treatment', function (Blueprint $table) {
+            $table->id();
+            
+            $table->timestamps();
+        });
     }
 };

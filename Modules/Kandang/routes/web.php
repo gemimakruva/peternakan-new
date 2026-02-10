@@ -3,26 +3,20 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
-use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
-use Modules\Kandang\Http\Controllers\MasterData\JenisDisinfektanController;
-use Modules\Kandang\Http\Controllers\MasterData\JenisOvkController;
 use Modules\Kandang\Http\Controllers\MasterData\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockPipeController;
 use Modules\Kandang\Http\Controllers\MasterData\MetodeTreatmentController;
-use Modules\Kandang\Http\Controllers\MasterData\OvkController;
 use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
-use Modules\Kandang\Http\Controllers\MasterData\SatuanController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\MonitoringKesehatan\MonitoringKesehatanController;
 use Modules\Kandang\Http\Controllers\OvkPakan\OrderOvkController;
 use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
-use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\OverviewPakanHarianController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanController;
@@ -45,7 +39,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('strain-ayam', [StrainAyamController::class, 'index'])->name('strain-ayam.index');
 
         Route::resource('jenis-pakan', JenisPakanController::class)->names('jenis-pakan')->except('show');
-        Route::resource('jenis-disinfektan', JenisDisinfektanController::class)->names('jenis-disinfektan');
         Route::resource('jenis-treatment', JenisTreatmentController::class)->names('jenis-treatment');
         Route::resource('metode-treatment', MetodeTreatmentController::class)->names('metode-treatment');
 
@@ -54,10 +47,6 @@ Route::middleware(['auth'])->group(function () {
         Route::resource('kandang.flock.pipe', KandangFlockPipeController::class)->names('kandang.flock.pipe')->except('index');
         Route::resource('flock', FlockController::class)->names('flock');
         Route::resource('pipe', PipeController::class)->names('pipe')->except('show');
-
-        Route::resource('jenis-ovk', JenisOvkController::class)->names('jenis-ovk');
-        Route::resource('satuan', SatuanController::class)->names('satuan');
-        Route::resource('ovk', OvkController::class)->names('ovk');
     });
 
     // ===== Ajax Start =====
@@ -125,14 +114,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
 
     Route::resource('treatment', TreatmentController::class)->names('treatment');
-    
-    Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)->names('penjadwalan-disinfektan');
-    Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)->names('penjadwalan-treatment');
-    Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])->name('penjadwalan-disinfektan.ajax-detail');
-    Route::resource('ovk-pakan', OvkPakanController::class)->names('ovk-pakan');
-    Route::resource('orders-ovk', OrderOvkController::class)->names('order-ovk');
-    Route::group(['prefix' => 'perhitungan-obat', 'as' => 'perhitungan-obat.'], function () {
-        Route::resource('vitamin-obat-minum', VitaminObatMinumController::class)->names('vitamin-obat-minum');
-    });
+
     Route::resource('monitoring-kesehatan', MonitoringKesehatanController::class)->names('monitoring-kesehatan');
 });

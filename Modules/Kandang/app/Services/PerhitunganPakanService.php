@@ -1,13 +1,11 @@
 <?php
 
-namespace Modules\Kandang\Services\Pakan;
+namespace Modules\Kandang\Services;
 
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\PerhitunganPakan;
-use Modules\Kandang\Models\PerhitunganPakanItem;
 use Modules\Kandang\Models\PopulasiAyam;
-use Modules\Kandang\Repositories\Pakan\PerhitunganPakanRepository;
 
 class PerhitunganPakanService
 {

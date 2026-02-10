@@ -4,7 +4,6 @@ namespace Modules\Kandang\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\Kandang\Database\Seeders\AyamKarantinaSeeder;
-use Modules\Kandang\Database\Seeders\PenjadwalaanTreatmentSeeder;
 
 
 class KandangDatabaseSeeder extends Seeder
@@ -25,7 +24,6 @@ class KandangDatabaseSeeder extends Seeder
             AyamKarantinaSeeder::class,
 
             JenisPakanSeeder::class,
-            JenisDisinfektanSeeder::class,
             JenisTreatmentSeeder::class,
             MetodeTreatmentSeeder::class,
 
@@ -37,11 +35,6 @@ class KandangDatabaseSeeder extends Seeder
             SamplingBobotAyamSeeder::class,
 
             TreatmentSeeder::class,
-
-            // PenjadwalaanTreatmentSeeder::class,
-            // penjadwalanTreatmentFlockSeeder::class,
-            // OvkPakanSeeder::class,
-            // FormRequestOvkSeeder::class
         ]);
     }
 }
