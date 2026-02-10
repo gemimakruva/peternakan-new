@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Requests\PopulasiAyam;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Services\KandangService;
 use Modules\Kandang\Services\PopulasiAyamService;
@@ -35,7 +36,7 @@ class PopulasiAyamUpdate extends FormRequest
                     ->where('id', '<>', $populasiAyam->id)
                     ->exists();
                 if ($isExist) {
-                    $pipe = $this->pipe->find($value);
+                    $pipe = app(Pipe::class)->find($value);
                     $fail("Recording untuk pipe $pipe->nama sudah dilakukan.");
                 }
             }],

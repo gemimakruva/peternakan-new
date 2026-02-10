@@ -380,12 +380,6 @@ return [
                     'active' => ['master-data/jenis-pakan*'],
                 ],
                 [
-                    'text'  => 'Jenis Disinfektan',
-                    'route' => 'master-data.jenis-disinfektan.index',
-                    'icon'  => 'far fa-circle',
-                    'active' => ['master-data/jenis-disinfektan*'],
-                ],
-                [
                     'text'  => 'Jenis Treatment',
                     'route' => 'master-data.jenis-treatment.index',
                     'icon'  => 'far fa-circle',
@@ -396,24 +390,6 @@ return [
                     'route' => 'master-data.metode-treatment.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/metode-treatment*'],
-                ],
-                [
-                    'text'  => 'Jenis OVK',
-                    'route' => 'master-data.jenis-ovk.index',
-                    'icon'  => 'far fa-circle',
-                    'active' => ['master-data/jenis-ovk*'],
-                ],
-                [
-                    'text'  => 'Satuan',
-                    'route' => 'master-data.satuan.index',
-                    'icon'  => 'far fa-circle',
-                    'active' => ['master-data/satuan*'],
-                ],
-                [
-                    'text'  => 'OVK',
-                    'route' => 'master-data.ovk.index',
-                    'icon'  => 'far fa-circle',
-                    'active' => ['master-data/ovk*'],
                 ],
             ],
         ],
@@ -542,6 +518,12 @@ return [
         // ====================   PENJADWALAAN TREATMENT  =================
         [
             'header' => 'Kalender Treatment',
+        ],
+        [
+            'text'  => 'Treatment',
+            'icon'  => 'fas fa-clipboard-list',
+            'route' => 'treatment.index',
+            'active' => ['treatment/*']
         ],
         [
             'text'  => 'Treatment',
@@ -727,6 +709,17 @@ return [
     */
 
     'plugins' => [
+        'AlpineJs' => [
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
+                    'defer'    => true,
+                ],
+            ]
+        ],
         'BootstrapIcons' => [
             'active' => true,
             'files'  => [
@@ -739,13 +732,7 @@ return [
                     'type'     => 'js',
                     'asset'    => false,
                     'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
-                ],
-                [
-                    'type'     => 'js',
-                    'asset'    => false,
-                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
-                    'defer'    => true,
-                ],
+                ]
             ],
             [
                 'type'     => 'js',

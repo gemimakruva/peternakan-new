@@ -36,7 +36,7 @@ class KandangDatabaseSeeder extends Seeder
 
             SamplingBobotAyamSeeder::class,
 
-            // TreatmentSeeder::class,
+            TreatmentSeeder::class,
 
             // PenjadwalaanTreatmentSeeder::class,
             // penjadwalanTreatmentFlockSeeder::class,

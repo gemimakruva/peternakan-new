@@ -4,6 +4,7 @@ namespace Modules\Kandang\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\AyamAfkirPopulasi;
@@ -12,6 +13,7 @@ use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\PopulasiAyamRepository;
+use Modules\Kandang\Repositories\SamplingAyam\SamplingAyamRepository;
 use Modules\Kandang\Services\Contracts\PopulasiAyamServiceInterface;
 
 class PopulasiAyamService
@@ -24,6 +26,22 @@ class PopulasiAyamService
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
     ) {}
+
+    public function getPerkiraanBobotAyamKandang($kandangId, ?Carbon $tanggal) 
+    {
+        return DB::table('sampling_bobot_ayam_per_ekor as sbape')
+            ->join('sampling_bobot_ayam as sba', 'sba.id', '=', 'sbape.sampling_bobot_ayam_id')
+            ->selectRaw(<<<SQL
+                sum(sbape.bobot_per_kg)/count(sbape.bobot_per_kg)*sba.jumlah_ayam_saat_ini as bobot_ayam_keseluruhan
+                , sum(sbape.bobot_per_kg)/count(sbape.bobot_per_kg) as bobot_ayam_rata2
+                , sba.jumlah_ayam_saat_ini
+            SQL)
+            ->where('sba.kandang_id', '=', $kandangId)
+            ->where('sba.tanggal', '<=', $tanggal)
+            ->groupBy('sbape.sampling_bobot_ayam_id')
+            ->orderByDesc('sba.tanggal')
+            ->first();
+    }
 
     public function getCurrentAyamSehatByPipe(int $pipeId, ?Carbon $tanggalPerbandingan = null)
     {

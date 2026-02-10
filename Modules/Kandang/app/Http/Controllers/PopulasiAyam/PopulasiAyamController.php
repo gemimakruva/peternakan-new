@@ -71,8 +71,12 @@ class PopulasiAyamController extends Controller
             ->paginate(request()->query('perPage', 10));
 
         $listFlock->transform(function($item) {
-            $item->tanggal = Carbon::createFromFormat('Y-m-d', $item->tanggal);
-            $item->terakhir_diperharui = Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui);
+            $item->tanggal = $item->tanggal 
+                ? Carbon::createFromFormat('Y-m-d', $item->tanggal) 
+                : null;
+            $item->terakhir_diperharui = $item->terakhir_diperharui 
+                ? Carbon::createFromFormat('Y-m-d', $item->terakhir_diperharui) 
+                : null;
             $item->ayam_sehat = (int) $item->ayam_sehat;
             $item->ayam_mati = (int) $item->ayam_mati;
             $item->ayam_afkir = (int) $item->ayam_afkir;

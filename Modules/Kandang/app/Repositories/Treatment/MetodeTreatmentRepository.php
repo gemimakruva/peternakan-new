@@ -2,12 +2,12 @@
 
 namespace Modules\Kandang\Repositories\Treatment;
 
-use Modules\Kandang\Models\Ovk;
+use Modules\Kandang\Models\MetodeTreatment;
 use Modules\Kandang\Repositories\EloquentRepository;
 
-class OvkRepository extends EloquentRepository
+class MetodeTreatmentRepository extends EloquentRepository
 {
-    public function __construct(Ovk $model)
+    public function __construct(MetodeTreatment $model)
     {
         parent::__construct($model);
     }

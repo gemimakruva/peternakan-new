@@ -10,33 +10,34 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void {
-        Schema::create('jenis_ovk', function (Blueprint $table) {
+        Schema::create('treatment', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
+            $table->foreignId('kandang_id')->constrained('kandang');
+            $table->date('tanggal');
+            $table->foreignId('user_creator_id')->constrained('users');
             $table->timestamps();
         });
 
-        Schema::create('satuan', function (Blueprint $table) {
+        Schema::create('treatment_jadwal', function (Blueprint $table) {
             $table->id();
-            $table->string('nama');
-            $table->decimal('standar_terkecil_satuan');
+            $table->foreignId('treatment_id')->constrained('treatment');
+            $table->foreignId('jenis_treatment_id')->constrained('jenis_treatment');
+            $table->foreignId('metode_treatment_id')->constrained('metode_treatment');
+            $table->string('merk_ovk');
+            $table->string('area')->nullable();
+            $table->string('dosis')->nullable();
+            $table->time('waktu');
+            $table->time('executed_at')->nullable();
+            $table->foreignId('executed_by')->nullable()->constrained('users');
             $table->timestamps();
         });
 
-        Schema::create('ovk', function (Blueprint $table) {
+        Schema::create('treatment_jadwal_flock', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('jenis_ovk_id')->constrained('jenis_ovk');
-            $table->string('nama');
-            $table->decimal('dosis_pembilang');
-            $table->foreignId('dosis_pembilang_satuan_id')->constrained('satuan');
-            $table->decimal('dosis_penyebut');
-            $table->foreignId('dosis_penyebut_satuan_id')->constrained('satuan');
-            $table->decimal('penggunaan_per_hari');
-            $table->foreignId('penggunaan_per_hari_satuan_id')->constrained('satuan');
-            $table->decimal('harga');
-            $table->decimal('harga_per_satuan');
-            $table->foreignId('harga_per_satuan_id')->constrained('satuan');
-            // $table->decimal('durasi_per_bulan');
+            $table->foreignId('treatment_jadwal_id')->constrained('treatment_jadwal', 'id')->cascadeOnDelete();
+            $table->foreignId('flock_id')->constrained('flock', 'id');
+            $table->time('executed_at')->nullable();
+            $table->foreignId('executed_by')->nullable()->constrained('users', 'id');
             $table->timestamps();
         });
     }
@@ -45,8 +46,8 @@ return new class extends Migration
      * Reverse the migrations.
      */
     public function down(): void {
-        Schema::drop('ovk');
-        Schema::drop('satuan');
-        Schema::drop('jenis_ovk');
+        Schema::drop('treatment_jadwal_flock');
+        Schema::drop('treatment_jadwal');
+        Schema::drop('treatment');
     }
 };

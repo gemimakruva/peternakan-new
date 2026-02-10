@@ -16,6 +16,9 @@ class MetodeTreatmentSeeder extends Seeder
             ['id' => 1, 'nama' => 'Pakan'],
             ['id' => 2, 'nama' => 'Minum'],
             ['id' => 3, 'nama' => 'Semprot'],
+            ['id' => 4, 'nama' => 'Cekok'],
+            ['id' => 5, 'nama' => 'Suntik (Intramuskular)'],
+            ['id' => 6, 'nama' => 'Suntik (Subkutan)'],
         ];
 
         foreach ($data as $item) {

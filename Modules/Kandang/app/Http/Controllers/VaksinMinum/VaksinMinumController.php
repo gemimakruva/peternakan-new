@@ -150,27 +150,6 @@ class VaksinMinumController extends Controller
      */
     public function destroy($id)
     {
-        try{
-            DB::beginTransaction();
-            
-            $samplingBobotAyam = $this->samplingBobotAyam->findOrFail($id);
-            
-            // Delete related bobot per ekor (cascade should handle this, but being explicit)
-            $samplingBobotAyam->beratBadanRataRataPerEkor()->delete();
-            
-            // Delete main record
-            $samplingBobotAyam->delete();
-            
-            DB::commit();
-
-            return to_route('sampling-ayam.index')
-                ->with('success', 'Data Berhasil Dihapus.');   
-                
-        }catch(\Exception $e){
-            DB::rollBack();
-            
-            return to_route('sampling-ayam.index')
-            ->with('danger', 'Data Gagal Dihapus. Error: '.$e->getMessage());
-        }
+        
     }
 }

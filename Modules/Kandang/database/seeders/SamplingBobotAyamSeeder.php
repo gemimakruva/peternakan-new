@@ -17,7 +17,7 @@ class SamplingBobotAyamSeeder extends Seeder
     {
         // sampling ayam dilakukan h+10 pengadaan
         $listkandang = Kandang::get();
-        $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-10');
+        $tanggal = Carbon::createFromFormat('Y-m-d', '2025-01-5');
 
         $rangeBobot = [
             1 => [1.169, 1.241],

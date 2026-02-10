@@ -33,6 +33,7 @@ use Modules\Kandang\Http\Controllers\RecordingTelur\OverviewProduksiTelurControl
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\Rekapan\ProduksiController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
+use Modules\Kandang\Http\Controllers\Treatment\TreatmentController;
 use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
 
 Route::middleware(['auth'])->group(function () {
@@ -122,6 +123,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('overview-produksi-telur', [OverviewProduksiTelurController::class, 'index'])->name('overview-produksi-telur');
 
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
+
+    Route::resource('treatment', TreatmentController::class)->names('treatment');
     
     Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)->names('penjadwalan-disinfektan');
     Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)->names('penjadwalan-treatment');

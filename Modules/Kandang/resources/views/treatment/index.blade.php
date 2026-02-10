@@ -1,20 +1,20 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Satuan')
+@section('title', 'Treatment')
 
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
-                    <h1>Satuan</h1>
-                    <a href="{{ route('master-data.satuan.create') }}" class="btn btn-primary">Tambah Satuan</a>
+                    <h1>Treatment</h1>
+                    <a href="{{ route('treatment.create') }}" class="btn btn-primary">Tambah Treatment</a>
                 </div>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
                     <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Satuan</li>
+                    <li class="breadcrumb-item active">Treatment</li>
                 </ol>
             </div>
         </div>
@@ -26,27 +26,62 @@
         <x-form-alert />
 
         <div class="card">
+            <div class="card-header">
+                <h2 class="card-title">Filter</h2>
+            </div>
+            <div class="card-body">
+                <form action="{{ route('treatment.index') }}" method="get" class="d-flex gap-2">
+                    <x-adminlte-select name="kandang_id" fgroup-class="mb-0">
+                        <x-adminlte-options
+                            :options="$listKandang"
+                            empty-option="Semua Kandang ..."
+                            :selected="request()->query('kandang_id')"
+                        />
+                    </x-adminlte-select>
+
+                    <x-adminlte-input 
+                        type="search"
+                        name="search"
+                        placeholder="Nama Pencatat ..."
+                        :value="request()->query('search')"
+                        fgroup-class="mb-0"
+                    />
+                    
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+
+                    <a href="{{ route('treatment.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
-                        <x-sort-th label="Nama" name="nama"></x-sort-th>
-                        <x-sort-th label="Standar" name="standar_terkecil_satuan"></x-sort-th>
+                        <x-sort-th label="Nama Kandang" name="nama_kandang"></x-sort-th>
+                        <x-sort-th label="Nama Pencatat" name="nama_creator"></x-sort-th>
+                        <x-sort-th label="Tanggal" name="tanggal"></x-sort-th>
                         <th style="width: 150px;">Aksi</th>
                     </thead>
                     <tbody>
                         @forelse($datas as $row)
                             <tr>
                                 <td class="text-right">{{ ($loop->index + 1) + (request()->get('page', 1) * 10 - 10) }}</td>
-                                <td class="text-left">{{ $row->nama }}</td>
-                                <td class="text-right">{{ format_angka($row->standar_terkecil_satuan) }}</td>
+                                <td class="text-left">{{ $row->nama_kandang }}</td>
+                                <td class="text-left">{{ $row->nama_creator }}</td>
+                                <td class="text-left">{{ $row->tanggal->translatedFormat('l, d F Y') }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
-                                        <a href="{{ route('master-data.satuan.edit', $row->id) }}" class="btn btn-sm btn-warning" title="Edit">
+                                        <a href="{{ route('treatment.edit', $row->id) }}" class="btn btn-sm btn-warning" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
 
-                                        <form action="{{ route('master-data.satuan.destroy', $row->id) }}" method="post"
+                                        <form action="{{ route('treatment.destroy', $row->id) }}" method="post"
                                             data-nama="{{ $row->nama }}" class="form-delete">
                                             @csrf
                                             @method('delete')
@@ -59,8 +94,8 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center text-muted py-3">
-                                    Tidak ada data satuan ditemukan.
+                                <td colspan="5" class="text-center text-muted py-3">
+                                    Tidak ada data treatment ditemukan.
                                 </td>
                             </tr>
                         @endforelse
@@ -84,7 +119,7 @@
             const nama = $(this).data('nama');
 
             Swal.fire({
-                title: `Hapus Satuan "${nama}"?`,
+                title: `Hapus Treatment "${nama}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,
