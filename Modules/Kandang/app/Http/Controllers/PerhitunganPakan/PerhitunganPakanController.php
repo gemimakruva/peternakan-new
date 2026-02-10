@@ -70,10 +70,18 @@ class PerhitunganPakanController extends Controller
             'tanggal_pemberian_pakan'   => ['required', 'date'],
             'kandang_id'                => ['required', 'exists:kandang,id'],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
-            'proporsi_pemberian_pagi'   => ['required', 'numeric'],
-            'proporsi_pemberian_sore'   => ['required', 'numeric'],
-            'waktu_pemberian_pagi'      => ['required', 'date_format:H:i', 'after_or_equal:05:00', 'before_or_equal:09:30'],
-            'waktu_pemberian_sore'      => ['required', 'date_format:H:i', 'after_or_equal:15:00', 'before_or_equal:18:30'],
+            'proporsi_pemberian_pagi'   => ['required', 'numeric', function ($attr, $value, $fail) {
+                if ((request()->integer('proporsi_pemberian_pagi') + request()->integer('proporsi_pemberian_sore')) !== 100) {
+                    $fail('Proposi Pemberian Pakan Tidak Valid.');
+                }
+            }],
+            'proporsi_pemberian_sore'   => ['required', 'numeric', function ($attr, $value, $fail) {
+                if ((request()->integer('proporsi_pemberian_pagi') + request()->integer('proporsi_pemberian_sore')) !== 100) {
+                    $fail('Proposi Pemberian Pakan Tidak Valid.');
+                }
+            }],
+            'waktu_pemberian_pagi'      => ['required', 'date_format:H:i'],
+            'waktu_pemberian_sore'      => ['required', 'date_format:H:i'],
             'user_executor_id'          => ['required', 'exists:users,id'],
             'catatan'                   => ['nullable', 'string', 'max:500'],
         ]);
@@ -146,10 +154,18 @@ class PerhitunganPakanController extends Controller
         $validated = $request->validate([
             'tanggal_pemberian_pakan'   => ['required', 'date'],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
-            'proporsi_pemberian_pagi'   => ['required', 'numeric'],
-            'proporsi_pemberian_sore'   => ['required', 'numeric'],
-            'waktu_pemberian_pagi'      => ['required', 'date_format:H:i:s', 'after_or_equal:05:00:00', 'before_or_equal:09:30:00'],
-            'waktu_pemberian_sore'      => ['required', 'date_format:H:i:s', 'after_or_equal:15:00:00', 'before_or_equal:18:30:00'],
+            'proporsi_pemberian_pagi'   => ['required', 'numeric', function ($attr, $value, $fail) {
+                if ((request()->integer('proporsi_pemberian_pagi') + request()->integer('proporsi_pemberian_sore')) !== 100) {
+                    $fail('Proposi Pemberian Pakan Tidak Valid.');
+                }
+            }],
+            'proporsi_pemberian_sore'   => ['required', 'numeric', function ($attr, $value, $fail) {
+                if ((request()->integer('proporsi_pemberian_pagi') + request()->integer('proporsi_pemberian_sore')) !== 100) {
+                    $fail('Proposi Pemberian Pakan Tidak Valid.');
+                }
+            }],
+            'waktu_pemberian_pagi'      => ['required', 'date_format:H:i:s'],
+            'waktu_pemberian_sore'      => ['required', 'date_format:H:i:s'],
             'user_executor_id'          => ['required', 'exists:users,id'],
             'catatan'                   => ['nullable', 'string', 'max:500'],
             'items'                             => ['required', 'array'],

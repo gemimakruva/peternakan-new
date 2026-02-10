@@ -45,8 +45,6 @@
             label="Jam Pemberian Pagi (WIB)" 
             type="time" 
             value="{{ old('waktu_pemberian_pagi', @$data->waktu_pemberian_pagi) }}"
-            min="05:00"
-            max="09:30"
         >
             <x-slot name="appendSlot">
                 <div class="input-group-text bg-white font-bold text-sm">
@@ -69,9 +67,7 @@
             name="waktu_pemberian_sore" 
             label="Jam Pemberian Sore (WIB)" 
             type="time"
-            value="{{ old('waktu_pemberian_sore', @$data->waktu_pemberian_sore) }}"
-            min="15:00"
-            max="18:30">
+            value="{{ old('waktu_pemberian_sore', @$data->waktu_pemberian_sore) }}">
             <x-slot name="appendSlot">
                 <div class="input-group-text bg-white font-bold text-sm">
                     WIB
