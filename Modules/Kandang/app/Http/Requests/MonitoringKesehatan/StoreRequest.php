@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Requests\MonitoringKesehatan;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoreRequest extends FormRequest
 {
@@ -31,9 +32,9 @@ class StoreRequest extends FormRequest
             'lingkungan_kebersihan'               => ['required', 'string'],
             'detail_kondisi_umum'                 => ['required', 'string'],
             'nekropsi_jumlah_ayam'                => ['required', 'integer'],
-            'nekropsi'                            => ['required', 'array'],
-            'nekropsi.*.image'                    => ['required', 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
-            'nekropsi.*.keterangan'               => ['required', 'string'],
+            'nekropsi'                            => ['nullable', 'array', Rule::when(fn($input) => $input['nekropsi_jumlah_ayam'] > 0, ['required']),],
+            'nekropsi.*.image'                    => [Rule::when(fn($input) => $input['nekropsi_jumlah_ayam'] > 0, ['required']), 'file', 'mimes:jpg,jpeg,png,pdf', 'max:2048'],
+            'nekropsi.*.keterangan'               => [Rule::when(fn($input) => $input['nekropsi_jumlah_ayam'] > 0, ['required', 'string'])],
             'tindakan_pengobatan'                 => ['required', 'string'],
             'tindakan_rekomendasi_jangka_pendek'  => ['required', 'string'],
             'tindakan_rekomendasi_jangka_panjang' => ['required', 'string'],

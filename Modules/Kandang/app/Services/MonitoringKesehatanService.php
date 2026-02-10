@@ -152,6 +152,8 @@ class MonitoringKesehatanService
                     $filename,
                     'public'
                 );
+            } else {
+                continue;
             }
 
             if (! empty($item['id'])) {
