@@ -21,6 +21,8 @@
 
 @section('content')
 <div class="mx-1600">
+    <x-form-alert />
+
     <div class="row">
         <div class="col-md-10 col-12">
             <form action="{{ route('treatment.update', $data) }}" method="post" id="form-treatment">

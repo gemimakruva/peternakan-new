@@ -5,6 +5,9 @@ namespace Modules\Kandang\Http\Controllers\Treatment;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Modules\Kandang\Http\Requests\Treatment\UpdateRequest;
 use Modules\Kandang\Models\Treatment;
 use Modules\Kandang\Repositories\Kandang\FlockRepository;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
@@ -92,19 +95,8 @@ class TreatmentController extends Controller
         ]));
     }
 
-    public function update(Request $request, Treatment $treatment) {
-        $validated = $request->validate([
-            'items'                         => ['required', 'array'],
-            'items.*.id'                    => ['nullable', 'exists:treatment_jadwal,id'],
-            'items.*.waktu'                 => ['required', 'date_format:H:i'],
-            'items.*.jenis_treatment_id'    => ['required', 'integer', 'exists:jenis_treatment,id'],
-            'items.*.metode_treatment_id'   => ['required', 'integer', 'exists:metode_treatment,id'],
-            'items.*.merk_ovk'              => ['required', 'string'],
-            'items.*.area'                  => ['nullable', 'string'],
-            'items.*.flocks'                => ['required', 'array'],
-            'items.*.flocks.*'              => ['required', 'integer', 'exists:flock,id'],
-            'items.*.dosis'                 => ['nullable', 'string'],
-        ]);
+    public function update(UpdateRequest $request, Treatment $treatment) {
+        $validated = $request->all();
 
         $savedJadwal = [];
         foreach ($validated['items'] as $item) {
@@ -123,7 +115,7 @@ class TreatmentController extends Controller
             $savedJadwal[] = $jadwal->id;
 
             $savedFlock = []; // flock terpilih, jika flock kosong dianggap memilih semua flock
-            foreach (($item['flocks']) as $flockId) {
+            foreach ((@$item['flocks'] ?? []) as $flockId) {
                 $flock = $jadwal->treatmentJadwalFlocks()->firstOrCreate([
                     'treatment_jadwal_id'   => $jadwal->id,
                     'flock_id'              => $flockId,
@@ -135,5 +127,20 @@ class TreatmentController extends Controller
         $treatment->treatmentJadwal()->whereNotIn('id', $savedJadwal)->delete();
 
         return to_route('treatment.index')->with('success', 'Data Penjadwalan Treatment Berhasil Diupdate.');
+    }
+
+    public function destroy(Treatment $treatment)
+    {
+        DB::beginTransaction();
+        try {
+            $treatment->treatmentJadwal()->delete();
+            $treatment->delete();
+            DB::commit();
+            return to_route('treatment.index')->with('success', 'Data Penjadwalan Treatment Berhasil Dihapus.');
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            Log::error($th);
+            return to_route('treatment.index')->with('error', 'Data Penjadwalan Treatment Gagal Dihapus.');
+        }
     }
 }

@@ -27,15 +27,11 @@
     </div>
 </div>
 
-{{-- @if ($errors->count())
-    @dd($errors)
-@endif --}}
-
 @if (@$data)
 <div
     class="card"
     x-data="{
-        items: @js(@$data->treatmentJadwal ?? []),
+        items: @js(old('items', @$data->treatmentJadwal) ?? []),
         errors: @js($errors->messages()) || {},
         listFlock: @js(@$listFlock),
         addItem () {
@@ -54,7 +50,7 @@
         }
     }"
 >
-    {{-- <pre x-text="JSON.stringify(items, 2, 3)"></pre> --}}
+    {{-- <pre x-text="JSON.stringify(errors, 2, 3)"></pre> --}}
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
             <h2 class="card-title">Jadwal Treatment</h2>
@@ -90,8 +86,14 @@
                                 name="waktu"
                                 x-bind:name="`items[${i}][waktu]`"
                                 fgroup-class="w-100 mb-0"
+                                x-bind:class="{'is-invalid': errors[`items.${i}.waktu`][0]}"
                                 x-model="item.waktu"
                             />
+                            <div 
+                                x-if="errors[`items.${i}.waktu`][0]"
+                                x-text="errors[`items.${i}.waktu`][0]"
+                                class="text-danger"
+                            ></div>
                         </td>
                         <td>
                             <x-adminlte-select 
@@ -99,12 +101,18 @@
                                 x-bind:name="`items[${i}][jenis_treatment_id]`"
                                 fgroup-class="w-100 mb-0"
                                 x-model="item.jenis_treatment_id"
+                                x-bind:class="{'is-invalid': errors[`items.${i}.jenis_treatment_id`][0]}"
                             >
                                 <x-adminlte-options
                                     :options="$listJenisTreatment"
                                     empty-option="Pilih Jenis Treatment"
                                 />
                             </x-adminlte-select>
+                            <div 
+                                x-if="errors[`items.${i}.jenis_treatment_id`][0]"
+                                x-text="errors[`items.${i}.jenis_treatment_id`][0]"
+                                class="text-danger"
+                            ></div>
                         </td>
                         <td>
                             <x-adminlte-select 
@@ -112,12 +120,18 @@
                                 x-bind:name="`items[${i}][metode_treatment_id]`"
                                 fgroup-class="w-100 mb-0"
                                 x-model="item.metode_treatment_id"
+                                x-bind:class="{'is-invalid': errors[`items.${i}.metode_treatment_id`][0]}"
                             >
                                 <x-adminlte-options
                                     :options="$listMetodeTreatment"
                                     empty-option="Pilih Metode Treatment"
                                 />
                             </x-adminlte-select>
+                            <div
+                                x-if="errors[`items.${i}.metode_treatment_id`][0]"
+                                x-text="errors[`items.${i}.metode_treatment_id`][0]"
+                                class="text-danger"
+                            ></div>
                         </td>
                         <td>
                             <x-adminlte-input
@@ -125,7 +139,13 @@
                                 x-bind:name="`items[${i}][merk_ovk]`"
                                 fgroup-class="w-100 mb-0"
                                 x-model="item.merk_ovk"
+                                x-bind:class="{'is-invalid': errors[`items.${i}.merk_ovk`][0]}"
                             />
+                            <div
+                                x-if="errors[`items.${i}.merk_ovk`][0]"
+                                x-text="errors[`items.${i}.merk_ovk`][0]"
+                                class="text-danger"
+                            ></div>
                         </td>
                         <td>
                             <x-adminlte-input
@@ -133,7 +153,13 @@
                                 x-bind:name="`items[${i}][area]`"
                                 fgroup-class="w-100 mb-0"
                                 x-model="item.area"
+                                x-bind:class="{'is-invalid': errors[`items.${i}.area`][0]}"
                             />
+                            <div
+                                x-if="errors[`items.${i}.area`][0]"
+                                x-text="errors[`items.${i}.area`][0]"
+                                class="text-danger"
+                            ></div>
                         </td>
                         <td>
                             <select 
@@ -153,7 +179,13 @@
                                 x-bind:name="`items[${i}][dosis]`"
                                 fgroup-class="w-100 mb-0"
                                 x-model="item.dosis"
+                                x-bind:class="{'is-invalid': errors[`items.${i}.dosis`][0]}"
                             />
+                            <div
+                                x-if="errors[`items.${i}.dosis`][0]"
+                                x-text="errors[`items.${i}.dosis`][0]"
+                                class="text-danger"
+                            ></div>
                         </td>
                         <td>
                             <input type="hidden" :name="`items[${i}][id]`" :value="item.id">

@@ -113,7 +113,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
 
-    Route::resource('treatment', TreatmentController::class)->names('treatment');
+    Route::resource('treatment', TreatmentController::class)->names('treatment')->except('show');
 
     Route::resource('monitoring-kesehatan', MonitoringKesehatanController::class)->names('monitoring-kesehatan');
 });
