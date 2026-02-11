@@ -421,6 +421,12 @@ return [
             'active' => ['populasi-ayam/*']
         ],
         [
+            'text'  => 'Populasi Ayam 2',
+            'route' => 'populasi-ayam-2.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['populasi-ayam-2/*']
+        ],
+        [
             'text'  => 'Ayam Afkir',
             'route' => 'ayam-afkir.index',
             'icon'  => 'fas fa-clipboard-list',

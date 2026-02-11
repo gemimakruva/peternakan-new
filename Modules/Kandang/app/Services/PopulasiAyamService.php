@@ -4,6 +4,7 @@ namespace Modules\Kandang\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
@@ -13,8 +14,6 @@ use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\PopulasiAyamRepository;
-use Modules\Kandang\Repositories\SamplingAyam\SamplingAyamRepository;
-use Modules\Kandang\Services\Contracts\PopulasiAyamServiceInterface;
 
 class PopulasiAyamService
 {
@@ -233,6 +232,37 @@ class PopulasiAyamService
         $this->saveAyamKarantina($populasiAyam);
 
         return $populasiAyam;
+    }
+
+    public function savePopulasiAyam2(Collection $datas): Collection
+    {
+        $listPopulasiAyam = [];
+
+        foreach ($datas as $data) {
+            $populasiAyam = $this->populasiAyamRepository->getModel()->updateOrCreate([
+                'pic_user_id'           => auth()->id(),
+                'kandang_id'            => $data['kandang_id'],
+                'flock_id'              => $data['flock_id'],
+                'pipe_id'               => $data['pipe_id'],
+                'jenis_pemeriksaan'     => JenisPemeriksaan::HARIAN,
+                'tanggal'               => $data['tanggal'],
+            ], [
+                'umur_ayam_record'      => $data['umur_ayam'],
+                'ayam_sehat'            => $data['ayam_sehat'],
+                'ayam_mati'             => $data['ayam_mati'],
+                'ayam_afkir'            => $data['ayam_afkir'],
+                'ayam_masuk_karantina'  => $data['ayam_masuk_karantina'],
+                'ayam_keluar_karantina' => $data['ayam_keluar_karantina'],
+                'catatan'               => @$data['catatan'] ?? null,
+            ]);
+    
+            $this->saveAyamAfkir($populasiAyam);
+            $this->saveAyamKarantina($populasiAyam);
+
+            $listPopulasiAyam[] = $populasiAyam;
+        }
+
+        return collect($listPopulasiAyam);
     }
 
     public function saveAyamAfkir(PopulasiAyam $populasiAyam)
