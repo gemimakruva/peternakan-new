@@ -8,7 +8,7 @@
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Populasi Ayam</h1>
-                {{-- <a href="{{ route('populasi-ayam-2.create') }}" class="btn btn-primary">Tambah Populasi Ayam</a> --}}
+                <a href="{{ route('populasi-ayam-2.create') }}" class="btn btn-primary">Tambah Populasi Ayam</a>
             </div>
         </div>
         <div class="col-sm-6">
@@ -80,7 +80,7 @@
                             <td class="text-right">{{ format_angka(@$row->ayam_masuk_karantina) }}</td>
                             <td class="text-right">{{ format_angka(@$row->ayam_keluar_karantina) }}</td>
                             <td>
-                                <a href="{{ route('populasi-ayam-2.create', [$row->id_kandang, $row->tanggal->format('Y-m-d')])  }}" class="btn btn-sm btn-info">
+                                <a href="{{ route('populasi-ayam-2.edit', [$row->id_kandang, $row->tanggal->format('Y-m-d')])  }}" class="btn btn-sm btn-info">
                                     <i class="fas fa-eye"></i>
                                 </a>
                             </td>

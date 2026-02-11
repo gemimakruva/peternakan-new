@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Kandang</h2>
+        <h2 class="card-title">Form Informasi</h2>
     </div>
     <div class="card-body row">
         <x-adminlte-input
@@ -16,6 +16,7 @@
             name="tanggal"
             x-model="tanggal"
             fgroup-class="col-6"
+            readonly
         />
         <x-adminlte-input
             type="numeric"

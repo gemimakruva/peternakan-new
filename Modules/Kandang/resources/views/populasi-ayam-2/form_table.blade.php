@@ -1,6 +1,6 @@
 <div class="card">
     <div class="card-header">
-        <h2 class="card-title">Pencatatan Populasi</h2>
+        <h2 class="card-title">Pencatatan Perubahan Populasi</h2>
     </div>
     <div class="card-body p-0">
         <table
@@ -34,7 +34,7 @@
                     <tr
                         x-data="{
                             get current_ayam_sehat() {
-                                return Number(item.ayam_sehat)
+                                return Number(item.ayam_sehat_before)
                                     - Number(item.ayam_mati)
                                     - Number(item.ayam_afkir)
                                     - Number(item.ayam_masuk_karantina)

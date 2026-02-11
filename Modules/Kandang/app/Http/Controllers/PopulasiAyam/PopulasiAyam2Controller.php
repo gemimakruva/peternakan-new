@@ -29,13 +29,36 @@ class PopulasiAyam2Controller extends Controller
         return view('kandang::populasi-ayam-2.index', compact(['datas', 'listKandang']));
     }
 
-    public function create($kandangId, $tanggal)
+    public function create()
     {
-        $kandang = $this->kandangRepository->find($kandangId);
-        return view('kandang::populasi-ayam-2.create', compact(['kandang']));
+        $listKandang = $this->kandangRepository->getSelectItems();
+        return view('kandang::populasi-ayam-2.create', compact(['listKandang']));
     }
 
-    public function store(Request $request, $kandangId, $tanggal)
+    public function store(Request $request)
+    {
+        $validated = $request->validate([
+            'kandang_id'    => ['required', 'exists:kandang,id'],
+            'tanggal'       => ['required', 'date_format:Y-m-d'],
+        ]);
+
+        return to_route('populasi-ayam-2.create.detail', [$validated['kandang_id'], $validated['tanggal']])
+            ->with('success', 'Inputkan Detail Populasi Ayam');
+    }
+
+    public function createDetail($kandangId, $tanggal)
+    {
+        $kandang = $this->kandangRepository->find($kandangId);
+        return view('kandang::populasi-ayam-2.create-detail', compact(['kandang']));
+    }
+
+    public function edit($kandangId, $tanggal)
+    {
+        $kandang = $this->kandangRepository->find($kandangId);
+        return view('kandang::populasi-ayam-2.edit', compact(['kandang']));
+    }
+
+    public function update(Request $request, $kandangId, $tanggal)
     {
         $items = $request->collect('items')->map(function($item) use($request, $kandangId, $tanggal) {
             $item['kandang_id'] = $kandangId;
