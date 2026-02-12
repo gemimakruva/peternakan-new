@@ -67,6 +67,7 @@ class RekapanPopulasiAyamRepository extends EloquentRepository
             })
             ->selectRaw(<<<SQL
                 kandang.id
+                , kandang.id as kandang_id
                 , kandang.nama as nama_kandang
                 , xpa.tanggal
                 , xpa.umur
