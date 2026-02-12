@@ -75,4 +75,10 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('data', () => ({}))
+    });
+</script>
 @endsection

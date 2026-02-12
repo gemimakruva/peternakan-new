@@ -3,13 +3,9 @@
 namespace Modules\Kandang\Http\Controllers\PopulasiAyam;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Modules\Kandang\Enums\JenisPemeriksaan;
-use Modules\Kandang\Http\Requests\PopulasiAyam\GetSummaryRequest;
 use Modules\Kandang\Http\Requests\PopulasiAyam\PopulasiAyamStore;
 use Modules\Kandang\Http\Requests\PopulasiAyam\PopulasiAyamUpdate;
 use Modules\Kandang\Models\AyamAfkir;
@@ -21,7 +17,6 @@ use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\Kandang\FlockRepository;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
-use Modules\Kandang\Services\KandangService;
 use Modules\Kandang\Services\PopulasiAyamService;
 
 class PopulasiAyamController extends Controller

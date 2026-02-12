@@ -6,11 +6,29 @@
         <table
             class="table table-sm table-bordered"
             x-data="{
-                get total_ayam_sehat() {
+                getTotalAyam(key) {
                     return items.reduce((total, item2) => {
-                        return total + Number(item2.ayam_sehat);
-                    }, 0)
-                }
+                        return total + Number(item2[key]);
+                    }, 0); 
+                },
+                get total_ayam_sehat_sebelumnya() {
+                    return this.getTotalAyam('ayam_sehat_before').toLocaleString('id');
+                },
+                get total_ayam_sehat() {
+                    return this.getTotalAyam('ayam_sehat').toLocaleString('id');
+                },
+                get total_ayam_mati() {
+                    return this.getTotalAyam('ayam_mati').toLocaleString('id');
+                },
+                get total_ayam_afkir() {
+                    return this.getTotalAyam('ayam_afkir').toLocaleString('id');
+                },
+                get total_ayam_masuk_karantina() {
+                    return this.getTotalAyam('ayam_masuk_karantina').toLocaleString('id');
+                },
+                get total_ayam_keluar_karantina() {
+                    return this.getTotalAyam('ayam_keluar_karantina').toLocaleString('id');
+                },
             }"
         >
             <thead>
@@ -138,8 +156,13 @@
             </tbody>
             <tfoot>
                 <tr>
-                    <th colspan="2">Total</th>
-                    <th x-text="total_ayam_sehat"></th>
+                    <th colspan="2" class="text-right">Total</th>
+                    <th class="text-right" x-text="total_ayam_sehat_sebelumnya"></th>
+                    <th class="text-right" x-text="total_ayam_sehat"></th>
+                    <th class="text-right" x-text="total_ayam_mati"></th>
+                    <th class="text-right" x-text="total_ayam_afkir"></th>
+                    <th class="text-right" x-text="total_ayam_masuk_karantina"></th>
+                    <th class="text-right" x-text="total_ayam_keluar_karantina"></th>
                 </tr>
             </tfoot>
         </table>
