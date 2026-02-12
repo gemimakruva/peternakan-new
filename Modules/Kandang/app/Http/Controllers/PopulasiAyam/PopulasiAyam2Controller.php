@@ -69,7 +69,8 @@ class PopulasiAyam2Controller extends Controller
     public function createDetail($kandangId, $tanggal)
     {
         $kandang = $this->kandangRepository->find($kandangId);
-        return view('kandang::populasi-ayam-2.create-detail', compact(['kandang']));
+        $isEditable = true;
+        return view('kandang::populasi-ayam-2.create-detail', compact(['kandang', 'isEditable']));
     }
 
     public function edit($kandangId, $tanggal)
