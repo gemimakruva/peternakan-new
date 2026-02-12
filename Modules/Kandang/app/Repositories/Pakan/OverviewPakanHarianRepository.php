@@ -42,6 +42,7 @@ class OverviewPakanHarianRepository extends EloquentRepository
             })
             ->selectRaw(<<<SQL
                 perhitungan_pakan.id
+                , kandang.id as id_kandang
                 , kandang.nama as nama_kandang
                 , perhitungan_pakan.tanggal_pemberian_pakan
                 , perhitungan_pakan.umur_ayam

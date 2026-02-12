@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\EloquentRepository;
+use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
+use Modules\Kandang\Repositories\ProduksiTelur\OverviewProduksiTelurRepository;
 
 class RekapanProduksiRepository extends EloquentRepository
 {
@@ -46,24 +48,41 @@ class RekapanProduksiRepository extends EloquentRepository
             SQL)
             ->groupBy('kpp.kandang_asal_id', 'kpp.kandang_tujuan_id', 'kpp.tanggal');
 
+        $produksiPakanQuery = app(OverviewPakanHarianRepository::class)->getQuery();
+        $produksiTelurQuery = app(OverviewProduksiTelurRepository::class)->getQuery();
+
         return $this->model
             ->query()
             ->fromSub($base, 'xpa')
             ->join('kandang', 'kandang.id', '=', 'xpa.kandang_id')
             ->leftJoinSub($akumulasi, 'xa', function ($join) {
-                $join->on('xa.kandang_id', '=', 'xpa.kandang_id')
-                    ->whereColumn('xa.tanggal', '<=', 'xpa.tanggal');
+                $join
+                    ->on('xa.kandang_id', '=', 'xpa.kandang_id')
+                    ->on('xa.tanggal', '<=', 'xpa.tanggal');
             })
-            ->leftJoin('strain_standart_metric as ssm', function($join) {
-                $join->on('ssm.strain_id', '=', 'kandang.strain_id')
-                    ->whereColumn('ssm.umur', 'xpa.umur');
+            ->leftJoin('strain_standart_metric as ssm', function ($join) {
+                $join
+                    ->on('ssm.strain_id', '=', 'kandang.strain_id')
+                    ->on('ssm.umur', 'xpa.umur');
             })
-            ->leftJoinSub($akumulasiKarantina, 'xak', function($join) {
+            ->leftJoinSub($akumulasiKarantina, 'xak', function ($join) {
                 $join->on(function ($q) {
                     $q->on('kandang.id', '=', 'xak.kandang_asal_id')
                     ->orOn('kandang.id', '=', 'xak.kandang_tujuan_id');
                 })
-                ->whereColumn('xpa.tanggal', 'xak.tanggal');
+                ->on('xpa.tanggal', 'xak.tanggal');
+            })
+            // pakan query
+            ->leftJoinSub($produksiPakanQuery, 'xppq', function ($join) {
+                $join
+                    ->on('xppq.id_kandang', '=', 'xpa.kandang_id')
+                    ->on('xppq.tanggal_pemberian_pakan', '=', 'xpa.tanggal');
+            })
+            // telur query
+            ->leftJoinSub($produksiTelurQuery, 'xptq', function ($join) {
+                $join
+                    ->on('xptq.kandang_id', '=', 'xpa.kandang_id')
+                    ->on('xptq.tanggal', '=', 'xpa.tanggal');
             })
             ->selectRaw(<<<SQL
                 kandang.id
@@ -82,6 +101,30 @@ class RekapanProduksiRepository extends EloquentRepository
                 , ssm.persentase_kematian as standar_mati_afkir
                 , xak.masuk_karantina
                 , xak.keluar_karantina
+
+                , xppq.tanggal_pemberian_pakan
+                , xppq.umur_ayam
+                , xppq.jumlah_ayam
+                , xppq.pemberian_kg
+                , xppq.sisa_kg
+                , xppq.feed_intake_kg
+                , xppq.feed_intake_per_ekor
+                , xppq.feed_intake_per_ekor_standar
+
+                , xptq.jumlah_ayam_pengadaan
+                , xptq.jumlah_telur_bagus
+                , xptq.jumlah_telur_putih
+                , xptq.jumlah_telur_reject
+                , xptq.total_jumlah_telur
+                , xptq.berat_telur_bagus
+                , xptq.berat_telur_putih
+                , xptq.berat_telur_reject
+                , xptq.total_berat_telur
+                , xptq.hdp
+                , xptq.hhp
+                , xptq.fcr
+                , xptq.egg_weight
+                , xptq.egg_mass
             SQL)
             ->groupBy(
                 'kandang.id',

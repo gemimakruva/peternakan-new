@@ -35,6 +35,30 @@ class RekapanProduksiExport implements FromCollection, WithHeadings
             'Masuk Karantina',
             'Keluar Karantina',
             'Sehat',
+
+            'Pemberian',
+            'Sisa',
+            'Konsumsi',
+            'Konsumsi per Ekor (realisasi)',
+            'Konsumsi per Ekor (standar)',
+            'Konsumsi per Kandang (realisasi)',
+            'Konsumsi per Kandang (standar)',
+
+            'Jumlah Ayam Pengadaan',
+            'Jumlah Ayam',
+            'Jumlah Telur Bagus',
+            'Jumlah Telur Putih',
+            'Jumlah Telur Reject',
+            'Total Jumlah Telur',
+            'Berat Telur Bagus',
+            'Berat Telur Putih',
+            'Berat Telur Reject',
+            'Total Berat Telur',
+            'HHP',
+            'HDP',
+            'FCR',
+            'Egg Weight',
+            'Egg Mass',
         ];
     }
 }
