@@ -61,9 +61,11 @@
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Telur Bagus" name="jumlah_telur_bagus" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Telur Putih" name="jumlah_telur_putih" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Telur Reject" name="jumlah_telur_reject" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Total Jumlah Telur" name="total_jumlah_telur" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Berat Telur Bagus" name="berat_telur_bagus" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Berat Telur Putih" name="berat_telur_putih" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Berat Telur Reject" name="berat_telur_reject" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Total Berat Telur" name="total_berat_telur" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="HHP" name="hhp" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="HDP" name="hdp" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="FCR" name="fcr" />
@@ -83,11 +85,13 @@
                             <td class="text-right">{{ format_angka($data->jumlah_telur_bagus) }}</td>
                             <td class="text-right">{{ format_angka($data->jumlah_telur_putih) }}</td>
                             <td class="text-right">{{ format_angka($data->jumlah_telur_reject) }}</td>
+                            <td class="text-right">{{ format_angka($data->total_jumlah_telur) }}</td>
                             <td class="text-right">{{ format_angka($data->berat_telur_bagus) }}</td>
                             <td class="text-right">{{ format_angka($data->berat_telur_putih) }}</td>
                             <td class="text-right">{{ format_angka($data->berat_telur_reject) }}</td>
-                            <td class="text-right">{{ format_angka($data->hhp) }}</td>
-                            <td class="text-right">{{ format_angka($data->hdp) }}</td>
+                            <td class="text-right">{{ format_angka($data->total_berat_telur) }}</td>
+                            <td class="text-right">{{ format_angka($data->hhp*100) }}%</td>
+                            <td class="text-right">{{ format_angka($data->hdp*100) }}%</td>
                             <td class="text-right">{{ format_angka($data->fcr) }}</td>
                             <td class="text-right">{{ format_angka($data->egg_weight) }}</td>
                             <td class="text-right">{{ format_angka($data->egg_mass) }}</td>
