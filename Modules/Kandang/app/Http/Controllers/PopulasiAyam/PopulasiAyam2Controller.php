@@ -75,7 +75,12 @@ class PopulasiAyam2Controller extends Controller
     public function edit($kandangId, $tanggal)
     {
         $kandang = $this->kandangRepository->find($kandangId);
-        return view('kandang::populasi-ayam-2.edit', compact(['kandang']));
+        $isEditable = !$this->repository
+            ->getModel()
+            ->where('kandang_id', '=', $kandangId)
+            ->whereDate('tanggal', '>', $tanggal)
+            ->exists();
+        return view('kandang::populasi-ayam-2.edit', compact(['kandang', 'isEditable']));
     }
 
     public function update(Request $request, $kandangId, $tanggal)

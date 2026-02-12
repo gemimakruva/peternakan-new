@@ -1,16 +1,16 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Rekapan Produksi')
+@section('title', 'Rekapan Populasi Ayam')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Rekapan Produksi</h1>
+            <h1>Rekapan Populasi Ayam</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Rekapan Produksi</li>
+                <li class="breadcrumb-item active">Rekapan Populasi Ayam</li>
             </ol>
         </div>
     </div>
@@ -25,29 +25,24 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
-                    <x-adminlte-select
-                        name="kandang_id"
-                        class="mx-200"
-                        fgroup-class="mb-0"
-                        placeholder="Semua Kandang"
-                    >
-                        <x-adminlte-options
-                            :options="$listKandang->toArray()"
-                            empty-option="Semua Kandang"
-                            :selected="request()->query('kandang_id')"
-                        />
-                    </x-adminlte-select>
-                    <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
-                    <a href="{{ route('rekapan-produksi.index') }}">
-                        <x-adminlte-button icon="fas fa-undo" />
-                    </a>
-                </form>
-                <a href="{{ route('rekapan-produksi.index.export') }}" class="btn btn-primary">
-                    <i class="fas fa-file-excel"></i>
+            <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
+                <x-adminlte-select
+                    name="kandang_id"
+                    class="mx-200"
+                    fgroup-class="mb-0"
+                    placeholder="Semua Kandang"
+                >
+                    <x-adminlte-options
+                        :options="$listKandang->toArray()"
+                        empty-option="Semua Kandang"
+                        :selected="request()->query('kandang_id')"
+                    />
+                </x-adminlte-select>
+                <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
+                <a href="{{ route('rekapan-produksi.index') }}">
+                    <x-adminlte-button icon="fas fa-undo" />
                 </a>
-            </div>
+            </form>
         </div>
     </div>
 

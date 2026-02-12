@@ -49,9 +49,11 @@
                         <a href="{{ route('populasi-ayam-2.index') }}" class="btn btn-outline-secondary flex-1">
                             Kembali
                         </a>
-                        <button id="btnSubmitPopulasi" type="submit" class="btn btn-primary flex-1" form="form-populasi-ayam">
-                            Simpan
-                        </button>
+                        @if ($isEditable)
+                            <button id="btnSubmitPopulasi" type="submit" class="btn btn-primary flex-1" form="form-populasi-ayam">
+                                Simpan
+                            </button>
+                        @endif
                     </div>
                 </div>
             </div>

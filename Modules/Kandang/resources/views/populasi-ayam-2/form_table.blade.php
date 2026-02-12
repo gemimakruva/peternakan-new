@@ -6,6 +6,7 @@
         <table
             class="table table-sm table-bordered"
             x-data="{
+                is_editable: @js(!@$isEditable),
                 getTotalAyam(key) {
                     return items.reduce((total, item2) => {
                         return total + Number(item2[key]);
@@ -125,6 +126,7 @@
                                 x-bind:name="`items[${item.pipe.id}][ayam_mati]`"
                                 x-model="item.ayam_mati"
                                 fgroup-class="mb-0"
+                                x-bind:readonly="is_editable"
                             />
                         </td>
                         <td class="text-right">
@@ -133,6 +135,7 @@
                                 x-bind:name="`items[${item.pipe.id}][ayam_afkir]`"
                                 x-model="item.ayam_afkir"
                                 fgroup-class="mb-0"
+                                x-bind:readonly="is_editable"
                             />
                         </td>
                         <td class="text-right">
@@ -141,6 +144,7 @@
                                 x-bind:name="`items[${item.pipe.id}][ayam_masuk_karantina]`"
                                 x-model="item.ayam_masuk_karantina"
                                 fgroup-class="mb-0"
+                                x-bind:readonly="is_editable"
                             />
                         </td>
                         <td class="text-right">
@@ -149,6 +153,7 @@
                                 x-bind:name="`items[${item.pipe.id}][ayam_keluar_karantina]`"
                                 x-model="item.ayam_keluar_karantina"
                                 fgroup-class="mb-0"
+                                x-bind:readonly="is_editable"
                             />
                         </td>
                     </tr>

@@ -411,20 +411,20 @@ return [
         [
             'text'  => 'Pengadaan Ayam',
             'route' => 'pengadaan-ayam.index',
-            'icon'  => 'fas fa-clipboard-check',
+            'icon'  => 'fas fa-clipboard-list',
             'active' => ['pengadaan-ayam/*']
         ],
         [
             'text'  => 'Populasi Ayam',
-            'route' => 'populasi-ayam.index',
-            'icon'  => 'fas fa-clipboard-list',
-            'active' => ['populasi-ayam/*']
-        ],
-        [
-            'text'  => 'Populasi Ayam 2',
             'route' => 'populasi-ayam-2.index',
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['populasi-ayam-2/*']
+        ],
+        [
+            'text'  => 'Rekapan Populasi Ayam',
+            'route' => 'rekapan-populasi-ayam.index',
+            'icon'  => 'fas fa-chart-line',
+            'active' => ['rekapan-populasi-ayam/*']
         ],
         [
             'text'  => 'Ayam Afkir',
@@ -439,7 +439,7 @@ return [
             'active'  => ['ayam-karantina/*'],
         ],
         [
-            'text'  => 'Overview Karantina',
+            'text'  => 'Rekapan Karantina',
             'route' => 'ayam-karantina.overview',
             'icon'  => 'fas fa-chart-line',
             'active'  => ['ayam-karantina-overview'],
@@ -467,7 +467,7 @@ return [
                     'active' => ['pemberian-pakan-sisa-pakan/*']
                 ],
                 [
-                    'text'  => 'Overview Pakan Harian',
+                    'text'  => 'Rekapan Pakan Harian',
                     'route' => 'overview-pakan-harian',
                     'icon'  => 'fas fa-chart-line',
                     'active' => ['overview-pakan-harian']
@@ -486,7 +486,7 @@ return [
             'active' => ['recording-telur/*']
         ],
         [
-            'text'  => 'Overview Produksi Telur',
+            'text'  => 'Rekapan Produksi Telur',
             'route' => 'overview-produksi-telur',
             'icon'  => 'fas fa-chart-line',
             'active' => ['overview-produksi-telur']
