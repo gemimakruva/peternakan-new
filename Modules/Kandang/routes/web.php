@@ -3,10 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Kandang\Http\Controllers\AyamAfkir\AyamAfkirController;
 use Modules\Kandang\Http\Controllers\AyamKarantina\AyamKarantinaController;
-use Modules\Kandang\Http\Controllers\Disinfektan\PenjadwalanDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\AjaxController;
 use Modules\Kandang\Http\Controllers\MasterData\FlockController;
-use Modules\Kandang\Http\Controllers\MasterData\JenisDisinfektanController;
 use Modules\Kandang\Http\Controllers\MasterData\JenisTreatmentController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangController;
 use Modules\Kandang\Http\Controllers\MasterData\KandangFlockController;
@@ -16,21 +14,20 @@ use Modules\Kandang\Http\Controllers\MasterData\PeternakanController;
 use Modules\Kandang\Http\Controllers\MasterData\PipeController;
 use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\MonitoringKesehatan\MonitoringKesehatanController;
-use Modules\Kandang\Http\Controllers\OvkPakan\OrderOvkController;
-use Modules\Kandang\Http\Controllers\OvkPakan\OvkPakanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
-use Modules\Kandang\Http\Controllers\penjadwalanTreatment\PenjadwalanTreatmentController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\JenisPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\OverviewPakanHarianController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController;
-use Modules\Kandang\Http\Controllers\PerhitunganObat\VitaminObatMinumController;
+use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyam2Controller;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\OverviewProduksiTelurController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\Rekapan\ProduksiController;
+use Modules\Kandang\Http\Controllers\Rekapan\RekapanPopulasiAyamController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
-use Modules\Kandang\Http\Controllers\VaksinMinum\VaksinMinumController;
+use Modules\Kandang\Http\Controllers\Treatment\TreatmentController;
+use Modules\Kandang\Http\Controllers\Treatment\TreatmentPelaksanaanController;
 
 Route::middleware(['auth'])->group(function () {
 
@@ -41,7 +38,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('strain-ayam', [StrainAyamController::class, 'index'])->name('strain-ayam.index');
 
         Route::resource('jenis-pakan', JenisPakanController::class)->names('jenis-pakan')->except('show');
-        Route::resource('jenis-disinfektan', JenisDisinfektanController::class)->names('jenis-disinfektan');
         Route::resource('jenis-treatment', JenisTreatmentController::class)->names('jenis-treatment');
         Route::resource('metode-treatment', MetodeTreatmentController::class)->names('metode-treatment');
 
@@ -79,14 +75,20 @@ Route::middleware(['auth'])->group(function () {
     Route::get('ajax/karantina/{kandangId}/populasi/{tanggal}', [AjaxController::class, 'ayamKarantina'])->name('ajax.karantina_populasi');
     // ===== Ajax End =====
 
-    Route::resource('vaksin-minum', VaksinMinumController::class)->names('vaksin-minum');
-
     // ===== Menu Group Pengadaan Ayam =====
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
 
     // ===== Menu Group Populasi Ayam =====
     Route::resource('populasi-ayam', PopulasiAyamController::class)->parameter('populasi-ayam', 'kandang')->names('populasi-ayam')->only(['index', 'store']);
     Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam')->only(['edit', 'update']);
+
+    Route::get('populasi-ayam-2', [PopulasiAyam2Controller::class, 'index'])->name('populasi-ayam-2.index');
+    Route::get('populasi-ayam-2/create', [PopulasiAyam2Controller::class, 'create'])->name('populasi-ayam-2.create');
+    Route::post('populasi-ayam-2/create', [PopulasiAyam2Controller::class, 'store'])->name('populasi-ayam-2.store');
+    Route::get('populasi-ayam-2/create/{kandangId}/{tanggal}/detail', [PopulasiAyam2Controller::class, 'createDetail'])->name('populasi-ayam-2.create.detail');
+    Route::get('populasi-ayam-2/{kandangId}/{tanggal}/edit', [PopulasiAyam2Controller::class, 'edit'])->name('populasi-ayam-2.edit');
+    Route::post('populasi-ayam-2/{kandangId}/{tanggal}/edit', [PopulasiAyam2Controller::class, 'update'])->name('populasi-ayam-2.update');
+
     Route::get('populasi-ayam/{kandang}/create', [PopulasiAyamController::class, 'create'])->name('populasi-ayam.create');
     Route::get('populasi-ayam/{kandang}/flock', [PopulasiAyamController::class, 'flockIndex'])->name('populasi-ayam.flock.index');
     Route::get('populasi-ayam/{kandang}/flock/{flock}/pipe', [PopulasiAyamController::class, 'flockPipeIndex'])->name('populasi-ayam.flock.pipe.index');
@@ -109,20 +111,20 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Menu Rekapan =====
     Route::get('rekapan-produksi', [ProduksiController::class, 'index'])->name('rekapan-produksi.index');
+    Route::get('rekapan-produksi/export', [ProduksiController::class, 'exportIndex'])->name('rekapan-produksi.index.export');
+    Route::get('rekapan-populasi-ayam', [RekapanPopulasiAyamController::class, 'index'])->name('rekapan-populasi-ayam.index');
 
     // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
     Route::get('overview-produksi-telur', [OverviewProduksiTelurController::class, 'index'])->name('overview-produksi-telur');
 
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
-    
-    Route::resource('penjadwalan-disinfektan', PenjadwalanDisinfektanController::class)->names('penjadwalan-disinfektan');
-    Route::resource('penjadwalan-treatment', PenjadwalanTreatmentController::class)->names('penjadwalan-treatment');
-    Route::get('penjadwalan-disinfektan/{penjadwalanDisinfektan}/detail', [PenjadwalanDisinfektanController::class, 'getDetail'])->name('penjadwalan-disinfektan.ajax-detail');
-    Route::resource('ovk-pakan', OvkPakanController::class)->names('ovk-pakan');
-    Route::resource('orders-ovk', OrderOvkController::class)->names('order-ovk');
-    Route::group(['prefix' => 'perhitungan-obat', 'as' => 'perhitungan-obat.'], function () {
-        Route::resource('vitamin-obat-minum', VitaminObatMinumController::class)->names('vitamin-obat-minum');
-    });
+
+    Route::resource('treatment', TreatmentController::class)->names('treatment')->except('show');
+    Route::get('treatment-pelaksanaan', [TreatmentPelaksanaanController::class, 'index'])->name('treatment-pelaksanaan.index');
+    Route::get('treatment-pelaksanaan/{kandangId}/{bulan}/jadwal', [TreatmentPelaksanaanController::class, 'jadwal'])->name('treatment-pelaksanaan.jadwal');
+    Route::get('treatment-pelaksanaan/{kandangId}/{bulan}/jadwal/{treatmentJadwalId}/pelaksanaan', [TreatmentPelaksanaanController::class, 'pelaksanaan'])->name('treatment-pelaksanaan.jadwal.pelaksanaan');
+    Route::post('treatment-pelaksanaan/{kandangId}/{bulan}/jadwal/{treatmentJadwalId}/pelaksanaan', [TreatmentPelaksanaanController::class, 'pelaksanaanStore'])->name('treatment-pelaksanaan.jadwal.pelaksanaan.store');
+
     Route::resource('monitoring-kesehatan', MonitoringKesehatanController::class)->names('monitoring-kesehatan');
 });

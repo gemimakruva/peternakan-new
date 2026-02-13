@@ -4,6 +4,8 @@ namespace Modules\Kandang\Services;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\AyamAfkirPopulasi;
@@ -12,7 +14,6 @@ use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\PopulasiAyamRepository;
-use Modules\Kandang\Services\Contracts\PopulasiAyamServiceInterface;
 
 class PopulasiAyamService
 {
@@ -24,6 +25,22 @@ class PopulasiAyamService
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
     ) {}
+
+    public function getPerkiraanBobotAyamKandang($kandangId, ?Carbon $tanggal) 
+    {
+        return DB::table('sampling_bobot_ayam_per_ekor as sbape')
+            ->join('sampling_bobot_ayam as sba', 'sba.id', '=', 'sbape.sampling_bobot_ayam_id')
+            ->selectRaw(<<<SQL
+                sum(sbape.bobot_per_kg)/count(sbape.bobot_per_kg)*sba.jumlah_ayam_saat_ini as bobot_ayam_keseluruhan
+                , sum(sbape.bobot_per_kg)/count(sbape.bobot_per_kg) as bobot_ayam_rata2
+                , sba.jumlah_ayam_saat_ini
+            SQL)
+            ->where('sba.kandang_id', '=', $kandangId)
+            ->where('sba.tanggal', '<=', $tanggal)
+            ->groupBy('sbape.sampling_bobot_ayam_id')
+            ->orderByDesc('sba.tanggal')
+            ->first();
+    }
 
     public function getCurrentAyamSehatByPipe(int $pipeId, ?Carbon $tanggalPerbandingan = null)
     {
@@ -215,6 +232,37 @@ class PopulasiAyamService
         $this->saveAyamKarantina($populasiAyam);
 
         return $populasiAyam;
+    }
+
+    public function savePopulasiAyam2(Collection $datas): Collection
+    {
+        $listPopulasiAyam = [];
+
+        foreach ($datas as $data) {
+            $populasiAyam = $this->populasiAyamRepository->getModel()->updateOrCreate([
+                'pic_user_id'           => auth()->id(),
+                'kandang_id'            => $data['kandang_id'],
+                'flock_id'              => $data['flock_id'],
+                'pipe_id'               => $data['pipe_id'],
+                'jenis_pemeriksaan'     => JenisPemeriksaan::HARIAN,
+                'tanggal'               => $data['tanggal'],
+            ], [
+                'umur_ayam_record'      => $data['umur_ayam'],
+                'ayam_sehat'            => $data['ayam_sehat'],
+                'ayam_mati'             => $data['ayam_mati'],
+                'ayam_afkir'            => $data['ayam_afkir'],
+                'ayam_masuk_karantina'  => $data['ayam_masuk_karantina'],
+                'ayam_keluar_karantina' => $data['ayam_keluar_karantina'],
+                'catatan'               => @$data['catatan'] ?? null,
+            ]);
+    
+            $this->saveAyamAfkir($populasiAyam);
+            $this->saveAyamKarantina($populasiAyam);
+
+            $listPopulasiAyam[] = $populasiAyam;
+        }
+
+        return collect($listPopulasiAyam);
     }
 
     public function saveAyamAfkir(PopulasiAyam $populasiAyam)

@@ -25,24 +25,29 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
-                <x-adminlte-select
-                    name="kandang_id"
-                    class="mx-200"
-                    fgroup-class="mb-0"
-                    placeholder="Semua Kandang"
-                >
-                    <x-adminlte-options
-                        :options="$listKandang->toArray()"
-                        empty-option="Semua Kandang"
-                        :selected="request()->query('kandang_id')"
-                    />
-                </x-adminlte-select>
-                <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
-                <a href="{{ route('rekapan-produksi.index') }}">
-                    <x-adminlte-button icon="fas fa-undo" />
+            <div class="d-flex justify-content-between align-items-center">
+                <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
+                    <x-adminlte-select
+                        name="kandang_id"
+                        class="mx-200"
+                        fgroup-class="mb-0"
+                        placeholder="Semua Kandang"
+                    >
+                        <x-adminlte-options
+                            :options="$listKandang->toArray()"
+                            empty-option="Semua Kandang"
+                            :selected="request()->query('kandang_id')"
+                        />
+                    </x-adminlte-select>
+                    <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
+                    <a href="{{ route('rekapan-produksi.index') }}">
+                        <x-adminlte-button icon="fas fa-undo" />
+                    </a>
+                </form>
+                <a href="{{ route('rekapan-produksi.index.export') }}" class="btn btn-primary">
+                    <i class="fas fa-file-excel"></i>
                 </a>
-            </form>
+            </div>
         </div>
     </div>
 
@@ -67,6 +72,30 @@
                         <th class="align-middle" style="min-width: 80px;">Masuk Karantina</th>
                         <th class="align-middle" style="min-width: 80px;">Keluar Karantina</th>
                         <th class="align-middle" style="min-width: 80px;">Sehat</th>
+
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Pemberian" name="pemberian_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Sisa" name="sisa_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi" name="feed_intake_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi per Ekor (realisasi)" name="feed_intake_per_ekor" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Konsumsi per Ekor (standar)" name="feed_intake_per_ekor_standar" />
+                        <th class="align-middle" style="min-width: 80px;">Konsumsi per Kandang (realisasi)</th>
+                        <th class="align-middle" style="min-width: 80px;">Konsumsi per Kandang (standar)</th>
+
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Ayam Pengadaan" name="jumlah_ayam_pengadaan" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Ayam" name="jumlah_ayam" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Telur Bagus" name="jumlah_telur_bagus" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Telur Putih" name="jumlah_telur_putih" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Jumlah Telur Reject" name="jumlah_telur_reject" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Total Jumlah Telur" name="total_jumlah_telur" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Berat Telur Bagus" name="berat_telur_bagus" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Berat Telur Putih" name="berat_telur_putih" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Berat Telur Reject" name="berat_telur_reject" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Total Berat Telur" name="total_berat_telur" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="HHP" name="hhp" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="HDP" name="hdp" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="FCR" name="fcr" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Egg Weight" name="egg_weight" />
+                        <x-sort-th class="align-middle" style="min-width: 80px;" label="Egg Mass" name="egg_mass" />
                     </tr>
                 </thead>
                 <tbody>
@@ -88,6 +117,30 @@
                             <td class="text-right">{{ format_angka($data->masuk_karantina) }}</td>
                             <td class="text-right">{{ format_angka($data->keluar_karantina) }}</td>
                             <td class="text-right">{{ format_angka($data->sehat) }}</td>
+
+                            <td class="text-right">{{ format_angka($data->pemberian_kg) }}</td>
+                            <td class="text-right">{{ format_angka($data->sisa_kg) }}</td>
+                            <td class="text-right">{{ format_angka($data->feed_intake_kg) }}</td>
+                            <td class="text-right">{{ format_angka($data->feed_intake_per_ekor) }}</td>
+                            <td class="text-right">{{ format_angka($data->feed_intake_per_ekor_standar) }}</td>
+                            <td class="text-right">{{ format_angka(($data->feed_intake_per_ekor * $data->jumlah_ayam)/1000) }}</td>
+                            <td class="text-right">{{ format_angka(($data->feed_intake_per_ekor_standar * $data->jumlah_ayam)/1000) }}</td>
+
+                            <td class="text-right">{{ format_angka($data->jumlah_ayam_pengadaan) }}</td>
+                            <td class="text-right">{{ format_angka($data->jumlah_ayam) }}</td>
+                            <td class="text-right">{{ format_angka($data->jumlah_telur_bagus) }}</td>
+                            <td class="text-right">{{ format_angka($data->jumlah_telur_putih) }}</td>
+                            <td class="text-right">{{ format_angka($data->jumlah_telur_reject) }}</td>
+                            <td class="text-right">{{ format_angka($data->total_jumlah_telur) }}</td>
+                            <td class="text-right">{{ format_angka($data->berat_telur_bagus) }}</td>
+                            <td class="text-right">{{ format_angka($data->berat_telur_putih) }}</td>
+                            <td class="text-right">{{ format_angka($data->berat_telur_reject) }}</td>
+                            <td class="text-right">{{ format_angka($data->total_berat_telur) }}</td>
+                            <td class="text-right">{{ format_angka($data->hhp*100) }}%</td>
+                            <td class="text-right">{{ format_angka($data->hdp*100) }}%</td>
+                            <td class="text-right">{{ format_angka($data->fcr) }}</td>
+                            <td class="text-right">{{ format_angka($data->egg_weight) }}</td>
+                            <td class="text-right">{{ format_angka($data->egg_mass) }}</td>
                         </tr>
                     @empty
                         <tr>

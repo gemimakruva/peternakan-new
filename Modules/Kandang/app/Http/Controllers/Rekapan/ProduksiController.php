@@ -2,9 +2,11 @@
 
 namespace Modules\Kandang\Http\Controllers\Rekapan;
 
+use App\Exports\RekapanProduksiExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
 
@@ -34,5 +36,10 @@ class ProduksiController extends Controller
         $listKandang = $this->kandang->pluck('nama', 'id');
 
         return view('kandang::rekapan.produksi.index', compact(['datas', 'listKandang']));
+    }
+
+    public function exportIndex()
+    {
+        return Excel::download(new RekapanProduksiExport(), 'rekapan-produksi.xlsx');
     }
 }

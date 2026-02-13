@@ -119,11 +119,13 @@ class OverviewProduksiTelurRepository extends EloquentRepository
                 , xpt.jumlah_telur_bagus as jumlah_telur_bagus
                 , xpt.jumlah_telur_putih as jumlah_telur_putih
                 , xpt.jumlah_telur_reject as jumlah_telur_reject
+                , (xpt.jumlah_telur_bagus+xpt.jumlah_telur_putih+xpt.jumlah_telur_reject) as total_jumlah_telur
                 , xpt.berat_telur_bagus as berat_telur_bagus
                 , xpt.berat_telur_putih as berat_telur_putih
                 , xpt.berat_telur_reject as berat_telur_reject
-                , (xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xpa.sehat as hhp
-                , (xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xp.jumlah_ayam_pengadaan as hdp
+                , (xpt.berat_telur_bagus+xpt.berat_telur_putih+xpt.berat_telur_reject) as total_berat_telur
+                , (xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xpa.sehat as hdp
+                , (xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xp.jumlah_ayam_pengadaan as hhp
                 , (xfi.food_intake)/(xpt.berat_telur_bagus + xpt.berat_telur_putih + xpt.berat_telur_reject) as fcr
                 , (xpt.berat_telur_bagus + xpt.berat_telur_putih)/(xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih)*1000 as egg_weight
                 , ((xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xp.jumlah_ayam_pengadaan)

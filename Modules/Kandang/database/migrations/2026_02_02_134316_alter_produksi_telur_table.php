@@ -34,9 +34,9 @@ return new class extends Migration
             $table->unsignedInteger('jumlah_telur_bagus');
             $table->unsignedInteger('jumlah_telur_putih');
             $table->unsignedInteger('jumlah_telur_reject');
-            $table->decimal('berat_telur_bagus', 10, 2);
-            $table->decimal('berat_telur_putih', 10, 2);
-            $table->decimal('berat_telur_reject', 10, 2);
+            $table->decimal('berat_telur_bagus', 10, 3);
+            $table->decimal('berat_telur_putih', 10, 3);
+            $table->decimal('berat_telur_reject', 10, 3);
             $table->timestamps();
         });
     }

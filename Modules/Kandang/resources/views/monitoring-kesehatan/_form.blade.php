@@ -155,7 +155,6 @@
                             <x-adminlte-textarea
                                 name="detail_penyakit_ditemukan"
                                 placeholder="Jenis Penyakit yang Ditemukan"
-                                required
                             >
                                 {{ old('detail_penyakit_ditemukan', $monitoringKesehatan->detail_penyakit_ditemukan ?? '') }}
                             </x-adminlte-textarea>

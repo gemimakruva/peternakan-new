@@ -380,12 +380,6 @@ return [
                     'active' => ['master-data/jenis-pakan*'],
                 ],
                 [
-                    'text'  => 'Jenis Disinfektan',
-                    'route' => 'master-data.jenis-disinfektan.index',
-                    'icon'  => 'far fa-circle',
-                    'active' => ['master-data/jenis-disinfektan*'],
-                ],
-                [
                     'text'  => 'Jenis Treatment',
                     'route' => 'master-data.jenis-treatment.index',
                     'icon'  => 'far fa-circle',
@@ -410,45 +404,33 @@ return [
             'icon'  => 'fas fa-chart-line',
         ],
 
-        // ====================  MENU PENGADAAN AYAM  ==========================
-        [
-            'header' => 'Pengadaan Ayam',
-        ],
-        [
-            'text'  => 'Pengadaan Ayam',
-            'route' => 'pengadaan-ayam.index',
-            'icon'  => 'fas fa-clipboard-check',
-            'active' => ['pengadaan-ayam/*']
-        ],
-
-        // ====================  MENU POPULASI AYAM  ==========================
-
+        // ====================  POPULASI  ==========================
         [
             'header' => 'Populasi Ayam',
         ],
         [
-            'text'  => 'Populasi Ayam',
-            'route' => 'populasi-ayam.index',
+            'text'  => 'Pengadaan Ayam',
+            'route' => 'pengadaan-ayam.index',
             'icon'  => 'fas fa-clipboard-list',
-            'active' => ['populasi-ayam/*']
+            'active' => ['pengadaan-ayam/*']
         ],
-
-        // ====================   PENGADAAN AYAM AFKIR  ==========================
-
         [
-            'header' => 'Ayam Afkir',
+            'text'  => 'Populasi Ayam',
+            'route' => 'populasi-ayam-2.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['populasi-ayam-2/*']
+        ],
+        [
+            'text'  => 'Rekapan Populasi Ayam',
+            'route' => 'rekapan-populasi-ayam.index',
+            'icon'  => 'fas fa-chart-line',
+            'active' => ['rekapan-populasi-ayam/*']
         ],
         [
             'text'  => 'Ayam Afkir',
             'route' => 'ayam-afkir.index',
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['ayam-afkir/*']
-        ],
-
-        // ====================   PENGADAAN AYAM KARANTINA  ==========================
-
-        [
-            'header' => 'Ayam Karantina',
         ],
         [
             'text'  => 'Ayam Karantina',
@@ -457,7 +439,7 @@ return [
             'active'  => ['ayam-karantina/*'],
         ],
         [
-            'text'  => 'Overview Ayam Karantina',
+            'text'  => 'Rekapan Karantina',
             'route' => 'ayam-karantina.overview',
             'icon'  => 'fas fa-chart-line',
             'active'  => ['ayam-karantina-overview'],
@@ -485,7 +467,7 @@ return [
                     'active' => ['pemberian-pakan-sisa-pakan/*']
                 ],
                 [
-                    'text'  => 'Overview Pakan Harian',
+                    'text'  => 'Rekapan Pakan Harian',
                     'route' => 'overview-pakan-harian',
                     'icon'  => 'fas fa-chart-line',
                     'active' => ['overview-pakan-harian']
@@ -504,7 +486,7 @@ return [
             'active' => ['recording-telur/*']
         ],
         [
-            'text'  => 'Overview Produksi Telur',
+            'text'  => 'Rekapan Produksi Telur',
             'route' => 'overview-produksi-telur',
             'icon'  => 'fas fa-chart-line',
             'active' => ['overview-produksi-telur']
@@ -526,118 +508,16 @@ return [
             'header' => 'Kalender Treatment',
         ],
         [
-            'text'  => 'Treatment',
-            'icon'  => 'fas fa-calendar-alt',
-            'submenu' =>[
-                [
-                    'text'  => 'Form Treatment',
-                    'route' => 'penjadwalan-treatment.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-                [
-                    'text'  => 'Jadwalan Treatment',
-                    'route' => 'penjadwalan-treatment.index',
-                    'icon'  => 'fas fa-calendar',
-                ],
-            ]
-        ],
-        [
-            'text'  => 'Disinfektan',
-            'icon'  => 'fas fa-calendar-alt',
-            'submenu' => [
-                [
-                    'text'  => 'List Penjadwalan',
-                    'route' => 'penjadwalan-disinfektan.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Form Penjadwalan Disinfektan',
-                    'route' => 'penjadwalan-disinfektan.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-
-        // ====================   Perhitungan Obat  =================
-        [
-            'header' => 'Perhitungan Obat',
-        ],
-        [
-            'text'  => 'OVK via Pakan',
+            'text'  => 'Penjadwalan Treatment',
             'icon'  => 'fas fa-clipboard-list',
-             'submenu' => [
-                [
-                    'text'  => 'Jadwal OVK',
-                    'route' => 'ovk-pakan.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                  
-                [
-                    'text'  => 'Create OVK',
-                    'route' => 'ovk-pakan.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-              
-            ],
+            'route' => 'treatment.index',
+            'active' => ['treatment/*']
         ],
         [
-            'text'  => 'Order OVK',
+            'text'  => 'Pelaksanaan Treatment',
             'icon'  => 'fas fa-clipboard-list',
-            'submenu' => [
-                [
-                    'text'  => 'List Order ',
-                    'route' => 'order-ovk.index',
-                    'icon' => 'fas fa-clipboard-list',
-                ],
-                [
-                    'text'  => 'Form Order',
-                    'route' => 'order-ovk.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-        [
-            'text'  => 'Vaksin Minum',
-            'icon'  => 'fas fa-clipboard-list',
-            'submenu' => [
-                [
-                    'text'  => 'List Data Vaksin Minum',
-                    'route' => 'vaksin-minum.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Form Vaksin Minum',
-                    'route' => 'vaksin-minum.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-
-        [
-            'text'  => 'Vitamin Obat Minum',
-            'icon'  => 'fas fa-clipboard-list',
-            'submenu' => [
-                [
-                    'text'  => 'List Vitamin Obat Minum',
-                    'route' => 'perhitungan-obat.vitamin-obat-minum.index',
-                    'icon'  => 'fas fa-history',
-                ],
-                [
-                    'text'  => 'Tambah Vitamin Obat Minum',
-                    'route' => 'perhitungan-obat.vitamin-obat-minum.create',
-                    'icon'  => 'fas fa-plus',
-                ],
-            ],
-        ],
-        [
-            'text'  => 'Bahan Treatment',
-            'route' => '',
-            'icon'  => 'fas fa-clipboard-list',
-        ],
-        [
-            'text'  => 'Form Pelaksanaan',
-            'route' => '',
-            'icon'  => 'fas fa-clipboard-list',
+            'route' => 'treatment-pelaksanaan.index',
+            'active' => ['treatment-pelaksanaan/*']
         ],
 
         // ====================   Monitoring Kesehatan  ========================
@@ -709,6 +589,17 @@ return [
     */
 
     'plugins' => [
+        'AlpineJs' => [
+            'active' => true,
+            'files'  => [
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
+                    'defer'    => true,
+                ],
+            ]
+        ],
         'BootstrapIcons' => [
             'active' => true,
             'files'  => [
@@ -721,18 +612,7 @@ return [
                     'type'     => 'js',
                     'asset'    => false,
                     'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
-                ],
-                [
-                    'type'     => 'js',
-                    'asset'    => false,
-                    'location' => 'https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.13.1/cdn.min.js',
-                    'defer'    => true,
-                ],
-            ],
-            [
-                'type'     => 'js',
-                'asset'    => false,
-                'location' => 'https://cdn.jsdelivr.net/npm/sweetalert2@11',
+                ]
             ],
         ],
         'Datatables' => [

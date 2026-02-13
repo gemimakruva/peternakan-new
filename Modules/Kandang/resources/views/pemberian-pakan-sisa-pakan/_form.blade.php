@@ -9,6 +9,19 @@
                 items: @js(old('items', $tables)),
                 get totalSisaPakanKg() {
                     return Object.values(this.items).reduce((total, item) => total + Number(item.sisa_pakan_per_flock_kg), 0);
+                },
+                konsumsi(flock_id) {
+                    const item = this.items[flock_id];
+                    return (Number(item.pemberian_pakan_kg)-Number(item.sisa_pakan_per_flock_kg)).toLocaleString('id')
+                },
+                get totalKonsumsi() {
+                    return Object
+                        .values(this.items)
+                        .reduce(
+                            (total, item) => total + (Number(item.pemberian_pakan_kg)-Number(item.sisa_pakan_per_flock_kg))
+                            , 0
+                        )
+                        .toLocaleString('id')
                 }
             }"
         >
@@ -21,6 +34,7 @@
                     <th class="align-middle" style="width: 100px;">Pemberian Pakan Pagi (kg)</th>
                     <th class="align-middle" style="width: 100px;">Pemberian Pakan Sore (kg)</th>
                     <th class="align-middle" style="width: 200px;">Sisa Pakan (kg)</th>
+                    <th class="align-middle" style="width: 200px;">Konsumsi (kg)</th>
                 </tr>
             </thead>
             <tbody>
@@ -47,6 +61,7 @@
                                 x-model="items[flock_id].sisa_pakan_per_flock_kg"
                             >
                         </td>
+                        <td class="text-right" x-text="konsumsi(flock_id)"></td>
                     </tr>
                 @endforeach
             </tbody>
@@ -58,6 +73,7 @@
                     <th class="text-right">{{ format_angka($tables->sum('pemberian_pakan_pagi_kg')) }}</th>
                     <th class="text-right">{{ format_angka($tables->sum('pemberian_pakan_sore_kg')) }}</th>
                     <th class="text-right" x-text="totalSisaPakanKg"></th>
+                    <th class="text-right" x-text="totalKonsumsi"></th>
                 </tr>
             </tfoot>
         </table>

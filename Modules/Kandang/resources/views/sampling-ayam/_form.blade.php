@@ -52,7 +52,7 @@
         @php
             $bobotData = old('berat_badan_rata_rata');
             if (!$bobotData && isset($samplingBobotAyam)) {
-                $bobotData = $samplingBobotAyam->beratBadanRataRataPerEkor->pluck('bobot_per_kg')->toArray();
+                $bobotData = $samplingBobotAyam->samplingBobotAyamPerEkor->pluck('bobot_per_kg')->toArray();
             }
         @endphp
         
