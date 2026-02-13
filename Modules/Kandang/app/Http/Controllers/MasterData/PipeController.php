@@ -27,8 +27,6 @@ class PipeController extends Controller
      */
     public function index()
     {
-        Gate::authorize('Lihat Semua Pipe');
-
         $flockId = request()->input('flock_id');
         $kandangId = request()->input('kandang_id');
         $peternakanId = request()->input('peternakan_id');
@@ -54,8 +52,6 @@ class PipeController extends Controller
      */
     public function edit(Pipe $pipe)
     {
-        Gate::authorize('Edit Pipe');
-
         $pipe->load([
             'flock.kandang.peternakan:id,nama',
             'flock.kandang:id,peternakan_id,nama',
@@ -71,8 +67,6 @@ class PipeController extends Controller
      */
     public function update(Request $request, Pipe $pipe)
     {
-        Gate::authorize('Edit Pipe');
-
         $validated = $request->validate([
             'nama' => ['required', 'string', 'max:255'],
             'kapasitas' => ['required', 'numeric', 'min:1'],
@@ -93,8 +87,6 @@ class PipeController extends Controller
      */
     public function destroy(Pipe $pipe)
     {
-        Gate::authorize('Hapus Pipe');
-        
         if($this->pipe->pengadaanAyamDistribusi()->exists()) {
             return to_route('master-data.pipe.index')
                 ->with('error', 'Tidak dapat menghapus Pipa yang memiliki Pengadaan Ayam Distribusi.');

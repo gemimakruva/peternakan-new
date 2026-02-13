@@ -525,7 +525,7 @@ return [
             'header' => 'Monitoring Kesehatan',
         ],
         [
-            'text'  => 'Riwayat Monitoring',
+            'text'  => 'Monitoring Kesehatan',
             'route' => 'monitoring-kesehatan.index',
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['monitoring-kesehatan/*']

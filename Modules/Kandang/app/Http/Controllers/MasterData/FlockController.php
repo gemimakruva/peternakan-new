@@ -45,8 +45,6 @@ class FlockController extends Controller
 
     public function edit(Flock $flock)
     {
-        Gate::authorize('Edit Flock');
-
         $flock->load([
             'kandang:id,peternakan_id,nama',
             'kandang.peternakan:id,nama',
@@ -60,8 +58,6 @@ class FlockController extends Controller
      */
     public function update(Request $request, Flock $flock)
     {
-        Gate::authorize('Edit Flock');
-        
         $validated = $request->validate([
             'nama'=> ['required', 'string', 'max:255']
         ]);
@@ -81,8 +77,6 @@ class FlockController extends Controller
 
     public function destroy(Flock $flock)
     {
-        Gate::authorize('Hapus Flock');
-
         if($flock->pipes()->exists()) {
             return to_route('master-data.flock.index')
                 ->with('danger', 'Data Flock tidak dapat dihapus karena memiliki pipa terkait.');

@@ -14,8 +14,6 @@ class RoleController extends Controller
      */
     public function index()
     {
-        Gate::authorize('Lihat Semua Role');
-
         $search = request()->input('search');
 
         $datas = Role::query()
@@ -35,8 +33,6 @@ class RoleController extends Controller
      */
     public function create()
     {
-        Gate::authorize('Tambah Role');
-
         $permissions = Permission::all();
 
         return view('role.create', compact('permissions'));
@@ -47,8 +43,6 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('Tambah Role');
-
         $validated = $request->validate([
             'name' => 'required|string|max:255|unique:roles,name',
             'permissions' => 'array',
@@ -79,8 +73,6 @@ class RoleController extends Controller
      */
     public function edit(string $id)
     {
-        Gate::authorize('Edit Role');
-
         $role = Role::with('permissions')->findOrFail($id);
         $permissions = Permission::all();
 
@@ -92,8 +84,6 @@ class RoleController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('Edit Role');
-
         $role = Role::findOrFail($id);
 
         $validated = $request->validate([
@@ -120,8 +110,6 @@ class RoleController extends Controller
      */
     public function destroy(string $id)
     {
-        Gate::authorize('Hapus Role');
-
         $role = Role::findOrFail($id);
 
         if ($role->users()->exists()) {
