@@ -28,17 +28,16 @@
         </div>
     
         <div class="card-body">
-            <form action="{{ route('recording-telur.index') }}" method="GET" class="d-flex gap-2 align-items-end">
-                <div>
-                    <label class="form-label">Range Tanggal</label>
-                    <div class="d-flex">
-                        <input type="date" name="tanggal_mulai" value="{{ request('tanggal_mulai') }}" class="form-control">
-                        <span class="mx-2 align-self-center">s/d</span>
-                        <input type="date" name="tanggal_selesai" value="{{ request('tanggal_selesai') }}" class="form-control">
-                    </div>
-                </div>
+            <form action="{{ route('recording-telur.index') }}" method="GET" class="d-flex gap-3 align-items-end flex-column flex-sm-row">
+                <x-adminlte-input
+                    label="Tanggal"
+                    type="date"
+                    name="tanggal"
+                    :value="request()->query('tanggal')"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                />
 
-                <x-adminlte-select name="kandang_id" fgroup-class="mb-0 mx-200">
+                <x-adminlte-select name="kandang_id" fgroup-class="mb-0 w-100 mx-sm-200">
                     <x-adminlte-options
                         :options="$listKandang"
                         empty-option="Semua Kandang"
@@ -46,15 +45,23 @@
                     />
                 </x-adminlte-select>
 
-                <input type="text" name="recorded_by" value="{{ request('recorded_by') }}" class="form-control mx-200" placeholder="Nama Pencatat">
+                <input
+                    type="text"
+                    name="recorded_by"
+                    value="{{ request('recorded_by') }}"
+                    class="form-control w-100 mx-sm-200"
+                    placeholder="Petugas Pencatat"
+                />
 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
 
-                <a href="{{ route('recording-telur.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
+                    <a href="{{ route('recording-telur.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
             </form>
         </div>
     </div>

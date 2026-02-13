@@ -3,10 +3,7 @@ namespace Modules\Kandang\Http\Controllers\RecordingTelur;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
-use Modules\Kandang\Models\PopulasiAyam;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\ProduksiTelur;
 use Modules\Kandang\Models\ProduksiTelurItem;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
@@ -28,23 +25,16 @@ class RecordingTelurController extends Controller
         $listProduksiTelur = $this->produksiTelur
             ->with(['picUser', 'produksiTelurItems'])
             ->when($request->filled('kandang_id'), function($query) use ($request) {
-                $query->where('kandang_id', $request->kandang_id);
+                $query->where('kandang_id', '=', $request->query('kandang_id'));
             })
-            ->when($request->filled('tanggal_mulai'), function($query) use ($request) {
-                $query->whereDate('tanggal', '>=', $request->tanggal_mulai);
-            })
-            ->when($request->filled('tanggal_selesai'), function($query) use ($request) {
-                $query->whereDate('tanggal', '<=', $request->tanggal_selesai);
-            })
-            ->when($request->filled('recorded_by'), function($query) use ($request) {
-                $query->whereHas('picUser', function($q) use ($request) {
-                    $q->where('name', 'like', '%' . $request->recorded_by . '%');
-                });
+            ->when($request->filled('tanggal'), function($query) use ($request) {
+                $query->whereDate('tanggal', '=', $request->date('tanggal'));
             })
             ->orderBy('tanggal', 'desc')
-            ->paginate($request->query('perPage', 10));
+            ->paginate($request->query('perPage', $request->query('perPage', 10)))
+            ->withQueryString();
         
-        $listKandang = $this->kandangRepository->getModel()->pluck('nama', 'id')->toArray();
+        $listKandang = $this->kandangRepository->getSelectItems();
 
         return view("kandang::recording-telur.index", compact('listProduksiTelur', 'listKandang'));
     }

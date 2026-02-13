@@ -20,6 +20,11 @@ $widths: 1400, 1200, 1000, 900, 400, 300, 200, 100;
   .w-#{$n}-px {
     width: #{$n}px;
   }
+  @media only screen and (min-width: 576px) {
+    .mx-sm-#{$n} {
+      max-width: #{$n}px;
+    }
+  }
 }
 
 .sticy-form-action {

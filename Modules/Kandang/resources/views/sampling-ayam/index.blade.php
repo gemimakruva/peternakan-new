@@ -29,16 +29,23 @@
             <h3 class="card-title">Filter</h3>
         </div>
         <div class="card-body">
-            <form action="{{ route('sampling-ayam.index') }}" method="GET" class="d-flex align-items-end gap-2">
+            <form
+                action="{{ route('sampling-ayam.index') }}"
+                method="GET"
+                class="d-flex align-items-end gap-3 flex-column flex-sm-row"
+            >
                 <x-adminlte-input
                     type="date"
                     name="tanggal"
                     label="Tanggal"
-                    fgroup-class="mb-0 mx-200"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
                     :value="request()->query('tanggal')"
                 />
     
-                <x-adminlte-select name="kandang_id" fgroup-class="mb-0 mx-200">
+                <x-adminlte-select
+                    name="kandang_id"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                >
                     <x-adminlte-options 
                         :options="$listKandang"
                         empty-option="Pilih Kandang ..."
@@ -46,13 +53,15 @@
                     />
                 </x-adminlte-select>
     
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                </button>
-    
-                <a href="{{ route('sampling-ayam.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+        
+                    <a href="{{ route('sampling-ayam.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
             </form>
         </div>
     </div>

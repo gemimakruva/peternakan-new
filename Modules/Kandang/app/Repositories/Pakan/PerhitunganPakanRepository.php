@@ -57,8 +57,7 @@ class PerhitunganPakanRepository extends EloquentRepository
     public function searchQuery(Builder $q, string $search): void
     {
         $q->where(function($q2) use($search) {
-            $q2->where('kandang.nama', 'LIKE', "%$search%")
-                ->orWhere('creator.name', 'LIKE', "%$search%")
+            $q2->where('creator.name', 'LIKE', "%$search%")
                 ->orWhere('executor.name', 'LIKE', "%$search%");
         });
     }

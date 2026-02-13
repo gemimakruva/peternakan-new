@@ -60,7 +60,10 @@ class PemberianPakanSisaPakanRepository extends EloquentRepository
         return [
             'kandang_id' => function($q, $kandangId) {
                 return $q->where('perhitungan_pakan.kandang_id', '=', $kandangId);
-            }
+            },
+            'jenis_pakan_id' => function($q, $jenisPakanId) {
+                return $q->where('jenis_pakan.id', '=', $jenisPakanId);
+            },
         ];
     }
 

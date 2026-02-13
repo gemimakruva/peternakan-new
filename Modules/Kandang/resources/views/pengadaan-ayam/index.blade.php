@@ -29,15 +29,21 @@
                 <h3 class="card-title">Filter</h3>
             </div>
             <div class="card-body">
-                <form action="{{ route('pengadaan-ayam.index') }}" class="d-flex gap-3 align-items-end">
-                    <div class="w-200-px">
+                <form action="{{ route('pengadaan-ayam.index') }}" class="d-flex gap-3 align-items-end flex-column flex-sm-row">
+                    <div class="w-100 mx-sm-200">
                         <label class="form-label" for="tanggal">Tanggal</label>
-                        <input type="date" name="tanggal"  class="form-control" value="{{ request()->query('tanggal') }}">
+                        <input type="date" name="tanggal"  class="form-control mx-sm-200" value="{{ request()->query('tanggal') }}">
                     </div>
 
-                    <input type="search" name="search" class="form-control w-200-px" value="{{ request()->query('search') }}" placeholder="Nama Pencatat ...">
+                    <input 
+                        type="search"
+                        name="search"
+                        class="form-control mx-sm-200"
+                        value="{{ request()->query('search') }}"
+                        placeholder="Nama Pencatat ..."
+                    />
                     
-                    <div class="d-flex gap-1">
+                    <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>

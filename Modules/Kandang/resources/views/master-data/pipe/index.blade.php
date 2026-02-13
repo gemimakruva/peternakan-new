@@ -44,7 +44,7 @@
             <form 
                 action="{{ route('master-data.pipe.index') }}" 
                 method="GET" 
-                class="d-flex gap-2"
+                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
                 x-data="{
                     peternakanData: {{ Js::from($peternakan) }},
                     selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
@@ -78,7 +78,7 @@
                 <select
                     id="peternakanFilter"
                     name="peternakan_id" 
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                     x-model="selectedPeternakan"
                     @change="onPeternakanChange()">
                     <option value="">Semua Peternakan</option>
@@ -90,7 +90,7 @@
                 <select 
                     id="kandangFilter"
                     name="kandang_id" 
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                     x-model="selectedKandang"
                     @change="onKandangChange()"
                     :disabled="!selectedPeternakan">
@@ -103,7 +103,7 @@
                 <select 
                     id="flockFilter"
                     name="flock_id" 
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                     x-model="selectedFlock"
                     :disabled="!selectedKandang">
                     <option value="">Semua Flock</option>
@@ -114,17 +114,19 @@
 
                 <input type="search" 
                     name="search" 
-                    class="form-control mx-300" 
+                    class="form-control mx-sm-300" 
                     placeholder="Kandang, Flock, Pipe ..." 
                     value="{{ request()->query('search') }}">
                 
-                <button type="submit" class="btn btn-primary">
-                    <i class="fas fa-search"></i>
-                </button>
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
 
-                <a href="{{ route('master-data.pipe.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
+                    <a href="{{ route('master-data.pipe.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
             </form>
         </div>
     </div>

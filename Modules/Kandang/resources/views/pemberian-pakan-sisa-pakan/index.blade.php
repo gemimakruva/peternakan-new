@@ -23,6 +23,50 @@
     <x-form-alert />
 
     <div class="card">
+        <div class="card-header">
+            <h2 class="card-title">Filter</h2>
+        </div>
+        <div class="card-body">
+            <form
+                action="{{ route('pemberian-pakan-sisa-pakan.index') }}"
+                method="get"
+                class="d-flex align-items-end gap-3 gap-3 flex-column flex-sm-row"
+            >
+                <x-adminlte-select
+                    name="kandang_id"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                >
+                    <x-adminlte-options 
+                        :options="$listKandang"
+                        empty-option="Semua Kandang"
+                        :selected="request()->query('kandang_id')"
+                    />
+                </x-adminlte-select>
+
+                <x-adminlte-select
+                    name="jenis_pakan_id"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                >
+                    <x-adminlte-options 
+                        :options="$listJenisPakan"
+                        empty-option="Semua Jenis Pakan"
+                        :selected="request()->query('jenis_pakan_id')"
+                    />
+                </x-adminlte-select>
+
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                    <a href="{{ route('pemberian-pakan-sisa-pakan.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="card">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center">
                 <thead class="bg-light">

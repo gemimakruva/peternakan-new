@@ -44,7 +44,7 @@
             <form 
                 action="{{ route('master-data.flock.index') }}" 
                 method="GET" 
-                class="d-flex gap-3 align-items-end"
+                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
                 x-data="{
                     peternakanData: {{ Js::from($peternakan) }},
                     selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
@@ -64,7 +64,7 @@
                 <select 
                     id="peternakanFilter"
                     name="peternakan_id" 
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                     x-model="selectedPeternakan"
                     @change="onPeternakanChange()">
                     <option value="">Semua Peternakan</option>
@@ -76,7 +76,7 @@
                 <select 
                     id="kandangFilter"
                     name="kandang_id" 
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                     x-model="selectedKandang"
                     :disabled="!selectedPeternakan">
                     <option value="">Semua Kandang</option>
@@ -87,7 +87,7 @@
 
                 <input type="search" 
                     name="search" 
-                    class="form-control mx-200" 
+                    class="form-control mx-sm-200" 
                     placeholder="Nama Flock..." 
                     value="{{ request()->query('search') }}">
     

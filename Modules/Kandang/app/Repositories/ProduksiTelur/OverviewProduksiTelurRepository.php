@@ -144,6 +144,9 @@ class OverviewProduksiTelurRepository extends EloquentRepository
         return [
             'kandang_id' => function ($q, $kandangId) {
                 $q->where('produksi_telur.kandang_id', '=', $kandangId);
+            },
+            'tanggal' => function ($q, $tanggal) {
+                $q->where('produksi_telur.tanggal', '=', $tanggal);
             }
         ];
     }
