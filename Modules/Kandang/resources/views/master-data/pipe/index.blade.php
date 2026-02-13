@@ -154,13 +154,10 @@
                         <td class="text-right">{{ format_angka($row->kapasitas) }}</td>
                         <td class="text-center">
                         <div class="d-flex justify-content-center" style="gap: .5em">
-                            @can('Edit Pipe')
                             <a href="{{ route('master-data.pipe.edit', $row) }}" class="btn btn-warning text-white btn-sm" title="Edit">
                                 <i class="fas fa-edit"></i>
                             </a>
-                            @endcan
-                            
-                            @can('Hapus Pipe')
+
                             <form action="{{ route('master-data.pipe.destroy', $row->id) }}" 
                                 method="post" 
                                 data-nama="{{ $row->nama }}" 
@@ -171,7 +168,6 @@
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </form>
-                            @endcan
                         </div>
                     </td>
                     </tr>

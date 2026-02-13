@@ -8,9 +8,7 @@
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Kandang</h1>
-                @can('Tambah Kandang')
-                    <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary">Tambah Kandang</a>
-                @endcan
+                <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary">Tambah Kandang</a>
             </div>
           </div>
           <div class="col-sm-6">
@@ -111,13 +109,12 @@
                                             <i class="fas fa-eye"></i>
                                         </a>
 
-                                        @can('Edit Kandang')
                                             <a href="{{ route('master-data.kandang.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
                                                 <i class="fas fa-edit"></i>
                                             </a>
                                         @endcan
 
-                                        @if (auth()->user()->can('Hapus Kandang') && !$row->flocks()->exists())
+                                        @if (!$row->flocks()->exists())
                                             <form action="{{ route('master-data.kandang.destroy', $row) }}" method="post"
                                                 data-nama="{{ $row->nama }}" class="form-delete">
                                                 @csrf

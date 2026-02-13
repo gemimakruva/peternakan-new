@@ -134,7 +134,7 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                @if (auth()->user()->can('Hapus Flock') && !$row->pipes()->exists())    
+                                @if (!$row->pipes()->exists()) 
                                     <form
                                         action="{{ route('master-data.flock.destroy', $row) }}"
                                         method="post" 

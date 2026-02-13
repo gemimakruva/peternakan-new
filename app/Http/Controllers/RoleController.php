@@ -21,6 +21,7 @@ class RoleController extends Controller
             ->when($search, function ($query) use ($search) {
                 $query->where('name', 'like', "%{$search}%");
             })
+            ->where('id', '!=', 1)
             ->orderBy('created_at', 'desc')
             ->paginate(request()->query('perPage', 10))
             ->withQueryString();

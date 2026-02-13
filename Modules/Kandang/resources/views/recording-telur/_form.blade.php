@@ -24,6 +24,7 @@
     x-data="{
         items: @js(old('items', $items)),
     }"
+    class="table-responsive"
 >
     {{-- <pre x-text="JSON.stringify(items, 1, 2)"></pre> --}}
     <table class="table table-hover table-striped table-bordered text-center">
@@ -35,12 +36,12 @@
                 <th colspan="2">Telur Reject</th>
             </tr>
             <tr>
-                <th>Jumlah</th>
-                <th>Berat</th>
-                <th>Jumlah</th>
-                <th>Berat</th>
-                <th>Jumlah</th>
-                <th>Berat</th>
+                <th style="min-width: 100px;">Jumlah</th>
+                <th style="min-width: 100px;">Berat</th>
+                <th style="min-width: 100px;">Jumlah</th>
+                <th style="min-width: 100px;">Berat</th>
+                <th style="min-width: 100px;">Jumlah</th>
+                <th style="min-width: 100px;">Berat</th>
             </tr>
         </thead>
         <tbody>
@@ -60,7 +61,7 @@
                         />
                         <input
                             type="number"
-                            class="form-control form-control-sm"
+                            class="form-control"
                             x-model="item.jumlah_telur_bagus"
                             :name="`items[${key}][jumlah_telur_bagus]`"
                             min="0"
@@ -69,7 +70,7 @@
                     <td>
                         <input
                             type="number"
-                            class="form-control form-control-sm"
+                            class="form-control"
                             x-model="item.berat_telur_bagus"
                             :name="`items[${key}][berat_telur_bagus]`"
                             min="0"
@@ -79,7 +80,7 @@
                     <td>
                         <input
                             type="number"
-                            class="form-control form-control-sm"
+                            class="form-control"
                             x-model="item.jumlah_telur_putih"
                             :name="`items[${key}][jumlah_telur_putih]`"
                             min="0"
@@ -88,7 +89,7 @@
                     <td>
                         <input
                             type="number"
-                            class="form-control form-control-sm"
+                            class="form-control"
                             x-model="item.berat_telur_putih"
                             :name="`items[${key}][berat_telur_putih]`"
                             min="0"
@@ -98,7 +99,7 @@
                     <td>
                         <input
                             type="number"
-                            class="form-control form-control-sm"
+                            class="form-control"
                             x-model="item.jumlah_telur_reject"
                             :name="`items[${key}][jumlah_telur_reject]`"
                             min="0"
@@ -107,7 +108,7 @@
                     <td>
                         <input
                             type="number"
-                            class="form-control form-control-sm"
+                            class="form-control"
                             x-model="item.berat_telur_reject"
                             :name="`items[${key}][berat_telur_reject]`"
                             min="0"
