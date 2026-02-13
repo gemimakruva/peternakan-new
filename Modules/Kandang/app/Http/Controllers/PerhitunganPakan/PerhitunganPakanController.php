@@ -28,7 +28,9 @@ class PerhitunganPakanController extends Controller
         private JenisPakan $jenisPakan,
         private Kandang $kandang,
         private User $user,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.pakan.menu-perhitungan-pemberian-pakan');
+    }
 
     public function index(Request $request)
     {

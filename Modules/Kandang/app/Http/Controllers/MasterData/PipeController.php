@@ -19,7 +19,9 @@ class PipeController extends Controller
         private Peternakan $peternakan,
         private Pipe $pipe,
         private PipeRepository $repository,
-    ) { }
+    ) { 
+        $this->middleware('can:master-data.master-data.menu-pipe');
+    }
 
     /**
      * Menampilkan daftar seluruh Pipe dengan fitur pagination.

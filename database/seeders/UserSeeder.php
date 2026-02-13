@@ -138,12 +138,12 @@ class UserSeeder extends Seeder
             'master-data.master-data.menu-peternakan',
             'master-data.master-data.menu-kandang',
             'master-data.master-data.menu-flock',
-            'master-data.master-data.menu-list',
+            'master-data.master-data.menu-pipe',
             'master-data.master-data.menu-jenis-pakan',
             'master-data.master-data.menu-jenis-treatment',
             'master-data.master-data.menu-metode-treatment',
 
-            'kandang.strain.menu-strain-list',
+            'kandang.strain.menu-strain',
 
             'kandang.rekapan.menu-rekapan-produksi',
 

@@ -19,7 +19,9 @@ class RecordingTelurController extends Controller
         private ProduksiTelurItem $produksiTelurItem,
         private KandangRepository $kandangRepository,
         private PopulasiAyamService $populasiAyamService,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.telur.menu-produksi-telur');
+    }
     
     public function index(Request $request)
     {

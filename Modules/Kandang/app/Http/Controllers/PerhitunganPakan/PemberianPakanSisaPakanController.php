@@ -12,7 +12,9 @@ class PemberianPakanSisaPakanController extends Controller
 {
     public function __construct(
         private PemberianPakanSisaPakanRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan');
+    }
 
     public function index(Request $request)
     {

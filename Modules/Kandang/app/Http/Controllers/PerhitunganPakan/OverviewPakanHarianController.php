@@ -4,7 +4,6 @@ namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Carbon;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
 
@@ -13,7 +12,9 @@ class OverviewPakanHarianController extends Controller
     public function __construct(
         private OverviewPakanHarianRepository $repository,
         private Kandang $kandang,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.pakan.menu-rekapan-pakan-harian');
+    }
 
     public function index(Request $request)
     {

@@ -15,7 +15,9 @@ class ProduksiController extends Controller
     public function __construct(
         private RekapanProduksiRepository $rekapanProduksiRepository,
         private Kandang $kandang,
-    ) { }
+    ) { 
+        $this->middleware('can:kandang.rekapan.menu-rekapan-produksi');
+    }
 
     public function index(Request $request)
     {

@@ -11,7 +11,9 @@ class JenisTreatmentController extends Controller
 {
     public function __construct(
         private JenisTreatment $jenisTreatment,
-    ) { }
+    ) { 
+        $this->middleware('can:master-data.master-data.menu-jenis-treatment');
+    }
 
     public function index()
     {

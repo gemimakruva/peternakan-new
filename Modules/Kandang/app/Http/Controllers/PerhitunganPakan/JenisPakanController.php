@@ -11,7 +11,9 @@ class JenisPakanController extends Controller
 {
     public function __construct(
         private JenisPakan $jenisPakan,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-jenis-pakan');
+    }
 
     public function index()
     {

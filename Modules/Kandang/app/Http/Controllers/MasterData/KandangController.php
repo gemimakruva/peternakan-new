@@ -26,7 +26,9 @@ class KandangController extends Controller
         private Flock $flock,
         private Pipe $pipe,
         private KandangRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-kandang');
+    }
 
     /**
      * Menampilkan seluruh data kandang dengan fitur search, sort, dan pagination.

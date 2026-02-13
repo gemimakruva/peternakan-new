@@ -11,7 +11,9 @@ class PeternakanController extends Controller
 {
     public function __construct(
         private PeternakanRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-peternakan');
+    }
     
     public function index()
     {

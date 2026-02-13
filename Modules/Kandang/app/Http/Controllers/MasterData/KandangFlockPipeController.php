@@ -19,7 +19,9 @@ class KandangFlockPipeController extends Controller
         private Kandang $kandang,
         private Flock $flock,
         private Pipe $pipe,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-pipe');
+    }
 
     public function create(Kandang $kandang, Flock $flock)
     {

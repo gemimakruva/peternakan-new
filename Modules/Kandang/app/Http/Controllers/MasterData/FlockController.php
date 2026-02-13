@@ -4,7 +4,6 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Peternakan;
 use Modules\Kandang\Repositories\Kandang\FlockRepository;
@@ -15,7 +14,9 @@ class FlockController extends Controller
         private Peternakan $peternakan,
         private Flock $flock,
         private FlockRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-flock');
+    }
 
     public function index()
     {

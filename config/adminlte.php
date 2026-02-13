@@ -338,58 +338,86 @@ return [
         // ==================== MASTER DATA ==========================
         [
             'header' => 'Master Data',
+            'can'     => [
+                'master-data.master-data.menu-peternakan',
+                'master-data.master-data.menu-kandang',
+                'master-data.master-data.menu-flock',
+                'master-data.master-data.menu-list',
+                'master-data.master-data.menu-jenis-pakan',
+                'master-data.master-data.menu-jenis-treatment',
+                'master-data.master-data.menu-metode-treatment',
+                'kandang.strain.menu-strain-list',
+            ],
         ],
         [
             'text'    => 'Master Data',
             'icon'    => 'fas fa-database',
             'active'  => ['master-data/*'],
+            'can'     => [
+                
+                
+                
+                
+                
+                // 'master-data.master-data.menu-jenis-treatment',
+                // 'master-data.master-data.menu-metode-treatment',
+                // 'kandang.strain.menu-strain-list',
+            ],
             'submenu' => [
                 [
                     'text'  => 'Strain Ayam',
                     'route' => 'master-data.strain-ayam.index',
                     'icon'  => 'far fa-circle',
+                    'can'   => 'kandang.strain.menu-strain-list',
                 ],
                 [
                     'text'  => 'Peternakan',
                     'route' => 'master-data.peternakan.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/peternakan*'],
+                    'can'   => 'master-data.master-data.menu-peternakan',
                 ],
                 [
                     'text'  => 'Kandang',
                     'route' => 'master-data.kandang.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/kandang*'],
+                    'can'   => 'master-data.master-data.menu-kandang',
                 ],
                 [
                     'text'  => 'Flock',
                     'route' => 'master-data.flock.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/flock*'],
+                    'can'   => 'master-data.master-data.menu-flock',
                 ],
                 [
                     'text'  => 'Pipa',
                     'route' => 'master-data.pipe.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/pipe*'],
+                    'can'   => 'master-data.master-data.menu-pipe',
                 ],
                 [
                     'text'  => 'Jenis Pakan',
                     'route' => 'master-data.jenis-pakan.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/jenis-pakan*'],
+                    'can'   => 'master-data.master-data.menu-jenis-pakan',
                 ],
                 [
                     'text'  => 'Jenis Treatment',
                     'route' => 'master-data.jenis-treatment.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/jenis-treatment*'],
+                    'can'   => 'master-data.master-data.menu-jenis-treatment',
                 ],
                 [
                     'text'  => 'Metode Treatment',
                     'route' => 'master-data.metode-treatment.index',
                     'icon'  => 'far fa-circle',
                     'active' => ['master-data/metode-treatment*'],
+                    'can'   => 'master-data.master-data.menu-metode-treatment',
                 ],
             ],
         ],
@@ -397,80 +425,109 @@ return [
         // ==================== REKAPAN PRODUKSI ==========================
         [
             'header' => 'Rekapan Produksi',
+            'can'   => 'kandang.rekapan.menu-rekapan-produksi',
         ],
         [
             'text'  => 'Rekapan Produksi',
             'route' => 'rekapan-produksi.index',
             'icon'  => 'fas fa-chart-line',
+            'can'   => 'kandang.rekapan.menu-rekapan-produksi',
         ],
 
         // ====================  POPULASI  ==========================
         [
             'header' => 'Populasi Ayam',
+            'can'   => [
+                'kandang.populasi.menu-pengadaan-ayam',
+                'kandang.populasi.menu-populasi-ayam',
+                'kandang.populasi.menu-rekapan-populasi-ayam',
+                'kandang.populasi.menu-afkir-ayam',
+                'kandang.populasi.menu-karantina-ayam',
+                'kandang.populasi.menu-rekapan-karantina',
+            ],
         ],
         [
             'text'  => 'Pengadaan Ayam',
             'route' => 'pengadaan-ayam.index',
             'icon'  => 'fas fa-clipboard-list',
-            'active' => ['pengadaan-ayam/*']
+            'active' => ['pengadaan-ayam/*'],
+            'can'   => 'kandang.populasi.menu-pengadaan-ayam',
         ],
         [
             'text'  => 'Populasi Ayam',
             'route' => 'populasi-ayam-2.index',
             'icon'  => 'fas fa-clipboard-list',
-            'active' => ['populasi-ayam-2/*']
+            'active' => ['populasi-ayam-2/*'],
+            'can'   => 'kandang.populasi.menu-populasi-ayam',
         ],
         [
             'text'  => 'Rekapan Populasi Ayam',
             'route' => 'rekapan-populasi-ayam.index',
             'icon'  => 'fas fa-chart-line',
-            'active' => ['rekapan-populasi-ayam/*']
+            'active' => ['rekapan-populasi-ayam/*'],
+            'can'   => 'kandang.populasi.menu-rekapan-populasi-ayam',
         ],
         [
             'text'  => 'Ayam Afkir',
             'route' => 'ayam-afkir.index',
             'icon'  => 'fas fa-clipboard-list',
-            'active' => ['ayam-afkir/*']
+            'active' => ['ayam-afkir/*'],
+            'can'   => 'kandang.populasi.menu-afkir-ayam',
         ],
         [
             'text'  => 'Ayam Karantina',
             'route' => 'ayam-karantina.index',
             'icon' => 'fas fa-clipboard-list',
             'active'  => ['ayam-karantina/*'],
+            'can'   => 'kandang.populasi.menu-karantina-ayam',
         ],
         [
             'text'  => 'Rekapan Karantina',
             'route' => 'ayam-karantina.overview',
             'icon'  => 'fas fa-chart-line',
             'active'  => ['ayam-karantina-overview'],
+            'can'   => 'kandang.populasi.menu-rekapan-karantina',
         ],
         
 
         // ====================   PEMBERIAN PAKAN  ==========================
         [
             'header' => 'Pemberian Pakan',
+            'can' => [
+                'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.menu-rekapan-pakan-harian',
+            ],
         ],
         [
             'text'  => 'Pemberian Pakan',
             'icon'  => 'fas fa-file-signature',
+            'can' => [
+                'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.menu-rekapan-pakan-harian',
+            ],
             'submenu' =>[
                 [
                     'text'  => 'Perhitungan Pemberian Pakan',
                     'route' => 'perhitungan-pakan.index',
                     'icon'  => 'fas fa-calculator',
-                    'active' => ['perhitungan-pakan/*']
+                    'active' => ['perhitungan-pakan/*'],
+                    'can'   => 'kandang.pakan.menu-perhitungan-pemberian-pakan',
                 ],
                 [
                     'text'  => 'Pemberian Pakan Sisa Pakan',
                     'route' => 'pemberian-pakan-sisa-pakan.index',
                     'icon'  => 'fas fa-clipboard-check',
-                    'active' => ['pemberian-pakan-sisa-pakan/*']
+                    'active' => ['pemberian-pakan-sisa-pakan/*'],
+                    'can'   => 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
                 ],
                 [
                     'text'  => 'Rekapan Pakan Harian',
                     'route' => 'overview-pakan-harian',
                     'icon'  => 'fas fa-chart-line',
-                    'active' => ['overview-pakan-harian']
+                    'active' => ['overview-pakan-harian'],
+                    'can'   => 'kandang.pakan.menu-rekapan-pakan-harian',
                 ]
             ]
         ],
@@ -478,57 +535,75 @@ return [
         // ====================   PRODUKSI TELUR  ==================
         [
             'header' => 'Produksi Telur',
+            'can'   => [
+                'kandang.telur.menu-produksi-telur',
+                'kandang.telur.menu-rekapan-produksi-telur',
+            ]
         ],
         [
             'text'  => 'Produksi Telur',
             'route' => 'recording-telur.index',
             'icon'  => 'fas fa-egg',
-            'active' => ['recording-telur/*']
+            'active' => ['recording-telur/*'],
+            'can'   => 'kandang.telur.menu-produksi-telur',
         ],
         [
             'text'  => 'Rekapan Produksi Telur',
             'route' => 'overview-produksi-telur',
             'icon'  => 'fas fa-chart-line',
-            'active' => ['overview-produksi-telur']
+            'active' => ['overview-produksi-telur'],
+            'can'   => 'kandang.telur.menu-rekapan-produksi-telur',
         ],
 
         // ====================   SAMPLING AYAM MENU    ==========================
         [
             'header' => 'Sampling Bobot Ayam',
+            'can'   => [
+                'kandang.sampling.menu-sampling-bobot-ayam'
+            ],
         ],
         [
             'text'  => 'Sampling Bobot Ayam',
             'route' => 'sampling-ayam.index',
             'icon'  => 'fas fa-clipboard-list',
-            'active' => ['sampling-ayam/*']
+            'active' => ['sampling-ayam/*'],
+            'can'   => 'kandang.sampling.menu-sampling-bobot-ayam',
         ],
 
         // ====================   PENJADWALAAN TREATMENT  =================
         [
             'header' => 'Kalender Treatment',
+            'can'    => [
+                'kandang.treatment.menu-penjadwalan-treatment',
+                'kandang.treatment.menu-pelaksanaan-treatment',
+            ],
         ],
         [
             'text'  => 'Penjadwalan Treatment',
             'icon'  => 'fas fa-clipboard-list',
             'route' => 'treatment.index',
-            'active' => ['treatment/*']
+            'active' => ['treatment/*'],
+            'can' => 'kandang.treatment.menu-penjadwalan-treatment',
         ],
         [
             'text'  => 'Pelaksanaan Treatment',
             'icon'  => 'fas fa-clipboard-list',
             'route' => 'treatment-pelaksanaan.index',
-            'active' => ['treatment-pelaksanaan/*']
+            'active' => ['treatment-pelaksanaan/*'],
+            'can'   => 'kandang.treatment.menu-pelaksanaan-treatment',
         ],
 
         // ====================   Monitoring Kesehatan  ========================
         [
             'header' => 'Monitoring Kesehatan',
+            'can'    => 'kandang.monitoring.menu-monitoring-kesehatan',
         ],
         [
             'text'  => 'Monitoring Kesehatan',
             'route' => 'monitoring-kesehatan.index',
             'icon'  => 'fas fa-clipboard-list',
-            'active' => ['monitoring-kesehatan/*']
+            'active' => ['monitoring-kesehatan/*'],
+            'can'   => 'kandang.monitoring.menu-monitoring-kesehatan',
         ],
 
         // ====================   USER AND ACCESS   ============================
@@ -536,21 +611,21 @@ return [
         [
             'header' => 'User and Access',
             'can'    => [
-                'Lihat Semua User',
-                'Lihat Semua Role',
+                'master-data.setting.menu-user',
+                'master-data.setting.menu-role-permission',
             ],
         ],
         [
             'text'  => 'User',
             'route' => 'user.index',
             'icon'  => 'fas fa-fw fa-cube',
-            'can'   => 'Lihat Semua User',
+            'can'   => 'master-data.setting.menu-user',
         ],
         [
             'text'  => 'Role',
             'route' => 'role.index',
             'icon'  => 'fas fa-fw fa-cube',
-            'can'   => 'Lihat Semua Role',
+            'can'   => 'master-data.setting.menu-role-permission',
         ],
     ],
 
