@@ -1,17 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Overview Pakan Harian')
+@section('title', 'Rekapan Pakan Harian')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Overview Pakan Harian</h1>
+            <h1>Rekapan Pakan Harian</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item active">Pemberian Pakan</li>
-                <li class="breadcrumb-item active">Overview Pakan Harian</li>
+                <li class="breadcrumb-item active">Rekapan Pakan Harian</li>
             </ol>
         </div>
     </div>
@@ -84,7 +84,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3">Data overview pakan harian tidak ditemukan.</td>
+                            <td colspan="3">Data rekapan pakan harian tidak ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>

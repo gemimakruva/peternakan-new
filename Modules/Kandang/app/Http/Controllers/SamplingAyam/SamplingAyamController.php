@@ -17,7 +17,9 @@ class SamplingAyamController extends Controller
         private KandangRepository $kandangRepository,
         private SamplingBobotAyam $samplingBobotAyam,
         private SamplingBobotAyamPerEkor $samplingBobotAyamPerEkor
-    ) { }
+    ) { 
+        $this->middleware('can:kandang.sampling.menu-sampling-bobot-ayam');
+    }
     
     public function index(Request $request)
     {

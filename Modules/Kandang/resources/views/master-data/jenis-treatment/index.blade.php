@@ -8,9 +8,7 @@
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
                     <h1>Jenis Treatment</h1>
-                    @can('Tambah Jenis Treatment')
-                        <a href="{{ route('master-data.jenis-treatment.create') }}" class="btn btn-primary">Tambah Jenis Treatment</a>
-                    @endcan
+                    <a href="{{ route('master-data.jenis-treatment.create') }}" class="btn btn-primary">Tambah Jenis Treatment</a>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -55,22 +53,18 @@
                                 <td class="text-left">{{ $row->nama }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
-                                        @can('Edit Jenis Treatment')
-                                            <a href="{{ route('master-data.jenis-treatment.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endcan
+                                        <a href="{{ route('master-data.jenis-treatment.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
 
-                                        @can('Hapus Jenis Treatment')
-                                            <form action="{{ route('master-data.jenis-treatment.destroy', $row) }}" method="post"
-                                                data-nama="{{ $row->nama }}" class="form-delete">
-                                                @csrf
-                                                @method('delete')
-                                                <button class="btn btn-sm btn-danger" title="Hapus">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
-                                            </form>
-                                        @endcan
+                                        <form action="{{ route('master-data.jenis-treatment.destroy', $row) }}" method="post"
+                                            data-nama="{{ $row->nama }}" class="form-delete">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-sm btn-danger" title="Hapus">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

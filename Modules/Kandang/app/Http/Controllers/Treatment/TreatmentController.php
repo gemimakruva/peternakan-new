@@ -25,7 +25,9 @@ class TreatmentController extends Controller
         private JenisTreatmentRepository $jenisTreatmentRepository,
         private MetodeTreatmentRepository $metodeTreatmentRepository,
         private FlockRepository $flockRepository,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.treatment.menu-penjadwalan-treatment');
+    }
 
     public function index(Request $request)
     {

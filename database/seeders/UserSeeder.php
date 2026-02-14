@@ -23,89 +23,150 @@ class UserSeeder extends Seeder
         $roleSuperadmin = Role::create(['name' => 'Superadmin']);
         $superadmin->assignRole($roleSuperadmin);
 
-        // ## User & Role
-        $adminUser = User::factory()->create([
-            'name' => 'Admin User',
-            'email' => 'admin-user@peternakan.com',
+        // ## Admin User
+        $this->generateUserWithRole(
+            'Admin User',
+            'admin-user@peternakan.com',
+            'Admin User',
+            [
+                'master-data.setting.menu-user',
+                'master-data.setting.menu-role-permission',
+            ]
+        );
+
+        // ## Manager Produksi
+        $this->generateUserWithRole(
+            'Manager Produksi',
+            'manager-produksi@peternakan.com',
+            'Manager Produksi',
+            [
+                'master-data.master-data.menu-peternakan',
+                'master-data.master-data.menu-kandang',
+                'master-data.master-data.menu-flock',
+                'master-data.master-data.menu-list',
+                'master-data.master-data.menu-jenis-pakan',
+                'master-data.master-data.menu-jenis-treatment',
+                'master-data.master-data.menu-metode-treatment',
+
+                'kandang.strain.menu-strain-list',
+
+                'kandang.rekapan.menu-rekapan-produksi',
+                'kandang.populasi.menu-rekapan-populasi-ayam',
+                'kandang.populasi.menu-rekapan-karantina',
+                'kandang.pakan.menu-rekapan-pakan-harian',
+                'kandang.telur.menu-rekapan-produksi-telur',
+            ]
+        );
+
+        // ## SPV Kandang
+        $this->generateUserWithRole(
+            'SPV Kandang',
+            'spv-kandang@peternakan.com',
+            'SPV Kandang',
+            [
+                'kandang.rekapan.menu-rekapan-produksi',
+
+                'kandang.populasi.menu-pengadaan-ayam',
+                'kandang.populasi.menu-populasi-ayam',
+                'kandang.populasi.menu-rekapan-populasi-ayam',
+                'kandang.populasi.menu-afkir-ayam',
+                'kandang.populasi.menu-karantina-ayam',
+                'kandang.populasi.menu-rekapan-karantina',
+
+                'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.menu-rekapan-pakan-harian',
+
+                'kandang.telur.menu-produksi-telur',
+                'kandang.telur.menu-rekapan-produksi-telur',
+
+                'kandang.sampling.menu-sampling-bobot-ayam',
+            ]
+        );
+
+        ## Petugas Kandang
+        $this->generateUserWithRole(
+            'Petugas Kandang',
+            'petugas-kandang@peternakan.com',
+            'Petugas Kandang',
+            [
+                'kandang.populasi.menu-populasi-ayam',
+                'kandang.populasi.menu-karantina-ayam',
+                'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.telur.menu-produksi-telur',
+                'kandang.sampling.menu-sampling-bobot-ayam',
+                'kandang.treatment.menu-pelaksanaan-treatment',
+            ]
+        );
+
+        ## Dokter Hewan
+        $this->generateUserWithRole(
+            'Dokter Hewan',
+            'dokter-hewan@peternakan.com',
+            'Dokter Hewan',
+            [
+                'kandang.treatment.menu-penjadwalan-treatment',
+                'kandang.treatment.menu-pelaksanaan-treatment',
+                'kandang.monitoring.menu-monitoring-kesehatan',
+            ]
+        );
+    }
+
+    private function generateUserWithRole($userName, $userEmail, $roleName, $permissions)
+    {
+        $user = User::factory()->create([
+            'name' => $userName,
+            'email' => $userEmail,
         ]);
-        $roleAdminUser = Role::create(['name' => 'Admin User']);
-        $adminUser->assignRole($roleAdminUser);
+        $role = Role::create(['name' => $userName]);
+        $user->assignRole($roleName);
 
-        $systemPermissionsNames = [
-            'master-data.user.user-list',
-            'master-data.user.user-tambah',
-            'master-data.user.user-edit',
-            'master-data.user.user-hapus',
-
-            'master-data.role.role-list',
-            'master-data.role.role-tambah',
-            'master-data.role.role-edit',
-            'master-data.role.role-hapus',
-        ];
-        foreach ($systemPermissionsNames as $name) {
-            $sistemPermissions[] = Permission::create([
+        foreach ($permissions as $name) {
+            $permissionsObjs[] = Permission::firstOrCreate([
                 'name' => $name,
             ]);
         }
-        $roleAdminUser->permissions()->attach($sistemPermissions);
+        $role->permissions()->attach($permissionsObjs);
+    }
 
-        // # MASTER DATA
-        // ## Kandang
-        $userPetugasKandang = User::factory()->create([
-            'name' => 'Petugas Kandang',
-            'email' => 'petugas-kandang@peternakan.com'
-        ]);
-        $rolePetugasKandang = Role::create(['name' => 'Petugas Kandang']);
-        $userPetugasKandang->assignRole($rolePetugasKandang);
+    private function permissions()
+    {
+        return [
+            'master-data.setting.menu-user',
+            'master-data.setting.menu-role-permission',
 
-        $kandangPermissionsNames = [
-            'master-data.strain.strain-list',
+            'master-data.master-data.menu-peternakan',
+            'master-data.master-data.menu-kandang',
+            'master-data.master-data.menu-flock',
+            'master-data.master-data.menu-pipe',
+            'master-data.master-data.menu-jenis-pakan',
+            'master-data.master-data.menu-jenis-treatment',
+            'master-data.master-data.menu-metode-treatment',
 
-            'master-data.peternakan.peternakan-list',
-            'master-data.peternakan.peternakan-tambah',
-            'master-data.peternakan.peternakan-edit',
-            'master-data.peternakan.peternakan-hapus',
+            'kandang.strain.menu-strain',
 
-            'master-data.kandang.kandang-list',
-            'master-data.kandang.kandang-tambah',
-            'master-data.kandang.kandang-edit',
-            'master-data.kandang.kandang-hapus',
+            'kandang.rekapan.menu-rekapan-produksi',
 
-            'master-data.flock.flock-list',
-            'master-data.flock.flock-tambah',
-            'master-data.flock.flock-edit',
-            'master-data.flock.flock-hapus',
+            'kandang.populasi.menu-pengadaan-ayam',
+            'kandang.populasi.menu-populasi-ayam',
+            'kandang.populasi.menu-rekapan-populasi-ayam',
+            'kandang.populasi.menu-afkir-ayam',
+            'kandang.populasi.menu-karantina-ayam',
+            'kandang.populasi.menu-rekapan-karantina',
 
-            'master-data.pipe.pipe-list',
-            'master-data.pipe.pipe-tambah',
-            'master-data.pipe.pipe-edit',
-            'master-data.pipe.pipe-hapus',
+            'kandang.pakan.menu-perhitungan-pemberian-pakan',
+            'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+            'kandang.pakan.menu-rekapan-pakan-harian',
 
-            'master-data.jenis-pakan.jenis-pakan-list',
-            'master-data.jenis-pakan.jenis-pakan-tambah',
-            'master-data.jenis-pakan.jenis-pakan-edit',
-            'master-data.jenis-pakan.jenis-pakan-hapus',
+            'kandang.telur.menu-produksi-telur',
+            'kandang.telur.menu-rekapan-produksi-telur',
 
-            'master-data.jenis-disinfektan.jenis-disinfektan-list',
-            'master-data.jenis-disinfektan.jenis-disinfektan-tambah',
-            'master-data.jenis-disinfektan.jenis-disinfektan-edit',
-            'master-data.jenis-disinfektan.jenis-disinfektan-hapus',
+            'kandang.sampling.menu-sampling-bobot-ayam',
 
-            'master-data.jenis-treatment.jenis-treatment-list',
-            'master-data.jenis-treatment.jenis-treatment-tambah',
-            'master-data.jenis-treatment.jenis-treatment-edit',
-            'master-data.jenis-treatment.jenis-treatment-hapus',
+            'kandang.treatment.menu-penjadwalan-treatment',
+            'kandang.treatment.menu-pelaksanaan-treatment',
 
-            'master-data.metode-treatment.metode-treatment-list',
-            'master-data.metode-treatment.metode-treatment-tambah',
-            'master-data.metode-treatment.metode-treatment-edit',
-            'master-data.metode-treatment.metode-treatment-hapus',
+            'kandang.monitoring.menu-monitoring-kesehatan',
         ];
-        foreach ($kandangPermissionsNames as $name) {
-            $kandangPermissions[] = Permission::create([
-                'name' => $name,
-            ]);
-        }
-        $rolePetugasKandang->permissions()->attach($kandangPermissions);
     }
 }

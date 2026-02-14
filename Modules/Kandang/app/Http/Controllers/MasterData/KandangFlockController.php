@@ -16,7 +16,9 @@ class KandangFlockController extends Controller
         private Peternakan $peternakan,
         private Kandang $kandang,
         private Flock $flock,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-flock');
+    }
 
     public function create(Kandang $kandang)
     {

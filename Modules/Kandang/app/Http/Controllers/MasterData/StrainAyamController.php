@@ -10,6 +10,8 @@ class StrainAyamController extends Controller
 {
     public function index()
     {
+        $this->middleware('can:kandang.strain.menu-strain');
+
         $strains = Strain::all();
 
         $filterStrainId = request()->query('strain_id', 1);

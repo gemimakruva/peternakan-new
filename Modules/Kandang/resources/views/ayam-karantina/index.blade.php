@@ -36,8 +36,8 @@
                     method="get" 
                     class="w-100"
                 >
-                    <div class="d-flex gap-2">
-                        <x-adminlte-select name="kandang_id" fgroup-class="mb-0 mx-200">
+                    <div class="d-flex gap-3 align-items-end flex-column flex-sm-row">
+                        <x-adminlte-select name="kandang_id" fgroup-class="mb-0 w-100 mx-sm-200">
                             <x-adminlte-options 
                                 :options="$listKandang"
                                 empty-option="Semua Kandang ..."
@@ -48,18 +48,20 @@
                         <input 
                             type="search" 
                             name="search" 
-                            class="form-control mx-200" 
+                            class="form-control mx-sm-200" 
                             placeholder="Nama Pencatat"
                             value="{{ request()->query('search') }}"
                         >
 
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-primary" title="Cari">
+                                <i class="fas fa-search"></i>
+                            </button>
+    
+                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary">
+                                <i class="fas fa-undo"></i>
+                            </a>
+                        </div>
                     </div>
                 </form>
             </div>

@@ -16,8 +16,6 @@ class UserController extends Controller
      */
     public function index()
     {
-        Gate::authorize('Lihat Semua User');
-
         $search = request()->input('search');
 
         $datas = User::query()
@@ -39,8 +37,6 @@ class UserController extends Controller
      */
     public function create()
     {
-        Gate::authorize('Tambah User');
-
         $roles = Role::all();
 
         return view('user.create', compact('roles'));
@@ -51,8 +47,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('Tambah User');
-
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
@@ -79,8 +73,6 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        Gate::authorize('Edit User');
-
         $user = User::where('id', '<>', 1)->findOrFail($id);
         $roles = Role::all();
 
@@ -92,8 +84,6 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Gate::authorize('Edit User');
-
         $user = User::where('id', '<>', 1)->findOrFail($id);
 
         $validated = $request->validate([
@@ -122,8 +112,6 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        Gate::authorize('Hapus User');
-
         $user = User::where('id', '<>', 1)->findOrFail($id);
 
         try {

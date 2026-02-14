@@ -8,9 +8,7 @@
           <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Kandang</h1>
-                @can('Tambah Kandang')
-                    <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary">Tambah Kandang</a>
-                @endcan
+                <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary">Tambah Kandang</a>
             </div>
           </div>
           <div class="col-sm-6">
@@ -36,7 +34,7 @@
                 <form 
                     action="{{ route('master-data.kandang.index') }}" 
                     method="GET" 
-                    class="d-flex gap-3 align-items-end"
+                    class="d-flex gap-3 align-items-end flex-column flex-sm-row"
                     x-data="{
                         strainData: {{ Js::from($strain) }},
                         peternakanData: {{ Js::from($peternakan) }},
@@ -47,7 +45,7 @@
                     <select 
                         id="strainFilter"
                         name="strain_id" 
-                        class="form-control mx-200"
+                        class="form-control mx-sm-200"
                         x-model="selectedStrain">
                         <option value="">Semua Strain</option>
                         <template x-for="strain in strainData" :key="strain.id">
@@ -58,7 +56,7 @@
                     <select 
                         id="peternakanFilter"
                         name="peternakan_id" 
-                        class="form-control mx-200"
+                        class="form-control mx-sm-200"
                         x-model="selectedPeternakan">
                         <option value="">Semua Peternakan</option>
                         <template x-for="item in peternakanData" :key="item.id">
@@ -69,7 +67,7 @@
                     <input 
                         type="search"
                         name="search"
-                        class="form-control mx-200"
+                        class="form-control mx-sm-200"
                         placeholder="Nama Kandang..."
                         value="{{ request()->query('search') }}"
                     />
@@ -111,13 +109,11 @@
                                             <i class="fas fa-eye"></i>
                                         </a>
 
-                                        @can('Edit Kandang')
-                                            <a href="{{ route('master-data.kandang.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endcan
+                                        <a href="{{ route('master-data.kandang.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
 
-                                        @if (auth()->user()->can('Hapus Kandang') && !$row->flocks()->exists())
+                                        @if (!$row->flocks()->exists())
                                             <form action="{{ route('master-data.kandang.destroy', $row) }}" method="post"
                                                 data-nama="{{ $row->nama }}" class="form-delete">
                                                 @csrf

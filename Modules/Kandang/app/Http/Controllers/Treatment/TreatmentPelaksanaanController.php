@@ -14,7 +14,9 @@ class TreatmentPelaksanaanController extends Controller
     public function __construct(
         private TreatmentRepository $treatmentRepository,
         private TreatmentPelaksanaanRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.treatment.menu-pelaksanaan-treatment');
+    }
 
     public function index(Request $request)
     {

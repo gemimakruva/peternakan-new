@@ -4,6 +4,7 @@ namespace Modules\Kandang\Http\Controllers\RecordingTelur;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\ProduksiTelur\OverviewProduksiTelurRepository;
 
@@ -16,9 +17,11 @@ class OverviewProduksiTelurController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('kandang.telur.menu-rekapan-produksi-telur');
+
         $datas = $this->repository->paginate(
             $request->query('search'),
-            $request->collect(['kandang_id']),
+            $request->collect(['kandang_id', 'tanggal']),
             $request->collect('orders'),
             $request->query('perPage', 10),
         );

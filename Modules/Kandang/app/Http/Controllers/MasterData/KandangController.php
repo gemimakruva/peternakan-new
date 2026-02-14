@@ -26,15 +26,15 @@ class KandangController extends Controller
         private Flock $flock,
         private Pipe $pipe,
         private KandangRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-kandang');
+    }
 
     /**
      * Menampilkan seluruh data kandang dengan fitur search, sort, dan pagination.
      */
     public function index()
     {
-        Gate::authorize('Lihat Semua Kandang');
-
         $strain = $this->strain->get(['id', 'nama']);
         $peternakan = $this->peternakan->get(['id', 'nama']);
 
@@ -57,7 +57,6 @@ class KandangController extends Controller
      */
     public function create()
     {
-        Gate::authorize('Tambah Kandang');
         $peternakanList = Peternakan::all();
         $strainList = Strain::all(); 
         return view('kandang::master-data.kandang.create',
@@ -69,8 +68,6 @@ class KandangController extends Controller
      */
     public function store(Request $request)
     {
-        Gate::authorize('Tambah Kandang');
-
         $request->validate([
             'nama' => ['required', 'string', 'max:255'],
             'peternakan_id' => ['required', 'integer'],
@@ -154,8 +151,6 @@ class KandangController extends Controller
      */
     public function edit(Kandang $kandang)
     {
-        Gate::authorize('Edit Kandang');
-
         $peternakanList = Peternakan::all();
         $data = $kandang;
         $strainList = Strain::all();
@@ -168,8 +163,6 @@ class KandangController extends Controller
      */
     public function update(Request $request, Kandang $kandang)
     {
-        Gate::authorize('Edit Kandang');
-
         $validated = $request->validate([
             'nama' => [
                 'required',
@@ -192,7 +185,6 @@ class KandangController extends Controller
      */
     public function destroy($id)
     {
-        Gate::authorize('Hapus Kandang');
         $kandang = $this->kandang->findOrFail($id);
         if ($kandang->flocks()->exists()) {
             return redirect()->back()->with('error', 

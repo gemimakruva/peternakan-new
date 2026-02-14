@@ -11,7 +11,9 @@ class MetodeTreatmentController extends Controller
 {
     public function __construct(
         private MetodeTreatment $metodeTreatment,
-    ) { }
+    ) { 
+        $this->middleware('can:master-data.master-data.menu-metode-treatment');
+    }
 
     public function index()
     {

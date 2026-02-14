@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\AyamKarantina;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Http\Requests\AyamKarantina\StoreRequest;
 use Modules\Kandang\Http\Requests\AyamKarantina\UpdateRequest;
 use Modules\Kandang\Models\Kandang;
@@ -20,6 +21,8 @@ class AyamKarantinaController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('kandang.populasi.menu-karantina-ayam');
+
         $listKarantinaPopulasi = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['kandang_id']),
@@ -34,6 +37,8 @@ class AyamKarantinaController extends Controller
 
     public function create()
     {
+        Gate::authorize('kandang.populasi.menu-karantina-ayam');
+
         $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
 
         return view("kandang::ayam-karantina.create", compact("listKandang"));
@@ -44,6 +49,8 @@ class AyamKarantinaController extends Controller
      */
     public function edit(KarantinaPopulasi $karantinaPopulasi)
     {
+        Gate::authorize('kandang.populasi.menu-karantina-ayam');
+
         $karantinaPopulasi->load([
             'kandang:id,nama',
             'picUser:id,name',
@@ -56,6 +63,8 @@ class AyamKarantinaController extends Controller
 
     public function store(StoreRequest $request)
     {
+        Gate::authorize('kandang.populasi.menu-karantina-ayam');
+
         $request->merge([
             'pic_user_id' => auth()->id(),
         ]);
@@ -90,6 +99,8 @@ class AyamKarantinaController extends Controller
      */
     public function update(UpdateRequest $request, KarantinaPopulasi $karantinaPopulasi)
     {
+        Gate::authorize('kandang.populasi.menu-karantina-ayam');
+
         $karantinaPopulasi->fill($request->only([
             "ayam_mati",
             "ayam_afkir",
@@ -117,6 +128,7 @@ class AyamKarantinaController extends Controller
      */
     public function overview()
     {
+        Gate::authorize('kandang.populasi.menu-rekapan-karantina');
         $listAyamKarantina = KarantinaPopulasi::orderBy('created_at', 'desc')->limit(5)->get();
         return view('kandang::ayam-karantina.overview', compact('listAyamKarantina'));
     }

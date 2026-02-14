@@ -8,9 +8,7 @@
             <div class="col-sm-6">
                 <div class="d-flex align-items-center gap-1">
                     <h1>Peternakan</h1>
-                    @can('Tambah Peternakan')
-                        <a href="{{ route('master-data.peternakan.create') }}" class="btn btn-primary">Tambah Peternakan</a>
-                    @endcan
+                    <a href="{{ route('master-data.peternakan.create') }}" class="btn btn-primary">Tambah Peternakan</a>
                 </div>
             </div>
             <div class="col-sm-6">
@@ -57,13 +55,11 @@
                                 <td class="text-left">{{ $row->lokasi }}</td>
                                 <td class="text-center">
                                     <div class="d-flex justify-content-center" style="gap: .5em">
-                                        @can('Edit Peternakan')
-                                            <a href="{{ route('master-data.peternakan.edit', $row->id) }}" class="btn btn-sm btn-warning text-white" title="Edit">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        @endcan
+                                        <a href="{{ route('master-data.peternakan.edit', $row->id) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
 
-                                        @if (auth()->user()->can('Hapus Peternakan') && !$row->kandang()->exists())
+                                        @if (!$row->kandang()->exists())
                                             <form action="{{ route('master-data.peternakan.destroy', $row->id) }}" method="post"
                                                 data-nama="{{ $row->nama }}" class="form-delete">
                                                 @csrf

@@ -29,8 +29,15 @@
                 <h2 class="card-title">Filter</h2>
             </div>
             <div class="card-body">
-                <form action="{{ route('treatment.index') }}" method="get" class="d-flex gap-2">
-                    <x-adminlte-select name="kandang_id" fgroup-class="mb-0">
+                <form
+                    action="{{ route('treatment.index') }}"
+                    method="get"
+                    class="d-flex gap-3 align-items-end flex-column flex-sm-row"
+                >
+                    <x-adminlte-select
+                        name="kandang_id"
+                        fgroup-class="mb-0 w-100 mx-sm-200"
+                    >
                         <x-adminlte-options
                             :options="$listKandang"
                             empty-option="Semua Kandang ..."
@@ -43,16 +50,18 @@
                         name="search"
                         placeholder="Nama Pencatat ..."
                         :value="request()->query('search')"
-                        fgroup-class="mb-0"
+                        fgroup-class="mb-0 w-100 mx-sm-200"
                     />
                     
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary" type="submit">
+                            <i class="fas fa-search"></i>
+                        </button>
 
-                    <a href="{{ route('treatment.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
+                        <a href="{{ route('treatment.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-undo"></i>
+                        </a>
+                    </div>
                 </form>
             </div>
         </div>

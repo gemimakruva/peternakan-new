@@ -11,7 +11,9 @@ class AyamAfkirController extends Controller
     public function __construct(
         private AyamAfkir $ayamAfkir,
         private AyamAfkirRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.populasi.menu-afkir-ayam');
+    }
 
     public function index(Request $request)
     {

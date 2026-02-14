@@ -15,7 +15,9 @@ class MonitoringKesehatanController extends Controller
     public function __construct(
         private MonitoringKesehatanService $service,
         private KandangService $kandangService
-    ) {}
+    ) {
+        $this->middleware('can:kandang.monitoring.menu-monitoring-kesehatan');
+    }
 
     public function index(IndexRequest $request)
     {

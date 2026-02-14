@@ -31,7 +31,7 @@
 
         <div class="card-body">
             <form action="{{ route('monitoring-kesehatan.index') }}" method="GET" class="row g-2 align-items-end">
-                <div class="col-md-4 col-5">
+                <div class="col-md-4 col-sm-5 col-12 mb-2 mb-sm-0">
                     <label class="form-label">Range Tanggal</label>
                     <div class="row">
                         <div class="col-6">
@@ -43,7 +43,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-2 col-5">
+                <div class="col-md-2 col-sm-5 col-12 mb-2 mb-sm-0">
                     <label class="form-label">Kandang</label>
                     <select name="kandang_id" class="form-control">
                         <option selected disabled>Pilih Kandang...</option>
@@ -55,12 +55,18 @@
                     </select>
                 </div>
 
-                <div class="col-md-2 col-5">
+                <div class="col-md-2 col-sm-5 col-12 mb-2 mb-sm-0">
                     <label class="form-label">Tim Pelaksana</label>
-                    <input type="text" name="tim_pelaksana" value="{{ request('tim_pelaksana') }}" class="form-control" placeholder="Tim Pelaksana...">
+                    <input
+                        type="text"
+                        name="tim_pelaksana"
+                        value="{{ request('tim_pelaksana') }}"
+                        class="form-control"
+                        placeholder="Tim Pelaksana..."
+                    />
                 </div>
 
-                <div class="col-md-2 col-2">
+                <div class="col-md-2 col-sm-2 col-12 d-flex gap-2 justify-content-end justify-content-sm-start">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i>
                     </button>
@@ -78,9 +84,9 @@
                 <thead class="text-center">
                     <tr>
                         <th>No</th>
-                        <th>Tim Pelaksana</th>
                         <th>Tanggal Transaksi</th>
                         <th>Kandang</th>
+                        <th>Tim Pelaksana</th>
                         <th>Total Populasi Ayam</th>
                         <th>Jenis Penyakit Ditemukan</th>
                         <th>Aksi</th>
@@ -90,9 +96,9 @@
                     @forelse ($data as $item)
                         <tr>
                             <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $item->tim_pelaksana }}</td>
                             <td class="text-center">{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}</td>
                             <td>{{ $item->kandang->nama ?? '-' }}</td>
+                            <td>{{ $item->tim_pelaksana }}</td>
                             <td>{{ $item->total_populasi_ayam }}</td>
                             <td>{{ $item->detail_penyakit_ditemukan }}</td>
                             <td class="text-center">

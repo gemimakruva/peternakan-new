@@ -26,10 +26,22 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('overview-produksi-telur') }}" method="get" class="d-flex gap-2">
+            <form
+                action="{{ route('overview-produksi-telur') }}"
+                method="get"
+                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
+            >
+                <x-adminlte-input
+                    type="date"
+                    name="tanggal"
+                    label="Tanggal"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                    :value="request()->query('tanggal')"
+                />
+
                 <x-adminlte-select
                     name="kandang_id"
-                    fgroup-class="mb-0 mx-200"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
                 >
                     <x-adminlte-options
                         :options="$listKandang"
@@ -38,11 +50,13 @@
                     />
                 </x-adminlte-select>
 
-                <x-adminlte-button type="submit" theme="primary" icon="fas fa-search" />
+                <div class="d-flex gap-2">
+                    <x-adminlte-button type="submit" theme="primary" icon="fas fa-search" />
 
-                <a href="{{ route('overview-produksi-telur') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
+                    <a href="{{ route('overview-produksi-telur') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
             </form>
         </div>
     </div>

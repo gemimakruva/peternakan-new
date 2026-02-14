@@ -6,22 +6,25 @@ use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Modules\Kandang\Models\PerhitunganPakan;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
+use Modules\Kandang\Repositories\Pakan\JenisPakanRepository;
 use Modules\Kandang\Repositories\Pakan\PemberianPakanSisaPakanRepository;
 
 class PemberianPakanSisaPakanController extends Controller
 {
     public function __construct(
         private PemberianPakanSisaPakanRepository $repository,
-    ) { }
+        private KandangRepository $kandangRepository,
+        private JenisPakanRepository $jenisPakanRepository,
+    ) {
+        $this->middleware('can:kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan');
+    }
 
     public function index(Request $request)
     {
-        // column: tanggal, kandang, jenis pakan, pelaksana, pemberian pakan, sisa pakan
-        // filter: kandang_id, user_executor_id
         $datas = $this->repository->paginate(
             $request->query('search'),
-            null,
-            // $request->collect(['kandang_id', 'user_executor_id']),
+            $request->collect(['kandang_id', 'jenis_pakan_id']),
             $request->collect('orders'),
             $request->query('perPage', 10)
         );
@@ -31,7 +34,10 @@ class PemberianPakanSisaPakanController extends Controller
             return $item;
         });
 
-        return view('kandang::pemberian-pakan-sisa-pakan.index', compact('datas'));
+        $listKandang = $this->kandangRepository->getSelectItems();
+        $listJenisPakan = $this->jenisPakanRepository->getSelectItems();
+
+        return view('kandang::pemberian-pakan-sisa-pakan.index', compact(['datas', 'listKandang', 'listJenisPakan']));
     }
 
     /**

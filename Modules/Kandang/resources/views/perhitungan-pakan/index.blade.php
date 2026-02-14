@@ -30,10 +30,14 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('perhitungan-pakan.index') }}" method="get" class="d-flex gap-2">
+            <form
+                action="{{ route('perhitungan-pakan.index') }}" 
+                method="get" 
+                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
+            >
                 <select 
                     name="kandang_id" 
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                 >
                     <option value="" @selected(!request()->query('kandang_id'))>Semua Kandang</option>
                     @foreach ($listKandang as $id => $nama)
@@ -43,7 +47,7 @@
 
                 <select 
                     name="jenis_pakan_id"
-                    class="form-control mx-200"
+                    class="form-control mx-sm-200"
                 >
                     <option value="" @selected(!request()->query('jenis_pakan_id'))>Semua Jenis Pakan</option>
                     @foreach ($listJenisPakan as $id => $nama)
@@ -51,15 +55,23 @@
                     @endforeach
                 </select>
 
-                <input type="search" class="form-control mx-200" name="search" value="{{ request()->query('search') }}" placeholder="Kandang, Pencatat, Pelaksana ...">
+                <input
+                    type="search"
+                    class="form-control mx-sm-200"
+                    name="search"
+                    value="{{ request()->query('search') }}"
+                    placeholder="Pencatat, Pelaksana ..."
+                />
 
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-
-                <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
+                <div class="d-flex gap-2">
+                    <button class="btn btn-primary" type="submit">
+                        <i class="fas fa-search"></i>
+                    </button>
+    
+                    <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-secondary">
+                        <i class="fas fa-undo"></i>
+                    </a>
+                </div>
             </form>
         </div>
     </div>

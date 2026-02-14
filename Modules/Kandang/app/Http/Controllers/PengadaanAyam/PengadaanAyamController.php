@@ -25,7 +25,9 @@ class PengadaanAyamController extends Controller
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
         private BerkasPengadaanAyam $berkasPengadaanAyam,
         private PengadaanAyamDokumentasi $pengadaanAyamDokumentasi,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.populasi.menu-pengadaan-ayam');
+    }
 
     public function index()
     {

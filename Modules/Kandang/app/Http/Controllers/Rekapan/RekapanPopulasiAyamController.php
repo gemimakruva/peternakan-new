@@ -13,7 +13,9 @@ class RekapanPopulasiAyamController extends Controller
     public function __construct(
         private RekapanProduksiRepository $rekapanProduksiRepository,
         private Kandang $kandang,
-    ) { }
+    ) { 
+        $this->middleware('can:kandang.populasi.menu-rekapan-populasi-ayam');
+    }
 
     public function index(Request $request)
     {

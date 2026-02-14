@@ -15,7 +15,9 @@ class PopulasiAyam2Controller extends Controller
     public function __construct(
         private PopulasiAyamRepository $repository,
         private KandangRepository $kandangRepository,
-    ) { }
+    ) {
+        $this->middleware('can:kandang.populasi.menu-populasi-ayam');
+    }
 
     public function index(Request $request)
     {

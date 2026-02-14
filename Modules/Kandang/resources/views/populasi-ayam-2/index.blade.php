@@ -52,19 +52,19 @@
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
                     <tr>
-                        <th class="align-middle" rowspan="2" style="max-width: 40px;">#</th>
-                        <th class="align-middle" rowspan="2" style="max-width: 180px;">Kandang</th>
-                        <th class="align-middle" rowspan="2" style="max-width: 180px;">Tanggal</th>
-                        <th class="align-middle" rowspan="2" style="max-width: 60px;">Umur Ayam</th>
+                        <th class="align-middle" rowspan="2" style="min-width: 40px;">#</th>
+                        <th class="align-middle" rowspan="2" style="min-width: 180px;">Kandang</th>
+                        <th class="align-middle" rowspan="2" style="min-width: 180px;">Tanggal</th>
+                        <th class="align-middle" rowspan="2" style="min-width: 60px;">Umur Ayam</th>
                         <th class="align-middle" colspan="5">Total Ayam</th>
-                        <th class="align-middle" rowspan="2" style="max-width: 40px;">Aksi</th>
+                        <th class="align-middle" rowspan="2" style="min-width: 40px;">Aksi</th>
                     </tr>
                     <tr>
-                        <th class="align-middle">Sehat</th>
-                        <th class="align-middle">Mati</th>
-                        <th class="align-middle">Afkir</th>
-                        <th class="align-middle">Masuk Karantina</th>
-                        <th class="align-middle">Keluar Karantina</th>
+                        <th class="align-middle" style="min-width: 60px;">Sehat</th>
+                        <th class="align-middle" style="min-width: 60px;">Mati</th>
+                        <th class="align-middle" style="min-width: 60px;">Afkir</th>
+                        <th class="align-middle" style="min-width: 60px;">Masuk Karantina</th>
+                        <th class="align-middle" style="min-width: 60px;">Keluar Karantina</th>
                     </tr>
                 </thead>
                 <tbody>

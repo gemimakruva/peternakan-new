@@ -27,14 +27,14 @@
         >
             <thead>
                 <tr>
-                    <th class="align-middle" style="width: 40px;">#</th>
-                    <th class="align-middle" style="width: 200px;">Flock</th>
-                    <th class="align-middle" style="width: 200px;">Jumlah Ayam</th>
-                    <th class="align-middle" style="width: 100px;">Pemberian Pakan (kg)</th>
-                    <th class="align-middle" style="width: 100px;">Pemberian Pakan Pagi (kg)</th>
-                    <th class="align-middle" style="width: 100px;">Pemberian Pakan Sore (kg)</th>
-                    <th class="align-middle" style="width: 200px;">Sisa Pakan (kg)</th>
-                    <th class="align-middle" style="width: 200px;">Konsumsi (kg)</th>
+                    <th class="align-middle" style="min-width: 40px;">#</th>
+                    <th class="align-middle" style="min-width: 100px;">Flock</th>
+                    <th class="align-middle" style="min-width: 100px;">Jumlah Ayam</th>
+                    <th class="align-middle" style="min-width: 50px;">Pemberian Pakan (kg)</th>
+                    <th class="align-middle" style="min-width: 50px;">Pemberian Pakan Pagi (kg)</th>
+                    <th class="align-middle" style="min-width: 50px;">Pemberian Pakan Sore (kg)</th>
+                    <th class="align-middle" style="min-width: 100px;">Sisa Pakan (kg)</th>
+                    <th class="align-middle" style="min-width: 100px;">Konsumsi (kg)</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,7 +55,7 @@
                             <input type="hidden" name="items[{{ $id }}][pemberian_pakan_sore_kg]" value="{{ $row['pemberian_pakan_sore_kg'] }}">
                             <input 
                                 type="number"
-                                class="form-control form-control-sm"
+                                class="form-control"
                                 name="items[{{ $id }}][sisa_pakan_per_flock_kg]"
                                 step=".1"
                                 x-model="items[flock_id].sisa_pakan_per_flock_kg"

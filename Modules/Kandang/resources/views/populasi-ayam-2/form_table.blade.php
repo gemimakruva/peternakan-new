@@ -2,7 +2,7 @@
     <div class="card-header">
         <h2 class="card-title">Pencatatan Perubahan Populasi</h2>
     </div>
-    <div class="card-body p-0">
+    <div class="card-body p-0 table-responsive">
         <table
             class="table table-sm table-bordered"
             x-data="{
@@ -36,16 +36,16 @@
                 <tr style="vertical-align: middle; text-align: center;">
                     <th rowspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Flock</th>
                     <th rowspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Pipa</th>
-                    <th colspan="2" style="vertical-align: middle; text-align: center;">Sehat</th>
-                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Mati</th>
-                    <th rowspan="2" style="vertical-align: middle; text-align: center;">Afkir</th>
-                    <th colspan="2" style="vertical-align: middle; text-align: center;">Karantina</th>
+                    <th colspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Sehat</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Mati</th>
+                    <th rowspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Afkir</th>
+                    <th colspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Karantina</th>
                 </tr>
                 <tr style="vertical-align: middle; text-align: center;">
-                    <th style="vertical-align: middle; text-align: center;">Sebelum</th>
-                    <th style="vertical-align: middle; text-align: center;">Sesudah</th>
-                    <th style="vertical-align: middle; text-align: center;">Masuk</th>
-                    <th style="vertical-align: middle; text-align: center;">Keluar</th>
+                    <th style="vertical-align: middle; text-align: center; min-width: 100px;">Sebelum</th>
+                    <th style="vertical-align: middle; text-align: center; min-width: 100px;">Sesudah</th>
+                    <th style="vertical-align: middle; text-align: center; min-width: 100px;">Masuk</th>
+                    <th style="vertical-align: middle; text-align: center; min-width: 100px;">Keluar</th>
                 </tr>
             </thead>
             <tbody>
