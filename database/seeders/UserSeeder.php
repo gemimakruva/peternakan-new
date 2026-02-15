@@ -15,6 +15,8 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         // # SISTEM
         // ## Superadmin
         $superadmin = User::firstOrCreate([
@@ -86,6 +88,9 @@ class UserSeeder extends Seeder
                 'kandang.telur.detail-produksi-telur',
                 'kandang.telur.menu-rekapan-produksi-telur',
 
+                'kandang.treatment.menu-penjadwalan-treatment',
+                'kandang.treatment.menu-pelaksanaan-treatment',
+
                 'kandang.sampling.menu-sampling-bobot-ayam',
             ]
         );
@@ -107,6 +112,7 @@ class UserSeeder extends Seeder
                 'kandang.telur.detail-produksi-telur',
                 'kandang.sampling.menu-sampling-bobot-ayam',
                 'kandang.treatment.menu-pelaksanaan-treatment',
+                'kandang.treatment.list-unexecuted-only-pelaksanaan-treatment',
             ]
         );
 
@@ -162,7 +168,7 @@ class UserSeeder extends Seeder
             $permissionsObjs[] = Permission::firstOrCreate([
                 'name' => $name,
             ]);
-        }
+        }   
         $role->permissions()->sync($permissionsObjs);
     }
 
@@ -209,6 +215,7 @@ class UserSeeder extends Seeder
 
             'kandang.treatment.menu-penjadwalan-treatment',
             'kandang.treatment.menu-pelaksanaan-treatment',
+            'kandang.treatment.list-unexecuted-only-pelaksanaan-treatment',
 
             'kandang.monitoring.menu-monitoring-kesehatan',
         ];
