@@ -500,36 +500,25 @@ return [
             ],
         ],
         [
-            'text'  => 'Pemberian Pakan',
-            'icon'  => 'fas fa-file-signature',
-            'can' => [
-                'kandang.pakan.menu-perhitungan-pemberian-pakan',
-                'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
-                'kandang.pakan.menu-rekapan-pakan-harian',
-            ],
-            'submenu' =>[
-                [
-                    'text'  => 'Perhitungan Pemberian Pakan',
-                    'route' => 'perhitungan-pakan.index',
-                    'icon'  => 'fas fa-calculator',
-                    'active' => ['perhitungan-pakan/*'],
-                    'can'   => 'kandang.pakan.menu-perhitungan-pemberian-pakan',
-                ],
-                [
-                    'text'  => 'Pemberian Pakan Sisa Pakan',
-                    'route' => 'pemberian-pakan-sisa-pakan.index',
-                    'icon'  => 'fas fa-clipboard-check',
-                    'active' => ['pemberian-pakan-sisa-pakan/*'],
-                    'can'   => 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
-                ],
-                [
-                    'text'  => 'Rekapan Pakan Harian',
-                    'route' => 'overview-pakan-harian',
-                    'icon'  => 'fas fa-chart-line',
-                    'active' => ['overview-pakan-harian'],
-                    'can'   => 'kandang.pakan.menu-rekapan-pakan-harian',
-                ]
-            ]
+            'text'  => 'Perhitungan Pemberian Pakan',
+            'route' => 'perhitungan-pakan.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['perhitungan-pakan/*'],
+            'can'   => 'kandang.pakan.menu-perhitungan-pemberian-pakan',
+        ],
+        [
+            'text'  => 'Pemberian Pakan Sisa Pakan',
+            'route' => 'pemberian-pakan-sisa-pakan.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['pemberian-pakan-sisa-pakan/*'],
+            'can'   => 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+        ],
+        [
+            'text'  => 'Rekapan Pakan Harian',
+            'route' => 'overview-pakan-harian',
+            'icon'  => 'fas fa-chart-line',
+            'active' => ['overview-pakan-harian'],
+            'can'   => 'kandang.pakan.menu-rekapan-pakan-harian',
         ],
 
         // ====================   PRODUKSI TELUR  ==================
