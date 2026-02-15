@@ -50,6 +50,8 @@ class RoleController extends Controller
             'permissions.*' => 'exists:permissions,id',
         ]);
 
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         $role = Role::create(['name' => $validated['name']]);
 
         if (isset($validated['permissions'])) {
@@ -93,6 +95,8 @@ class RoleController extends Controller
             'permissions' => 'array',
             'permissions.*' => 'exists:permissions,id',
         ]);
+
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $role->update(['name' => $validated['name']]);
 
