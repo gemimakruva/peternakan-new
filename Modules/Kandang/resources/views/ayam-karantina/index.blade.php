@@ -94,7 +94,7 @@
                         <td class="text-right">{{ format_angka($item->ayam_afkir, 0) }}</td>
                         <td>
                             <div class="d-flex justify-content-center gap-2">
-                                <a href="{{ route('ayam-karantina.edit', $item->id) }}" class="btn btn-sm btn-warning">
+                                <a href="{{ route('ayam-karantina.edit', $item->id) }}" class="btn btn-sm btn-warning text-white">
                                     <i class="fas fa-edit"></i>
                                 </a>
                             </div>

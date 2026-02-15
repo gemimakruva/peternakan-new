@@ -53,13 +53,17 @@
                             <input type="hidden" name="items[{{ $id }}][pemberian_pakan_kg]" value="{{ $row['pemberian_pakan_kg'] }}">
                             <input type="hidden" name="items[{{ $id }}][pemberian_pakan_pagi_kg]" value="{{ $row['pemberian_pakan_pagi_kg'] }}">
                             <input type="hidden" name="items[{{ $id }}][pemberian_pakan_sore_kg]" value="{{ $row['pemberian_pakan_sore_kg'] }}">
-                            <input 
-                                type="number"
-                                class="form-control"
-                                name="items[{{ $id }}][sisa_pakan_per_flock_kg]"
-                                step=".1"
-                                x-model="items[flock_id].sisa_pakan_per_flock_kg"
-                            >
+                            @if (@$readonly)
+                                <span>{{ format_angka($row['sisa_pakan_per_flock_kg']) }}</span>
+                            @else
+                                <input 
+                                    type="number"
+                                    class="form-control"
+                                    name="items[{{ $id }}][sisa_pakan_per_flock_kg]"
+                                    step=".1"
+                                    x-model="items[flock_id].sisa_pakan_per_flock_kg"
+                                >
+                            @endif
                         </td>
                         <td class="text-right" x-text="konsumsi(flock_id)"></td>
                     </tr>

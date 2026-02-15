@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
+namespace Modules\Kandang\Http\Controllers\Rekapan;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
 
-class OverviewPakanHarianController extends Controller
+class RekapanPakanHarianController extends Controller
 {
     public function __construct(
         private OverviewPakanHarianRepository $repository,

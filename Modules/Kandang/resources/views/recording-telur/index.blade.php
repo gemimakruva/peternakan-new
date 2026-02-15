@@ -8,7 +8,9 @@
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Produksi Telur</h1>
-                <a href="{{ route('recording-telur.create') }}" class="btn btn-primary">Tambah Produksi Telur</a>
+                @can('kandang.telur.create-produksi-telur')
+                    <a href="{{ route('recording-telur.create') }}" class="btn btn-primary">Tambah Produksi Telur</a>
+                @endcan
             </div>
         </div>
         <div class="col-sm-6">
@@ -71,18 +73,18 @@
                 <thead class="text-center">
                     <tr>
                         <th class="align-middle" style="min-width:40px">#</th>
-                        <th class="align-middle" style="min-width:200px">Tanggal Transaksi</th>
-                        <th class="align-middle" style="min-width:160px">Petugas Pencatat</th>
-                        <th class="align-middle" style="min-width:160px">Kandang</th>
-                        <th class="align-middle" style="min-width:80px">Umur Ayam</th>
-                        <th class="align-middle" style="min-width:80px">Telur Bagus</th>
-                        <th class="align-middle" style="min-width:80px">Berat Telur Bagus (kg)</th>
-                        <th class="align-middle" style="min-width:80px">Telur Putih</th>
-                        <th class="align-middle" style="min-width:80px">Berat Telur Putih (kg)</th>
-                        <th class="align-middle" style="min-width:80px">Telur Reject</th>
-                        <th class="align-middle" style="min-width:80px">Berat Telur Reject (kg)</th>
-                        <th class="align-middle" style="min-width:80px">Total Butir Telur</th>
-                        <th class="align-middle" style="min-width:80px">Total Berat Telur (kg)</th>
+                        <x-sort-th class="align-middle" style="min-width:200px" label="Tanggal Transaksi" name="tanggal" />
+                        <x-sort-th class="align-middle" style="min-width:160px" label="Petugas Pencatat" name="" />
+                        <x-sort-th class="align-middle" style="min-width:160px" label="Kandang" name="nama_kandang" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Umur Ayam" name="umur_telur" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Telur Bagus" name="jumlah_telur_bagus" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Berat Telur Bagus (kg)" name="berat_telur_bagus" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Telur Putih" name="jumlah_telur_putih" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Berat Telur Putih (kg)" name="berat_telur_putih" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Telur Reject" name="jumlah_telur_reject" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Berat Telur Reject (kg)" name="berat_telur_reject" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Total Butir Telur" name="total_jumlah_telur" />
+                        <x-sort-th class="align-middle" style="min-width:80px" label="Total Berat Telur (kg)" name="total_berat_telur" />
                         <th class="align-middle" style="min-width:100px">Aksi</th>
                     </tr>
                 </thead>
@@ -91,38 +93,35 @@
                         <tr>
                             <td class="text-right">{{ $listProduksiTelur->firstItem() + $loop->index }}</td>
                             <td>{{ $item->tanggal->translatedFormat('l, d F Y') }}</td>
-                            <td>{{ $item->picUser->name ?? '-' }}</td>
-                            <td>{{ $item->kandang->nama ?? '-' }}</td>
+                            <td>{{ $item->nama_pic_user ?? '-' }}</td>
+                            <td>{{ $item->nama_kandang ?? '-' }}</td>
                             <td class="text-right">{{ $item->umur_ayam }}</td>
-                            <td class="text-right">{{ format_angka($item->produksiTelurItems->sum('jumlah_telur_bagus'), 0) }}</td>
-                            <td class="text-right">{{ format_angka($item->produksiTelurItems->sum('berat_telur_bagus')) }}</td>
-                            <td class="text-right">{{ format_angka($item->produksiTelurItems->sum('jumlah_telur_putih'), 0) }}</td>
-                            <td class="text-right">{{ format_angka($item->produksiTelurItems->sum('berat_telur_putih')) }}</td>
-                            <td class="text-right">{{ format_angka($item->produksiTelurItems->sum('jumlah_telur_reject'), 0) }}</td>
-                            <td class="text-right">{{ format_angka($item->produksiTelurItems->sum('berat_telur_reject')) }}</td>
+                            <td class="text-right">{{ format_angka($item->jumlah_telur_bagus, 0) }}</td>
+                            <td class="text-right">{{ format_angka($item->berat_telur_bagus) }}</td>
+                            <td class="text-right">{{ format_angka($item->jumlah_telur_putih, 0) }}</td>
+                            <td class="text-right">{{ format_angka($item->berat_telur_putih) }}</td>
+                            <td class="text-right">{{ format_angka($item->jumlah_telur_reject, 0) }}</td>
+                            <td class="text-right">{{ format_angka($item->berat_telur_reject) }}</td>
+                            <td class="text-right">{{ format_angka($item->total_jumlah_telur, 0) }}</td>
+                            <td class="text-right">{{ format_angka($item->total_berat_telur) }}</td>
                             <td class="text-right">
-                                {{format_angka(
-                                    $item->produksiTelurItems->sum('jumlah_telur_bagus')
-                                    + $item->produksiTelurItems->sum('jumlah_telur_putih')
-                                    + $item->produksiTelurItems->sum('jumlah_telur_reject')
-                                    , 0
-                                )}}
-                            </td>
-                            <td class="text-right">
-                                {{format_angka(
-                                    $item->produksiTelurItems->sum('berat_telur_bagus')
-                                    + $item->produksiTelurItems->sum('berat_telur_putih')
-                                    + $item->produksiTelurItems->sum('berat_telur_reject')
-                                    , 0
-                                )}}
-                            </td>
-                            <td class="text-right">
-                                <div class="d-flex justify-content-center">
-                                    <a href="{{ route('recording-telur.edit', $item->id) }}" 
-                                       class="btn btn-warning btn-sm mr-2 text-white" 
-                                       title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                <div class="d-flex justify-content-center gap-1">
+                                    @can('kandang.telur.edit-produksi-telur')
+                                        <a href="{{ route('recording-telur.edit', $item->id) }}" 
+                                        class="btn btn-warning btn-sm text-white" 
+                                        title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    @endcan
+                                    @can('kandang.telur.detail-produksi-telur')
+                                        <a
+                                            href="{{ route('recording-telur.show', $item->id) }}"
+                                            class="btn btn-info btn-sm text-white"
+                                            title="Detail"
+                                        >
+                                            <div class="fas fa-eye"></div>
+                                        </a>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

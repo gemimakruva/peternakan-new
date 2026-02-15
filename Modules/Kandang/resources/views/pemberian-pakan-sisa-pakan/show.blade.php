@@ -1,0 +1,96 @@
+@extends('layouts.dashboard')
+
+@section('title', 'Detail Pemberian Pakan Sisa Pakan')
+
+@section('content_header')
+<div class="container-fluid">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <div class="d-flex align-items-center">
+                <h1>Detail Pemberian Pakan Sisa Pakan</h1>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item active">Pemberian Pakan</li>
+                <li class="breadcrumb-item"><a href="{{ route('pemberian-pakan-sisa-pakan.index') }}">Pemberian Pakan Sisa Pakan</a></li>
+                <li class="breadcrumb-item active">Detail</li>
+            </ol>
+        </div>
+    </div>
+</div>
+@endsection
+
+@php
+$informations = [
+    ['Tanggal Pemberian Pakan', $perhitunganPakan->tanggal_pemberian_pakan->translatedFormat('l, d F Y')],
+    ['Kandang', $perhitunganPakan->kandang->nama],
+    ['Pemberian Pagi', "{$perhitunganPakan->proporsi_pemberian_pagi}%, Jam {$perhitunganPakan->waktu_pemberian_pagi} WIB"],
+    ['Pemberian Sore', "{$perhitunganPakan->proporsi_pemberian_sore}%, Jam {$perhitunganPakan->waktu_pemberian_sore} WIB"],
+    ['Pencatat', $perhitunganPakan->userCreator->name],
+    ['Pelaksana', $perhitunganPakan->userExecutor->name],
+    ['Jenis Pakan', $perhitunganPakan->jenisPakan->nama],
+    ['Catatan', $perhitunganPakan->catatan],
+];
+@endphp
+
+@section('content')
+<div class="mx-1200">
+    <x-form-alert />
+
+    <div class="row">
+        <div class="col-12 col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Informasi Pemberian Pakan</h2>
+                </div>
+                <div class="card-body">
+                    <div class="informations-wrapper">
+                        @foreach ($informations as $info)
+                            <div class="item">
+                                <span class="label">{{ $info[0] }}</span>
+                                <span class="value">: {{ $info[1] }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+            
+            @include('kandang::pemberian-pakan-sisa-pakan._form', ['readonly' => true])
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card sticy-form-action">
+                <div class="card-header">
+                    <h2 class="card-title">Aksi</h2>
+                </div>
+                <div class="card-body d-flex gap-2">
+                    <a href="{{ route('pemberian-pakan-sisa-pakan.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
+                    @can('kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan')
+                        <a href="{{ route('pemberian-pakan-sisa-pakan.edit', $perhitunganPakan->id) }}" class="btn btn-warning flex-1">Edit</a>
+                    @endcan
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@endsection
+
+@push('css')
+    <style>
+        .informations-wrapper {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        .informations-wrapper .item {
+            display: flex;
+        }
+        .informations-wrapper .item .label {
+            font-weight: bold;
+            flex: 1;
+        }
+        .informations-wrapper .item .value {
+            flex: 1;
+        }
+    </style>
+@endpush

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 
 class UserSeeder extends Seeder
@@ -16,12 +17,12 @@ class UserSeeder extends Seeder
     {
         // # SISTEM
         // ## Superadmin
-        $superadmin = User::factory()->create([
+        $superadmin = User::firstOrCreate([
             'name' => 'Superadmin',
             'email' => 'superadmin@peternakan.com',
         ]);
-        $roleSuperadmin = Role::create(['name' => 'Superadmin']);
-        $superadmin->assignRole($roleSuperadmin);
+        $roleSuperadmin = Role::firstOrCreate(['name' => 'Superadmin']);
+        $superadmin->syncRoles($roleSuperadmin);
 
         // ## Admin User
         $this->generateUserWithRole(
@@ -75,9 +76,14 @@ class UserSeeder extends Seeder
 
                 'kandang.pakan.menu-perhitungan-pemberian-pakan',
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.menu-rekapan-pakan-harian',
 
                 'kandang.telur.menu-produksi-telur',
+                'kandang.telur.list-produksi-telur',
+                'kandang.telur.detail-produksi-telur',
                 'kandang.telur.menu-rekapan-produksi-telur',
 
                 'kandang.sampling.menu-sampling-bobot-ayam',
@@ -93,7 +99,12 @@ class UserSeeder extends Seeder
                 'kandang.populasi.menu-populasi-ayam',
                 'kandang.populasi.menu-karantina-ayam',
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
                 'kandang.telur.menu-produksi-telur',
+                'kandang.telur.list-produksi-telur',
+                'kandang.telur.detail-produksi-telur',
                 'kandang.sampling.menu-sampling-bobot-ayam',
                 'kandang.treatment.menu-pelaksanaan-treatment',
             ]
@@ -110,23 +121,49 @@ class UserSeeder extends Seeder
                 'kandang.monitoring.menu-monitoring-kesehatan',
             ]
         );
+
+        ## Petugas Gudang Telur
+        $this->generateUserWithRole(
+            'Petugas Gudang Telur',
+            'petugas-gudang-telur@peternakan.com',
+            'Petugas Gudang Telur',
+            [
+                'kandang.telur.menu-produksi-telur',
+                'kandang.telur.list-produksi-telur',
+                'kandang.telur.detail-produksi-telur',
+            ]
+        );
+
+        ## Petugas Gudang Pakan
+        $this->generateUserWithRole(
+            'Petugas Gudang Pakan',
+            'petugas-gudang-pakan@peternakan.com',
+            'Petugas Gudang Pakan',
+            [
+                'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
+                'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
+            ]
+        );
     }
 
     private function generateUserWithRole($userName, $userEmail, $roleName, $permissions)
     {
-        $user = User::factory()->create([
+        $user = User::firstOrCreate([
             'name' => $userName,
             'email' => $userEmail,
+        ], [
+            'password' => Hash::make('password'),
         ]);
-        $role = Role::create(['name' => $userName]);
-        $user->assignRole($roleName);
+        $role = Role::firstOrCreate(['name' => $userName]);
+        $user->syncRoles($roleName);
 
         foreach ($permissions as $name) {
             $permissionsObjs[] = Permission::firstOrCreate([
                 'name' => $name,
             ]);
         }
-        $role->permissions()->attach($permissionsObjs);
+        $role->permissions()->sync($permissionsObjs);
     }
 
     private function permissions()
@@ -156,10 +193,17 @@ class UserSeeder extends Seeder
 
             'kandang.pakan.menu-perhitungan-pemberian-pakan',
             'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
+            'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
+            'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',
+            'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
             'kandang.pakan.menu-rekapan-pakan-harian',
 
             'kandang.telur.menu-produksi-telur',
-            'kandang.telur.menu-rekapan-produksi-telur',
+            'kandang.telur.list-produksi-telur',
+            'kandang.telur.create-produksi-telur',
+            'kandang.telur.edit-produksi-telur',
+            'kandang.telur.detail-produksi-telur',
+            'kandang.pakan.menu-rekapan-produksi-telur',
 
             'kandang.sampling.menu-sampling-bobot-ayam',
 

@@ -16,15 +16,15 @@ use Modules\Kandang\Http\Controllers\MasterData\StrainAyamController;
 use Modules\Kandang\Http\Controllers\MonitoringKesehatan\MonitoringKesehatanController;
 use Modules\Kandang\Http\Controllers\PengadaanAyam\PengadaanAyamController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\JenisPakanController;
-use Modules\Kandang\Http\Controllers\PerhitunganPakan\OverviewPakanHarianController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PemberianPakanSisaPakanController;
 use Modules\Kandang\Http\Controllers\PerhitunganPakan\PerhitunganPakanController;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyam2Controller;
 use Modules\Kandang\Http\Controllers\PopulasiAyam\PopulasiAyamController;
-use Modules\Kandang\Http\Controllers\RecordingTelur\OverviewProduksiTelurController;
 use Modules\Kandang\Http\Controllers\RecordingTelur\RecordingTelurController;
 use Modules\Kandang\Http\Controllers\Rekapan\ProduksiController;
+use Modules\Kandang\Http\Controllers\Rekapan\RekapanPakanHarianController;
 use Modules\Kandang\Http\Controllers\Rekapan\RekapanPopulasiAyamController;
+use Modules\Kandang\Http\Controllers\Rekapan\RekapanProduksiTelurController;
 use Modules\Kandang\Http\Controllers\SamplingAyam\SamplingAyamController;
 use Modules\Kandang\Http\Controllers\Treatment\TreatmentController;
 use Modules\Kandang\Http\Controllers\Treatment\TreatmentPelaksanaanController;
@@ -106,8 +106,8 @@ Route::middleware(['auth'])->group(function () {
         ->except('show', 'destroy');
     Route::resource('pemberian-pakan-sisa-pakan', PemberianPakanSisaPakanController::class)->names('pemberian-pakan-sisa-pakan')
         ->parameters(['pemberian-pakan-sisa-pakan' => 'perhitungan-pakan'])
-        ->except('create', 'show', 'update', 'destroy');
-    Route::get('overview-pakan-harian', [OverviewPakanHarianController::class, 'index'])->name('overview-pakan-harian');
+        ->except('create', 'update', 'destroy');
+    Route::get('overview-pakan-harian', [RekapanPakanHarianController::class, 'index'])->name('overview-pakan-harian');
 
     // ===== Menu Rekapan =====
     Route::get('rekapan-produksi', [ProduksiController::class, 'index'])->name('rekapan-produksi.index');
@@ -116,7 +116,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');
-    Route::get('overview-produksi-telur', [OverviewProduksiTelurController::class, 'index'])->name('overview-produksi-telur');
+    Route::get('overview-produksi-telur', [RekapanProduksiTelurController::class, 'index'])->name('overview-produksi-telur');
 
     Route::resource('sampling-ayam', SamplingAyamController::class)->names('sampling-ayam');
 

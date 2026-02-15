@@ -84,7 +84,7 @@
                                             <i class="fas fa-info-circle"></i>
                                         </button> --}}
 
-                                        <a href="{{ route('ayam-afkir.edit', $afkir->id) }}" class="btn btn-sm btn-warning">
+                                        <a href="{{ route('ayam-afkir.edit', $afkir->id) }}" class="btn btn-sm btn-warning text-white">
                                             <i class="fas fa-edit"></i>
                                         </a>
                                     </div>
