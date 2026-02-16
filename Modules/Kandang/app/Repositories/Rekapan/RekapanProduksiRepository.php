@@ -37,6 +37,7 @@ class RekapanProduksiRepository extends EloquentRepository
             })
             ->selectRaw(<<<SQL
                 xpaq.id
+                , xpaq.kandang_id
                 , xpaq.nama_kandang
                 , xpaq.tanggal
                 , xpaq.umur

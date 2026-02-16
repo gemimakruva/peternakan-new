@@ -34,7 +34,7 @@
                         placeholder="Semua Kandang"
                     >
                         <x-adminlte-options
-                            :options="$listKandang->toArray()"
+                            :options="$listKandang"
                             empty-option="Semua Kandang"
                             :selected="request()->query('kandang_id')"
                         />
@@ -96,6 +96,8 @@
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="FCR" name="fcr" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Egg Weight" name="egg_weight" />
                         <x-sort-th class="align-middle" style="min-width: 80px;" label="Egg Mass" name="egg_mass" />
+
+                        <th style="min-width: 40px;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -141,6 +143,17 @@
                             <td class="text-right">{{ format_angka($data->fcr) }}</td>
                             <td class="text-right">{{ format_angka($data->egg_weight) }}</td>
                             <td class="text-right">{{ format_angka($data->egg_mass) }}</td>
+
+                            <td>
+                                <div class="d-flex justify-content-between">
+                                    <a
+                                        href="{{ route('rekapan-produksi.report', [ 'tanggal' => $data->tanggal->format('Y-m-d'), 'kandang_id' => $data->kandang_id ]) }}"
+                                        class="btn btn-info btn-sm"
+                                    >
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                </div>
+                            </td>
                         </tr>
                     @empty
                         <tr>

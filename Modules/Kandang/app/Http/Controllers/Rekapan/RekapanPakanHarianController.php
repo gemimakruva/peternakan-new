@@ -27,6 +27,6 @@ class RekapanPakanHarianController extends Controller
 
         $listKandang = $this->kandang->pluck('nama', 'id')->toArray();
         
-        return view('kandang::overview.pakan.index', compact(['datas', 'listKandang']));
+        return view('kandang::rekapan.pakan.index', compact(['datas', 'listKandang']));
     }
 }
