@@ -59,6 +59,8 @@ class UserSeeder extends Seeder
                 'kandang.pakan.menu-rekapan-pakan-harian',
                 'kandang.telur.menu-rekapan-produksi-telur',
 
+                'kandang.treatment.menu-pelaksanaan-treatment',
+
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.detail-monitoring-kesehatan',
@@ -94,6 +96,7 @@ class UserSeeder extends Seeder
 
                 'kandang.treatment.menu-penjadwalan-treatment',
                 'kandang.treatment.menu-pelaksanaan-treatment',
+                'kandang.treatment.edit-pelaksanaan-treatment',
 
                 'kandang.sampling.menu-sampling-bobot-ayam',
 
@@ -120,6 +123,7 @@ class UserSeeder extends Seeder
                 'kandang.telur.detail-produksi-telur',
                 'kandang.sampling.menu-sampling-bobot-ayam',
                 'kandang.treatment.menu-pelaksanaan-treatment',
+                'kandang.treatment.edit-pelaksanaan-treatment',
                 'kandang.treatment.list-unexecuted-only-pelaksanaan-treatment',
             ]
         );
@@ -132,6 +136,7 @@ class UserSeeder extends Seeder
             [
                 'kandang.treatment.menu-penjadwalan-treatment',
                 'kandang.treatment.menu-pelaksanaan-treatment',
+                'kandang.treatment.edit-pelaksanaan-treatment',
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.create-monitoring-kesehatan',
@@ -227,6 +232,7 @@ class UserSeeder extends Seeder
 
             'kandang.treatment.menu-penjadwalan-treatment',
             'kandang.treatment.menu-pelaksanaan-treatment',
+            'kandang.treatment.edit-pelaksanaan-treatment',
             'kandang.treatment.list-unexecuted-only-pelaksanaan-treatment',
 
             'kandang.monitoring.menu-monitoring-kesehatan',

@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Pelaksanaan Treatment')
+@section('title', "Jadwal Treatment Kandang \"$data->nama_kandang\" Bulan $data->nama_bulan")
 
 @section('content_header')
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1>Pelaksanaan Treatment</h1>
+                <h1>{{ "Jadwal Treatment Kandang \"$data->nama_kandang\" Bulan $data->nama_bulan" }}</h1>
             </div>
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
@@ -39,7 +39,9 @@
                             <th class="align-middle" style="max-width: 180px;">Dosis</th>
                             <th class="align-middle" style="max-width: 180px;">Selesai Pada</th>
                             <th class="align-middle" style="max-width: 180px;">Selesai Oleh</th>
-                            <th class="align-middle" style="max-width: 40px;">Aksi</th>
+                            @can('kandang.treatment.edit-pelaksanaan-treatment')
+                                <th class="align-middle" style="max-width: 40px;">Aksi</th>
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -82,13 +84,15 @@
                                     <td>{{ $jadwal->dosis }}</td>
                                     <td>{{ $jadwal->executed_at?->translatedFormat('l, d F Y, H:i') }}</td>
                                     <td>{{ $jadwal->executedBy?->name }}</td>
-                                    <td>
-                                        <div class="d-flex justify-content-center gap-1">
-                                            <a href="{{ route('treatment-pelaksanaan.jadwal.pelaksanaan', [$data->id_kandang, $data->bulan, $jadwal->id]) }}" class="btn btn-primary btn-sm">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                        </div>
-                                    </td>
+                                    @can('kandang.treatment.edit-pelaksanaan-treatment')
+                                        <td>
+                                            <div class="d-flex justify-content-center gap-1">
+                                                <a href="{{ route('treatment-pelaksanaan.jadwal.pelaksanaan', [$data->id_kandang, $data->bulan, $jadwal->id]) }}" class="btn btn-primary btn-sm">
+                                                    <i class="fas fa-edit"></i>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    @endcan
                                 </tr>
                             @endforeach
                         @empty
