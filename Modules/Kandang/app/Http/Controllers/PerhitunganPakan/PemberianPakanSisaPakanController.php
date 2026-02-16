@@ -5,6 +5,7 @@ namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 use App\Http\Controllers\Controller;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Pakan\JenisPakanRepository;
@@ -22,6 +23,8 @@ class PemberianPakanSisaPakanController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('kandang.pakan.list-pemberian-pakan-dan-sisa-pakan');
+
         $datas = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['kandang_id', 'jenis_pakan_id']),
@@ -40,10 +43,10 @@ class PemberianPakanSisaPakanController extends Controller
         return view('kandang::pemberian-pakan-sisa-pakan.index', compact(['datas', 'listKandang', 'listJenisPakan']));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {
+    public function store(Request $request) 
+    {
+        Gate::authorize('kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan');
+
         $validated = $request->validate([
             'perhitungan_pakan_id'              => ['required', 'exists:perhitungan_pakan,id'],
             'items'                             => ['required', 'array'],
@@ -64,11 +67,10 @@ class PemberianPakanSisaPakanController extends Controller
         return back()->with('success', 'Data pemberian pakan dan sisa pakan berhasil disimpan.');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(PerhitunganPakan $perhitunganPakan)
     {
+        Gate::authorize('kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan');
+
         $perhitunganPakan->load([
             'kandang',
             'perhitunganPakanItems.flock',
@@ -96,5 +98,38 @@ class PemberianPakanSisaPakanController extends Controller
         }
         $tables = collect($tables);
         return view('kandang::pemberian-pakan-sisa-pakan.edit', compact(['perhitunganPakan', 'tables']));
+    }
+
+    public function show(PerhitunganPakan $perhitunganPakan)
+    {
+        Gate::authorize('kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan');
+
+        $perhitunganPakan->load([
+            'kandang',
+            'perhitunganPakanItems.flock',
+            'userCreator',
+            'userExecutor',
+            'jenisPakan',
+            'pemberianPakanSisaPakan'
+        ]);
+
+        $flockIds = $perhitunganPakan->perhitunganPakanItems->pluck('flock_id')->unique()->values();
+
+        if ($flockIds->count() === 0) {
+            return to_route('pemberian-pakan-sisa-pakan.index')->with('danger', 'Pemberian Pakan Belum Ditambahkan.');
+        }
+
+        foreach ($flockIds as $id) {
+            $collectByFlock = $perhitunganPakan->perhitunganPakanItems->filter(fn($item) => $item->flock_id == $id);
+            $tables[$id]['flock_id']                 = $id;
+            $tables[$id]['nama_flock']               = $perhitunganPakan->perhitunganPakanItems->first(fn($item) => $item->flock_id == $id)->flock->nama;
+            $tables[$id]['jumlah_ayam']              = $collectByFlock->sum('jumlah_ayam');
+            $tables[$id]['pemberian_pakan_kg']       = $collectByFlock->sum(fn($item2) => $item2->jumlah_ayam*$item2->pemberian_pakan_per_ekor)/1000;
+            $tables[$id]['pemberian_pakan_pagi_kg']  = $tables[$id]['pemberian_pakan_kg'] * ($perhitunganPakan->proporsi_pemberian_pagi/100);
+            $tables[$id]['pemberian_pakan_sore_kg']  = $tables[$id]['pemberian_pakan_kg'] * ($perhitunganPakan->proporsi_pemberian_sore/100);
+            $tables[$id]['sisa_pakan_per_flock_kg']  = $perhitunganPakan->pemberianPakanSisaPakan->first(fn($item) => $item->flock_id == $id)?->sisa_pakan_per_flock_kg ?? 0;
+        }
+        $tables = collect($tables);
+        return view('kandang::pemberian-pakan-sisa-pakan.show', compact(['perhitunganPakan', 'tables']));
     }
 }

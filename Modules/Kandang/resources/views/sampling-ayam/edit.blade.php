@@ -24,7 +24,7 @@
     @include('components.form-alert')
 
     <div class="row">
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-lg-9">
             <form action="{{ route('sampling-ayam.update', $samplingBobotAyam->id) }}" method="POST" id="form-sampling-ayam">
                 @csrf
                 @method('PUT')
@@ -33,12 +33,12 @@
                         <h2 class="card-title">Form Sampling Bobot Ayam</h2>
                     </div>
                     <div class="card-body">
-                        @include('kandang::sampling-ayam._form')
+                        @include('kandang::sampling-ayam._form', ['readonly' => true])
                     </div>
                 </div>
             </form>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-lg-3">
             <div class="card sticy-form-action">
                 <div class="card-header">
                     <h2 class="card-title">Aksi</h2>

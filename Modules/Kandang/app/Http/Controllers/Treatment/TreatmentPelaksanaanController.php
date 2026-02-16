@@ -48,6 +48,9 @@ class TreatmentPelaksanaanController extends Controller
             ->getModel()
             ->with([
                 'treatmentJadwal' => function ($r) {
+                    if (auth()->user()->hasPermissionTo('kandang.treatment.list-unexecuted-only-pelaksanaan-treatment')) {
+                        $r->where('executed_at', '=', null);
+                    }
                     $r->orderBy('waktu');
                 },
                 'treatmentJadwal.jenisTreatment:id,nama',
@@ -56,8 +59,17 @@ class TreatmentPelaksanaanController extends Controller
             ])
             ->where('kandang_id', '=', $kandangId)
             ->where(DB::raw('month(tanggal)'), '=', $bulan)
+            ->when(
+                auth()->user()->hasPermissionTo('kandang.treatment.list-unexecuted-only-pelaksanaan-treatment'),
+                function ($q, $isListUnexecutedOnly) {
+                    if ($isListUnexecutedOnly) {
+                        $q->whereRelation('treatmentJadwal', 'executed_at', '=', null);
+                    }
+                }
+            )
             ->orderBy('tanggal')
             ->get();
+
         return view('kandang::treatment.pelaksanaan.jadwal', compact(['data', 'datas']));
     }
 

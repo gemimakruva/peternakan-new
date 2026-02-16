@@ -27,7 +27,7 @@
     @include('components.form-alert')
 
     <div class="row justify-content-center">
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-lg-9">
             <form
                 action="{{ route('populasi-ayam-2.update', [request()->route('kandangId'), request()->route('tanggal')]) }}" 
                 method="POST" 
@@ -39,7 +39,7 @@
             </form>
         </div>
 
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-lg-3">
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Aksi</h2>

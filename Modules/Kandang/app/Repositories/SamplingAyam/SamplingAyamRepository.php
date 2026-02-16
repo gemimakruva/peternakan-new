@@ -17,9 +17,9 @@ class SamplingAyamRepository extends EloquentRepository
     public function getQuery(): Builder
     {
         $samplingQuery = DB::table('sampling_bobot_ayam_per_ekor as sbape')
-            ->join('sampling_bobot_ayam as sba', 'sba.id', '=', 'sbape.sampling_bobot_ayam_id')
-            ->join('kandang as k', 'k.id', '=', 'sba.kandang_id')
-            ->join('strain_standart_metric as ssm', function($join) {
+            ->leftJoin('sampling_bobot_ayam as sba', 'sba.id', '=', 'sbape.sampling_bobot_ayam_id')
+            ->leftJoin('kandang as k', 'k.id', '=', 'sba.kandang_id')
+            ->leftJoin('strain_standart_metric as ssm', function($join) {
                 $join
                     ->on('ssm.strain_id', '=', 'k.strain_id')
                     ->on('ssm.umur', '=', 'sba.umur')
@@ -32,9 +32,8 @@ class SamplingAyamRepository extends EloquentRepository
             SQL)
             ->groupBy('sbape.sampling_bobot_ayam_id');
         
-        
         $samplingQuery2 = DB::table('sampling_bobot_ayam_per_ekor as sbape')
-            ->joinSub($samplingQuery, 'xs', 'xs.sampling_bobot_ayam_id', '=', 'sbape.sampling_bobot_ayam_id')
+            ->leftJoinSub($samplingQuery, 'xs', 'xs.sampling_bobot_ayam_id', '=', 'sbape.sampling_bobot_ayam_id')
             ->selectRaw(<<<SQL
                 sbape.sampling_bobot_ayam_id
                 , count(sbape.bobot_per_kg) as jumlah_sampling
@@ -59,10 +58,10 @@ class SamplingAyamRepository extends EloquentRepository
             ->from('sampling_bobot_ayam as sba')
             ->join('users as pu', 'pu.id', '=', 'sba.pencatat_user_id')
             ->join('kandang as k', 'k.id', '=', 'sba.kandang_id')
-            ->joinSub($samplingQuery2, 'xsbape', function ($join) {
+            ->leftJoinSub($samplingQuery2, 'xsbape', function ($join) {
                 $join->on('xsbape.sampling_bobot_ayam_id', '=', 'sba.id');
             })
-            ->joinSub($populasiQuery, 'xp', function ($join) {
+            ->leftJoinSub($populasiQuery, 'xp', function ($join) {
                 $join->on('xp.kandang_id', '=', 'sba.kandang_id')
                     ->on('xp.tanggal', '=', 'sba.tanggal');
             })

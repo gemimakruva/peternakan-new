@@ -4,9 +4,11 @@ namespace Modules\Kandang\Http\Controllers\RecordingTelur;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\ProduksiTelur;
 use Modules\Kandang\Models\ProduksiTelurItem;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
+use Modules\Kandang\Repositories\ProduksiTelur\RecordingTelurRepository;
 use Modules\Kandang\Services\PopulasiAyamService;
 
 class RecordingTelurController extends Controller
@@ -16,23 +18,21 @@ class RecordingTelurController extends Controller
         private ProduksiTelurItem $produksiTelurItem,
         private KandangRepository $kandangRepository,
         private PopulasiAyamService $populasiAyamService,
+        private RecordingTelurRepository $repository,
     ) {
         $this->middleware('can:kandang.telur.menu-produksi-telur');
     }
     
     public function index(Request $request)
     {
-        $listProduksiTelur = $this->produksiTelur
-            ->with(['picUser', 'produksiTelurItems'])
-            ->when($request->filled('kandang_id'), function($query) use ($request) {
-                $query->where('kandang_id', '=', $request->query('kandang_id'));
-            })
-            ->when($request->filled('tanggal'), function($query) use ($request) {
-                $query->whereDate('tanggal', '=', $request->date('tanggal'));
-            })
-            ->orderBy('tanggal', 'desc')
-            ->paginate($request->query('perPage', $request->query('perPage', 10)))
-            ->withQueryString();
+        Gate::authorize('kandang.telur.list-produksi-telur');
+
+        $listProduksiTelur = $this->repository->paginate(
+            $request->query('search'),
+            $request->collect(['tanggal', 'kandang_id']),
+            $request->collect('orders'),
+            $request->query('perPage', 10),
+        );
         
         $listKandang = $this->kandangRepository->getSelectItems();
 
@@ -45,6 +45,8 @@ class RecordingTelurController extends Controller
     
     public function create()
     {
+        Gate::authorize('kandang.telur.create-produksi-telur');
+        
         $listKandang = $this->kandangRepository->getModel()->pluck('nama', 'id')->toArray();
 
         return view("kandang::recording-telur.create", compact('listKandang'));
@@ -55,6 +57,8 @@ class RecordingTelurController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('kandang.telur.create-produksi-telur');
+
         $validated = $request->validate([
             'tanggal'   => [
                 'required', 
@@ -90,6 +94,8 @@ class RecordingTelurController extends Controller
      */
     public function edit($id)
     {
+        Gate::authorize('kandang.telur.edit-produksi-telur');
+
         $produksiTelur = $this->produksiTelur
             ->with([
                 'kandang.flocks',
@@ -122,11 +128,49 @@ class RecordingTelurController extends Controller
         return view('kandang::recording-telur.edit', compact(['listKandang', 'produksiTelur', 'items']));
     }
 
+    public function show($id)
+    {
+        Gate::authorize('kandang.telur.detail-produksi-telur');
+
+        $produksiTelur = $this->produksiTelur
+            ->with([
+                'kandang.flocks',
+                'produksiTelurItems',
+            ])
+            ->findOrFail($id);
+
+        if ($produksiTelur->produksiTelurItems->count() === 0) {
+            foreach ($produksiTelur->kandang->flocks as $flock) {
+                $items[$flock->id] = [
+                    'nama_flock'            => $flock->nama,
+                    'flock_id'              => $flock->id,
+                    'jumlah_telur_bagus'    => 0,
+                    'jumlah_telur_putih'    => 0,
+                    'jumlah_telur_reject'   => 0,
+                    'berat_telur_bagus'     => 0,
+                    'berat_telur_putih'     => 0,
+                    'berat_telur_reject'    => 0,
+                ];
+            }
+        } else {
+            foreach ($produksiTelur->produksiTelurItems as $item) {
+                $items[$item->flock_id] = $item->toArray();
+                $items[$item->flock_id]['nama_flock'] = $item->flock->nama;
+            }
+        }
+
+        $listKandang = $this->kandangRepository->getModel()->pluck('nama', 'id')->toArray();
+
+        return view('kandang::recording-telur.show', compact(['listKandang', 'produksiTelur', 'items']));
+    }
+
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('kandang.telur.edit-produksi-telur');
+
         $produksiTelur = $this->produksiTelur->findOrFail($id);
 
         $request->validate([
@@ -136,7 +180,7 @@ class RecordingTelurController extends Controller
                 'unique:produksi_telur,tanggal,' . $id . ',id,kandang_id,' . $produksiTelur->kandang_id
             ],
             'items'                         => ['required', 'array'],
-            'items.*.flock_id'                 => ['required', 'numeric', 'exists:flock,id'],
+            'items.*.flock_id'              => ['required', 'numeric', 'exists:flock,id'],
             'items.*.jumlah_telur_bagus'    => ['required', 'numeric'],
             'items.*.berat_telur_bagus'     => ['required', 'numeric'],
             'items.*.jumlah_telur_putih'    => ['required', 'numeric'],

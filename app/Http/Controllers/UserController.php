@@ -61,6 +61,8 @@ class UserController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         $user->assignRole($validated['roles']);
 
         return redirect()
@@ -93,6 +95,8 @@ class UserController extends Controller
             'roles' => 'required|array|min:1',
             'roles.*' => 'exists:roles,name',
         ]);
+
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         $user->update([
             'name' => $validated['name'],

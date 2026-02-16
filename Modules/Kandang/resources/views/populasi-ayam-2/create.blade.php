@@ -26,7 +26,7 @@
     @include('components.form-alert')
 
     <div class="row justify-content-center">
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-lg-9">
             <form action="{{ route('populasi-ayam-2.store') }}" method="POST" id="form-populasi-ayam">
                 @csrf
                 <div class="card">
@@ -56,7 +56,7 @@
             </form>
         </div>
 
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-lg-3">
             <div class="card">
                 <div class="card-header">
                     <h2 class="card-title">Aksi</h2>

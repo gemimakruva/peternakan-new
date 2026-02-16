@@ -37,7 +37,7 @@
         method="post"
     >
         @csrf
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-lg-8">
             <div class="card">
                 <div class="card-body">
                     <div class="wrapper">
@@ -121,7 +121,7 @@
                 </div>
             @endif
         </div>
-        <div class="col-12 col-md-4">
+        <div class="col-12 col-lg-4">
             <div class="card">
                 <div class="card-header sticy-form-action">
                     <h2 class="card-title">Aksi</h2>

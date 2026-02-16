@@ -50,10 +50,13 @@ class RoleController extends Controller
             'permissions.*' => 'exists:permissions,id',
         ]);
 
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         $role = Role::create(['name' => $validated['name']]);
 
         if (isset($validated['permissions'])) {
-            $role->syncPermissions($validated['permissions']);
+            $permissions = app(Permission::class)->whereIn('id', $validated['permissions'])->get();
+            $role->syncPermissions($permissions);
         }
 
         return redirect()
@@ -93,10 +96,13 @@ class RoleController extends Controller
             'permissions.*' => 'exists:permissions,id',
         ]);
 
+        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+
         $role->update(['name' => $validated['name']]);
 
         if (isset($validated['permissions'])) {
-            $role->syncPermissions($validated['permissions']);
+            $permissions = app(Permission::class)->whereIn('id', $validated['permissions'])->get();
+            $role->syncPermissions($permissions);
         } else {
             $role->syncPermissions([]);
         }

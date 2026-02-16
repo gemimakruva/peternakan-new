@@ -22,6 +22,14 @@ class TreatmentPelaksanaanRepository extends EloquentRepository
     {
         $query = $this->model
             ->query()
+            ->when(
+                auth()->user()->hasPermissionTo('kandang.treatment.list-unexecuted-only-pelaksanaan-treatment'),
+                function ($q, $isListUnexecutedOnly) {
+                    if ($isListUnexecutedOnly) {
+                        $q->where('executed_at', '=', null);
+                    }
+                }
+            )
             ->join('treatment as t', 't.id', '=', 'treatment_jadwal.treatment_id')
             ->join('kandang as k', 'k.id', '=', 't.kandang_id')
             ->join('users as uc', 'uc.id', '=', 't.user_creator_id')

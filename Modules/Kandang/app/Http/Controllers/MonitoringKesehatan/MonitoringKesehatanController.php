@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\MonitoringKesehatan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Http\Requests\MonitoringKesehatan\IndexRequest;
 use Modules\Kandang\Http\Requests\MonitoringKesehatan\StoreRequest;
 use Modules\Kandang\Http\Requests\MonitoringKesehatan\UpdateRequest;
@@ -21,6 +22,8 @@ class MonitoringKesehatanController extends Controller
 
     public function index(IndexRequest $request)
     {
+        Gate::authorize('kandang.monitoring.list-monitoring-kesehatan');
+
         $data    = $this->service->getDatatable($request->validated());
         $kandang = $this->kandangService->all();
 
@@ -29,11 +32,15 @@ class MonitoringKesehatanController extends Controller
 
     public function create()
     {
+        Gate::authorize('kandang.monitoring.create-monitoring-kesehatan');
+
         return view('kandang::monitoring-kesehatan.create');
     }
 
     public function store(StoreRequest $request)
     {
+        Gate::authorize('kandang.monitoring.create-monitoring-kesehatan');
+
         try {
             $this->service->store($request->validated());
         } catch (\Throwable $th) {
@@ -48,16 +55,22 @@ class MonitoringKesehatanController extends Controller
 
     public function show(MonitoringKesehatan $monitoringKesehatan)
     {
+        Gate::authorize('kandang.monitoring.detail-monitoring-kesehatan');
+
         return view('kandang::monitoring-kesehatan.show', compact('monitoringKesehatan'));
     }
 
     public function edit(MonitoringKesehatan $monitoringKesehatan)
     {
+        Gate::authorize('kandang.monitoring.edit-monitoring-kesehatan');
+
         return view('kandang::monitoring-kesehatan.edit', compact('monitoringKesehatan'));
     }
 
     public function update(UpdateRequest $request, MonitoringKesehatan $monitoringKesehatan)
     {
+        Gate::authorize('kandang.monitoring.edit-monitoring-kesehatan');
+
         try {
             $this->service->update($request->validated(), $monitoringKesehatan);
         } catch (\Throwable $th) {

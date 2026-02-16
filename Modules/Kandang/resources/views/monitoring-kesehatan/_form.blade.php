@@ -237,13 +237,15 @@
                             </x-adminlte-input>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary btn-prev">
-                            Sebelumnya
-                        </button>
-                        <button type="button" class="btn btn-primary btn-next">
-                            Selanjutnya
-                        </button>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary btn-prev">
+                                Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary btn-next">
+                                Selanjutnya
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -324,13 +326,15 @@
                         </div>
 
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary btn-prev">
-                            Sebelumnya
-                        </button>
-                        <button type="button" class="btn btn-primary btn-next">
-                            Selanjutnya
-                        </button>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary btn-prev">
+                                Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary btn-next">
+                                Selanjutnya
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -361,13 +365,15 @@
                             </x-adminlte-textarea>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary btn-prev">
-                            Sebelumnya
-                        </button>
-                        <button type="button" class="btn btn-primary btn-next">
-                            Selanjutnya
-                        </button>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary btn-prev">
+                                Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary btn-next">
+                                Selanjutnya
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -392,13 +398,15 @@
                             </x-adminlte-textarea>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary btn-prev">
-                            Sebelumnya
-                        </button>
-                        <button type="button" class="btn btn-primary btn-next">
-                            Selanjutnya
-                        </button>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary btn-prev">
+                                Sebelumnya
+                            </button>
+                            <button type="button" class="btn btn-primary btn-next">
+                                Selanjutnya
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -446,13 +454,15 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-secondary btn-prev">
-                            Sebelumnya
-                        </button>
-                        <button type="submit" class="btn btn-success">
-                            Simpan
-                        </button>
+                    <div class="card-footer">
+                        <div class="d-flex justify-content-between">
+                            <button type="button" class="btn btn-secondary btn-prev">
+                                Sebelumnya
+                            </button>
+                            <button type="submit" class="btn btn-success">
+                                Simpan
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>

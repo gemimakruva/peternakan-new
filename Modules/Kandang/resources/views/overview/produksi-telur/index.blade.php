@@ -1,17 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Overview Produksi Telur')
+@section('title', 'Rekapan Produksi Telur')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Overview Produksi Telur</h1>
+            <h1>Rekapan Produksi Telur</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item active">Produksi Telur</li>
-                <li class="breadcrumb-item active">Overview Produksi Telur</li>
+                <li class="breadcrumb-item active">Rekapan Produksi Telur</li>
             </ol>
         </div>
     </div>
@@ -112,7 +112,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3">Data overview produksi telur tidak ditemukan.</td>
+                            <td colspan="3">Data Rekapan produksi telur tidak ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>

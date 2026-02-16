@@ -1,20 +1,20 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Pemberian Pakan Sisa Pakan')
+@section('title', 'Detail Pemberian Pakan Sisa Pakan')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
             <div class="d-flex align-items-center">
-                <h1>Tambah Pemberian Pakan Sisa Pakan</h1>
+                <h1>Detail Pemberian Pakan Sisa Pakan</h1>
             </div>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item active">Pemberian Pakan</li>
                 <li class="breadcrumb-item"><a href="{{ route('pemberian-pakan-sisa-pakan.index') }}">Pemberian Pakan Sisa Pakan</a></li>
-                <li class="breadcrumb-item active">Tambah</li>
+                <li class="breadcrumb-item active">Detail</li>
             </ol>
         </div>
     </div>
@@ -56,11 +56,7 @@ $informations = [
                 </div>
             </div>
             
-            <form action="{{ route('pemberian-pakan-sisa-pakan.store') }}" method="post" id="form-pemberian-pakan-sisa-pakan">
-                @csrf
-                <input type="hidden" name="perhitungan_pakan_id" value="{{ $perhitunganPakan->id }}">
-                @include('kandang::pemberian-pakan-sisa-pakan._form')
-            </form>
+            @include('kandang::pemberian-pakan-sisa-pakan._form', ['readonly' => true])
         </div>
         <div class="col-12 col-lg-3">
             <div class="card sticy-form-action">
@@ -69,7 +65,9 @@ $informations = [
                 </div>
                 <div class="card-body d-flex gap-2">
                     <a href="{{ route('pemberian-pakan-sisa-pakan.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
-                    <button class="btn btn-primary flex-1" form="form-pemberian-pakan-sisa-pakan">Simpan</button>
+                    @can('kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan')
+                        <a href="{{ route('pemberian-pakan-sisa-pakan.edit', $perhitunganPakan->id) }}" class="btn btn-warning flex-1">Edit</a>
+                    @endcan
                 </div>
             </div>
         </div>

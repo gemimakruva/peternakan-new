@@ -24,18 +24,18 @@
 @section('content')
 <div class="mx-1200 row">
     <div class="col-md-9 col-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Form Role</h4>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('role.store') }}" method="post" id="form-role">
-                    @csrf
+        <form action="{{ route('role.store') }}" method="post" id="form-role">
+            @csrf
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Form Role</h4>
+                </div>
+                <div class="card-body">
                     @include('role._form')
-                </form>
+                </div>
             </div>
-        </div>
-        @include('role._form_permissions')
+            @include('role._form_permissions')
+        </form>
     </div>
     <div class="col-md-3 col-12">
         <div class="card">

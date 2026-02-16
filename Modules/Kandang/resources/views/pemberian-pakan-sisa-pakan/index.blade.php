@@ -90,10 +90,17 @@
                             <td class="text-right">{{ format_angka($row->pemberian_pakan_kg) ?? 0 }}</td>
                             <td class="text-right">{{ format_angka($row->sisa_pakan_kg) }}</td>
                             <td class="text-center">
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('pemberian-pakan-sisa-pakan.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
+                                <div class="d-flex justify-content-center gap-1">
+                                    @can('kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan')
+                                        <a href="{{ route('pemberian-pakan-sisa-pakan.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    @endcan
+                                    @can('kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan')
+                                        <a href="{{ route('pemberian-pakan-sisa-pakan.show', $row) }}" class="btn btn-sm btn-info text-white" title="Detail">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>

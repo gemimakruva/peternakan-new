@@ -4,6 +4,7 @@ namespace Modules\Kandang\Http\Controllers\SamplingAyam;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Modules\Kandang\Models\SamplingBobotAyam;
 use Modules\Kandang\Models\SamplingBobotAyamPerEkor;
@@ -23,6 +24,8 @@ class SamplingAyamController extends Controller
     
     public function index(Request $request)
     {
+        Gate::authorize('kandang.sampling.list-sampling-bobot-ayam');
+
         $datas = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['kandang_id', 'tanggal']),
@@ -37,12 +40,17 @@ class SamplingAyamController extends Controller
     
     public function create()
     {
+        Gate::authorize('kandang.sampling.create-sampling-bobot-ayam');
+
         $listKandang = $this->kandangRepository->getSelectItems();
+
         return view("kandang::sampling-ayam.create", compact('listKandang'));
     }
 
     public function store(Request $request)
     {
+        Gate::authorize('kandang.sampling.create-sampling-bobot-ayam');
+
         $request['umur'] = $request->usia_ayam_saat_ini;
 
         $validated = $request->validate([
@@ -95,8 +103,23 @@ class SamplingAyamController extends Controller
         }
     }
 
+    public function show($id)
+    {
+        Gate::authorize('kandang.sampling.detail-sampling-bobot-ayam');
+
+        $samplingBobotAyam = $this->samplingBobotAyam
+            ->with(['kandang', 'samplingBobotAyamPerEkor'])
+            ->findOrFail($id);
+        
+        $listKandang = $this->kandangRepository->getSelectItems();
+        
+        return view('kandang::sampling-ayam.show', compact('samplingBobotAyam', 'listKandang'));
+    }
+
     public function edit($id)
     {
+        Gate::authorize('kandang.sampling.edit-sampling-bobot-ayam');
+
         $samplingBobotAyam = $this->samplingBobotAyam
             ->with(['kandang', 'samplingBobotAyamPerEkor'])
             ->findOrFail($id);
@@ -111,6 +134,8 @@ class SamplingAyamController extends Controller
      */
     public function update(Request $request, $id)
     {
+        Gate::authorize('kandang.sampling.edit-sampling-bobot-ayam');
+
         $request['umur'] = $request->usia_ayam_saat_ini;
 
         $validated = $request->validate([
@@ -172,6 +197,8 @@ class SamplingAyamController extends Controller
      */
     public function destroy($id)
     {
+        Gate::authorize('kandang.sampling.delete-sampling-bobot-ayam');
+
         try{
             DB::beginTransaction();
             

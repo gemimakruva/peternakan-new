@@ -25,18 +25,14 @@
 
     <div class="row">
         <div class="col-12 col-lg-9">
-            <form action="{{ route('recording-telur.update', $produksiTelur->id) }}" method="POST" id="form-produksi-telur">
-                @csrf
-                @method('PUT')
-                <div class="card">
-                    <div class="card-header">
-                        <h2 class="card-title">Form Edit Produksi Telur</h2>
-                    </div>
-                    <div class="card-body">
-                        @include('kandang::recording-telur._form', ['data' => $produksiTelur])
-                    </div>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title">Form Edit Produksi Telur</h2>
                 </div>
-            </form>
+                <div class="card-body">
+                    @include('kandang::recording-telur._form', ['data' => $produksiTelur, 'readonly' => true])
+                </div>
+            </div>
         </div>
         <div class="col-12 col-lg-3">
             <div class="card sticy-form-action">
@@ -46,7 +42,9 @@
                 <div class="card-body">
                     <div class="d-flex gap-3">
                         <a href="{{ route('recording-telur.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
-                        <button class="btn btn-primary flex-1" type="submit" form="form-produksi-telur">Simpan</button>
+                        @can('kandang.telur.edit-produksi-telur')
+                            <a href="{{ route('recording-telur.edit', $produksiTelur) }}" class="btn btn-warning flex-1">Edit</a>
+                        @endcan
                     </div>
                 </div>
             </div>
