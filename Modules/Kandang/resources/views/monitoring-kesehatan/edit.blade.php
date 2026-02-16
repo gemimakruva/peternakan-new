@@ -15,7 +15,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-md-9 mb-4">
+        <div class="col-12 col-lg-9 mb-4">
             @include('components.form-alert')
             <div class="card shadow-sm border-0">
                 <div class="card-body">

@@ -23,7 +23,7 @@
     @include('components.form-alert')
 
     <div class="row">
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-lg-9">
             <form action="{{ route('sampling-ayam.store') }}" method="POST" id="form-sampling-ayam">
                 @csrf
                 <div class="card">
@@ -36,7 +36,7 @@
                 </div>
             </form>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-lg-3">
             <div class="card sticy-form-action">
                 <div class="card-header">
                     <h2 class="card-title">Aksi</h2>

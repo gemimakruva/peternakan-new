@@ -13,7 +13,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-12 col-md-9 mb-4">
+        <div class="col-12 col-lg-9 mb-4">
             @include('components.form-alert')
             @include('kandang::monitoring-kesehatan._form')
         </div>
