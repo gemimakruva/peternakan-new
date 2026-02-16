@@ -14,7 +14,7 @@ class RekapanProduksiTelurController extends Controller
         private OverviewProduksiTelurRepository $repository,
         private Kandang $kandang,
     ) {
-        $this->middleware('can:kandang.pakan.menu-rekapan-produksi-telur');
+        $this->middleware('can:kandang.telur.menu-rekapan-produksi-telur');
     }
 
     public function index(Request $request)

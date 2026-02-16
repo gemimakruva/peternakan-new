@@ -58,6 +58,10 @@ class UserSeeder extends Seeder
                 'kandang.populasi.menu-rekapan-karantina',
                 'kandang.pakan.menu-rekapan-pakan-harian',
                 'kandang.telur.menu-rekapan-produksi-telur',
+
+                'kandang.monitoring.menu-monitoring-kesehatan',
+                'kandang.monitoring.list-monitoring-kesehatan',
+                'kandang.monitoring.detail-monitoring-kesehatan',
             ]
         );
 
@@ -92,6 +96,10 @@ class UserSeeder extends Seeder
                 'kandang.treatment.menu-pelaksanaan-treatment',
 
                 'kandang.sampling.menu-sampling-bobot-ayam',
+
+                'kandang.monitoring.menu-monitoring-kesehatan',
+                'kandang.monitoring.list-monitoring-kesehatan',
+                'kandang.monitoring.detail-monitoring-kesehatan',
             ]
         );
 
@@ -125,6 +133,10 @@ class UserSeeder extends Seeder
                 'kandang.treatment.menu-penjadwalan-treatment',
                 'kandang.treatment.menu-pelaksanaan-treatment',
                 'kandang.monitoring.menu-monitoring-kesehatan',
+                'kandang.monitoring.list-monitoring-kesehatan',
+                'kandang.monitoring.create-monitoring-kesehatan',
+                'kandang.monitoring.detail-monitoring-kesehatan',
+                'kandang.monitoring.edit-monitoring-kesehatan',
             ]
         );
 
@@ -218,6 +230,10 @@ class UserSeeder extends Seeder
             'kandang.treatment.list-unexecuted-only-pelaksanaan-treatment',
 
             'kandang.monitoring.menu-monitoring-kesehatan',
+            'kandang.monitoring.list-monitoring-kesehatan',
+            'kandang.monitoring.create-monitoring-kesehatan',
+            'kandang.monitoring.detail-monitoring-kesehatan',
+            'kandang.monitoring.edit-monitoring-kesehatan',
         ];
     }
 }

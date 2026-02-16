@@ -8,7 +8,9 @@
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Monitoring Kesehatan</h1>
-                <a href="{{ route('monitoring-kesehatan.create') }}" class="btn btn-primary">Tambah Monitoring Kesehatan</a>
+                @can('kandang.monitoring.create-monitoring-kesehatan')
+                    <a href="{{ route('monitoring-kesehatan.create') }}" class="btn btn-primary">Tambah Monitoring Kesehatan</a>
+                @endcan
             </div>
         </div>
         <div class="col-sm-6">
@@ -102,12 +104,16 @@
                             <td>{{ $item->total_populasi_ayam }}</td>
                             <td>{{ $item->detail_penyakit_ditemukan }}</td>
                             <td class="text-center">
-                                <a href="{{ route('monitoring-kesehatan.edit', $item->id) }}" class="btn btn-warning btn-sm">
-                                    <i class="fa fa-edit"></i>
-                                </a>
-                                <a href="{{ route('monitoring-kesehatan.show', $item->id) }}" class="btn btn-info btn-sm">
-                                    <i class="fa fa-eye"></i>
-                                </a>
+                                @can('kandang.monitoring.edit-monitoring-kesehatan')
+                                    <a href="{{ route('monitoring-kesehatan.edit', $item->id) }}" class="btn btn-warning btn-sm">
+                                        <i class="fa fa-edit"></i>
+                                    </a>
+                                @endcan
+                                @can('kandang.monitoring.detail-monitoring-kesehatan')
+                                    <a href="{{ route('monitoring-kesehatan.show', $item->id) }}" class="btn btn-info btn-sm">
+                                        <i class="fa fa-eye"></i>
+                                    </a>
+                                @endcan
                             </td>
                         </tr>
                     @empty
