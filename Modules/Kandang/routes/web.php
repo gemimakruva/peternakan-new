@@ -111,6 +111,7 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Menu Rekapan =====
     Route::get('rekapan-produksi', [ProduksiController::class, 'index'])->name('rekapan-produksi.index');
+    Route::get('rekapan-produksi/report', [ProduksiController::class, 'report'])->name('rekapan-produksi.report');
     Route::get('rekapan-produksi/export', [ProduksiController::class, 'exportIndex'])->name('rekapan-produksi.index.export');
     Route::get('rekapan-populasi-ayam', [RekapanPopulasiAyamController::class, 'index'])->name('rekapan-populasi-ayam.index');
 

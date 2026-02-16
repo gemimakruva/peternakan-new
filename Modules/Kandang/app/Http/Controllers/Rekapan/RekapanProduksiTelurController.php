@@ -30,6 +30,6 @@ class RekapanProduksiTelurController extends Controller
 
         $listKandang = $this->kandang->orderBy('nama')->pluck('nama', 'id')->toArray();
 
-        return view('kandang::overview.produksi-telur.index', compact(['datas', 'listKandang']));
+        return view('kandang::rekapan.produksi-telur.index', compact(['datas', 'listKandang']));
     }
 }
