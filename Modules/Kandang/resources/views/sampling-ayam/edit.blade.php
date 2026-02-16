@@ -33,7 +33,7 @@
                         <h2 class="card-title">Form Sampling Bobot Ayam</h2>
                     </div>
                     <div class="card-body">
-                        @include('kandang::sampling-ayam._form')
+                        @include('kandang::sampling-ayam._form', ['readonly' => true])
                     </div>
                 </div>
             </form>

@@ -61,6 +61,10 @@ class UserSeeder extends Seeder
 
                 'kandang.treatment.menu-pelaksanaan-treatment',
 
+                'kandang.sampling.menu-sampling-bobot-ayam',
+                'kandang.sampling.list-sampling-bobot-ayam',
+                'kandang.sampling.detail-sampling-bobot-ayam',
+
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.detail-monitoring-kesehatan',
@@ -99,6 +103,11 @@ class UserSeeder extends Seeder
                 'kandang.treatment.edit-pelaksanaan-treatment',
 
                 'kandang.sampling.menu-sampling-bobot-ayam',
+                'kandang.sampling.list-sampling-bobot-ayam',
+                'kandang.sampling.create-sampling-bobot-ayam',
+                'kandang.sampling.detail-sampling-bobot-ayam',
+                'kandang.sampling.edit-sampling-bobot-ayam',
+                'kandang.sampling.delete-sampling-bobot-ayam',
 
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
@@ -122,6 +131,11 @@ class UserSeeder extends Seeder
                 'kandang.telur.list-produksi-telur',
                 'kandang.telur.detail-produksi-telur',
                 'kandang.sampling.menu-sampling-bobot-ayam',
+                'kandang.sampling.list-sampling-bobot-ayam',
+                'kandang.sampling.create-sampling-bobot-ayam',
+                'kandang.sampling.detail-sampling-bobot-ayam',
+                'kandang.sampling.edit-sampling-bobot-ayam',
+
                 'kandang.treatment.menu-pelaksanaan-treatment',
                 'kandang.treatment.edit-pelaksanaan-treatment',
                 'kandang.treatment.list-unexecuted-only-pelaksanaan-treatment',
@@ -229,6 +243,11 @@ class UserSeeder extends Seeder
             'kandang.pakan.menu-rekapan-produksi-telur',
 
             'kandang.sampling.menu-sampling-bobot-ayam',
+            'kandang.sampling.list-sampling-bobot-ayam',
+            'kandang.sampling.create-sampling-bobot-ayam',
+            'kandang.sampling.detail-sampling-bobot-ayam',
+            'kandang.sampling.edit-sampling-bobot-ayam',
+            'kandang.sampling.delete-sampling-bobot-ayam',
 
             'kandang.treatment.menu-penjadwalan-treatment',
             'kandang.treatment.menu-pelaksanaan-treatment',

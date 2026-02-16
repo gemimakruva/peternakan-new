@@ -4,9 +4,16 @@
     name="tanggal"
     label="Tanggal Produksi"
     value="{{ old('tanggal', isset($samplingBobotAyam) ? $samplingBobotAyam->tanggal->format('Y-m-d') : now()->format('Y-m-d')) }}"
+    :readonly="$readonly"
 />
 
-<x-adminlte-select id="input-kandang-recording-telur" name="kandang_id" label="Pilih Kandang">
+<x-adminlte-select
+    id="input-kandang-recording-telur"
+    name="kandang_id"
+    label="Pilih Kandang"
+    :readonly="$readonly"
+    :disabled="$readonly"
+>
     <x-adminlte-options 
         :options="$listKandang"
         empty-option="Pilih Kandang"
@@ -43,9 +50,11 @@
         <tr>
             <th scope="col">No</th>
             <th scope="col">Bobot Badan Ayam (kg)</th>
-            <th width="1%">
-                <button class="btn btn-primary btn-sm" type="button" id="btn-add-row-bobot-sampling-ayam"><i class="fas fa-plus"></i></button>
-            </th>
+            @if (!$readonly)
+                <th width="1%">
+                    <button class="btn btn-primary btn-sm" type="button" id="btn-add-row-bobot-sampling-ayam"><i class="fas fa-plus"></i></button>
+                </th>
+            @endif
         </tr>
     </thead>
     <tbody id="container-sampling-ayam-bobot-ayam">
@@ -67,11 +76,14 @@
                         value="{{ $bobot }}" 
                         class="form-control form-control-sm"
                         step="0.01"
+                        @readonly($readonly)
                     />
                 </td>
-                <td>
-                    <button type="button" class="btn btn-danger btn-sm btn-delete-row-bobot-sampling-ayam"><i class="fas fa-trash"></i></button>
-                </td>
+                @if(!$readonly)
+                    <td>
+                        <button type="button" class="btn btn-danger btn-sm btn-delete-row-bobot-sampling-ayam"><i class="fas fa-trash"></i></button>
+                    </td>
+                @endif
             </tr>
             @endforeach
         @else
@@ -84,11 +96,14 @@
                     value="" 
                     class="form-control form-control-sm"
                     step="0.01"
+                    @readonly($readonly)
                 />
             </td>
-            <td>
-                <button type="button" class="btn btn-danger btn-sm btn-delete-row-bobot-sampling-ayam"><i class="fas fa-trash"></i></button>
-            </td>
+            @if (!$readonly)
+                <td>
+                    <button type="button" class="btn btn-danger btn-sm btn-delete-row-bobot-sampling-ayam"><i class="fas fa-trash"></i></button>
+                </td>
+            @endif
         </tr>
         @endif
     </tbody>

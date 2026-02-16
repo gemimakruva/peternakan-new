@@ -8,7 +8,9 @@
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Sampling Bobot Ayam</h1>
-                <a href="{{ route('sampling-ayam.create') }}" class="btn btn-primary">Tambah Sampling Bobot Ayam</a>
+                @can('kandang.sampling.create-sampling-bobot-ayam')
+                    <a href="{{ route('sampling-ayam.create') }}" class="btn btn-primary">Tambah Sampling Bobot Ayam</a>
+                @endcan
             </div>
         </div>
         <div class="col-sm-6">
@@ -109,23 +111,39 @@
                             </td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center">
-                                    <a href="{{ route('sampling-ayam.edit', $item->id) }}" 
-                                       class="btn btn-warning btn-sm mr-2 text-white" 
-                                       title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <form action="{{ route('sampling-ayam.destroy', $item->id) }}"
-                                        method="POST"
-                                        class="form-delete m-0"
-                                        data-tanggal="tanggal {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}">
-                                        @csrf
-                                        @method('delete')
-                                        <button type="submit" 
+                                    @can('kandang.sampling.detail-sampling-bobot-ayam')
+                                        <a href="{{ route('sampling-ayam.show', $item->id) }}" 
+                                        class="btn btn-info btn-sm mr-2 text-white" 
+                                        title="Edit">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                    @endcan
+                                    @can('kandang.sampling.edit-sampling-bobot-ayam')
+                                        <a
+                                            href="{{ route('sampling-ayam.edit', $item->id) }}" 
+                                            class="btn btn-warning btn-sm mr-2 text-white" 
+                                            title="Edit"
+                                        >
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    @endcan
+                                    @can('kandang.sampling.delete-sampling-bobot-ayam')
+                                        <form action="{{ route('sampling-ayam.destroy', $item->id) }}"
+                                            method="POST"
+                                            class="form-delete m-0"
+                                            data-tanggal="tanggal {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}"
+                                        >
+                                            @csrf
+                                            @method('delete')
+                                            <button 
+                                                type="submit" 
                                                 class="btn btn-danger btn-sm" 
-                                                title="Hapus">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </form>
+                                                title="Hapus"
+                                            >
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endcan
                                 </div>
                             </td>
                         </tr>
