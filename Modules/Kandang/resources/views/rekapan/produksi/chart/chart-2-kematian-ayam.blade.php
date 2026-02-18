@@ -1,5 +1,5 @@
 <div class="col-12">
-    <h2 class="h4">Data Kematian Ayam</h2>
+    <h2 class="h4">Data Akumulasi Kematian Ayam</h2>
 </div>
 <div class="col-12 col-lg-6">
     <div class="card">
@@ -12,6 +12,13 @@
     <div class="card">
         <div class="card-body">
             <canvas id="kematian-ayam-chart-per-kandang"></canvas>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-lg-6">
+    <div class="card">
+        <div class="card-body">
+            data persentase + standar kematian ayam per kandang
         </div>
     </div>
 </div>

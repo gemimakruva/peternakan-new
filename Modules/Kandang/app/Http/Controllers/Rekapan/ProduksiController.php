@@ -9,12 +9,14 @@ use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
+use Modules\Kandang\Services\Report\ReportDailyService;
 
 class ProduksiController extends Controller
 {
     public function __construct(
         private RekapanProduksiRepository $rekapanProduksiRepository,
         private KandangRepository $kandangRepository,
+        private ReportDailyService $reportDailyService,
     ) { 
         $this->middleware('can:kandang.rekapan.menu-rekapan-produksi');
     }
@@ -40,18 +42,65 @@ class ProduksiController extends Controller
         return view('kandang::rekapan.produksi.index', compact(['datas', 'listKandang']));
     }
 
+    public function detail()
+    {
+
+    }
+
     public function exportIndex()
     {
         return Excel::download(new RekapanProduksiExport(), 'rekapan-produksi.xlsx');
     }
 
-    public function report(Request $request)
+    public function reportDaily(Request $request)
     {
-        $tanggal        = $request->date('tanggal', 'Y-m-d');
+        $tanggal        = $request->date('tanggal', 'Y-m-d') ?? today();
         $kandangId      = $request->integer('kandang_id');
         $listKandang    = $this->kandangRepository->getSelectItems();
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
-        return view('kandang::rekapan.produksi.report-per-kandang', compact([
+
+        if ($kandang === null) {
+            // Data Populasi Ayam Hari Ini
+            $populasiAyamPerKandang = $this->reportDailyService->populasiAyamPerKandang($tanggal);
+            $populasiAyamSemuaKandang = $this->reportDailyService->populasiAyamSemuaKandang($tanggal);
+            // Data Akumulasi Kematian Ayam
+            $akumulasiKematianAyamPerKandang = $this->reportDailyService->akumulasiKematianAyamPerKandang($tanggal);
+            $akumulasiKematianAyamSemuaKandang = $this->reportDailyService->akumulasiKematianAyamSemuaKandang($tanggal);
+            $persentaseAkumulasiKematianAyamPerKandang = $this->reportDailyService->persentaseAkumulasiKematianAyamPerKandang($tanggal);
+            // echo json_encode($persentaseAkumulasiKematianAyamPerKandang);die;
+            return view('kandang::rekapan.produksi.report-daily-per-kandang', compact([
+                'tanggal',
+                'listKandang',
+                'populasiAyamPerKandang',
+                'populasiAyamSemuaKandang',
+                'akumulasiKematianAyamPerKandang',
+                'akumulasiKematianAyamSemuaKandang',
+                'persentaseAkumulasiKematianAyamPerKandang',
+            ]));
+        }
+
+        return view('kandang::rekapan.produksi.report-daily-per-flock', compact([
+            'tanggal',
+            'listKandang',
+            'kandang',
+        ]));
+    }
+    
+    public function reportWeekly(Request $request)
+    {
+        $tanggal        = $request->date('tanggal', 'Y-m-d') ?? today();
+        $kandangId      = $request->integer('kandang_id');
+        $listKandang    = $this->kandangRepository->getSelectItems();
+        $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
+
+        if ($kandang === null) {
+            return view('kandang::rekapan.produksi.report-weekly-per-kandang', compact([
+                'tanggal',
+                'listKandang',
+            ]));
+        }
+
+        return view('kandang::rekapan.produksi.report-weekly-per-flock', compact([
             'tanggal',
             'listKandang',
             'kandang',

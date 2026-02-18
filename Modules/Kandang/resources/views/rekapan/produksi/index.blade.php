@@ -147,7 +147,7 @@
                             <td>
                                 <div class="d-flex justify-content-between">
                                     <a
-                                        href="{{ route('rekapan-produksi.report', [ 'tanggal' => $data->tanggal->format('Y-m-d'), 'kandang_id' => $data->kandang_id ]) }}"
+                                        href="{{ route('rekapan-produksi.detail', [ 'tanggal' => $data->tanggal->format('Y-m-d'), 'kandang_id' => $data->kandang_id ]) }}"
                                         class="btn btn-info btn-sm"
                                     >
                                         <i class="fas fa-eye"></i>

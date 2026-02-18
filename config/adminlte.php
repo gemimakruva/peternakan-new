@@ -433,6 +433,18 @@ return [
             'icon'  => 'fas fa-chart-line',
             'can'   => 'kandang.rekapan.menu-rekapan-produksi',
         ],
+        [
+            'text'  => 'Laporan Harian',
+            'route' => 'rekapan-produksi.report.daily',
+            'icon'  => 'fas fa-chart-line',
+            'can'   => 'kandang.rekapan.menu-rekapan-produksi',
+        ],
+        [
+            'text'  => 'Laporan Mingguan',
+            'route' => 'rekapan-produksi.report.weekly',
+            'icon'  => 'fas fa-chart-line',
+            'can'   => 'kandang.rekapan.menu-rekapan-psroduksi',
+        ],
 
         // ====================  POPULASI  ==========================
         [

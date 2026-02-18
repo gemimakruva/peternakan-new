@@ -1,0 +1,167 @@
+<div class="col-12">
+    <h2 class="h4">Data Akumulasi Kematian Ayam</h2>
+</div>
+<div class="col-12 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <canvas id="kematian-ayam-chart-per-kandang"></canvas>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            <canvas id="kematian-ayam-chart-semua-kandang"></canvas>
+        </div>
+    </div>
+</div>
+<div class="col-12 col-lg-4">
+    <div class="card">
+        <div class="card-body">
+            {{-- data persentase + standar kematian ayam per kandang --}}
+            <canvas id="persentase-kematian-ayam-chart-per-kandang"></canvas>
+        </div>
+    </div>
+</div>
+
+@push('js')
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    new Chart(document.getElementById('kematian-ayam-chart-per-kandang'), {
+        type: 'bar',
+        data: {
+            labels: @js($akumulasiKematianAyamPerKandang->pluck('nama_kandang')),
+            datasets: [
+                {
+                    label: 'Akumulasi Kematian',
+                    data: @js($akumulasiKematianAyamPerKandang->pluck('akumulasi_mati')),
+                    borderWidth: 2,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                },
+                {
+                    label: 'Akumulasi Afkir',
+                    data: @js($akumulasiKematianAyamPerKandang->pluck('akumulasi_afkir')),
+                    borderWidth: 2,
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                },
+                {
+                    label: 'Akumulasi Kematian dan Afkir',
+                    data: @js($akumulasiKematianAyamPerKandang->pluck('akumulasi_mati_afkir')),
+                    borderWidth: 2,
+                    borderColor: '#fd7e14',
+                    backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                },
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Data Kematian Ayam per Kandang'
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('kematian-ayam-chart-semua-kandang'), {
+        type: 'bar',
+        data: {
+            labels: ['Semua Kandang'],
+            datasets: [
+                {
+                    label: 'Akumulasi Kematian',
+                    data: [@js((int) $akumulasiKematianAyamSemuaKandang?->akumulasi_mati)],
+                    borderWidth: 2,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                },
+                {
+                    label: 'Akumulasi Afkir',
+                    data: [@js((int) $akumulasiKematianAyamSemuaKandang?->akumulasi_afkir)],
+                    borderWidth: 2,
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                },
+                {
+                    label: 'Akumulasi Kematian dan Afkir',
+                    data: [@js((int) $akumulasiKematianAyamSemuaKandang?->akumulasi_mati_afkir)],
+                    borderWidth: 2,
+                    borderColor: '#fd7e14',
+                    backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                },
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Data Kematian Ayam Semua Kandang'
+                }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('persentase-kematian-ayam-chart-per-kandang'), {
+        type: 'bar',
+        data: {
+            labels: @js($persentaseAkumulasiKematianAyamPerKandang->pluck('nama_kandang')),
+            datasets: [
+                {
+                    label: 'Akumulasi Kematian',
+                    data: @js($persentaseAkumulasiKematianAyamPerKandang->pluck('persen_mati')),
+                    borderWidth: 2,
+                    borderColor: '#28a745',
+                    backgroundColor: 'rgba(40, 167, 69, 0.1)',
+                },
+                {
+                    label: 'Akumulasi Afkir',
+                    data: @js($persentaseAkumulasiKematianAyamPerKandang->pluck('persen_afkir')),
+                    borderWidth: 2,
+                    borderColor: '#dc3545',
+                    backgroundColor: 'rgba(220, 53, 69, 0.1)',
+                },
+                {
+                    label: 'Akumulasi Kematian dan Afkir',
+                    data: @js($persentaseAkumulasiKematianAyamPerKandang->pluck('persen_mati_afkir')),
+                    borderWidth: 2,
+                    borderColor: '#fd7e14',
+                    backgroundColor: 'rgba(253, 126, 20, 0.1)',
+                },
+                {
+                    label: 'Standart Kematian dan Afkir',
+                    data: @js($persentaseAkumulasiKematianAyamPerKandang->pluck('standar_mati_afkir')),
+                    borderWidth: 2,
+                    borderColor: '#1424fdff',
+                    backgroundColor: 'rgba(102, 20, 253, 0.1)',
+                },
+            ]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
+            plugins: {
+                title: {
+                    display: true,
+                    text: 'Persentase Akumulasi Kematian per Kandang'
+                }
+            }
+        }
+    });
+});
+</script>
+@endpush
