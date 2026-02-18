@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 jobs:
   web-deploy:
-    name: Auto Deploy
+    name: Auto Deploy to Devel
     runs-on: ubuntu-latest
     steps:
     - name: Get latest code
