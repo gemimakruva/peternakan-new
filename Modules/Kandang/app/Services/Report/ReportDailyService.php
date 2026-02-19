@@ -261,4 +261,115 @@ class ReportDailyService
         
         return $query->get();
     }
+
+    public function kpiProduksi(Carbon $tanggal)
+    {
+        $produksiTelurQuery = DB::table('produksi_telur_item')
+            ->selectRaw(<<<SQL
+                kandang_id
+                , tanggal
+                , SUM(jumlah_telur_bagus) as jumlah_telur_bagus
+                , SUM(jumlah_telur_putih) as jumlah_telur_putih
+                , SUM(jumlah_telur_reject) as jumlah_telur_reject
+                , SUM(berat_telur_bagus) as berat_telur_bagus
+                , SUM(berat_telur_putih) as berat_telur_putih
+                , SUM(berat_telur_reject) as berat_telur_reject
+            SQL)
+            ->groupBy('kandang_id', 'tanggal')
+            ->whereDate('tanggal', '=', $tanggal);
+        
+        $populasiQuery = DB::table('populasi_ayam as pa')
+            ->selectRaw(<<<SQL
+                pa.kandang_id
+                , pa.tanggal
+                , SUM(pa.ayam_sehat) as sehat
+            SQL)
+            ->groupBy('pa.kandang_id', 'pa.tanggal')
+            ->whereDate('pa.tanggal', '=', $tanggal);
+        
+        $latestPengadaan = DB::table('pengadaan_ayam as pa')
+            ->joinSub(
+                DB::table('pengadaan_ayam')
+                    ->selectRaw('kandang_id, MAX(tanggal) as tanggal')
+                    ->groupBy('kandang_id'),
+                'x',
+                function ($join) {
+                    $join->on('x.kandang_id', '=', 'pa.kandang_id')
+                        ->on('x.tanggal', '=', 'pa.tanggal');
+                }
+            )
+            ->select('pa.id');
+
+        $pengadaanQuery = DB::table('pengadaan_ayam_distribusi as pad')
+            ->selectRaw(<<<SQL
+                pad.kandang_id
+                , SUM(pad.jumlah_ayam) as jumlah_ayam_pengadaan
+            SQL)
+            ->whereIn('pad.pengadaan_ayam_id', $latestPengadaan)
+            ->groupBy('pad.kandang_id');
+
+        $pakanQuery = DB::table('perhitungan_pakan_item as ppi')
+            ->selectRaw(<<<SQL
+                AVG(ppi.pemberian_pakan_per_ekor)*SUM(ppi.jumlah_ayam)/1000 as pemberian_pakan
+                , ppi.perhitungan_pakan_id
+            SQL)
+            ->groupBy('ppi.perhitungan_pakan_id');
+
+        $sisaPakanQuery = DB::table('pemberian_pakan_sisa_pakan as ppsp')
+            ->selectRaw(<<<SQL
+                SUM(sisa_pakan_per_flock_kg) as sisa_pakan
+                , ppsp.perhitungan_pakan_id
+            SQL)
+            ->groupBy('ppsp.perhitungan_pakan_id');
+
+        $foodIntakeQuery = DB::table('perhitungan_pakan as pp')
+            ->leftJoinSub($pakanQuery, 'xp', function ($join) {
+                $join->on('xp.perhitungan_pakan_id', '=', 'pp.id');
+            })
+            ->leftJoinSub($sisaPakanQuery, 'xsp', function ($join) {
+                $join->on('xsp.perhitungan_pakan_id', '=', 'pp.id');
+            })
+            ->selectRaw(<<<SQL
+                pp.kandang_id
+                , pp.tanggal_pemberian_pakan as tanggal
+                , NULLIF(xp.pemberian_pakan, 0) - NULLIF(xsp.sisa_pakan, 0) as food_intake
+            SQL)
+            ->groupBy(
+                'pp.id'
+                , 'pp.kandang_id'
+                , 'pp.tanggal_pemberian_pakan'
+            );
+
+        $query = DB::table('produksi_telur as pt')
+            ->join('kandang', 'kandang.id', '=', 'pt.kandang_id')
+            ->leftJoinSub($produksiTelurQuery, 'xpt', function ($join) {
+                $join->on('xpt.kandang_id', '=', 'pt.kandang_id')
+                    ->on('xpt.tanggal', '=', 'pt.tanggal');
+            })
+            ->leftJoinSub($populasiQuery, 'xpa', function ($join) {
+                $join->on('xpa.kandang_id', '=', 'pt.kandang_id')
+                    ->on('xpa.tanggal', '=', 'pt.tanggal');
+            })
+            ->leftJoinSub($pengadaanQuery, 'xp', function ($join) {
+                $join->on('xp.kandang_id', '=', 'pt.kandang_id');
+            })
+            ->leftJoinSub($foodIntakeQuery, 'xfi', function ($join) {
+                $join->on('xfi.kandang_id', '=', 'pt.kandang_id')
+                    ->on('xfi.tanggal', '=', 'pt.tanggal');
+            })
+            ->selectRaw(<<<SQL
+                pt.id
+                , pt.kandang_id
+                , kandang.nama as nama_kandang
+                , (xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xpa.sehat as hdp
+                , (xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xp.jumlah_ayam_pengadaan as hhp
+                , (xfi.food_intake)/(xpt.berat_telur_bagus + xpt.berat_telur_putih + xpt.berat_telur_reject) as fcr
+                , (xpt.berat_telur_bagus + xpt.berat_telur_putih)/(xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih)*1000 as egg_weight
+                , ((xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih + xpt.jumlah_telur_reject)/xp.jumlah_ayam_pengadaan)
+                    * (xpt.berat_telur_bagus + xpt.berat_telur_putih)/(xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih)*1000 as egg_mass
+            SQL)
+            ->whereDate('pt.tanggal', '=', $tanggal);
+        
+        return $query->get();
+    }
 }
