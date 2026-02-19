@@ -67,6 +67,8 @@ class ProduksiController extends Controller
             $akumulasiKematianAyamPerKandang = $this->reportDailyService->akumulasiKematianAyamPerKandang($tanggal);
             $akumulasiKematianAyamSemuaKandang = $this->reportDailyService->akumulasiKematianAyamSemuaKandang($tanggal);
             $persentaseAkumulasiKematianAyamPerKandang = $this->reportDailyService->persentaseAkumulasiKematianAyamPerKandang($tanggal);
+            // Data Konsumsi Ayam
+            $konsumsiAyam = $this->reportDailyService->konsumsiAyamPerKandang($tanggal);
             // echo json_encode($persentaseAkumulasiKematianAyamPerKandang);die;
             return view('kandang::rekapan.produksi.report-daily-per-kandang', compact([
                 'tanggal',
@@ -76,6 +78,7 @@ class ProduksiController extends Controller
                 'akumulasiKematianAyamPerKandang',
                 'akumulasiKematianAyamSemuaKandang',
                 'persentaseAkumulasiKematianAyamPerKandang',
+                'konsumsiAyam',
             ]));
         }
 

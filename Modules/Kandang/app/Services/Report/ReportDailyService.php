@@ -6,11 +6,13 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PopulasiAyam;
+use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
 
 
 class ReportDailyService
 {
     public function __construct(
+        private OverviewPakanHarianRepository $overviewPakanHarianRepository,
         private PopulasiAyam $populasiAyam,
         private Kandang $kandang,
     ) { }
@@ -201,5 +203,29 @@ class ReportDailyService
             ->whereDate('xpa.tanggal', '=', $tanggal);
 
         return $query->get();
+    }
+
+    public function konsumsiAyamPerKandang(Carbon $tanggal)
+    {
+        $query = $this->overviewPakanHarianRepository
+            ->getQuery()
+            ->groupBy('id_kandang')
+            ->whereDate('tanggal_pemberian_pakan', '=', $tanggal);
+
+        $data = $query->get()->map(function($item) {
+            return [
+                'nama_kandang'                  => $item->nama_kandang,
+                'feed_intake_per_ekor'          => $item->feed_intake_per_ekor,
+                'feed_intake_per_ekor_standar'  => $item->feed_intake_per_ekor_standar,
+            ];
+        });
+
+        $data->push([
+            'nama_kandang'                      => 'Rata - rata',
+            'feed_intake_per_ekor'              => $data->avg('feed_intake_per_ekor'), 
+            'feed_intake_per_ekor_standar'      => $data->avg('feed_intake_per_ekor_standar')
+        ]);
+
+        return $data;
     }
 }
