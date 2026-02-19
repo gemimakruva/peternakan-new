@@ -29,7 +29,7 @@ class ProduksiController extends Controller
     {
         $datas = $this->rekapanProduksiRepository->paginate(
             $request->query('search'),
-            $request->collect(['kandang_id']),
+            $request->collect(['kandang_id', 'tanggal']),
             $request->collect('orders'),
             $request->query('perPage', 10)
         );

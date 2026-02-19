@@ -90,8 +90,11 @@ class RekapanProduksiRepository extends EloquentRepository
     public function customWhereQuery(): array
     {
         return [
-            'kandang_id' => function ($q, $kandangId) {
+            'kandang_id'    => function ($q, $kandangId) {
                 $q->where('xpaq.id', '=', $kandangId);
+            },
+            'tanggal'       => function ($q, $tanggal) {
+                $q->where('xpaq.tanggal', '=', $tanggal);
             }
         ];
     }
