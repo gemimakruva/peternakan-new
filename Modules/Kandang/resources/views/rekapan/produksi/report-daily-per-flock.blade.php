@@ -27,14 +27,17 @@
 
 @section('content')
 <div class="mx-1400">
-    @include('kandang::rekapan.produksi._report_filter_header', ['routeName' => 'rekapan-produksi.report.daily'])
+    @include('kandang::rekapan.produksi._report_filter_header', [
+        'routeName' => 'rekapan-produksi.report.daily', 
+        'umurAyam' => @$rekapanKandang->umur ?? 0
+    ])
 
     <div class="row">
-        @include('kandang::rekapan.produksi.chart.chart-1-populasi-ayam')
-        @include('kandang::rekapan.produksi.chart.chart-2-kematian-ayam')
-        @include('kandang::rekapan.produksi.chart.chart-3-feed-intake')
-        @include('kandang::rekapan.produksi.chart.chart-4-produksi-telur')
-        @include('kandang::rekapan.produksi.chart.chart-5-kpi-produksi')
+        @include('kandang::rekapan.produksi.chart.daily.per-flock.chart-1-populasi-ayam')
+        @include('kandang::rekapan.produksi.chart.daily.per-flock.chart-2-kematian-ayam')
+        @include('kandang::rekapan.produksi.chart.daily.per-flock.chart-3-feed-intake')
+        @include('kandang::rekapan.produksi.chart.daily.per-flock.chart-4-produksi-telur')
+        @include('kandang::rekapan.produksi.chart.daily.per-flock.chart-5-kpi-produksi')
         <div class="col-12">
             <div class="card">
                 <div class="card-body">

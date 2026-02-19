@@ -22,8 +22,18 @@
                 />
             </x-adminlte-select>
 
-            <div class="col-12 col-lg-3 d-flex gap-2 align-items-end">
-                <button class="btn btn-primary">
+            @if (@$umurAyam)
+                <x-adminlte-input
+                    name="umur_ayam"
+                    label="Umur Ayam"
+                    :value="$umurAyam"
+                    fgroup-class="mb-0 col-12 col-lg-3"
+                    readonly
+                />  
+            @endif
+
+            <div class="col-12 col-lg-3 d-flex gap-2 justify-content-end justify-content-lg-start align-items-end">
+                <button class="btn btn-primary mt-2">
                     <i class="fas fa-search"></i>
                 </button>
             </div>

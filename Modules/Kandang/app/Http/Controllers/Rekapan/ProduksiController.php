@@ -123,23 +123,22 @@ class ProduksiController extends Controller
         }
 
         // Data Populasi Ayam Hari Ini
-        // $populasiAyamPerFlock = $this->reportDailyKandangService->populasiAyamPerFlock($tanggal);
-        // $populasiAyamKandang = $this->reportDailyKandangService->populasiAyamKandang($tanggal);
-        // $populasiAyamSemuaKandang = $this->reportDailyService->populasiAyamSemuaKandang($tanggal);
-        // // Data Akumulasi Kematian Ayam
-        // $akumulasiKematianAyamPerKandang = $this->reportDailyService->akumulasiKematianAyamPerKandang($tanggal);
-        // $akumulasiKematianAyamSemuaKandang = $this->reportDailyService->akumulasiKematianAyamSemuaKandang($tanggal);
-        // $persentaseAkumulasiKematianAyamPerKandang = $this->reportDailyService->persentaseAkumulasiKematianAyamPerKandang($tanggal);
-        // // Data Konsumsi Ayam
-        // $konsumsiAyam = $this->reportDailyService->konsumsiAyamPerKandang($tanggal);
-        // $produksiTelurSemuaKandang = $this->reportDailyService->produksiTelurSemuaKandang($tanggal);
-        // // KPI Produksi
-        // $kpiProduksi = $this->reportDailyService->kpiProduksi($tanggal);
+        $rekapanFlock = app(RekapanPerFlockProduksiRepository::class)
+            ->setContext($kandangId, $tanggal)
+            ->getQuery()
+            ->get();
+        $rekapanKandang = app(RekapanProduksiRepository::class)
+            ->getQuery()
+            ->whereDate('xpaq.tanggal', '=', $tanggal)
+            ->first();
 
         return view('kandang::rekapan.produksi.report-daily-per-flock', compact([
             'tanggal',
             'listKandang',
             'kandang',
+
+            'rekapanFlock',
+            'rekapanKandang',
         ]));
     }
     
