@@ -33,6 +33,7 @@
         @include('kandang::rekapan.produksi.chart.daily.per-kandang.chart-1-populasi-ayam')
         @include('kandang::rekapan.produksi.chart.daily.per-kandang.chart-2-kematian-ayam')
         @include('kandang::rekapan.produksi.chart.daily.per-kandang.chart-3-feed-intake')
+        @include('kandang::rekapan.produksi.chart.daily.per-kandang.chart-4-produksi-telur')
         <div class="col-12">
             <div class="card">
                 <div class="card-body">

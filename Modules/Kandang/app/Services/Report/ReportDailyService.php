@@ -228,4 +228,37 @@ class ReportDailyService
 
         return $data;
     }
+
+    public function produksiTelurSemuaKandang(Carbon $tanggal)
+    {
+        $produksiTelurQuery = DB::table('produksi_telur_item')
+            ->selectRaw(<<<SQL
+                kandang_id
+                , tanggal
+                , SUM(jumlah_telur_bagus) as jumlah_telur_bagus
+                , SUM(jumlah_telur_putih) as jumlah_telur_putih
+                , SUM(jumlah_telur_reject) as jumlah_telur_reject
+                , SUM(berat_telur_bagus) as berat_telur_bagus
+                , SUM(berat_telur_putih) as berat_telur_putih
+                , SUM(berat_telur_reject) as berat_telur_reject
+            SQL)
+            ->groupBy('kandang_id', 'tanggal');
+
+        $query = DB::table('produksi_telur as pt')
+            ->join('kandang', 'kandang.id', '=', 'pt.kandang_id')
+            ->leftJoinSub($produksiTelurQuery, 'xpt', function ($join) {
+                $join->on('xpt.kandang_id', '=', 'pt.kandang_id')
+                    ->on('xpt.tanggal', '=', 'pt.tanggal');
+            })
+            ->selectRaw(<<<SQL
+                pt.id
+                , pt.kandang_id
+                , kandang.nama as nama_kandang
+                , (xpt.jumlah_telur_bagus+xpt.jumlah_telur_putih+xpt.jumlah_telur_reject) as total_jumlah_telur
+                , (xpt.berat_telur_bagus+xpt.berat_telur_putih+xpt.berat_telur_reject) as total_berat_telur
+            SQL)
+            ->whereDate('pt.tanggal', '=', $tanggal);
+        
+        return $query->get();
+    }
 }
