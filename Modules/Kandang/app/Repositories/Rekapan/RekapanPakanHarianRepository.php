@@ -1,13 +1,13 @@
 <?php
 
-namespace Modules\Kandang\Repositories\Pakan;
+namespace Modules\Kandang\Repositories\Rekapan;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Repositories\EloquentRepository;
 
-class OverviewPakanHarianRepository extends EloquentRepository
+class RekapanPakanHarianRepository extends EloquentRepository
 {
     public function __construct(PerhitunganPakan $model)
     {

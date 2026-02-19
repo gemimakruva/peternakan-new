@@ -6,12 +6,12 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Repositories\ProduksiTelur\OverviewProduksiTelurRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanProduksiTelurRepository;
 
 class RekapanProduksiTelurController extends Controller
 {
     public function __construct(
-        private OverviewProduksiTelurRepository $repository,
+        private RekapanProduksiTelurRepository $repository,
         private Kandang $kandang,
     ) {
         $this->middleware('can:kandang.telur.menu-rekapan-produksi-telur');

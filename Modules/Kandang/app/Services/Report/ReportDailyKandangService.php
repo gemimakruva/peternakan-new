@@ -6,16 +6,26 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PopulasiAyam;
-use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanPakanHarianRepository;
 
 
-class ReportDailyService
+class ReportDailyKandangService
 {
     public function __construct(
-        private OverviewPakanHarianRepository $overviewPakanHarianRepository,
+        private RekapanPakanHarianRepository $rekapanPakanHarianRepository,
         private PopulasiAyam $populasiAyam,
         private Kandang $kandang,
     ) { }
+
+    public function populasiAyamPerFlock()
+    {
+
+    }
+
+    public function populasiAyamKandang()
+    {
+        
+    }
 
     public function populasiAyamPerKandang(Carbon $tanggal)
     {
@@ -207,7 +217,7 @@ class ReportDailyService
 
     public function konsumsiAyamPerKandang(Carbon $tanggal)
     {
-        $query = $this->overviewPakanHarianRepository
+        $query = $this->rekapanPakanHarianRepository
             ->getQuery()
             ->groupBy('id_kandang')
             ->whereDate('tanggal_pemberian_pakan', '=', $tanggal);

@@ -8,15 +8,19 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanPerFlockProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
-use Modules\Kandang\Services\Report\ReportDailyService;
+use Modules\Kandang\Services\Report\ReportDailyKandangService;
+use Modules\Kandang\Services\Report\ReportDailySemuaKandangService;
 
 class ProduksiController extends Controller
 {
     public function __construct(
         private RekapanProduksiRepository $rekapanProduksiRepository,
+        private RekapanPerFlockProduksiRepository $rekapanPerFlockProduksiRepository,
         private KandangRepository $kandangRepository,
-        private ReportDailyService $reportDailyService,
+        private ReportDailySemuaKandangService $reportDailySemuaKandangService,
+        private ReportDailyKandangService $reportDailyKandangService,
     ) { 
         $this->middleware('can:kandang.rekapan.menu-rekapan-produksi');
     }
@@ -42,9 +46,40 @@ class ProduksiController extends Controller
         return view('kandang::rekapan.produksi.index', compact(['datas', 'listKandang']));
     }
 
-    public function detail()
+    public function detail(Request $request)
     {
+        $request->validate([
+            'kandang_id'    => ['required', 'exists:kandang,id'],
+            'tanggal'       => ['required', 'date_format:Y-m-d'],
+        ]);
 
+        $kandang = $this->kandangRepository->find($request->query('kandang_id'));
+        $tanggal = $request->date('tanggal');
+
+        $datas = $this->rekapanPerFlockProduksiRepository
+            ->setContext(
+                $request->query('kandang_id'), 
+                $request->date('tanggal')
+            )
+            ->paginate(
+                $request->query('search'),
+                null,
+                $request->collect('orders'),
+                $request->query('perPage', 10)
+            );
+
+        $datas->transform(function($item) {
+            if ($item->tanggal) {
+                $item->tanggal = Carbon::createFromFormat('Y-m-d', $item->tanggal);
+            }
+            return $item;
+        });
+
+        return view('kandang::rekapan.produksi.detail', compact([
+            'kandang',
+            'tanggal',
+            'datas',
+        ]));
     }
 
     public function exportIndex()
@@ -61,17 +96,17 @@ class ProduksiController extends Controller
 
         if ($kandang === null) {
             // Data Populasi Ayam Hari Ini
-            $populasiAyamPerKandang = $this->reportDailyService->populasiAyamPerKandang($tanggal);
-            $populasiAyamSemuaKandang = $this->reportDailyService->populasiAyamSemuaKandang($tanggal);
+            $populasiAyamPerKandang                     = $this->reportDailySemuaKandangService->populasiAyamPerKandang($tanggal);
+            $populasiAyamSemuaKandang                   = $this->reportDailySemuaKandangService->populasiAyamSemuaKandang($tanggal);
             // Data Akumulasi Kematian Ayam
-            $akumulasiKematianAyamPerKandang = $this->reportDailyService->akumulasiKematianAyamPerKandang($tanggal);
-            $akumulasiKematianAyamSemuaKandang = $this->reportDailyService->akumulasiKematianAyamSemuaKandang($tanggal);
-            $persentaseAkumulasiKematianAyamPerKandang = $this->reportDailyService->persentaseAkumulasiKematianAyamPerKandang($tanggal);
+            $akumulasiKematianAyamPerKandang            = $this->reportDailySemuaKandangService->akumulasiKematianAyamPerKandang($tanggal);
+            $akumulasiKematianAyamSemuaKandang          = $this->reportDailySemuaKandangService->akumulasiKematianAyamSemuaKandang($tanggal);
+            $persentaseAkumulasiKematianAyamPerKandang  = $this->reportDailySemuaKandangService->persentaseAkumulasiKematianAyamPerKandang($tanggal);
             // Data Konsumsi Ayam
-            $konsumsiAyam = $this->reportDailyService->konsumsiAyamPerKandang($tanggal);
-            $produksiTelurSemuaKandang = $this->reportDailyService->produksiTelurSemuaKandang($tanggal);
+            $konsumsiAyam                               = $this->reportDailySemuaKandangService->konsumsiAyamPerKandang($tanggal);
+            $produksiTelurSemuaKandang                  = $this->reportDailySemuaKandangService->produksiTelurSemuaKandang($tanggal);
             // KPI Produksi
-            $kpiProduksi = $this->reportDailyService->kpiProduksi($tanggal);
+            $kpiProduksi                                = $this->reportDailySemuaKandangService->kpiProduksi($tanggal);
             // echo json_encode($kpiProduksi);die;
             return view('kandang::rekapan.produksi.report-daily-per-kandang', compact([
                 'tanggal',
@@ -86,6 +121,20 @@ class ProduksiController extends Controller
                 'kpiProduksi',
             ]));
         }
+
+        // Data Populasi Ayam Hari Ini
+        // $populasiAyamPerFlock = $this->reportDailyKandangService->populasiAyamPerFlock($tanggal);
+        // $populasiAyamKandang = $this->reportDailyKandangService->populasiAyamKandang($tanggal);
+        // $populasiAyamSemuaKandang = $this->reportDailyService->populasiAyamSemuaKandang($tanggal);
+        // // Data Akumulasi Kematian Ayam
+        // $akumulasiKematianAyamPerKandang = $this->reportDailyService->akumulasiKematianAyamPerKandang($tanggal);
+        // $akumulasiKematianAyamSemuaKandang = $this->reportDailyService->akumulasiKematianAyamSemuaKandang($tanggal);
+        // $persentaseAkumulasiKematianAyamPerKandang = $this->reportDailyService->persentaseAkumulasiKematianAyamPerKandang($tanggal);
+        // // Data Konsumsi Ayam
+        // $konsumsiAyam = $this->reportDailyService->konsumsiAyamPerKandang($tanggal);
+        // $produksiTelurSemuaKandang = $this->reportDailyService->produksiTelurSemuaKandang($tanggal);
+        // // KPI Produksi
+        // $kpiProduksi = $this->reportDailyService->kpiProduksi($tanggal);
 
         return view('kandang::rekapan.produksi.report-daily-per-flock', compact([
             'tanggal',

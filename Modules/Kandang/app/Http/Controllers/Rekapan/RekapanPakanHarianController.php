@@ -5,12 +5,12 @@ namespace Modules\Kandang\Http\Controllers\Rekapan;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\Kandang\Models\Kandang;
-use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanPakanHarianRepository;
 
 class RekapanPakanHarianController extends Controller
 {
     public function __construct(
-        private OverviewPakanHarianRepository $repository,
+        private RekapanPakanHarianRepository $repository,
         private Kandang $kandang,
     ) {
         $this->middleware('can:kandang.pakan.menu-rekapan-pakan-harian');

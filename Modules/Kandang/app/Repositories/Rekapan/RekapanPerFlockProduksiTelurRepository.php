@@ -1,14 +1,16 @@
 <?php
 
-namespace Modules\Kandang\Repositories\ProduksiTelur;
+namespace Modules\Kandang\Repositories\Rekapan;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\ProduksiTelur;
 use Modules\Kandang\Repositories\EloquentRepository;
 
-class OverviewProduksiTelurRepository extends EloquentRepository
+class RekapanPerFlockProduksiTelurRepository extends EloquentRepository
 {
+    use KandangTanggalTrait;
+
     public function __construct(ProduksiTelur $model)
     {
         parent::__construct($model);
@@ -31,11 +33,12 @@ class OverviewProduksiTelurRepository extends EloquentRepository
 
         $pengadaanQuery = DB::table('pengadaan_ayam_distribusi as pad')
             ->selectRaw(<<<SQL
-                pad.kandang_id
+                pad.flock_id
+                , pad.kandang_id
                 , SUM(pad.jumlah_ayam) as jumlah_ayam_pengadaan
             SQL)
             ->whereIn('pad.pengadaan_ayam_id', $latestPengadaan)
-            ->groupBy('pad.kandang_id');
+            ->groupBy('pad.flock_id');
 
         $populasiQuery = DB::table('populasi_ayam as pa')
             ->selectRaw(<<<SQL
@@ -80,7 +83,8 @@ class OverviewProduksiTelurRepository extends EloquentRepository
 
         $produksiTelurQuery = DB::table('produksi_telur_item')
             ->selectRaw(<<<SQL
-                kandang_id
+                flock_id
+                , kandang_id
                 , tanggal
                 , SUM(jumlah_telur_bagus) as jumlah_telur_bagus
                 , SUM(jumlah_telur_putih) as jumlah_telur_putih
@@ -89,7 +93,7 @@ class OverviewProduksiTelurRepository extends EloquentRepository
                 , SUM(berat_telur_putih) as berat_telur_putih
                 , SUM(berat_telur_reject) as berat_telur_reject
             SQL)
-            ->groupBy('kandang_id', 'tanggal');
+            ->groupBy('flock_id', 'kandang_id', 'tanggal');
 
         $query = $this->model
             ->query()
@@ -109,8 +113,11 @@ class OverviewProduksiTelurRepository extends EloquentRepository
                 $join->on('xpt.kandang_id', '=', 'produksi_telur.kandang_id')
                     ->on('xpt.tanggal', '=', 'produksi_telur.tanggal');
             })
+            ->leftJoin('flock', 'flock.id', '=', 'xpt.flock_id')
             ->selectRaw(<<<SQL
-                produksi_telur.kandang_id
+                xpt.flock_id
+                , flock.nama as nama_flock
+                , produksi_telur.kandang_id
                 , kandang.nama as nama_kandang
                 , produksi_telur.tanggal
                 , produksi_telur.umur_ayam
@@ -132,9 +139,11 @@ class OverviewProduksiTelurRepository extends EloquentRepository
                     * (xpt.berat_telur_bagus + xpt.berat_telur_putih)/(xpt.jumlah_telur_bagus + xpt.jumlah_telur_putih)*1000 as egg_mass
             SQL)
             ->groupBy(
-                'produksi_telur.kandang_id',
+                'xpt.flock_id',
                 'produksi_telur.tanggal'
-            );
+            )
+            ->where('xpt.kandang_id', '=', $this->kandangId)
+            ->whereDate('xpt.tanggal', '=', $this->tanggal);
 
         return $query;
     }

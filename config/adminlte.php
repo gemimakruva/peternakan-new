@@ -432,6 +432,7 @@ return [
             'route' => 'rekapan-produksi.index',
             'icon'  => 'fas fa-chart-line',
             'can'   => 'kandang.rekapan.menu-rekapan-produksi',
+            'active' => ['rekapan-produksi', 'rekapan-produksi/detail']
         ],
         [
             'text'  => 'Laporan Harian',

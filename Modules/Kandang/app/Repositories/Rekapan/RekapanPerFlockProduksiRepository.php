@@ -5,11 +5,12 @@ namespace Modules\Kandang\Repositories\Rekapan;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\EloquentRepository;
-use Modules\Kandang\Repositories\Rekapan\RekapanPakanHarianRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiTelurRepository;
 
-class RekapanProduksiRepository extends EloquentRepository
+class RekapanPerFlockProduksiRepository extends EloquentRepository
 {
+    use KandangTanggalTrait;
+
     public function __construct(Kandang $model)
     {
         parent::__construct($model);
@@ -17,17 +18,23 @@ class RekapanProduksiRepository extends EloquentRepository
 
     public function getQuery(): Builder
     {
-        $base = app(RekapanPopulasiAyamRepository::class)->getQuery();
-        $produksiPakanQuery = app(RekapanPakanHarianRepository::class)->getQuery();
-        $produksiTelurQuery = app(RekapanProduksiTelurRepository::class)->getQuery();
+        $base               = app(RekapanPerFlockPopulasiAyamRepository::class)
+            ->setContext($this->kandangId, $this->tanggal)
+            ->getQuery();
+        $produksiPakanQuery = app(RekapanPerFlockPakanHarianRepository::class)
+            ->setContext($this->kandangId, $this->tanggal)
+            ->getQuery();
+        $produksiTelurQuery = app(RekapanPerFlockProduksiTelurRepository::class)
+            ->setContext($this->kandangId, $this->tanggal)
+            ->getQuery();
 
-        return $this->model
+        $query              = $this->model
             ->query()
             ->fromSub($base, 'xpaq')
             ->leftJoinSub($produksiPakanQuery, 'xppq', function ($join) {
                 $join
-                    ->on('xppq.id_kandang', '=', 'xpaq.kandang_id')
-                    ->on('xppq.tanggal_pemberian_pakan', '=', 'xpaq.tanggal');
+                    ->on('xppq.kandang_id', '=', 'xpaq.kandang_id')
+                    ->on('xppq.tanggal', '=', 'xpaq.tanggal');
             })
             ->leftJoinSub($produksiTelurQuery, 'xptq', function ($join) {
                 $join
@@ -35,9 +42,9 @@ class RekapanProduksiRepository extends EloquentRepository
                     ->on('xptq.tanggal', '=', 'xpaq.tanggal');
             })
             ->selectRaw(<<<SQL
-                xpaq.id
+                xpaq.flock_id
+                , xpaq.nama_flock
                 , xpaq.kandang_id
-                , xpaq.nama_kandang
                 , xpaq.tanggal
                 , xpaq.umur
                 , xpaq.sehat
@@ -53,7 +60,6 @@ class RekapanProduksiRepository extends EloquentRepository
                 , xpaq.masuk_karantina
                 , xpaq.keluar_karantina
 
-                , xppq.tanggal_pemberian_pakan
                 , xppq.umur_ayam
                 , xppq.jumlah_ayam
                 , xppq.pemberian_kg
@@ -78,13 +84,11 @@ class RekapanProduksiRepository extends EloquentRepository
                 , xptq.egg_mass
             SQL)
             ->groupBy(
-                'xpaq.id',
+                'xpaq.flock_id',
                 'xpaq.tanggal',
-                'xpaq.umur',
-                'xpaq.sehat',
-                'xpaq.mati',
-                'xpaq.afkir'
             );
+        
+        return $query;
     }
 
     public function customWhereQuery(): array
