@@ -27,7 +27,7 @@
 
 @section('content')
 <div class="mx-1400">
-    @include('kandang::rekapan.produksi._report_filter_header', ['routeName' => 'rekapan-produksi.report.daily'])
+    @include('kandang::rekapan.produksi._report_daily_filter_header', ['routeName' => 'rekapan-produksi.report.daily'])
 
     <div class="row">
         @include('kandang::rekapan.produksi.chart.daily.per-kandang.chart-1-populasi-ayam')

@@ -27,7 +27,7 @@
 
 @section('content')
 <div class="mx-1400">
-    @include('kandang::rekapan.produksi._report_filter_header', [
+    @include('kandang::rekapan.produksi._report_daily_filter_header', [
         'routeName' => 'rekapan-produksi.report.daily', 
         'umurAyam' => @$rekapanKandang->umur ?? 0
     ])

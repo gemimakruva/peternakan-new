@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanMingguanProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanPerFlockProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
 use Modules\Kandang\Services\Report\ReportDailyKandangService;
@@ -144,15 +145,21 @@ class ProduksiController extends Controller
     
     public function reportWeekly(Request $request)
     {
-        $tanggal        = $request->date('tanggal', 'Y-m-d') ?? today();
+        $umur           = $request->integer('umur', 13);
         $kandangId      = $request->integer('kandang_id');
         $listKandang    = $this->kandangRepository->getSelectItems();
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
 
         if ($kandang === null) {
+            $rekapanKandang = app(RekapanMingguanProduksiRepository::class)->setContext(null, $umur)
+                ->getQuery()
+                ->get();
+            // echo json_encode($rekapanKandang); die;
             return view('kandang::rekapan.produksi.report-weekly-per-kandang', compact([
-                'tanggal',
+                'umur',
                 'listKandang',
+
+                'rekapanKandang',
             ]));
         }
 
