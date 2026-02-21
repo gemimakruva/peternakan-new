@@ -15,7 +15,14 @@
         </div>
     </div>
 </div>
-
+<div class="col-12">
+    <x-adminlte-text-editor
+        label="Catatan Populasi"
+        name="catatan_populasi"
+        fgroup-class="mb-2"
+        :config="config('adminlte.plugins.Summernote.defaultConfig')"
+    >{{ old('catatan_populasi', @$catatanLaporan->catatan_populasi) }}</x-adminlte-text-editor>
+</div>
 
 @push('js')
 <script>

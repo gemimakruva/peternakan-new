@@ -100,6 +100,13 @@ class ProduksiController extends Controller
         $listKandang    = $this->kandangRepository->getSelectItems();
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
 
+        $catatanLaporan = $this->catatanLaporan
+            ->when($request->query('kandang_id'), function ($query, $kandangId) {
+                $query->where('kandang_id', '=', $kandangId);
+            })
+            ->whereDate('tanggal', '=', $tanggal)
+            ->first();
+
         if ($kandang === null) {
             // Data Populasi Ayam Hari Ini
             $populasiAyamPerKandang                     = $this->reportDailySemuaKandangService->populasiAyamPerKandang($tanggal);
@@ -125,6 +132,7 @@ class ProduksiController extends Controller
                 'konsumsiAyam',
                 'produksiTelurSemuaKandang',
                 'kpiProduksi',
+                'catatanLaporan',
             ]));
         }
 
@@ -145,6 +153,7 @@ class ProduksiController extends Controller
 
             'rekapanFlock',
             'rekapanKandang',
+            'catatanLaporan',
         ]));
     }
     

@@ -8,6 +8,14 @@
         </div>
     </div>
 </div>
+<div class="col-12">
+    <x-adminlte-text-editor
+        label="Catatan KPI Produksi"
+        name="catatan_kpi_produksi"
+        fgroup-class="mb-2"
+        :config="config('adminlte.plugins.Summernote.defaultConfig')"
+    >{{ old('catatan_kpi_produksi', @$catatanLaporan->catatan_kpi_produksi) }}</x-adminlte-text-editor>
+</div>
 
 @push('js')
 <script>

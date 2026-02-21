@@ -22,6 +22,14 @@
         </div>
     </div>
 </div>
+<div class="col-12">
+    <x-adminlte-text-editor
+        label="Catatan Kematian"
+        name="catatan_kematian"
+        fgroup-class="mb-2"
+        :config="config('adminlte.plugins.Summernote.defaultConfig')"
+    >{{ old('catatan_kematian', @$catatanLaporan->catatan_kematian) }}</x-adminlte-text-editor>
+</div>
 
 @push('js')
 <script>
