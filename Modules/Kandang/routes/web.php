@@ -116,6 +116,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('rekapan-produksi/report/weekly', [ProduksiController::class, 'reportWeekly'])->name('rekapan-produksi.report.weekly');
     Route::get('rekapan-produksi/export', [ProduksiController::class, 'exportIndex'])->name('rekapan-produksi.index.export');
     Route::get('rekapan-populasi-ayam', [RekapanPopulasiAyamController::class, 'index'])->name('rekapan-populasi-ayam.index');
+    Route::post('rekapan-populasi/catatan', [ProduksiController::class, 'saveCatatan'])->name('rekapan-populasi-ayam.catatan.store');
 
     // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');

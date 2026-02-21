@@ -6,7 +6,10 @@ use App\Exports\RekapanProduksiExport;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Validation\Rule;
 use Maatwebsite\Excel\Facades\Excel;
+use Modules\Kandang\Enums\CatatanLaporanTipe;
+use Modules\Kandang\Models\CatatanLaporan;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanMingguanProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanPerFlockMingguanProduksiRepository;
@@ -24,6 +27,7 @@ class ProduksiController extends Controller
         private KandangRepository $kandangRepository,
         private ReportDailySemuaKandangService $reportDailySemuaKandangService,
         private ReportDailyKandangService $reportDailyKandangService,
+        private CatatanLaporan $catatanLaporan,
     ) { 
         $this->middleware('can:kandang.rekapan.menu-rekapan-produksi');
     }
@@ -152,6 +156,14 @@ class ProduksiController extends Controller
         $listKandang    = $this->kandangRepository->getSelectItems();
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
 
+
+        $catatanLaporan = $this->catatanLaporan
+            ->when($request->query('kandang_id'), function ($query, $kandangId) {
+                $query->where('kandang_id', '=', $kandangId);
+            })
+            ->where('umur', '=', $umur)
+            ->first();
+
         if ($kandang === null) {
             $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
                 ->setContext(null, $umur)
@@ -161,6 +173,7 @@ class ProduksiController extends Controller
                 'umur',
                 'listKandang',
                 'rekapanKandang',
+                'catatanLaporan',
             ]));
         }
 
@@ -172,13 +185,47 @@ class ProduksiController extends Controller
             ->setContext($kandangId, $umur)
             ->getQuery()
             ->first();
-// echo json_encode($rekapanKandang); die;
+
         return view('kandang::rekapan.produksi.report-weekly-per-flock', compact([
             'umur',
             'listKandang',
             'kandang',
             'rekapanFlock',
             'rekapanKandang',
+            'catatanLaporan',
         ]));
+    }
+
+    public function saveCatatan(Request $request)
+    {
+        $validated = $request->validate([
+            'tipe'                      => ['required', Rule::in(CatatanLaporanTipe::getArrayValues())],
+            'kandang_id'                => ['nullable', 'exists:kandang,id'],
+            'umur'                      => ['sometimes', 'min:1'],
+            'tanggal'                   => ['sometimes', 'date'],
+            'catatan_populasi'          => ['nullable', 'string', 'max:1000'],
+            'catatan_kematian'          => ['nullable', 'string', 'max:1000'],
+            'catatan_konsumsi'          => ['nullable', 'string', 'max:1000'],
+            'catatan_produksi_telur'    => ['nullable', 'string', 'max:1000'],
+            'catatan_kpi_produksi'      => ['nullable', 'string', 'max:1000'],
+            'catatan_keseluruhan'       => ['nullable', 'string', 'max:1000'],
+        ]);
+
+        $this->catatanLaporan->updateOrCreate([
+            'tipe'                      => $validated['tipe'],
+            'kandang_id'                => @$validated['kandang_id'],
+            'umur'                      => @$validated['umur'],
+            'tanggal'                   => @$validated['tanggal'],
+        ], [
+            'creator_user_id'           => auth()->id(),
+            'catatan_populasi'          => $validated['catatan_populasi'],
+            'catatan_kematian'          => $validated['catatan_kematian'],
+            'catatan_konsumsi'          => $validated['catatan_konsumsi'],
+            'catatan_produksi_telur'    => $validated['catatan_produksi_telur'],
+            'catatan_kpi_produksi'      => $validated['catatan_kpi_produksi'],
+            'catatan_keseluruhan'       => $validated['catatan_keseluruhan'],
+        ]);
+
+        return back()->with('success', 'Catatan Laporan Berhasil Disimpan.');
     }
 }

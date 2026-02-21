@@ -1,12 +1,19 @@
 <div class="col-12">
     <h2 class="h4">KPI Produksi</h2>
 </div>
-<div class="col-12 col-lg-6">
+<div class="col-12 col-lg-12">
     <div class="card">
         <div class="card-body">
             <canvas id="kpi-produksi-per-kandang"></canvas>
         </div>
     </div>
+</div>
+<div class="col-12">
+    <x-adminlte-text-editor
+        label="Catatan KPI Produksi"
+        name="catatan_kpi_produksi"
+        fgroup-class="mb-2"
+    >{{ @$catatanLaporan->catatan_kpi_produksi }}</x-adminlte-text-editor>
 </div>
 
 @push('js')

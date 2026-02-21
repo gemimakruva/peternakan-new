@@ -30,6 +30,13 @@
         </div>
     </div>
 </div>
+<div class="col-12">
+    <x-adminlte-text-editor
+        label="Catatan Produksi Telur"
+        name="catatan_produksi_telur"
+        fgroup-class="mb-2"
+    >{{ @$catatanLaporan->catatan_produksi_telur }}</x-adminlte-text-editor>
+</div>
 
 @push('js')
 <script>
