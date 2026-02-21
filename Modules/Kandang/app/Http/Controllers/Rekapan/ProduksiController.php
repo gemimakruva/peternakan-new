@@ -9,10 +9,12 @@ use Illuminate\Support\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanMingguanProduksiRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanPerFlockMingguanProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanPerFlockProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
 use Modules\Kandang\Services\Report\ReportDailyKandangService;
 use Modules\Kandang\Services\Report\ReportDailySemuaKandangService;
+use function GuzzleHttp\json_encode;
 
 class ProduksiController extends Controller
 {
@@ -151,22 +153,32 @@ class ProduksiController extends Controller
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
 
         if ($kandang === null) {
-            $rekapanKandang = app(RekapanMingguanProduksiRepository::class)->setContext(null, $umur)
+            $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
+                ->setContext(null, $umur)
                 ->getQuery()
                 ->get();
-            // echo json_encode($rekapanKandang); die;
             return view('kandang::rekapan.produksi.report-weekly-per-kandang', compact([
                 'umur',
                 'listKandang',
-
                 'rekapanKandang',
             ]));
         }
 
+        $rekapanFlock = app(RekapanPerFlockMingguanProduksiRepository::class)
+            ->setContext($kandangId, $umur)
+            ->getQuery()
+            ->get();
+        $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
+            ->setContext($kandangId, $umur)
+            ->getQuery()
+            ->first();
+// echo json_encode($rekapanKandang); die;
         return view('kandang::rekapan.produksi.report-weekly-per-flock', compact([
-            'tanggal',
+            'umur',
             'listKandang',
             'kandang',
+            'rekapanFlock',
+            'rekapanKandang',
         ]));
     }
 }

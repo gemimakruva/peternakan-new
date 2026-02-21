@@ -28,6 +28,8 @@ class RekapanPerFlockProduksiRepository extends EloquentRepository
             ->setContext($this->kandangId, $this->tanggal)
             ->getQuery();
 
+        $base->orderByDesc('xpa.tanggal');
+
         $query              = $this->model
             ->query()
             ->fromSub($base, 'xpaq')

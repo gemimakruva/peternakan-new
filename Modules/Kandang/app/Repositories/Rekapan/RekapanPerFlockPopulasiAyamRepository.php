@@ -30,7 +30,9 @@ class RekapanPerFlockPopulasiAyamRepository extends EloquentRepository
             SQL)
             ->groupBy('pa.flock_id', 'pa.tanggal')
             ->where('pa.kandang_id', '=', $this->kandangId)
-            ->whereDate('pa.tanggal', '=', $this->tanggal);
+            ->when($this->tanggal, function ($query2, $tanggal) {
+                $query2->whereDate('pa.tanggal', '=', $tanggal);
+            });
 
         $akumulasi = DB::table('populasi_ayam as pa2')
             ->selectRaw(<<<SQL
@@ -42,7 +44,9 @@ class RekapanPerFlockPopulasiAyamRepository extends EloquentRepository
             SQL)
             ->groupBy('pa2.flock_id', 'pa2.tanggal')
             ->where('pa2.kandang_id', '=', $this->kandangId)
-            ->whereDate('pa2.tanggal', '<=', $this->tanggal);
+            ->when($this->tanggal, function ($query2, $tanggal) {
+                $query2->whereDate('pa2.tanggal', '<=', $tanggal);
+            });
 
         $akumulasiKarantina = DB::table('karantina_populasi_pipe as kpp')
             ->selectRaw(<<<SQL
@@ -57,7 +61,9 @@ class RekapanPerFlockPopulasiAyamRepository extends EloquentRepository
                 $join->where('kpp.kandang_asal_id', '=', $this->kandangId);
                 $join->orWhere('kpp.kandang_tujuan_id', '=', $this->kandangId);
             })
-            ->whereDate('kpp.tanggal', '=', $this->tanggal);
+            ->when($this->tanggal, function ($query2, $tanggal) {
+                $query2->whereDate('kpp.tanggal', '=', $tanggal);
+            });
 
         return $this->model
             ->query()

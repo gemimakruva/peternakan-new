@@ -143,7 +143,9 @@ class RekapanPerFlockProduksiTelurRepository extends EloquentRepository
                 'produksi_telur.tanggal'
             )
             ->where('xpt.kandang_id', '=', $this->kandangId)
-            ->whereDate('xpt.tanggal', '=', $this->tanggal);
+            ->when($this->tanggal, function ($query2, $tanggal) {
+                $query2->whereDate('xpt.tanggal', '=', $tanggal);
+            });
 
         return $query;
     }

@@ -31,7 +31,9 @@ class RekapanPerFlockPakanHarianRepository extends EloquentRepository
             SQL)
             ->groupBy('ppi.perhitungan_pakan_id', 'ppi.flock_id')
             ->where('ppi.kandang_id', '=', $this->kandangId)
-            ->whereDate('ppi.tanggal_pemberian_pakan', '=', $this->tanggal);
+            ->when($this->tanggal, function ($query2, $tanggal) {
+                $query2->whereDate('ppi.tanggal_pemberian_pakan', '=', $tanggal);
+            });
 
         $sisaPakanQuery = DB::table('pemberian_pakan_sisa_pakan as ppsp')
             ->join('flock','flock.id', '=', 'ppsp.flock_id')
@@ -66,7 +68,9 @@ class RekapanPerFlockPakanHarianRepository extends EloquentRepository
             SQL)
             ->groupBy('xppi.flock_id', 'xppi.tanggal')
             ->where('xppi.kandang_id', '=', $this->kandangId)
-            ->whereDate('xppi.tanggal', '=', $this->tanggal);
+            ->when($this->tanggal, function ($query2, $tanggal) {
+                $query2->whereDate('xppi.tanggal', '=', $tanggal);
+            });
 
         return $query;
     }

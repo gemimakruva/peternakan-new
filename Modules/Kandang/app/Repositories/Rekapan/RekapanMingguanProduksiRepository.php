@@ -63,6 +63,12 @@ class RekapanMingguanProduksiRepository extends EloquentRepository
                 , avg(xppq.feed_intake_per_ekor) as feed_intake_per_ekor
                 , xppq.feed_intake_per_ekor_standar
 
+                , sum(xptq.jumlah_telur_bagus) as jumlah_telur_bagus
+                , sum(xptq.jumlah_telur_putih) as jumlah_telur_putih
+                , sum(xptq.jumlah_telur_reject) as jumlah_telur_reject
+                , sum(xptq.berat_telur_bagus) as berat_telur_bagus
+                , sum(xptq.berat_telur_putih) as berat_telur_putih
+                , sum(xptq.berat_telur_reject) as berat_telur_reject
                 , sum(xptq.total_jumlah_telur) as total_jumlah_telur
                 , sum(xptq.total_berat_telur) as total_berat_telur
 
@@ -76,7 +82,10 @@ class RekapanMingguanProduksiRepository extends EloquentRepository
                 'xpaq.kandang_id',
                 'xpaq.umur',
             )
-            ->where('umur', '=', $this->umur);
+            ->where('umur', '=', $this->umur)
+            ->when(isset($this->kandangId) && $this->kandangId, function ($query2) {
+                $query2->where('xpaq.kandang_id', '=', $this->kandangId);
+            });
 
         return $query;
     }
