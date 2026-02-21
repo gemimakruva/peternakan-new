@@ -1,3 +1,7 @@
+@push('js')
+    <script src="{{ Vite::asset('resources/js/print-charts.js') }}" defer></script>
+@endpush
+
 <h2 class="h4">Filter</h2>
 <div class="card">
     <div class="card-body">
@@ -36,7 +40,56 @@
                 <button class="btn btn-primary mt-2">
                     <i class="fas fa-search"></i>
                 </button>
+                <button type="button" class="btn btn-danger" onclick="downloadPdf()">
+                    <i class="fas fa-file-pdf"></i>
+                </button>
             </div>
         </form>
     </div>
 </div>
+
+@push('js')
+<script>
+function downloadPdf() {
+    // Get chart images
+    const chartImages = PrintCharts.getImages();
+    
+    // Create form to submit to server
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `{{ route('rekapan-produksi.report.daily.pdf', ['client-side' => true]) }}`;
+    form.target = '_blank';
+    
+    // Add CSRF token
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = '_token';
+    csrfInput.value = '{{ csrf_token() }}';
+    form.appendChild(csrfInput);
+    
+    // Add filter data
+    const tanggalInput = document.createElement('input');
+    tanggalInput.type = 'hidden';
+    tanggalInput.name = 'tanggal';
+    tanggalInput.value = '{{ $tanggal->format('Y-m-d') }}';
+    form.appendChild(tanggalInput);
+    
+    const kandangInput = document.createElement('input');
+    kandangInput.type = 'hidden';
+    kandangInput.name = 'kandang_id';
+    kandangInput.value = '{{ @$kandang?->id ?? '' }}';
+    form.appendChild(kandangInput);
+    
+    // Add chart images as JSON
+    const chartsInput = document.createElement('input');
+    chartsInput.type = 'hidden';
+    chartsInput.name = 'chart_images';
+    chartsInput.value = JSON.stringify(chartImages);
+    form.appendChild(chartsInput);
+    
+    document.body.appendChild(form);
+    form.submit();
+    document.body.removeChild(form);
+}
+</script>
+@endpush

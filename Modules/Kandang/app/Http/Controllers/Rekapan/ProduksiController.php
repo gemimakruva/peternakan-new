@@ -244,6 +244,55 @@ class ProduksiController extends Controller
         ]);
     }
 
+    /**
+     * Generate PDF for daily report
+     */
+    public function reportDailyPdf(Request $request)
+    {
+        $tanggal        = $request->date('tanggal', 'Y-m-d') ?? today();
+        $kandangId      = $request->integer('kandang_id');
+        $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
+
+        $catatanLaporan = $this->catatanLaporan
+            ->when($kandangId, function ($query, $kandangId) {
+                $query->where('kandang_id', '=', $kandangId);
+            })
+            ->whereDate('tanggal', '=', $tanggal)
+            ->first();
+
+        // Get chart images from request (sent from client-side)
+        $chartImages = json_decode($request->input('chart_images', '{}'), true);
+
+        if ($kandang === null) {
+            // Per Kandang view (all kandang)
+            return view('kandang::rekapan.produksi.report-daily-per-kandang-print', [
+                'tanggal'           => $tanggal,
+                'kandang'           => $kandang,
+                'catatanLaporan'    => $catatanLaporan,
+                'chartImages'       => $chartImages,
+            ]);
+        }
+
+        // Per Flock view (specific kandang)
+        $rekapanFlock = app(RekapanPerFlockProduksiRepository::class)
+            ->setContext($kandangId, $tanggal)
+            ->getQuery()
+            ->get();
+        $rekapanKandang = app(RekapanProduksiRepository::class)
+            ->getQuery()
+            ->whereDate('xpaq.tanggal', '=', $tanggal)
+            ->first();
+
+        return view('kandang::rekapan.produksi.report-daily-per-flock-print', [
+            'tanggal'           => $tanggal,
+            'kandang'           => $kandang,
+            'rekapanFlock'      => $rekapanFlock,
+            'rekapanKandang'    => $rekapanKandang,
+            'catatanLaporan'    => $catatanLaporan,
+            'chartImages'       => $chartImages,
+        ]);
+    }
+
     public function saveCatatan(Request $request)
     {
         $validated = $request->validate([
