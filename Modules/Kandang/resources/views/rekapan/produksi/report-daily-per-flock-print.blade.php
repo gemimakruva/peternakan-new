@@ -12,11 +12,14 @@
     {{-- Filter Info Display --}}
     <div class="print-filter-info">
         <div class="row">
-            <div class="col-6">
-                <strong>Kandang:</strong> {{ $kandang->nama_kandang ?? '-' }}
+            <div class="col-4">
+                <strong>Kandang:</strong> {{ $kandang->nama ?? '-' }}
             </div>
-            <div class="col-6">
+            <div class="col-4">
                 <strong>Tanggal:</strong> {{ $tanggal->format('d-m-Y') }}
+            </div>
+            <div class="col-4">
+                <strong>Umur Ayam:</strong> {{ $umur ?? '-' }} minggu
             </div>
         </div>
     </div>

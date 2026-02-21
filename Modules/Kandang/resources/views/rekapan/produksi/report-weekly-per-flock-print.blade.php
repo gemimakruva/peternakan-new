@@ -1,44 +1,41 @@
 @extends('layouts.print')
 
 @php
-    $title = "Laporan Harian";
+    $title = "Laporan Mingguan $kandang->nama";
 @endphp
 
 @section('title', $title)
-@section('subtitle', 'Per Kandang')
+@section('subtitle', 'Per Flock')
 
 @section('content')
 <div class="print-container">
     {{-- Filter Info Display --}}
     <div class="print-filter-info">
         <div class="row">
-            <div class="col-4">
-                <strong>Kandang:</strong> {{ $kandang->nama_kandang ?? 'Semua Kandang' }}
+            <div class="col-6">
+                <strong>Kandang:</strong> {{ $kandang->nama ?? '-' }}
             </div>
-            <div class="col-4">
-                <strong>Tanggal:</strong> {{ $tanggal->format('d-m-Y') }}
-            </div>
-            <div class="col-4">
-                <strong>Umur Ayam:</strong> {{ $umur ?? '-' }} minggu
+            <div class="col-6">
+                <strong>Umur Ayam:</strong> {{ $umur }} minggu
             </div>
         </div>
     </div>
 
     {{-- Chart 1: Populasi Ayam --}}
     <div class="avoid-break">
-        <h3>Data Populasi Ayam Hari Ini</h3>
+        <h3>Data Populasi Ayam Minggu Ini</h3>
         <div class="row">
+            @if(isset($chartImages['populasi-ayam-chart-per-flock']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['populasi-ayam-chart-per-flock'] }}" alt="Data Populasi Ayam per Flock">
+                </div>
+            </div>
+            @endif
             @if(isset($chartImages['populasi-ayam-chart-per-kandang']))
             <div class="col-6">
                 <div class="chart-container">
                     <img src="{{ $chartImages['populasi-ayam-chart-per-kandang'] }}" alt="Data Populasi Ayam per Kandang">
-                </div>
-            </div>
-            @endif
-            @if(isset($chartImages['populasi-ayam-chart-semua-kandang']))
-            <div class="col-6">
-                <div class="chart-container">
-                    <img src="{{ $chartImages['populasi-ayam-chart-semua-kandang'] }}" alt="Data Populasi Semua Kandang">
                 </div>
             </div>
             @endif
@@ -57,6 +54,13 @@
     <div class="avoid-break page-break">
         <h3>Data Akumulasi Kematian Ayam</h3>
         <div class="row">
+            @if(isset($chartImages['kematian-ayam-chart-per-flock']))
+            <div class="col-4">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kematian-ayam-chart-per-flock'] }}" alt="Data Kematian Ayam per Flock">
+                </div>
+            </div>
+            @endif
             @if(isset($chartImages['kematian-ayam-chart-per-kandang']))
             <div class="col-4">
                 <div class="chart-container">
@@ -64,17 +68,10 @@
                 </div>
             </div>
             @endif
-            @if(isset($chartImages['kematian-ayam-chart-semua-kandang']))
+            @if(isset($chartImages['akumulasi-kematian-ayam-chart-per-flock']))
             <div class="col-4">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['kematian-ayam-chart-semua-kandang'] }}" alt="Data Kematian Ayam Semua Kandang">
-                </div>
-            </div>
-            @endif
-            @if(isset($chartImages['persentase-kematian-ayam-chart-per-kandang']))
-            <div class="col-4">
-                <div class="chart-container">
-                    <img src="{{ $chartImages['persentase-kematian-ayam-chart-per-kandang'] }}" alt="Persentase Akumulasi Kematian per Kandang">
+                    <img src="{{ $chartImages['akumulasi-kematian-ayam-chart-per-flock'] }}" alt="Persentase Akumulasi Kematian per Flock">
                 </div>
             </div>
             @endif
@@ -93,10 +90,10 @@
     <div class="avoid-break page-break">
         <h3>Data Konsumsi Ayam</h3>
         <div class="row">
-            @if(isset($chartImages['feed-intake-ayam-chart-per-kandang']))
+            @if(isset($chartImages['feed-intake-ayam-chart-per-flock']))
             <div class="col-12">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['feed-intake-ayam-chart-per-kandang'] }}" alt="Konsumsi Rata-rata per Ekor Ayam per Kandang">
+                    <img src="{{ $chartImages['feed-intake-ayam-chart-per-flock'] }}" alt="Konsumsi Rata-rata per Ekor Ayam per Flock">
                 </div>
             </div>
             @endif
@@ -115,31 +112,31 @@
     <div class="avoid-break page-break">
         <h3>Data Produksi Telur</h3>
         <div class="row">
-            @if(isset($chartImages['produksi-butir-telur-pipe-chart-semua-kandang']))
+            @if(isset($chartImages['produksi-butir-telur-pipe-chart-semua-flock']))
             <div class="col-6">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['produksi-butir-telur-pipe-chart-semua-kandang'] }}" alt="Jumlah Butir Telur semua Kandang">
+                    <img src="{{ $chartImages['produksi-butir-telur-pipe-chart-semua-flock'] }}" alt="Jumlah Butir Telur semua Flock">
                 </div>
             </div>
             @endif
-            @if(isset($chartImages['produksi-berat-telur-pipe-chart-semua-kandang']))
+            @if(isset($chartImages['produksi-berat-telur-pipe-chart-semua-flock']))
             <div class="col-6">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['produksi-berat-telur-pipe-chart-semua-kandang'] }}" alt="Berat Telur semua Kandang">
+                    <img src="{{ $chartImages['produksi-berat-telur-pipe-chart-semua-flock'] }}" alt="Berat Telur semua Flock">
                 </div>
             </div>
             @endif
-            @if(isset($chartImages['produksi-butir-telur-pie-semua-kandang']))
+            @if(isset($chartImages['produksi-butir-telur-pie-per-kandang']))
             <div class="col-6">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['produksi-butir-telur-pie-semua-kandang'] }}" alt="Jumlah Produksi Telur - Semua Kandang">
+                    <img src="{{ $chartImages['produksi-butir-telur-pie-per-kandang'] }}" alt="Data Produksi Telur per Kandang">
                 </div>
             </div>
             @endif
-            @if(isset($chartImages['produksi-berat-telur-pie-semua-kandang']))
+            @if(isset($chartImages['produksi-berat-telur-pie-per-kandang']))
             <div class="col-6">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['produksi-berat-telur-pie-semua-kandang'] }}" alt="Produksi Telur (Kilogram) - Semua Kandang">
+                    <img src="{{ $chartImages['produksi-berat-telur-pie-per-kandang'] }}" alt="Data Produksi Telur (Kilogram) per Kandang">
                 </div>
             </div>
             @endif
@@ -158,10 +155,10 @@
     <div class="avoid-break page-break">
         <h3>Data KPI Produksi</h3>
         <div class="row">
-            @if(isset($chartImages['kpi-produksi-per-kandang']))
+            @if(isset($chartImages['kpi-produksi-per-flock']))
             <div class="col-12">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['kpi-produksi-per-kandang'] }}" alt="KPI Produksi per Kandang">
+                    <img src="{{ $chartImages['kpi-produksi-per-flock'] }}" alt="KPI Produksi per Flock">
                 </div>
             </div>
             @endif

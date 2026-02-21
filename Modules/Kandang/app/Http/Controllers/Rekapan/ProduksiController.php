@@ -209,7 +209,7 @@ class ProduksiController extends Controller
      */
     public function reportWeeklyPdf(Request $request)
     {
-        $umur           = $request->integer('umure', 13);
+        $umur           = $request->integer('umur', 13);
         $kandangId      = $request->integer('kandang_id');
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
 
@@ -228,16 +228,30 @@ class ProduksiController extends Controller
                 ->setContext(null, $umur)
                 ->getQuery()
                 ->get();
-        } else {
-            $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
-                ->setContext($kandangId, $umur)
-                ->getQuery()
-                ->first();
+
+            return view('kandang::rekapan.produksi.report-weekly-per-kandang-print', [
+                'umur'              => $umur,
+                'kandang'           => $kandang,
+                'rekapanKandang'    => $rekapanKandang,
+                'catatanLaporan'    => $catatanLaporan,
+                'chartImages'       => $chartImages,
+            ]);
         }
 
-        return view('kandang::rekapan.produksi.report-weekly-per-kandang-print', [
+        // Per Flock view (specific kandang)
+        $rekapanFlock = app(RekapanPerFlockMingguanProduksiRepository::class)
+            ->setContext($kandangId, $umur)
+            ->getQuery()
+            ->get();
+        $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
+            ->setContext($kandangId, $umur)
+            ->getQuery()
+            ->first();
+
+        return view('kandang::rekapan.produksi.report-weekly-per-flock-print', [
             'umur'              => $umur,
             'kandang'           => $kandang,
+            'rekapanFlock'      => $rekapanFlock,
             'rekapanKandang'    => $rekapanKandang,
             'catatanLaporan'    => $catatanLaporan,
             'chartImages'       => $chartImages,
@@ -265,9 +279,17 @@ class ProduksiController extends Controller
 
         if ($kandang === null) {
             // Per Kandang view (all kandang)
+            // Get umur from any rekapan data for the date
+            $rekapanKandangForUmur = app(RekapanProduksiRepository::class)
+                ->getQuery()
+                ->whereDate('xpaq.tanggal', '=', $tanggal)
+                ->first();
+            $umur = $rekapanKandangForUmur?->umur ?? null;
+
             return view('kandang::rekapan.produksi.report-daily-per-kandang-print', [
                 'tanggal'           => $tanggal,
                 'kandang'           => $kandang,
+                'umur'              => $umur,
                 'catatanLaporan'    => $catatanLaporan,
                 'chartImages'       => $chartImages,
             ]);
@@ -286,6 +308,7 @@ class ProduksiController extends Controller
         return view('kandang::rekapan.produksi.report-daily-per-flock-print', [
             'tanggal'           => $tanggal,
             'kandang'           => $kandang,
+            'umur'              => $rekapanKandang?->umur ?? null,
             'rekapanFlock'      => $rekapanFlock,
             'rekapanKandang'    => $rekapanKandang,
             'catatanLaporan'    => $catatanLaporan,
