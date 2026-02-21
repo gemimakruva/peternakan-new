@@ -25,29 +25,38 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <div class="d-flex justify-content-between align-items-center">
-                <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
-                    <x-adminlte-select
-                        name="kandang_id"
-                        class="mx-200"
-                        fgroup-class="mb-0"
-                        placeholder="Semua Kandang"
-                    >
-                        <x-adminlte-options
-                            :options="$listKandang"
-                            empty-option="Semua Kandang"
-                            :selected="request()->query('kandang_id')"
-                        />
-                    </x-adminlte-select>
-                    <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
-                    <a href="{{ route('rekapan-produksi.index') }}">
-                        <x-adminlte-button icon="fas fa-undo" />
+            <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-3 align-items-end flex-column flex-sm-row">
+                <x-adminlte-select
+                    name="kandang_id"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                    placeholder="Semua Kandang"
+                >
+                    <x-adminlte-options
+                        :options="$listKandang"
+                        empty-option="Semua Kandang"
+                        :selected="request()->query('kandang_id')"
+                    />
+                </x-adminlte-select>
+
+                <x-adminlte-input 
+                    type="date"
+                    name="tanggal"
+                    fgroup-class="mb-0 w-100 mx-sm-200"
+                    :value="request()->query('tanggal')"
+                />
+                
+                <div class="d-flex gap-2 justify-content-between flex-1">
+                    <div class="d-flex gap-2">
+                        <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
+                        <a href="{{ route('rekapan-produksi.index') }}">
+                            <x-adminlte-button icon="fas fa-undo" />
+                        </a>
+                    </div>
+                    <a href="{{ route('rekapan-produksi.index.export') }}" class="btn btn-primary">
+                        <i class="fas fa-file-excel"></i>
                     </a>
-                </form>
-                <a href="{{ route('rekapan-produksi.index.export') }}" class="btn btn-primary">
-                    <i class="fas fa-file-excel"></i>
-                </a>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -147,7 +156,7 @@
                             <td>
                                 <div class="d-flex justify-content-between">
                                     <a
-                                        href="{{ route('rekapan-produksi.report', [ 'tanggal' => $data->tanggal->format('Y-m-d'), 'kandang_id' => $data->kandang_id ]) }}"
+                                        href="{{ route('rekapan-produksi.detail', [ 'tanggal' => $data->tanggal->format('Y-m-d'), 'kandang_id' => $data->kandang_id ]) }}"
                                         class="btn btn-info btn-sm"
                                     >
                                         <i class="fas fa-eye"></i>

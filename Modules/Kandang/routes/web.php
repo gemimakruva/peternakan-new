@@ -111,9 +111,14 @@ Route::middleware(['auth'])->group(function () {
 
     // ===== Menu Rekapan =====
     Route::get('rekapan-produksi', [ProduksiController::class, 'index'])->name('rekapan-produksi.index');
-    Route::get('rekapan-produksi/report', [ProduksiController::class, 'report'])->name('rekapan-produksi.report');
+    Route::get('rekapan-produksi/detail', [ProduksiController::class, 'detail'])->name('rekapan-produksi.detail');
+    Route::get('rekapan-produksi/report/daily', [ProduksiController::class, 'reportDaily'])->name('rekapan-produksi.report.daily');
+    Route::post('rekapan-produksi/report/daily/pdf', [ProduksiController::class, 'reportDailyPdf'])->name('rekapan-produksi.report.daily.pdf');
+    Route::get('rekapan-produksi/report/weekly', [ProduksiController::class, 'reportWeekly'])->name('rekapan-produksi.report.weekly');
+    Route::post('rekapan-produksi/report/weekly/pdf', [ProduksiController::class, 'reportWeeklyPdf'])->name('rekapan-produksi.report.weekly.pdf');
     Route::get('rekapan-produksi/export', [ProduksiController::class, 'exportIndex'])->name('rekapan-produksi.index.export');
     Route::get('rekapan-populasi-ayam', [RekapanPopulasiAyamController::class, 'index'])->name('rekapan-populasi-ayam.index');
+    Route::post('rekapan-populasi/catatan', [ProduksiController::class, 'saveCatatan'])->name('rekapan-populasi-ayam.catatan.store');
 
     // ===== Menu Produksi Telur =====
     Route::resource('recording-telur', RecordingTelurController::class)->names('recording-telur');

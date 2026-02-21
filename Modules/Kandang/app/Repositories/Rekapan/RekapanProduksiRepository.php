@@ -3,11 +3,10 @@
 namespace Modules\Kandang\Repositories\Rekapan;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Repositories\EloquentRepository;
-use Modules\Kandang\Repositories\Pakan\OverviewPakanHarianRepository;
-use Modules\Kandang\Repositories\ProduksiTelur\OverviewProduksiTelurRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanPakanHarianRepository;
+use Modules\Kandang\Repositories\Rekapan\RekapanProduksiTelurRepository;
 
 class RekapanProduksiRepository extends EloquentRepository
 {
@@ -19,8 +18,8 @@ class RekapanProduksiRepository extends EloquentRepository
     public function getQuery(): Builder
     {
         $base = app(RekapanPopulasiAyamRepository::class)->getQuery();
-        $produksiPakanQuery = app(OverviewPakanHarianRepository::class)->getQuery();
-        $produksiTelurQuery = app(OverviewProduksiTelurRepository::class)->getQuery();
+        $produksiPakanQuery = app(RekapanPakanHarianRepository::class)->getQuery();
+        $produksiTelurQuery = app(RekapanProduksiTelurRepository::class)->getQuery();
 
         return $this->model
             ->query()
@@ -91,8 +90,11 @@ class RekapanProduksiRepository extends EloquentRepository
     public function customWhereQuery(): array
     {
         return [
-            'kandang_id' => function ($q, $kandangId) {
+            'kandang_id'    => function ($q, $kandangId) {
                 $q->where('xpaq.id', '=', $kandangId);
+            },
+            'tanggal'       => function ($q, $tanggal) {
+                $q->where('xpaq.tanggal', '=', $tanggal);
             }
         ];
     }

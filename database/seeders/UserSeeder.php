@@ -22,6 +22,8 @@ class UserSeeder extends Seeder
         $superadmin = User::firstOrCreate([
             'name' => 'Superadmin',
             'email' => 'superadmin@peternakan.com',
+        ], [
+            'password' => Hash::make('password'),
         ]);
         $roleSuperadmin = Role::firstOrCreate(['name' => 'Superadmin']);
         $superadmin->syncRoles($roleSuperadmin);

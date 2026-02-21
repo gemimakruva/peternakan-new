@@ -432,6 +432,19 @@ return [
             'route' => 'rekapan-produksi.index',
             'icon'  => 'fas fa-chart-line',
             'can'   => 'kandang.rekapan.menu-rekapan-produksi',
+            'active' => ['rekapan-produksi', 'rekapan-produksi/detail']
+        ],
+        [
+            'text'  => 'Laporan Harian',
+            'route' => 'rekapan-produksi.report.daily',
+            'icon'  => 'fas fa-chart-line',
+            'can'   => 'kandang.rekapan.menu-rekapan-produksi',
+        ],
+        [
+            'text'  => 'Laporan Mingguan',
+            'route' => 'rekapan-produksi.report.weekly',
+            'icon'  => 'fas fa-chart-line',
+            'can'   => 'kandang.rekapan.menu-rekapan-psroduksi',
         ],
 
         // ====================  POPULASI  ==========================
@@ -788,6 +801,33 @@ return [
                     'location' => 'vendor/bootstrap-switch/js/bootstrap-switch.min.js',
                 ],
             ],
+        ],
+        'Summernote' => [
+            'active' => false,
+            'files' => [
+                [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.js',
+                ],
+                [
+                    'type' => 'css',
+                    'asset' => true,
+                    'location' => 'vendor/summernote/summernote-bs4.min.css',
+                ],
+            ],
+            'defaultConfig' => [
+                "height" => "100",
+                "toolbar" => [
+                    ['style', ['style']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+            ]
         ],
     ],
 
