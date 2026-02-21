@@ -17,7 +17,6 @@ use Modules\Kandang\Repositories\Rekapan\RekapanPerFlockProduksiRepository;
 use Modules\Kandang\Repositories\Rekapan\RekapanProduksiRepository;
 use Modules\Kandang\Services\Report\ReportDailyKandangService;
 use Modules\Kandang\Services\Report\ReportDailySemuaKandangService;
-use function GuzzleHttp\json_encode;
 
 class ProduksiController extends Controller
 {
@@ -194,6 +193,46 @@ class ProduksiController extends Controller
             'rekapanKandang',
             'catatanLaporan',
         ]));
+    }
+
+    /**
+     * Generate PDF for weekly report
+     */
+    public function reportWeeklyPdf(Request $request)
+    {
+        $umur           = $request->integer('umure', 13);
+        $kandangId      = $request->integer('kandang_id');
+        $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
+
+        $catatanLaporan = $this->catatanLaporan
+            ->when($kandangId, function ($query, $kandangId) {
+                $query->where('kandang_id', '=', $kandangId);
+            })
+            ->where('umur', '=', $umur)
+            ->first();
+
+        // Get chart images from request (sent from client-side)
+        $chartImages = json_decode($request->input('chart_images', '{}'), true);
+
+        if ($kandang === null) {
+            $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
+                ->setContext(null, $umur)
+                ->getQuery()
+                ->get();
+        } else {
+            $rekapanKandang = app(RekapanMingguanProduksiRepository::class)
+                ->setContext($kandangId, $umur)
+                ->getQuery()
+                ->first();
+        }
+
+        return view('kandang::rekapan.produksi.report-weekly-per-kandang-print', [
+            'umur'              => $umur,
+            'kandang'           => $kandang,
+            'rekapanKandang'    => $rekapanKandang,
+            'catatanLaporan'    => $catatanLaporan,
+            'chartImages'       => $chartImages,
+        ]);
     }
 
     public function saveCatatan(Request $request)
