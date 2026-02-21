@@ -53,7 +53,8 @@
                 label="Catatan Keseluruhan"
                 name="catatan_keseluruhan"
                 fgroup-class="mb-2"
-            >{{ @$catatanLaporan->catatan_keseluruhan }}</x-adminlte-text-editor>
+                :config="config('adminlte.plugins.Summernote.defaultConfig')"
+            >{{ old('catatan_keseluruhan', @$catatanLaporan->catatan_keseluruhan) }}</x-adminlte-text-editor>
             <div class="text-right">
                 <button class="btn btn-primary px-4">Simpan</button>
             </div>

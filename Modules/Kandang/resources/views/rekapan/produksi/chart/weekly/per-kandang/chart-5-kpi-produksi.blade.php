@@ -13,7 +13,8 @@
         label="Catatan KPI Produksi"
         name="catatan_kpi_produksi"
         fgroup-class="mb-2"
-    >{{ @$catatanLaporan->catatan_kpi_produksi }}</x-adminlte-text-editor>
+        :config="config('adminlte.plugins.Summernote.defaultConfig')"
+    >{{ old('catatan_kpi_produksi', @$catatanLaporan->catatan_kpi_produksi) }}</x-adminlte-text-editor>
 </div>
 
 @push('js')

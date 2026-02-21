@@ -35,7 +35,8 @@
         label="Catatan Produksi Telur"
         name="catatan_produksi_telur"
         fgroup-class="mb-2"
-    >{{ @$catatanLaporan->catatan_produksi_telur }}</x-adminlte-text-editor>
+        :config="config('adminlte.plugins.Summernote.defaultConfig')"
+    >{{ old('catatan_produksi_telur', @$catatanLaporan->catatan_produksi_telur) }}</x-adminlte-text-editor>
 </div>
 
 @push('js')

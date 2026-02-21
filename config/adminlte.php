@@ -816,6 +816,18 @@ return [
                     'location' => 'vendor/summernote/summernote-bs4.min.css',
                 ],
             ],
+            'defaultConfig' => [
+                "height" => "100",
+                "toolbar" => [
+                    ['style', ['style']],
+                    ['style', ['bold', 'italic', 'underline', 'clear']],
+                    ['fontsize', ['fontsize']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['view', ['fullscreen', 'codeview', 'help']],
+                ],
+            ]
         ],
     ],
 

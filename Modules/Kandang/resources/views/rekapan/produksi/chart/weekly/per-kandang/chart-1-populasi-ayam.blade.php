@@ -20,7 +20,8 @@
         label="Catatan Populasi"
         name="catatan_populasi"
         fgroup-class="mb-2"
-    >{{ @$catatanLaporan->catatan_populasi }}</x-adminlte-text-editor>
+        :config="config('adminlte.plugins.Summernote.defaultConfig')"
+    >{{ old('catatan_populasi', @$catatanLaporan->catatan_populasi) }}</x-adminlte-text-editor>
 </div>
 
 @push('js')
