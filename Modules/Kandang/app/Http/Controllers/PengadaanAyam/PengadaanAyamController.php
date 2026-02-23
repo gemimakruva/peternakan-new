@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\PengadaanAyam;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\BerkasName;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -31,6 +32,10 @@ class PengadaanAyamController extends Controller
 
     public function index()
     {
+        $hasPopulasiAyamQuery = DB::table('populasi_ayam', 'pa')
+            ->selectRaw('pa.kandang_id, pa.tanggal, 1 as is_has_populasi')
+            ->groupBy('pa.kandang_id', 'pa.tanggal');
+
         $listPengadaanAyam = $this->pengadaanAyam->query()
             ->with(['picUser', 'kandang'])
             ->when(request()->query('search'), function ($query, $search) {
@@ -41,6 +46,12 @@ class PengadaanAyamController extends Controller
             })
             ->orderBy('tanggal', 'desc')
             ->orderBy('id', 'desc')
+            ->leftJoinSub($hasPopulasiAyamQuery, 'xpa', function($join) {
+                $join
+                    ->on('pengadaan_ayam.kandang_id', '=', 'xpa.kandang_id')
+                    ->on('pengadaan_ayam.tanggal', '=', 'xpa.tanggal');
+            })
+            ->selectRaw('pengadaan_ayam.*, coalesce(xpa.is_has_populasi, 0) as is_has_populasi')
             ->paginate(request()->query('perPage'))
             ->onEachSide(3)
             ->withQueryString();
@@ -315,7 +326,14 @@ class PengadaanAyamController extends Controller
      */
     public function destroy(PengadaanAyam $pengadaan_ayam)
     {
-
+        $isHasPopulasiAyam = $this->populasiAyam
+            ->where('kandang_id', '=', $pengadaan_ayam->kandang_id)
+            ->where('tanggal', '=', $pengadaan_ayam->tanggal)
+            ->exists();
+        if ($isHasPopulasiAyam) {
+            return back()->with('danger', 'Data Pengadaan Ayam sudah terdapat relasi populasi ayam, Data Pengadaan Ayam tidak dapat dihapus');
+        }
+        
         try {
             if ($pengadaan_ayam->distribusi()->exists()) {
                 $pengadaan_ayam->distribusi()->delete();

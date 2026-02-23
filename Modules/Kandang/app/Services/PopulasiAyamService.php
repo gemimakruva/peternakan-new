@@ -256,7 +256,6 @@ class PopulasiAyamService
 
         $this->populasiAyamRepository
             ->getModel()
-            ->where('jenis_pemeriksaan', '=', JenisPemeriksaan::HARIAN)
             ->where('kandang_id', '=', $kandangId)
             ->where('tanggal', '=', $tanggal)
             ->delete();
