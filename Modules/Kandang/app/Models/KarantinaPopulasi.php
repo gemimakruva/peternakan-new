@@ -47,4 +47,9 @@ class KarantinaPopulasi extends Model
     {
         return $this->belongsTo(User::class, 'pic_user_id');
     }
+
+    public function karantinaPopulasiPipes()
+    {
+        return $this->hasMany(KarantinaPopulasiPipe::class, 'kandang_asal_id', 'id');
+    }
 }

@@ -88,6 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('populasi-ayam-2/create/{kandangId}/{tanggal}/detail', [PopulasiAyam2Controller::class, 'createDetail'])->name('populasi-ayam-2.create.detail');
     Route::get('populasi-ayam-2/{kandangId}/{tanggal}/edit', [PopulasiAyam2Controller::class, 'edit'])->name('populasi-ayam-2.edit');
     Route::post('populasi-ayam-2/{kandangId}/{tanggal}/edit', [PopulasiAyam2Controller::class, 'update'])->name('populasi-ayam-2.update');
+    Route::delete('populasi-ayam-2/{kandangId}/{tanggal}/destroy', [PopulasiAyam2Controller::class, 'destroy'])->name('populasi-ayam-2.destroy');
 
     Route::get('populasi-ayam/{kandang}/create', [PopulasiAyamController::class, 'create'])->name('populasi-ayam.create');
     Route::get('populasi-ayam/{kandang}/flock', [PopulasiAyamController::class, 'flockIndex'])->name('populasi-ayam.flock.index');

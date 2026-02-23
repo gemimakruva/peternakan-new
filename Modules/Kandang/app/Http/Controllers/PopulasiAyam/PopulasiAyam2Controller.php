@@ -143,4 +143,11 @@ class PopulasiAyam2Controller extends Controller
                 ->with('danger', 'Data populasi gagal disimpan.');
         }
     }
+
+    public function destroy($kandangId, $tanggal)
+    {
+        app(PopulasiAyamService::class)->deletePopulasiAyam2($kandangId, $tanggal);
+
+        return back()->with('success', 'Data populasi berhasil dihapus.');
+    }
 }

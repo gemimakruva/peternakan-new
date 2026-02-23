@@ -80,9 +80,20 @@
                             <td class="text-right">{{ format_angka(@$row->ayam_masuk_karantina) }}</td>
                             <td class="text-right">{{ format_angka(@$row->ayam_keluar_karantina) }}</td>
                             <td>
-                                <a href="{{ route('populasi-ayam-2.edit', [$row->id_kandang, $row->tanggal->format('Y-m-d')])  }}" class="btn btn-sm btn-info">
-                                    <i class="fas fa-eye"></i>
-                                </a>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    <a href="{{ route('populasi-ayam-2.edit', [$row->id_kandang, $row->tanggal->format('Y-m-d')])  }}" class="btn btn-sm btn-info">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    @if (@$row->is_editable)
+                                        <form action="{{ route('populasi-ayam-2.destroy', [$row->id_kandang, $row->tanggal->format('Y-m-d')]) }}" method="post">
+                                            @csrf
+                                            @method('delete')
+                                            <button class="btn btn-sm btn-danger">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </form>
+                                    @endif
+                                </div>
                             </td>
                         </tr>
                     @empty
