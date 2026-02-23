@@ -366,7 +366,7 @@
                 const nama_pipa = pipe?.nama;
                 if (this.modal_form_mode === 'create') {
                     this.distribusi.push({
-                        id: this.selected_pengadaan_ayam_distribusi_id,
+                        id: crypto.randomUUID(),
                         pengadaan_ayam_id: this.pengadaan_ayam_id,
                         flock_id: this.selected_flock_id,
                         pipe_id: this.selected_pipe_id,

@@ -3,6 +3,7 @@
 namespace Modules\Kandang\Http\Controllers\PengadaanAyam;
 
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\BerkasName;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Storage;
@@ -13,6 +14,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PengadaanAyamDokumentasi;
+use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 
 class PengadaanAyamController extends Controller
@@ -20,6 +22,7 @@ class PengadaanAyamController extends Controller
     public function __construct(
         private User $user,
         private Kandang $kandang,
+        private Pipe $pipe,
         private PopulasiAyam $populasiAyam,
         private PengadaanAyam $pengadaanAyam,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
@@ -31,6 +34,10 @@ class PengadaanAyamController extends Controller
 
     public function index()
     {
+        $hasPopulasiAyamQuery = DB::table('populasi_ayam', 'pa')
+            ->selectRaw('pa.kandang_id, pa.tanggal, 1 as is_has_populasi')
+            ->groupBy('pa.kandang_id', 'pa.tanggal');
+
         $listPengadaanAyam = $this->pengadaanAyam->query()
             ->with(['picUser', 'kandang'])
             ->when(request()->query('search'), function ($query, $search) {
@@ -41,6 +48,12 @@ class PengadaanAyamController extends Controller
             })
             ->orderBy('tanggal', 'desc')
             ->orderBy('id', 'desc')
+            ->leftJoinSub($hasPopulasiAyamQuery, 'xpa', function($join) {
+                $join
+                    ->on('pengadaan_ayam.kandang_id', '=', 'xpa.kandang_id')
+                    ->on('pengadaan_ayam.tanggal', '=', 'xpa.tanggal');
+            })
+            ->selectRaw('pengadaan_ayam.*, coalesce(xpa.is_has_populasi, 0) as is_has_populasi')
             ->paginate(request()->query('perPage'))
             ->onEachSide(3)
             ->withQueryString();
@@ -64,9 +77,25 @@ class PengadaanAyamController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal' => ['required', 'date'],
+            'tanggal' => ['required', 'date', function ($attr, $value, $fail) use($request) {
+                if (
+                    $this->pengadaanAyam
+                        ->where('kandang_id', '=', $request->input('kandang_id'))
+                        ->where('tanggal', '=', $value)
+                        ->exists()
+                ) {
+                    $fail('Pengadaan Ayam Gagal Disimpan, Data dengan Tanggal dan Kandang yang sama ditemukan.');
+                }
+            }],
             'kandang_id' => ['required', 'exists:kandang,id'],
-            'jumlah_ayam_datang' => ['required', 'integer', 'min:1'],
+            'jumlah_ayam_datang' => ['required', 'integer', 'min:1', function ($attr, $value, $fail) use ($request) {
+                if (
+                    ($request->integer('jumlah_ayam_sakit') + $request->integer('jumlah_ayam_mati')) 
+                    > $request->integer('jumlah_ayam_datang')
+                ) {
+                    $fail('Pengadaan Ayam Gagal Disimpan, Jumlah Ayam Sakit + Jumlah Ayam Mati tidak boleh lebih besar dari Jumlah Ayam Datang!');
+                }
+            }],
             'umur_ayam' => ['required', 'integer', 'min:0'],
             'jumlah_ayam_sakit' => ['required', 'integer', 'min:0'],
             'jumlah_ayam_mati' => ['required', 'integer', 'min:0'],
@@ -198,7 +227,17 @@ class PengadaanAyamController extends Controller
         $distribusi = json_decode($validated['distribusi_json'], true);
 
         if (!is_array($distribusi)) {
-            return back()->withErrors(['distribusi_json' => 'Format distribusi tidak valid']);
+            return back()->withInput()->withErrors(['distribusi_json' => 'Format distribusi tidak valid']);
+        }
+
+        $jumlahAyamTerdistribusi    = collect($distribusi)->sum('jumlah_ayam');
+        $jumlahAyamDatang           = $pengadaanAyam->jumlah_ayam_datang;
+        if ($jumlahAyamTerdistribusi > $jumlahAyamDatang) {
+            return back()->withInput()->with('danger', 'Data Pengadaan Ayam gagal diupdate, Ayam Masuk Kandang melebihi Ayam Datang.');
+        }
+        $kapasitasKandang           = (int) $this->pipe->whereRelation('flock', 'kandang_id', '=', $pengadaanAyam->kandang_id)->sum('kapasitas');
+        if ($jumlahAyamTerdistribusi > $kapasitasKandang) {
+            return back()->withInput()->with('danger', 'Data Pengadaan Ayam gagal diupdate, Ayam Masuk Kandang melebihi Kapasitas Kandang.');
         }
 
         $picUserId = auth()->id();
@@ -315,7 +354,14 @@ class PengadaanAyamController extends Controller
      */
     public function destroy(PengadaanAyam $pengadaan_ayam)
     {
-
+        $isHasPopulasiAyam = $this->populasiAyam
+            ->where('kandang_id', '=', $pengadaan_ayam->kandang_id)
+            ->where('tanggal', '=', $pengadaan_ayam->tanggal)
+            ->exists();
+        if ($isHasPopulasiAyam) {
+            return back()->with('danger', 'Data Pengadaan Ayam sudah terdapat relasi populasi ayam, Data Pengadaan Ayam tidak dapat dihapus');
+        }
+        
         try {
             if ($pengadaan_ayam->distribusi()->exists()) {
                 $pengadaan_ayam->distribusi()->delete();

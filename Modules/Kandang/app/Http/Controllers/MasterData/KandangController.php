@@ -5,7 +5,6 @@ namespace Modules\Kandang\Http\Controllers\MasterData;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\Kandang;

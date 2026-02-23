@@ -102,18 +102,20 @@
                                             <i class="fas fa-edit"></i>
                                         </a>
             
-                                    <form
-                                            action="{{ route('pengadaan-ayam.destroy', $item) }}"
-                                            method="POST"
-                                            class="d-inline form-delete"
-                                            data-tanggal="tanggal {{ $item->tanggal->translatedFormat('l, d F Y') }}"
-                                        >
-                                            @csrf
-                                            @method('delete')
-                                            <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
+                                        @if (!$item->is_has_populasi)
+                                            <form
+                                                action="{{ route('pengadaan-ayam.destroy', $item) }}"
+                                                method="POST"
+                                                class="d-inline form-delete"
+                                                data-tanggal="tanggal {{ $item->tanggal->translatedFormat('l, d F Y') }}"
+                                            >
+                                                @csrf
+                                                @method('delete')
+                                                <button type="submit" class="btn btn-danger btn-sm" title="Hapus">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </form>
+                                        @endif
                                     </div>
                                 </td>
                             </tr>

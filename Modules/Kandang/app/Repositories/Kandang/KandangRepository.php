@@ -21,8 +21,8 @@ class KandangRepository extends EloquentRepository
             ->query()
             ->join('strain', 'strain.id', '=', 'kandang.strain_id')
             ->join('peternakan', 'peternakan.id', '=', 'kandang.peternakan_id')
-            ->join('flock', 'flock.kandang_id', '=', 'kandang.id')
-            ->join('pipe', 'pipe.flock_id', '=', 'flock.id')
+            ->leftJoin('flock', 'flock.kandang_id', '=', 'kandang.id')
+            ->leftJoin('pipe', 'pipe.flock_id', '=', 'flock.id')
             ->selectRaw(<<<SQL
                 kandang.*
                 , kandang.nama AS nama_kandang
