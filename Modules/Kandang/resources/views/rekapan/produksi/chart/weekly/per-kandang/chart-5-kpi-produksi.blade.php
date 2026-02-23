@@ -1,38 +1,10 @@
 <div class="col-12">
     <h2 class="h4">KPI Produksi</h2>
 </div>
-<div class="col-12 col-lg-4">
+<div class="col-12 col-lg-12">
     <div class="card">
         <div class="card-body">
-            <canvas id="kpi-produksi-per-kandang-fcr"></canvas>
-        </div>
-    </div>
-</div>
-<div class="col-12 col-lg-4">
-    <div class="card">
-        <div class="card-body">
-            <canvas id="kpi-produksi-per-kandang-hdp"></canvas>
-        </div>
-    </div>
-</div>
-<div class="col-12 col-lg-4">
-    <div class="card">
-        <div class="card-body">
-            <canvas id="kpi-produksi-per-kandang-hhp"></canvas>
-        </div>
-    </div>
-</div>
-<div class="col-12 col-lg-4">
-    <div class="card">
-        <div class="card-body">
-            <canvas id="kpi-produksi-per-kandang-egg-mass"></canvas>
-        </div>
-    </div>
-</div>
-<div class="col-12 col-lg-4">
-    <div class="card">
-        <div class="card-body">
-            <canvas id="kpi-produksi-per-kandang-egg-weight"></canvas>
+            <canvas id="kpi-produksi-per-kandang"></canvas>
         </div>
     </div>
 </div>
@@ -48,7 +20,7 @@
 @push('js')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    new Chart(document.getElementById('kpi-produksi-per-kandang-fcr'), {
+    new Chart(document.getElementById('kpi-produksi-per-kandang'), {
         type: 'bar',
         data: {
             labels: @js($rekapanKandang->pluck('nama_kandang')),
@@ -56,114 +28,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 {
                     label: 'FCR',
                     data: @js($rekapanKandang->pluck('fcr')),
-                    borderColor: '#EF4444',
-                    backgroundColor: 'rgba(239, 68, 68, 0.2)',
                     borderWidth: 2,
                 },
-            ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'KPI Produksi per Kandang'
-                }
-            }
-        }
-    });
-
-    new Chart(document.getElementById('kpi-produksi-per-kandang-hdp'), {
-        type: 'bar',
-        data: {
-            labels: @js($rekapanKandang->pluck('nama_kandang')),
-            datasets: [
                 {
                     label: 'HDP',
-                    data: @js($rekapanKandang->pluck('hdp')->map(fn($hdp) => $hdp * 100)),
-                    borderColor: '#10B981',
-                    backgroundColor: 'rgba(16, 185, 129, 0.2)',
+                    data: @js($rekapanKandang->pluck('hdp')),
                     borderWidth: 2,
                 },
-            ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'KPI Produksi per Kandang'
-                }
-            }
-        }
-    });
-
-    new Chart(document.getElementById('kpi-produksi-per-kandang-hhp'), {
-        type: 'bar',
-        data: {
-            labels: @js($rekapanKandang->pluck('nama_kandang')),
-            datasets: [
                 {
                     label: 'HHP',
-                    data: @js($rekapanKandang->pluck('hhp')->map(fn($hhp) => $hhp * 100)),
-                    borderColor: '#3B82F6',
-                    backgroundColor: 'rgba(59, 130, 246, 0.2)',
+                    data: @js($rekapanKandang->pluck('hhp')),
                     borderWidth: 2,
                 },
-            ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'KPI Produksi per Kandang'
-                }
-            }
-        }
-    });
-
-    new Chart(document.getElementById('kpi-produksi-per-kandang-egg-mass'), {
-        type: 'bar',
-        data: {
-            labels: @js($rekapanKandang->pluck('nama_kandang')),
-            datasets: [
                 {
                     label: 'Egg Mass',
                     data: @js($rekapanKandang->pluck('egg_mass')),
-                    borderColor: '#F59E0B',
-                    backgroundColor: 'rgba(245, 158, 11, 0.2)',
+                    borderWidth: 2,
+                },
+                {
+                    label: 'Egg Weight',
+                    data: @js($rekapanKandang->pluck('egg_weight')),
                     borderWidth: 2,
                 },
             ]
         },
         options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
             plugins: {
                 title: {
                     display: true,
                     text: 'KPI Produksi per Kandang'
                 }
-            }
-        }
-    });
-
-    new Chart(document.getElementById('kpi-produksi-per-kandang-egg-weight'), {
-        type: 'bar',
-        data: {
-            labels: @js($rekapanKandang->pluck('nama_kandang')),
-            datasets: [
-                {
-                    label: 'Egg Weight',
-                    data: @js($rekapanKandang->pluck('egg_weight')),
-                    borderColor: '#8B5CF6',
-                    backgroundColor: 'rgba(139, 92, 246, 0.2)',
-                    borderWidth: 2,
-                },
-            ]
-        },
-        options: {
-            plugins: {
-                title: {
-                    display: true,
-                    text: 'KPI Produksi per Kandang'
-                },
             }
         }
     });
