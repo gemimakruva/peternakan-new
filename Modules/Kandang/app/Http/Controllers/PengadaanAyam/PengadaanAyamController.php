@@ -14,6 +14,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 use Modules\Kandang\Models\PengadaanAyamDokumentasi;
+use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 
 class PengadaanAyamController extends Controller
@@ -21,6 +22,7 @@ class PengadaanAyamController extends Controller
     public function __construct(
         private User $user,
         private Kandang $kandang,
+        private Pipe $pipe,
         private PopulasiAyam $populasiAyam,
         private PengadaanAyam $pengadaanAyam,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
@@ -209,7 +211,17 @@ class PengadaanAyamController extends Controller
         $distribusi = json_decode($validated['distribusi_json'], true);
 
         if (!is_array($distribusi)) {
-            return back()->withErrors(['distribusi_json' => 'Format distribusi tidak valid']);
+            return back()->withInput()->withErrors(['distribusi_json' => 'Format distribusi tidak valid']);
+        }
+
+        $jumlahAyamTerdistribusi    = collect($distribusi)->sum('jumlah_ayam');
+        $jumlahAyamDatang           = $pengadaanAyam->jumlah_ayam_datang;
+        if ($jumlahAyamTerdistribusi > $jumlahAyamDatang) {
+            return back()->withInput()->with('danger', 'Data Pengadaan Ayam gagal diupdate, Ayam Masuk Kandang melebihi Ayam Datang.');
+        }
+        $kapasitasKandang           = (int) $this->pipe->whereRelation('flock', 'kandang_id', '=', $pengadaanAyam->kandang_id)->sum('kapasitas');
+        if ($jumlahAyamTerdistribusi > $kapasitasKandang) {
+            return back()->withInput()->with('danger', 'Data Pengadaan Ayam gagal diupdate, Ayam Masuk Kandang melebihi Kapasitas Kandang.');
         }
 
         $picUserId = auth()->id();
