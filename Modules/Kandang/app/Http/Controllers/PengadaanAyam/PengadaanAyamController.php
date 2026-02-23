@@ -77,9 +77,25 @@ class PengadaanAyamController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'tanggal' => ['required', 'date'],
+            'tanggal' => ['required', 'date', function ($attr, $value, $fail) use($request) {
+                if (
+                    $this->pengadaanAyam
+                        ->where('kandang_id', '=', $request->input('kandang_id'))
+                        ->where('tanggal', '=', $value)
+                        ->exists()
+                ) {
+                    $fail('Pengadaan Ayam Gagal Disimpan, Data dengan Tanggal dan Kandang yang sama ditemukan.');
+                }
+            }],
             'kandang_id' => ['required', 'exists:kandang,id'],
-            'jumlah_ayam_datang' => ['required', 'integer', 'min:1'],
+            'jumlah_ayam_datang' => ['required', 'integer', 'min:1', function ($attr, $value, $fail) use ($request) {
+                if (
+                    ($request->integer('jumlah_ayam_sakit') + $request->integer('jumlah_ayam_mati')) 
+                    > $request->integer('jumlah_ayam_datang')
+                ) {
+                    $fail('Pengadaan Ayam Gagal Disimpan, Jumlah Ayam Sakit + Jumlah Ayam Mati tidak boleh lebih besar dari Jumlah Ayam Datang!');
+                }
+            }],
             'umur_ayam' => ['required', 'integer', 'min:0'],
             'jumlah_ayam_sakit' => ['required', 'integer', 'min:0'],
             'jumlah_ayam_mati' => ['required', 'integer', 'min:0'],
