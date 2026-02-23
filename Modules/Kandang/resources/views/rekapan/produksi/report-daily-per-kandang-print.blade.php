@@ -158,10 +158,38 @@
     <div class="avoid-break page-break">
         <h3>Data KPI Produksi</h3>
         <div class="row">
-            @if(isset($chartImages['kpi-produksi-per-kandang']))
-            <div class="col-12">
+            @if(isset($chartImages['kpi-produksi-per-kandang-fcr']))
+            <div class="col-6">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['kpi-produksi-per-kandang'] }}" alt="KPI Produksi per Kandang">
+                    <img src="{{ $chartImages['kpi-produksi-per-kandang-fcr'] }}" alt="KPI Produksi Semua Kandang">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-kandang-hdp']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-kandang-hdp'] }}" alt="KPI Produksi Semua Kandang">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-kandang-hhp']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-kandang-hhp'] }}" alt="KPI Produksi Semua Kandang">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-kandang-egg-mass']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-kandang-egg-mass'] }}" alt="KPI Produksi Semua Kandang">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-kandang-egg-weight']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-kandang-egg-weight'] }}" alt="KPI Produksi Semua Kandang">
                 </div>
             </div>
             @endif
