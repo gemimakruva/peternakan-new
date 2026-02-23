@@ -685,11 +685,6 @@ return [
                     'asset'    => false,
                     'location' => 'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css',
                 ],
-                [
-                    'type'     => 'js',
-                    'asset'    => false,
-                    'location' => 'https://cdn.jsdelivr.net/npm/chart.js',
-                ]
             ],
         ],
         'Datatables' => [
@@ -748,12 +743,17 @@ return [
             ],
         ],
         'Chartjs' => [
-            'active' => false,
+            'active' => true,
             'files'  => [
                 [
                     'type'     => 'js',
                     'asset'    => false,
-                    'location' => '//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.0/Chart.bundle.min.js',
+                    'location' => '//cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js',
+                ],
+                [
+                    'type'     => 'js',
+                    'asset'    => false,
+                    'location' => '//cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0',
                 ],
             ],
         ],
