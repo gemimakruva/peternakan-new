@@ -494,13 +494,13 @@ return [
             'active'  => ['ayam-karantina/*'],
             'can'   => 'kandang.populasi.menu-karantina-ayam',
         ],
-        [
-            'text'  => 'Rekapan Karantina',
-            'route' => 'ayam-karantina.overview',
-            'icon'  => 'fas fa-chart-line',
-            'active'  => ['ayam-karantina-overview'],
-            'can'   => 'kandang.populasi.menu-rekapan-karantina',
-        ],
+        // [
+        //     'text'  => 'Rekapan Karantina',
+        //     'route' => 'ayam-karantina.overview',
+        //     'icon'  => 'fas fa-chart-line',
+        //     'active'  => ['ayam-karantina-overview'],
+        //     'can'   => 'kandang.populasi.menu-rekapan-karantina',
+        // ],
         
 
         // ====================   PEMBERIAN PAKAN  ==========================
