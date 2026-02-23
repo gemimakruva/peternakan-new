@@ -24,18 +24,18 @@ document.addEventListener("DOMContentLoaded", function () {
     new Chart(document.getElementById('feed-intake-ayam-chart-per-kandang'), {
         type: 'bar',
         data: {
-            labels: @js($rekapanKandang->pluck('nama_kandang')),
+            labels: @js($rekapanKandang->pluck('nama_kandang')->merge('Rata - rata')),
             datasets: [
                 {
                     label: 'Realisasi',
-                    data: @js($rekapanKandang->pluck('feed_intake_per_ekor')),
+                    data: @js($rekapanKandang->pluck('feed_intake_per_ekor')->merge($rekapanKandang->avg('feed_intake_per_ekor'))),
                     borderWidth: 2,
                     borderColor: '#28a745',
                     backgroundColor: 'rgba(40, 167, 69, 0.1)',
                 },
                 {
                     label: 'Standar',
-                    data: @js($rekapanKandang->pluck('feed_intake_per_ekor_standar')),
+                    data: @js($rekapanKandang->pluck('feed_intake_per_ekor_standar')->merge($rekapanKandang->avg('feed_intake_per_ekor_standar'))),
                     borderWidth: 2,
                     borderColor: '#1424fdff',
                     backgroundColor: 'rgba(102, 20, 253, 0.1)',

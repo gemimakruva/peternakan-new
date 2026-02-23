@@ -144,6 +144,7 @@ class ProduksiController extends Controller
         $rekapanKandang = app(RekapanProduksiRepository::class)
             ->getQuery()
             ->whereDate('xpaq.tanggal', '=', $tanggal)
+            ->where('xpaq.kandang_id', '=', $kandangId)
             ->first();
 
         return view('kandang::rekapan.produksi.report-daily-per-flock', compact([

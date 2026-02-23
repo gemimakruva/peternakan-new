@@ -234,6 +234,34 @@ class PopulasiAyamService
         return $populasiAyam;
     }
 
+    public function deletePopulasiAyam2($kandangId, $tanggal)
+    {
+        $karantina = $this->karantinaPopulasi
+            ->where('kandang_id', '=', $kandangId)
+            ->where('tanggal', '=', $tanggal)
+            ->first();
+        if ($karantina) {
+            $karantina->karantinaPopulasiPipes()->delete();
+            $karantina->delete();
+        }
+
+        $afkir = $this->ayamAfkir
+            ->where('kandang_id', '=', $kandangId)
+            ->where('tanggal', '=', $tanggal)
+            ->first();
+        if ($afkir) {
+            $afkir->ayamAfkirPopulasi()->delete();
+            $afkir->delete();
+        }
+
+        $this->populasiAyamRepository
+            ->getModel()
+            ->where('jenis_pemeriksaan', '=', JenisPemeriksaan::HARIAN)
+            ->where('kandang_id', '=', $kandangId)
+            ->where('tanggal', '=', $tanggal)
+            ->delete();
+    }
+
     public function savePopulasiAyam2(Collection $datas): Collection
     {
         $listPopulasiAyam = [];

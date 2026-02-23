@@ -158,10 +158,38 @@
     <div class="avoid-break page-break">
         <h3>Data KPI Produksi</h3>
         <div class="row">
-            @if(isset($chartImages['kpi-produksi-per-flock']))
-            <div class="col-12">
+            @if(isset($chartImages['kpi-produksi-per-flock-fcr']))
+            <div class="col-6">
                 <div class="chart-container">
-                    <img src="{{ $chartImages['kpi-produksi-per-flock'] }}" alt="KPI Produksi per Flock">
+                    <img src="{{ $chartImages['kpi-produksi-per-flock-fcr'] }}" alt="KPI Produksi per Flock">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-flock-hdp']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-flock-hdp'] }}" alt="KPI Produksi per Flock">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-flock-hhp']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-flock-hhp'] }}" alt="KPI Produksi per Flock">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-flock-egg-mass']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-flock-egg-mass'] }}" alt="KPI Produksi per Flock">
+                </div>
+            </div>
+            @endif
+            @if(isset($chartImages['kpi-produksi-per-flock-egg-weight']))
+            <div class="col-6">
+                <div class="chart-container">
+                    <img src="{{ $chartImages['kpi-produksi-per-flock-egg-weight'] }}" alt="KPI Produksi per Flock">
                 </div>
             </div>
             @endif

@@ -28,6 +28,24 @@
 @push('js')
 <script>
 document.addEventListener("DOMContentLoaded", function () {
+    Chart.register(ChartDataLabels);
+
+    Chart.defaults.set('plugins.scales', {
+        y: {
+            beginAtZero: true
+        }
+    });
+
+    Chart.defaults.set('plugins.datalabels', {
+        color: '#000',
+        anchor: 'end',
+        align: 'bottom',
+        formatter: function(value) {
+            if (value == 0) return '';
+            return Number(value || 0).toFixed(2)
+        }
+    });
+
     new Chart(document.getElementById('populasi-ayam-chart-per-kandang'), {
         type: 'bar',
         data: {
