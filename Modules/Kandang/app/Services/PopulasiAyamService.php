@@ -271,7 +271,6 @@ class PopulasiAyamService
                 'kandang_id'            => $data['kandang_id'],
                 'flock_id'              => $data['flock_id'],
                 'pipe_id'               => $data['pipe_id'],
-                'jenis_pemeriksaan'     => JenisPemeriksaan::HARIAN,
                 'tanggal'               => $data['tanggal'],
             ], [
                 'umur_ayam_record'      => $data['umur_ayam'],

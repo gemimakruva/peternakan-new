@@ -62,6 +62,8 @@
 </div>
 
 <script>
+    var items = @js(array_values(old('items', [])));
+
     document.addEventListener('alpine:init', () => {
         Alpine.data('data', () => ({
             kandang_id: @js($kandang->id),
@@ -71,7 +73,7 @@
             umur_ayam: 0,
 
             controller: null, // buat cancel request lama (anti balapan)
-            items: @js(old('items', [])),
+            items,
 
             init() {
                 this.$watch('tanggal', () => this.load());
@@ -91,7 +93,9 @@
                         .replace('_tanggal', this.tanggal);
                     const res   = await fetch(url, { signal: this.controller.signal });
                     const json  = await res.json();
-                    this.items  = json.items;
+                    if (!this.items.length) {
+                        this.items  = json.items;
+                    }
                     this.total_ayam_sehat       = json.info.total_ayam_sehat_terakhir;
                     this.total_ayam_karantina   = json.info.total_ayam_sakit_terakhir;
                     this.umur_ayam              = json.info.umur_ayam;

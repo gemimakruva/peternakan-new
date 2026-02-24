@@ -170,11 +170,16 @@ class PopulasiAyamController extends Controller
                 'pipe.populasiAyam' => function ($r) {
                     $r->select(['ayam_sehat', 'pipe_id', 'tanggal'])->orderByDesc('tanggal')->skip(1)->limit(1);
                 },
+                'pipe.pengadaanAyamDistribusi' => function ($r) {
+                    $r->select(['pipe_id', 'jumlah_ayam'])->orderByDesc('id')->limit(1);
+                },
                 'flock:id,nama',
             ])
             ->get()
             ->map(function($item) {
-                $item->ayam_sehat_before = @$item->pipe->populasiAyam[0]->ayam_sehat ?? 0;
+                $item->ayam_sehat_before = @$item->pipe->populasiAyam[0]->ayam_sehat 
+                    ?? @$item->pipe->pengadaanAyamDistribusi[0]->jumlah_ayam
+                    ?? 0;
                 return $item;
             })
             ->toArray();
