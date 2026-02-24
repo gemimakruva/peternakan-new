@@ -201,29 +201,39 @@ Table jenis_pakan {
 
 Table perhitungan_pakan {
   id biginteger [PK, increment]
-  jenis_pakan_id biginteger [Ref : > jenis_pakan.id]
-  pipe_id biginteger [Ref : > pipe.id]
-  user_creator_id biginteger [Ref : > users.id] // spv kandang
   tanggal_pemberian_pakan date
+  umur_ayam int
+  user_creator_id biginteger [Ref : > users.id] // spv kandang
+  user_executor_id biginteger [Ref : > users.id]
+  jenis_pakan_id biginteger [Ref : > jenis_pakan.id]
+  kandang_id biginteger [Ref : > kandang.id]
   proporsi_pemberian_pagi decimal(10,3)
   proporsi_pemberian_sore decimal(10,3)
   waktu_pemberian_pagi time
   waktu_pemberian_sore time
-  jumlah_ayam_per_pipe integer
-  jumlah_pakan_per_ekor_gram decimal(10,3)
   catatan text
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table perhitungan_pakan_item {
+  id biginteger [PK, increment]
+  perhitungan_pakan_id biginteger [Ref : > perhitungan_pakan.id]
+  kandang_id int [Ref : > kandang.id]
+  flock_id int [Ref : > flock.id]
+  pipe_id int [Ref : > pipe.id]
+  tanggal_pemberian_pakan date
+  jumlah_ayam int
+  pemberian_pakan_per_ekor int
   created_at timestamp
   updated_at timestamp
 }
 
 Table pemberian_pakan_sisa_pakan {
   id biginteger [PK, increment]
-  user_executor_id biginteger [Ref : > users.id] // petugas kandang
+  perhitungan_pakan_id biginteger [Ref : > perhitungan_pakan.id]
   flock_id int [Ref : > flock.id]
-  jenis_pakan_id int [Ref : > jenis_pakan.id]
-  tanggal date
-  pemberian_pakan_per_flock_kg decimal(10,3)
-  sisa_pakan_per_flock_kg decimal(10,3)
+  sisa_pakan_per_flock_kg decimal(10,2)
   created_at timestamp
   updated_at timestamp
 }
@@ -284,129 +294,6 @@ Table metode_treatment{
   updated_at timestamp
 }
 
-Table penjadwalan_disinfektan {
-  id biginteger [PK, increment]
-  kandang_id biginteger [Ref : > kandang.id]
-  pic_user_id biginteger [Ref : > users.id]
-  tanggal date
-  detail_waktu varchar
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table penjadwalan_disinfektan_flock {
-  id biginteger [PK, increment]
-  penjadwalan_disinfektan_id biginteger [Ref : > penjadwalan_disinfektan.id]
-  jenis_treatment_id biginteger [default: 1, Ref : > jenis_treatment.id]
-  jenis_disinfektan_id biginteger [Ref: > jenis_disinfektan.id]
-  flock_id int [Ref : > flock.id]
-  area varchar
-  merk_disinfektan varchar
-  dosis_per_tangki varchar
-  is_checked boolean
-  checked_at timestamp
-  checked_by integer [Ref: > users.id]
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table penjadwalan_treatment {
-  id biginteger [PK, increment]
-  kandang_id biginteger [Ref : > kandang.id]
-  pic_user_id biginteger [Ref : > users.id]
-  tanggal date
-  detail_waktu varcharr
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table penjadwalan_treatment_flock {
-  id biginteger [PK, increment]
-  penjadwalan_treatment_id biginteger [Ref : > penjadwalan_treatment.id]
-  flock_id int [Ref : > flock.id]
-  jenis_treatment_id biginteger [Ref : > jenis_treatment.id]
-  metode_treatment_id biginteger [Ref : > metode_treatment.id]
-  dosis_pemberian varchar
-  is_checked boolean
-  checked_at timestamp
-  checked_by integer [Ref: > users.id]
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table ovk_pakan {
-  id biginteger [PK, increment]
-  flock_id int [Ref : > flock.id]
-  tanggal date
-  merk_ovk varchar
-  dosis_pemberian decimal(10,3)
-  total_pakan_per_hari decimal(10,3)
-  waktu_pemberian enum('pagi','sore','pagi_sore')
-  proporsi_pakan_pagi decimal(10,3)
-  jumlah_proporsi_pakan_pagi decimal(10,3)
-  proporsi_pakan_sore decimal(10,3)
-  jumlah_proporsi_pakan_sore decimal(10,3)
-}
-
-
-Table vaksin_minum {
-  id biginteger [PK, increment]
-  flock_id int [Ref : > flock.id]
-  tanggal date
-  nama_vaksin varchar
-  total_dosis decimal(10,3)
-  air_minum_per_ekor decimal(10,3)
-  jumlah_ayam_per_baris integer
-  jumlah_ml_vaksin_per_baris decimal(10,3)
-  jumlah_air_di_tong_per_baris decimal(10,3)
-}
-
-Table vitamin_obat_minum {
-  id biginteger [PK, increment]
-  flock_id int [Ref : > flock.id]
-  jenis_treatment_id biginteger [Ref : > jenis_treatment.id]
-  tanggal date
-  merk_ovk varchar
-  dosis_pemberian decimal(10,3)
-  satuan_per_dosis decimal(10,3)
-  air_minum_per_ekor decimal(10,3)
-  jumlah_ayam_per_baris integer
-  jumlah_air_di_tong_per_baris decimal(10,3)
-}
-
-Table form_request_order_ovk {
-  id biginteger [PK, increment]
-  kandang_id biginteger [Ref : > kandang.id]
-  tanggal date
-  jenis_ovk enum('disinfektan','vitamin','vaksin','obat')
-  merk_ovk varchar
-  kemasan_ovk varchar
-  total_kebutuhan_yang_diorder varchar
-  maksimal_kedatangan date
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table pelaksanaan_treatment {
-  id biginteger [PK, increment]
-  flock_id int [Ref : > flock.id]
-  penjadwalan_disinfektan_flock_id int [Ref : > penjadwalan_disinfektan_flock.id]
-  penjadwalan_treatment_flock_id int [Ref : > penjadwalan_treatment_flock.id]
-  user_pic_id int [Ref: > users.id]
-  tanggal date
-  treatment_lain_dilakukan text
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table pelaksanaan_treatment_dokumentasi{
-  id biginteger [PK, increment]
-  pelaksanaan_treatment_id biginteger [Ref : > pelaksanaan_treatment.id]
-  path text
-  created_at timestamp
-  updated_at timestamp
-}
-
 Table monitoring_kesehatan {
   id biginteger [PK, increment]
   kandang_id biginteger [Ref : > kandang.id]
@@ -443,6 +330,37 @@ Table monitoring_kesehatan_dokumentasi{
   monitoring_kesehatan_id int [Ref : > monitoring_kesehatan.id]
   path text
   keterangan text
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table treatment {
+  id int [PK, increment]
+  kandang_id int [Ref: > kandang.id]
+  tanggal date
+  user_creator_id int [Ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table treatment_jadwal {
+  id int [PK, increment]
+  treatment_id int [Ref: > treatment.id]
+  jenis_treatment_id int [Ref: > jenis_treatment.id]
+  metode_treatment_id int [Ref: > metode_treatment.id]
+  merk_ovk varchar
+  area varchar
+  dosis varchar
+  waktu time
+  executed_at time
+  executed_by int [Ref: > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table treatment_jadwal_flock {
+  id int [PK, increment]
+  treatment_jadwal_id int [Ref: - treatment_jadwal.id]
   created_at timestamp
   updated_at timestamp
 }
