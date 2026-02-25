@@ -1,0 +1,11 @@
+{
+    "name": "GudangTelur",
+    "alias": "gudangtelur",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GudangTelur\\Providers\\GudangTelurServiceProvider"
+    ],
+    "files": []
+}

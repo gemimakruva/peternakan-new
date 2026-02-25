@@ -189,6 +189,36 @@
       "schemaName": "public",
       "x": 720.0219550576403,
       "y": 1759.3901101842675
+    },
+    {
+      "name": "satuan",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3036.077962828294
+    },
+    {
+      "name": "supplier",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 2698.077962828294
+    },
+    {
+      "name": "kemasan",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3246.077962828294
+    },
+    {
+      "name": "supplier_kemasan",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3456.077962828294
+    },
+    {
+      "name": "inventory_wadah",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3698.077962828294
     }
   ],
   "tableGroupCollapseStates": [],
@@ -897,6 +927,36 @@
       "secondTableName": "treatment_jadwal_flock",
       "secondSchemaName": "public",
       "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "supplier",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "supplier_id"
+      ],
+      "secondTableName": "supplier_kemasan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "kemasan",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kemasan_id"
+      ],
+      "secondTableName": "supplier_kemasan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
       "checkPoints": []
     }
   ]

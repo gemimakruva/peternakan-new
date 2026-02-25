@@ -608,6 +608,16 @@ return [
             'can'   => 'kandang.monitoring.menu-monitoring-kesehatan',
         ],
 
+        // ====================   Gudang Telur  ========================
+        [
+            'header' => 'Supplier',
+        ],
+        [
+            'text'  => 'Supplier',
+            'route' => 'gudang-telur.supplier.index',
+            'icon'  => 'fas fa-clipboard-list',
+        ],
+
         // ====================   USER AND ACCESS   ============================
 
         [

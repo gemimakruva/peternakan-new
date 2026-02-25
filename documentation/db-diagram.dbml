@@ -364,3 +364,43 @@ Table treatment_jadwal_flock {
   created_at timestamp
   updated_at timestamp
 }
+
+Table satuan {
+  id biginteger [PK, increment]
+  nama varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table supplier {
+  id biginteger [PK, increment]
+  nama varchar
+  badan_usaha varchar [null]
+  kontak varchar [null]
+  alamat text [null]
+  lokasi text [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table kemasan {
+  id biginteger [PK, increment]
+  nama varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table supplier_kemasan {
+  id biginteger [PK, increment]
+  supplier_id biginteger [Ref : > supplier.id]
+  kemasan_id biginteger [Ref : > kemasan.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table inventory_kemasan {
+  id biginteger [PK, increment]
+  tipe enum(input, output, opname)
+  created_at timestamp
+  updated_at timestamp
+}
