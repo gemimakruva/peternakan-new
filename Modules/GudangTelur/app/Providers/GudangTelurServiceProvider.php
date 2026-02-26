@@ -14,7 +14,7 @@ class GudangTelurServiceProvider extends ServiceProvider
 
     protected string $name = 'GudangTelur';
 
-    protected string $nameLower = 'gudangtelur';
+    protected string $nameLower = 'gudang-telur';
 
     /**
      * Boot the application events.

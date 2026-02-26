@@ -385,6 +385,7 @@ Table supplier {
 
 Table kemasan {
   id biginteger [PK, increment]
+  satuan_id biginteger [Ref : > satuan.id]
   nama varchar
   created_at timestamp
   updated_at timestamp
@@ -394,13 +395,55 @@ Table supplier_kemasan {
   id biginteger [PK, increment]
   supplier_id biginteger [Ref : > supplier.id]
   kemasan_id biginteger [Ref : > kemasan.id]
+  kode_barang varchar
+  harga decimal
+  biaya_tambahan decimal [null]
+  jenis_pengiriman enum(LOCO, FRANCO)
   created_at timestamp
   updated_at timestamp
 }
 
-Table inventory_kemasan {
+Table kemasan_input {
+  id biginteger [PK, increment]
+  supplier_kemasan_id biginteger [Ref : > supplier_kemasan.id]
+  tanggal datetime
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table kemasan_input_dokumentasi {
+  id int [PK, increment]
+  kemasan_input_id int [Ref : > kemasan_input.id]
+  filepath text
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table kemasan_output {
+  id biginteger [PK, increment]
+  tanggal datetime
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table kemasan_opname {
+  id biginteger [PK, increment]
+  supplier_kemasan_id biginteger [Ref : > supplier_kemasan.id]
+  pic_user_id integer [Ref : > users.id]
+  tanggal datetime
+  jumlah biginteger
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table kemasan_inventory {
   id biginteger [PK, increment]
   tipe enum(input, output, opname)
+  kemasan_input_id biginteger [null, Ref : > kemasan_input.id]
+  kemasan_output_id biginteger [null, Ref : > kemasan_output.id]
+  kemasan_opname_id biginteger [null, Ref : > kemasan_opname.id]
+  kemasan_id biginteger [Ref : > kemasan.id]
+  jumlah biginteger
   created_at timestamp
   updated_at timestamp
 }

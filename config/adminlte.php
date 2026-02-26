@@ -419,6 +419,13 @@ return [
                     'active' => ['master-data/metode-treatment*'],
                     'can'   => 'master-data.master-data.menu-metode-treatment',
                 ],
+                [
+                    'text'  => 'Kemasan',
+                    'route' => 'gudang-telur.master-data.kemasan.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/kemasan*'],
+                    'can'   => 'master-data.master-data.menu-kemasan',
+                ],
             ],
         ],
 

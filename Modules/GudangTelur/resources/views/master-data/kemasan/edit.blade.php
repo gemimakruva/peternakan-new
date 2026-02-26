@@ -1,17 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Supplier')
+@section('title', 'Edit Kemasan')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Tambah Supplier</h1>
+            <h1>Edit Kemasan</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.supplier.index') }}">Supplier</a></li>
-                <li class="breadcrumb-item active">Tambah</li>
+                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.master-data.kemasan.index') }}">Kemasan</a></li>
+                <li class="breadcrumb-item active">Edit</li>
             </ol>
         </div>
     </div>
@@ -23,11 +23,12 @@
 <div class="mx-1200">
     <x-form-alert />
 
-    <form action="{{ route('gudang-telur.supplier.store') }}" method="post">
+    <form action="{{ route('gudang-telur.master-data.kemasan.update', $data) }}" method="post">
         @csrf
+        @method('put')
         <div class="row">
             <div class="col-12 col-lg-9">
-                @include('gudang-telur::supplier._form-supplier')
+                @include('gudang-telur::master-data.kemasan._form')
             </div>
             <div class="col-12 col-lg-3">
                 <div class="card sticy-form-action">
@@ -36,7 +37,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex gap-2">
-                            <a href="{{ route('gudang-telur.supplier.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
+                            <a href="{{ route('gudang-telur.master-data.kemasan.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
                             <button class="btn btn-primary flex-1">Simpan</button>
                         </div>
                     </div>
