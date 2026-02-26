@@ -617,12 +617,24 @@ return [
 
         // ====================   Gudang Telur  ========================
         [
-            'header' => 'Supplier',
+            'header' => 'Gudang Telur',
         ],
         [
             'text'  => 'Supplier',
             'route' => 'gudang-telur.supplier.index',
             'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/supplier/*'],
+        ],
+        [
+            'text'  => 'Inventory Kemasan',
+            'route' => 'gudang-telur.kemasan-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+        ],
+        [
+            'text'  => 'Input Kemasan',
+            'route' => 'gudang-telur.kemasan-input.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-input/*'],
         ],
 
         // ====================   USER AND ACCESS   ============================

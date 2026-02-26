@@ -405,6 +405,7 @@ Table supplier_kemasan {
 
 Table kemasan_input {
   id biginteger [PK, increment]
+  pic_user_id integer [Ref : > users.id]
   supplier_kemasan_id biginteger [Ref : > supplier_kemasan.id]
   tanggal datetime
   created_at timestamp
@@ -421,6 +422,7 @@ Table kemasan_input_dokumentasi {
 
 Table kemasan_output {
   id biginteger [PK, increment]
+  pic_user_id integer [Ref : > users.id]
   tanggal datetime
   created_at timestamp
   updated_at timestamp
@@ -428,7 +430,6 @@ Table kemasan_output {
 
 Table kemasan_opname {
   id biginteger [PK, increment]
-  supplier_kemasan_id biginteger [Ref : > supplier_kemasan.id]
   pic_user_id integer [Ref : > users.id]
   tanggal datetime
   jumlah biginteger

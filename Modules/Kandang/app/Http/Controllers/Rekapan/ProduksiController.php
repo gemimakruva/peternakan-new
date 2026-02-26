@@ -147,6 +147,11 @@ class ProduksiController extends Controller
             ->where('xpaq.kandang_id', '=', $kandangId)
             ->first();
 
+        if ($rekapanKandang === null) {
+            $tanggalText = $tanggal->translatedFormat('l, d F Y');
+            return back()->with('danger', "Data Populasi tanggal $tanggalText Kandang \"$kandang->nama\" tidak ditemukan.");
+        }
+
         return view('kandang::rekapan.produksi.report-daily-per-flock', compact([
             'tanggal',
             'listKandang',
@@ -164,7 +169,6 @@ class ProduksiController extends Controller
         $kandangId      = $request->integer('kandang_id');
         $listKandang    = $this->kandangRepository->getSelectItems();
         $kandang        = $this->kandangRepository->find($kandangId, null, ['id', 'nama']);
-
 
         $catatanLaporan = $this->catatanLaporan
             ->when($request->query('kandang_id'), function ($query, $kandangId) {
@@ -194,6 +198,10 @@ class ProduksiController extends Controller
             ->setContext($kandangId, $umur)
             ->getQuery()
             ->first();
+
+        if ($rekapanKandang === null) {
+            return back()->with('danger', "Data Populasi Umur $umur Kandang \"$kandang->nama\" tidak ditemukan.");
+        }
 
         return view('kandang::rekapan.produksi.report-weekly-per-flock', compact([
             'umur',
