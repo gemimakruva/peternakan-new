@@ -40,7 +40,6 @@
                         <th class="align-middle" style="min-width: 40px;">#</th>
                         <th class="align-middle" style="min-width: 150px;">Kemasan</th>
                         <th class="align-middle" style="min-width: 150px;">Jumlah</th>
-                        <th class="align-middle" style="min-width: 80px;">Satuan</th>
                         <th class="align-middle" style="min-width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -82,23 +81,18 @@
                                 </x-adminlte-select>
                             </td>
                             <td>
-                                <x-adminlte-input
-                                    name="jumlah"
-                                    x-bind:name="`items[${i}][jumlah]`"
-                                    x-bind:value="item.jumlah"
-                                    class="form-control-sm"
-                                    fgroup-class="w-100 mb-0"
-                                />
-                            </td>
-                            <td>
-                                <x-adminlte-input
-                                    name="satuan"
-                                    x-bind:name="`items[${i}][satuan]`"
-                                    x-bind:value="get_kemasan?.satuan?.nama"
-                                    x-bind:disabled="get_kemasan"
-                                    class="form-control-sm"
-                                    fgroup-class="w-100 mb-0"
-                                />
+                                <div class="input-group input-group-sm">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="jumlah"
+                                        x-bind:name="`items[${i}][jumlah]`"
+                                        x-bind:value="item.jumlah"
+                                    />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" x-text="get_kemasan?.satuan?.nama || '-'"></span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm" x-on:click="deleteItem(i)">

@@ -72,7 +72,7 @@
                                 </x-adminlte-select>
                             </td>
                             <td>
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group input-group-sm">
                                     <input
                                         type="text"
                                         class="form-control"
@@ -93,7 +93,7 @@
                                     }
                                 }"
                             >
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group input-group-sm">
                                     <input
                                         type="text"
                                         class="form-control"
@@ -108,13 +108,18 @@
                                 </div>
                             </td>
                             <td>
-                                <x-adminlte-input
-                                    name="jumlah"
-                                    x-bind:name="`items[${i}][jumlah]`"
-                                    x-model="item.jumlah"
-                                    class="form-control-sm"
-                                    fgroup-class="w-100 mb-0"
-                                />
+                                <div class="input-group input-group-sm">
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="jumlah"
+                                        x-bind:name="`items[${i}][jumlah]`"
+                                        x-model="item.jumlah"
+                                    />
+                                    <div class="input-group-append">
+                                        <span class="input-group-text" x-text="get_kemasan?.nama_satuan || '-'"></span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm" x-on:click="deleteItem(i)">

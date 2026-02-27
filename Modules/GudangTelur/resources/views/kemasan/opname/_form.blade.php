@@ -72,7 +72,7 @@
                                 </x-adminlte-select>
                             </td>
                             <td>
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group input-group-sm">
                                     <input
                                         type="text"
                                         class="form-control"
@@ -93,7 +93,7 @@
                                     }
                                 }"
                             >
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group input-group-sm">
                                     <input
                                         type="text"
                                         class="form-control"
@@ -108,7 +108,7 @@
                                 </div>
                             </td>
                             <td>
-                                <div class="input-group input-group-sm mb-3">
+                                <div class="input-group input-group-sm">
                                     <input
                                         type="text"
                                         class="form-control"
