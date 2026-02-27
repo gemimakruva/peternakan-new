@@ -85,8 +85,11 @@ class KemasanOpnameController extends Controller
             ->with('success', 'Data Kemasan Opname Berhasil Disimpan.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+    public function destroy(KemasanOpname $kemasanOpname)
+    {
+        $kemasanOpname->kemasanInventory()->delete();
+        $kemasanOpname->delete();
+
+        return back()->with('success', 'Data Kemasan Opname Berhasil Dihapus.');
+    }
 }

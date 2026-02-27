@@ -60,17 +60,6 @@ class KemasanInputController extends Controller
             ->with('success', 'Kemasan Input Berhasil Disimpan.');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('gudangtelur::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
     public function edit(KemasanInput $kemasanInput)
     {
         $listSupplier = $this->supplierRepository->getSelectItems();
@@ -79,9 +68,6 @@ class KemasanInputController extends Controller
         return view('gudang-telur::kemasan.input.edit', compact(['listSupplier', 'data']));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(Request $request, KemasanInput $kemasanInput)
     {
         $validated = $request->validate([
@@ -101,8 +87,11 @@ class KemasanInputController extends Controller
             ->with('success', 'Kemasan Input Berhasil Disimpan.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+    public function destroy(KemasanInput $kemasanInput)
+    {
+        $kemasanInput->kemasanInventory()->delete();
+        $kemasanInput->delete();
+
+        return back()->with('success', 'Data Kemasan Input Berhasil Dihapus.');
+    }
 }

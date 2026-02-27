@@ -74,8 +74,11 @@ class KemasanOutputController extends Controller
             ->with('success', 'Data Kemasan Berhasil Diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+    public function destroy(KemasanOutput $kemasanOutput)
+    {
+        $kemasanOutput->kemasanInventory()->delete();
+        $kemasanOutput->delete();
+
+        return back()->with('success', 'Data Kemasan Opname Berhasil Dihapus.');
+    }
 }

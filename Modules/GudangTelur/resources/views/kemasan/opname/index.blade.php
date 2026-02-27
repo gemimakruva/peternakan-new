@@ -66,6 +66,18 @@
                                     <a href="{{ route('gudang-telur.kemasan-opname.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
+                                    <form 
+                                        action="{{ route('gudang-telur.kemasan-opname.destroy', $data->id) }}"
+                                        method="post"
+                                        class="form-delete"
+                                        data-tanggal="{{ $data->tanggal->translatedFormat('l, d F Y') }}"
+                                    >
+                                        @csrf
+                                        @method('delete')
+                                        <button class="btn btn-danger btn-sm">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
@@ -86,3 +98,25 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+<script>
+    $(document).on('submit', '.form-delete', function (e) {
+        e.preventDefault();
+        const tanggal = $(this).data('tanggal');
+
+        Swal.fire({
+            title: `Hapus Data Opname Tanggal "${tanggal}"?`,
+            text: "Data yang dihapus tidak dapat dikembalikan.",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonText: "Ya, Hapus",
+            cancelButtonText: "Batal"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.submit();
+            }
+        });
+    });
+</script>
+@endpush

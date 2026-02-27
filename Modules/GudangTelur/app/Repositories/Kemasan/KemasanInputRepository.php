@@ -18,7 +18,6 @@ class KemasanInputRepository extends EloquentRepository
     {
         $query = $this->model
             ->query()
-            ->from('kemasan_input')
             ->join('users as pu', 'pu.id', '=', 'kemasan_input.pic_user_id')
             ->join('supplier as s', 's.id', '=', 'kemasan_input.supplier_id')
             ->selectRaw(<<<SQL
@@ -29,6 +28,11 @@ class KemasanInputRepository extends EloquentRepository
             SQL);
 
         return $query;
+    }
+
+    public function defaultOrder(Builder $q): void
+    {
+        $q->orderByDesc('kemasan_input.tanggal');
     }
 
     public function searchQuery(Builder $q, string $search): void
