@@ -1,14 +1,14 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Input Kemasan')
+@section('title', 'List Input Kemasan')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Kemasan</h1>
-                <a href="{{ route('gudang-telur.kemasan-input.create') }}" class="btn btn-primary">Tambah Kemasan</a>
+                <h1>List Input Kemasan</h1>
+                <a href="{{ route('gudang-telur.kemasan-input.create') }}" class="btn btn-primary">Tambah Input Kemasan</a>
             </div>
         </div>
         <div class="col-sm-6">
@@ -95,7 +95,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">Data Supplier tidak tersedia</td>
+                            <td colspan="5" class="text-center">Data Input Kemasan tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\GudangTelur\Http\Controllers\KemasanInputController;
 use Modules\GudangTelur\Http\Controllers\KemasanInventoryController;
+use Modules\GudangTelur\Http\Controllers\KemasanOpnameController;
+use Modules\GudangTelur\Http\Controllers\KemasanOutputController;
 use Modules\GudangTelur\Http\Controllers\MasterData\AjaxController;
 use Modules\GudangTelur\Http\Controllers\MasterData\KemasanController;
 use Modules\GudangTelur\Http\Controllers\SupplierController;
@@ -14,6 +16,8 @@ Route::middleware(['auth'])
         Route::resource('supplier', SupplierController::class)->names('supplier');
 
         Route::resource('kemasan-input', KemasanInputController::class)->names('kemasan-input');
+        Route::resource('kemasan-output', KemasanOutputController::class)->names('kemasan-output');
+        Route::resource('kemasan-opname', KemasanOpnameController::class)->names('kemasan-opname');
         Route::get('kemasan-inventory', [KemasanInventoryController::class, 'index'])->name('kemasan-inventory.index');
         Route::get('kemasan-inventory/{kemasanId}', [KemasanInventoryController::class, 'show'])->name('kemasan-inventory.show');
 

@@ -637,6 +637,18 @@ return [
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['gudang-telur/kemasan-input/*'],
         ],
+        [
+            'text'  => 'Output Kemasan',
+            'route' => 'gudang-telur.kemasan-output.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-output/*'],
+        ],
+        [
+            'text'  => 'Opname Kemasan',
+            'route' => 'gudang-telur.kemasan-opname.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-opname/*'],
+        ],
 
         // ====================   USER AND ACCESS   ============================
 

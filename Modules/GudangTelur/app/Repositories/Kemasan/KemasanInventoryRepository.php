@@ -10,39 +10,68 @@ use Modules\Kandang\Repositories\EloquentRepository;
 
 class KemasanInventoryRepository extends EloquentRepository
 {
+    private $exceptKemasanOutputId;
+
     public function __construct(KemasanInventory $model)
     {
         parent::__construct($model);
     }
 
+    public function context($exceptKemasanOutputId)
+    {
+        $this->exceptKemasanOutputId = $exceptKemasanOutputId;
+        return $this;
+    }
+
     public function getQuery(): Builder
     {
-        $baseQuery = DB::table('kemasan_inventory')
-            ->selectRaw(<<<SQL
-                kemasan_id
-                , kemasan_inventory.tanggal
-                , sum(kemasan_inventory.jumlah) as jumlah
-                , kemasan_inventory.tipe
-            SQL)
-            ->groupBy('tanggal', 'kemasan_id', 'tipe');
-
-        $saldoQuery = DB::table('kemasan_inventory', 'xki')
-            ->join('kemasan', 'kemasan.id', '=', 'xki.kemasan_id')
-            ->leftJoinSub($baseQuery, 'xinput', function ($join) {
-                $join
-                    ->on('xinput.kemasan_id', '=', 'xki.kemasan_id')
-                    ->on('xinput.tanggal', '<=', 'xki.tanggal')
-                    ->where('xinput.tipe', '=', TipeKemasanInventory::INPUT->value);
+        $mutasiHarian = DB::table('kemasan_inventory as ki')
+            ->selectRaw('
+                ki.kemasan_id
+                , ki.tanggal
+                , SUM(
+                    CASE 
+                        WHEN ki.tipe = ? THEN ki.jumlah
+                        WHEN ki.tipe = ? THEN -ki.jumlah
+                        ELSE 0
+                    END
+                ) as mutasi
+                , ki.kemasan_output_id
+            ', [
+                TipeKemasanInventory::INPUT->value,
+                TipeKemasanInventory::OUTPUT->value,
+            ])
+            ->when($this->exceptKemasanOutputId, function ($query) {
+                $query->where(function ($query2) {
+                    $query2
+                        ->whereNull('kemasan_output_id')
+                        ->orWhere('kemasan_output_id', '!=', $this->exceptKemasanOutputId);
+                });
             })
-            ->selectRaw(<<<SQL
-                xki.kemasan_id
-                , xki.tanggal
-                , sum(xinput.jumlah) as jumlah
-                , xki.tipe
+            ->groupBy('ki.kemasan_id', 'ki.tanggal');
+// echo $mutasiHarian->get(); die;
+        $saldoQuery = DB::query()
+            ->fromSub($mutasiHarian, 'm1')
+            ->leftJoinSub($mutasiHarian, 'm2', function ($join) {
+                $join->on('m2.kemasan_id', '=', 'm1.kemasan_id')
+                    ->on('m2.tanggal', '<=', 'm1.tanggal');
+            })
+            ->join('kemasan', 'kemasan.id', '=', 'm1.kemasan_id')
+            ->leftJoin('satuan', 'satuan.id', '=', 'kemasan.satuan_id')
+            ->selectRaw('
+                m1.kemasan_id
+                , m1.tanggal
+                , SUM(m2.mutasi) as jumlah
                 , kemasan.nama
-            SQL)
-            ->groupBy('xki.kemasan_id', 'xki.tanggal')
-            ->orderByDesc('xki.tanggal');
+                , satuan.nama as nama_satuan
+            ')
+            ->groupBy(
+                'm1.kemasan_id'
+                , 'm1.tanggal'
+                , 'kemasan.nama'
+                , 'satuan.nama'
+            )
+            ->orderByDesc('m1.tanggal');
 
         $query = $this->model
             ->query()
@@ -52,8 +81,9 @@ class KemasanInventoryRepository extends EloquentRepository
             ->selectRaw(<<<SQL
                 kemasan_inventory.kemasan_id
                 , max(xsq.tanggal) as tanggal
-                , xsq.jumlah as saldo
+                , xsq.jumlah as stok
                 , xsq.nama as nama_kemasan
+                , xsq.nama_satuan
             SQL)
             ->groupBy('kemasan_inventory.kemasan_id');
 
