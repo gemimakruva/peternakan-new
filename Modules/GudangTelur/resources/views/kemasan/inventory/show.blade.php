@@ -18,9 +18,20 @@
 </div>
 @endsection
 
+@php
+    function opname($mutate) {
+        if ($mutate > 0) {
+            return '+'.((string) $mutate);
+        } else if ($mutate < 0) {
+            return (string) $mutate;
+        } else {
+            return '';
+        }
+    }
+@endphp
 
 @section('content')
-<div class="mx-1000">
+<div class="mx-1200">
     <x-form-alert />
 
     <div class="card">
@@ -53,8 +64,9 @@
                         <th class="align-middle" style="width: 40px;">#</th>
                         <th class="align-middle" style="width: 150px;">Tanggal</th>
                         <th class="align-middle" style="width: 150px;">Nama Kemasan</th>
-                        <th class="align-middle" style="width: 150px;">Tipe</th>
-                        <th class="align-middle" style="width: 150px;">Perubahan</th>
+                        <th class="align-middle" style="width: 150px;">Input</th>
+                        <th class="align-middle" style="width: 150px;">Output</th>
+                        <th class="align-middle" style="width: 150px;">Opname</th>
                         <th class="align-middle" style="width: 150px;">Saldo</th>
                         {{-- <th class="align-middle" style="width: 40px;">Aksi</th> --}}
                     </tr>
@@ -65,8 +77,9 @@
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
                             <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y') }}</td>
                             <td class="text-left">{{ $data->nama_kemasan }}</td>
-                            <td class="text-left">{{ $data->tipe }}</td>
-                            <td class="text-left">{{ $data->jumlah }}</td>
+                            <td class="text-left">{{ $data->tipe == 'input'  ? $data->jumlah : '' }}</td>
+                            <td class="text-left">{{ $data->tipe == 'output' ? $data->jumlah : '' }}</td>
+                            <td class="text-left">{{ $data->tipe == 'opname' ? opname($data->jumlah) : '' }}</td>
                             <td class="text-left">{{ $data->saldo }}</td>
                             {{-- <td>
                                 <div class="d-flex justify-content-center gap-2">

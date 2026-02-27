@@ -49,7 +49,7 @@ class KemasanInventoryRepository extends EloquentRepository
                 });
             })
             ->groupBy('ki.kemasan_id', 'ki.tanggal');
-// echo $mutasiHarian->get(); die;
+
         $saldoQuery = DB::query()
             ->fromSub($mutasiHarian, 'm1')
             ->leftJoinSub($mutasiHarian, 'm2', function ($join) {

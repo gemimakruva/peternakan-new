@@ -25,44 +25,35 @@ class KemasanInventoryShowReposotory extends EloquentRepository
 
     public function getQuery(): Builder
     {
-        $baseQuery = DB::table('kemasan_inventory')
-            ->selectRaw(<<<SQL
-                kemasan_id
-                , kemasan_inventory.tanggal
-                , sum(kemasan_inventory.jumlah) as jumlah
-                , kemasan_inventory.tipe
-            SQL)
-            ->groupBy(
-                'tanggal'
-                , 'kemasan_id'
-                , 'tipe'
-            );
-
         $query = $this->model->query()
-            ->from('kemasan_inventory', 'xki')
+            ->from('kemasan_inventory as xki')
             ->join('kemasan', 'kemasan.id', '=', 'xki.kemasan_id')
-            ->leftJoinSub($baseQuery, 'xinput', function ($join) {
-                $join
-                    ->on('xinput.kemasan_id', '=', 'xki.kemasan_id')
-                    ->on('xinput.tanggal', '<=', 'xki.tanggal')
-                    ->where('xinput.tipe', '=', TipeKemasanInventory::INPUT->value);
-            })
             ->selectRaw(<<<SQL
-                xki.kemasan_id
-                , xki.tanggal
-                , xki.jumlah
-                , xki.tipe
-                , sum(xinput.jumlah) as saldo
-                , kemasan.nama as nama_kemasan
-            SQL)
-            ->where('xki.kemasan_id', '=', $this->kemasanId)
-            ->groupBy(
-                'xki.kemasan_id'
-                , 'xki.tanggal'
-                , 'xki.tipe'
-                , 'xki.jumlah'
-            )
-            ->orderByDesc('xki.tanggal');
+                xki.kemasan_id,
+                xki.tanggal,
+                xki.jumlah,
+                xki.tipe,
+                kemasan.nama as nama_kemasan,
+                SUM(
+                    CASE
+                        WHEN xki.tipe = ? THEN xki.jumlah
+                        WHEN xki.tipe = ? THEN -xki.jumlah
+                        WHEN xki.tipe = ? THEN xki.jumlah
+                        ELSE 0
+                    END
+                ) OVER (
+                    PARTITION BY xki.kemasan_id
+                    ORDER BY xki.tanggal
+                    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                ) as saldo
+            SQL, [
+                TipeKemasanInventory::INPUT->value,
+                TipeKemasanInventory::OUTPUT->value,
+                TipeKemasanInventory::OPNAME->value,
+            ])
+            ->where('xki.kemasan_id', $this->kemasanId)
+            ->orderByDesc('xki.tanggal')
+            ->orderByDesc('xki.created_at');
 
         return $query;
     }
