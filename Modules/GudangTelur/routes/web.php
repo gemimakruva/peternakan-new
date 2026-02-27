@@ -14,7 +14,8 @@ Route::middleware(['auth'])
         Route::resource('supplier', SupplierController::class)->names('supplier');
 
         Route::resource('kemasan-input', KemasanInputController::class)->names('kemasan-input');
-        Route::resource('kemasan-inventory', KemasanInventoryController::class)->names('kemasan-inventory');
+        Route::get('kemasan-inventory', [KemasanInventoryController::class, 'index'])->name('kemasan-inventory.index');
+        Route::get('kemasan-inventory/{kemasanId}', [KemasanInventoryController::class, 'show'])->name('kemasan-inventory.show');
 
         Route::prefix('master-data')
             ->as('master-data.')

@@ -1,19 +1,17 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Supplier')
+@section('title', 'Inventory Kemasan')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Supplier</h1>
-                <a href="{{ route('gudang-telur.supplier.create') }}" class="btn btn-primary">Tambah Supplier</a>
-            </div>
+            <h1>Kemasan</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Supplier</li>
+                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.kemasan-inventory.index') }}">Kemasan</a></li>
+                <li class="breadcrumb-item active">Inventory</li>
             </ol>
         </div>
     </div>
@@ -27,21 +25,19 @@
 
     <div class="card">
         <div class="card-header text-white d-flex justify-content-between align-items-center">
-            <form action="{{ route('gudang-telur.supplier.index', request()->all()) }}" method="get" class="w-100">
-                <div class="d-flex justify-content-end">
-                    <div class="d-flex gap-2">
-                        <input 
-                            type="search" 
-                            name="search" 
-                            class="form-control" 
-                            placeholder="Nama Supplier ..."
-                            value="{{ request()->query('search') }}"
-                        >
+            <form action="{{ route('gudang-telur.kemasan-inventory.index', request()->all()) }}" method="get" class="w-100">
+                <div class="d-flex gap-2 justify-content-start align-items-end">
+                    <input 
+                        type="search" 
+                        name="search" 
+                        class="form-control mx-sm-200" 
+                        placeholder="Nama Kemasan ..."
+                        value="{{ request()->query('search') }}"
+                    >
 
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-                    </div>
+                    <button class="btn btn-primary" title="Cari">
+                        <i class="fas fa-search"></i>
+                    </button>
                 </div>
             </form>
         </div>
@@ -51,7 +47,9 @@
                 <thead>
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Supplier" name="nama" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Nama Kemasan" name="nama_kemasan" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Saldo" name="saldo" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Terakhir Diperbarui" name="tanggal" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -59,10 +57,12 @@
                     @forelse($datas as $data)
                         <tr>
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
-                            <td class="text-left">{{ $data->nama }}</td>
+                            <td class="text-left">{{ $data->nama_kemasan }}</td>
+                            <td class="text-left">{{ $data->saldo }}</td>
+                            <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y') }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('gudang-telur.supplier.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
+                                    <a href="{{ route('gudang-telur.kemasan-inventory.show', $data->kemasan_id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                 </div>
@@ -70,7 +70,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center">Data Supplier tidak tersedia</td>
+                            <td colspan="4" class="text-center">Data Supplier tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>

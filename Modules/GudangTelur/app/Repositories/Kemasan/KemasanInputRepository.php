@@ -23,6 +23,7 @@ class KemasanInputRepository extends EloquentRepository
             ->join('supplier as s', 's.id', '=', 'kemasan_input.supplier_id')
             ->selectRaw(<<<SQL
                 kemasan_input.id
+                , kemasan_input.tanggal
                 , pu.name as nama_pic_user
                 , s.nama as nama_supplier
             SQL);
@@ -53,6 +54,7 @@ class KemasanInputRepository extends EloquentRepository
                 'id'                => @$item['id'],
             ], [
                 'tipe'              => TipeKemasanInventory::INPUT->value,
+                'tanggal'           => @$data['tanggal'],
                 'supplier_id'       => @$data['supplier_id'],
                 'kemasan_input_id'  => $kemasanInput->id,
                 'kemasan_id'        => @$item['kemasan_id'],

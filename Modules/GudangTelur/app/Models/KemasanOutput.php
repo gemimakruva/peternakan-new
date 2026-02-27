@@ -15,7 +15,7 @@ class KemasanOutput extends Model
     ];
 
     protected $casts = [
-        'tanggal' => 'datetime',
+        'tanggal' => 'date',
     ];
 
     public function picUser()

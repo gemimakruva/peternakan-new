@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pic_user_id')->constrained('users', 'id');
             $table->foreignId('supplier_id')->constrained('supplier', 'id');
-            $table->dateTime('tanggal');
+            $table->date('tanggal');
             $table->timestamps();
         });
 
@@ -29,14 +29,14 @@ return new class extends Migration
         Schema::create('kemasan_output', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pic_user_id')->constrained('users', 'id');
-            $table->dateTime('tanggal');
+            $table->date('tanggal');
             $table->timestamps();
         });
 
         Schema::create('kemasan_opname', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pic_user_id')->constrained('users', 'id');
-            $table->dateTime('tanggal');
+            $table->date('tanggal');
             $table->integer('jumlah');
             $table->timestamps();
         });
@@ -49,6 +49,7 @@ return new class extends Migration
             $table->foreignId('kemasan_output_id')->nullable()->constrained('kemasan_output', 'id');
             $table->foreignId('kemasan_opname_id')->nullable()->constrained('kemasan_opname', 'id');
             $table->foreignId('kemasan_id')->nullable()->constrained('kemasan', 'id');
+            $table->date('tanggal');
             $table->integer('jumlah');
             $table->timestamps();
         });

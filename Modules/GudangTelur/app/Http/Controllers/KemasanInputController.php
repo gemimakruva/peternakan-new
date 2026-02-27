@@ -46,7 +46,7 @@ class KemasanInputController extends Controller
     {
         $validated = $request->validate([
             'supplier_id'   => ['required', 'exists:supplier,id'],
-            'tanggal'       => ['required', 'date_format:Y-m-d\TH:i'],
+            'tanggal'       => ['required', 'date_format:Y-m-d'],
             'items.*'       => ['required', 'array'],
             'items.*.kemasan_id'    => ['required', 'exists:kemasan,id'],
             'items.*.jumlah'        => ['required', 'numeric'],
@@ -86,7 +86,7 @@ class KemasanInputController extends Controller
     {
         $validated = $request->validate([
             'supplier_id'   => ['required', 'exists:supplier,id'],
-            'tanggal'       => ['required', 'date_format:Y-m-d\TH:i'],
+            'tanggal'       => ['required', 'date_format:Y-m-d'],
             'items.*'       => ['required', 'array'],
             'items.*.kemasan_id'    => ['required', 'exists:kemasan,id'],
             'items.*.jumlah'        => ['required', 'numeric'],

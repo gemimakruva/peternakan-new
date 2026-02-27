@@ -4,53 +4,40 @@ namespace Modules\GudangTelur\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\GudangTelur\Models\Kemasan;
+use Modules\GudangTelur\Repositories\Kemasan\KemasanInventoryRepository;
+use Modules\GudangTelur\Repositories\Kemasan\KemasanInventoryShowReposotory;
 
 class KemasanInventoryController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function __construct(
+        private Kemasan $kemasan,
+        private KemasanInventoryRepository $repository,
+        private KemasanInventoryShowReposotory $repository2,
+    ) { }
+
+    public function index(Request $request)
     {
-        return view('gudangtelur::index');
+        $datas = $this->repository->paginate(
+            $request->query('search'),
+            null,
+            $request->collect('orders'),
+            $request->query('perPage', 10)
+        );
+        return view('gudang-telur::kemasan.inventory.index', compact('datas'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function show(Request $request, $kemasanId)
     {
-        return view('gudangtelur::create');
+        $data = $this->kemasan->findOrFail($kemasanId);
+        $datas = $this->repository2
+            ->setContext($kemasanId)
+            ->paginate(
+                $request->query('search'),
+                null,
+                null,
+                $request->query('perPage', 10)
+            );
+        return view('gudang-telur::kemasan.inventory.show', compact(['data', 'datas']));
     }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request) {}
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('gudangtelur::show');
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit($id)
-    {
-        return view('gudangtelur::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
 }

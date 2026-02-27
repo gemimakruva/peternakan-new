@@ -629,6 +629,7 @@ return [
             'text'  => 'Inventory Kemasan',
             'route' => 'gudang-telur.kemasan-inventory.index',
             'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-inventory/*'],
         ],
         [
             'text'  => 'Input Kemasan',
