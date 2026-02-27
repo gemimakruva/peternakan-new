@@ -37,7 +37,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pic_user_id')->constrained('users', 'id');
             $table->date('tanggal');
-            $table->integer('jumlah');
             $table->timestamps();
         });
 

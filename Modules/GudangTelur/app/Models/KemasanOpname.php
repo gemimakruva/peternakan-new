@@ -2,21 +2,29 @@
 
 namespace Modules\GudangTelur\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\GudangTelur\Database\Factories\KemasanOpnameFactory;
 
 class KemasanOpname extends Model
 {
-    use HasFactory;
+    public $table = 'kemasan_opname';
 
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'pic_user_id',
+        'tanggal',
+    ];
 
-    // protected static function newFactory(): KemasanOpnameFactory
-    // {
-    //     // return KemasanOpnameFactory::new();
-    // }
+    protected $casts = [
+        'tanggal' => 'date',
+    ];
+
+    public function picUser()
+    {
+        return $this->belongsTo(User::class, 'pic_user_id');
+    }
+
+    public function kemasanInventory()
+    {
+        return $this->hasMany(KemasanInventory::class, 'kemasan_opname_id');
+    }
 }
