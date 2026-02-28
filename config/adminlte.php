@@ -615,9 +615,9 @@ return [
             'can'   => 'kandang.monitoring.menu-monitoring-kesehatan',
         ],
 
-        // ====================   Gudang Telur  ========================
+        // ====================   Kemasan  ========================
         [
-            'header' => 'Gudang Telur',
+            'header' => 'Inventory Kemasan',
         ],
         [
             'text'  => 'Supplier',
@@ -648,6 +648,23 @@ return [
             'route' => 'gudang-telur.kemasan-opname.index',
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['gudang-telur/kemasan-opname/*'],
+        ],
+
+        // ====================   Inventory Telur  ========================
+        [
+            'header' => 'Inventory Telur',
+        ],
+        [
+            'text'  => 'Telur Masuk',
+            'route' => 'gudang-telur.telur-masuk.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-masuk/*'],
+        ],
+        [
+            'text'  => 'Inventory Telur',
+            'route' => 'gudang-telur.telur-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-inventory/*'],
         ],
 
         // ====================   USER AND ACCESS   ============================
