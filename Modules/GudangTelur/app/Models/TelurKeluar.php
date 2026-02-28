@@ -2,21 +2,41 @@
 
 namespace Modules\GudangTelur\Models;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\GudangTelur\Database\Factories\TelurKeluarFactory;
 
 class TelurKeluar extends Model
 {
-    use HasFactory;
+    public $table = 'telur_keluar';
 
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'telur_tujuan_id',
+        'kemasan_output_id',
+        'pic_user_id',
+        'tanggal',
+    ];
 
-    // protected static function newFactory(): TelurKeluarFactory
-    // {
-    //     // return TelurKeluarFactory::new();
-    // }
+    protected $casts = [
+        'tanggal'   => 'date',
+    ];
+
+    public function telurTujuan()
+    {
+        return $this->belongsTo(TelurTujuan::class, 'telur_tujuan_id', 'id');
+    }
+
+    public function kemasanOutput()
+    {
+        return $this->belongsTo(KemasanOutput::class, 'kemasan_output_id', 'id');
+    }
+
+    public function picUser()
+    {
+        return $this->belongsTo(User::class, 'pic_user_id', 'id');
+    }
+
+    public function telurInventory()
+    {
+        return $this->hasMany(TelurInventory::class, 'telur_keluar_id', 'id');
+    }
 }

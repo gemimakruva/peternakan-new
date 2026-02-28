@@ -9,6 +9,7 @@ use Modules\GudangTelur\Http\Controllers\MasterData\AjaxController;
 use Modules\GudangTelur\Http\Controllers\MasterData\KemasanController;
 use Modules\GudangTelur\Http\Controllers\SupplierController;
 use Modules\GudangTelur\Http\Controllers\Telur\TelurInventoryController;
+use Modules\GudangTelur\Http\Controllers\Telur\TelurKeluarController;
 use Modules\GudangTelur\Http\Controllers\Telur\TelurMasukController;
 
 Route::middleware(['auth'])
@@ -24,6 +25,7 @@ Route::middleware(['auth'])
         Route::get('kemasan-inventory/{kemasanId}', [KemasanInventoryController::class, 'show'])->name('kemasan-inventory.show');
 
         Route::resource('telur-masuk', TelurMasukController::class)->names('telur-masuk');
+        Route::resource('telur-keluar', TelurKeluarController::class)->names('telur-keluar');
         Route::resource('telur-inventory', TelurInventoryController::class)->names('telur-inventory');
 
         Route::prefix('master-data')

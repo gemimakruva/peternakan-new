@@ -24,7 +24,7 @@ class TelurMasuk extends Model
         return $this->belongsTo(TelurAsal::class, 'telur_asal_id', 'id');
     }
 
-    public function pic_user_id()
+    public function picUser()
     {
         return $this->belongsTo(User::class, 'pic_user_id', 'id');
     }

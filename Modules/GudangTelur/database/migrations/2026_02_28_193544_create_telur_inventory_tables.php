@@ -41,6 +41,7 @@ return new class extends Migration
         Schema::create('telur_keluar', function (Blueprint $table) {
             $table->id();
             $table->foreignId('telur_tujuan_id')->constrained('telur_tujuan', 'id');
+            $table->foreignId('kemasan_output_id')->constrained('kemasan_output', 'id');
             $table->foreignId('pic_user_id')->constrained('users', 'id');
             $table->date('tanggal');
             $table->timestamps();

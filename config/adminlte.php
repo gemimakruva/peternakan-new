@@ -661,6 +661,12 @@ return [
             'active' => ['gudang-telur/telur-masuk/*'],
         ],
         [
+            'text'  => 'Telur Keluar',
+            'route' => 'gudang-telur.telur-keluar.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-keluar/*'],
+        ],
+        [
             'text'  => 'Inventory Telur',
             'route' => 'gudang-telur.telur-inventory.index',
             'icon'  => 'fas fa-clipboard-list',

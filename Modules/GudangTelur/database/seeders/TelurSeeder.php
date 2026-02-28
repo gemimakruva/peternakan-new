@@ -66,7 +66,7 @@ class TelurSeeder extends Seeder
             ],
             [
                 'tipe'  => TelurJenisTipe::KELUAR->value,
-                'nama'  => 'Teturan',
+                'nama'  => 'Returan',
             ],
             // ====== GRADING
             [
