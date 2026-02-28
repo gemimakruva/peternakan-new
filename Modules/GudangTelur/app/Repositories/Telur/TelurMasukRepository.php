@@ -3,6 +3,7 @@
 namespace Modules\GudangTelur\Repositories\Telur;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\GudangTelur\Enums\TipeTelurInventory;
 use Modules\GudangTelur\Models\TelurAsal;
 use Modules\GudangTelur\Models\TelurMasuk;
 use Modules\Kandang\Repositories\EloquentRepository;
@@ -78,6 +79,7 @@ class TelurMasukRepository extends EloquentRepository
             $telurInventory = $telurMasuk->telurInventory()->updateOrCreate([
                 'id'                => @$item['id'],
             ], [
+                'tipe'          => TipeTelurInventory::MASUK->value,
                 'tanggal'           => @$data['tanggal'],
                 'telur_jenis_id'    => @$item['telur_jenis_id'],
                 'jumlah'            => @$item['jumlah'],

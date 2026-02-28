@@ -4,6 +4,7 @@ namespace Modules\GudangTelur\Repositories\Telur;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangTelur\Enums\TipeKemasanInventory;
+use Modules\GudangTelur\Enums\TipeTelurInventory;
 use Modules\GudangTelur\Models\KemasanOutput;
 use Modules\GudangTelur\Models\TelurKeluar;
 use Modules\GudangTelur\Models\TelurTujuan;
@@ -107,6 +108,7 @@ class TelurKeluarRepository extends EloquentRepository
             $telurInventory = $telurKeluar->telurInventory()->updateOrCreate([
                 'id'                => @$item['id'],
             ], [
+                'tipe'              => TipeTelurInventory::KELUAR->value,
                 'tanggal'           => @$data['tanggal'],
                 'telur_jenis_id'    => @$item['telur_jenis_id'],
                 'jumlah'            => @$item['jumlah'],

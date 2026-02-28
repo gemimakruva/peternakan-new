@@ -9,6 +9,7 @@ class TelurInventory extends Model
     public $table = 'telur_inventory';
 
     protected $fillable = [
+        'tipe',
         'telur_masuk_id',
         'telur_keluar_id',
         'telur_opname_id',

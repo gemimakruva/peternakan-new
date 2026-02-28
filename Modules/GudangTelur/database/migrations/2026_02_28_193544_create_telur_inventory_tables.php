@@ -56,6 +56,7 @@ return new class extends Migration
 
         Schema::create('telur_inventory', function (Blueprint $table) {
             $table->id();
+            $table->string('tipe');
             $table->foreignId('telur_masuk_id')->nullable()->constrained('telur_masuk', 'id');
             $table->foreignId('telur_keluar_id')->nullable()->constrained('telur_keluar', 'id');
             $table->foreignId('telur_opname_id')->nullable()->constrained('telur_opname', 'id');
