@@ -11,6 +11,7 @@ use Modules\GudangTelur\Http\Controllers\SupplierController;
 use Modules\GudangTelur\Http\Controllers\Telur\TelurInventoryController;
 use Modules\GudangTelur\Http\Controllers\Telur\TelurKeluarController;
 use Modules\GudangTelur\Http\Controllers\Telur\TelurMasukController;
+use Modules\GudangTelur\Http\Controllers\Telur\TelurOpnameController;
 
 Route::middleware(['auth'])
     ->prefix('gudang-telur')
@@ -26,6 +27,7 @@ Route::middleware(['auth'])
 
         Route::resource('telur-masuk', TelurMasukController::class)->names('telur-masuk');
         Route::resource('telur-keluar', TelurKeluarController::class)->names('telur-keluar');
+        Route::resource('telur-opname', TelurOpnameController::class)->names('telur-opname');
         Route::resource('telur-inventory', TelurInventoryController::class)->names('telur-inventory');
 
         Route::prefix('master-data')

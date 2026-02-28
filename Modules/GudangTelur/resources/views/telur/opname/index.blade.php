@@ -1,20 +1,20 @@
 @extends('layouts.dashboard')
 
-@section('title', 'List Telur Keluar')
+@section('title', 'List Telur Opname')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>List Telur Keluar</h1>
-                <a href="{{ route('gudang-telur.telur-keluar.create') }}" class="btn btn-primary">Tambah Telur Keluar</a>
+                <h1>List Telur Opname</h1>
+                <a href="{{ route('gudang-telur.telur-opname.create') }}" class="btn btn-primary">Tambah Telur Opname</a>
             </div>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
                 <li class="breadcrumb-item"><a href="{{ route('gudang-telur.telur-inventory.index') }}">Telur Inventory</a></li>
-                <li class="breadcrumb-item active">Telur Keluar</li>
+                <li class="breadcrumb-item active">Telur Opname</li>
             </ol>
         </div>
     </div>
@@ -28,21 +28,14 @@
 
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('gudang-telur.telur-keluar.index', request()->all()) }}" method="get" class="w-100">
+            <form action="{{ route('gudang-telur.telur-opname.index', request()->all()) }}" method="get" class="w-100">
                 <div class="d-flex gap-2 justify-content-start align-items-end">
                     <x-adminlte-input
                         label="Tanggal"
                         type="date"
-                        name="date_start"
+                        name="tanggal"
                         fgroup-class="mb-0 mx-sm-200"
-                        :value="$dateStart"
-                    />
-                    
-                    <x-adminlte-input
-                        type="date"
-                        name="date_end"
-                        fgroup-class="mb-0 mx-sm-200"
-                        :value="$dateEnd"
+                        :value="request()->query('tanggal')"
                     />
 
                     <input 
@@ -57,7 +50,7 @@
                         <i class="fas fa-search"></i>
                     </button>
 
-                    <a href="{{ route('gudang-telur.telur-keluar.index') }}" class="btn btn-secondary">
+                    <a href="{{ route('gudang-telur.telur-opname.index') }}" class="btn btn-secondary">
                         <i class="fas fa-undo"></i>
                     </a>
                 </div>
@@ -73,8 +66,6 @@
                         <th class="align-middle" style="width: 40px;">#</th>
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Tanggal" name="tanggal" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Pic User" name="nama_pic_user" />
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Tujuan Telur" name="nama_telur_tujuan" />
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Jumlah" name="jumlah" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -84,15 +75,13 @@
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
                             <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y') }}</td>
                             <td class="text-left">{{ $data->nama_pic_user }}</td>
-                            <td class="text-left">{{ $data->nama_telur_tujuan }}</td>
-                            <td class="text-left">{{ $data->jumlah }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('gudang-telur.telur-keluar.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
+                                    <a href="{{ route('gudang-telur.telur-opname.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form 
-                                        action="{{ route('gudang-telur.telur-keluar.destroy', $data->id) }}"
+                                        action="{{ route('gudang-telur.telur-opname.destroy', $data->id) }}"
                                         method="post"
                                         class="form-delete"
                                         data-tanggal="{{ $data->tanggal->translatedFormat('l, d F Y') }}"
@@ -108,7 +97,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Data Telur Keluar tidak tersedia</td>
+                            <td colspan="4" class="text-center">Data Telur Opname tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -131,7 +120,7 @@
         const tanggal = $(this).data('tanggal');
 
         Swal.fire({
-            title: `Hapus Data Telur Masuk "${tanggal}"?`,
+            title: `Hapus Data Telur Opname "${tanggal}"?`,
             text: "Data yang dihapus tidak dapat dikembalikan.",
             icon: "warning",
             showCancelButton: true,

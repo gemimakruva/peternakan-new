@@ -22,13 +22,26 @@ class TelurKeluarController extends Controller
 
     public function index(Request $request)
     {
+        $dateStart  = $request->query('date_start', now()->startOfYear()->format('Y-m-d'));
+        $dateEnd    = $request->query('date_end', now()->endOfYear()->format('Y-m-d'));
+
+        $request->merge([
+            'date_start'    => $dateStart,
+            'date_end'      => $dateEnd,
+        ]);
+
         $datas = $this->repository->paginate(
             $request->query('search'),
-            $request->collect(['tanggal']),
+            $request->collect(['date_start', 'date_end']),
             $request->collect('orders'),
             $request->query('perPage', 10),
         );
-        return view('gudang-telur::telur.keluar.index', compact(['datas']));
+
+        return view('gudang-telur::telur.keluar.index', compact([
+            'dateStart',
+            'dateEnd',
+            'datas',
+        ]));
     }
 
     public function create()
@@ -82,7 +95,7 @@ class TelurKeluarController extends Controller
         $listTujuanTelur = $this->telurTujuanRepository->getSelectItems();
         $listKemasanInventory = $this->kemasanInventoryRepository->context($telurKeluar->kemasan_output_id)->getQuery()->get();
         $data = $telurKeluar;
-// dd($data);
+
         return view('gudang-telur::telur.keluar.edit', compact([
             'data',
             'listTelurJenis',

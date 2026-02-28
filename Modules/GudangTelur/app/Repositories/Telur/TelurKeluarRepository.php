@@ -22,12 +22,15 @@ class TelurKeluarRepository extends EloquentRepository
             ->query()
             ->join('users', 'users.id', '=', 'telur_keluar.pic_user_id')
             ->join('telur_tujuan', 'telur_tujuan.id', '=', 'telur_keluar.telur_tujuan_id')
+            ->leftJoin('telur_inventory', 'telur_inventory.telur_keluar_id', '=', 'telur_keluar.id')
             ->selectRaw(<<<SQL
                 telur_keluar.id
                 , telur_keluar.tanggal
                 , users.name as nama_pic_user
                 , telur_tujuan.nama as nama_telur_tujuan
-            SQL);
+                , sum(telur_inventory.jumlah) as jumlah
+            SQL)
+            ->groupBy('telur_keluar.id');
 
         return $query;
     }
@@ -39,6 +42,24 @@ class TelurKeluarRepository extends EloquentRepository
             ->orWhere('telur_tujuan.nama', 'LIKE', "%$search%");
     }
 
+    public function customWhereQuery(): array
+    {
+        return [
+            'date_start' => function($query, $dateStart) {
+                $query->where('telur_keluar.tanggal', '>=', $dateStart);
+            },
+            'date_end' => function($query, $dateEnd) {
+                $query->where('telur_keluar.tanggal', '<=', $dateEnd);
+            },
+        ];
+    }
+
+    public function defaultOrder(Builder $q): void
+    {
+        $q->orderByDesc('telur_keluar.tanggal');
+        $q->orderByDesc('telur_keluar.id');
+    }
+
     public function save(array $data)
     {
         if (!is_numeric($data['telur_tujuan_id'])) {
@@ -46,7 +67,7 @@ class TelurKeluarRepository extends EloquentRepository
         }
 
         // Kemasan Output
-        $kemasanOutput  = app(KemasanOutput::class)->firstOrCreate([
+        $kemasanOutput  = app(KemasanOutput::class)->updateOrCreate([
             "id"                => @$data['kemasan_output_id'],
         ], [
             "pic_user_id"       => @$data['pic_user_id'],
@@ -70,7 +91,7 @@ class TelurKeluarRepository extends EloquentRepository
         $kemasanOutput->kemasanInventory()->whereNotIn('id', $savedKemasanInventoryIds)->delete();
 
         // Telur Keluar
-        $telurKeluar = $this->model->firstOrCreate([
+        $telurKeluar = $this->model->updateOrCreate([
             "id"                => @$data['id'],
         ], [
             "pic_user_id"       => @$data['pic_user_id'],

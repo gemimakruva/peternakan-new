@@ -667,6 +667,12 @@ return [
             'active' => ['gudang-telur/telur-keluar/*'],
         ],
         [
+            'text'  => 'Telur Opname',
+            'route' => 'gudang-telur.telur-opname.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-opname/*'],
+        ],
+        [
             'text'  => 'Inventory Telur',
             'route' => 'gudang-telur.telur-inventory.index',
             'icon'  => 'fas fa-clipboard-list',

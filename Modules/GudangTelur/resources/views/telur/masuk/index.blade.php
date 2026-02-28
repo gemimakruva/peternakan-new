@@ -33,9 +33,16 @@
                     <x-adminlte-input
                         label="Tanggal"
                         type="date"
-                        name="tanggal"
+                        name="date_start"
                         fgroup-class="mb-0 mx-sm-200"
-                        :value="request()->query('tanggal')"
+                        :value="$dateStart"
+                    />
+
+                    <x-adminlte-input
+                        type="date"
+                        name="date_end"
+                        fgroup-class="mb-0 mx-sm-200"
+                        :value="$dateEnd"
                     />
 
                     <input 
@@ -67,6 +74,7 @@
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Tanggal" name="tanggal" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Pic User" name="nama_pic_user" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Asal Telur" name="nama_telur_asal" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Jumlah" name="jumlah" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -77,6 +85,7 @@
                             <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y') }}</td>
                             <td class="text-left">{{ $data->nama_pic_user }}</td>
                             <td class="text-left">{{ $data->nama_telur_asal }}</td>
+                            <td class="text-left">{{ $data->jumlah }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
                                     <a href="{{ route('gudang-telur.telur-masuk.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">

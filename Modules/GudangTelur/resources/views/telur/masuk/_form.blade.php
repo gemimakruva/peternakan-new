@@ -14,7 +14,7 @@
             >
                 <x-adminlte-options
                     :options="$listAsalTelur"
-                    :value="old('telur_asal_id', @$data->telur_asal_id)"
+                    :selected="old('telur_asal_id', @$data->telur_asal_id)"
                 />
             </x-adminlte-select2>
             <x-adminlte-input

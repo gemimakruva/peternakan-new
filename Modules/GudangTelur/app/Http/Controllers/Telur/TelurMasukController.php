@@ -20,13 +20,25 @@ class TelurMasukController extends Controller
 
     public function index(Request $request)
     {
+        $dateStart  = $request->query('date_start', now()->startOfYear()->format('Y-m-d'));
+        $dateEnd    = $request->query('date_end', now()->endOfYear()->format('Y-m-d'));
+
+        $request->merge([
+            'date_start'    => $dateStart,
+            'date_end'      => $dateEnd,
+        ]);
+
         $datas = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['tanggal']),
             $request->collect('orders'),
             $request->query('perPage', 10),
         );
-        return view('gudang-telur::telur.masuk.index', compact(['datas']));
+        return view('gudang-telur::telur.masuk.index', compact([
+            'datas',
+            'dateStart',
+            'dateEnd',
+        ]));
     }
 
     public function create()
