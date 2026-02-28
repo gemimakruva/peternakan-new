@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\GudangTelur\Repositories\Kemasan;
+namespace Modules\GudangTelur\Repositories\Telur;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
-use Modules\GudangTelur\Enums\TipeKemasanInventory;
+use Modules\GudangTelur\Enums\TipeTelurInventory;
 use Modules\GudangTelur\Models\KemasanInventory;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -17,67 +17,58 @@ class TelurInventoryRepository extends EloquentRepository
 
     public function getQuery(): Builder
     {
-        $mutasiHarian = DB::table('telur_inventory as ki')
-            ->selectRaw('
-                ki.kemasan_id
-                , ki.tanggal
-                , SUM(
-                    CASE 
-                        WHEN ki.tipe = ? THEN ki.jumlah
-                        WHEN ki.tipe = ? THEN -ki.jumlah
+        $base = DB::query()
+            ->from('telur_inventory as ti')
+            ->join('telur_jenis as tj', 'tj.id', '=', 'ti.telur_jenis_id')
+            ->selectRaw(<<<SQL
+                ti.id
+                , ti.tanggal
+                , ti.jumlah
+                , ti.tipe
+                , ti.created_at
+                , tj.nama as nama_jenis_telur,
+                SUM(
+                    CASE
+                        WHEN ti.tipe = ? THEN ti.jumlah
+                        WHEN ti.tipe = ? THEN -ti.jumlah
+                        WHEN ti.tipe = ? THEN ti.jumlah
                         ELSE 0
                     END
-                ) as mutasi
-                , ki.kemasan_output_id
-            ', [
-                TipeKemasanInventory::INPUT->value,
-                TipeKemasanInventory::OUTPUT->value,
-            ])
-            ->groupBy('ki.kemasan_id', 'ki.tanggal');
-
-        $saldoQuery = DB::query()
-            ->fromSub($mutasiHarian, 'm1')
-            ->leftJoinSub($mutasiHarian, 'm2', function ($join) {
-                $join->on('m2.kemasan_id', '=', 'm1.kemasan_id')
-                    ->on('m2.tanggal', '<=', 'm1.tanggal');
-            })
-            ->join('kemasan', 'kemasan.id', '=', 'm1.kemasan_id')
-            ->leftJoin('satuan', 'satuan.id', '=', 'kemasan.satuan_id')
-            ->selectRaw('
-                m1.kemasan_id
-                , m1.tanggal
-                , SUM(m2.mutasi) as jumlah
-                , kemasan.nama
-                , satuan.nama as nama_satuan
-            ')
-            ->groupBy(
-                'm1.kemasan_id'
-                , 'm1.tanggal'
-                , 'kemasan.nama'
-                , 'satuan.nama'
-            )
-            ->orderByDesc('m1.tanggal');
+                ) OVER (
+                    ORDER BY 
+                        ti.tanggal ASC
+                        , ti.created_at ASC
+                    ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+                ) as saldo
+            SQL, [
+                TipeTelurInventory::MASUK->value,
+                TipeTelurInventory::KELUAR->value,
+                TipeTelurInventory::OPNAME->value,
+            ]);
 
         $query = $this->model
             ->query()
-            ->leftJoinSub($saldoQuery, 'xsq', function ($join) {
-                $join->on('xsq.kemasan_id', '=', 'kemasan_inventory.kemasan_id');
-            })
-            ->selectRaw(<<<SQL
-                kemasan_inventory.kemasan_id
-                , max(xsq.tanggal) as tanggal
-                , xsq.jumlah as stok
-                , xsq.nama as nama_kemasan
-                , xsq.nama_satuan
-            SQL)
-            ->groupBy('kemasan_inventory.kemasan_id');
+            ->fromSub($base, 'x');
 
         return $query;
     }
 
     public function defaultOrder(Builder $q): void
     {
-        $q->orderBy("xsq.tanggal", 'desc');
-        $q->orderBy("nama_kemasan", 'asc');
+        $q->orderBy("x.tanggal", 'desc');
+        $q->orderBy("x.created_at", 'desc');
+        $q->orderBy("x.id", 'desc');
+    }
+
+    public function customWhereQuery(): array
+    {
+        return [
+            'date_end' => function($query, $dateEnd) {
+                $query->where('x.tanggal', '<=', $dateEnd);
+            },
+            'date_start' => function($query, $dateStart) {
+                $query->where('x.tanggal', '>=', $dateStart);
+            },
+        ];
     }
 }
