@@ -25,10 +25,10 @@ Route::middleware(['auth'])
         Route::get('kemasan-inventory', [KemasanInventoryController::class, 'index'])->name('kemasan-inventory.index');
         Route::get('kemasan-inventory/{kemasanId}', [KemasanInventoryController::class, 'show'])->name('kemasan-inventory.show');
 
-        Route::resource('telur-masuk', TelurMasukController::class)->names('telur-masuk');
-        Route::resource('telur-keluar', TelurKeluarController::class)->names('telur-keluar');
-        Route::resource('telur-opname', TelurOpnameController::class)->names('telur-opname');
-        Route::resource('telur-inventory', TelurInventoryController::class)->names('telur-inventory');
+        Route::resource('telur-masuk', TelurMasukController::class)->names('telur-masuk')->except('show');
+        Route::resource('telur-keluar', TelurKeluarController::class)->names('telur-keluar')->except('show');
+        Route::resource('telur-opname', TelurOpnameController::class)->names('telur-opname')->except('show');
+        Route::resource('telur-inventory', TelurInventoryController::class)->names('telur-inventory')->only('index');
 
         Route::prefix('master-data')
             ->as('master-data.')

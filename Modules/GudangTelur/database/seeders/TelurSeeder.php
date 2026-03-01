@@ -81,6 +81,11 @@ class TelurSeeder extends Seeder
                 'tipe'  => TelurJenisTipe::GRADING->value,
                 'nama'  => 'Grade Oversize',
             ],
+            // ====== OPNAME
+            [
+                'tipe'  => TelurJenisTipe::OPNAME->value,
+                'nama'  => 'Campur',
+            ],
         ];
         TelurJenis::insert($datas);
     }

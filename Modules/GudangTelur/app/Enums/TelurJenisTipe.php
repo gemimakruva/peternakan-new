@@ -11,6 +11,7 @@ enum TelurJenisTipe : string
     case MASUK      = 'masuk';
     case KELUAR     = 'keluar';
     case GRADING    = 'grading';
+    case OPNAME     = 'opname';
 
     public function title()
     {
@@ -18,6 +19,7 @@ enum TelurJenisTipe : string
             self::MASUK->value      => 'Masuk',
             self::KELUAR->value     => 'Keluar',
             self::GRADING->value    => 'Grading',
+            self::OPNAME->value     => 'Opname',
             default => '',
         };
     }
