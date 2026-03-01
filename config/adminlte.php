@@ -679,8 +679,18 @@ return [
             'active' => ['gudang-telur/telur-inventory/*'],
         ],
 
-        // ====================   USER AND ACCESS   ============================
+        // ====================   Grading Telur  ========================
+        [
+            'header' => 'Grading Telur',
+        ],
+        [
+            'text'  => 'Grading Telur',
+            'route' => 'gudang-telur.telur-grading.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-grading/*'],
+        ],
 
+        // ====================   USER AND ACCESS   ============================
         [
             'header' => 'User and Access',
             'can'    => [

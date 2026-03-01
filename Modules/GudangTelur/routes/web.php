@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Modules\GudangTelur\Http\Controllers\Grading\TelurGradingController;
 use Modules\GudangTelur\Http\Controllers\KemasanInputController;
 use Modules\GudangTelur\Http\Controllers\KemasanInventoryController;
 use Modules\GudangTelur\Http\Controllers\KemasanOpnameController;
@@ -29,6 +30,8 @@ Route::middleware(['auth'])
         Route::resource('telur-keluar', TelurKeluarController::class)->names('telur-keluar')->except('show');
         Route::resource('telur-opname', TelurOpnameController::class)->names('telur-opname')->except('show');
         Route::resource('telur-inventory', TelurInventoryController::class)->names('telur-inventory')->only('index');
+
+        Route::resource('telur-grading', TelurGradingController::class)->names('telur-grading');
 
         Route::prefix('master-data')
             ->as('master-data.')

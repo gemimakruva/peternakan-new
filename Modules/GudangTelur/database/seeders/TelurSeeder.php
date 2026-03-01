@@ -79,7 +79,15 @@ class TelurSeeder extends Seeder
             ],
             [
                 'tipe'  => TelurJenisTipe::GRADING->value,
-                'nama'  => 'Grade Oversize',
+                'nama'  => 'Oversize',
+            ],
+            [
+                'tipe'  => TelurJenisTipe::GRADING->value,
+                'nama'  => 'Telur Putih',
+            ],
+            [
+                'tipe'  => TelurJenisTipe::GRADING->value,
+                'nama'  => 'Telur Reject',
             ],
             // ====== OPNAME
             [
