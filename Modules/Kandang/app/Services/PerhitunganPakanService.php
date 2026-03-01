@@ -15,11 +15,12 @@ class PerhitunganPakanService
         $data->load([
             'kandang',
             'kandang.flocks.pipes',
-            'kandang.flocks.pipes.populasiAyam' => function($query) {
+            'kandang.flocks.pipes.populasiAyam' => function($query) use($perhitunganPakan) {
                 $query
                     ->orderBy('tanggal', 'desc')
                     ->orderBy('id', 'desc')
                     ->select(['id', 'pipe_id', 'ayam_sehat'])
+                    ->where('tanggal', '<=', $perhitunganPakan->tanggal_pemberian_pakan)
                     ->limit(1);
             },
             'perhitunganPakanItems',
