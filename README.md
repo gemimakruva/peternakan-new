@@ -21,3 +21,10 @@
 - gunakan resources/views/components/form-alert.blade.php untuk menampilkan alert hasil aksi mutasi data
 - gunakan resources/views/components/pagination.blade.php untuk menampilkan link paginasi pada tiap table
 - gunakan resources/views/layouts/dashboard.blade.php untuk @extends base layout page aplikasi
+
+## Penggunaan Repository Pattern
+- gunakan `save` untuk create dan update
+- paginated data:
+    - customize `getQuery`, `searchQuery`, `customWhereQuery`, `defaultOrder` di file repository,
+    - call $repository->paginate di controller,
+    - gunakan x-sort-th untuk sorting kolom
