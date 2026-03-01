@@ -2,7 +2,7 @@
     name="tanggal_pemberian_pakan" 
     label="Tanggal Pemberian Pakan" 
     type="date"
-    value="{{ old('tanggal', @$data->tanggal_pemberian_pakan?->format('Y-m-d') ?? now()->format('Y-m-d')) }}"
+    value="{{ old('tanggal_pemberian_pakan', @$data->tanggal_pemberian_pakan?->format('Y-m-d') ?? now()->format('Y-m-d')) }}"
 />
 
 <x-adminlte-select 

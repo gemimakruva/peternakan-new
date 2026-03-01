@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Illuminate\Http\Request;
 use Modules\Kandang\Models\JenisPakan;
@@ -69,7 +70,15 @@ class PerhitunganPakanController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'tanggal_pemberian_pakan'   => ['required', 'date'],
+            'tanggal_pemberian_pakan'   => ['required', 'date', function ($attr, $value, $fail) use($request) {
+                $isExists = $this->repository->getModel()
+                    ->where('kandang_id', '=', $request->input('kandang_id'))
+                    ->where('tanggal_pemberian_pakan', '=', $value)
+                    ->exists();
+                if ($isExists) {
+                    $fail('Perhitungan Pakan telah dibuat dengan Tanggal dan Kandang yang sama.');
+                }
+            }],
             'kandang_id'                => ['required', 'exists:kandang,id'],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
             'proporsi_pemberian_pagi'   => ['required', 'numeric', function ($attr, $value, $fail) {
@@ -154,7 +163,16 @@ class PerhitunganPakanController extends Controller
     public function update(Request $request, PerhitunganPakan $perhitunganPakan)
     {
         $validated = $request->validate([
-            'tanggal_pemberian_pakan'   => ['required', 'date'],
+            'tanggal_pemberian_pakan'   => ['required', 'date', function ($attr, $value, $fail) use($perhitunganPakan) {
+                $isExists = $this->repository->getModel()
+                    ->where('kandang_id', '=', $perhitunganPakan->kandang_id)
+                    ->where('tanggal_pemberian_pakan', '=', $value)
+                    ->where('id', '<>', $perhitunganPakan->id)
+                    ->exists();
+                if ($isExists) {
+                    $fail('Perhitungan Pakan telah dibuat dengan Tanggal dan Kandang yang sama.');
+                }
+            }],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
             'proporsi_pemberian_pagi'   => ['required', 'numeric', function ($attr, $value, $fail) {
                 if ((request()->integer('proporsi_pemberian_pagi') + request()->integer('proporsi_pemberian_sore')) !== 100) {
