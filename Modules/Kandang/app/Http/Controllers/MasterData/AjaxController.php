@@ -13,8 +13,6 @@ use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\PopulasiAyam;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
-use Modules\Kandang\Services\KandangService;
-use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Models\JenisPakan;
 use Modules\Kandang\Services\PopulasiAyamService;
 

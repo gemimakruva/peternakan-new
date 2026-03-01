@@ -122,6 +122,7 @@
                         </td>
                         <td class="text-right">
                             <x-adminlte-input 
+                                type="number"
                                 name="ayam_mati"
                                 x-bind:name="`items[${item.pipe.id}][ayam_mati]`"
                                 x-model="item.ayam_mati"
@@ -131,6 +132,7 @@
                         </td>
                         <td class="text-right">
                             <x-adminlte-input 
+                                type="number"
                                 name="ayam_afkir"
                                 x-bind:name="`items[${item.pipe.id}][ayam_afkir]`"
                                 x-model="item.ayam_afkir"
@@ -140,6 +142,7 @@
                         </td>
                         <td class="text-right">
                             <x-adminlte-input 
+                                type="number"
                                 name="ayam_masuk_karantina"
                                 x-bind:name="`items[${item.pipe.id}][ayam_masuk_karantina]`"
                                 x-model="item.ayam_masuk_karantina"
@@ -149,6 +152,7 @@
                         </td>
                         <td class="text-right">
                             <x-adminlte-input 
+                                type="number"
                                 name="ayam_keluar_karantina"
                                 x-bind:name="`items[${item.pipe.id}][ayam_keluar_karantina]`"
                                 x-model="item.ayam_keluar_karantina"

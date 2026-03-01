@@ -37,8 +37,8 @@
     {
       "name": "flock",
       "schemaName": "public",
-      "x": 1197.0673828125,
-      "y": 200
+      "x": 135.96585364484207,
+      "y": 575.448269270561
     },
     {
       "name": "pipe",
@@ -79,8 +79,8 @@
     {
       "name": "karantina_populasi",
       "schemaName": "public",
-      "x": 218.02235649463387,
-      "y": 1138.2884954679607
+      "x": 1069.1321381508487,
+      "y": 533.7619215813035
     },
     {
       "name": "karantina_populasi_pipe",
@@ -103,20 +103,26 @@
     {
       "name": "jenis_pakan",
       "schemaName": "public",
-      "x": 12,
-      "y": 2336
+      "x": 579.4182281120156,
+      "y": -629.4053017562865
     },
     {
       "name": "perhitungan_pakan",
       "schemaName": "public",
-      "x": 638.36279296875,
-      "y": 936
+      "x": 106.80864070106378,
+      "y": -627.0223286918871
+    },
+    {
+      "name": "perhitungan_pakan_item",
+      "schemaName": "public",
+      "x": 545.9145019732334,
+      "y": -419.49343262427755
     },
     {
       "name": "pemberian_pakan_sisa_pakan",
       "schemaName": "public",
-      "x": 1261.05810546875,
-      "y": 2867
+      "x": 909.9068270008762,
+      "y": -646.5416395058339
     },
     {
       "name": "produksi_telur",
@@ -145,86 +151,74 @@
     {
       "name": "jenis_treatment",
       "schemaName": "public",
-      "x": -126.03497885140462,
-      "y": 1244.3011178247318
+      "x": 319.40565453876405,
+      "y": 1212.483929725434
     },
     {
       "name": "metode_treatment",
       "schemaName": "public",
-      "x": -132.21564954624358,
-      "y": 1450.3011178247316
-    },
-    {
-      "name": "penjadwalan_disinfektan",
-      "schemaName": "public",
-      "x": 1261.05810546875,
-      "y": 471
-    },
-    {
-      "name": "penjadwalan_disinfektan_flock",
-      "schemaName": "public",
-      "x": 1995.6455078125,
-      "y": 1407
-    },
-    {
-      "name": "penjadwalan_treatment",
-      "schemaName": "public",
-      "x": 1261.05810546875,
-      "y": 1171
-    },
-    {
-      "name": "penjadwalan_treatment_flock",
-      "schemaName": "public",
-      "x": 2502.460504789299,
-      "y": 1665.6386586103222
-    },
-    {
-      "name": "ovk_pakan",
-      "schemaName": "public",
-      "x": 3082.053228517203,
-      "y": 1571.6595709955018
-    },
-    {
-      "name": "vaksin_minum",
-      "schemaName": "public",
-      "x": 2138.47083577178,
-      "y": 2106.7309728077653
-    },
-    {
-      "name": "vitamin_obat_minum",
-      "schemaName": "public",
-      "x": 2014.857421875,
-      "y": 3166
-    },
-    {
-      "name": "form_request_order_ovk",
-      "schemaName": "public",
-      "x": 1298.88623046875,
-      "y": 2294
-    },
-    {
-      "name": "pelaksanaan_treatment",
-      "schemaName": "public",
-      "x": 2503.330133695549,
-      "y": 878.2408942597854
-    },
-    {
-      "name": "pelaksanaan_treatment_dokumentasi",
-      "schemaName": "public",
-      "x": 3310.54833984375,
-      "y": 611
+      "x": 313.2249838439251,
+      "y": 1418.4839297254339
     },
     {
       "name": "monitoring_kesehatan",
       "schemaName": "public",
-      "x": 1298.88623046875,
-      "y": 3080
+      "x": 1289.8352759727593,
+      "y": 1720.077962828294
     },
     {
       "name": "monitoring_kesehatan_dokumentasi",
       "schemaName": "public",
-      "x": 2014.857421875,
-      "y": 3564
+      "x": 1719.6478298205752,
+      "y": 1723.3591310074823
+    },
+    {
+      "name": "treatment",
+      "schemaName": "public",
+      "x": 720.0219550576403,
+      "y": 1019.3901101842663
+    },
+    {
+      "name": "treatment_jadwal",
+      "schemaName": "public",
+      "x": 720.0219550576403,
+      "y": 1293.390110184268
+    },
+    {
+      "name": "treatment_jadwal_flock",
+      "schemaName": "public",
+      "x": 720.0219550576403,
+      "y": 1759.3901101842675
+    },
+    {
+      "name": "satuan",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3036.077962828294
+    },
+    {
+      "name": "supplier",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 2698.077962828294
+    },
+    {
+      "name": "kemasan",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3246.077962828294
+    },
+    {
+      "name": "supplier_kemasan",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3456.077962828294
+    },
+    {
+      "name": "inventory_wadah",
+      "schemaName": "public",
+      "x": -117.79408459161925,
+      "y": 3698.077962828294
     }
   ],
   "tableGroupCollapseStates": [],
@@ -549,6 +543,21 @@
       "firstFieldNames": [
         "id"
       ],
+      "firstTableName": "kandang",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kandang_id"
+      ],
+      "secondTableName": "ayam_afkir_populasi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
       "firstTableName": "users",
       "firstSchemaName": "public",
       "firstRelation": "1",
@@ -579,36 +588,6 @@
       "firstFieldNames": [
         "id"
       ],
-      "firstTableName": "jenis_pakan",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "jenis_pakan_id"
-      ],
-      "secondTableName": "perhitungan_pakan",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "pipe",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "pipe_id"
-      ],
-      "secondTableName": "perhitungan_pakan",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
       "firstTableName": "users",
       "firstSchemaName": "public",
       "firstRelation": "1",
@@ -630,7 +609,67 @@
       "secondFieldNames": [
         "user_executor_id"
       ],
-      "secondTableName": "pemberian_pakan_sisa_pakan",
+      "secondTableName": "perhitungan_pakan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "jenis_pakan",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "jenis_pakan_id"
+      ],
+      "secondTableName": "perhitungan_pakan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "kandang",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kandang_id"
+      ],
+      "secondTableName": "perhitungan_pakan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "perhitungan_pakan",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "perhitungan_pakan_id"
+      ],
+      "secondTableName": "perhitungan_pakan_item",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "kandang",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kandang_id"
+      ],
+      "secondTableName": "perhitungan_pakan_item",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []
@@ -645,6 +684,36 @@
       "secondFieldNames": [
         "flock_id"
       ],
+      "secondTableName": "perhitungan_pakan_item",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "pipe",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "pipe_id"
+      ],
+      "secondTableName": "perhitungan_pakan_item",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "perhitungan_pakan",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "perhitungan_pakan_id"
+      ],
       "secondTableName": "pemberian_pakan_sisa_pakan",
       "secondSchemaName": "public",
       "secondRelation": "*",
@@ -654,11 +723,11 @@
       "firstFieldNames": [
         "id"
       ],
-      "firstTableName": "jenis_pakan",
+      "firstTableName": "flock",
       "firstSchemaName": "public",
       "firstRelation": "1",
       "secondFieldNames": [
-        "jenis_pakan_id"
+        "flock_id"
       ],
       "secondTableName": "pemberian_pakan_sisa_pakan",
       "secondSchemaName": "public",
@@ -735,366 +804,6 @@
       "secondFieldNames": [
         "kandang_id"
       ],
-      "secondTableName": "penjadwalan_disinfektan",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "users",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "pic_user_id"
-      ],
-      "secondTableName": "penjadwalan_disinfektan",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "penjadwalan_disinfektan",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "penjadwalan_disinfektan_id"
-      ],
-      "secondTableName": "penjadwalan_disinfektan_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "jenis_treatment",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "jenis_treatment_id"
-      ],
-      "secondTableName": "penjadwalan_disinfektan_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "jenis_disinfektan",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "jenis_disinfektan_id"
-      ],
-      "secondTableName": "penjadwalan_disinfektan_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "flock_id"
-      ],
-      "secondTableName": "penjadwalan_disinfektan_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "users",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "checked_by"
-      ],
-      "secondTableName": "penjadwalan_disinfektan_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "kandang",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "kandang_id"
-      ],
-      "secondTableName": "penjadwalan_treatment",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "users",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "pic_user_id"
-      ],
-      "secondTableName": "penjadwalan_treatment",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "penjadwalan_treatment",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "penjadwalan_treatment_id"
-      ],
-      "secondTableName": "penjadwalan_treatment_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "flock_id"
-      ],
-      "secondTableName": "penjadwalan_treatment_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "jenis_treatment",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "jenis_treatment_id"
-      ],
-      "secondTableName": "penjadwalan_treatment_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "metode_treatment",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "metode_treatment_id"
-      ],
-      "secondTableName": "penjadwalan_treatment_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "users",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "checked_by"
-      ],
-      "secondTableName": "penjadwalan_treatment_flock",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "flock_id"
-      ],
-      "secondTableName": "ovk_pakan",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "flock_id"
-      ],
-      "secondTableName": "vaksin_minum",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "flock_id"
-      ],
-      "secondTableName": "vitamin_obat_minum",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "jenis_treatment",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "jenis_treatment_id"
-      ],
-      "secondTableName": "vitamin_obat_minum",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "kandang",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "kandang_id"
-      ],
-      "secondTableName": "form_request_order_ovk",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "flock_id"
-      ],
-      "secondTableName": "pelaksanaan_treatment",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "penjadwalan_disinfektan_flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "penjadwalan_disinfektan_flock_id"
-      ],
-      "secondTableName": "pelaksanaan_treatment",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "penjadwalan_treatment_flock",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "penjadwalan_treatment_flock_id"
-      ],
-      "secondTableName": "pelaksanaan_treatment",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "users",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "user_pic_id"
-      ],
-      "secondTableName": "pelaksanaan_treatment",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "pelaksanaan_treatment",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "pelaksanaan_treatment_id"
-      ],
-      "secondTableName": "pelaksanaan_treatment_dokumentasi",
-      "secondSchemaName": "public",
-      "secondRelation": "*",
-      "checkPoints": []
-    },
-    {
-      "firstFieldNames": [
-        "id"
-      ],
-      "firstTableName": "kandang",
-      "firstSchemaName": "public",
-      "firstRelation": "1",
-      "secondFieldNames": [
-        "kandang_id"
-      ],
       "secondTableName": "monitoring_kesehatan",
       "secondSchemaName": "public",
       "secondRelation": "*",
@@ -1111,6 +820,141 @@
         "monitoring_kesehatan_id"
       ],
       "secondTableName": "monitoring_kesehatan_dokumentasi",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "kandang",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kandang_id"
+      ],
+      "secondTableName": "treatment",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "user_creator_id"
+      ],
+      "secondTableName": "treatment",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "treatment_id"
+      ],
+      "secondTableName": "treatment_jadwal",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "jenis_treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "jenis_treatment_id"
+      ],
+      "secondTableName": "treatment_jadwal",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "metode_treatment",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "metode_treatment_id"
+      ],
+      "secondTableName": "treatment_jadwal",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "users",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "executed_by"
+      ],
+      "secondTableName": "treatment_jadwal",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "treatment_jadwal",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "treatment_jadwal_id"
+      ],
+      "secondTableName": "treatment_jadwal_flock",
+      "secondSchemaName": "public",
+      "secondRelation": "1",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "supplier",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "supplier_id"
+      ],
+      "secondTableName": "supplier_kemasan",
+      "secondSchemaName": "public",
+      "secondRelation": "*",
+      "checkPoints": []
+    },
+    {
+      "firstFieldNames": [
+        "id"
+      ],
+      "firstTableName": "kemasan",
+      "firstSchemaName": "public",
+      "firstRelation": "1",
+      "secondFieldNames": [
+        "kemasan_id"
+      ],
+      "secondTableName": "supplier_kemasan",
       "secondSchemaName": "public",
       "secondRelation": "*",
       "checkPoints": []

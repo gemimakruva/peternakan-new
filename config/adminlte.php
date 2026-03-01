@@ -419,6 +419,13 @@ return [
                     'active' => ['master-data/metode-treatment*'],
                     'can'   => 'master-data.master-data.menu-metode-treatment',
                 ],
+                [
+                    'text'  => 'Kemasan',
+                    'route' => 'gudang-telur.master-data.kemasan.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['master-data/kemasan*'],
+                    'can'   => 'master-data.master-data.menu-kemasan',
+                ],
             ],
         ],
 
@@ -608,8 +615,82 @@ return [
             'can'   => 'kandang.monitoring.menu-monitoring-kesehatan',
         ],
 
-        // ====================   USER AND ACCESS   ============================
+        // ====================   Kemasan  ========================
+        [
+            'header' => 'Inventory Kemasan',
+        ],
+        [
+            'text'  => 'Supplier',
+            'route' => 'gudang-telur.supplier.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/supplier/*'],
+        ],
+        [
+            'text'  => 'Inventory Kemasan',
+            'route' => 'gudang-telur.kemasan-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-inventory/*'],
+        ],
+        [
+            'text'  => 'Input Kemasan',
+            'route' => 'gudang-telur.kemasan-input.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-input/*'],
+        ],
+        [
+            'text'  => 'Output Kemasan',
+            'route' => 'gudang-telur.kemasan-output.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-output/*'],
+        ],
+        [
+            'text'  => 'Opname Kemasan',
+            'route' => 'gudang-telur.kemasan-opname.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/kemasan-opname/*'],
+        ],
 
+        // ====================   Inventory Telur  ========================
+        [
+            'header' => 'Inventory Telur',
+        ],
+        [
+            'text'  => 'Telur Masuk',
+            'route' => 'gudang-telur.telur-masuk.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-masuk/*'],
+        ],
+        [
+            'text'  => 'Telur Keluar',
+            'route' => 'gudang-telur.telur-keluar.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-keluar/*'],
+        ],
+        [
+            'text'  => 'Telur Opname',
+            'route' => 'gudang-telur.telur-opname.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-opname/*'],
+        ],
+        [
+            'text'  => 'Inventory Telur',
+            'route' => 'gudang-telur.telur-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-inventory/*'],
+        ],
+
+        // ====================   Grading Telur  ========================
+        [
+            'header' => 'Grading Telur',
+        ],
+        [
+            'text'  => 'Grading Telur',
+            'route' => 'gudang-telur.telur-grading.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-telur/telur-grading/*'],
+        ],
+
+        // ====================   USER AND ACCESS   ============================
         [
             'header' => 'User and Access',
             'can'    => [
