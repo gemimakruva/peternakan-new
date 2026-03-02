@@ -18,7 +18,9 @@ class TelurKeluarController extends Controller
         private TelurJenisRepository $telurJenisRepository,
         private TelurTujuanRepository $telurTujuanRepository,
         private KemasanInventoryRepository $kemasanInventoryRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.telur-keluar.menu-telur-keluar');
+    }
 
     public function index(Request $request)
     {

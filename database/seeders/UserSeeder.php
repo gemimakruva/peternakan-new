@@ -170,6 +170,20 @@ class UserSeeder extends Seeder
                 'kandang.telur.menu-produksi-telur',
                 'kandang.telur.list-produksi-telur',
                 'kandang.telur.detail-produksi-telur',
+
+                'gudang-telur.grading-telur.menu-grading-telur',
+
+                'gudang-telur.input-kemasan.menu-input-kemasan',
+                'gudang-telur.output-kemasan.menu-output-kemasan',
+                'gudang-telur.opname-kemasan.menu-opname-kemasan',
+                'gudang-telur.inventory-kemasan.menu-inventory-kemasan',
+
+                'gudang-telur.supplier-kemasan.menu-supplier-kemasan',
+
+                'gudang-telur.telur-masuk.menu-telur-masuk',
+                'gudang-telur.telur-keluar.menu-telur-keluar',
+                'gudang-telur.telur-opname.menu-telur-opname',
+                'gudang-telur.inventory-telur.menu-inventory-telur',
             ]
         );
 
@@ -261,6 +275,20 @@ class UserSeeder extends Seeder
             'kandang.monitoring.create-monitoring-kesehatan',
             'kandang.monitoring.detail-monitoring-kesehatan',
             'kandang.monitoring.edit-monitoring-kesehatan',
+
+            'gudang-telur.grading-telur.menu-grading-telur',
+
+            'gudang-telur.input-kemasan.menu-input-kemasan',
+            'gudang-telur.output-kemasan.menu-output-kemasan',
+            'gudang-telur.opname-kemasan.menu-opname-kemasan',
+            'gudang-telur.inventory-kemasan.menu-inventory-kemasan',
+
+            'gudang-telur.supplier-kemasan.menu-supplier-kemasan',
+
+            'gudang-telur.telur-masuk.menu-telur-masuk',
+            'gudang-telur.telur-keluar.menu-telur-keluar',
+            'gudang-telur.telur-opname.menu-telur-opname',
+            'gudang-telur.inventory-telur.menu-inventory-telur',
         ];
     }
 }

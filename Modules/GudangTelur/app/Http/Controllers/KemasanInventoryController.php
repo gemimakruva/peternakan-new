@@ -14,7 +14,9 @@ class KemasanInventoryController extends Controller
         private Kemasan $kemasan,
         private KemasanInventoryRepository $repository,
         private KemasanInventoryShowReposotory $repository2,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.inventory-kemasan.menu-inventory-kemasan');
+    }
 
     public function index(Request $request)
     {

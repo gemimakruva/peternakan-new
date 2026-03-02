@@ -13,7 +13,9 @@ class KemasanOutputController extends Controller
     public function __construct(
         private KemasanInventoryRepository $kemasanInventoryRepository,
         private KemasanOutputRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.output-kemasan.menu-output-kemasan');
+    }
 
     public function index(Request $request)
     {

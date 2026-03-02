@@ -15,7 +15,9 @@ class KemasanInputController extends Controller
         private KemasanInputRepository $repository,
         private UserRepository $userRepository,
         private SupplierRepository $supplierRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.input-kemasan.menu-input-kemasan');
+    }
 
     public function index(Request $request)
     {

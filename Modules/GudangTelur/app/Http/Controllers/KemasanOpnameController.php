@@ -14,7 +14,9 @@ class KemasanOpnameController extends Controller
     public function __construct(
         private KemasanOpnameRepository $repository,
         private KemasanInventoryRepository $kemasanInventoryRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.opname-kemasan.menu-opname-kemasan');
+    }
 
     public function index(Request $request)
     {

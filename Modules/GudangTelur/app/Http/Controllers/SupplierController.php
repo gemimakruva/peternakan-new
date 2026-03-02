@@ -15,7 +15,9 @@ class SupplierController extends Controller
     public function __construct(
         private SupplierRepository $repository,
         private KemasanRepository $kemasanRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.supplier-kemasan.menu-supplier-kemasan');
+    }
 
     public function index(Request $request)
     {
