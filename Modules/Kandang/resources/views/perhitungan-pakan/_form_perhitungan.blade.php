@@ -78,7 +78,7 @@
                                 <td class="text-left" rowspan="{{ $flock->pipes->count() }}">{{ $flock->nama }}</td>
                             @endif
                             <td class="text-left">{{ $pipe->nama }}</td>
-                            <td class="text-right">{{ format_angka($pipe->populasiAyam[0]?->ayam_sehat) }}</td>
+                            <td class="text-right">{{ format_angka(@$pipe->populasiAyam[0]?->ayam_sehat ?? 0) }}</td>
                             <td>
                                 <input type="hidden" x-bind:value="pipes[pipe_id].id" :name="`items[${pipe_id}][id]`">
                                 <input type="hidden" x-bind:value="pipes[pipe_id].perhitungan_pakan_id" :name="`items[${pipe_id}][perhitungan_pakan_id]`">
