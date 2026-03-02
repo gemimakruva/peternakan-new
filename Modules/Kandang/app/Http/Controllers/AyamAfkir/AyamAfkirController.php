@@ -5,12 +5,14 @@ use App\Http\Controllers\Controller;
 use Modules\Kandang\Models\AyamAfkir;
 use Illuminate\Http\Request;
 use Modules\Kandang\Repositories\Afkir\AyamAfkirRepository;
+use Modules\Kandang\Repositories\Kandang\KandangRepository;
 
 class AyamAfkirController extends Controller
 {
     public function __construct(
         private AyamAfkir $ayamAfkir,
         private AyamAfkirRepository $repository,
+        private KandangRepository $kandangRepository,
     ) {
         $this->middleware('can:kandang.populasi.menu-afkir-ayam');
     }
@@ -19,12 +21,16 @@ class AyamAfkirController extends Controller
     {
         $listAyamAfkir = $this->repository->paginate(
             $request->query('search'),
-            null,
+            $request->collect(['kandang_id']),
             $request->collect('orders'),
             $request->query('perPage', 10)
         );
+        $listKandang = $this->kandangRepository->getSelectItems();
 
-        return view("kandang::ayam-afkir.index", compact('listAyamAfkir'));
+        return view("kandang::ayam-afkir.index", compact([
+            'listAyamAfkir',
+            'listKandang',
+        ]));
     }
 
     public function edit(AyamAfkir $ayamAfkir)

@@ -46,8 +46,15 @@ class AyamAfkirRepository extends EloquentRepository
     {
         $q->where(function($q2) use($search) {
             $q2->where('kandang.nama', 'LIKE', "%$search%")
-                ->orWhere('users.nama', 'LIKE', "%$search%")
+                ->orWhere('users.name', 'LIKE', "%$search%")
                 ->orWhere('ayam_afkir.pembeli_afkir', 'LIKE', "%$search%");
         });
+    }
+
+    public function defaultOrder(Builder $q): void
+    {
+        $q->orderBy('ayam_afkir.tanggal', 'desc');
+        $q->orderBy('ayam_afkir.created_at', 'desc');
+        $q->orderBy('ayam_afkir.id', 'desc');
     }
 }

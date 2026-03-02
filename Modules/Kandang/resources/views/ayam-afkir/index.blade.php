@@ -25,26 +25,43 @@
     <div class="mx-1200">
         <x-form-alert />
         <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center">
-                <form action="{{ route('master-data.kandang.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end">
-                        <div class="d-flex gap-2">
-                            <input 
-                                type="search" 
-                                name="search" 
-                                class="form-control" 
-                                placeholder="Kandang, PIC, Pembeli ..."
-                                value="{{ request()->query('search') }}"
-                            >
+            <div class="card-body">
+                <form 
+                    action="{{ route('ayam-afkir.index') }}" 
+                    class="d-flex gap-3 align-items-end flex-column flex-sm-row""
+                >
+                    <x-adminlte-select
+                        name="kandang_id"
+                        fgroup-class="w-100 mb-0 mx-sm-200"
+                    >
+                        <x-adminlte-options
+                            :options="$listKandang"
+                            :selected="request()->query('kandang_id')"
+                            empty-option="Semua Kandang"
+                        />
+                    </x-adminlte-select>
 
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
+                    <input 
+                        type="search" 
+                        name="search" 
+                        class="form-control mx-sm-200" 
+                        placeholder="Kandang, PIC, Pembeli ..."
+                        value="{{ request()->query('search') }}"
+                    >
+    
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                        <a href="{{ route('ayam-afkir.index') }}" class="btn btn-secondary">
+                            <i class="fas fa-undo"></i>
+                        </a>                        
                     </div>
                 </form>
             </div>
+        </div>
 
+        <div class="card">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center mb-0">
 

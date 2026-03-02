@@ -25,7 +25,7 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <form action="{{ route('rekapan-produksi.index') }}" method="get" class="d-flex gap-2">
+            <form action="{{ route('rekapan-populasi-ayam.index') }}" method="get" class="d-flex gap-2">
                 <x-adminlte-select
                     name="kandang_id"
                     class="mx-200"

@@ -44,7 +44,7 @@ class PengadaanAyamController extends Controller
                 $query->whereRelation('picUser', 'name', 'like', "%$search%");
             })
             ->when(request()->query('tanggal'), function ($query, $tanggal) {
-                $query->whereDate('tanggal', '=', $tanggal);
+                $query->whereDate('pengadaan_ayam.tanggal', '=', $tanggal);
             })
             ->orderBy('tanggal', 'desc')
             ->orderBy('id', 'desc')
