@@ -8,11 +8,11 @@
             x-data="{
                 items: @js(old('items', $tables)),
                 get totalSisaPakanKg() {
-                    return Object.values(this.items).reduce((total, item) => total + Number(item.sisa_pakan_per_flock_kg), 0);
+                    return Object.values(this.items).reduce((total, item) => total + Number(item.sisa_pakan_per_flock_kg), 0).toFixed(2);
                 },
                 konsumsi(flock_id) {
                     const item = this.items[flock_id];
-                    return (Number(item.pemberian_pakan_kg)-Number(item.sisa_pakan_per_flock_kg)).toLocaleString('id')
+                    return (Number(item.pemberian_pakan_kg)-Number(item.sisa_pakan_per_flock_kg)).toLocaleString('id');
                 },
                 get totalKonsumsi() {
                     return Object

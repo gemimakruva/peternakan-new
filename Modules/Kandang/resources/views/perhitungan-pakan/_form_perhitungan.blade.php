@@ -21,24 +21,24 @@
             }, 0)
         },
         get rata2PemberianGram() {
-            return Object.values(this.pipes).reduce(function (total, item) {
+            return (Object.values(this.pipes).reduce(function (total, item) {
                 return total + (Number(item.pemberian_pakan_per_ekor) * Number(item.jumlah_ayam));
-            }, 0) / this.totalJumlahAyam
+            }, 0) / (this.totalJumlahAyam || 0)).toFixed(2)
         },
         get totalPemberianKg() {
-            return Object.values(this.pipes).reduce(function (total, item) {
+            return (Object.values(this.pipes).reduce(function (total, item) {
                 return total + (Number(item.pemberian_pakan_per_ekor) * Number(item.jumlah_ayam));
-            }, 0) / 1000
+            }, 0) / 1000).toFixed(2)
         },
         get totalPemberianPagiKg() {
-            return (Object.values(this.pipes).reduce(function (total, item) {
+            return ((Object.values(this.pipes).reduce(function (total, item) {
                 return total + (Number(item.pemberian_pakan_per_ekor) * Number(item.jumlah_ayam));
-            }, 0) / 1000) * (this.proporsi_pemberian_pagi/100)
+            }, 0) / 1000) * (this.proporsi_pemberian_pagi/100)).toFixed(2)
         },
         get totalPemberianSoreKg() {
-            return (Object.values(this.pipes).reduce(function (total, item) {
+            return ((Object.values(this.pipes).reduce(function (total, item) {
                 return total + (Number(item.pemberian_pakan_per_ekor) * Number(item.jumlah_ayam));
-            }, 0) / 1000) * (this.proporsi_pemberian_sore/100)
+            }, 0) / 1000) * (this.proporsi_pemberian_sore/100)).toFixed(2)
         }
     }"
 >
@@ -91,6 +91,8 @@
                                     type="number"
                                     class="form-control form-control-sm"
                                     x-model="pipes[pipe_id].pemberian_pakan_per_ekor"
+                                    step="0.01"
+                                    min="0"
                                 />
                             </td>
                             <td class="text-right">
