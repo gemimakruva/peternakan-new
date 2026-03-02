@@ -17,6 +17,7 @@ return [
     'title'         => 'SPMS',
     'title_prefix'  => '',
     'title_postfix' => '',
+    'description'   => '',
 
     /*
     |--------------------------------------------------------------------------
@@ -709,6 +710,14 @@ return [
             'route' => 'role.index',
             'icon'  => 'fas fa-fw fa-cube',
             'can'   => 'master-data.setting.menu-role-permission',
+        ],
+
+        // ====================   Setting   ============================
+        [
+            'text'  => 'Setting',
+            'route' => 'setting.general',
+            'icon'  => 'fas fa-fw fa-cube',
+            'can'   => 'master-data.setting.menu-setting',
         ],
     ],
 
