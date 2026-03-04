@@ -3,8 +3,8 @@
 namespace Modules\GudangPakan\Database\Seeders;
 
 use Illuminate\Database\Seeder;
-use Modules\GudangPakan\Models\BahanBaku;
-use Modules\GudangTelur\Enums\BahanBakuTipe;
+use Modules\GudangPakan\Models\BahanPakan;
+use Modules\GudangTelur\Enums\BahanPakanTipe;
 
 class GudangPakanDatabaseSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class GudangPakanDatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $bahanBaku = [
+        $bahanPakan = [
             'Jagung kuning giling',
             'Dedak padi halus',
             'Pollard (dedak gandum)',
@@ -29,9 +29,9 @@ class GudangPakanDatabaseSeeder extends Seeder
             'Tepung kerang',
             'Dicalcium phosphate (DCP)',
         ];
-        foreach ($bahanBaku as $nama) {
-            app(BahanBaku::class)->firstOrCreate([
-                'tipe'  => BahanBakuTipe::PAKAN_JADI->value,
+        foreach ($bahanPakan as $nama) {
+            app(BahanPakan::class)->firstOrCreate([
+                'tipe'  => BahanPakanTipe::PAKAN_JADI->value,
                 'nama'  => $nama,
             ]);
         }
@@ -44,8 +44,8 @@ class GudangPakanDatabaseSeeder extends Seeder
             'Enzim (fitase, dll)',
         ];
         foreach ($bahanPremix as $nama) {
-            app(BahanBaku::class)->firstOrCreate([
-                'tipe'  => BahanBakuTipe::PAKAN_PREMIX->value,
+            app(BahanPakan::class)->firstOrCreate([
+                'tipe'  => BahanPakanTipe::PAKAN_PREMIX->value,
                 'nama'  => $nama,
             ]);
         }

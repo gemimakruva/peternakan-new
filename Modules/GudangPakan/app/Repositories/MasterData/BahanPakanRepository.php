@@ -3,12 +3,12 @@
 namespace Modules\GudangPakan\Repositories\MasterData;
 
 use Illuminate\Database\Eloquent\Builder;
-use Modules\GudangPakan\Models\BahanBaku;
+use Modules\GudangPakan\Models\BahanPakan;
 use Modules\Kandang\Repositories\EloquentRepository;
 
-class BahanBakuRepository extends EloquentRepository
+class BahanPakanRepository extends EloquentRepository
 {
-    public function __construct(BahanBaku $model)
+    public function __construct(BahanPakan $model)
     {
         parent::__construct($model);
     }
@@ -27,13 +27,13 @@ class BahanBakuRepository extends EloquentRepository
 
     public function save(array $data)
     {
-        $bahanBaku = $this->model->updateOrCreate([
+        $bahanPakan = $this->model->updateOrCreate([
             'id'    => @$data['id'],
         ], [
             'tipe'  => @$data['tipe'],
             'nama'  => @$data['nama'],
         ]);
 
-        return $bahanBaku;
+        return $bahanPakan;
     }
 }

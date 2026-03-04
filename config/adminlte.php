@@ -347,6 +347,8 @@ return [
                 'master-data.master-data.menu-jenis-pakan',
                 'master-data.master-data.menu-jenis-treatment',
                 'master-data.master-data.menu-metode-treatment',
+                'master-data.master-data.menu-kemasan',
+                'master-data.master-data.menu-bahan-pakan',
                 'kandang.strain.menu-strain-list',
             ],
         ],
@@ -428,11 +430,11 @@ return [
                     'can'   => 'master-data.master-data.menu-kemasan',
                 ],
                 [
-                    'text'  => 'Bahan Baku',
-                    'route' => 'gudang-pakan.master-data.bahan-baku.index',
+                    'text'  => 'Bahan Pakan',
+                    'route' => 'gudang-pakan.master-data.bahan-pakan.index',
                     'icon'  => 'far fa-circle',
-                    'active' => ['master-data/bahan-baku*'],
-                    'can'   => 'master-data.master-data.menu-bahan-baku',
+                    'active' => ['master-data/bahan-pakan*'],
+                    'can'   => 'master-data.master-data.menu-bahan-pakan',
                 ],
             ],
         ],
@@ -721,6 +723,20 @@ return [
             'active' => ['gudang-telur/telur-grading/*'],
             'can'   => 'gudang-telur.grading-telur.menu-grading-telur',
         ],
+
+        // ====================   Pembelian Bahan Pakan   ============================
+        [
+            'header' => 'Pembelian Bahan Pakan',
+            'can'   => 'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+        ],
+        [
+            'text'  => 'Supplier Bahan Pakan',
+            'route' => 'gudang-pakan.supplier-bahan-pakan.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/supplier-bahan-pakan/*'],
+            'can'   => 'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+        ],
+
 
         // ====================   USER AND ACCESS   ============================
         [

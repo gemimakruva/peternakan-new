@@ -16,7 +16,7 @@
             <thead>
                 <tr>
                     <th class="align-middle" style="min-width: 40px;">#</th>
-                    <th class="align-middle" style="min-width: 150px;">Supplier</th>
+                    <th class="align-middle" style="min-width: 150px;">Kemasan</th>
                     <th class="align-middle" style="min-width: 150px;">Kode Barang</th>
                     <th class="align-middle" style="min-width: 150px;">Harga</th>
                     <th class="align-middle" style="min-width: 150px;">Jenis Pengiriman</th>

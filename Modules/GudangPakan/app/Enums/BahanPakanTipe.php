@@ -4,7 +4,7 @@ namespace Modules\GudangTelur\Enums;
 
 use App\Traits\BaseEnum;
 
-enum BahanBakuTipe : string
+enum BahanPakanTipe : string
 {
     use BaseEnum;
 

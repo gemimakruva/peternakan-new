@@ -14,7 +14,9 @@ class KemasanController extends Controller
     public function __construct(
         private KemasanRepository $repository,
         private SatuanRepository $satuanRepository,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-kemasan');
+    }
 
     public function index(Request $request)
     {

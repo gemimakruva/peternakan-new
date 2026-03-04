@@ -3,11 +3,11 @@
 namespace Modules\GudangPakan\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\GudangTelur\Enums\BahanBakuTipe;
+use Modules\GudangTelur\Enums\BahanPakanTipe;
 
-class BahanBaku extends Model
+class BahanPakan extends Model
 {
-    public $table = 'bahan_baku';
+    public $table = 'bahan_pakan';
 
     protected $fillable = [
         'nama',
@@ -17,6 +17,6 @@ class BahanBaku extends Model
     public function getTipeEnumAttribute()
     {
         if (!$this->attributes['tipe']) return null;
-        return BahanBakuTipe::tryFrom($this->attributes['tipe']);
+        return BahanPakanTipe::tryFrom($this->attributes['tipe']);
     }
 }

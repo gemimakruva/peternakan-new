@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Bahan Baku')
+@section('title', 'Supplier Bahan Pakan')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Bahan Baku</h1>
-                <a href="{{ route('gudang-pakan.master-data.bahan-baku.create') }}" class="btn btn-primary">Tambah Bahan Baku</a>
+                <h1>Supplier Bahan Pakan</h1>
+                <a href="{{ route('gudang-pakan.supplier-bahan-pakan.create') }}" class="btn btn-primary">Tambah Supplier Bahan Pakan</a>
             </div>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Bahan Baku</li>
+                <li class="breadcrumb-item active">Supplier Bahan Pakan</li>
             </ol>
         </div>
     </div>
@@ -27,25 +27,14 @@
     
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('gudang-pakan.master-data.bahan-baku.index', request()->all()) }}" method="get" class="w-100">
+            <form action="{{ route('gudang-pakan.supplier-bahan-pakan.index', request()->all()) }}" method="get" class="w-100">
                 <div class="d-flex justify-content-start">
                     <div class="d-flex gap-3">
-                        <x-adminlte-select
-                            name="tipe"
-                            fgroup-class="mb-0 w-100 mx-sm-200"
-                        >
-                            <x-adminlte-options
-                                :options="$listTipe"
-                                :selected="request()->query('tipe')"
-                                empty-option="Semua Tipe"
-                            />
-                        </x-adminlte-select>
-
                         <input 
                             type="search" 
                             name="search" 
                             class="form-control w-100 mx-sm-200" 
-                            placeholder="Nama Bahan Baku ..."
+                            placeholder="Nama Supplier ..."
                             value="{{ request()->query('search') }}"
                         >
 
@@ -54,7 +43,7 @@
                                 <i class="fas fa-search"></i>
                             </button>
     
-                            <a href="{{ route('gudang-pakan.master-data.bahan-baku.index') }}" class="btn btn-secondary">
+                            <a href="{{ route('gudang-pakan.supplier-bahan-pakan.index') }}" class="btn btn-secondary">
                                 <i class="fas fa-undo"></i>
                             </a>
                         </div>
@@ -70,7 +59,6 @@
                 <thead>
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Tipe" name="tipe" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Nama" name="nama" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
@@ -79,15 +67,14 @@
                     @forelse($datas as $data)
                         <tr>
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
-                            <td class="text-left">{{ $data->tipe_enum?->title() }}</td>
                             <td class="text-left">{{ $data->nama }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('gudang-pakan.master-data.bahan-baku.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
+                                    <a href="{{ route('gudang-pakan.supplier-bahan-pakan.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form
-                                        action="{{ route('gudang-pakan.master-data.bahan-baku.destroy', $data->id) }}"
+                                        action="{{ route('gudang-pakan.supplier-bahan-pakan.destroy', $data->id) }}"
                                         method="post"
                                         class="form-delete"
                                         data-nama="{{ $data->nama }}"
@@ -103,7 +90,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">Data Bahan Baku tidak tersedia</td>
+                            <td colspan="3" class="text-center">Data Supplier tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -126,7 +113,7 @@
             const nama = $(this).data('nama');
 
             Swal.fire({
-                title: `Hapus Bahan Baku "${nama}"?`,
+                title: `Hapus Supplier Bahan Pakan "${nama}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,

@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
-use Modules\GudangPakan\Http\Controllers\MasterData\BahanBakuController;
+use Modules\GudangPakan\Http\Controllers\MasterData\BahanPakanController;
+use Modules\GudangPakan\Http\Controllers\SupplierBahanPakanController;
 
 Route::middleware(['auth'])
     ->prefix('gudang-pakan')
@@ -12,7 +13,10 @@ Route::middleware(['auth'])
         Route::prefix('master-data')
             ->as('master-data.')
             ->group(function() {
-                Route::resource('bahan-baku', BahanBakuController::class)->names('bahan-baku');
+                Route::resource('bahan-pakan', BahanPakanController::class)->names('bahan-pakan');
             });
+
+        Route::resource('supplier-bahan-pakan', SupplierBahanPakanController::class)
+            ->parameter('supplier-bahan-pakan', 'supplier')->names('supplier-bahan-pakan');
 
     });

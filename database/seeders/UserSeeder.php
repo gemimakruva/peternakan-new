@@ -196,6 +196,9 @@ class UserSeeder extends Seeder
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
+
+                'master-data.master-data.menu-bahan-pakan',
+                'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
             ]
         );
     }
@@ -232,6 +235,9 @@ class UserSeeder extends Seeder
             'master-data.master-data.menu-jenis-pakan',
             'master-data.master-data.menu-jenis-treatment',
             'master-data.master-data.menu-metode-treatment',
+
+            'master-data.master-data.menu-kemasan',
+            'master-data.master-data.menu-bahan-pakan',
 
             'kandang.strain.menu-strain',
 
@@ -289,6 +295,8 @@ class UserSeeder extends Seeder
             'gudang-telur.telur-keluar.menu-telur-keluar',
             'gudang-telur.telur-opname.menu-telur-opname',
             'gudang-telur.inventory-telur.menu-inventory-telur',
+
+            'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
         ];
     }
 }
