@@ -43,6 +43,11 @@
             "Modules\\GudangTelur\\Database\\Factories\\": "Modules/GudangTelur/database/factories/",
             "Modules\\GudangTelur\\": "Modules/GudangTelur/app/",
 
+            "Modules\\GudangPakan\\Database\\": "Modules/GudangPakan/database/",
+            "Modules\\GudangPakan\\Database\\Seeders\\": "Modules/GudangPakan/database/seeders/",
+            "Modules\\GudangPakan\\Database\\Factories\\": "Modules/GudangPakan/database/factories/",
+            "Modules\\GudangPakan\\": "Modules/GudangPakan/app/",
+
             "Database\\Factories\\": "database/factories/",
             "Database\\Seeders\\": "database/seeders/"
         },
