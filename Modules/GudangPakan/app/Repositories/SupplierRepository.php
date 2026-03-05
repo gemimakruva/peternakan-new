@@ -14,6 +14,15 @@ class SupplierRepository extends EloquentRepository
         parent::__construct($model);
     }
 
+    public function getSelectItems(string $column = 'nama')
+    {
+        return $this->getModel()
+            ->where('tipe', '=', SupplierTipe::BAHAN_PAKAN->value)
+            ->orderBy($column)
+            ->pluck($column, 'id')
+            ->toArray();
+    }
+
     public function getQuery(): Builder
     {
         $query = $this->model

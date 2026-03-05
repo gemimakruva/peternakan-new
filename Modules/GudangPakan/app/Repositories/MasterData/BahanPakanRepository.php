@@ -36,4 +36,22 @@ class BahanPakanRepository extends EloquentRepository
 
         return $bahanPakan;
     }
+
+    public function getSelectItemsWithSatuan($supplierId)
+    {
+        $datas = $this->model
+            ->join('supplier_bahan_pakan', 'supplier_bahan_pakan.bahan_pakan_id', '=', 'bahan_pakan.id')
+            ->where('supplier_bahan_pakan.supplier_id', '=', $supplierId)
+            ->with('satuan')
+            ->get(['bahan_pakan.id', 'nama', 'satuan_id'])
+            ->map(function ($item) {
+                return [
+                    'id'        => $item->id,
+                    'nama'      => $item->nama,
+                    'satuan'    => $item->satuan->nama,
+                ];
+            });
+
+        return $datas;
+    }
 }

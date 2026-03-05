@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('bahan_pakan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('satuan_id')->constrained('satuan', 'id');
             $table->string('tipe');
             $table->string('nama')->unique();
             $table->timestamps();

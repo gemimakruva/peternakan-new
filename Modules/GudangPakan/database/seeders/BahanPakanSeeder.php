@@ -1,0 +1,56 @@
+<?php
+
+namespace Modules\GudangPakan\Database\Seeders;
+
+use Illuminate\Database\Seeder;
+use Modules\GudangPakan\Models\BahanPakan;
+use Modules\GudangTelur\Enums\BahanPakanTipe;
+use Modules\GudangTelur\Models\Satuan;
+
+class BahanPakanSeeder extends Seeder
+{
+    public function run(): void
+    {
+        $bahanPakan = [
+            'Jagung kuning giling',
+            'Dedak padi halus',
+            'Pollard (dedak gandum)',
+            'Onggok / gaplek',
+
+            'Bungkil kedelai (SBM)',
+            'Bungkil kelapa',
+            'Bungkil inti sawit',
+            'Tepung ikan',
+            'Meat bone meal',
+
+            'Tepung batu kapur (limestone)',
+            'Tepung kerang',
+            'Dicalcium phosphate (DCP)',
+        ];
+        $satuanKg = app(Satuan::class)->firstOrCreate(['nama' => 'Kg']);
+        foreach ($bahanPakan as $nama) {
+            app(BahanPakan::class)->firstOrCreate([
+                'satuan_id' => $satuanKg->id,
+                'tipe'  => BahanPakanTipe::PAKAN_JADI->value,
+                'nama'  => $nama,
+            ]);
+        }
+
+        $bahanPremix = [
+            'Premix vitamin & mineral',
+            'DL-Methionine',
+            'L-Lysine',
+            'Garam (NaCl)',
+            'Toxin binder',
+            'Enzim (fitase, dll)',
+        ];
+        $satuanGram = app(Satuan::class)->firstOrCreate(['nama' => 'Gram']);
+        foreach ($bahanPremix as $nama) {
+            app(BahanPakan::class)->firstOrCreate([
+                'satuan_id' => $satuanGram->id,
+                'tipe'  => BahanPakanTipe::PAKAN_PREMIX->value,
+                'nama'  => $nama,
+            ]);
+        }
+    }
+}

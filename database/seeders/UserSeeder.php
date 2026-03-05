@@ -199,6 +199,8 @@ class UserSeeder extends Seeder
 
                 'master-data.master-data.menu-bahan-pakan',
                 'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+
+                'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
             ]
         );
     }
@@ -297,6 +299,7 @@ class UserSeeder extends Seeder
             'gudang-telur.inventory-telur.menu-inventory-telur',
 
             'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+            'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
         ];
     }
 }
