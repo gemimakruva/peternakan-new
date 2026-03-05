@@ -82,7 +82,6 @@ class BahanPakanPembelianRepository extends EloquentRepository
 
             $savedPembelianBahanPakanIds[] = $pembelianItem->id;
         }
-        app(BahanPakanInventory::class)->whereNotIn('bahan_pakan_pembelian_item_id', $savedPembelianBahanPakanIds)->delete();
         $pembelian->bahanPakanPembelianItem()->whereNotIn('id', $savedPembelianBahanPakanIds)->delete();
 
         $this->saveInventory($pembelian);
@@ -128,7 +127,6 @@ class BahanPakanPembelianRepository extends EloquentRepository
             'bahan_pakan_pembelian_id'  => $data['id'],
         ], $newBahanPakanMasuk);
 
-        $savedBahanPakanInventoryIds = [];
         foreach ($data['bahan_pakan_pembelian_item'] as $item) {
             $newBahanPakanInventory = [
                 'tipe'                          => BahanPakanInventoryTipe::MASUK,
@@ -138,12 +136,9 @@ class BahanPakanPembelianRepository extends EloquentRepository
                 'jumlah'                        => $item['jumlah'],
             ];
 
-            $bahanPakanInventory = $bahanPakanMasuk->bahanPakanInventory()->updateOrCreate([
+            $bahanPakanMasuk->bahanPakanInventory()->updateOrCreate([
                 'bahan_pakan_pembelian_item_id' => $item['id'],
             ], $newBahanPakanInventory);
-
-            $savedBahanPakanInventoryIds[] = $bahanPakanInventory->id;
         }
-        $bahanPakanMasuk->bahanPakanInventory()->whereNotIn('id', $savedBahanPakanInventoryIds)->delete();
     }
 }

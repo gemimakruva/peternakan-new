@@ -89,6 +89,7 @@ class BahanPakanMasukController extends Controller
             'asal'          => ['required', Rule::in(BahanPakanMasukAsal::getArrayValues())],
             'tanggal'       => ['required', 'date_format:Y-m-d'],
             'items.*'       => ['required', 'array'],
+            'items.*.id'                => ['required', 'exists:bahan_pakan_inventory,id'],
             'items.*.bahan_pakan_id'    => ['required', 'exists:bahan_pakan,id'],
             'items.*.jumlah'            => ['required', 'numeric'],
         ]);

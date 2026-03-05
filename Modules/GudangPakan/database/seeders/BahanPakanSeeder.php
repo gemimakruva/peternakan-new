@@ -4,7 +4,7 @@ namespace Modules\GudangPakan\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\GudangPakan\Models\BahanPakan;
-use Modules\GudangTelur\Enums\BahanPakanTipe;
+use Modules\GudangPakan\Enums\BahanPakanTipe;
 use Modules\GudangTelur\Models\Satuan;
 
 class BahanPakanSeeder extends Seeder

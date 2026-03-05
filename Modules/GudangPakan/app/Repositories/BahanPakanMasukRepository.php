@@ -4,7 +4,6 @@ namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
-use Modules\GudangPakan\Models\BahanPakanInventory;
 use Modules\GudangPakan\Models\BahanPakanMasuk;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -70,6 +69,7 @@ class BahanPakanMasukRepository extends EloquentRepository
         foreach ($data['items'] as $item) {
             $newBahanPakanInventory = [
                 'tipe'                          => BahanPakanInventoryTipe::MASUK->value,
+                'tanggal'                       => @$data['tanggal'],
                 'bahan_pakan_masuk_id'          => $bahanPakanMasuk->id,
                 'bahan_pakan_id'                => @$item['bahan_pakan_id'],
                 'jumlah'                        => @$item['jumlah'],

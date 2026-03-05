@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Modules\GudangPakan\Models\BahanPakan;
 use Modules\GudangPakan\Repositories\MasterData\BahanPakanRepository;
-use Modules\GudangTelur\Enums\BahanPakanTipe;
+use Modules\GudangPakan\Enums\BahanPakanTipe;
 
 class BahanPakanController extends Controller
 {

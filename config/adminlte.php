@@ -750,6 +750,13 @@ return [
             'active' => ['gudang-pakan/bahan-pakan-masuk/*'],
             'can'   => 'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
         ],
+        [
+            'text'  => 'Bahan Pakan Inventory',
+            'route' => 'gudang-pakan.bahan-pakan-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/bahan-pakan-inventory/*'],
+            'can'   => 'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+        ],
 
         // ====================   USER AND ACCESS   ============================
         [

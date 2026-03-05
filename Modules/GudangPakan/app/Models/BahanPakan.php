@@ -3,7 +3,7 @@
 namespace Modules\GudangPakan\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Modules\GudangTelur\Enums\BahanPakanTipe;
+use Modules\GudangPakan\Enums\BahanPakanTipe;
 use Modules\GudangTelur\Models\Satuan;
 
 class BahanPakan extends Model

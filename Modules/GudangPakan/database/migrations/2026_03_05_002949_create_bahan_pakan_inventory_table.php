@@ -59,7 +59,7 @@ return new class extends Migration
             $table->id();
             $table->string('tipe');
             $table->date('tanggal');
-            $table->foreignId('bahan_pakan_pembelian_item_id')->nullable()->constrained('bahan_pakan_pembelian_item', 'id');
+            $table->foreignId('bahan_pakan_pembelian_item_id')->nullable()->constrained('bahan_pakan_pembelian_item', 'id')->cascadeOnDelete();
             $table->foreignId('bahan_pakan_masuk_id')->nullable()->constrained('bahan_pakan_masuk', 'id');
             $table->foreignId('bahan_pakan_keluar_id')->nullable()->constrained('bahan_pakan_keluar', 'id');
             $table->foreignId('bahan_pakan_opname_id')->nullable()->constrained('bahan_pakan_opname', 'id');
