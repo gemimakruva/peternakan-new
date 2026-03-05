@@ -8,11 +8,13 @@ use Illuminate\Validation\Rule;
 use Modules\GudangPakan\Models\BahanPakan;
 use Modules\GudangPakan\Repositories\MasterData\BahanPakanRepository;
 use Modules\GudangPakan\Enums\BahanPakanTipe;
+use Modules\GudangTelur\Repositories\MasterData\SatuanRepository;
 
 class BahanPakanController extends Controller
 {
     public function __construct(
         private BahanPakanRepository $repository,
+        private SatuanRepository $satuanRepository,
     ) {
         $this->middleware('can:master-data.master-data.menu-bahan-pakan');
     }
@@ -35,7 +37,11 @@ class BahanPakanController extends Controller
     public function create()
     {
         $listTipe = BahanPakanTipe::getSelectItems();
-        return view('gudang-pakan::master-data.bahan-pakan.create', compact(['listTipe']));
+        $listSatuan = $this->satuanRepository->getSelectItems();
+        return view('gudang-pakan::master-data.bahan-pakan.create', compact([
+            'listTipe',
+            'listSatuan',
+        ]));
     }
 
     public function store(Request $request) 
@@ -43,6 +49,9 @@ class BahanPakanController extends Controller
         $validated = $request->validate([
             'tipe'  => ['required', 'string', Rule::in(BahanPakanTipe::getArrayValues())],
             'nama'  => ['required', 'string', Rule::unique('bahan_pakan', 'nama')],
+            'satuan_id' => ['required', 'exists:satuan,id'],
+            'harga' => ['required', 'numeric', 'min:0'],
+            'jumlah_satuan' => ['required', 'numeric', 'min:0'],
         ]);
 
         $bahanPakan = $this->repository->save($validated);
@@ -53,11 +62,18 @@ class BahanPakanController extends Controller
 
     public function edit(BahanPakan $bahanPakan)
     {
+        $bahanPakan->load([
+            'priceable' => function ($query) {
+                $query->orderByDesc('created_at');
+            }
+        ]);
         $data = $bahanPakan;
         $listTipe = BahanPakanTipe::getSelectItems();
+        $listSatuan = $this->satuanRepository->getSelectItems();
         return view('gudang-pakan::master-data.bahan-pakan.edit', compact([
             'data',
             'listTipe',
+            'listSatuan',
         ]));
     }
 
@@ -66,6 +82,9 @@ class BahanPakanController extends Controller
         $validated = $request->validate([
             'tipe'  => ['required', 'string', Rule::in(BahanPakanTipe::getArrayValues())],
             'nama'  => ['required', 'string', Rule::unique('bahan_pakan', 'nama')->ignoreModel($bahanPakan)],
+            'satuan_id' => ['required', 'exists:satuan,id'],
+            'harga' => ['required', 'numeric', 'min:0'],
+            'jumlah_satuan' => ['required', 'numeric', 'min:0'],
         ]);
 
         $validated['id'] = $bahanPakan->id;

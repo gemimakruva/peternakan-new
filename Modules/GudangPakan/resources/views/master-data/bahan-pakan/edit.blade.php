@@ -29,6 +29,7 @@
         <div class="row">
             <div class="col-12 col-lg-9">
                 @include('gudang-pakan::master-data.bahan-pakan._form')
+                @include('gudang-pakan::master-data.bahan-pakan._table_perubahan_harga')
             </div>
             <div class="col-12 col-lg-3">
                 <div class="card sticy-form-action">

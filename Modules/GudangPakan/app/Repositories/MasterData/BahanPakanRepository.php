@@ -32,6 +32,9 @@ class BahanPakanRepository extends EloquentRepository
         ], [
             'tipe'  => @$data['tipe'],
             'nama'  => @$data['nama'],
+            'satuan_id'  => @$data['satuan_id'],
+            'harga' => @$data['harga'],
+            'harga_satuan' => (float) @$data['harga'] / (float) @$data['jumlah_satuan'],
         ]);
 
         return $bahanPakan;

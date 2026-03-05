@@ -724,10 +724,15 @@ return [
             'can'   => 'gudang-telur.grading-telur.menu-grading-telur',
         ],
 
-        // ====================   Pembelian Bahan Pakan   ============================
+        // ====================   Inventory Bahan Pakan   ============================
         [
-            'header' => 'Pembelian Bahan Pakan',
-            'can'   => 'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+            'header' => 'Inventory Bahan Pakan',
+            'can'   => [
+                'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+                'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+                'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
+                'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+            ],
         ],
         [
             'text'  => 'Supplier Bahan Pakan',
@@ -756,6 +761,21 @@ return [
             'icon'  => 'fas fa-clipboard-list',
             'active' => ['gudang-pakan/bahan-pakan-inventory/*'],
             'can'   => 'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+        ],
+
+        // ====================   Mixing Bahan Pakan   ============================
+        [
+            'header' => 'Mixing Bahan Pakan',
+            'can'   => [
+                'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
+            ],
+        ],
+        [
+            'text'  => 'Formulasi Pakan',
+            'route' => 'gudang-pakan.bahan-pakan-formulasi.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/bahan-pakan-formulasi/*'],
+            'can'   => 'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
         ],
 
         // ====================   USER AND ACCESS   ============================
