@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\GudangTelur\Enums;
+namespace Modules\GudangPakan\Enums;
 
 use App\Traits\BaseEnum;
 

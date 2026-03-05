@@ -31,8 +31,8 @@ return new class extends Migration
 
         Schema::create('bahan_pakan_masuk', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('bahan_pakan_pembelian_id')->constrained('bahan_pakan_pembelian', 'id');
-            $table->foreignId('supplier_id')->constrained('supplier', 'id');
+            $table->foreignId('bahan_pakan_pembelian_id')->nullable()->constrained('bahan_pakan_pembelian', 'id');
+            $table->foreignId('supplier_id')->nullable()->constrained('supplier', 'id');
             $table->foreignId('pic_user_id')->constrained('users', 'id');
             $table->string('asal');
             $table->date('tanggal');
@@ -58,6 +58,7 @@ return new class extends Migration
         Schema::create('bahan_pakan_inventory', function (Blueprint $table) {
             $table->id();
             $table->string('tipe');
+            $table->date('tanggal');
             $table->foreignId('bahan_pakan_pembelian_item_id')->nullable()->constrained('bahan_pakan_pembelian_item', 'id');
             $table->foreignId('bahan_pakan_masuk_id')->nullable()->constrained('bahan_pakan_masuk', 'id');
             $table->foreignId('bahan_pakan_keluar_id')->nullable()->constrained('bahan_pakan_keluar', 'id');

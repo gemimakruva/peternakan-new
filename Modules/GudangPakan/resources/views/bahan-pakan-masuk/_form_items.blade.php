@@ -4,23 +4,20 @@
 >
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h2 class="card-title">Form Bahan Baku</h2>
+            <h2 class="card-title">Form Bahan Baku Masuk</h2>
             <button type="button" class="btn btn-primary btn-sm" x-on:click="addItem">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
     </div>
-
     <div class="card-body table-responsive p-0">
         <table class="table table-hover table-striped table-bordered text-center mb-0">
             <thead>
                 <tr>
                     <th class="align-middle" style="min-width: 40px;">#</th>
-                    <th class="align-middle" style="min-width: 200px;">Bahan Baku</th>
+                    <th class="align-middle" style="min-width: 150px;">Bahan Baku</th>
                     <th class="align-middle" style="min-width: 40px;">Satuan</th>
-                    <th class="align-middle" style="min-width: 150px;">Harga Satuan</th>
                     <th class="align-middle" style="min-width: 150px;">Jumlah</th>
-                    <th class="align-middle" style="min-width: 150px;">Sub Total</th>
                     <th class="align-middle" style="min-width: 40px;">Aksi</th>
                 </tr>
             </thead>
@@ -76,32 +73,11 @@
                         <td>
                             <x-adminlte-input
                                 type="number"
-                                name="harga_satuan"
-                                x-bind:name="`items[${i}][harga_satuan]`"
-                                x-model="item.harga_satuan"
-                                fgroup-class="w-100 mb-0"
-                                igroup-size="sm"
-                            />
-                        </td>
-                        <td>
-                            <x-adminlte-input
-                                type="number"
                                 name="jumlah"
                                 x-bind:name="`items[${i}][jumlah]`"
                                 x-model="item.jumlah"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
-                            />
-                        </td>
-                        <td>
-                            <x-adminlte-input
-                                name="sub_total"
-                                x-bind:name="`items[${i}][sub_total]`"
-                                x-bind:value="(Number(item.harga_satuan)*Number(item.jumlah)).toLocaleString('id-ID')"
-                                fgroup-class="w-100 mb-0"
-                                igroup-size="sm"
-                                disabled
-                                readonly
                             />
                         </td>
                         <td>
@@ -120,7 +96,7 @@
     document.addEventListener('alpine:init', () => {
         Alpine.data('data', () => ({
             supplier_id: @js($data->id),
-            items: @js(old('items', $data->bahanPakanPembelianItem)),
+            items: @js(old('items', $data->bahanPakanInventory)),
             listBahanPakan: @js($listBahanPakan),
             addItem() {
                 this.items.push({

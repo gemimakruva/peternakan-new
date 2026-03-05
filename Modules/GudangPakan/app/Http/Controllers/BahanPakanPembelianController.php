@@ -15,7 +15,9 @@ class BahanPakanPembelianController extends Controller
         private BahanPakanRepository $bahanPakanRepository,
         private BahanPakanPembelianRepository $repository,
         private SupplierRepository $supplierRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian');
+    }
 
     public function index(Request $request)
     {
@@ -75,6 +77,7 @@ class BahanPakanPembelianController extends Controller
             'tanggal_pesan'     => ['required', 'date_format:Y-m-d'],
             'tanggal_datang'    => ['required', 'date_format:Y-m-d'],
             'items.*'           => ['required', 'array'],
+            'items.*.id'                => ['nullable', 'exists:bahan_pakan_pembelian_item,id'],
             'items.*.bahan_pakan_id'    => ['required', 'exists:bahan_pakan,id'],
             'items.*.harga_satuan'      => ['required', 'numeric', 'min:0'],
             'items.*.jumlah'            => ['required', 'numeric', 'min:0'],
@@ -87,8 +90,11 @@ class BahanPakanPembelianController extends Controller
             ->with('success', 'Pembelian Pakan Berhasil Diupdate.');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+    public function destroy($id) 
+    {
+        $this->repository->delete($id);
+
+        return to_route('gudang-pakan.bahan-pakan-pembelian.index')
+            ->with('success', 'Pembelian Pakan Berhasil Dihapus.');
+    }
 }

@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use Modules\GudangPakan\Http\Controllers\BahanPakanMasukController;
 use Modules\GudangPakan\Http\Controllers\BahanPakanPembelianController;
 use Modules\GudangPakan\Http\Controllers\MasterData\BahanPakanController;
 use Modules\GudangPakan\Http\Controllers\SupplierBahanPakanController;
@@ -21,5 +22,6 @@ Route::middleware(['auth'])
             ->parameter('supplier-bahan-pakan', 'supplier')->names('supplier-bahan-pakan');
 
         Route::resource('bahan-pakan-pembelian', BahanPakanPembelianController::class)->names('bahan-pakan-pembelian');
+        Route::resource('bahan-pakan-masuk', BahanPakanMasukController::class)->names('bahan-pakan-masuk');
 
     });

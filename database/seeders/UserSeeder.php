@@ -201,6 +201,7 @@ class UserSeeder extends Seeder
                 'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
 
                 'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+                'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
             ]
         );
     }
@@ -300,6 +301,7 @@ class UserSeeder extends Seeder
 
             'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
             'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+            'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
         ];
     }
 }

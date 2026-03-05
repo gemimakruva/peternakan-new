@@ -3,20 +3,27 @@
 namespace Modules\GudangPakan\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\GudangPakan\Database\Factories\BahanPakanMasukFactory;
+use Modules\GudangPakan\Enums\BahanPakanMasukAsal;
 
 class BahanPakanMasuk extends Model
 {
-    use HasFactory;
+    public $table = 'bahan_pakan_masuk';
 
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'bahan_pakan_pembelian_id',
+        'supplier_id',
+        'pic_user_id',
+        'asal',
+        'tanggal',
+    ];
 
-    // protected static function newFactory(): BahanPakanMasukFactory
-    // {
-    //     // return BahanPakanMasukFactory::new();
-    // }
+    protected $casts = [
+        'tanggal'   => 'date',
+        'asal'      => BahanPakanMasukAsal::class,
+    ];
+
+    public function bahanPakanInventory()
+    {
+        return $this->hasMany(BahanPakanInventory::class, 'bahan_pakan_masuk_id', 'id');
+    }
 }

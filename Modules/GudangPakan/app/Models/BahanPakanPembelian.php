@@ -35,4 +35,9 @@ class BahanPakanPembelian extends Model
     {
         return $this->hasMany(BahanPakanPembelianItem::class, 'bahan_pakan_pembelian_id', 'id');
     }
+
+    public function bahanPakanMasuk()
+    {
+        return $this->hasOne(BahanPakanMasuk::class, 'bahan_pakan_pembelian_id', 'id');
+    }
 }

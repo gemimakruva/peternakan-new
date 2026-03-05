@@ -3,7 +3,11 @@
 namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
+use Modules\GudangPakan\Models\BahanPakanInventory;
+use Modules\GudangPakan\Models\BahanPakanMasuk;
 use Modules\GudangPakan\Models\BahanPakanPembelian;
+use Modules\GudangPakan\Enums\BahanPakanMasukAsal;
 use Modules\Kandang\Repositories\EloquentRepository;
 
 class BahanPakanPembelianRepository extends EloquentRepository
@@ -78,8 +82,68 @@ class BahanPakanPembelianRepository extends EloquentRepository
 
             $savedPembelianBahanPakanIds[] = $pembelianItem->id;
         }
+        app(BahanPakanInventory::class)->whereNotIn('bahan_pakan_pembelian_item_id', $savedPembelianBahanPakanIds)->delete();
         $pembelian->bahanPakanPembelianItem()->whereNotIn('id', $savedPembelianBahanPakanIds)->delete();
 
+        $this->saveInventory($pembelian);
+
         return $pembelian;
+    }
+
+    public function delete(int|string $id): bool
+    {
+        $bahanPakanPembelian = $this->model->where('id', '=', $id)->first();
+
+        if (!$bahanPakanPembelian) {
+            return false;
+        }
+
+        $bahanPakanPembelian->bahanPakanMasuk->bahanPakanInventory()->delete();
+        $bahanPakanPembelian->bahanPakanMasuk()->delete();
+        $bahanPakanPembelian->bahanPakanPembelianItem()->delete();
+        return (boolean) $this->model->where('id', '=', $id)->delete();
+    }
+
+    private function saveInventory(BahanPakanPembelian $bahanPakanPembelian)
+    {
+        $bahanPakanPembelian->load('bahanPakanPembelianItem');
+        $data = $bahanPakanPembelian->toArray();
+
+        if (
+            !@$data['tanggal_datang'] || 
+            !@$data['bahan_pakan_pembelian_item'] ||
+            !count($data['bahan_pakan_pembelian_item'])
+        ) {
+            return;
+        }
+
+        $newBahanPakanMasuk = [
+            'supplier_id'               => $data['supplier_id'],
+            'pic_user_id'               => $data['pic_user_id'],
+            'asal'                      => BahanPakanMasukAsal::DARI_PEMBELIAN->value,
+            'tanggal'                   => $data['tanggal_datang'],
+        ];
+
+        $bahanPakanMasuk = app(BahanPakanMasuk::class)->updateOrCreate([
+            'bahan_pakan_pembelian_id'  => $data['id'],
+        ], $newBahanPakanMasuk);
+
+        $savedBahanPakanInventoryIds = [];
+        foreach ($data['bahan_pakan_pembelian_item'] as $item) {
+            $newBahanPakanInventory = [
+                'tipe'                          => BahanPakanInventoryTipe::MASUK,
+                'tanggal'                       => $data['tanggal_datang'],
+                'bahan_pakan_masuk_id'          => $bahanPakanMasuk->id,
+                'bahan_pakan_id'                => $item['bahan_pakan_id'],
+                'jumlah'                        => $item['jumlah'],
+            ];
+
+            $bahanPakanInventory = $bahanPakanMasuk->bahanPakanInventory()->updateOrCreate([
+                'bahan_pakan_pembelian_item_id' => $item['id'],
+            ], $newBahanPakanInventory);
+
+            $savedBahanPakanInventoryIds[] = $bahanPakanInventory->id;
+        }
+        $bahanPakanMasuk->bahanPakanInventory()->whereNotIn('id', $savedBahanPakanInventoryIds)->delete();
     }
 }
