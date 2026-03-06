@@ -4,7 +4,6 @@ namespace Modules\GudangTelur\Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Modules\GudangTelur\Models\Kemasan;
-use Modules\GudangTelur\Models\Satuan;
 use Modules\GudangTelur\Models\Supplier;
 
 class SupplierSeeder extends Seeder
@@ -14,16 +13,6 @@ class SupplierSeeder extends Seeder
      */
     public function run(): void
     {
-        $datas = [
-            ['id' => 1, 'nama' => 'Ikat'],
-            ['id' => 2, 'nama' => 'Pack'],
-            ['id' => 3, 'nama' => 'Dus'],
-            ['id' => 4, 'nama' => 'Piece'],
-        ];
-        foreach ($datas as $data) {
-            Satuan::firstOrCreate($data);
-        }
-
         $datas = [
             // ['satuan_id' => 1, 'nama' => 'Tray Carton'],
             // ['satuan_id' => 2, 'nama' => 'Plastik'],

@@ -48,7 +48,7 @@ class BahanPakanFormulasiRepository extends EloquentRepository
             ]);
             $savedFormulasiIds[] = $formulasi->id;
         }
-        $bahanPakanFormulasi->bahanPakanFormulasiItem()->whereNotIn('id', $savedFormulasiIds);
+        $bahanPakanFormulasi->bahanPakanFormulasiItem()->whereNotIn('id', $savedFormulasiIds)->delete();
 
         $savedBeratIds = [];
         foreach ($data['berat_pakan'] as $item) {
@@ -59,7 +59,7 @@ class BahanPakanFormulasiRepository extends EloquentRepository
             ]);
             $savedBeratIds[] = $berat->id;
         }
-        $bahanPakanFormulasi->bahanPakanFormulasiBerat()->whereNotIn('id', $savedBeratIds);
+        $bahanPakanFormulasi->bahanPakanFormulasiBerat()->whereNotIn('id', $savedBeratIds)->delete();
 
         return $bahanPakanFormulasi;
     }

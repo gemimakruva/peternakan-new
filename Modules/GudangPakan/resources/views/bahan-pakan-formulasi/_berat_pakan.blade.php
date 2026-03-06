@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h2 class="card-title">Berat Pakan</h2>
+            <h2 class="card-title">Berat Pakan (Kg)</h2>
             <button
                 class="btn btn-primary btn-sm"
                 type="button"

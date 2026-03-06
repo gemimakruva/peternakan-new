@@ -433,7 +433,7 @@ return [
                     'text'  => 'Bahan Pakan',
                     'route' => 'gudang-pakan.master-data.bahan-pakan.index',
                     'icon'  => 'far fa-circle',
-                    'active' => ['master-data/bahan-pakan*'],
+                    'active' => ['gudang-pakan/master-data/bahan-pakan*'],
                     'can'   => 'master-data.master-data.menu-bahan-pakan',
                 ],
             ],

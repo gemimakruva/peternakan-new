@@ -43,10 +43,12 @@ class BahanPakanFormulasiController extends Controller
         $listTipe = BahanPakanFormulasiTipe::getSelectItems();
         $listJenisPakan = $this->jenisPakanRepository->getSelectItems();
         $listBahanPakan = $this->bahanPakanRepository->getSelectItems();
+        $listBahanPakanSatuan = $this->bahanPakanRepository->getSelectItemsWithSatuan();
         return view('gudang-pakan::bahan-pakan-formulasi.create', compact([
             'listTipe',
             'listJenisPakan',
             'listBahanPakan',
+            'listBahanPakanSatuan',
         ]));
     }
 
@@ -82,11 +84,13 @@ class BahanPakanFormulasiController extends Controller
         $listTipe = BahanPakanFormulasiTipe::getSelectItems();
         $listJenisPakan = $this->jenisPakanRepository->getSelectItems();
         $listBahanPakan = $this->bahanPakanRepository->getSelectItems();
+        $listBahanPakanSatuan = $this->bahanPakanRepository->getSelectItemsWithSatuan();
         return view('gudang-pakan::bahan-pakan-formulasi.edit', compact([
             'data',
             'listTipe',
             'listJenisPakan',
             'listBahanPakan',
+            'listBahanPakanSatuan',
         ]));
     }
 

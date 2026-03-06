@@ -10,5 +10,6 @@ class Satuan extends Model
 
     protected $fillable = [
         'nama',
+        'konversi_satuan',
     ];
 }

@@ -37,7 +37,11 @@ class BahanPakanController extends Controller
     public function create()
     {
         $listTipe = BahanPakanTipe::getSelectItems();
-        $listSatuan = $this->satuanRepository->getSelectItems();
+        $listSatuan = $this->satuanRepository
+            ->getModel()
+            ->whereIn('nama', ['Kg', 'Gram'])
+            ->pluck('nama', 'id')
+            ->toArray();
         return view('gudang-pakan::master-data.bahan-pakan.create', compact([
             'listTipe',
             'listSatuan',
@@ -69,7 +73,11 @@ class BahanPakanController extends Controller
         ]);
         $data = $bahanPakan;
         $listTipe = BahanPakanTipe::getSelectItems();
-        $listSatuan = $this->satuanRepository->getSelectItems();
+        $listSatuan = $this->satuanRepository
+            ->getModel()
+            ->whereIn('nama', ['Kg', 'Gram'])
+            ->pluck('nama', 'id')
+            ->toArray();
         return view('gudang-pakan::master-data.bahan-pakan.edit', compact([
             'data',
             'listTipe',

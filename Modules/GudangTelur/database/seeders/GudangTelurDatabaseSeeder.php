@@ -14,6 +14,7 @@ class GudangTelurDatabaseSeeder extends Seeder
         $this->call([
             SupplierSeeder::class,
             TelurSeeder::class,
+            SatuanSeeder::class,
         ]);
     }
 }

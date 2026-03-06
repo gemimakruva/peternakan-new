@@ -17,8 +17,11 @@
                     <th class="align-middle" style="min-width: 40px;">#</th>
                     <th class="align-middle" style="min-width: 200px;">Bahan Baku</th>
                     <th class="align-middle" style="min-width: 50px;">Persentase (<span x-text="items.reduce((total, item) => total+Number(item.persentase), 0)"></span>%) </th>
+                    <th class="align-middle" style="min-width: 100px;">Satuan</th>
                     <template x-for="item in list_berat_pakan">
-                        <th class="align-middle" style="min-width: 40px;" x-text="item.berat"></th>
+                        <th class="align-middle" style="min-width: 40px;">
+                            <span x-text="Number(item.berat).toLocaleString('id-ID')"></span> (Kg)
+                        </th>
                     </template>
                     <th class="align-middle" style="min-width: 40px;">Aksi</th>
                 </tr>
@@ -30,13 +33,15 @@
                             get bahanPakan() {
                                 return listBahanPakan?.find((_item) => _item.id == item.bahan_pakan_id);
                             },
+                            get bahanPakan2() {
+                                return listBahanPakanSatuan?.find((item2) => item2.id == item.bahan_pakan_id)
+                            }
                         }"
                     >
                         <td>
                             <span x-text="i+1"></span>
                         </td>
                         <td>
-                            
                             <input
                                 type="hidden"
                                 :name="`items[${i}][id]`"
@@ -69,13 +74,26 @@
                                 step="0.01"
                             />
                         </td>
+                        <td class="text-left">
+                            <span x-text="bahanPakan2?.satuan || '-'"></span>
+                        </td>
                         <template x-for="item2 in list_berat_pakan">
-                            <td class="align-middle" style="min-width: 40px;">
+                            <td
+                                class="align-middle"
+                                style="min-width: 40px;"
+                                x-data="{
+                                    get jumlah() {
+                                        const jumlah_satuan = ((Number(item2.berat) * Number(item.persentase))/100);
+                                        const konversi = (1/Number(bahanPakan2?.konversi_satuan))*1000;
+                                        const result = jumlah_satuan * konversi
+                                        return (result || 0).toLocaleString('id-ID')
+                                    }
+                                }"
+                            >
                                 <x-adminlte-input
-                                    type="number"
                                     name="berat"
                                     x-bind:name="`items[${i}][${item2.berat}][berat]`"
-                                    x-bind:value="(Number(item2.berat) * Number(item.persentase))/100"
+                                    x-bind:value="jumlah"
                                     class="text-right"
                                     fgroup-class="w-100 mb-0"
                                     igroup-size="sm"
@@ -101,6 +119,7 @@
         Alpine.data('data', () => ({
             items: @js(old('items', @$data->bahanPakanFormulasiItem ?? [])),
             listBahanPakan: @js($listBahanPakan),
+            listBahanPakanSatuan: @js($listBahanPakanSatuan),
             addItem() {
                 this.items.push({
                     id              : null,
