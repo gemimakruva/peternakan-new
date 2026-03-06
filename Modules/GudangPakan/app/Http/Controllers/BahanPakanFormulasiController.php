@@ -5,6 +5,7 @@ namespace Modules\GudangPakan\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
+use Modules\GudangPakan\Enums\BahanPakanFormulasiItemTipe;
 use Modules\GudangPakan\Enums\BahanPakanFormulasiTipe;
 use Modules\GudangPakan\Models\BahanPakanFormulasi;
 use Modules\GudangPakan\Repositories\BahanPakanFormulasiRepository;
@@ -58,13 +59,13 @@ class BahanPakanFormulasiController extends Controller
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
             'tipe'                      => ['required', Rule::in(BahanPakanFormulasiTipe::getArrayValues())],
             'nama'                      => ['required', 'string', 'unique:bahan_pakan_formulasi,nama'],
-            'items.*'                   => ['required', 'array'],
-            'items.*.id'                => ['nullable', 'exists:bahan_pakan_formulasi_item,id'],
-            'items.*.bahan_pakan_id'    => ['required', 'exists:bahan_pakan,id'],
-            'items.*.persentase'        => ['required', 'numeric'],
-            'berat_pakan.*'             => ['required', 'array'],
-            'berat_pakan.*.id'          => ['nullable', 'exists:bahan_pakan_formulasi_berat,id'],
-            'berat_pakan.*.berat'       => ['required', 'numeric'],
+            // 'items.*'                   => ['required', 'array'],
+            // 'items.*.id'                => ['nullable', 'exists:bahan_pakan_formulasi_item,id'],
+            // 'items.*.bahan_pakan_id'    => ['required', 'exists:bahan_pakan,id'],
+            // 'items.*.persentase'        => ['required', 'numeric'],
+            // 'berat_pakan.*'             => ['required', 'array'],
+            // 'berat_pakan.*.id'          => ['nullable', 'exists:bahan_pakan_formulasi_berat,id'],
+            // 'berat_pakan.*.berat'       => ['required', 'numeric'],
         ]);
 
         $validated['pic_user_id'] = auth()->id();
@@ -82,14 +83,23 @@ class BahanPakanFormulasiController extends Controller
         ]);
         $data = $bahanPakanFormulasi;
         $listTipe = BahanPakanFormulasiTipe::getSelectItems();
+        $listItemTipe = BahanPakanFormulasiItemTipe::getSelectItems();
         $listJenisPakan = $this->jenisPakanRepository->getSelectItems();
         $listBahanPakan = $this->bahanPakanRepository->getSelectItems();
+        $listFormulasiPremix = $this->repository
+            ->getModel()
+            ->where('tipe', '=', BahanPakanFormulasiTipe::PRE_MIXING->value)
+            ->where('id', '<>', $bahanPakanFormulasi->id)
+            ->pluck('nama', 'id')
+            ->toArray();
         $listBahanPakanSatuan = $this->bahanPakanRepository->getSelectItemsWithSatuan();
         return view('gudang-pakan::bahan-pakan-formulasi.edit', compact([
             'data',
             'listTipe',
+            'listItemTipe',
             'listJenisPakan',
             'listBahanPakan',
+            'listFormulasiPremix',
             'listBahanPakanSatuan',
         ]));
     }
@@ -102,7 +112,9 @@ class BahanPakanFormulasiController extends Controller
             'nama'                      => ['required', 'string', Rule::unique('bahan_pakan_formulasi', 'nama')->ignoreModel($bahanPakanFormulasi)],
             'items.*'                   => ['required', 'array'],
             'items.*.id'                => ['nullable', 'exists:bahan_pakan_formulasi_item,id'],
-            'items.*.bahan_pakan_id'    => ['required', 'exists:bahan_pakan,id'],
+            'items.*.tipe'              => ['required', Rule::in(BahanPakanFormulasiItemTipe::getArrayValues())],
+            'items.*.formulasi_premix_id'   => ['required_without:items.*.bahan_pakan_id', 'exists:bahan_pakan,id'],
+            'items.*.bahan_pakan_id'        => ['required_without:items.*.formulasi_premix_id', 'exists:bahan_pakan,id'],
             'items.*.persentase'        => ['required', 'numeric'],
             'berat_pakan.*'             => ['required', 'array'],
             'berat_pakan.*.id'          => ['nullable', 'exists:bahan_pakan_formulasi_berat,id'],

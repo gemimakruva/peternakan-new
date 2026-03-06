@@ -31,7 +31,7 @@
                 <div class="d-flex gap-3 align-items-end">
                     <x-adminlte-select
                         name="tipe"
-                        fgroup-class="mb-0"
+                        fgroup-class="mb-0 w-100 mx-sm-200"
                     >
                         <x-adminlte-options 
                             :options="$listTipe"
@@ -42,7 +42,7 @@
 
                     <x-adminlte-select
                         name="jenis_pakan_id"
-                        fgroup-class="mb-0"
+                        fgroup-class="mb-0 w-100 mx-sm-200"
                     >
                         <x-adminlte-options 
                             :options="$listJenisPakan"

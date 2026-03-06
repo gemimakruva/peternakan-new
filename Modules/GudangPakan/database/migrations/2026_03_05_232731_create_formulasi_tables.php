@@ -11,7 +11,6 @@ return new class extends Migration
      */
     public function up(): void
     {
-
         Schema::create('bahan_pakan_formulasi', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pic_user_id')->constrained('users', 'id');
@@ -23,8 +22,10 @@ return new class extends Migration
 
         Schema::create('bahan_pakan_formulasi_item', function (Blueprint $table) {
             $table->id();
+            $table->string('tipe');
             $table->foreignId('bahan_pakan_formulasi_id')->constrained('bahan_pakan_formulasi', 'id');
-            $table->foreignId('bahan_pakan_id')->constrained('bahan_pakan', 'id');
+            $table->foreignId('formulasi_premix_id')->nullable(true)->constrained('bahan_pakan_formulasi', 'id');
+            $table->foreignId('bahan_pakan_id')->nullable(true)->constrained('bahan_pakan', 'id');
             $table->decimal('persentase');
             $table->timestamps();
         });
@@ -42,6 +43,7 @@ return new class extends Migration
      */
     public function down(): void
     {
+        Schema::dropIfExists('bahan_pakan_formulasi_berat');
         Schema::dropIfExists('bahan_pakan_formulasi_item');
         Schema::dropIfExists('bahan_pakan_formulasi');
     }

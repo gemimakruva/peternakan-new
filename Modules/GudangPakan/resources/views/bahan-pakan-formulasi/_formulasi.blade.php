@@ -15,6 +15,7 @@
             <thead>
                 <tr>
                     <th class="align-middle" style="min-width: 40px;">#</th>
+                    <th class="align-middle" style="min-width: 100px;">Premix</th>
                     <th class="align-middle" style="min-width: 200px;">Bahan Baku</th>
                     <th class="align-middle" style="min-width: 50px;">Persentase (<span x-text="items.reduce((total, item) => total+Number(item.persentase), 0)"></span>%) </th>
                     <th class="align-middle" style="min-width: 100px;">Satuan</th>
@@ -34,32 +35,73 @@
                                 return listBahanPakan?.find((_item) => _item.id == item.bahan_pakan_id);
                             },
                             get bahanPakan2() {
+                                if (item.tipe == 'premix') {
+                                    return {
+                                        satuan: 'Kg',
+                                        konversi_satuan: 1000,
+                                    }
+                                }
                                 return listBahanPakanSatuan?.find((item2) => item2.id == item.bahan_pakan_id)
                             }
                         }"
                     >
-                        <td>
-                            <span x-text="i+1"></span>
-                        </td>
                         <td>
                             <input
                                 type="hidden"
                                 :name="`items[${i}][id]`"
                                 :value="item.id"
                             />
-                            
+
+                            <span x-text="i+1"></span>
+                        </td>
+                        <td>
                             <x-adminlte-select
-                                name="bahan_pakan_id"
-                                x-bind:name="`items[${i}][bahan_pakan_id]`"
-                                x-model="item.bahan_pakan_id"
+                                name="tipe"
+                                x-bind:name="`items[${i}][tipe]`"
+                                x-model="item.tipe"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                             >
                                 <x-adminlte-options
-                                    :options="$listBahanPakan"
-                                    empty-option="Pilih Bahan Pakan"
+                                    :options="$listItemTipe"
+                                    empty-option="Pilih Tipe"
                                 />
                             </x-adminlte-select>
+                        </td>
+                        <td>
+                            <template x-if="!item.tipe">
+                                <span>-</span>
+                            </template>
+
+                            <template x-if="item.tipe == 'premix'">
+                                <x-adminlte-select
+                                    name="formulasi_premix_id"
+                                    x-bind:name="`items[${i}][formulasi_premix_id]`"
+                                    x-model="item.formulasi_premix_id"
+                                    fgroup-class="w-100 mb-0"
+                                    igroup-size="sm"
+                                >
+                                    <x-adminlte-options
+                                        :options="$listFormulasiPremix"
+                                        empty-option="Pilih Premix"
+                                    />
+                                </x-adminlte-select>
+                            </template>
+
+                            <template x-if="item.tipe == 'raw'">
+                                <x-adminlte-select
+                                    name="bahan_pakan_id"
+                                    x-bind:name="`items[${i}][bahan_pakan_id]`"
+                                    x-model="item.bahan_pakan_id"
+                                    fgroup-class="w-100 mb-0"
+                                    igroup-size="sm"
+                                >
+                                    <x-adminlte-options
+                                        :options="$listBahanPakan"
+                                        empty-option="Pilih Bahan Pakan"
+                                    />
+                                </x-adminlte-select>
+                            </template>
                         </td>
                         <td>
                             <x-adminlte-input
@@ -122,9 +164,11 @@
             listBahanPakanSatuan: @js($listBahanPakanSatuan),
             addItem() {
                 this.items.push({
-                    id              : null,
-                    bahan_pakan_id  : null,
-                    persentase      : null,
+                    id                  : null,
+                    tipe                : null,
+                    formulasi_premix_id : null,
+                    bahan_pakan_id      : null,
+                    persentase          : null,
                 })
             },
             deleteItem(i) {

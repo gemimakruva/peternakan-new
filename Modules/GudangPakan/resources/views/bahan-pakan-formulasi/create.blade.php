@@ -38,7 +38,6 @@
         >
             <div class="col-12 col-lg-9">
                 @include('gudang-pakan::bahan-pakan-formulasi._form')
-                @include('gudang-pakan::bahan-pakan-formulasi._formulasi')
             </div>
             <div class="col-12 col-lg-3">
                 <div class="card sticy-form-action">
@@ -52,7 +51,6 @@
                         </div>
                     </div>
                 </div>
-                @include('gudang-pakan::bahan-pakan-formulasi._berat_pakan')
             </div>
         </div>
     </form>

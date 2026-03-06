@@ -3,6 +3,7 @@
 namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\GudangPakan\Enums\BahanPakanFormulasiItemTipe;
 use Modules\GudangPakan\Models\BahanPakanFormulasi;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -39,19 +40,28 @@ class BahanPakanFormulasiRepository extends EloquentRepository
         ]);
 
         $savedFormulasiIds = [];
-        foreach ($data['items'] as $item) {
+        foreach ((@$data['items'] ?? []) as $item) {
+            $newFormulasi = (@$item['tipe'] == BahanPakanFormulasiItemTipe::RAW->value)
+                ? [
+                    "tipe" => @$item['tipe'],
+                    "persentase" => @$item['persentase'],
+                    "bahan_pakan_id" => @$item['bahan_pakan_id'],
+                ] : [
+                    "tipe" => @$item['tipe'],
+                    "persentase" => @$item['persentase'],
+                    "formulasi_premix_id" => @$item['formulasi_premix_id'],
+                ];
+
             $formulasi = $bahanPakanFormulasi->bahanPakanFormulasiItem()->updateOrCreate([
                 'id' => @$item['id'],
-            ], [
-                "bahan_pakan_id" => @$item['bahan_pakan_id'],
-                "persentase" => @$item['persentase'],
-            ]);
+            ], $newFormulasi);
+
             $savedFormulasiIds[] = $formulasi->id;
         }
         $bahanPakanFormulasi->bahanPakanFormulasiItem()->whereNotIn('id', $savedFormulasiIds)->delete();
 
         $savedBeratIds = [];
-        foreach ($data['berat_pakan'] as $item) {
+        foreach ((@$data['berat_pakan'] ?? []) as $item) {
             $berat = $bahanPakanFormulasi->bahanPakanFormulasiBerat()->updateOrCreate([
                 'id' => @$item['id'],
             ], [
