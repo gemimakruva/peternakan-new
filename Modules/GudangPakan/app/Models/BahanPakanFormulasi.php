@@ -3,20 +3,30 @@
 namespace Modules\GudangPakan\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-// use Modules\GudangPakan\Database\Factories\BahanPakanFormulasiFactory;
+use Modules\GudangPakan\Enums\BahanPakanFormulasiTipe;
 
 class BahanPakanFormulasi extends Model
 {
-    use HasFactory;
+    public $table = 'bahan_pakan_formulasi';
 
-    /**
-     * The attributes that are mass assignable.
-     */
-    protected $fillable = [];
+    protected $fillable = [
+        'pic_user_id',
+        'jenis_pakan_id',
+        'tipe',
+        'nama',
+    ];
 
-    // protected static function newFactory(): BahanPakanFormulasiFactory
-    // {
-    //     // return BahanPakanFormulasiFactory::new();
-    // }
+    protected $casts = [
+        'tipe'  => BahanPakanFormulasiTipe::class,
+    ];
+
+    public function bahanPakanFormulasiItem()
+    {
+        return $this->hasMany(BahanPakanFormulasiItem::class, 'bahan_pakan_formulasi_id', 'id');
+    }
+
+    public function bahanPakanFormulasiBerat()
+    {
+        return $this->hasMany(BahanPakanFormulasiBerat::class, 'bahan_pakan_formulasi_id', 'id');
+    }
 }

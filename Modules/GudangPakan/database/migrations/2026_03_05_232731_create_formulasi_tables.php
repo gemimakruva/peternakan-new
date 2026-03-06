@@ -26,7 +26,13 @@ return new class extends Migration
             $table->foreignId('bahan_pakan_formulasi_id')->constrained('bahan_pakan_formulasi', 'id');
             $table->foreignId('bahan_pakan_id')->constrained('bahan_pakan', 'id');
             $table->decimal('persentase');
-            $table->decimal('harga');
+            $table->timestamps();
+        });
+
+        Schema::create('bahan_pakan_formulasi_berat', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('bahan_pakan_formulasi_id')->constrained('bahan_pakan_formulasi', 'id');
+            $table->decimal('berat');
             $table->timestamps();
         });
     }

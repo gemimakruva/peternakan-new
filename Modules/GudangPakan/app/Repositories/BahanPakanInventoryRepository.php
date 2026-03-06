@@ -22,6 +22,7 @@ class BahanPakanInventoryRepository extends EloquentRepository
                 bahan_pakan.id
                 , bahan_pakan.tipe
                 , bahan_pakan.nama as nama_bahan_pakan
+                , bahan_pakan.harga_satuan
                 , satuan.nama as nama_satuan
                 , sum(bahan_pakan_inventory.jumlah) as jumlah
             SQL)
