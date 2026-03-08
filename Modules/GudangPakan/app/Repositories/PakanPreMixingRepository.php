@@ -30,6 +30,7 @@ class PakanPreMixingRepository extends EloquentRepository
                 , bahan_pakan_formulasi.nama as nama_formulasi
                 , pakan_pre_mixing.jumlah_campuran
                 , pakan_pre_mixing.harga_total
+                , pakan_pre_mixing.tanggal
             SQL);
 
         return $query;
@@ -94,6 +95,7 @@ class PakanPreMixingRepository extends EloquentRepository
             'pakan_pre_mixing_id' => $pakanPreMixing->id,
         ], [
             'formulasi_premix_id' => @$data['formulasi_premix_id'],
+            'tanggal' => @$data['tanggal'],
             'jumlah' => @$data['jumlah_campuran'],
         ]);
 

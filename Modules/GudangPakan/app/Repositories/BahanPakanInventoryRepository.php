@@ -3,6 +3,7 @@
 namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
 use Modules\GudangPakan\Models\BahanPakanInventory;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -24,8 +25,19 @@ class BahanPakanInventoryRepository extends EloquentRepository
                 , bahan_pakan.nama as nama_bahan_pakan
                 , bahan_pakan.harga_satuan
                 , satuan.nama as nama_satuan
-                , sum(bahan_pakan_inventory.jumlah) as jumlah
-            SQL)
+                , sum(
+                    CASE
+                        WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
+                        WHEN bahan_pakan_inventory.tipe = ? THEN -bahan_pakan_inventory.jumlah
+                        WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
+                        ELSE 0
+                    END
+                ) as jumlah
+            SQL, [
+                BahanPakanInventoryTipe::MASUK->value,
+                BahanPakanInventoryTipe::KELUAR->value,
+                BahanPakanInventoryTipe::OPNAME->value,
+            ])
             ->groupBy('bahan_pakan_inventory.bahan_pakan_id');
         return $query;
     }

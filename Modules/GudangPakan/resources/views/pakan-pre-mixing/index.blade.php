@@ -57,6 +57,7 @@
                 <thead>
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Tanggal" name="tanggal" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Pic" name="nama_pic_user" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Formulasi" name="nama_formulasi" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Jumlah Campuran" name="jumlah_campuran" />
@@ -68,6 +69,7 @@
                     @forelse($datas as $data)
                         <tr>
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
+                            <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y - H:i') }}</td>
                             <td class="text-left">{{ $data->nama_pic_user }}</td>
                             <td class="text-left">{{ $data->nama_formulasi }}</td>
                             <td class="text-right">{{ $data->jumlah_campuran }}</td>

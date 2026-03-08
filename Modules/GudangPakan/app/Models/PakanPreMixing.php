@@ -20,6 +20,7 @@ class PakanPreMixing extends Model
         'jumlah_campuran' => 'float',
         'harga_total' => 'float',
         'created_at' => 'date',
+        'tanggal' => 'datetime',
     ];
 
     public function formulasiPremix()

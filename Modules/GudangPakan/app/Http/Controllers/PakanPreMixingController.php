@@ -64,6 +64,7 @@ class PakanPreMixingController extends Controller
     {
         $validated = $request->validate([
             'formulasi_premix_id'   => ['required', 'exists:bahan_pakan_formulasi,id'],
+            'tanggal'               => ['required', 'date_format:Y-m-d\TH:i'],
             'jumlah_campuran'       => ['required', 'numeric', 'min:0'],
         ]);
 

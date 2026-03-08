@@ -784,6 +784,13 @@ return [
             'active' => ['gudang-pakan/pakan-pre-mixing/*'],
             'can'   => 'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
         ],
+        [
+            'text'  => 'Inventory Pre Mixing',
+            'route' => 'gudang-pakan.pakan-pre-mixing-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/pakan-pre-mixing-inventory/*'],
+            'can'   => 'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+        ],
 
         // ====================   USER AND ACCESS   ============================
         [
