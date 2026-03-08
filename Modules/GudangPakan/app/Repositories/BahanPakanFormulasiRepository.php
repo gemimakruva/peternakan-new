@@ -4,6 +4,7 @@ namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanFormulasiItemTipe;
+use Modules\GudangPakan\Enums\BahanPakanFormulasiTipe;
 use Modules\GudangPakan\Models\BahanPakanFormulasi;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -26,6 +27,22 @@ class BahanPakanFormulasiRepository extends EloquentRepository
                 , bahan_pakan_formulasi.tipe
             SQL);
         return $query;
+    }
+
+    /**
+     * get formulasi khusus premix
+     * @param mixed $bahanPakanFormulasiId
+     * @return array
+     */
+    public function getSelectItems2($bahanPakanFormulasiId = null)
+    {
+        return $this->model
+            ->where('tipe', '=', BahanPakanFormulasiTipe::PRE_MIXING->value)
+            ->when($bahanPakanFormulasiId, function ($q, $bahanPakanFormulasiId) {
+                $q->where('id', '<>', $bahanPakanFormulasiId);
+            })
+            ->pluck('nama', 'id')
+            ->toArray();
     }
 
     public function save(array $data): BahanPakanFormulasi

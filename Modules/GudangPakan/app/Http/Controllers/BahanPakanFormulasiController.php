@@ -86,12 +86,7 @@ class BahanPakanFormulasiController extends Controller
         $listItemTipe = BahanPakanFormulasiItemTipe::getSelectItems();
         $listJenisPakan = $this->jenisPakanRepository->getSelectItems();
         $listBahanPakan = $this->bahanPakanRepository->getSelectItems();
-        $listFormulasiPremix = $this->repository
-            ->getModel()
-            ->where('tipe', '=', BahanPakanFormulasiTipe::PRE_MIXING->value)
-            ->where('id', '<>', $bahanPakanFormulasi->id)
-            ->pluck('nama', 'id')
-            ->toArray();
+        $listFormulasiPremix = $this->repository->getSelectItems2($bahanPakanFormulasi->id);
         $listBahanPakanSatuan = $this->bahanPakanRepository->getSelectItemsWithSatuan();
         return view('gudang-pakan::bahan-pakan-formulasi.edit', compact([
             'data',

@@ -27,7 +27,7 @@ class BahanPakanInventoryController extends Controller
             $request->query('perPage', 10)
         );
         $datas->transform(function($item) {
-            $item->tipe = BahanPakanTipe::tryFrom($item->tipe)->title();
+            $item->tipe = BahanPakanTipe::tryFrom($item->tipe)?->title() ?? 'hehe';
             return $item;
         });
         $listTipe = BahanPakanTipe::getSelectItems();

@@ -48,13 +48,14 @@ class BahanPakanRepository extends EloquentRepository
                 $query->where('supplier_bahan_pakan.supplier_id', '=', $supplierId);
             })
             ->with('satuan')
-            ->get(['bahan_pakan.id', 'nama', 'satuan_id'])
+            ->get(['bahan_pakan.id', 'harga_satuan', 'nama', 'satuan_id'])
             ->map(function ($item) {
                 return [
                     'id'        => $item->id,
                     'nama'      => $item->nama,
                     'satuan'    => $item->satuan->nama,
-                    'konversi_satuan'    => $item->satuan->konversi_satuan,
+                    'harga_satuan'      => $item->harga_satuan,
+                    'konversi_satuan'   => $item->satuan->konversi_satuan,
                 ];
             });
 

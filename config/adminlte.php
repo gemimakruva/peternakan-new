@@ -777,6 +777,13 @@ return [
             'active' => ['gudang-pakan/bahan-pakan-formulasi/*'],
             'can'   => 'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
         ],
+        [
+            'text'  => 'Pre Mixing Pakan',
+            'route' => 'gudang-pakan.pakan-pre-mixing.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/pakan-pre-mixing/*'],
+            'can'   => 'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+        ],
 
         // ====================   USER AND ACCESS   ============================
         [

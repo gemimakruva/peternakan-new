@@ -1,16 +1,16 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Tambah Formulasi Pakan')
+@section('title', 'Tambah Pre-Mixing')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
-            <h1>Tambah Formulasi Pakan</h1>
+            <h1>Tambah Pre-Mixing</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.bahan-pakan-formulasi.index') }}">Formulasi Pakan</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.pakan-pre-mixing.index') }}">Pre-Mixing</a></li>
                 <li class="breadcrumb-item active">Tambah</li>
             </ol>
         </div>
@@ -22,22 +22,11 @@
 <div class="mx-1200">
     <x-form-alert />
 
-    <form action="{{ route('gudang-pakan.bahan-pakan-formulasi.store',) }}" method="post">
+    <form action="{{ route('gudang-pakan.pakan-pre-mixing.store') }}" method="post">
         @csrf
-        <div 
-            class="row"
-            x-data="{
-                list_berat_pakan: @js(old('berat_pakan', @$data->bahanPakanFormulasiBerat ?? [])),
-                addBeratPakan() {
-                    this.list_berat_pakan.push({ berat: 0 });
-                },
-                removeBeratPakan(i) {
-                    this.list_berat_pakan = this.list_berat_pakan.filter((_, i2) => i2 !== i);
-                }
-            }"
-        >
+        <div class="row">
             <div class="col-12 col-lg-9">
-                @include('gudang-pakan::bahan-pakan-formulasi._form')
+                @include('gudang-pakan::pakan-pre-mixing._form')
             </div>
             <div class="col-12 col-lg-3">
                 <div class="card sticy-form-action">
@@ -46,7 +35,7 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex gap-2">
-                            <a href="{{ route('gudang-pakan.bahan-pakan-formulasi.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
+                            <a href="{{ route('gudang-pakan.pakan-pre-mixing.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
                             <button class="btn btn-primary flex-1">Simpan</button>
                         </div>
                     </div>

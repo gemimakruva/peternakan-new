@@ -18,6 +18,11 @@ class BahanPakan extends Model
         'harga_satuan',
     ];
 
+    protected $casts = [
+        'harga' => 'float',
+        'harga_satuan' => 'float',
+    ];
+
     public function satuan()
     {
         return $this->belongsTo(Satuan::class);

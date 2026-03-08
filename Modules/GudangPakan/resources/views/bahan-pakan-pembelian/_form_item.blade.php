@@ -26,7 +26,13 @@
             </thead>
             <tbody>
                 <template x-for="(item, i) in items">
-                    <tr>
+                    <tr
+                        x-data="{
+                            get bahanPakan() {
+                                return listBahanPakan?.find((_item) => _item.id == item.bahan_pakan_id);
+                            }
+                        }"
+                    >
                         <td>
                             <span x-text="i+1"></span>
                         </td>
@@ -43,6 +49,7 @@
                                 name="bahan_pakan_id"
                                 x-bind:name="`items[${i}][bahan_pakan_id]`"
                                 x-model="item.bahan_pakan_id"
+                                x-on:change="item.harga_satuan = bahanPakan.harga_satuan"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                             >
@@ -56,17 +63,11 @@
                                 </template>
                             </x-adminlte-select>
                         </td>
-                        <td
-                            x-data="{
-                                get satuan() {
-                                    return listBahanPakan?.find((_item) => _item.id == item.bahan_pakan_id)?.satuan;
-                                }
-                            }"
-                        >
+                        <td>
                             <x-adminlte-input
                                 name="satuan"
                                 x-bind:name="`items[${i}][satuan]`"
-                                x-bind:value="satuan"
+                                x-bind:value="bahanPakan?.satuan"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                                 disabled

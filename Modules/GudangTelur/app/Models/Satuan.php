@@ -12,4 +12,8 @@ class Satuan extends Model
         'nama',
         'konversi_satuan',
     ];
+
+    protected $casts = [
+        'konversi_satuan' => 'float',
+    ];
 }

@@ -19,6 +19,7 @@ class BahanPakanFormulasiItem extends Model
 
     protected $casts = [
         'tipe'  => BahanPakanFormulasiItemTipe::class,
+        'persentase' => 'float'
     ];
 
     public function bahanPakanFormulasi()
