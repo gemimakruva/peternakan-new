@@ -45,6 +45,22 @@ class BahanPakanFormulasiRepository extends EloquentRepository
             ->toArray();
     }
 
+    /**
+     * get formulasi khusus mixing
+     * @param mixed $bahanPakanFormulasiId
+     * @return array
+     */
+    public function getSelectItems3($bahanPakanFormulasiId = null)
+    {
+        return $this->model
+            ->where('tipe', '=', BahanPakanFormulasiTipe::MIXING->value)
+            ->when($bahanPakanFormulasiId, function ($q, $bahanPakanFormulasiId) {
+                $q->where('id', '<>', $bahanPakanFormulasiId);
+            })
+            ->pluck('nama', 'id')
+            ->toArray();
+    }
+
     public function save(array $data): BahanPakanFormulasi
     {
         $bahanPakanFormulasi = $this->model->updateOrCreate([
@@ -56,6 +72,7 @@ class BahanPakanFormulasiRepository extends EloquentRepository
             'nama'              => @$data['nama'],
         ]);
 
+        // simpan item formulasi
         $savedFormulasiIds = [];
         foreach ((@$data['items'] ?? []) as $item) {
             $newFormulasi = (@$item['tipe'] == BahanPakanFormulasiItemTipe::RAW->value)
@@ -77,6 +94,7 @@ class BahanPakanFormulasiRepository extends EloquentRepository
         }
         $bahanPakanFormulasi->bahanPakanFormulasiItem()->whereNotIn('id', $savedFormulasiIds)->delete();
 
+        // simpan berat sample perhitungan
         $savedBeratIds = [];
         foreach ((@$data['berat_pakan'] ?? []) as $item) {
             $berat = $bahanPakanFormulasi->bahanPakanFormulasiBerat()->updateOrCreate([
@@ -87,6 +105,27 @@ class BahanPakanFormulasiRepository extends EloquentRepository
             $savedBeratIds[] = $berat->id;
         }
         $bahanPakanFormulasi->bahanPakanFormulasiBerat()->whereNotIn('id', $savedBeratIds)->delete();
+
+        // simpan raw material cost
+        if ($bahanPakanFormulasi->tipe == BahanPakanFormulasiTipe::PRE_MIXING) {
+            $rmcPerKg = $bahanPakanFormulasi->bahanPakanFormulasiItem->sum(function($item) {
+                return ($item->bahanPakan->harga_satuan/($item->bahanPakan->satuan->konversi_satuan/1000)) * ($item->persentase/100);
+            });
+            $bahanPakanFormulasi->harga_per_kg = $rmcPerKg;
+            $bahanPakanFormulasi->save();
+        } else if ($bahanPakanFormulasi->tipe == BahanPakanFormulasiTipe::MIXING) {
+            $rmcPerKg = $bahanPakanFormulasi->bahanPakanFormulasiItem->sum(function($item) {
+                if ($item->tipe === BahanPakanFormulasiItemTipe::PREMIX) {
+                    return $item->formulasiPremix->harga_per_kg*($item->persentase/100);
+                } else if ($item->tipe === BahanPakanFormulasiItemTipe::RAW) {
+                    return ($item->bahanPakan->harga_satuan/($item->bahanPakan->satuan->konversi_satuan/1000)) * ($item->persentase/100);
+                } else {
+                    return 0;
+                }
+            });
+            $bahanPakanFormulasi->harga_per_kg = $rmcPerKg;
+            $bahanPakanFormulasi->save();
+        }
 
         return $bahanPakanFormulasi;
     }

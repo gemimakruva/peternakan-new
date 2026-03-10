@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('formulasi_premix_id')->constrained('bahan_pakan_formulasi', 'id');
             $table->dateTime('tanggal');
             $table->decimal('jumlah_campuran');
-            $table->decimal('harga_total');
+            $table->decimal('harga_total', 15, 2);
             $table->timestamps();
         });
 
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->foreignId('pakan_pre_mixing_id')->constrained('pakan_pre_mixing', 'id');
             $table->foreignId('bahan_pakan_id')->constrained('bahan_pakan', 'id');
             $table->decimal('jumlah');
-            $table->decimal('harga_sub_total');
+            $table->decimal('harga_sub_total', 15, 2);
             $table->timestamps();
         });
 
@@ -36,7 +36,7 @@ return new class extends Migration
             $table->foreignId('formulasi_mix_id')->constrained('bahan_pakan_formulasi', 'id');
             $table->dateTime('tanggal');
             $table->decimal('jumlah_campuran');
-            $table->decimal('harga_total');
+            $table->decimal('harga_total', 15, 2);
             $table->timestamps();
         });
 
@@ -44,16 +44,22 @@ return new class extends Migration
             $table->id();
             $table->foreignId('pakan_mixing_id')->constrained('pakan_mixing', 'id');
             $table->foreignId('bahan_pakan_id')->nullable()->constrained('bahan_pakan', 'id');
-            $table->foreignId('pakan_pre_mixing_id')->nullable()->constrained('pakan_pre_mixing', 'id');
+            $table->foreignId('formulasi_premix_id')->nullable()->constrained('bahan_pakan_formulasi', 'id');
             $table->decimal('jumlah');
-            $table->decimal('harga_sub_total');
+            $table->decimal('harga_sub_total', 15, 2);
             $table->timestamps();
         });
 
         Schema::create('pakan_pre_mixing_inventory', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pakan_pre_mixing_id')->nullable()->constrained('pakan_pre_mixing', 'id'); // masuk
-            $table->foreignId('pakan_mixing_id')->nullable()->constrained('pakan_mixing', 'id');  // keluar
+            $table->foreignId('pakan_pre_mixing_id')
+                ->nullable()
+                ->constrained('pakan_pre_mixing', 'id')
+                ->cascadeOnDelete(); // masuk
+            $table->foreignId('pakan_mixing_item_id')
+                ->nullable()
+                ->constrained('pakan_mixing_item', 'id')
+                ->cascadeOnDelete();  // keluar
             $table->foreignId('formulasi_premix_id')->constrained('bahan_pakan_formulasi', 'id'); // jenis
             $table->string('tipe');
             $table->dateTime('tanggal');
@@ -73,8 +79,14 @@ return new class extends Migration
 
         Schema::create('pakan_finished_good_inventory', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('pakan_mixing_id')->nullable()->constrained('pakan_mixing', 'id'); // masuk
-            $table->foreignId('pakan_finished_good_distribusi_id')->nullable()->constrained('pakan_finished_good_distribusi', 'id', 'pakan_inventory_distribusi_foreign'); // keluar
+            $table->foreignId('pakan_mixing_id')
+                ->nullable()
+                ->constrained('pakan_mixing', 'id')
+                ->cascadeOnDelete(); // masuk
+            $table->foreignId('pakan_finished_good_distribusi_id')
+                ->nullable()
+                ->constrained('pakan_finished_good_distribusi', 'id', 'pakan_inventory_distribusi_foreign')
+                ->cascadeOnDelete(); // keluar
             $table->foreignId('formulasi_mix_id')->constrained('bahan_pakan_formulasi', 'id', 'pakan_inventory_formulasi_foreign'); // jenis
             $table->string('tipe');
             $table->dateTime('tanggal');
@@ -86,7 +98,12 @@ return new class extends Migration
                 ->after('bahan_pakan_pembelian_item_id')
                 ->nullable()
                 ->constrained('pakan_pre_mixing_item', 'id')
-                ->cascadeOnDelete();
+                ->cascadeOnDelete(); // keluar
+            $table->foreignId('pakan_mixing_item_id')
+                ->after('pakan_pre_mixing_item_id')
+                ->nullable()
+                ->constrained('pakan_mixing_item', 'id')
+                ->cascadeOnDelete(); // keluar
         });
     }
 
@@ -98,6 +115,8 @@ return new class extends Migration
         Schema::table('bahan_pakan_inventory', function (Blueprint $table) {
             $table->dropForeign(['pakan_pre_mixing_item_id']);
             $table->dropColumn('pakan_pre_mixing_item_id');
+            $table->dropForeign(['pakan_mixing_item_id']);
+            $table->dropColumn('pakan_mixing_item_id');
         });
         Schema::dropIfExists('pakan_finished_good_inventory');
         Schema::dropIfExists('pakan_finished_good_distribusi');

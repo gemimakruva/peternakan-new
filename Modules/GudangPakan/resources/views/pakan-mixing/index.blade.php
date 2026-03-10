@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Formulasi Pakan')
+@section('title', 'Mixing')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Formulasi Pakan</h1>
-                <a href="{{ route('gudang-pakan.bahan-pakan-formulasi.create') }}" class="btn btn-primary">Tambah Formulasi Pakan</a>
+                <h1>Mixing</h1>
+                <a href="{{ route('gudang-pakan.pakan-mixing.create') }}" class="btn btn-primary">Tambah Mixing</a>
             </div>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Formulasi Pakan</li>
+                <li class="breadcrumb-item active">Mixing</li>
             </ol>
         </div>
     </div>
@@ -27,30 +27,8 @@
     
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('gudang-pakan.bahan-pakan-formulasi.index', request()->all()) }}" method="get" class="w-100">                    
+            <form action="{{ route('gudang-pakan.pakan-mixing.index', request()->all()) }}" method="get" class="w-100">                    
                 <div class="d-flex gap-3 align-items-end">
-                    <x-adminlte-select
-                        name="tipe"
-                        fgroup-class="mb-0 w-100 mx-sm-200"
-                    >
-                        <x-adminlte-options 
-                            :options="$listTipe"
-                            :selected="request()->query('tipe')"
-                            empty-option="Semua Tipe"
-                        />
-                    </x-adminlte-select>
-
-                    <x-adminlte-select
-                        name="jenis_pakan_id"
-                        fgroup-class="mb-0 w-100 mx-sm-200"
-                    >
-                        <x-adminlte-options 
-                            :options="$listJenisPakan"
-                            :selected="request()->query('jenis_pakan_id')"
-                            empty-option="Semua Jenis Pakan"
-                        />
-                    </x-adminlte-select>
-
                     <input 
                         type="search" 
                         name="search" 
@@ -64,7 +42,7 @@
                             <i class="fas fa-search"></i>
                         </button>
 
-                        <a href="{{ route('gudang-pakan.bahan-pakan-formulasi.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('gudang-pakan.pakan-mixing.index') }}" class="btn btn-secondary">
                             <i class="fas fa-undo"></i>
                         </a>
                     </div>
@@ -79,11 +57,11 @@
                 <thead>
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Tanggal" name="tanggal" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Pic" name="nama_pic_user" />
-                        <x-sort-th class="align-middle" style="min-width: 100px;" label="Jenis Pakan" name="nama_jenis_pakan" />
-                        <x-sort-th class="align-middle" style="min-width: 100px;" label="Tipe" name="tipe" />
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Nama" name="nama" />
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="RMC (Kg)" name="harga_per_kg" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Formulasi" name="nama_formulasi" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Jumlah Campuran" name="jumlah_campuran" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Harga Total" name="harga_total" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -91,21 +69,21 @@
                     @forelse($datas as $data)
                         <tr>
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
+                            <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y - H:i') }}</td>
                             <td class="text-left">{{ $data->nama_pic_user }}</td>
-                            <td class="text-left">{{ $data->nama_jenis_pakan }}</td>
-                            <td class="text-left">{{ $data->tipe->title() }}</td>
-                            <td class="text-left">{{ $data->nama }}</td>
-                            <td class="text-right">{{ format_angka($data->harga_per_kg) }}</td>
+                            <td class="text-left">{{ $data->nama_formulasi }}</td>
+                            <td class="text-right">{{ $data->jumlah_campuran }}</td>
+                            <td class="text-right">{{ format_angka($data->harga_total) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('gudang-pakan.bahan-pakan-formulasi.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
+                                    <a href="{{ route('gudang-pakan.pakan-mixing.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form
-                                        action="{{ route('gudang-pakan.bahan-pakan-formulasi.destroy', $data->id) }}"
+                                        action="{{ route('gudang-pakan.pakan-mixing.destroy', $data->id) }}"
                                         method="post"
                                         class="form-delete"
-                                        data-nama="{{ $data->nama }}"
+                                        data-nama_formulasi="{{ $data->nama_formulasi }}"
                                     >
                                         @csrf
                                         @method('delete')
@@ -118,7 +96,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Data Formulasi Bahan Pakan tidak tersedia</td>
+                            <td colspan="7" class="text-center">Data Mixing tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -138,10 +116,10 @@
     <script>
         $(document).on('submit', '.form-delete', function (e) {
             e.preventDefault();
-            const nama = $(this).data('nama');
+            const nama_formulasi = $(this).data('nama_formulasi');
 
             Swal.fire({
-                title: `Hapus Formulasi Bahan Pakan "${nama}"?`,
+                title: `Hapus Mixing "${nama_formulasi}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,

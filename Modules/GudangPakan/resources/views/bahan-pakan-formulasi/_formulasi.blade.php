@@ -73,6 +73,7 @@
                                 <span>-</span>
                             </template>
 
+                            {{-- durung muncul yen milih sing premix --}}
                             <template x-if="item.tipe == 'premix'">
                                 <x-adminlte-select
                                     name="formulasi_premix_id"

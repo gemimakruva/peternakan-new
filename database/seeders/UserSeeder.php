@@ -207,6 +207,7 @@ class UserSeeder extends Seeder
                 'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
                 'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
                 'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+                'gudang-pakan.pakan-mixing.menu-pakan-mixing',
             ]
         );
     }
@@ -312,6 +313,7 @@ class UserSeeder extends Seeder
             'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
             'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
             'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+            'gudang-pakan.pakan-mixing.menu-pakan-mixing',
         ];
     }
 }

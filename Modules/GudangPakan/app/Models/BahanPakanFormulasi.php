@@ -14,10 +14,12 @@ class BahanPakanFormulasi extends Model
         'jenis_pakan_id',
         'tipe',
         'nama',
+        'harga_per_kg',
     ];
 
     protected $casts = [
         'tipe'  => BahanPakanFormulasiTipe::class,
+        'harga_per_kg' => 'float',
     ];
 
     public function bahanPakanFormulasiItem()

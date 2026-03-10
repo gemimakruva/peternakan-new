@@ -10,8 +10,8 @@ class PakanMixingItem extends Model
 
     protected $fillable = [
         'pakan_mixing_id',
-        'bahan_pakan_id',
-        'pakan_pre_mixing_id',
+        'bahan_pakan_id', // asal bahan raw
+        'formulasi_premix_id', // asal bahan premix
         'jumlah',
         'harga_sub_total',
     ];

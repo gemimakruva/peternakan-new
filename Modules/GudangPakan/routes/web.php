@@ -7,6 +7,7 @@ use Modules\GudangPakan\Http\Controllers\BahanPakanInventoryController;
 use Modules\GudangPakan\Http\Controllers\BahanPakanMasukController;
 use Modules\GudangPakan\Http\Controllers\BahanPakanPembelianController;
 use Modules\GudangPakan\Http\Controllers\MasterData\BahanPakanController;
+use Modules\GudangPakan\Http\Controllers\PakanMixingController;
 use Modules\GudangPakan\Http\Controllers\PakanPreMixingController;
 use Modules\GudangPakan\Http\Controllers\PakanPreMixingInventoryController;
 use Modules\GudangPakan\Http\Controllers\SupplierBahanPakanController;
@@ -34,5 +35,6 @@ Route::middleware(['auth'])
         Route::resource('pakan-pre-mixing', PakanPreMixingController::class)->names('pakan-pre-mixing');
         Route::resource('pakan-pre-mixing-inventory', PakanPreMixingInventoryController::class)
             ->parameter('pakan-pre-mixing-inventory', 'bahan-pakan-formulasi') ->names('pakan-pre-mixing-inventory')->only(['index', 'show']);
+        Route::resource('pakan-mixing', PakanMixingController::class)->names('pakan-mixing');
 
     });
