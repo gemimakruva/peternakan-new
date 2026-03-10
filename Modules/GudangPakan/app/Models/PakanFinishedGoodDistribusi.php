@@ -11,6 +11,7 @@ class PakanFinishedGoodDistribusi extends Model
     protected $fillable = [
         'pic_user_id',
         'formulasi_mix_id',
+        'tanggal',
         'jumlah',
         'tujuan',
     ];

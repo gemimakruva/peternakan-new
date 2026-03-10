@@ -13,7 +13,9 @@ class PakanFinishedGoodInventoryController extends Controller
     public function __construct(
         private PakanFinishedGoodInventoryRepository $repository,
         private PakanFinishedGoodInventoryShowRepository $showRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory');
+    }
 
     public function index(Request $request)
     {

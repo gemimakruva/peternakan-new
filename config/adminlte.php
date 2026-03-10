@@ -805,6 +805,13 @@ return [
             'active' => ['gudang-pakan/pakan-finished-good-inventory/*'],
             'can' => 'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
         ],
+        [
+            'text'  => 'Distribusi Pakan Jadi',
+            'route' => 'gudang-pakan.pakan-finished-good-distribusi.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/pakan-finished-good-distribusi/*'],
+            'can' => 'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
+        ],
 
         // ====================   USER AND ACCESS   ============================
         [

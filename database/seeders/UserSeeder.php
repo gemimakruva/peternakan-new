@@ -209,6 +209,7 @@ class UserSeeder extends Seeder
                 'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
                 'gudang-pakan.pakan-mixing.menu-pakan-mixing',
                 'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+                'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
             ]
         );
     }
@@ -316,6 +317,7 @@ class UserSeeder extends Seeder
             'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
             'gudang-pakan.pakan-mixing.menu-pakan-mixing',
             'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+            'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
         ];
     }
 }
