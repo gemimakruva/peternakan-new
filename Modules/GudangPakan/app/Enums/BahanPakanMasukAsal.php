@@ -28,8 +28,6 @@ enum BahanPakanMasukAsal : string
     {
         return [
             self::DARI_PENGGILINGAN->value  => self::DARI_PENGGILINGAN->title(),
-            self::DARI_PREMIXING->value     => self::DARI_PREMIXING->title(),
-            self::DARI_MIXING->value        => self::DARI_MIXING->title(),
         ];
     }
 }

@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 use Modules\GudangPakan\Http\Controllers\BahanPakanFormulasiController;
 use Modules\GudangPakan\Http\Controllers\BahanPakanInventoryController;
+use Modules\GudangPakan\Http\Controllers\BahanPakanKeluarController;
 use Modules\GudangPakan\Http\Controllers\BahanPakanMasukController;
 use Modules\GudangPakan\Http\Controllers\BahanPakanPembelianController;
 use Modules\GudangPakan\Http\Controllers\MasterData\BahanPakanController;
@@ -30,6 +31,7 @@ Route::middleware(['auth'])
 
         Route::resource('bahan-pakan-pembelian', BahanPakanPembelianController::class)->names('bahan-pakan-pembelian');
         Route::resource('bahan-pakan-masuk', BahanPakanMasukController::class)->names('bahan-pakan-masuk');
+        Route::resource('bahan-pakan-keluar', BahanPakanKeluarController::class)->names('bahan-pakan-keluar');
         Route::resource('bahan-pakan-inventory', BahanPakanInventoryController::class)
             ->parameter('bahan-pakan-inventory', 'bahan-pakan')->names('bahan-pakan-inventory')->only(['index', 'show']);
 

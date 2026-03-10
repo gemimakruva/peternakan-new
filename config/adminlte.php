@@ -756,6 +756,13 @@ return [
             'can'   => 'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
         ],
         [
+            'text'  => 'Bahan Pakan Keluar',
+            'route' => 'gudang-pakan.bahan-pakan-keluar.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/bahan-pakan-keluar/*'],
+            'can'   => 'gudang-pakan.bahan-pakan-keluar.menu-bahan-pakan-keluar',
+        ],
+        [
             'text'  => 'Bahan Pakan Inventory',
             'route' => 'gudang-pakan.bahan-pakan-inventory.index',
             'icon'  => 'fas fa-clipboard-list',

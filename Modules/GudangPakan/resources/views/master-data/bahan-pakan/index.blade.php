@@ -72,6 +72,7 @@
                         <th class="align-middle" style="width: 40px;">#</th>
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Tipe" name="tipe" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Nama" name="nama" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Harga Satuan" name="harga_satuan" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -81,6 +82,7 @@
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
                             <td class="text-left">{{ $data->tipe_enum?->title() }}</td>
                             <td class="text-left">{{ $data->nama }}</td>
+                            <td class="text-right">{{ format_angka($data->harga_satuan) }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
                                     <a href="{{ route('gudang-pakan.master-data.bahan-pakan.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">

@@ -3,6 +3,7 @@
 namespace Modules\GudangPakan\Repositories\MasterData;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
 use Modules\GudangPakan\Models\BahanPakan;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -59,6 +60,41 @@ class BahanPakanRepository extends EloquentRepository
                 ];
             });
 
+        return $datas;
+    }
+
+    public function getSelectItemsWithSaldo()
+    {
+        $datas = $this->model
+            ->join('bahan_pakan_inventory', 'bahan_pakan_inventory.bahan_pakan_id', '=', 'bahan_pakan.id')
+            ->join('satuan', 'satuan.id', '=', 'bahan_pakan.satuan_id')
+            ->selectRaw(<<<SQL
+                bahan_pakan.id
+                , bahan_pakan.nama
+                , satuan.nama as satuan
+                , sum(
+                    case 
+                        when bahan_pakan_inventory.tipe = ? then bahan_pakan_inventory.jumlah
+                        when bahan_pakan_inventory.tipe = ? then -bahan_pakan_inventory.jumlah
+                        when bahan_pakan_inventory.tipe = ? then bahan_pakan_inventory.jumlah
+                        else 0
+                    end
+                ) as saldo
+            SQL, [
+                BahanPakanInventoryTipe::MASUK->value,
+                BahanPakanInventoryTipe::KELUAR->value,
+                BahanPakanInventoryTipe::OPNAME->value,
+            ])
+            ->groupBy('bahan_pakan.id')
+            ->get()
+            ->map(function ($item) {
+                return (object) [
+                    'id' => (int) $item->id,
+                    'nama' => $item->nama,
+                    'saldo' => (float) $item->saldo,
+                    'satuan' => $item->satuan,
+                ];
+            });
         return $datas;
     }
 }

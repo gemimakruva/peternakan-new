@@ -1,19 +1,19 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Bahan Pakan Masuk')
+@section('title', 'Bahan Pakan Keluar')
 
 @section('content_header')
 <div class="container-fluid">
     <div class="row mb-2">
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
-                <h1>Bahan Pakan Masuk</h1>
-                <a href="{{ route('gudang-pakan.bahan-pakan-masuk.create') }}" class="btn btn-primary">Tambah Bahan Pakan Masuk</a>
+                <h1>Bahan Pakan Keluar</h1>
+                <a href="{{ route('gudang-pakan.bahan-pakan-keluar.create') }}" class="btn btn-primary">Tambah Bahan Pakan Keluar</a>
             </div>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Bahan Pakan Masuk</li>
+                <li class="breadcrumb-item active">Bahan Pakan Keluar</li>
             </ol>
         </div>
     </div>
@@ -22,32 +22,21 @@
 
 
 @section('content')
-<div class="mx-1200">
+<div class="mx-1000">
     <x-form-alert />
     
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('gudang-pakan.bahan-pakan-masuk.index', request()->all()) }}" method="get" class="w-100">                    
+            <form action="{{ route('gudang-pakan.bahan-pakan-keluar.index', request()->all()) }}" method="get" class="w-100">                    
                 <div class="d-flex gap-3 align-items-end">
                     <x-adminlte-select
-                        name="supplier_id"
-                        fgroup-class="mb-0"
+                        name="tujuan"
+                        fgroup-class="mb-0 mx-sm-200 w-100"
                     >
                         <x-adminlte-options 
-                            :options="$listSupplier"
-                            :selected="request()->query('supplier_id')"
-                            empty-option="Semua Supplier"
-                        />
-                    </x-adminlte-select>
-
-                    <x-adminlte-select
-                        name="asal"
-                        fgroup-class="mb-0"
-                    >
-                        <x-adminlte-options 
-                            :options="$listAsal"
-                            :selected="request()->query('asal')"
-                            empty-option="Semua Asal"
+                            :options="$listTujuan"
+                            :selected="request()->query('tujuan')"
+                            empty-option="Semua Tujuan"
                         />
                     </x-adminlte-select>
 
@@ -64,7 +53,7 @@
                             <i class="fas fa-search"></i>
                         </button>
 
-                        <a href="{{ route('gudang-pakan.bahan-pakan-masuk.index') }}" class="btn btn-secondary">
+                        <a href="{{ route('gudang-pakan.bahan-pakan-keluar.index') }}" class="btn btn-secondary">
                             <i class="fas fa-undo"></i>
                         </a>
                     </div>
@@ -80,9 +69,8 @@
                     <tr>
                         <th class="align-middle" style="width: 40px;">#</th>
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Pic" name="nama_pic_user" />
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Supplier" name="nama_supplier" />
                         <x-sort-th class="align-middle" style="min-width: 150px;" label="Tanggal" name="tanggal" />
-                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Asal" name="asal" />
+                        <x-sort-th class="align-middle" style="min-width: 150px;" label="Tujuan" name="tujuan" />
                         <th class="align-middle" style="width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -91,16 +79,15 @@
                         <tr>
                             <td>{{ ($datas->currentPage() - 1) * $datas->perPage() + $loop->iteration }}</td>
                             <td class="text-left">{{ $data->nama_pic_user }}</td>
-                            <td class="text-left">{{ $data->nama_supplier }}</td>
                             <td class="text-left">{{ $data->tanggal->translatedFormat('l, d F Y') }}</td>
-                            <td class="text-left">{{ $data->asal->title() }}</td>
+                            <td class="text-left">{{ $data->tujuan->title() }}</td>
                             <td>
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('gudang-pakan.bahan-pakan-masuk.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
+                                    <a href="{{ route('gudang-pakan.bahan-pakan-keluar.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
                                     <form
-                                        action="{{ route('gudang-pakan.bahan-pakan-masuk.destroy', $data->id) }}"
+                                        action="{{ route('gudang-pakan.bahan-pakan-keluar.destroy', $data->id) }}"
                                         method="post"
                                         class="form-delete"
                                         data-tanggal="{{ $data->tanggal->translatedFormat('l, d F Y') }}"
@@ -116,7 +103,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Data Bahan Pakan Masuk tidak tersedia</td>
+                            <td colspan="6" class="text-center">Data Bahan Pakan Keluar tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -139,7 +126,7 @@
             const tanggal = $(this).data('tanggal');
 
             Swal.fire({
-                title: `Hapus Bahan Pakan Masuk "${tanggal}"?`,
+                title: `Hapus Bahan Pakan Keluar "${tanggal}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,
