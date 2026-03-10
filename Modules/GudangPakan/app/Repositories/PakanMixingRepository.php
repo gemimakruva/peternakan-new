@@ -5,8 +5,10 @@ namespace Modules\GudangPakan\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanFormulasiItemTipe;
 use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
+use Modules\GudangPakan\Enums\PakanFinishedGoodInventoryTipe;
 use Modules\GudangPakan\Enums\PakanPreMixingInventoryTipe;
 use Modules\GudangPakan\Models\BahanPakanInventory;
+use Modules\GudangPakan\Models\PakanFinishedGoodInventory;
 use Modules\GudangPakan\Models\PakanMixing;
 use Modules\GudangPakan\Models\PakanPreMixing;
 use Modules\GudangPakan\Models\PakanPreMixingInventory;
@@ -116,6 +118,15 @@ class PakanMixingRepository extends EloquentRepository
 
         $pakanMixing->harga_total = $listFormulasi->sum('harga_sub_total');
         $pakanMixing->save();
+
+        app(PakanFinishedGoodInventory::class)->updateOrCreate([
+            'pakan_mixing_id' => $pakanMixing->id,
+            'formulasi_mix_id' => $pakanMixing->formulasi_mix_id,
+            'tipe' => PakanFinishedGoodInventoryTipe::MASUK,
+        ], [
+            'tanggal' => $pakanMixing->tanggal,
+            'jumlah' => $pakanMixing->jumlah_campuran
+        ]);
 
         return $pakanMixing;
     }

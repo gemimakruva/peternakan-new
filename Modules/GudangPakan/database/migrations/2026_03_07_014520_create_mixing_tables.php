@@ -90,6 +90,7 @@ return new class extends Migration
             $table->foreignId('formulasi_mix_id')->constrained('bahan_pakan_formulasi', 'id', 'pakan_inventory_formulasi_foreign'); // jenis
             $table->string('tipe');
             $table->dateTime('tanggal');
+            $table->decimal('jumlah');
             $table->timestamps();
         });
 

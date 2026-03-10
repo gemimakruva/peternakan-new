@@ -798,6 +798,13 @@ return [
             'active' => ['gudang-pakan/pakan-mixing/*'],
             'can' => 'gudang-pakan.pakan-mixing.menu-pakan-mixing',
         ],
+        [
+            'text'  => 'Inventory Pakan Jadi',
+            'route' => 'gudang-pakan.pakan-finished-good-inventory.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/pakan-finished-good-inventory/*'],
+            'can' => 'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+        ],
 
         // ====================   USER AND ACCESS   ============================
         [
