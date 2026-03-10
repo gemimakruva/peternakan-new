@@ -3,8 +3,8 @@
 namespace Modules\GudangTelur\Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Modules\GudangTelur\Enums\SupplierTipe;
 use Modules\GudangTelur\Models\Kemasan;
-use Modules\GudangTelur\Models\Satuan;
 use Modules\GudangTelur\Models\Supplier;
 
 class SupplierSeeder extends Seeder
@@ -15,26 +15,9 @@ class SupplierSeeder extends Seeder
     public function run(): void
     {
         $datas = [
-            ['id' => 1, 'nama' => 'Ikat'],
-            ['id' => 2, 'nama' => 'Pack'],
-            ['id' => 3, 'nama' => 'Dus'],
-            ['id' => 4, 'nama' => 'Piece'],
-        ];
-        foreach ($datas as $data) {
-            Satuan::firstOrCreate($data);
-        }
-
-        $datas = [
-            // ['satuan_id' => 1, 'nama' => 'Tray Carton'],
-            // ['satuan_id' => 2, 'nama' => 'Plastik'],
-            // ['satuan_id' => 2, 'nama' => 'Pack isi 10'],
-            // ['satuan_id' => 2, 'nama' => 'Pack isi 6'],
-            // ['satuan_id' => 4, 'nama' => 'Thank You Card'],
             ['satuan_id' => 4, 'nama' => 'Tray Carton'],
-            ['satuan_id' => 4, 'nama' => 'Plastik'],
             ['satuan_id' => 4, 'nama' => 'Pack isi 10'],
             ['satuan_id' => 4, 'nama' => 'Pack isi 6'],
-            ['satuan_id' => 4, 'nama' => 'Thank You Card'],
             ['satuan_id' => 4, 'nama' => 'Peti'],
         ];
         foreach ($datas as $data) {
@@ -46,6 +29,7 @@ class SupplierSeeder extends Seeder
             $company = fake()->company();
             $address = fake()->address();
             $datas[] = [
+                'tipe'          => SupplierTipe::KEMASAN->value,
                 'nama'          => $company,
                 'badan_usaha'   => $company,
                 'kontak'        => fake()->numerify("+628##########"),

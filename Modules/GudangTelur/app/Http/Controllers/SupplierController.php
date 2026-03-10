@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Modules\GudangTelur\Enums\JenisPengiriman;
+use Modules\GudangTelur\Enums\SupplierTipe;
 use Modules\GudangTelur\Models\Supplier;
 use Modules\GudangTelur\Repositories\MasterData\KemasanRepository;
 use Modules\GudangTelur\Repositories\Supplier\SupplierRepository;
@@ -38,13 +39,14 @@ class SupplierController extends Controller
 
     public function store(Request $request) {
         $validated = $request->validate([
-            'nama'          => ['required', 'string', 'unique:supplier,nama'],
+            'nama'          => ['required', 'string', Rule::unique('supplier', 'nama')->where('tipe', SupplierTipe::KEMASAN->value)],
             'badan_usaha'   => ['nullable', 'string'],
             'kontak'        => ['nullable', 'string'],
             'alamat'        => ['nullable', 'string'],
             'lokasi'        => ['nullable', 'string'],
         ]);
 
+        $validated['tipe']  = SupplierTipe::KEMASAN->value;
         $supplier = $this->repository->getModel()->create($validated);
 
         return to_route('gudang-telur.supplier.edit', $supplier)
@@ -78,7 +80,7 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier) 
     {
         $request->validate([
-            'nama'          => ['required', 'string', Rule::unique('supplier', 'nama')->ignoreModel($supplier)],
+            'nama'          => ['required', 'string', Rule::unique('supplier', 'nama')->where('tipe', SupplierTipe::KEMASAN->value)->ignoreModel($supplier)],
             'badan_usaha'   => ['nullable', 'string'],
             'kontak'        => ['nullable', 'string'],
             'alamat'        => ['nullable', 'string'],

@@ -3,6 +3,7 @@
 namespace Modules\GudangTelur\Repositories\Supplier;
 
 use Illuminate\Database\Eloquent\Builder;
+use Modules\GudangTelur\Enums\SupplierTipe;
 use Modules\GudangTelur\Models\Supplier;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -15,7 +16,7 @@ class SupplierRepository extends EloquentRepository
 
     public function getQuery(): Builder
     {
-        $query = $this->model->query();
+        $query = $this->model->query()->where('tipe', '=', SupplierTipe::KEMASAN->value);
 
         return $query;
     }

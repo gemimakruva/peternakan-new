@@ -196,6 +196,21 @@ class UserSeeder extends Seeder
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
+
+                'master-data.master-data.menu-bahan-pakan',
+                'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+
+                'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+                'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
+                'gudang-pakan.bahan-pakan-keluar.menu-bahan-pakan-keluar',
+                'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+
+                'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
+                'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+                'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+                'gudang-pakan.pakan-mixing.menu-pakan-mixing',
+                'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+                'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
             ]
         );
     }
@@ -232,6 +247,9 @@ class UserSeeder extends Seeder
             'master-data.master-data.menu-jenis-pakan',
             'master-data.master-data.menu-jenis-treatment',
             'master-data.master-data.menu-metode-treatment',
+
+            'master-data.master-data.menu-kemasan',
+            'master-data.master-data.menu-bahan-pakan',
 
             'kandang.strain.menu-strain',
 
@@ -289,6 +307,19 @@ class UserSeeder extends Seeder
             'gudang-telur.telur-keluar.menu-telur-keluar',
             'gudang-telur.telur-opname.menu-telur-opname',
             'gudang-telur.inventory-telur.menu-inventory-telur',
+
+            'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+            'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+            'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
+            'gudang-pakan.bahan-pakan-keluar.menu-bahan-pakan-keluar',
+            'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+
+            'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
+            'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+            'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+            'gudang-pakan.pakan-mixing.menu-pakan-mixing',
+            'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+            'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
         ];
     }
 }
