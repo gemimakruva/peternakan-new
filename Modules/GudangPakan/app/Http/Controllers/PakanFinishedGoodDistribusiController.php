@@ -58,13 +58,28 @@ class PakanFinishedGoodDistribusiController extends Controller
         ]));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, $id) {}
+    public function update(Request $request, PakanFinishedGoodDistribusi $pakanFinishedGoodDistribusi)
+    {
+        $validated = $request->validate([
+            'formulasi_mix_id' => ['required', 'exists:bahan_pakan_formulasi,id'],
+            'tanggal' => ['required', 'date_format:Y-m-d\TH:i'],
+            'jumlah' => ['required', 'integer', 'min:0'],
+            'tujuan' => ['required', 'string'],
+        ]);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy($id) {}
+        $validated['id'] = $pakanFinishedGoodDistribusi->id;
+        $validated['pic_user_id'] = auth()->id();
+        $this->repository->save($validated);
+
+        return to_route('gudang-pakan.pakan-finished-good-distribusi.index')
+            ->with('success', 'Data Distribusi Paka Jadi Berhasil Diupdate.');
+    }
+
+    public function destroy(PakanFinishedGoodDistribusi $pakanFinishedGoodDistribusi) 
+    {
+        $pakanFinishedGoodDistribusi->delete();
+
+        return to_route('gudang-pakan.pakan-finished-good-distribusi.index')
+            ->with('success', 'Data Distribusi Paka Jadi Berhasil Dihapus.');
+    }
 }

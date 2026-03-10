@@ -15,4 +15,9 @@ class PakanFinishedGoodDistribusi extends Model
         'jumlah',
         'tujuan',
     ];
+
+    protected $casts = [
+        'tanggal' => 'datetime',
+        'jumlah' => 'float',
+    ];
 }
