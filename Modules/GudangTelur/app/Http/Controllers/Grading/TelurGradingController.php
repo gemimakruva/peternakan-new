@@ -16,7 +16,7 @@ class TelurGradingController extends Controller
         private TelurGradingRepository $repository,
         private KandangRepository $kandangRepository,
     ) {
-        $this->middleware('can:gudang-telur.telur.menu-grading-telur');
+        $this->middleware('can:gudang-telur.grading-telur.menu-grading-telur');
     }
 
     public function index(Request $request)

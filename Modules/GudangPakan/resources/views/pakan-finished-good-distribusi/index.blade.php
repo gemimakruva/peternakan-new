@@ -94,7 +94,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">Data Distribusi Pakan Jadi tidak tersedia</td>
+                            <td colspan="6" class="text-center">Data Distribusi Pakan Jadi tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -97,7 +97,7 @@ class BahanPakanPembelianRepository extends EloquentRepository
             return false;
         }
 
-        $bahanPakanPembelian->bahanPakanMasuk->bahanPakanInventory()->delete();
+        $bahanPakanPembelian->bahanPakanMasuk?->bahanPakanInventory()?->delete();
         $bahanPakanPembelian->bahanPakanMasuk()->delete();
         $bahanPakanPembelian->bahanPakanPembelianItem()->delete();
         return (boolean) $this->model->where('id', '=', $id)->delete();

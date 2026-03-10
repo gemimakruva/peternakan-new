@@ -30,6 +30,7 @@ class BahanPakanInventoryShowRepository extends EloquentRepository
             ->where('bahan_pakan_inventory.bahan_pakan_id', '=', $this->bahanPakanId)
             ->selectRaw(<<<SQL
                 bahan_pakan.id
+                , bahan_pakan_inventory.id as id2
                 , bahan_pakan.nama as nama_bahan_pakan
                 , satuan.nama as nama_satuan
                 , bahan_pakan_inventory.jumlah

@@ -51,6 +51,10 @@ class BahanPakan extends Model
     protected static function booted()
     {
         static::saved(function ($model) {
+            if (app()->runningInConsole()) {
+                return;
+            }
+
             if ($model->wasRecentlyCreated) {
                 $model->priceable()->create([
                     'pic_user_id'   => auth()->id(),
