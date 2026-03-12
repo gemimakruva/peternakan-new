@@ -79,22 +79,27 @@
                             @endif
                             <td class="text-left">{{ $pipe->nama }}</td>
                             <td class="text-right">{{ format_angka(@$pipe->populasiAyam[0]?->ayam_sehat ?? 0) }}</td>
-                            <td>
-                                <input type="hidden" x-bind:value="pipes[pipe_id].id" :name="`items[${pipe_id}][id]`">
-                                <input type="hidden" x-bind:value="pipes[pipe_id].perhitungan_pakan_id" :name="`items[${pipe_id}][perhitungan_pakan_id]`">
-                                <input type="hidden" x-bind:value="pipes[pipe_id].kandang_id" :name="`items[${pipe_id}][kandang_id]`">
-                                <input type="hidden" x-bind:value="pipes[pipe_id].flock_id" :name="`items[${pipe_id}][flock_id]`">
-                                <input type="hidden" x-bind:value="pipes[pipe_id].pipe_id" :name="`items[${pipe_id}][pipe_id]`">
-                                <input type="hidden" x-bind:value="pipes[pipe_id].jumlah_ayam" :name="`items[${pipe_id}][jumlah_ayam]`">
-                                <input 
-                                    :name="`items[${pipe_id}][pemberian_pakan_per_ekor]`"
-                                    type="number"
-                                    class="form-control form-control-sm"
-                                    x-model="pipes[pipe_id].pemberian_pakan_per_ekor"
-                                    step="0.01"
-                                    min="0"
-                                />
-                            </td>
+                            @if ($readonly)
+                                <td class="text-right" x-text="pipes[pipe_id].pemberian_pakan_per_ekor">
+                                </td>
+                            @else
+                                <td>
+                                    <input type="hidden" x-bind:value="pipes[pipe_id].id" :name="`items[${pipe_id}][id]`">
+                                    <input type="hidden" x-bind:value="pipes[pipe_id].perhitungan_pakan_id" :name="`items[${pipe_id}][perhitungan_pakan_id]`">
+                                    <input type="hidden" x-bind:value="pipes[pipe_id].kandang_id" :name="`items[${pipe_id}][kandang_id]`">
+                                    <input type="hidden" x-bind:value="pipes[pipe_id].flock_id" :name="`items[${pipe_id}][flock_id]`">
+                                    <input type="hidden" x-bind:value="pipes[pipe_id].pipe_id" :name="`items[${pipe_id}][pipe_id]`">
+                                    <input type="hidden" x-bind:value="pipes[pipe_id].jumlah_ayam" :name="`items[${pipe_id}][jumlah_ayam]`">
+                                    <input 
+                                        :name="`items[${pipe_id}][pemberian_pakan_per_ekor]`"
+                                        type="number"
+                                        class="form-control form-control-sm"
+                                        x-model="pipes[pipe_id].pemberian_pakan_per_ekor"
+                                        step="0.01"
+                                        min="0"
+                                    />
+                                </td>
+                            @endif
                             <td class="text-right">
                                 <span x-text="pemberianPakanPipeKg.toLocaleString('id')"></span>
                             </td>

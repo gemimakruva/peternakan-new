@@ -89,6 +89,11 @@ class UserSeeder extends Seeder
                 'kandang.populasi.menu-rekapan-karantina',
 
                 'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.list-perhitungan-pemberian-pakan',
+                'kandang.pakan.create-perhitungan-pemberian-pakan',
+                'kandang.pakan.edit-perhitungan-pemberian-pakan',
+                'kandang.pakan.detail-perhitungan-pemberian-pakan',
+
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',
@@ -211,6 +216,10 @@ class UserSeeder extends Seeder
                 'gudang-pakan.pakan-mixing.menu-pakan-mixing',
                 'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
                 'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
+
+                'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.list-perhitungan-pemberian-pakan',
+                'kandang.pakan.detail-perhitungan-pemberian-pakan',
             ]
         );
     }
@@ -263,6 +272,10 @@ class UserSeeder extends Seeder
             'kandang.populasi.menu-rekapan-karantina',
 
             'kandang.pakan.menu-perhitungan-pemberian-pakan',
+            'kandang.pakan.list-perhitungan-pemberian-pakan',
+            'kandang.pakan.create-perhitungan-pemberian-pakan',
+            'kandang.pakan.edit-perhitungan-pemberian-pakan',
+            'kandang.pakan.detail-perhitungan-pemberian-pakan',
             'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
             'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
             'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',

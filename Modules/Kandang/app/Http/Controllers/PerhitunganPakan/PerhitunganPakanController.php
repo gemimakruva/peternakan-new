@@ -5,8 +5,8 @@ namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Validation\Rule;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Illuminate\Http\Request;
 use Modules\Kandang\Models\JenisPakan;
@@ -35,6 +35,8 @@ class PerhitunganPakanController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('kandang.pakan.list-perhitungan-pemberian-pakan');
+
         $datas = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['kandang_id', 'jenis_pakan_id']),
@@ -50,6 +52,8 @@ class PerhitunganPakanController extends Controller
 
     public function create()
     {
+        Gate::authorize('kandang.pakan.create-perhitungan-pemberian-pakan');
+
         $listKandang = $this->kandang
             ->orderBy('nama')
             ->pluck('nama', 'id');
@@ -69,6 +73,8 @@ class PerhitunganPakanController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('kandang.pakan.create-perhitungan-pemberian-pakan');
+
         $validated = $request->validate([
             'tanggal_pemberian_pakan'   => ['required', 'date', function ($attr, $value, $fail) use($request) {
                 $isExists = $this->repository->getModel()
@@ -135,6 +141,8 @@ class PerhitunganPakanController extends Controller
      */
     public function edit(PerhitunganPakan $perhitunganPakan)
     {
+        Gate::authorize('kandang.pakan.edit-perhitungan-pemberian-pakan');
+
         [$data, $initialState] = $this->service->getTableInitialState($perhitunganPakan);
 
         $listKandang = $this->kandang
@@ -156,12 +164,40 @@ class PerhitunganPakanController extends Controller
             'listJenisPakan',
         ]));
     }
+    
+    public function show(PerhitunganPakan $perhitunganPakan)
+    {
+        Gate::authorize('kandang.pakan.detail-perhitungan-pemberian-pakan');
+
+        [$data, $initialState] = $this->service->getTableInitialState($perhitunganPakan);
+
+        $listKandang = $this->kandang
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+        $listUser = $this->user
+            ->where('id', '<>', auth()->id())
+            ->orderBy('name')
+            ->pluck('name', 'id');
+        $listJenisPakan = $this->jenisPakan
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+
+        return view("kandang::perhitungan-pakan.show", compact([
+            'data',
+            'initialState',
+            'listKandang',
+            'listUser',
+            'listJenisPakan',
+        ]));
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, PerhitunganPakan $perhitunganPakan)
     {
+        Gate::authorize('kandang.pakan.edit-perhitungan-pemberian-pakan');
+
         $validated = $request->validate([
             'tanggal_pemberian_pakan'   => ['required', 'date', function ($attr, $value, $fail) use($perhitunganPakan) {
                 $isExists = $this->repository->getModel()
