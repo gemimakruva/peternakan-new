@@ -27,6 +27,9 @@ class PakanFinishedGoodInventoryShowRepository extends EloquentRepository
         $query = $this->model
             ->query()
             ->join('bahan_pakan_formulasi', 'bahan_pakan_formulasi.id', '=', 'pakan_finished_good_inventory.formulasi_mix_id')
+            ->when($this->bahanPakanFormulasiId, function ($query, $bahanPakanFormulasiId) {
+                $query->where('pakan_finished_good_inventory.formulasi_mix_id', '=', $bahanPakanFormulasiId);
+            })
             ->selectRaw(<<<SQL
                 bahan_pakan_formulasi.id
                 , bahan_pakan_formulasi.nama as nama_formulasi

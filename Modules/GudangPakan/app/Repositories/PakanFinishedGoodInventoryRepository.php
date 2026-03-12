@@ -34,7 +34,8 @@ class PakanFinishedGoodInventoryRepository extends EloquentRepository
                 PakanFinishedGoodInventoryTipe::MASUK->value,
                 PakanFinishedGoodInventoryTipe::KELUAR->value,
                 PakanFinishedGoodInventoryTipe::OPNAME->value,
-            ]);
+            ])
+            ->groupBy('pakan_finished_good_inventory.formulasi_mix_id');
 
         return $query;
     }
