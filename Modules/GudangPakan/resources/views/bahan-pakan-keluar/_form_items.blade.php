@@ -46,6 +46,12 @@
                                 :name="`items[${i}][id]`"
                                 :value="item?.id"
                             />
+
+                            <input
+                                type="hidden"
+                                :name="`items[${i}][saldo]`"
+                                :value="bahanPakan.saldo"
+                            />
                             
                             <x-adminlte-select
                                 name="bahan_pakan_id"

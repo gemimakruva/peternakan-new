@@ -4,9 +4,11 @@ namespace Modules\GudangPakan\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Modules\GudangPakan\Models\BahanPakanFormulasi;
 use Modules\GudangPakan\Models\PakanMixing;
 use Modules\GudangPakan\Repositories\BahanPakanFormulasiRepository;
 use Modules\GudangPakan\Repositories\PakanMixingRepository;
+use Modules\GudangPakan\Services\MixingPakanService;
 
 class PakanMixingController extends Controller
 {
@@ -38,7 +40,10 @@ class PakanMixingController extends Controller
         $validated = $request->validate([
             'formulasi_mix_id'   => ['required', 'exists:bahan_pakan_formulasi,id'],
             'tanggal'               => ['required', 'date_format:Y-m-d\TH:i'],
-            'jumlah_campuran'       => ['required', 'numeric', 'min:0'],
+            'jumlah_campuran'       => ['required', 'numeric', 'min:0', function ($attr, $value, $fail) use($request) {
+                $errorMessage = app(MixingPakanService::class)->validateStokKebutuhanMixing($request->integer('formulasi_mix_id'), (float) $value);
+                if ($errorMessage) $fail($errorMessage);
+            }],
         ]);
 
         $validated['pic_user_id'] = auth()->id();
@@ -67,7 +72,15 @@ class PakanMixingController extends Controller
         $validated = $request->validate([
             'formulasi_mix_id'   => ['required', 'exists:bahan_pakan_formulasi,id'],
             'tanggal'               => ['required', 'date_format:Y-m-d\TH:i'],
-            'jumlah_campuran'       => ['required', 'numeric', 'min:0'],
+            'jumlah_campuran'       => ['required', 'numeric', 'min:0', function ($attr, $value, $fail) use($request, $pakanMixing) {
+                $errorMessage = app(MixingPakanService::class)->validateStokKebutuhanMixing(
+                    $request->integer('formulasi_mix_id'), 
+                    (float) $value,
+                    'pakan_mixing_item_id',
+                    $pakanMixing->pakanMixingItem->pluck('id')->toArray()
+                );
+                if ($errorMessage) $fail($errorMessage);
+            }],
         ]);
 
         $validated['id'] = $pakanMixing->id;

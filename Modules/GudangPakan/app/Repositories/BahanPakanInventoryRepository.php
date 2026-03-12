@@ -9,13 +9,28 @@ use Modules\Kandang\Repositories\EloquentRepository;
 
 class BahanPakanInventoryRepository extends EloquentRepository
 {
+    private ?string $exceptColumn = null;
+    private ?array $exceptIds = null;
+
     public function __construct(BahanPakanInventory $model)
     {
         parent::__construct($model);
     }
 
+    public function setContext($exceptColumn = null, $exceptIds = null) {
+        if ($exceptColumn) $this->exceptColumn = $exceptColumn;
+        if ($exceptIds) $this->exceptIds = $exceptIds;
+        return $this;
+    }
+
     public function getQuery(): Builder
     {
+        $notInSql = "";
+        if ($this->exceptColumn && $this->exceptIds) {
+            $placeholders = implode(',', $this->exceptIds);
+            $notInSql = "AND bahan_pakan_inventory.$this->exceptColumn NOT IN ($placeholders)";
+        }
+
         $query = $this->model->query()
             ->leftJoin('bahan_pakan', 'bahan_pakan.id', '=', 'bahan_pakan_inventory.bahan_pakan_id')
             ->leftJoin('satuan', 'satuan.id', '=', 'bahan_pakan.satuan_id')
@@ -28,7 +43,7 @@ class BahanPakanInventoryRepository extends EloquentRepository
                 , sum(
                     CASE
                         WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
-                        WHEN bahan_pakan_inventory.tipe = ? THEN -bahan_pakan_inventory.jumlah
+                        WHEN bahan_pakan_inventory.tipe = ? $notInSql THEN -bahan_pakan_inventory.jumlah
                         WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
                         ELSE 0
                     END
@@ -49,5 +64,11 @@ class BahanPakanInventoryRepository extends EloquentRepository
                 $query->where('bahan_pakan.tipe', '=', $tipe);
             }
         ];
+    }
+
+    public function findByBahanPakanId($bahanPakanId)
+    {
+        $bahanPakan = $this->getQuery()->where('bahan_pakan.id', '=', $bahanPakanId)->first();
+        return $bahanPakan;
     }
 }

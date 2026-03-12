@@ -24,4 +24,9 @@ class PakanPreMixingItem extends Model
     {
         return $this->belongsTo(BahanPakan::class, 'bahan_pakan_id', 'id');
     }
+
+    public function bahanPakanInventory()
+    {
+        return $this->hasOne(BahanPakanInventory::class, 'pakan_pre_mixing_item_id', 'id');
+    }
 }

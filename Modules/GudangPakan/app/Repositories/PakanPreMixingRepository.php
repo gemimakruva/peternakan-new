@@ -53,6 +53,7 @@ class PakanPreMixingRepository extends EloquentRepository
 
         $listFormulasi = $pakanPreMixing->formulasiPremix->bahanPakanFormulasiItem->map(function ($item) use($pakanPreMixing) {
             return [
+                'id' => $item->id,
                 'persentase' => $item->persentase,
                 'bahan_pakan_nama' => $item->bahanPakan->nama,
                 'bahan_pakan_harga_per_satuan' => $item->bahanPakan->harga_satuan,
@@ -82,7 +83,7 @@ class PakanPreMixingRepository extends EloquentRepository
                 'pakan_pre_mixing_item_id' => $pakanPreMixingItem->id,
             ], [
                 'tanggal' => $pakanPreMixing->created_at->format('Y-m-d'),
-                'jumlah' => $pakanPreMixing->jumlah_campuran,
+                'jumlah' => $formulasi['jumlah'],
                 'bahan_pakan_id' => $formulasi['bahan_pakan_id'],
             ]);
         }

@@ -9,6 +9,7 @@ use Modules\GudangPakan\Enums\BahanPakanKeluarTujuan;
 use Modules\GudangPakan\Models\BahanPakanKeluar;
 use Modules\GudangPakan\Repositories\BahanPakanKeluarRepository;
 use Modules\GudangPakan\Repositories\MasterData\BahanPakanRepository;
+use Modules\GudangPakan\Services\MixingPakanService;
 
 class BahanPakanKeluarController extends Controller
 {
@@ -55,7 +56,7 @@ class BahanPakanKeluarController extends Controller
     {
         $data = $bahanPakanKeluar;
         $listTujuan = BahanPakanKeluarTujuan::getSelectItems2();
-        $listBahanPakan = $this->bahanPakanRepository->getSelectItemsWithSaldo();
+        $listBahanPakan = $this->bahanPakanRepository->getSelectItemsWithSaldo($bahanPakanKeluar->id);
         return view('gudang-pakan::bahan-pakan-keluar.edit', compact([
             'data', 'listTujuan', 'listBahanPakan',
         ]));
@@ -69,7 +70,19 @@ class BahanPakanKeluarController extends Controller
             'items.*' => ['nullable', 'array'],
             'items.*.id' => ['nullable', 'exists:bahan_pakan_inventory,id'],
             'items.*.bahan_pakan_id' => ['required', 'exists:bahan_pakan,id'],
-            'items.*.jumlah' => ['required', 'numeric', 'min:0'],
+            'items.*.jumlah' => ['required', 'numeric', 'min:0', function ($attr, $value, $fail) use($request, $bahanPakanKeluar) {
+                $i = explode('.', $attr)[1];
+                $stok = $request->float("items.$i.saldo");
+                $kebutuhan = (float) $value;
+                if ($stok < $kebutuhan) {
+                    $bahanPakanId = $request->integer("items.$i.bahan_pakan_id");
+                    $bahanPakan = $this->bahanPakanRepository->getModel()->with('satuan')->find($bahanPakanId);
+                    $namaBahan = $bahanPakan->nama;
+                    $namaSatuan = $bahanPakan->satuan->nama;
+                    $msg = "Bahan Pakan Gagal Dikeluarkan, Stok $namaBahan sisa $stok $namaSatuan, tidak dapat memenuhi kebutuhan sebanyak $kebutuhan $namaSatuan!";
+                    $fail($msg);
+                }
+            }],
         ]);
 
         $validated['id'] = $bahanPakanKeluar->id;

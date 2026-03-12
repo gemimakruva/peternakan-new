@@ -36,4 +36,25 @@ class BahanPakanFormulasiItem extends Model
     {
         return $this->belongsTo(BahanPakan::class, 'bahan_pakan_id', 'id');
     }
+
+    public function getKebutuhanPerKgAttribute()
+    {
+        if ($this->attributes['formulasi_premix_id']) {
+            return (object) [
+                'persentase' => $this->attributes['persentase']/100,
+                'bahan' => $this->formulasiPremix->nama,
+                'satuan' => 'Kg',
+                'konversi' => 1, // basis konversi kg
+                'kebutuhan' => $this->attributes['persentase']/100, // konversi sesuai satuan
+            ];
+        } else {
+            return (object) [
+                'persentase' => $this->attributes['persentase']/100,
+                'bahan' => $this->bahanPakan->nama,
+                'satuan' => $this->bahanPakan->satuan->nama,
+                'konversi' => $this->bahanPakan->satuan->konversi_satuan/1000, // basis konversi kg
+                'kebutuhan' => ($this->attributes['persentase']/100)/($this->bahanPakan->satuan->konversi_satuan/1000), // konversi sesuai satuan
+            ];
+        }
+    }
 }

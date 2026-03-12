@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Modules\GudangPakan\Models\PakanPreMixing;
 use Modules\GudangPakan\Repositories\BahanPakanFormulasiRepository;
 use Modules\GudangPakan\Repositories\PakanPreMixingRepository;
+use Modules\GudangPakan\Services\MixingPakanService;
 
 class PakanPreMixingController extends Controller
 {
@@ -39,7 +40,10 @@ class PakanPreMixingController extends Controller
         $validated = $request->validate([
             'formulasi_premix_id'   => ['required', 'exists:bahan_pakan_formulasi,id'],
             'tanggal'               => ['required', 'date_format:Y-m-d\TH:i'],
-            'jumlah_campuran'       => ['required', 'numeric', 'min:0'],
+            'jumlah_campuran'       => ['required', 'numeric', 'min:0', function ($attr, $value, $fail) use($request) {
+                $errorMessage = app(MixingPakanService::class)->validateStokKebutuhanMixing($request->integer('formulasi_premix_id'), (float) $value);
+                if ($errorMessage) $fail($errorMessage);
+            }],
         ]);
 
         $validated['pic_user_id'] = auth()->id();
@@ -65,7 +69,15 @@ class PakanPreMixingController extends Controller
         $validated = $request->validate([
             'formulasi_premix_id'   => ['required', 'exists:bahan_pakan_formulasi,id'],
             'tanggal'               => ['required', 'date_format:Y-m-d\TH:i'],
-            'jumlah_campuran'       => ['required', 'numeric', 'min:0'],
+            'jumlah_campuran'       => ['required', 'numeric', 'min:0', function ($attr, $value, $fail) use($request, $pakanPreMixing) {
+                $errorMessage = app(MixingPakanService::class)->validateStokKebutuhanMixing(
+                    $request->integer('formulasi_premix_id'), 
+                    (float) $value,
+                    'pakan_pre_mixing_item_id',
+                    $pakanPreMixing->pakanPreMixingItem->pluck('id')->toArray()
+                );
+                if ($errorMessage) $fail($errorMessage);
+            }],
         ]);
 
         $validated['id'] = $pakanPreMixing->id;

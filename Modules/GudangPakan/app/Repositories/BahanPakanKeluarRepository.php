@@ -56,6 +56,7 @@ class BahanPakanKeluarRepository extends EloquentRepository
                 'tipe' => BahanPakanInventoryTipe::KELUAR,
             ], [
                 'bahan_pakan_id' => $item['bahan_pakan_id'],
+                'tanggal' => @$data['tanggal'],
                 'jumlah' => $item['jumlah'],
             ]);
             $bahanPakanInventoryIds[] = $inventory->id;
