@@ -50,6 +50,10 @@ class PakanMixingController extends Controller
 
     public function edit(PakanMixing $pakanMixing)
     {
+        $pakanMixing->load([
+            'pakanMixingItem.bahanPakan',
+            'pakanMixingItem.formulasiPremix',
+        ]);
         $data = $pakanMixing;
         $listFormulasi = $this->formulasiRepository->getSelectItems3();
         return view('gudang-pakan::pakan-mixing.edit', compact([
