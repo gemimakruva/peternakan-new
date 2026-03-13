@@ -12,7 +12,6 @@ class SupplierKemasan extends Model
         'supplier_id',
         'kemasan_id',
         'kode_barang',
-        'harga',
         'jenis_pengiriman',
     ];
 

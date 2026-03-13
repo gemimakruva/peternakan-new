@@ -24,19 +24,19 @@ class SupplierSeeder extends Seeder
             Kemasan::firstOrCreate($data);
         }
 
-        $datas = [];
-        for ($i=0; $i < 11; $i++) { 
-            $company = fake()->company();
-            $address = fake()->address();
-            $datas[] = [
-                'tipe'          => SupplierTipe::KEMASAN->value,
-                'nama'          => $company,
-                'badan_usaha'   => $company,
-                'kontak'        => fake()->numerify("+628##########"),
-                'alamat'        => $address,
-                'lokasi'        => $address,
-            ];
-        }
-        Supplier::insert($datas);
+        // $datas = [];
+        // for ($i=0; $i < 11; $i++) { 
+        //     $company = fake()->company();
+        //     $address = fake()->address();
+        //     $datas[] = [
+        //         'tipe'          => SupplierTipe::KEMASAN->value,
+        //         'nama'          => $company,
+        //         'badan_usaha'   => $company,
+        //         'kontak'        => fake()->numerify("+628##########"),
+        //         'alamat'        => $address,
+        //         'lokasi'        => $address,
+        //     ];
+        // }
+        // Supplier::insert($datas);
     }
 }

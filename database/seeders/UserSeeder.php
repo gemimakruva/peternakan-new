@@ -172,6 +172,8 @@ class UserSeeder extends Seeder
             'petugas-gudang-telur@peternakan.com',
             'Petugas Gudang Telur',
             [
+                'master-data.master-data.menu-kemasan',
+
                 'kandang.telur.menu-produksi-telur',
                 'kandang.telur.list-produksi-telur',
                 'kandang.telur.detail-produksi-telur',

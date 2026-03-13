@@ -53,6 +53,12 @@ class KemasanController extends Controller
     {
         $data = $kemasan;
         $listSatuan = $this->satuanRepository->getSelectItems();
+        $data->load([
+            'priceable' => function ($q) {
+                $q->orderByDesc('created_at');
+                $q->orderByDesc('id');
+            }
+        ]);
         return view('gudang-telur::master-data.kemasan.edit', compact(['listSatuan', 'data']));
     }
 

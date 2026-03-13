@@ -51,11 +51,11 @@ class KemasanInputController extends Controller
             'tanggal'       => ['required', 'date_format:Y-m-d'],
             'items.*'       => ['required', 'array'],
             'items.*.kemasan_id'    => ['required', 'exists:kemasan,id'],
-            'items.*.jumlah'        => ['required', 'numeric'],
+            'items.*.harga_satuan'  => ['required', 'numeric', 'min:0'],
+            'items.*.jumlah'        => ['required', 'numeric', 'min:1'],
         ]);
 
         $validated['pic_user_id'] = auth()->id();
-
         $kemasanInput = $this->repository->save($validated);
 
         return to_route('gudang-telur.kemasan-input.edit', $kemasanInput->id)
@@ -65,7 +65,7 @@ class KemasanInputController extends Controller
     public function edit(KemasanInput $kemasanInput)
     {
         $listSupplier = $this->supplierRepository->getSelectItems();
-        $kemasanInput->load('kemasanInventory');
+        $kemasanInput->load('kemasanInventory.kemasan');
         $data = $kemasanInput;
         return view('gudang-telur::kemasan.input.edit', compact(['listSupplier', 'data']));
     }
@@ -77,7 +77,8 @@ class KemasanInputController extends Controller
             'tanggal'       => ['required', 'date_format:Y-m-d'],
             'items.*'       => ['required', 'array'],
             'items.*.kemasan_id'    => ['required', 'exists:kemasan,id'],
-            'items.*.jumlah'        => ['required', 'numeric'],
+            'items.*.harga_satuan'  => ['required', 'numeric', 'min:0'],
+            'items.*.jumlah'        => ['required', 'numeric', 'min:1'],
         ]);
 
         $validated['id'] = $kemasanInput->id;

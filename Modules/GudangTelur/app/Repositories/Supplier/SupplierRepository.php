@@ -25,4 +25,9 @@ class SupplierRepository extends EloquentRepository
     {
         $q->where('nama', 'LIKE', "%$search%");
     }
+
+    public function getSelectItems(string $column = 'nama')
+    {
+        return $this->getModel()->where('tipe', '=', SupplierTipe::KEMASAN->value)->orderBy($column)->pluck($column, 'id')->toArray();
+    }
 }

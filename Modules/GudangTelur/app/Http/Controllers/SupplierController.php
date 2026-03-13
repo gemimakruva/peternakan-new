@@ -53,14 +53,6 @@ class SupplierController extends Controller
             ->with('success', 'Data Supplier Berhasil Disimpan.');
     }
 
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('gudangtelur::show');
-    }
-
     public function edit(Supplier $supplier)
     {
         $supplier->load('supplierKemasan');
@@ -89,7 +81,6 @@ class SupplierController extends Controller
             'items.*.id'            => ['sometimes', 'numeric', 'exists:supplier_kemasan,id'],
             'items.*.kemasan_id'    => ['required', 'numeric', 'exists:kemasan,id'],
             'items.*.kode_barang'   => ['required', 'string'],
-            'items.*.harga'         => ['required', 'numeric'],
             'items.*.jenis_pengiriman'  => ['required', Rule::in(JenisPengiriman::getArrayValues())],
         ]);
 
@@ -103,7 +94,6 @@ class SupplierController extends Controller
             ], [
                 'kemasan_id'        => @$item['kemasan_id'],
                 'kode_barang'       => @$item['kode_barang'],
-                'harga'             => @$item['harga'],
                 'jenis_pengiriman'  => @$item['jenis_pengiriman'],
             ]);
             $savedSupplierKemasanIds[] = $supplierKemasan->id;
