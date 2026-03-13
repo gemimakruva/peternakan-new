@@ -21,6 +21,11 @@ class BahanPakanRepository extends EloquentRepository
         return $query;
     }
 
+    public function defaultOrder(Builder $q): void
+    {
+        $q->orderBy('nama');
+    }
+
     public function searchQuery(Builder $q, string $search): void
     {
         $q->where('nama', 'LIKE', "%$search%");

@@ -49,7 +49,36 @@ class BahanPakanInventoryShowRepository extends EloquentRepository
                         , bahan_pakan_inventory.created_at ASC
                     ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
                 ) as saldo
+                , bahan_pakan_inventory.harga_satuan
+                , SUM(
+                    CASE
+                        WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah*bahan_pakan_inventory.harga_satuan
+                        WHEN bahan_pakan_inventory.tipe = ? THEN -(bahan_pakan_inventory.jumlah*bahan_pakan_inventory.harga_satuan)
+                        WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah*bahan_pakan_inventory.harga_satuan
+                        ELSE 0
+                    END
+                ) OVER (
+                    ORDER BY bahan_pakan_inventory.tanggal, bahan_pakan_inventory.created_at
+                )/
+                SUM(
+                    CASE
+                        WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
+                        WHEN bahan_pakan_inventory.tipe = ? THEN -(bahan_pakan_inventory.jumlah)
+                        WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
+                        ELSE 1
+                    END
+                ) OVER (
+                    ORDER BY bahan_pakan_inventory.tanggal, bahan_pakan_inventory.created_at
+                ) AS mwa
             SQL, [
+                BahanPakanInventoryTipe::MASUK->value,
+                BahanPakanInventoryTipe::KELUAR->value,
+                BahanPakanInventoryTipe::OPNAME->value,
+
+                BahanPakanInventoryTipe::MASUK->value,
+                BahanPakanInventoryTipe::KELUAR->value,
+                BahanPakanInventoryTipe::OPNAME->value,
+
                 BahanPakanInventoryTipe::MASUK->value,
                 BahanPakanInventoryTipe::KELUAR->value,
                 BahanPakanInventoryTipe::OPNAME->value,
@@ -64,5 +93,14 @@ class BahanPakanInventoryShowRepository extends EloquentRepository
         $q->orderByDesc('bahan_pakan_inventory.tanggal');
         $q->orderByDesc('bahan_pakan_inventory.created_at');
         $q->orderByDesc('bahan_pakan_inventory.id');
+    }
+
+    public function getLatestMwa($bahanPakanId)
+    {
+        return $this->setContext($bahanPakanId)->getQuery()
+            ->orderByDesc('bahan_pakan_inventory.tanggal')
+            ->orderByDesc('bahan_pakan_inventory.created_at')
+            ->orderByDesc('bahan_pakan_inventory.id')
+            ->limit(1)->value('mwa');
     }
 }

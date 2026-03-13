@@ -15,12 +15,12 @@ return new class extends Migration
             $table->id();
             $table->morphs('priceable');
             $table->foreignId('pic_user_id')->constrained('users', 'id');
-            $table->decimal('harga');
+            $table->decimal('harga', 15, 3);
             $table->timestamps();
         });
 
         Schema::table('bahan_pakan', function (Blueprint $table) {
-            $table->decimal('harga');
+            $table->decimal('harga', 15, 3);
             $table->decimal('harga_satuan');
         });
     }

@@ -3,6 +3,7 @@
 namespace Modules\GudangPakan\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
 
 class BahanPakanInventory extends Model
 {
@@ -19,9 +20,12 @@ class BahanPakanInventory extends Model
         'bahan_pakan_opname_id',
         'bahan_pakan_id',
         'jumlah',
+        'harga_satuan',
     ];
 
     protected $casts = [
         'tanggal' => 'date',
+        'jumlah' => 'float',
+        'harga_satuan' => 'float',
     ];
 }

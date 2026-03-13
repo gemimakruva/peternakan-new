@@ -20,7 +20,7 @@
 
 
 @section('content')
-<div class="mx-900">
+<div class="mx-1200">
     <x-form-alert />
 
     <div class="card">
@@ -51,6 +51,8 @@
                         <th class="align-middle" style="width: 100px;">Keluar</th>
                         <th class="align-middle" style="width: 100px;">Opname</th>
                         <th class="align-middle" style="width: 100px;">Saldo</th>
+                        <th class="align-middle" style="width: 100px;">Harga</th>
+                        <th class="align-middle" style="width: 100px;" title="Moving Weighted Average">MWA</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +64,8 @@
                             <td class="text-right">{{ $data->tipe == 'keluar' ? $data->jumlah : 0 }}</td>
                             <td class="text-right">{{ $data->tipe == 'opname' ? $data->jumlah : 0 }}</td>
                             <td class="text-right">{{ $data->saldo }}</td>
+                            <td class="text-right">{{ format_angka($data->harga_satuan) }}</td>
+                            <td class="text-right">{{ format_angka($data->mwa) }}</td>
                         </tr>
                     @empty
                         <tr>

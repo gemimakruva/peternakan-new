@@ -4,7 +4,7 @@ namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
-use Modules\GudangPakan\Models\BahanPakanInventory;
+use Modules\GudangPakan\Models\BahanPakan;
 use Modules\GudangPakan\Models\BahanPakanMasuk;
 use Modules\GudangPakan\Models\BahanPakanPembelian;
 use Modules\GudangPakan\Enums\BahanPakanMasukAsal;
@@ -48,7 +48,6 @@ class BahanPakanPembelianRepository extends EloquentRepository
 
     public function save(array $data)
     {
-        // dd($data);
         $newPembelian = [
             'tanggal_pesan'     => @$data['tanggal_pesan'],
             'tanggal_datang'    => @$data['tanggal_datang'],
@@ -134,11 +133,22 @@ class BahanPakanPembelianRepository extends EloquentRepository
                 'bahan_pakan_masuk_id'          => $bahanPakanMasuk->id,
                 'bahan_pakan_id'                => $item['bahan_pakan_id'],
                 'jumlah'                        => $item['jumlah'],
+                'harga_satuan'                  => $item['harga_satuan'],
             ];
 
             $bahanPakanMasuk->bahanPakanInventory()->updateOrCreate([
                 'bahan_pakan_pembelian_item_id' => $item['id'],
             ], $newBahanPakanInventory);
+
+            $bahanPakan = app(BahanPakan::class)->find($item['bahan_pakan_id']);
+            $mwaTerakhir = app(BahanPakanInventoryShowRepository::class)->getLatestMwa($item['bahan_pakan_id']);
+            $bahanPakan->fill([
+                // 'harga' => (float) $item['jumlah'] * (float) $item['harga_satuan'], // harga asli
+                // 'harga_satuan' => (float) $item['harga_satuan'],
+                'harga' => (float) $item['jumlah'] * (float) $mwaTerakhir,
+                'harga_satuan' => (float) $mwaTerakhir,
+            ]);
+            $bahanPakan->save();
         }
     }
 }
