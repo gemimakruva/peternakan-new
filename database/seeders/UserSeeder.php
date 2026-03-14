@@ -214,8 +214,11 @@ class UserSeeder extends Seeder
                 'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
 
                 'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
+
                 'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+                'gudang-pakan.pakan-pre-mixing-opname.menu-pakan-pre-mixing-opname',
                 'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+
                 'gudang-pakan.pakan-mixing.menu-pakan-mixing',
                 'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
                 'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
@@ -333,6 +336,7 @@ class UserSeeder extends Seeder
 
             'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
             'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+            'gudang-pakan.pakan-pre-mixing-opname.menu-pakan-pre-mixing-opname',
             'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
             'gudang-pakan.pakan-mixing.menu-pakan-mixing',
             'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',

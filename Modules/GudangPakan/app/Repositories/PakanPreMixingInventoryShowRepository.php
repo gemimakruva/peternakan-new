@@ -33,6 +33,7 @@ class PakanPreMixingInventoryShowRepository extends EloquentRepository
                 , pakan_pre_mixing_inventory.jumlah
                 , pakan_pre_mixing_inventory.tipe
                 , pakan_pre_mixing_inventory.tanggal
+                , pakan_pre_mixing_inventory.created_at
                 , SUM(
                     CASE
                         WHEN pakan_pre_mixing_inventory.tipe = ? THEN pakan_pre_mixing_inventory.jumlah

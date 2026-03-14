@@ -799,6 +799,13 @@ return [
             'can'   => 'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
         ],
         [
+            'text'  => 'Opname Pre Mixing',
+            'route' => 'gudang-pakan.pakan-pre-mixing-opname.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/pakan-pre-mixing-opname/*'],
+            'can'   => 'gudang-pakan.pakan-pre-mixing-opname.menu-pakan-pre-mixing-opname',
+        ],
+        [
             'text'  => 'Inventory Pre Mixing',
             'route' => 'gudang-pakan.pakan-pre-mixing-inventory.index',
             'icon'  => 'fas fa-clipboard-list',

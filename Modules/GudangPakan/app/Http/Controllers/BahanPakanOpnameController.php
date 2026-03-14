@@ -13,7 +13,9 @@ class BahanPakanOpnameController extends Controller
     public function __construct(
         private BahanPakanOpnameRepository $repository,
         private BahanPakanInventoryRepository $bahanPakanInventoryRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-pakan.bahan-pakan-opname.menu-bahan-pakan-opname');
+    }
 
     public function index(Request $request)
     {

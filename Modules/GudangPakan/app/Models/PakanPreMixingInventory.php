@@ -12,6 +12,7 @@ class PakanPreMixingInventory extends Model
     protected $fillable = [
         'pakan_pre_mixing_id', // masuk
         'pakan_mixing_item_id', // keluar
+        'pakan_pre_mixing_opname_id', // opname
         'formulasi_premix_id', // jenis
         'tipe',
         'tanggal',

@@ -16,4 +16,9 @@ class PakanPreMixingOpname extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+
+    public function pakanPreMixingInventory()
+    {
+        return $this->hasMany(PakanPreMixingInventory::class, 'pakan_pre_mixing_opname_id', 'id');
+    }
 }

@@ -51,6 +51,7 @@
                         <th class="align-middle" style="width: 100px;">Keluar</th>
                         <th class="align-middle" style="width: 100px;">Opname</th>
                         <th class="align-middle" style="width: 100px;">Saldo</th>
+                        {{-- <th class="align-middle" style="width: 100px;">Created At</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -62,6 +63,7 @@
                             <td class="text-right">{{ $data->tipe->value == 'keluar' ? $data->jumlah : 0 }}</td>
                             <td class="text-right">{{ $data->tipe->value == 'opname' ? $data->jumlah : 0 }}</td>
                             <td class="text-right">{{ $data->saldo }}</td>
+                            {{-- <td>{{ $data->created_at }}</td> --}}
                         </tr>
                     @empty
                         <tr>

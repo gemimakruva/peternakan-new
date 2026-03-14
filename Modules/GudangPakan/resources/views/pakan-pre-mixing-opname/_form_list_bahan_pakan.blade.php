@@ -4,23 +4,21 @@
 >
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h2 class="card-title">Form Bahan Baku</h2>
+            <h2 class="card-title">List Pre-Mixing</h2>
             <button type="button" class="btn btn-primary btn-sm" x-on:click="addItem">
                 <i class="fas fa-plus"></i>
             </button>
         </div>
     </div>
-
     <div class="card-body table-responsive p-0">
         <table class="table table-hover table-striped table-bordered text-center mb-0">
             <thead>
                 <tr>
                     <th class="align-middle" style="min-width: 40px;">#</th>
-                    <th class="align-middle" style="min-width: 200px;">Bahan Baku</th>
-                    <th class="align-middle" style="min-width: 40px;">Satuan</th>
-                    <th class="align-middle" style="min-width: 150px;">Harga Satuan</th>
-                    <th class="align-middle" style="min-width: 150px;">Jumlah</th>
-                    <th class="align-middle" style="min-width: 150px;">Sub Total</th>
+                    <th class="align-middle" style="min-width: 150px;">Pre-Mixing</th>
+                    <th class="align-middle" style="min-width: 150px;">Sistem</th>
+                    <th class="align-middle" style="min-width: 150px;">Selisih</th>
+                    <th class="align-middle" style="min-width: 150px;">Real</th>
                     <th class="align-middle" style="min-width: 40px;">Aksi</th>
                 </tr>
             </thead>
@@ -28,8 +26,8 @@
                 <template x-for="(item, i) in items">
                     <tr
                         x-data="{
-                            get bahanPakan() {
-                                return listBahanPakan?.find((_item) => _item.id == item.bahan_pakan_id);
+                            get preMixing() {
+                                return listPreMixing.find((_item) => _item.id == item.formulasi_premix_id)
                             }
                         }"
                     >
@@ -46,64 +44,60 @@
                             </template>
                             
                             <x-adminlte-select
-                                name="bahan_pakan_id"
-                                x-bind:name="`items[${i}][bahan_pakan_id]`"
-                                x-model="item.bahan_pakan_id"
-                                x-on:change="item.harga_satuan = bahanPakan.harga_satuan"
+                                name="formulasi_premix_id"
+                                x-bind:name="`items[${i}][formulasi_premix_id]`"
+                                x-model="item.formulasi_premix_id"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                             >
                                 <option value="">Pilih Bahan Pakan</option>
-                                <template x-for="bahanPakan in listBahanPakan">
+                                <template x-for="_preMixing in listPreMixing">
                                     <option
-                                        :selected="bahanPakan.id == item.bahan_pakan_id"
-                                        :value="bahanPakan.id"
-                                        x-text="bahanPakan.nama"
+                                        :selected="_preMixing.id == item.formulasi_premix_id"
+                                        :value="_preMixing.id"
+                                        x-text="_preMixing.nama_formulasi"
                                     ></option>
                                 </template>
                             </x-adminlte-select>
                         </td>
                         <td>
                             <x-adminlte-input
-                                name="satuan"
-                                x-bind:name="`items[${i}][satuan]`"
-                                x-bind:value="bahanPakan?.satuan"
-                                fgroup-class="w-100 mb-0"
-                                igroup-size="sm"
-                                disabled
-                                readonly
-                            />
-                        </td>
-                        <td>
-                            <x-adminlte-input
                                 type="number"
-                                name="harga_satuan"
-                                x-bind:name="`items[${i}][harga_satuan]`"
-                                x-model="item.harga_satuan"
+                                name="stok"
+                                x-bind:name="`items[${i}][stok]`"
+                                x-bind:value="preMixing?.jumlah || 0"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
-                                step=".01"
-                            />
+                                :readonly="true"
+                            >
+                                <x-slot name="appendSlot">
+                                    <div class="input-group-text bg-secondary">Kg</div>
+                                </x-slot>
+                            </x-adminlte-input>
                         </td>
                         <td>
                             <x-adminlte-input
                                 type="number"
                                 name="jumlah"
                                 x-bind:name="`items[${i}][jumlah]`"
-                                x-model="item.jumlah"
+                                x-bind:value="item.real-Number(preMixing?.jumlah || 0)"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
-                            />
+                                :readonly="true"
+                            >
+                                <x-slot name="appendSlot">
+                                    <div class="input-group-text bg-secondary">Kg</div>
+                                </x-slot>
+                            </x-adminlte-input>
                         </td>
                         <td>
                             <x-adminlte-input
-                                name="sub_total"
-                                x-bind:name="`items[${i}][sub_total]`"
-                                x-bind:value="(Number(item.harga_satuan)*Number(item.jumlah)).toLocaleString('id-ID')"
+                                type="number"
+                                name="real"
+                                x-bind:name="`items[${i}][real]`"
+                                x-model="item.real"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
-                                disabled
-                                readonly
                             />
                         </td>
                         <td>
@@ -121,15 +115,14 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('data', () => ({
-            supplier_id: @js($data->id),
-            items: @js(old('items', $data->bahanPakanPembelianItem)),
-            listBahanPakan: @js($listBahanPakan),
+            items: @js(old('items', @$data->pakanPreMixingInventory ?? [])),
+            listPreMixing: @js($listPreMixing),
             addItem() {
                 this.items.push({
-                    supplier_id     : this.supplier_id,
-                    bahan_pakan_id  : null,
-                    harga_satuan    : null,
-                    jumlah          : null,
+                    id: null,
+                    formulasi_premix_id: null,
+                    jumlah: null,
+                    real: 0,
                 })
             },
             deleteItem(i) {
