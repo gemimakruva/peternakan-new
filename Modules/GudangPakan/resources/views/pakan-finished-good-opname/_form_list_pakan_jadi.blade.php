@@ -4,7 +4,7 @@
 >
     <div class="card-header">
         <div class="d-flex justify-content-between align-items-center">
-            <h2 class="card-title">List Pre-Mixing</h2>
+            <h2 class="card-title">List Pakan Jadi</h2>
             <button type="button" class="btn btn-primary btn-sm" x-on:click="addItem">
                 <i class="fas fa-plus"></i>
             </button>
@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     <th class="align-middle" style="min-width: 40px;">#</th>
-                    <th class="align-middle" style="min-width: 150px;">Pre-Mixing</th>
+                    <th class="align-middle" style="min-width: 150px;">Pakan Jadi</th>
                     <th class="align-middle" style="min-width: 150px;">Sistem</th>
                     <th class="align-middle" style="min-width: 150px;">Selisih</th>
                     <th class="align-middle" style="min-width: 150px;">Real</th>
@@ -26,8 +26,8 @@
                 <template x-for="(item, i) in items">
                     <tr
                         x-data="{
-                            get preMixing() {
-                                return listPreMixing.find((_item) => _item.id == item.formulasi_premix_id)
+                            get pakanJadi() {
+                                return listPakanJadi.find((_item) => _item.id == item.formulasi_mix_id)
                             }
                         }"
                     >
@@ -44,18 +44,18 @@
                             </template>
                             
                             <x-adminlte-select
-                                name="formulasi_premix_id"
-                                x-bind:name="`items[${i}][formulasi_premix_id]`"
-                                x-model="item.formulasi_premix_id"
+                                name="formulasi_mix_id"
+                                x-bind:name="`items[${i}][formulasi_mix_id]`"
+                                x-model="item.formulasi_mix_id"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                             >
-                                <option value="">Pilih Pre-Mixing</option>
-                                <template x-for="_preMixing in listPreMixing">
+                                <option value="">Pilih Pakan Jadi</option>
+                                <template x-for="_mixing in listPakanJadi">
                                     <option
-                                        :selected="_preMixing.id == item.formulasi_premix_id"
-                                        :value="_preMixing.id"
-                                        x-text="_preMixing.nama_formulasi"
+                                        :selected="_mixing.id == item.formulasi_mix_id"
+                                        :value="_mixing.id"
+                                        x-text="_mixing.nama_formulasi"
                                     ></option>
                                 </template>
                             </x-adminlte-select>
@@ -65,7 +65,7 @@
                                 type="number"
                                 name="stok"
                                 x-bind:name="`items[${i}][stok]`"
-                                x-bind:value="preMixing?.jumlah || 0"
+                                x-bind:value="pakanJadi?.jumlah || 0"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                                 :readonly="true"
@@ -80,7 +80,7 @@
                                 type="number"
                                 name="jumlah"
                                 x-bind:name="`items[${i}][jumlah]`"
-                                x-bind:value="item.real-Number(preMixing?.jumlah || 0)"
+                                x-bind:value="item.real-Number(pakanJadi?.jumlah || 0)"
                                 fgroup-class="w-100 mb-0"
                                 igroup-size="sm"
                                 :readonly="true"
@@ -115,12 +115,12 @@
 <script>
     document.addEventListener('alpine:init', () => {
         Alpine.data('data', () => ({
-            items: @js(old('items', @$data->pakanPreMixingInventory ?? [])),
-            listPreMixing: @js($listPreMixing),
+            items: @js(old('items', @$data->pakanFinishedGoodInventory ?? [])),
+            listPakanJadi: @js($listPakanJadi),
             addItem() {
                 this.items.push({
                     id: null,
-                    formulasi_premix_id: null,
+                    formulasi_mix_id: null,
                     jumlah: null,
                     real: 0,
                 })

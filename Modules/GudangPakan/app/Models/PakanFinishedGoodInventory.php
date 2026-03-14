@@ -12,6 +12,7 @@ class PakanFinishedGoodInventory extends Model
     protected $fillable = [
         'pakan_mixing_id', // masuk
         'pakan_finished_good_distribusi_id', // keluar
+        'pakan_finished_good_opname_id', // keluar
         'formulasi_mix_id', // jenis
         'tipe',
         'tanggal',

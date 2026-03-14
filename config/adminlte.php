@@ -820,6 +820,13 @@ return [
             'can' => 'gudang-pakan.pakan-mixing.menu-pakan-mixing',
         ],
         [
+            'text'  => 'Opname Pakan Jadi',
+            'route' => 'gudang-pakan.pakan-finished-good-opname.index',
+            'icon'  => 'fas fa-clipboard-list',
+            'active' => ['gudang-pakan/pakan-finished-good-opname/*'],
+            'can' => 'gudang-pakan.pakan-finished-good-opname.menu-pakan-finished-good-opname',
+        ],
+        [
             'text'  => 'Inventory Pakan Jadi',
             'route' => 'gudang-pakan.pakan-finished-good-inventory.index',
             'icon'  => 'fas fa-clipboard-list',

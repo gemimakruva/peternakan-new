@@ -11,6 +11,7 @@ use Modules\GudangPakan\Http\Controllers\BahanPakanPembelianController;
 use Modules\GudangPakan\Http\Controllers\MasterData\BahanPakanController;
 use Modules\GudangPakan\Http\Controllers\PakanFinishedGoodDistribusiController;
 use Modules\GudangPakan\Http\Controllers\PakanFinishedGoodInventoryController;
+use Modules\GudangPakan\Http\Controllers\PakanFinishedGoodOpnameController;
 use Modules\GudangPakan\Http\Controllers\PakanMixingController;
 use Modules\GudangPakan\Http\Controllers\PakanPreMixingController;
 use Modules\GudangPakan\Http\Controllers\PakanPreMixingInventoryController;
@@ -46,6 +47,7 @@ Route::middleware(['auth'])
         Route::resource('pakan-mixing', PakanMixingController::class)->names('pakan-mixing');
         Route::resource('pakan-finished-good-inventory', PakanFinishedGoodInventoryController::class)
             ->parameter('pakan-finished-good-inventory', 'bahan-pakan-formulasi')->names('pakan-finished-good-inventory')->only(['index', 'show']);
+        Route::resource('pakan-finished-good-opname', PakanFinishedGoodOpnameController::class)->names('pakan-finished-good-opname');
         Route::resource('pakan-finished-good-distribusi', PakanFinishedGoodDistribusiController::class)->names('pakan-finished-good-distribusi');
 
     });

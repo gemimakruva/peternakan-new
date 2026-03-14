@@ -16,4 +16,9 @@ class PakanFinishedGoodOpname extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
+
+    public function pakanFinishedGoodInventory()
+    {
+        return $this->hasMany(PakanFinishedGoodInventory::class, 'pakan_finished_good_opname_id', 'id');
+    }
 }
