@@ -150,6 +150,7 @@ class PopulasiAyamService
             ->firstOrFail([
                 'pengadaan_ayam.tanggal',
                 'pengadaan_ayam.umur_ayam',
+                'pengadaan_ayam.penyesuaian_hari_umur_ayam',
             ]);
 
         return $this->getUmurAyamResponse($data, $tanggalPembanding);
@@ -165,6 +166,7 @@ class PopulasiAyamService
             ->firstOrFail([
                 'pengadaan_ayam.tanggal',
                 'pengadaan_ayam.umur_ayam',
+                'pengadaan_ayam.penyesuaian_hari_umur_ayam',
             ]);
 
         return $this->getUmurAyamResponse($data, $tanggalPembanding);
@@ -180,6 +182,7 @@ class PopulasiAyamService
             ->firstOrFail([
                 'pengadaan_ayam.tanggal',
                 'pengadaan_ayam.umur_ayam',
+                'pengadaan_ayam.penyesuaian_hari_umur_ayam',
             ]);
 
         return $this->getUmurAyamResponse($data, $tanggalPembanding);
@@ -191,6 +194,9 @@ class PopulasiAyamService
         if (!$data->tanggal || !$data->umur_ayam) {
             return null;
         }
+
+        // Adjust umur ayam dengan hari
+        $tanggalPembanding->addDays($data->penyesuaian_hari_umur_ayam);
 
         // Hitung umur ayam dalam minggu
         $tanggalPengadaan = Carbon::parse($data->tanggal)->startOfDay();

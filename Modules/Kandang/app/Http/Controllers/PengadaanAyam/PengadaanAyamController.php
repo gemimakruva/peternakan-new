@@ -97,6 +97,7 @@ class PengadaanAyamController extends Controller
                 }
             }],
             'umur_ayam' => ['required', 'integer', 'min:0'],
+            'penyesuaian_hari_umur_ayam' => ['required', 'integer'],
             'jumlah_ayam_sakit' => ['required', 'integer', 'min:0'],
             'jumlah_ayam_mati' => ['required', 'integer', 'min:0'],
             'kondisi_ayam' => ['required', 'string', 'max:255'],
@@ -113,6 +114,7 @@ class PengadaanAyamController extends Controller
             'tanggal',
             'jumlah_ayam_datang',
             'umur_ayam',
+            'penyesuaian_hari_umur_ayam',
             'jumlah_ayam_sakit',
             'jumlah_ayam_mati',
             'kondisi_ayam',
