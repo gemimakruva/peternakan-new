@@ -4,6 +4,7 @@ namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
+use Modules\GudangPakan\Models\BahanPakan;
 use Modules\GudangPakan\Models\BahanPakanMasuk;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -67,12 +68,14 @@ class BahanPakanMasukRepository extends EloquentRepository
 
         $savedBahanPakanInventoryIds = [];
         foreach ($data['items'] as $item) {
+            $mwaTerakhir = app(BahanPakanInventoryShowRepository::class)->getLatestMwa($item['bahan_pakan_id']);
             $newBahanPakanInventory = [
                 'tipe'                          => BahanPakanInventoryTipe::MASUK->value,
                 'tanggal'                       => @$data['tanggal'],
                 'bahan_pakan_masuk_id'          => $bahanPakanMasuk->id,
                 'bahan_pakan_id'                => @$item['bahan_pakan_id'],
                 'jumlah'                        => @$item['jumlah'],
+                'harga_satuan'                  => $mwaTerakhir,
             ];
 
             $bahanPakanInventory = $bahanPakanMasuk->bahanPakanInventory()->updateOrCreate([

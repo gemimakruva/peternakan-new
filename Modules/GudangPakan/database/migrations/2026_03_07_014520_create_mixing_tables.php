@@ -50,6 +50,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('pakan_pre_mixing_opname', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pic_user_id')->constrained('users', 'id');
+            $table->date('tanggal');
+            $table->timestamps();
+        });
+
         Schema::create('pakan_pre_mixing_inventory', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pakan_pre_mixing_id')
@@ -60,6 +67,10 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('pakan_mixing_item', 'id')
                 ->cascadeOnDelete();  // keluar
+            $table->foreignId('pakan_pre_mixing_opname_id')
+                ->nullable()
+                ->constrained('pakan_pre_mixing_opname', 'id')
+                ->cascadeOnDelete(); // opname
             $table->foreignId('formulasi_premix_id')->constrained('bahan_pakan_formulasi', 'id'); // jenis
             $table->string('tipe');
             $table->dateTime('tanggal');
@@ -77,6 +88,13 @@ return new class extends Migration
             $table->timestamps();
         });
 
+        Schema::create('pakan_finished_good_opname', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('pic_user_id')->constrained('users', 'id');
+            $table->date('tanggal');
+            $table->timestamps();
+        });
+
         Schema::create('pakan_finished_good_inventory', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pakan_mixing_id')
@@ -87,6 +105,10 @@ return new class extends Migration
                 ->nullable()
                 ->constrained('pakan_finished_good_distribusi', 'id', 'pakan_inventory_distribusi_foreign')
                 ->cascadeOnDelete(); // keluar
+            $table->foreignId('pakan_finished_good_opname_id')
+                ->nullable()
+                ->constrained('pakan_finished_good_opname', 'id', 'pakan_inventory_opname_foreign')
+                ->cascadeOnDelete(); // opname
             $table->foreignId('formulasi_mix_id')->constrained('bahan_pakan_formulasi', 'id', 'pakan_inventory_formulasi_foreign'); // jenis
             $table->string('tipe');
             $table->dateTime('tanggal');

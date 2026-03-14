@@ -50,7 +50,6 @@ return new class extends Migration
         Schema::create('bahan_pakan_opname', function (Blueprint $table) {
             $table->id();
             $table->foreignId('pic_user_id')->constrained('users', 'id');
-            $table->string('tujuan');
             $table->date('tanggal');
             $table->timestamps();
         });
@@ -60,9 +59,9 @@ return new class extends Migration
             $table->string('tipe');
             $table->date('tanggal');
             $table->foreignId('bahan_pakan_pembelian_item_id')->nullable()->constrained('bahan_pakan_pembelian_item', 'id')->cascadeOnDelete();
-            $table->foreignId('bahan_pakan_masuk_id')->nullable()->constrained('bahan_pakan_masuk', 'id');
-            $table->foreignId('bahan_pakan_keluar_id')->nullable()->constrained('bahan_pakan_keluar', 'id');
-            $table->foreignId('bahan_pakan_opname_id')->nullable()->constrained('bahan_pakan_opname', 'id');
+            $table->foreignId('bahan_pakan_masuk_id')->nullable()->constrained('bahan_pakan_masuk', 'id')->cascadeOnDelete();
+            $table->foreignId('bahan_pakan_keluar_id')->nullable()->constrained('bahan_pakan_keluar', 'id')->cascadeOnDelete();
+            $table->foreignId('bahan_pakan_opname_id')->nullable()->constrained('bahan_pakan_opname', 'id')->cascadeOnDelete();
             $table->foreignId('bahan_pakan_id')->constrained('bahan_pakan', 'id');
             $table->integer('jumlah');
             $table->timestamps();

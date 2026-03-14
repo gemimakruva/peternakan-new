@@ -53,6 +53,7 @@
                         <th class="align-middle" style="width: 100px;">Saldo</th>
                         <th class="align-middle" style="width: 100px;">Harga</th>
                         <th class="align-middle" style="width: 100px;" title="Moving Weighted Average">MWA</th>
+                        {{-- <th>Created At</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -66,6 +67,7 @@
                             <td class="text-right">{{ $data->saldo }}</td>
                             <td class="text-right">{{ format_angka($data->harga_satuan) }}</td>
                             <td class="text-right">{{ format_angka($data->mwa) }}</td>
+                            {{-- <td>{{ $data->created_at }}</td> --}}
                         </tr>
                     @empty
                         <tr>

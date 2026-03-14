@@ -4,6 +4,7 @@ namespace Modules\GudangPakan\Repositories;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
+use Modules\GudangPakan\Models\BahanPakan;
 use Modules\GudangPakan\Models\BahanPakanInventory;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -36,6 +37,7 @@ class BahanPakanInventoryShowRepository extends EloquentRepository
                 , bahan_pakan_inventory.jumlah
                 , bahan_pakan_inventory.tipe
                 , bahan_pakan_inventory.tanggal
+                , bahan_pakan_inventory.created_at
                 , SUM(
                     CASE
                         WHEN bahan_pakan_inventory.tipe = ? THEN bahan_pakan_inventory.jumlah
@@ -95,12 +97,27 @@ class BahanPakanInventoryShowRepository extends EloquentRepository
         $q->orderByDesc('bahan_pakan_inventory.id');
     }
 
-    public function getLatestMwa($bahanPakanId)
+    /**
+     * ambil mwa terakhir untuk validate isi transaksi selain barang masuk, dengan asumsi transaksi selain barang masuk tidak mempengaruhi mwa
+     * @param mixed $bahanPakanId
+     * @param mixed $bahanPakanInventory
+     * @return float
+     */
+    public function getLatestMwa($bahanPakanId, ?BahanPakanInventory $bahanPakanInventory = null)
     {
-        return $this->setContext($bahanPakanId)->getQuery()
+        $hargaBahanPakan = (float) app(BahanPakan::class)->where('id', '=', $bahanPakanId)->value('harga_satuan');
+
+        $mwa = (float) $this->setContext($bahanPakanId)->getQuery()
+            ->when($bahanPakanInventory, function ($query, $bahanPakanInventory) {
+                // untuk case add inventory tidak di tanggal terbaru
+                $query->where('bahan_pakan_inventory.tanggal', '<=', $bahanPakanInventory->tanggal);
+                $query->where('bahan_pakan_inventory.created_at', '<', $bahanPakanInventory->created_at);
+            })
             ->orderByDesc('bahan_pakan_inventory.tanggal')
             ->orderByDesc('bahan_pakan_inventory.created_at')
             ->orderByDesc('bahan_pakan_inventory.id')
             ->limit(1)->value('mwa');
+
+        return ($mwa == 0) ? $hargaBahanPakan : $mwa;
     }
 }

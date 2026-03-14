@@ -5,6 +5,7 @@ namespace Modules\GudangPakan\Repositories;
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangPakan\Enums\BahanPakanInventoryTipe;
 use Modules\GudangPakan\Models\BahanPakan;
+use Modules\GudangPakan\Models\BahanPakanInventory;
 use Modules\GudangPakan\Models\BahanPakanKeluar;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -52,7 +53,8 @@ class BahanPakanKeluarRepository extends EloquentRepository
 
         $bahanPakanInventoryIds = [];
         foreach (($data['items'] ?? []) as $item) {
-            $mwaTerakhir = app(BahanPakanInventoryShowRepository::class)->getLatestMwa($item['bahan_pakan_id']);
+            $beforeInventory = app(BahanPakanInventory::class)->find($item['id']);
+            $mwaTerakhir = app(BahanPakanInventoryShowRepository::class)->getLatestMwa($item['bahan_pakan_id'], $beforeInventory);
             $inventory = $bahanPakanKeluar->bahanPakanInventory()->updateOrCreate([
                 'id' => $item['id'],
                 'tipe' => BahanPakanInventoryTipe::KELUAR,

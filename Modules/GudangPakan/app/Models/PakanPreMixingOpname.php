@@ -4,9 +4,9 @@ namespace Modules\GudangPakan\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class BahanPakanOpname extends Model
+class PakanPreMixingOpname extends Model
 {
-    public $table = 'bahan_pakan_opname';
+    public $table = 'pakan_pre_mixing_opname';
 
     protected $fillable = [
         'pic_user_id',
@@ -16,9 +16,4 @@ class BahanPakanOpname extends Model
     protected $casts = [
         'tanggal' => 'date',
     ];
-
-    public function bahanPakanInventory()
-    {
-        return $this->hasMany(BahanPakanInventory::class, 'bahan_pakan_opname_id', 'id');
-    }
 }
