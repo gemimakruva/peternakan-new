@@ -56,7 +56,7 @@ class PakanFinishedGoodOpnameController extends Controller
         $pakanFinishedGoodOpname->load('pakanFinishedGoodInventory');
         $listPakanJadi = $this->pakanFinishedGoodInventoryRepository
             ->getQuery()
-            ->where('tanggal', '<', $pakanFinishedGoodOpname->tanggal)
+            ->where('tanggal', '<=', $pakanFinishedGoodOpname->tanggal)
             ->orderBy('nama_formulasi')
             ->get();
         $pakanFinishedGoodOpname->pakanFinishedGoodInventory->transform(function($item) use($listPakanJadi) {

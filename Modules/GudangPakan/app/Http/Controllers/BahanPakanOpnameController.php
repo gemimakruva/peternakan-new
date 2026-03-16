@@ -56,7 +56,11 @@ class BahanPakanOpnameController extends Controller
 
     public function edit(BahanPakanOpname $bahanPakanOpname)
     {
-        $listBahanPakan = $this->bahanPakanInventoryRepository->getQuery()->orderBy('nama_bahan_pakan')->get(); // harusnya saat tanggal terpilih
+        $listBahanPakan = $this->bahanPakanInventoryRepository
+            ->getQuery()
+            ->where('tanggal', '<=', $bahanPakanOpname->tanggal)
+            ->orderBy('nama_bahan_pakan')
+            ->get();
         $bahanPakanOpname->load('bahanPakanInventory');
         $bahanPakanOpname->bahanPakanInventory->transform(function($item) use($listBahanPakan) {
             $xx = $listBahanPakan->first(fn($x) => $x->id == $item['bahan_pakan_id']);

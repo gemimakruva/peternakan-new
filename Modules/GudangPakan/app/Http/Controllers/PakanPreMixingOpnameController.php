@@ -54,7 +54,11 @@ class PakanPreMixingOpnameController extends Controller
     public function edit(PakanPreMixingOpname $pakanPreMixingOpname)
     {
         $pakanPreMixingOpname->load('pakanPreMixingInventory');
-        $listPreMixing = $this->pakanPreMixingInventoryRepository->getQuery()->orderBy('nama_formulasi')->get();
+        $listPreMixing = $this->pakanPreMixingInventoryRepository
+            ->getQuery()
+            ->where('tanggal', '<=', $pakanPreMixingOpname->tanggal)
+            ->orderBy('nama_formulasi')
+            ->get();
         $pakanPreMixingOpname->pakanPreMixingInventory->transform(function($item) use($listPreMixing) {
             $xx = $listPreMixing->first(fn($x) => $x->id == $item['formulasi_premix_id']);
             $item->real = $xx->jumlah + $item->jumlah;
