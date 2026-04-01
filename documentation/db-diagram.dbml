@@ -1,17 +1,133 @@
 Table users {
   id biginteger [PK, increment]
   name varchar
-  email varchar
+  email varchar [unique]
+  email_verified_at timestamp [null]
   password varchar
+  remember_token varchar [null]
+  avatar_filepath varchar [null]
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
 }
 
+Table password_reset_tokens {
+  email varchar [PK]
+  token varchar
+  created_at timestamp [null]
+}
+
+Table sessions {
+  id varchar [PK]
+  user_id biginteger [null, Ref : > users.id]
+  ip_address varchar(45) [null]
+  user_agent text [null]
+  payload longtext
+  last_activity integer
+}
+
+Table cache {
+  key varchar [PK]
+  value mediumtext
+  expiration integer
+}
+
+Table cache_locks {
+  key varchar [PK]
+  owner varchar
+  expiration integer
+}
+
+Table jobs {
+  id biginteger [PK, increment]
+  queue varchar
+  payload longtext
+  attempts unsignedTinyInteger
+  reserved_at unsignedInteger [null]
+  available_at unsignedInteger
+  created_at unsignedInteger
+}
+
+Table job_batches {
+  id varchar [PK]
+  name varchar
+  total_jobs integer
+  pending_jobs integer
+  failed_jobs integer
+  failed_job_ids longtext
+  options mediumtext [null]
+  cancelled_at integer [null]
+  created_at integer
+  finished_at integer [null]
+}
+
+Table failed_jobs {
+  id biginteger [PK, increment]
+  uuid varchar [unique]
+  connection text
+  queue text
+  payload longtext
+  exception longtext
+  failed_at timestamp
+}
+
+Table permissions {
+  id biginteger [PK, increment]
+  name varchar
+  guard_name varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table roles {
+  id biginteger [PK, increment]
+  name varchar
+  guard_name varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table model_has_permissions {
+  permission_id biginteger [Ref : > permissions.id]
+  model_type varchar
+  model_morph_key biginteger
+}
+
+Table model_has_roles {
+  role_id biginteger [Ref : > roles.id]
+  model_type varchar
+  model_morph_key biginteger
+}
+
+Table role_has_permissions {
+  permission_id biginteger [Ref : > permissions.id]
+  role_id biginteger [Ref : > roles.id]
+}
+
+Table options {
+  id biginteger [PK, increment]
+  key varchar
+  value text [null]
+  user_id biginteger [null, Ref : > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table notifications {
+  id uuid [PK]
+  type varchar
+  notifiable_type varchar
+  notifiable_id biginteger
+  data text
+  read_at timestamp [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
 Table peternakan { // auditable
   id biginteger [PK, increment]
   nama varchar
-  lokasi varchar
+  lokasi varchar [null]
   created_at timestamp
   updated_at timestamp
   deleted_at timestamp
@@ -26,19 +142,19 @@ Table strain { // auditable
 }
 
 Table strain_standart_metric {
-  id biginteger // auditable
+  id biginteger [PK, increment] // auditable
   strain_id biginteger [Ref : > strain.id]
-  umur decimal [note: 'minggu']
-  berat_badan_min decimal [note: 'gram']
-  berat_badan_max decimal [note: 'gram']
-  berat_badan decimal [note: 'gram']
-  persentase_kematian decimal
-  feed_intake decimal
-  fcr decimal
-  hdp decimal
-  hhp decimal
-  egg_weight decimal [note: 'gram per butir']
-  egg_mass decimal [note: 'gram per ekor per hari']
+  umur integer [note: 'minggu']
+  berat_badan_min float [null, note: 'gram']
+  berat_badan_max float [null, note: 'gram']
+  berat_badan float [null, note: 'gram']
+  persentase_kematian float [null]
+  feed_intake float [null]
+  fcr float [null]
+  hdp float [null]
+  hhp float [null]
+  egg_weight float [null, note: 'gram per butir']
+  egg_mass float [null, note: 'gram per ekor per hari']
   created_at timestamp
   updated_at timestamp
 }
@@ -66,21 +182,23 @@ Table pipe { // auditable
   id biginteger [PK, increment]
   flock_id int [Ref : > flock.id]
   nama varchar
-  kapasitas decimal
+  kapasitas integer
   created_at timestamp
   updated_at timestamp
 }
 
 Table pengadaan_ayam { // auditable
   id biginteger [PK, increment]
+  kandang_id biginteger [Ref : > kandang.id]
   pic_user_id biginteger [Ref : > users.id]
-  tanggal datetime
+  tanggal date
   umur_ayam integer [note: 'dalam satuan minggu']
+  penyesuaian_hari_umur_ayam integer [default: 0]
   kondisi_ayam varchar
-  jumlah_ayam_datang integer
-  jumlah_ayam_mati integer
-  jumlah_ayam_sakit integer
-  jumlah_ayam_masuk_kandang integer
+  jumlah_ayam_datang integer [default: 0]
+  jumlah_ayam_mati integer [default: 0]
+  jumlah_ayam_sakit integer [default: 0]
+  jumlah_ayam_masuk_kandang integer [default: 0]
   catatan text [null]
   created_at timestamp
   updated_at timestamp
@@ -89,8 +207,8 @@ Table pengadaan_ayam { // auditable
 Table pengadaan_ayam_berkas_supplier { // auditable
   id biginteger [PK, increment]
   pengadaan_ayam_id biginteger [Ref : > pengadaan_ayam.id]
+  file_path varchar
   nama_berkas varchar [note: 'surat jalan; data berat; uniformity; rekam kesehatan; vaksin; dll']
-  filepath varchar
   created_at timestamp
   updated_at timestamp
 }
@@ -98,7 +216,7 @@ Table pengadaan_ayam_berkas_supplier { // auditable
 Table pengadaan_ayam_dokumentasi { // auditable
   id biginteger [PK, increment]
   pengadaan_ayam_id biginteger [Ref : > pengadaan_ayam.id]
-  filepath varchar [note: 'file foto']
+  file_path varchar [note: 'file foto']
   created_at timestamp
   updated_at timestamp
 }
@@ -106,26 +224,30 @@ Table pengadaan_ayam_dokumentasi { // auditable
 Table pengadaan_ayam_distribusi { // auditable
   id biginteger [PK, increment]
   pengadaan_ayam_id biginteger [Ref : > pengadaan_ayam.id]
+  kandang_id biginteger [Ref : > kandang.id]
+  flock_id biginteger [Ref : > flock.id]
   pipe_id biginteger [Ref : > pipe.id]
-  jumlah_ayam integer
+  jumlah_ayam integer [default: 0]
   created_at timestamp
   updated_at timestamp
 }
 
 Table populasi_ayam {
   id biginteger [PK, increment] // auditable
-  pengadaan_ayam_distribusi_id biginteger [Ref : > pengadaan_ayam_distribusi.id]
-  jenis_pemeriksaan enum // pengadaan, pencatatan_populasi_harian, pengecekan_kesehatan
-  pic_user_id biginteger [Ref : > users.id]
-  tanggal datetime
-  pipe_id biginteger
+  pengadaan_ayam_distribusi_id biginteger [null, Ref : > pengadaan_ayam_distribusi.id]
+  jenis_pemeriksaan varchar [default: 'harian'] // pengadaan, pencatatan_populasi_harian, pengecekan_kesehatan
+  pic_user_id biginteger [null, Ref : > users.id]
+  tanggal date
+  kandang_id biginteger [Ref : > kandang.id]
+  flock_id biginteger [Ref : > flock.id]
+  pipe_id biginteger [null, Ref : > pipe.id]
   umur_ayam_record integer
-  ayam_sehat integer [null]
-  ayam_mati integer
-  ayam_afkir integer
-  ayam_masuk_karantina integer
-  ayam_keluar_karantina integer
-  catatan text
+  ayam_sehat integer [default: 0]
+  ayam_mati integer [default: 0]
+  ayam_afkir integer [default: 0]
+  ayam_masuk_karantina integer [default: 0]
+  ayam_keluar_karantina integer [default: 0]
+  catatan text [null]
   created_at timestamp
   updated_at timestamp
 }
@@ -134,36 +256,54 @@ Table karantina_populasi {
   id biginteger [PK, increment]
   kandang_id biginteger [Ref : > kandang.id]
   pic_user_id biginteger [Ref : > users.id]
-  // populasi_ayam_id biginteger [null]
-  total_ayam_karantina integer
-  tanggal datetime
-  ayam_mati integer
-  ayam_afkir integer
-  pemberian_pakan decimal
-  sisa_pakan decimal
-  jumlah_telur_bagus integer
-  jumlah_telur_retak integer
-  jumlah_telur_rusak integer
-  berat_telur_bagus decimal
-  berat_telur_retak decimal
-  berat_telur_rusak decimal
-  pengobatan_yang_dilakukan varchar
-  jumlah_ayam_diobati integer
-  penyemprotan varchar
-  vaksin varchar
-  catatan text
+  total_ayam_karantina integer [default: 0]
+  tanggal date
+  ayam_mati integer [default: 0]
+  ayam_afkir integer [default: 0]
+  pemberian_pakan decimal(8,2) [default: 0]
+  sisa_pakan decimal(8,2) [default: 0]
+  jumlah_telur_bagus integer [default: 0]
+  jumlah_telur_retak integer [default: 0]
+  jumlah_telur_rusak integer [default: 0]
+  berat_telur_bagus integer [default: 0]
+  berat_telur_retak integer [default: 0]
+  berat_telur_rusak integer [default: 0]
+  pengobatan_yang_dilakukan varchar [null]
+  jumlah_ayam_diobati integer [default: 0]
+  penyemprotan varchar [null]
+  vaksin varchar [null]
+  catatan text [null]
   created_at timestamp
   updated_at timestamp
 }
 
 Table karantina_populasi_pipe {
   id biginteger [PK, increment]
-  populasi_ayam_asal_id biginteger [Ref : > populasi_ayam.id]
+  populasi_ayam_asal_id biginteger [null, Ref : > populasi_ayam.id]
   tanggal date
-  pipe_asal_id biginteger [Ref : > pipe.id]
-  ayam_masuk_karantina integer
-  pipe_tujuan_id biginteger [Ref : > pipe.id]
-  ayam_keluar_karantina integer
+  kandang_asal_id biginteger [null, Ref : > kandang.id]
+  flock_asal_id biginteger [null, Ref : > flock.id]
+  pipe_asal_id biginteger [null, Ref : > pipe.id]
+  ayam_masuk_karantina integer [null]
+  kandang_tujuan_id biginteger [null, Ref : > kandang.id]
+  flock_tujuan_id biginteger [null, Ref : > flock.id]
+  pipe_tujuan_id biginteger [null, Ref : > pipe.id]
+  ayam_keluar_karantina integer [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table ayam_afkir {
+  id biginteger [PK, increment]
+  kandang_id biginteger [Ref : > kandang.id]
+  pic_user_id biginteger [null, Ref : > users.id]
+  tanggal date
+  umur_ayam integer
+  penyebab_afkir varchar [null]
+  pembeli_afkir varchar [null]
+  harga_jual decimal(15,2) [null]
+  created_at timestamp
+  updated_at timestamp
 }
 
 Table ayam_afkir_populasi {
@@ -174,27 +314,15 @@ Table ayam_afkir_populasi {
   flock_id biginteger [Ref : > flock.id]
   kandang_id biginteger [Ref : > kandang.id]
   pic_user_id biginteger [Ref : > users.id]
-  tanggal datetime
-  jumlah_ayam_afkir decimal
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table ayam_afkir {
-  id biginteger [PK, increment]
-  kandang_id biginteger [Ref : > kandang.id]
-  tanggal datetime
-  umur_ayam integer
-  penyebab_afkir varchar
-  pembeli_afkir varchar
-  harga_jual decimal
+  tanggal date
+  jumlah_ayam_afkir unsignedInteger
   created_at timestamp
   updated_at timestamp
 }
 
 Table jenis_pakan {
   id biginteger [PK, increment]
-  nama varchar
+  nama varchar [unique]
   created_at timestamp
   updated_at timestamp
 }
@@ -202,16 +330,16 @@ Table jenis_pakan {
 Table perhitungan_pakan {
   id biginteger [PK, increment]
   tanggal_pemberian_pakan date
-  umur_ayam int
+  umur_ayam unsignedInteger
   user_creator_id biginteger [Ref : > users.id] // spv kandang
   user_executor_id biginteger [Ref : > users.id]
   jenis_pakan_id biginteger [Ref : > jenis_pakan.id]
   kandang_id biginteger [Ref : > kandang.id]
-  proporsi_pemberian_pagi decimal(10,3)
-  proporsi_pemberian_sore decimal(10,3)
+  proporsi_pemberian_pagi decimal(8,2) [null]
+  proporsi_pemberian_sore decimal(8,2) [null]
   waktu_pemberian_pagi time
   waktu_pemberian_sore time
-  catatan text
+  catatan text [null]
   created_at timestamp
   updated_at timestamp
 }
@@ -219,12 +347,12 @@ Table perhitungan_pakan {
 Table perhitungan_pakan_item {
   id biginteger [PK, increment]
   perhitungan_pakan_id biginteger [Ref : > perhitungan_pakan.id]
-  kandang_id int [Ref : > kandang.id]
-  flock_id int [Ref : > flock.id]
-  pipe_id int [Ref : > pipe.id]
+  kandang_id biginteger [Ref : > kandang.id]
+  flock_id biginteger [Ref : > flock.id]
+  pipe_id biginteger [Ref : > pipe.id]
   tanggal_pemberian_pakan date
-  jumlah_ayam int
-  pemberian_pakan_per_ekor int
+  jumlah_ayam unsignedInteger
+  pemberian_pakan_per_ekor unsignedInteger [note: 'gram']
   created_at timestamp
   updated_at timestamp
 }
@@ -232,21 +360,31 @@ Table perhitungan_pakan_item {
 Table pemberian_pakan_sisa_pakan {
   id biginteger [PK, increment]
   perhitungan_pakan_id biginteger [Ref : > perhitungan_pakan.id]
-  flock_id int [Ref : > flock.id]
-  sisa_pakan_per_flock_kg decimal(10,2)
+  flock_id biginteger [Ref : > flock.id]
+  sisa_pakan_per_flock_kg decimal(10,2) [null]
   created_at timestamp
   updated_at timestamp
 }
 
 Table produksi_telur {
   id biginteger [PK, increment]
-  flock_id int [Ref : > flock.id]
+  kandang_id biginteger [Ref : > kandang.id]
   pic_user_id biginteger [Ref : > users.id]
   tanggal date
-  usia_ayam integer
-  jumlah_telur_bagus integer
-  jumlah_telur_putih integer
-  jumlah_telur_reject integer
+  umur_ayam unsignedInteger
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table produksi_telur_item {
+  id biginteger [PK, increment]
+  produksi_telur_id biginteger [Ref : > produksi_telur.id]
+  kandang_id biginteger [Ref : > kandang.id]
+  flock_id biginteger [Ref : > flock.id]
+  tanggal date
+  jumlah_telur_bagus unsignedInteger
+  jumlah_telur_putih unsignedInteger
+  jumlah_telur_reject unsignedInteger
   berat_telur_bagus decimal(10,3)
   berat_telur_putih decimal(10,3)
   berat_telur_reject decimal(10,3)
@@ -256,6 +394,7 @@ Table produksi_telur {
 
 Table sampling_bobot_ayam {
   id biginteger [PK, increment]
+  pencatat_user_id biginteger [Ref : > users.id]
   tanggal date
   kandang_id biginteger [Ref : > kandang.id]
   umur integer
@@ -273,94 +412,107 @@ Table sampling_bobot_ayam_per_ekor {
   updated_at timestamp
 }
 
-Table jenis_disinfektan{
-  id biginteger
-  nama varchar
+Table jenis_treatment {
+  id biginteger [PK, increment]
+  nama varchar [unique]
   created_at timestamp
   updated_at timestamp
 }
 
-Table jenis_treatment{
-  id biginteger
-  nama varchar
-  created_at timestamp
-  updated_at timestamp
-}
-
-Table metode_treatment{
-  id biginteger
-  nama varchar
+Table metode_treatment {
+  id biginteger [PK, increment]
+  nama varchar [unique]
   created_at timestamp
   updated_at timestamp
 }
 
 Table monitoring_kesehatan {
   id biginteger [PK, increment]
-  kandang_id biginteger [Ref : > kandang.id]
   tanggal date
   tim_pelaksana varchar
+  kandang_id biginteger [Ref : > kandang.id]
   total_populasi_ayam varchar
-  ayam_sehat integer
-  ayam_sakit integer
-  ayam_mati integer
-  ayam_afkir integer
-  detail_penyakit_ditemukan text
-  umum_perilaku text
-  umum_kondisi_bulu text
-  umum_proporsi_tubuh text
-  umum_nafsu_makan text
-  umum_produktivitas_telur text
-  lingkungan_suhu text
-  lingkungan_kelembapan text
-  lingkungan_kebersihan text
-  detail_kondisi_umum text
-  nekropsi_jumlah_ayam integer
-  tindakan_pengobatan text
-  tindakan_rekomendasi_jangka_panjang text
-  tindakan_rekomendasi_jangka_pendek text
-  evaluasi_efektivitas_pengobatan text
-  evaluasi_catatan text
-  dokumentasi json
+  ayam_sehat unsignedInteger
+  ayam_sakit unsignedInteger
+  ayam_mati unsignedInteger
+  ayam_afkir unsignedInteger
+  detail_penyakit_ditemukan text [null]
+  umum_perilaku text [null]
+  umum_kondisi_bulu text [null]
+  umum_proporsi_tubuh text [null]
+  umum_nafsu_makan text [null]
+  umum_produktivitas_telur text [null]
+  lingkungan_suhu text [null]
+  lingkungan_kelembapan text [null]
+  lingkungan_kebersihan text [null]
+  detail_kondisi_umum text [null]
+  nekropsi_jumlah_ayam unsignedInteger [null]
+  tindakan_pengobatan text [null]
+  tindakan_rekomendasi_jangka_pendek text [null]
+  tindakan_rekomendasi_jangka_panjang text [null]
+  evaluasi_efektivitas_pengobatan text [null]
+  evaluasi_catatan text [null]
+  dokumentasi json [null]
   created_at timestamp
   updated_at timestamp
 }
 
-Table monitoring_kesehatan_dokumentasi{
-  id int [PK, increment]
-  monitoring_kesehatan_id int [Ref : > monitoring_kesehatan.id]
+Table monitoring_kesehatan_nekropsi {
+  id biginteger [PK, increment]
+  monitoring_kesehatan_id biginteger [Ref : > monitoring_kesehatan.id]
   path text
-  keterangan text
+  keterangan text [null]
   created_at timestamp
   updated_at timestamp
 }
 
 Table treatment {
-  id int [PK, increment]
-  kandang_id int [Ref: > kandang.id]
+  id biginteger [PK, increment]
+  kandang_id biginteger [Ref : > kandang.id]
   tanggal date
-  user_creator_id int [Ref: > users.id]
+  user_creator_id biginteger [Ref : > users.id]
   created_at timestamp
   updated_at timestamp
 }
 
 Table treatment_jadwal {
-  id int [PK, increment]
-  treatment_id int [Ref: > treatment.id]
-  jenis_treatment_id int [Ref: > jenis_treatment.id]
-  metode_treatment_id int [Ref: > metode_treatment.id]
+  id biginteger [PK, increment]
+  treatment_id biginteger [Ref : > treatment.id]
+  jenis_treatment_id biginteger [Ref : > jenis_treatment.id]
+  metode_treatment_id biginteger [Ref : > metode_treatment.id]
   merk_ovk varchar
-  area varchar
-  dosis varchar
+  area varchar [null]
+  dosis varchar [null]
   waktu time
-  executed_at time
-  executed_by int [Ref: > users.id]
+  executed_at time [null]
+  executed_by biginteger [null, Ref : > users.id]
   created_at timestamp
   updated_at timestamp
 }
 
 Table treatment_jadwal_flock {
-  id int [PK, increment]
-  treatment_jadwal_id int [Ref: - treatment_jadwal.id]
+  id biginteger [PK, increment]
+  treatment_jadwal_id biginteger [Ref : > treatment_jadwal.id]
+  flock_id biginteger [Ref : > flock.id]
+  executed_at time [null]
+  executed_by biginteger [null, Ref : > users.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table catatan_laporan {
+  id biginteger [PK, increment]
+  creator_user_id biginteger [Ref : > users.id]
+  kandang_id biginteger [null, Ref : > kandang.id]
+  umur integer [null]
+  tanggal date [null]
+  tipe varchar
+  catatan_populasi text [null]
+  catatan_kematian text [null]
+  catatan_konsumsi text [null]
+  catatan_produksi_telur text [null]
+  catatan_kpi_produksi text [null]
+  catatan_keseluruhan text [null]
   created_at timestamp
   updated_at timestamp
 }
@@ -368,12 +520,14 @@ Table treatment_jadwal_flock {
 Table satuan {
   id biginteger [PK, increment]
   nama varchar
+  konversi_satuan decimal [null]
   created_at timestamp
   updated_at timestamp
 }
 
 Table supplier {
   id biginteger [PK, increment]
+  tipe varchar
   nama varchar
   badan_usaha varchar [null]
   kontak varchar [null]
@@ -387,6 +541,8 @@ Table kemasan {
   id biginteger [PK, increment]
   satuan_id biginteger [Ref : > satuan.id]
   nama varchar
+  harga decimal [null]
+  harga_satuan decimal [null]
   created_at timestamp
   updated_at timestamp
 }
@@ -396,55 +552,356 @@ Table supplier_kemasan {
   supplier_id biginteger [Ref : > supplier.id]
   kemasan_id biginteger [Ref : > kemasan.id]
   kode_barang varchar
-  harga decimal
   biaya_tambahan decimal [null]
-  jenis_pengiriman enum(LOCO, FRANCO)
+  jenis_pengiriman varchar(10) [note: 'LOCO, FRANCO']
   created_at timestamp
   updated_at timestamp
 }
 
 Table kemasan_input {
   id biginteger [PK, increment]
-  pic_user_id integer [Ref : > users.id]
-  supplier_kemasan_id biginteger [Ref : > supplier_kemasan.id]
-  tanggal datetime
+  pic_user_id biginteger [Ref : > users.id]
+  supplier_id biginteger [Ref : > supplier.id]
+  tanggal date
   created_at timestamp
   updated_at timestamp
 }
 
 Table kemasan_input_dokumentasi {
-  id int [PK, increment]
-  kemasan_input_id int [Ref : > kemasan_input.id]
-  filepath text
+  id biginteger [PK, increment]
+  kemasan_input_id biginteger [Ref : > kemasan_input.id]
+  file_path varchar
   created_at timestamp
   updated_at timestamp
 }
 
 Table kemasan_output {
   id biginteger [PK, increment]
-  pic_user_id integer [Ref : > users.id]
-  tanggal datetime
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
   created_at timestamp
   updated_at timestamp
 }
 
 Table kemasan_opname {
   id biginteger [PK, increment]
-  pic_user_id integer [Ref : > users.id]
-  tanggal datetime
-  jumlah biginteger
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
   created_at timestamp
   updated_at timestamp
 }
 
 Table kemasan_inventory {
   id biginteger [PK, increment]
-  tipe enum(input, output, opname)
+  tipe varchar [note: 'input, output, opname']
+  supplier_id biginteger [null, Ref : > supplier.id]
   kemasan_input_id biginteger [null, Ref : > kemasan_input.id]
   kemasan_output_id biginteger [null, Ref : > kemasan_output.id]
   kemasan_opname_id biginteger [null, Ref : > kemasan_opname.id]
-  kemasan_id biginteger [Ref : > kemasan.id]
-  jumlah biginteger
+  kemasan_id biginteger [null, Ref : > kemasan.id]
+  tanggal date
+  jumlah integer
+  harga_satuan decimal [default: 0]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan {
+  id biginteger [PK, increment]
+  satuan_id biginteger [Ref : > satuan.id]
+  tipe varchar
+  nama varchar [unique]
+  harga decimal(15,3)
+  harga_satuan decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table supplier_bahan_pakan {
+  id biginteger [PK, increment]
+  supplier_id biginteger [Ref : > supplier.id]
+  bahan_pakan_id biginteger [Ref : > bahan_pakan.id]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_pembelian {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  supplier_id biginteger [Ref : > supplier.id]
+  tanggal_pesan date
+  tanggal_datang date [null]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_pembelian_item {
+  id biginteger [PK, increment]
+  bahan_pakan_pembelian_id biginteger [Ref : > bahan_pakan_pembelian.id]
+  bahan_pakan_id biginteger [Ref : > bahan_pakan.id]
+  harga_satuan decimal
+  jumlah integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_masuk {
+  id biginteger [PK, increment]
+  bahan_pakan_pembelian_id biginteger [null, Ref : > bahan_pakan_pembelian.id]
+  supplier_id biginteger [null, Ref : > supplier.id]
+  pic_user_id biginteger [Ref : > users.id]
+  asal varchar
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_keluar {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  tujuan varchar
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_opname {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_inventory {
+  id biginteger [PK, increment]
+  tipe varchar
+  tanggal date
+  bahan_pakan_pembelian_item_id biginteger [null, Ref : > bahan_pakan_pembelian_item.id]
+  pakan_pre_mixing_item_id biginteger [null, Ref : > pakan_pre_mixing_item.id]
+  pakan_mixing_item_id biginteger [null, Ref : > pakan_mixing_item.id]
+  bahan_pakan_masuk_id biginteger [null, Ref : > bahan_pakan_masuk.id]
+  bahan_pakan_keluar_id biginteger [null, Ref : > bahan_pakan_keluar.id]
+  bahan_pakan_opname_id biginteger [null, Ref : > bahan_pakan_opname.id]
+  bahan_pakan_id biginteger [Ref : > bahan_pakan.id]
+  jumlah integer
+  harga_satuan decimal [default: 0]
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table perubahan_harga {
+  id biginteger [PK, increment]
+  priceable_type varchar
+  priceable_id biginteger
+  pic_user_id biginteger [Ref : > users.id]
+  harga decimal(15,3)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_formulasi {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  jenis_pakan_id biginteger [null, Ref : > jenis_pakan.id]
+  tipe varchar
+  nama varchar
+  harga_per_kg decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_formulasi_item {
+  id biginteger [PK, increment]
+  tipe varchar
+  bahan_pakan_formulasi_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  formulasi_premix_id biginteger [null, Ref : > bahan_pakan_formulasi.id]
+  bahan_pakan_id biginteger [null, Ref : > bahan_pakan.id]
+  persentase decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table bahan_pakan_formulasi_berat {
+  id biginteger [PK, increment]
+  bahan_pakan_formulasi_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  berat decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_pre_mixing {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  formulasi_premix_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  tanggal dateTime
+  jumlah_campuran decimal
+  harga_total decimal(15,2)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_pre_mixing_item {
+  id biginteger [PK, increment]
+  pakan_pre_mixing_id biginteger [Ref : > pakan_pre_mixing.id]
+  bahan_pakan_id biginteger [Ref : > bahan_pakan.id]
+  jumlah decimal
+  harga_sub_total decimal(15,2)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_mixing {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  formulasi_mix_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  tanggal dateTime
+  jumlah_campuran decimal
+  harga_total decimal(15,2)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_mixing_item {
+  id biginteger [PK, increment]
+  pakan_mixing_id biginteger [Ref : > pakan_mixing.id]
+  bahan_pakan_id biginteger [null, Ref : > bahan_pakan.id]
+  formulasi_premix_id biginteger [null, Ref : > bahan_pakan_formulasi.id]
+  jumlah decimal
+  harga_sub_total decimal(15,2)
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_pre_mixing_opname {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_pre_mixing_inventory {
+  id biginteger [PK, increment]
+  pakan_pre_mixing_id biginteger [null, Ref : > pakan_pre_mixing.id]
+  pakan_mixing_item_id biginteger [null, Ref : > pakan_mixing_item.id]
+  pakan_pre_mixing_opname_id biginteger [null, Ref : > pakan_pre_mixing_opname.id]
+  formulasi_premix_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  tipe varchar
+  tanggal dateTime
+  jumlah decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_finished_good_distribusi {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  formulasi_mix_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  tanggal dateTime
+  jumlah decimal
+  tujuan varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_finished_good_opname {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table pakan_finished_good_inventory {
+  id biginteger [PK, increment]
+  pakan_mixing_id biginteger [null, Ref : > pakan_mixing.id]
+  pakan_finished_good_distribusi_id biginteger [null, Ref : > pakan_finished_good_distribusi.id]
+  pakan_finished_good_opname_id biginteger [null, Ref : > pakan_finished_good_opname.id]
+  formulasi_mix_id biginteger [Ref : > bahan_pakan_formulasi.id]
+  tipe varchar
+  tanggal dateTime
+  jumlah decimal
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_jenis {
+  id biginteger [PK, increment]
+  tipe varchar [note: 'masuk, keluar, grading']
+  nama varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_asal {
+  id biginteger [PK, increment]
+  nama varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_tujuan {
+  id biginteger [PK, increment]
+  nama varchar
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_masuk {
+  id biginteger [PK, increment]
+  telur_asal_id biginteger [Ref : > telur_asal.id]
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_keluar {
+  id biginteger [PK, increment]
+  telur_tujuan_id biginteger [Ref : > telur_tujuan.id]
+  kemasan_output_id biginteger [Ref : > kemasan_output.id]
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_opname {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_inventory {
+  id biginteger [PK, increment]
+  tipe varchar
+  telur_masuk_id biginteger [null, Ref : > telur_masuk.id]
+  telur_keluar_id biginteger [null, Ref : > telur_keluar.id]
+  telur_opname_id biginteger [null, Ref : > telur_opname.id]
+  telur_jenis_id biginteger [null, Ref : > telur_jenis.id]
+  tanggal date
+  jumlah integer
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_grading {
+  id biginteger [PK, increment]
+  pic_user_id biginteger [Ref : > users.id]
+  kandang_id biginteger [Ref : > kandang.id]
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}
+
+Table telur_grading_item {
+  id biginteger [PK, increment]
+  telur_grading_id biginteger [Ref : > telur_grading.id]
+  telur_jenis_id biginteger [Ref : > telur_jenis.id]
+  jumlah integer
   created_at timestamp
   updated_at timestamp
 }

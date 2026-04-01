@@ -7,121 +7,205 @@
     {
       "name": "users",
       "schemaName": "public",
-      "x": 12,
-      "y": 12
+      "x": -770.1617196804727,
+      "y": -389.55382191493425
+    },
+    {
+      "name": "password_reset_tokens",
+      "schemaName": "public",
+      "x": -1108.6678690366775,
+      "y": -608.5831793230806
+    },
+    {
+      "name": "sessions",
+      "schemaName": "public",
+      "x": -1082.6998506257664,
+      "y": -447.6385312186196
+    },
+    {
+      "name": "cache",
+      "schemaName": "public",
+      "x": -749.3877662283176,
+      "y": -598.5416395058339
+    },
+    {
+      "name": "cache_locks",
+      "schemaName": "public",
+      "x": -745.1574384285113,
+      "y": -765.0327203288991
+    },
+    {
+      "name": "jobs",
+      "schemaName": "public",
+      "x": -1385.568541855879,
+      "y": -926.6972460349117
+    },
+    {
+      "name": "job_batches",
+      "schemaName": "public",
+      "x": -1088.4375922687866,
+      "y": -999.7070318376271
+    },
+    {
+      "name": "failed_jobs",
+      "schemaName": "public",
+      "x": -1318.143737168379,
+      "y": -608.5831793230806
+    },
+    {
+      "name": "permissions",
+      "schemaName": "public",
+      "x": -1487.715127707083,
+      "y": -87.08470930368526
+    },
+    {
+      "name": "roles",
+      "schemaName": "public",
+      "x": -1472.0701736065012,
+      "y": 484.6743115087279
+    },
+    {
+      "name": "model_has_permissions",
+      "schemaName": "public",
+      "x": -1493.6795388114565,
+      "y": 158.01957160543066
+    },
+    {
+      "name": "model_has_roles",
+      "schemaName": "public",
+      "x": -1487.715127707083,
+      "y": 703.4788984139648
+    },
+    {
+      "name": "role_has_permissions",
+      "schemaName": "public",
+      "x": -1467.6046153104867,
+      "y": 344
+    },
+    {
+      "name": "options",
+      "schemaName": "public",
+      "x": -409.9668243007466,
+      "y": -1031.8960220504282
+    },
+    {
+      "name": "notifications",
+      "schemaName": "public",
+      "x": -1572.8664692317182,
+      "y": -598.5416395058339
     },
     {
       "name": "peternakan",
       "schemaName": "public",
-      "x": -114.56598894894816,
-      "y": 575.448269270561
+      "x": -768.2783912283176,
+      "y": 836.1975042802587
     },
     {
       "name": "strain",
       "schemaName": "public",
-      "x": -115.73386102667291,
-      "y": 837.5182114804293
+      "x": -751.6487802273477,
+      "y": 1093.0524617899332
     },
     {
       "name": "strain_standart_metric",
       "schemaName": "public",
-      "x": 607.95751953125,
-      "y": 419
+      "x": -768.5171985193302,
+      "y": 1336.837307234136
     },
     {
       "name": "kandang",
       "schemaName": "public",
-      "x": 607.95751953125,
-      "y": 116
+      "x": -754.6983508630802,
+      "y": 573.0749235009696
     },
     {
       "name": "flock",
       "schemaName": "public",
-      "x": 135.96585364484207,
-      "y": 575.448269270561
+      "x": -766.2264994887122,
+      "y": 340.7739577618331
     },
     {
       "name": "pipe",
       "schemaName": "public",
-      "x": 12,
-      "y": 314
+      "x": -754.6027509285113,
+      "y": 76
     },
     {
       "name": "pengadaan_ayam",
       "schemaName": "public",
-      "x": 2772.8727651314675,
-      "y": 8.2875591272784
+      "x": -277.8932844819948,
+      "y": 44.59938800775808
     },
     {
       "name": "pengadaan_ayam_berkas_supplier",
       "schemaName": "public",
-      "x": 3336.33251953125,
-      "y": 12
+      "x": -267.2219083027718,
+      "y": 547.2541279110553
     },
     {
       "name": "pengadaan_ayam_dokumentasi",
       "schemaName": "public",
-      "x": 3336.33251953125,
-      "y": 282
+      "x": 61.322127809447295,
+      "y": 558.3941891102795
     },
     {
       "name": "pengadaan_ayam_distribusi",
       "schemaName": "public",
-      "x": 3336.33251953125,
-      "y": 520
+      "x": 97.8270207108049,
+      "y": 221.30947980659414
     },
     {
       "name": "populasi_ayam",
       "schemaName": "public",
-      "x": 2117.8080749553997,
-      "y": 54.421818109980194
+      "x": 652.3973742008984,
+      "y": -23.802952392928546
     },
     {
       "name": "karantina_populasi",
       "schemaName": "public",
-      "x": 1069.1321381508487,
-      "y": 533.7619215813035
+      "x": 1374.862037757376,
+      "y": -71.17630364119498
     },
     {
       "name": "karantina_populasi_pipe",
       "schemaName": "public",
-      "x": 3889.1318359375,
-      "y": 12
-    },
-    {
-      "name": "ayam_afkir_populasi",
-      "schemaName": "public",
-      "x": 3919.5329758934477,
-      "y": 859.9505839641885
+      "x": 1735.343154757397,
+      "y": -97.51467870407282
     },
     {
       "name": "ayam_afkir",
       "schemaName": "public",
-      "x": 3917.4540477140363,
-      "y": 511.18663932005416
+      "x": 543.3589466885483,
+      "y": 730.2159967282003
+    },
+    {
+      "name": "ayam_afkir_populasi",
+      "schemaName": "public",
+      "x": 545.4378748679596,
+      "y": 1078.9799413723345
     },
     {
       "name": "jenis_pakan",
       "schemaName": "public",
-      "x": 579.4182281120156,
-      "y": -629.4053017562865
+      "x": 349.95890130348107,
+      "y": -874.5095826654023
     },
     {
       "name": "perhitungan_pakan",
       "schemaName": "public",
-      "x": 106.80864070106378,
-      "y": -627.0223286918871
+      "x": -7.92102270320305,
+      "y": -646.5416395058339
     },
     {
       "name": "perhitungan_pakan_item",
       "schemaName": "public",
-      "x": 545.9145019732334,
-      "y": -419.49343262427755
+      "x": 337.3151139654751,
+      "y": -654.1677441330054
     },
     {
       "name": "pemberian_pakan_sisa_pakan",
       "schemaName": "public",
-      "x": 909.9068270008762,
+      "x": 727.3823624940875,
       "y": -646.5416395058339
     },
     {
@@ -131,94 +215,304 @@
       "y": 643
     },
     {
+      "name": "produksi_telur_item",
+      "schemaName": "public",
+      "x": 2303.5846216386076,
+      "y": 634.2159967282003
+    },
+    {
       "name": "sampling_bobot_ayam",
       "schemaName": "public",
-      "x": 1261.05810546875,
-      "y": 137
+      "x": 1648.9048053178492,
+      "y": -619.1727815281232
     },
     {
       "name": "sampling_bobot_ayam_per_ekor",
       "schemaName": "public",
-      "x": 1995.6455078125,
-      "y": 1169
-    },
-    {
-      "name": "jenis_disinfektan",
-      "schemaName": "public",
-      "x": -117.79408459161925,
-      "y": 1056.8431299092488
+      "x": 2006.0754772128885,
+      "y": -604.0947980659444
     },
     {
       "name": "jenis_treatment",
       "schemaName": "public",
-      "x": 319.40565453876405,
-      "y": 1212.483929725434
+      "x": -384.61727998741986,
+      "y": 1191.6239909246583
     },
     {
       "name": "metode_treatment",
       "schemaName": "public",
-      "x": 313.2249838439251,
-      "y": 1418.4839297254339
+      "x": -384.61727998741986,
+      "y": 1366.3340827234942
     },
     {
       "name": "monitoring_kesehatan",
       "schemaName": "public",
-      "x": 1289.8352759727593,
-      "y": 1720.077962828294
+      "x": 1091.6658573653883,
+      "y": 833.5305637953215
     },
     {
-      "name": "monitoring_kesehatan_dokumentasi",
+      "name": "monitoring_kesehatan_nekropsi",
       "schemaName": "public",
-      "x": 1719.6478298205752,
-      "y": 1723.3591310074823
+      "x": 1504.887030211728,
+      "y": 829.6198081993319
     },
     {
       "name": "treatment",
       "schemaName": "public",
-      "x": 720.0219550576403,
-      "y": 1019.3901101842663
+      "x": -88.30067347242277,
+      "y": 1181.0546358902793
     },
     {
       "name": "treatment_jadwal",
       "schemaName": "public",
-      "x": 720.0219550576403,
-      "y": 1293.390110184268
+      "x": -88.30067347242277,
+      "y": 1455.0546358902811
     },
     {
       "name": "treatment_jadwal_flock",
       "schemaName": "public",
-      "x": 720.0219550576403,
-      "y": 1759.3901101842675
+      "x": -88.30067347242277,
+      "y": 1921.0546358902807
+    },
+    {
+      "name": "catatan_laporan",
+      "schemaName": "public",
+      "x": -1378.091002793379,
+      "y": 1046.3340827234942
     },
     {
       "name": "satuan",
       "schemaName": "public",
-      "x": -117.79408459161925,
-      "y": 3036.077962828294
+      "x": -1596.8582671643157,
+      "y": 2033.9365166769976
     },
     {
       "name": "supplier",
       "schemaName": "public",
-      "x": -117.79408459161925,
-      "y": 2698.077962828294
+      "x": -1566.0046528254682,
+      "y": 2849.002879417345
     },
     {
       "name": "kemasan",
       "schemaName": "public",
-      "x": -117.79408459161925,
-      "y": 3246.077962828294
+      "x": -1596.8582671643157,
+      "y": 2262.047506667683
     },
     {
       "name": "supplier_kemasan",
       "schemaName": "public",
-      "x": -117.79408459161925,
-      "y": 3456.077962828294
+      "x": -1598.5151508723432,
+      "y": 2532.4174733033037
     },
     {
-      "name": "inventory_wadah",
+      "name": "kemasan_input",
       "schemaName": "public",
-      "x": -117.79408459161925,
-      "y": 3698.077962828294
+      "x": -726.0543039074862,
+      "y": 2360.579984780875
+    },
+    {
+      "name": "kemasan_input_dokumentasi",
+      "schemaName": "public",
+      "x": -452.66890259715217,
+      "y": 2364.58339855616
+    },
+    {
+      "name": "kemasan_output",
+      "schemaName": "public",
+      "x": -725.9717843762362,
+      "y": 2628.4174733033037
+    },
+    {
+      "name": "kemasan_opname",
+      "schemaName": "public",
+      "x": -725.9717843762362,
+      "y": 2849.002879417345
+    },
+    {
+      "name": "kemasan_inventory",
+      "schemaName": "public",
+      "x": -1043.1423564099318,
+      "y": 2366.7458192354916
+    },
+    {
+      "name": "bahan_pakan",
+      "schemaName": "public",
+      "x": 193.5162405090985,
+      "y": 3521.7471679954406
+    },
+    {
+      "name": "supplier_bahan_pakan",
+      "schemaName": "public",
+      "x": -178.59164358739446,
+      "y": 3778.3750002361326
+    },
+    {
+      "name": "bahan_pakan_pembelian",
+      "schemaName": "public",
+      "x": 662.2499951613057,
+      "y": 4069.6279416870343
+    },
+    {
+      "name": "bahan_pakan_pembelian_item",
+      "schemaName": "public",
+      "x": 662.2499951613057,
+      "y": 4346.7596187324225
+    },
+    {
+      "name": "bahan_pakan_masuk",
+      "schemaName": "public",
+      "x": 284.46008652587545,
+      "y": 4032.798589722134
+    },
+    {
+      "name": "bahan_pakan_keluar",
+      "schemaName": "public",
+      "x": 284.46008652587545,
+      "y": 4350.690564506115
+    },
+    {
+      "name": "bahan_pakan_opname",
+      "schemaName": "public",
+      "x": 284.46008652587545,
+      "y": 4619.707197830582
+    },
+    {
+      "name": "bahan_pakan_inventory",
+      "schemaName": "public",
+      "x": -131.51682169019688,
+      "y": 4226.126861860782
+    },
+    {
+      "name": "perubahan_harga",
+      "schemaName": "public",
+      "x": -1561.8239087899785,
+      "y": 3471.170041936726
+    },
+    {
+      "name": "bahan_pakan_formulasi",
+      "schemaName": "public",
+      "x": 1064.15901567587,
+      "y": 3197.764225030666
+    },
+    {
+      "name": "bahan_pakan_formulasi_item",
+      "schemaName": "public",
+      "x": 1310.585780335097,
+      "y": 3193.4627449007608
+    },
+    {
+      "name": "bahan_pakan_formulasi_berat",
+      "schemaName": "public",
+      "x": 1636.5050875716022,
+      "y": 3190.6422669481567
+    },
+    {
+      "name": "pakan_pre_mixing",
+      "schemaName": "public",
+      "x": 1062.6801513986013,
+      "y": 4060.9191829445517
+    },
+    {
+      "name": "pakan_pre_mixing_item",
+      "schemaName": "public",
+      "x": 1061.0837158517263,
+      "y": 4391.532627102638
+    },
+    {
+      "name": "pakan_mixing",
+      "schemaName": "public",
+      "x": 2028.8521603455329,
+      "y": 3862.261593614889
+    },
+    {
+      "name": "pakan_mixing_item",
+      "schemaName": "public",
+      "x": 2330.407457025328,
+      "y": 3856.486684798025
+    },
+    {
+      "name": "pakan_pre_mixing_opname",
+      "schemaName": "public",
+      "x": 1058.860111150011,
+      "y": 3835.7029948689164
+    },
+    {
+      "name": "pakan_pre_mixing_inventory",
+      "schemaName": "public",
+      "x": 630.7124064666265,
+      "y": 3487.3041978155907
+    },
+    {
+      "name": "pakan_finished_good_distribusi",
+      "schemaName": "public",
+      "x": 2028.8521603455329,
+      "y": 4183.554742259547
+    },
+    {
+      "name": "pakan_finished_good_opname",
+      "schemaName": "public",
+      "x": 2028.8521603455329,
+      "y": 4506.496505792228
+    },
+    {
+      "name": "pakan_finished_good_inventory",
+      "schemaName": "public",
+      "x": 1626.1491034104122,
+      "y": 3862.261593614889
+    },
+    {
+      "name": "telur_jenis",
+      "schemaName": "public",
+      "x": 343.24792450698317,
+      "y": 2139.3849945912366
+    },
+    {
+      "name": "telur_asal",
+      "schemaName": "public",
+      "x": 1199.7954012146247,
+      "y": 2084.7851016887844
+    },
+    {
+      "name": "telur_tujuan",
+      "schemaName": "public",
+      "x": 1210.4523961871732,
+      "y": 2359.283083377763
+    },
+    {
+      "name": "telur_masuk",
+      "schemaName": "public",
+      "x": 886.0731588238348,
+      "y": 2045.238521411527
+    },
+    {
+      "name": "telur_keluar",
+      "schemaName": "public",
+      "x": 886.0731588238348,
+      "y": 2304.040546202988
+    },
+    {
+      "name": "telur_opname",
+      "schemaName": "public",
+      "x": 886.0731588238348,
+      "y": 2587.1591603215147
+    },
+    {
+      "name": "telur_inventory",
+      "schemaName": "public",
+      "x": 594.4339148825976,
+      "y": 2287.0192116156036
+    },
+    {
+      "name": "telur_grading",
+      "schemaName": "public",
+      "x": 1575.1530188486586,
+      "y": 1991.2059716436925
+    },
+    {
+      "name": "telur_grading_item",
+      "schemaName": "public",
+      "x": 1569.6210075696617,
+      "y": 2246.343430121753
     }
   ],
   "tableGroupCollapseStates": [],
