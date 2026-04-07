@@ -109,7 +109,7 @@ class PengadaanAyamController extends Controller
             'jumlah_ayam_masuk_kandang' => 0,
         ]);
 
-        $pengadaanAyam = $this->pengadaanAyam->create($request->only([
+        $validated = $request->only([
             'kandang_id',
             'tanggal',
             'jumlah_ayam_datang',
@@ -122,7 +122,9 @@ class PengadaanAyamController extends Controller
 
             'pic_user_id',
             'jumlah_ayam_masuk_kandang',
-        ]));
+        ]);
+
+        $pengadaanAyam = $this->pengadaanAyam->create($validated);
 
         return to_route('pengadaan-ayam.edit', $pengadaanAyam)
             ->with('success', 'Pengadaan Ayam berhasil disimpan, input data Distribusi, Berkas dan Dokumentasi.');

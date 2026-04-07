@@ -105,7 +105,7 @@ class PerhitunganPakanController extends Controller
 
         try {
             $umurAyam = $this->populasiAyamService->getUmurAyamByKandangId($validated['kandang_id'], $request->date('tanggal_pemberian_pakan'))['umur_ayam'];
-            $perhitunganPakan = $this->repository->create([
+            $validated = [
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
                 'umur_ayam'                 => $umurAyam,
                 'kandang_id'                => $validated['kandang_id'],
@@ -117,7 +117,9 @@ class PerhitunganPakanController extends Controller
                 'user_creator_id'           => auth()->id(),
                 'user_executor_id'          => $validated['user_executor_id'],
                 'catatan'                   => $validated['catatan']
-            ]);
+            ];
+
+            $perhitunganPakan = $this->repository->create($validated);
 
             $perhitunganPakan->userExecutor->notify(new PemberianPakanAssigned($perhitunganPakan));
 
