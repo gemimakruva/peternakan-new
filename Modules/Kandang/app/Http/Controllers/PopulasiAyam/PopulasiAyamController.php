@@ -167,8 +167,12 @@ class PopulasiAyamController extends Controller
             ->whereDate('tanggal', '=', $tanggal)
             ->with([
                 'pipe:id,nama',
-                'pipe.populasiAyam' => function ($r) {
-                    $r->select(['ayam_sehat', 'pipe_id', 'tanggal'])->orderByDesc('tanggal')->skip(1)->limit(1);
+                'pipe.populasiAyam' => function ($r) use($tanggal) {
+                    if ($tanggal) {
+                        $r->select(['ayam_sehat', 'pipe_id', 'tanggal'])->where('tanggal', '<', $tanggal)->skip(1)->orderByDesc('tanggal')->limit(1);
+                    } else {
+                        $r->select(['ayam_sehat', 'pipe_id', 'tanggal'])->orderByDesc('tanggal')->skip(1)->limit(1);
+                    }
                 },
                 'pipe.pengadaanAyamDistribusi' => function ($r) {
                     $r->select(['pipe_id', 'jumlah_ayam'])->orderByDesc('id')->limit(1);
