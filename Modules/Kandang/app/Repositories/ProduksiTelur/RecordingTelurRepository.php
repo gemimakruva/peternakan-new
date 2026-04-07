@@ -42,7 +42,7 @@ class RecordingTelurRepository extends EloquentRepository
             ->query()
             ->join('kandang', 'kandang.id', '=', 'produksi_telur.kandang_id')
             ->join('users as pic_user', 'pic_user.id', '=', 'produksi_telur.pic_user_id')
-            ->joinSub($itemQuery, 'xpti', 'xpti.produksi_telur_id', '=', 'produksi_telur.id')
+            ->leftJoinSub($itemQuery, 'xpti', 'xpti.produksi_telur_id', '=', 'produksi_telur.id')
             ->selectRaw(<<<SQL
                 produksi_telur.id
                 , produksi_telur.kandang_id
