@@ -12,6 +12,8 @@ class DataAyamImport implements WithMultipleSheets
             'populasi_ayam' => new BaseImport(),
             'pakan' => new BaseImport(),
             'telur' => new BaseImport(),
+            'sampling_bobot_ayam' => new BaseImport(),
+            'treatment' => new BaseImport(),
         ];
     }
 }

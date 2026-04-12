@@ -6,17 +6,23 @@ use App\Imports\DataAyamImport;
 use App\Models\User;
 use Auth;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Maatwebsite\Excel\Facades\Excel;
 use Modules\Kandang\Models\Flock;
 use Modules\Kandang\Models\JenisPakan;
+use Modules\Kandang\Models\JenisTreatment;
 use Modules\Kandang\Models\Kandang;
+use Modules\Kandang\Models\MetodeTreatment;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Modules\Kandang\Models\Pipe;
 use Modules\Kandang\Models\ProduksiTelur;
+use Modules\Kandang\Models\SamplingBobotAyam;
+use Modules\Kandang\Models\Treatment;
 use Modules\Kandang\Services\PopulasiAyamService;
+use PhpOffice\PhpSpreadsheet\Shared\Date;
 
 class DataAyamSeeder extends Seeder
 {
@@ -33,6 +39,8 @@ class DataAyamSeeder extends Seeder
         $this->savePopulasiAyam($datas['populasi_ayam']);
         $this->savePemberianPakan($datas['pakan']);
         $this->saveProduksiTelur($datas['telur']);
+        $this->saveSamplingBobotAyam($datas['sampling_bobot_ayam']);
+        $this->saveTreatment($datas['treatment']);
     }
 
     private function savePopulasiAyam(Collection $rows)
@@ -133,6 +141,82 @@ class DataAyamSeeder extends Seeder
                 'berat_telur_putih' => $row['berat_telur_putih'],
                 'berat_telur_reject' => $row['berat_telur_reject'],
             ]);
+        });
+    }
+
+    private function saveSamplingBobotAyam(Collection $rows)
+    {
+        $rows->map(function($row) {
+            if (!$row['kandang'] || !$row['tanggal']) return;
+            $sampling = $this->getSamplingBobotAyam($row['kandang'], $row['tanggal']);
+            $sampling->samplingBobotAyamPerEkor()->create([
+                'bobot_per_kg' => $row['bobot_ayam'],
+            ]);
+        });
+    }
+
+    private $samplingAyam = [];
+    private function getSamplingBobotAyam($kandangNama, $tanggal)
+    {
+        $kandangId = Kandang::where('nama', $kandangNama)->value('id');
+        $tanggal = Date::excelToDateTimeObject($tanggal)->format('Y-m-d');
+
+        if (isset($this->samplingAyam["$kandangId-$tanggal"])) {
+            return $this->samplingAyam["$kandangId-$tanggal"];
+        }
+
+        $umurResult = app(PopulasiAyamService::class)->getUmurAyamByKandangId($kandangId, Carbon::createFromFormat('Y-m-d', $tanggal));
+        $umurAyam = $umurResult['umur_ayam'];
+        $populasi = app(PopulasiAyamService::class)->getCurrentAyamSehatByKandang($kandangId, Carbon::createFromFormat('Y-m-d', $tanggal));
+
+        $sampling = SamplingBobotAyam::firstOrCreate([
+            'pencatat_user_id' => auth()->id(),
+            'tanggal' => $tanggal,
+            'kandang_id' => $kandangId,
+            'umur' => $umurAyam,
+            'jumlah_ayam_saat_ini' => $populasi,
+        ]);
+
+        $this->samplingAyam["$kandangId-$tanggal"] = $sampling;
+
+        return $sampling;
+    }
+
+    private function saveTreatment(Collection $rows)
+    {
+        $rows->map(function($row) {
+            if (!$row['area'] || !$row['kandang'] || !$row['tanggal']) {
+                return;
+            }
+
+            $kandangId = Kandang::where('nama', $row['kandang'])->value('id');
+            $tanggal = Date::excelToDateTimeObject($row['tanggal'])->format('Y-m-d');
+            $waktu = Date::excelToDateTimeObject($row['waktu'])->format('H:i');
+
+            $treatment = Treatment::firstOrCreate([
+                'kandang_id' => $kandangId,
+                'tanggal' => $tanggal,
+                'user_creator_id' => auth()->id(),
+            ]);
+
+            $jenisTreatmentId = JenisTreatment::where('nama', $row['jenis_treatment'])->value('id');
+            $metodeTreatmentId = MetodeTreatment::where('nama', $row['metode_treatment'])->value('id');
+            
+            $jadwal = $treatment->treatmentJadwal()->firstOrCreate([
+                'jenis_treatment_id' => $jenisTreatmentId,
+                'metode_treatment_id' => $metodeTreatmentId,
+                'merk_ovk' => $row['merk_ovk'],
+                'dosis' => $row['dosis'],
+                'waktu' => $waktu,
+            ]);
+            
+            if ($row['area'] != 'Semua Flock') {
+                collect(explode(',', $row['area']))->map(function($flockNama) use($jadwal) {
+                    $flockNama = trim($flockNama);
+                    $flockId = Flock::where('nama', $flockNama)->value('id');
+                    $jadwal->treatmentJadwalFlocks()->firstOrCreate(['flock_id' => $flockId]);
+                });
+            }
         });
     }
 }
