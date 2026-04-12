@@ -82,16 +82,10 @@
                                 return items.filter(i => String(i.pipe.id) !== String(item.pipe.id));
                             },
                             updatePindah(targetPipeId, jumlah) {
-                                if (!item.pindah_ayam) item.pindah_ayam = [];
-                                const existingIndex = item.pindah_ayam.findIndex(p => String(p.pipe_tujuan_id) === String(targetPipeId));
-                                if (Number(jumlah) === 0) {
-                                    if (existingIndex >= 0) item.pindah_ayam.splice(existingIndex, 1);
+                                if (!targetPipeId || !jumlah) {
+                                    item.pindah_ayam = [];
                                 } else {
-                                    if (existingIndex >= 0) {
-                                        item.pindah_ayam[existingIndex].jumlah_perubahan = jumlah;
-                                    } else {
-                                        item.pindah_ayam.push({ pipe_tujuan_id: targetPipeId, jumlah_perubahan: jumlah });
-                                    }
+                                    item.pindah_ayam = [{ pipe_tujuan_id: targetPipeId, jumlah_perubahan: jumlah }];
                                 }
                                 items[index] = item;
                             }
@@ -207,8 +201,7 @@
                                 <select 
                                     class="form-control form-control-sm"
                                     x-bind:readonly="is_editable"
-                                    @change="updatePindah($event.target.value, $event.target.dataset.jumlah || 0)"
-                                    :data-jumlah="item.pindah_ayam && item.pindah_ayam.length > 0 ? item.pindah_ayam[0].jumlah_perubahan : 0"
+                                    @change="const jumlahInput = $event.target.closest('tr').querySelector('input[type=number]'); updatePindah($event.target.value, jumlahInput ? jumlahInput.value : 0)"
                                 >
                                     <option value="">Pilih Pipe Tujuan</option>
                                     <template x-for="otherPipe in getOtherPipes()" :key="otherPipe.pipe.id">
@@ -230,9 +223,9 @@
                                     type="number"
                                     class="form-control form-control-sm"
                                     x-bind:name="`items[${item.pipe.id}][pindah_ayam][0][jumlah_perubahan]`"
-                                    :value="item.pindah_ayam && item.pindah_ayam.length > 0 ? item.pindah_ayam[0].jumlah_perubahan : 0"
+                                    x-model="item.pindahJumlah"
                                     x-bind:readonly="is_editable"
-                                    @input="if ($event.target.value) { const selectedPipe = $event.target.closest('tr').querySelector('select').value; if (selectedPipe) updatePindah(selectedPipe, $event.target.value); }"
+                                    @input="const selectEl = $event.target.closest('tr').querySelector('select'); if (selectEl && selectEl.value) updatePindah(selectEl.value, $event.target.value);"
                                 />
                             </template>
                             <input 

@@ -97,10 +97,14 @@
                         this.items = json.items.map(item => {
                             const pindahData = ayamPindah.filter(p => String(p.asal_pipe_id) === String(item.pipe.id));
                             if (pindahData.length > 0) {
-                                item.pindah_ayam = pindahData.map(p => ({
-                                    pipe_tujuan_id: p.tujuan_pipe_id,
-                                    jumlah_perubahan: p.jumlah_perubahan
-                                }));
+                                item.pindah_ayam = [{
+                                    pipe_tujuan_id: pindahData[0].tujuan_pipe_id,
+                                    jumlah_perubahan: pindahData[0].jumlah_perubahan
+                                }];
+                                item.pindahJumlah = String(pindahData[0].jumlah_perubahan);
+                            } else {
+                                item.pindah_ayam = [];
+                                item.pindahJumlah = '';
                             }
                             return item;
                         });
