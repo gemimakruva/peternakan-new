@@ -60,7 +60,7 @@
                                     type="number"
                                     class="form-control"
                                     name="items[{{ $id }}][sisa_pakan_per_flock_kg]"
-                                    step=".1"
+                                    step=".01"
                                     x-model="items[flock_id].sisa_pakan_per_flock_kg"
                                 >
                             @endif
