@@ -7,6 +7,7 @@
             class="table table-sm table-bordered"
             x-data="{
                 is_editable: @js(!@$isEditable),
+                can_pindah_ayam: @can('kandang.populasi.pindah-ayam') true @else false @endcan,
                 getTotalAyam(key) {
                     return items.reduce((total, item2) => {
                         return total + Number(item2[key] || 0);
@@ -197,7 +198,7 @@
                             />
                         </td>
                         <td class="text-left">
-                            <template x-if="getOtherPipes().length > 0">
+                            <template x-if="getOtherPipes().length > 0 && can_pindah_ayam">
                                 <select 
                                     class="form-control form-control-sm"
                                     x-bind:readonly="is_editable"
@@ -213,12 +214,15 @@
                                     </template>
                                 </select>
                             </template>
+                            <template x-if="getOtherPipes().length > 0 && !can_pindah_ayam">
+                                <span class="text-muted">-</span>
+                            </template>
                             <template x-if="getOtherPipes().length === 0">
                                 <span class="text-muted">-</span>
                             </template>
                         </td>
                         <td class="text-right">
-                            <template x-if="getOtherPipes().length > 0">
+                            <template x-if="getOtherPipes().length > 0 && can_pindah_ayam">
                                 <input 
                                     type="number"
                                     class="form-control form-control-sm"

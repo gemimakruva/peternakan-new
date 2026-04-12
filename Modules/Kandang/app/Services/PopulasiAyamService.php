@@ -293,12 +293,12 @@ class PopulasiAyamService
 
         foreach ($datas as $data) {
             $populasiAyam = $this->populasiAyamRepository->getModel()->updateOrCreate([
-                'pic_user_id'           => auth()->id(),
                 'kandang_id'            => $data['kandang_id'],
                 'flock_id'              => $data['flock_id'],
                 'pipe_id'               => $data['pipe_id'],
                 'tanggal'               => $data['tanggal'],
             ], [
+                'pic_user_id'           => auth()->id(),
                 'umur_ayam_record'      => $data['umur_ayam'],
                 'ayam_sehat'            => $data['ayam_sehat'],
                 'ayam_mati'             => $data['ayam_mati'],
@@ -452,6 +452,10 @@ class PopulasiAyamService
 
     public function saveAyamPindah(Collection $items, $tanggal): void
     {
+        if (! auth()->user()->can('kandang.populasi.pindah-ayam')) {
+            return;
+        }
+
         foreach ($items as $item) {
             if (! empty($item['pindah_ayam'])) {
                 foreach ($item['pindah_ayam'] as $pindah) {

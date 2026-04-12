@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class UserSeeder extends Seeder
 {
@@ -15,12 +16,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // # SISTEM
         // ## Superadmin
         $superadmin = User::firstOrCreate([
-            'name' => 'Superadmin',
+            'name'  => 'Superadmin',
             'email' => 'superadmin@peternakan.com',
         ], [
             'password' => Hash::make('password'),
@@ -70,6 +71,8 @@ class UserSeeder extends Seeder
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.detail-monitoring-kesehatan',
+
+                'kandang.populasi.pindah-ayam',
             ]
         );
 
@@ -119,10 +122,12 @@ class UserSeeder extends Seeder
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.detail-monitoring-kesehatan',
+
+                'kandang.populasi.pindah-ayam',
             ]
         );
 
-        ## Petugas Kandang
+        // # Petugas Kandang
         $this->generateUserWithRole(
             'Petugas Kandang',
             'petugas-kandang@peternakan.com',
@@ -149,7 +154,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        ## Dokter Hewan
+        // # Dokter Hewan
         $this->generateUserWithRole(
             'Dokter Hewan',
             'dokter-hewan@peternakan.com',
@@ -166,7 +171,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        ## Petugas Gudang Telur
+        // # Petugas Gudang Telur
         $this->generateUserWithRole(
             'Petugas Gudang Telur',
             'petugas-gudang-telur@peternakan.com',
@@ -194,7 +199,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        ## Petugas Gudang Pakan
+        // # Petugas Gudang Pakan
         $this->generateUserWithRole(
             'Petugas Gudang Pakan',
             'petugas-gudang-pakan@peternakan.com',
@@ -234,7 +239,7 @@ class UserSeeder extends Seeder
     private function generateUserWithRole($userName, $userEmail, $roleName, $permissions)
     {
         $user = User::firstOrCreate([
-            'name' => $userName,
+            'name'  => $userName,
             'email' => $userEmail,
         ], [
             'password' => Hash::make('password'),
@@ -246,7 +251,7 @@ class UserSeeder extends Seeder
             $permissionsObjs[] = Permission::firstOrCreate([
                 'name' => $name,
             ]);
-        }   
+        }
         $role->permissions()->sync($permissionsObjs);
     }
 
