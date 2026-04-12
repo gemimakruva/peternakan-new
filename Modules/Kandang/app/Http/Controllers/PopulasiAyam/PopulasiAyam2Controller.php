@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Modules\Kandang\Models\AyamPindah;
 use Modules\Kandang\Repositories\Kandang\KandangRepository;
 use Modules\Kandang\Repositories\PopulasiAyamRepository;
 use Modules\Kandang\Services\PopulasiAyamService;
@@ -28,12 +29,14 @@ class PopulasiAyam2Controller extends Controller
             $request->query('perPage', 10)
         );
         $listKandang = $this->kandangRepository->getSelectItems();
+
         return view('kandang::populasi-ayam-2.index', compact(['datas', 'listKandang']));
     }
 
     public function create()
     {
         $listKandang = $this->kandangRepository->getSelectItems();
+
         return view('kandang::populasi-ayam-2.create', compact(['listKandang']));
     }
 
@@ -41,7 +44,7 @@ class PopulasiAyam2Controller extends Controller
     {
         $validated = $request->validate([
             'kandang_id'    => ['required', 'exists:kandang,id'],
-            'tanggal'       => ['required', 'date_format:Y-m-d', function ($attr, $value, $fail) use($request) {
+            'tanggal'       => ['required', 'date_format:Y-m-d', function ($attr, $value, $fail) use ($request) {
                 // invalid karena recording populasi sudah dilakukan sebelumnya.
                 $isExists = $this->repository
                     ->getModel()
@@ -51,7 +54,7 @@ class PopulasiAyam2Controller extends Controller
                 if ($isExists) {
                     $fail('Recording Populasi Ayam Sudah Dilakukan Sebelumnya.');
                 }
-                
+
                 // invalid karena tanggal data populasi terbaru.
                 $isExists = $this->repository
                     ->getModel()
@@ -70,74 +73,83 @@ class PopulasiAyam2Controller extends Controller
 
     public function createDetail($kandangId, $tanggal)
     {
-        $kandang = $this->kandangRepository->find($kandangId);
+        $kandang    = $this->kandangRepository->find($kandangId);
         $isEditable = true;
+
         return view('kandang::populasi-ayam-2.create-detail', compact(['kandang', 'isEditable']));
     }
 
     public function edit($kandangId, $tanggal)
     {
-        $kandang = $this->kandangRepository->find($kandangId);
-        $isEditable = !$this->repository
+        $kandang    = $this->kandangRepository->find($kandangId);
+        $isEditable = ! $this->repository
             ->getModel()
             ->where('kandang_id', '=', $kandangId)
             ->whereDate('tanggal', '>', $tanggal)
             ->exists();
-        return view('kandang::populasi-ayam-2.edit', compact(['kandang', 'isEditable']));
+
+        $ayamPindah = $this->getAyamPindah($kandangId, $tanggal);
+
+        return view('kandang::populasi-ayam-2.edit', compact(['kandang', 'isEditable', 'ayamPindah']));
     }
 
     public function update(Request $request, $kandangId, $tanggal)
     {
         $request->validate([
-            'items.*.ayam_mati' => [function ($attr, $value, $fail) use($request) {
-                $index = explode('.', $attr)[1];
+            'items.*.ayam_mati' => [function ($attr, $value, $fail) use ($request) {
+                $index           = explode('.', $attr)[1];
                 $ayamSehatBefore = $request->integer("items.$index.ayam_sehat_before");
-                $ayamMati = $request->integer("items.$index.ayam_mati");
+                $ayamMati        = $request->integer("items.$index.ayam_mati");
                 if ($ayamMati > $ayamSehatBefore) {
-                    $fail("Ayam Mati tidak boleh lebih besar dari ayam sehat sebelumnya");
+                    $fail('Ayam Mati tidak boleh lebih besar dari ayam sehat sebelumnya');
                 }
             }],
-            'items.*.ayam_afkir' => [function ($attr, $value, $fail) use($request) {
-                $index = explode('.', $attr)[1];
+            'items.*.ayam_afkir' => [function ($attr, $value, $fail) use ($request) {
+                $index           = explode('.', $attr)[1];
                 $ayamSehatBefore = $request->integer("items.$index.ayam_sehat_before");
-                $ayamAfkir = $request->integer("items.$index.ayam_afkir");
+                $ayamAfkir       = $request->integer("items.$index.ayam_afkir");
                 if ($ayamAfkir > $ayamSehatBefore) {
-                    $fail("Ayam Afkir tidak boleh lebih besar dari ayam sehat sebelumnya");
+                    $fail('Ayam Afkir tidak boleh lebih besar dari ayam sehat sebelumnya');
                 }
             }],
-            'items.*.ayam_masuk_karantina' => [function ($attr, $value, $fail) use($request) {
-                $index = explode('.', $attr)[1];
-                $ayamSehatBefore = $request->integer("items.$index.ayam_sehat_before");
+            'items.*.ayam_masuk_karantina' => [function ($attr, $value, $fail) use ($request) {
+                $index              = explode('.', $attr)[1];
+                $ayamSehatBefore    = $request->integer("items.$index.ayam_sehat_before");
                 $ayamMasukKarantina = $request->integer("items.$index.ayam_masuk_karantina");
                 if ($ayamMasukKarantina > $ayamSehatBefore) {
-                    $fail("Ayam Afkir tidak boleh lebih besar dari ayam sehat sebelumnya");
+                    $fail('Ayam Afkir tidak boleh lebih besar dari ayam sehat sebelumnya');
                 }
             }],
-            'items.*.ayam_keluar_karantina' => [function ($attr, $value, $fail) use($request) {
-                $index = explode('.', $attr)[1];
-                $ayamSakitSebelumnya = $request->integer("total_ayam_karantina");
+            'items.*.ayam_keluar_karantina' => [function ($attr, $value, $fail) use ($request) {
+                $index               = explode('.', $attr)[1];
+                $ayamSakitSebelumnya = $request->integer('total_ayam_karantina');
                 $ayamKeluarKarantina = $request->integer("items.$index.ayam_keluar_karantina");
                 if ($ayamKeluarKarantina > $ayamSakitSebelumnya) {
-                    $fail("Ayam Keluar Karantina tidak boleh lebih besar dari ayam sakit sebelumnya.");
+                    $fail('Ayam Keluar Karantina tidak boleh lebih besar dari ayam sakit sebelumnya.');
                 }
             }],
         ]);
 
-        $items = $request->collect('items')->map(function($item) use($request, $kandangId, $tanggal) {
+        $items = $request->collect('items')->map(function ($item) use ($request, $kandangId, $tanggal) {
             $item['kandang_id'] = $kandangId;
             $item['tanggal']    = $tanggal;
             $item['umur_ayam']  = $request->input('umur_ayam');
+
             return $item;
         });
 
         DB::beginTransaction();
         try {
-            app(PopulasiAyamService::class)->savePopulasiAyam2($items);
+            $service = app(PopulasiAyamService::class);
+            $service->savePopulasiAyam2($items);
+            $service->saveAyamPindah($items, $tanggal);
             DB::commit();
+
             return back()->with('success', 'Data populasi berhasil disimpan.');
         } catch (\Throwable $th) {
             DB::rollBack();
             Log::error($th);
+
             return back()
                 ->withInput()
                 ->with('danger', 'Data populasi gagal disimpan.');
@@ -149,5 +161,17 @@ class PopulasiAyam2Controller extends Controller
         app(PopulasiAyamService::class)->deletePopulasiAyam2($kandangId, $tanggal);
 
         return back()->with('success', 'Data populasi berhasil dihapus.');
+    }
+
+    public function getAyamPindah($kandangId, $tanggal)
+    {
+        $ayamPindah = AyamPindah::query()
+            ->whereHas('asalPipe.flock', function ($query) use ($kandangId) {
+                $query->where('kandang_id', '=', $kandangId);
+            })
+            ->whereDate('tanggal', '=', $tanggal)
+            ->get();
+
+        return $ayamPindah;
     }
 }

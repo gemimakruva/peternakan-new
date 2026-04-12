@@ -905,3 +905,15 @@ Table telur_grading_item {
   created_at timestamp
   updated_at timestamp
 }
+
+Table ayam_pindah {
+  id biginteger [PK, increment]
+  user_pic_id biginteger [Ref : > users.id]
+  populasi_ayam_id biginteger [Ref : > populasi_ayam.id]
+  asal_pipe_id biginteger [Ref : > pipe.id]
+  tujuan_pipe_id biginteger [Ref : > pipe.id]
+  jumlah_perubahan integer
+  tanggal date
+  created_at timestamp
+  updated_at timestamp
+}

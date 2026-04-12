@@ -9,7 +9,7 @@
                 is_editable: @js(!@$isEditable),
                 getTotalAyam(key) {
                     return items.reduce((total, item2) => {
-                        return total + Number(item2[key]);
+                        return total + Number(item2[key] || 0);
                     }, 0); 
                 },
                 get total_ayam_sehat_sebelumnya() {
@@ -30,6 +30,21 @@
                 get total_ayam_keluar_karantina() {
                     return this.getTotalAyam('ayam_keluar_karantina').toLocaleString('id');
                 },
+                getPindahChange(pipeId) {
+                    let total = 0;
+                    items.forEach(item => {
+                        if (item.pindah_ayam && item.pindah_ayam.length > 0) {
+                            item.pindah_ayam.forEach(p => {
+                                if (String(p.pipe_tujuan_id) === String(pipeId)) {
+                                    total += Number(p.jumlah_perubahan || 0);
+                                } else if (String(item.pipe.id) === String(pipeId)) {
+                                    total -= Number(p.jumlah_perubahan || 0);
+                                }
+                            });
+                        }
+                    });
+                    return total;
+                },
             }"
         >
             <thead>
@@ -40,25 +55,46 @@
                     <th rowspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Mati</th>
                     <th rowspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Afkir</th>
                     <th colspan="2" style="vertical-align: middle; text-align: center; min-width: 100px;">Karantina</th>
+                    <th colspan="2" style="vertical-align: middle; text-align: center; min-width: 150px;">Pindah Ayam</th>
                 </tr>
                 <tr style="vertical-align: middle; text-align: center;">
                     <th style="vertical-align: middle; text-align: center; min-width: 100px;">Sebelum</th>
                     <th style="vertical-align: middle; text-align: center; min-width: 100px;">Sesudah</th>
                     <th style="vertical-align: middle; text-align: center; min-width: 100px;">Masuk</th>
                     <th style="vertical-align: middle; text-align: center; min-width: 100px;">Keluar</th>
+                    <th style="vertical-align: middle; text-align: center; min-width: 100px;">Pipe Tujuan</th>
+                    <th style="vertical-align: middle; text-align: center; min-width: 100px;">Perpindahan</th>
                 </tr>
             </thead>
             <tbody>
-                <template x-for="item in items">
+                <template x-for="(item, index) in items">
                     <tr
                         x-data="{
                             get current_ayam_sehat() {
-                                return Number(item.ayam_sehat_before)
-                                    - Number(item.ayam_mati)
-                                    - Number(item.ayam_afkir)
-                                    - Number(item.ayam_masuk_karantina)
-                                    + Number(item.ayam_keluar_karantina)
+                                return Number(item.ayam_sehat_before || 0)
+                                    - Number(item.ayam_mati || 0)
+                                    - Number(item.ayam_afkir || 0)
+                                    - Number(item.ayam_masuk_karantina || 0)
+                                    + Number(item.ayam_keluar_karantina || 0)
+                                    + getPindahChange(item.pipe.id);
                             },
+                            getOtherPipes() {
+                                return items.filter(i => String(i.pipe.id) !== String(item.pipe.id));
+                            },
+                            updatePindah(targetPipeId, jumlah) {
+                                if (!item.pindah_ayam) item.pindah_ayam = [];
+                                const existingIndex = item.pindah_ayam.findIndex(p => String(p.pipe_tujuan_id) === String(targetPipeId));
+                                if (Number(jumlah) === 0) {
+                                    if (existingIndex >= 0) item.pindah_ayam.splice(existingIndex, 1);
+                                } else {
+                                    if (existingIndex >= 0) {
+                                        item.pindah_ayam[existingIndex].jumlah_perubahan = jumlah;
+                                    } else {
+                                        item.pindah_ayam.push({ pipe_tujuan_id: targetPipeId, jumlah_perubahan: jumlah });
+                                    }
+                                }
+                                items[index] = item;
+                            }
                         }"
                     >
                         <td class="text-left">
@@ -112,12 +148,18 @@
                             />
                         </td>
                         <td class="text-right">
-                            <x-adminlte-input 
-                                name="ayam_sehat"
+                            <div class="d-flex flex-column align-items-end">
+                                <span x-text="current_ayam_sehat"></span>
+                                <template x-if="getPindahChange(item.pipe.id) !== 0">
+                                    <small class="text-primary" :class="getPindahChange(item.pipe.id) > 0 ? 'text-success' : 'text-danger'">
+                                        (<span x-text="getPindahChange(item.pipe.id) > 0 ? '+' : ''"></span><span x-text="getPindahChange(item.pipe.id)"></span>)
+                                    </small>
+                                </template>
+                            </div>
+                            <input
+                                type="hidden"
                                 x-bind:name="`items[${item.pipe.id}][ayam_sehat]`"
-                                x-bind:value="current_ayam_sehat"
-                                fgroup-class="mb-0"
-                                readonly
+                                :value="current_ayam_sehat"
                             />
                         </td>
                         <td class="text-right">
@@ -160,6 +202,45 @@
                                 x-bind:readonly="is_editable"
                             />
                         </td>
+                        <td class="text-left">
+                            <template x-if="getOtherPipes().length > 0">
+                                <select 
+                                    class="form-control form-control-sm"
+                                    x-bind:readonly="is_editable"
+                                    @change="updatePindah($event.target.value, $event.target.dataset.jumlah || 0)"
+                                    :data-jumlah="item.pindah_ayam && item.pindah_ayam.length > 0 ? item.pindah_ayam[0].jumlah_perubahan : 0"
+                                >
+                                    <option value="">Pilih Pipe Tujuan</option>
+                                    <template x-for="otherPipe in getOtherPipes()" :key="otherPipe.pipe.id">
+                                        <option 
+                                            :value="otherPipe.pipe.id"
+                                            :selected="item.pindah_ayam && item.pindah_ayam.some(p => String(p.pipe_tujuan_id) === String(otherPipe.pipe.id))"
+                                            x-text="otherPipe.pipe.nama"
+                                        ></option>
+                                    </template>
+                                </select>
+                            </template>
+                            <template x-if="getOtherPipes().length === 0">
+                                <span class="text-muted">-</span>
+                            </template>
+                        </td>
+                        <td class="text-right">
+                            <template x-if="getOtherPipes().length > 0">
+                                <input 
+                                    type="number"
+                                    class="form-control form-control-sm"
+                                    x-bind:name="`items[${item.pipe.id}][pindah_ayam][0][jumlah_perubahan]`"
+                                    :value="item.pindah_ayam && item.pindah_ayam.length > 0 ? item.pindah_ayam[0].jumlah_perubahan : 0"
+                                    x-bind:readonly="is_editable"
+                                    @input="if ($event.target.value) { const selectedPipe = $event.target.closest('tr').querySelector('select').value; if (selectedPipe) updatePindah(selectedPipe, $event.target.value); }"
+                                />
+                            </template>
+                            <input 
+                                type="hidden"
+                                x-bind:name="`items[${item.pipe.id}][pindah_ayam][0][pipe_tujuan_id]`"
+                                :value="item.pindah_ayam && item.pindah_ayam.length > 0 ? item.pindah_ayam[0].pipe_tujuan_id : ''"
+                            />
+                        </td>
                     </tr>
                 </template>
             </tbody>
@@ -172,6 +253,7 @@
                     <th class="text-right" x-text="total_ayam_afkir"></th>
                     <th class="text-right" x-text="total_ayam_masuk_karantina"></th>
                     <th class="text-right" x-text="total_ayam_keluar_karantina"></th>
+                    <th colspan="2"></th>
                 </tr>
             </tfoot>
         </table>

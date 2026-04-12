@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Modules\Kandang\Enums\JenisPemeriksaan;
 use Modules\Kandang\Models\AyamAfkir;
 use Modules\Kandang\Models\AyamAfkirPopulasi;
+use Modules\Kandang\Models\AyamPindah;
 use Modules\Kandang\Models\KarantinaPopulasi;
 use Modules\Kandang\Models\KarantinaPopulasiPipe;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
@@ -24,13 +25,14 @@ class PopulasiAyamService
         private KarantinaPopulasi $karantinaPopulasi,
         private KarantinaPopulasiPipe $karantinaPopulasiPipe,
         private PengadaanAyamDistribusi $pengadaanAyamDistribusi,
+        private AyamPindah $ayamPindah,
     ) {}
 
-    public function getPerkiraanBobotAyamKandang($kandangId, ?Carbon $tanggal) 
+    public function getPerkiraanBobotAyamKandang($kandangId, ?Carbon $tanggal)
     {
         return DB::table('sampling_bobot_ayam_per_ekor as sbape')
             ->join('sampling_bobot_ayam as sba', 'sba.id', '=', 'sbape.sampling_bobot_ayam_id')
-            ->selectRaw(<<<SQL
+            ->selectRaw(<<<'SQL'
                 sum(sbape.bobot_per_kg)/count(sbape.bobot_per_kg)*sba.jumlah_ayam_saat_ini as bobot_ayam_keseluruhan
                 , sum(sbape.bobot_per_kg)/count(sbape.bobot_per_kg) as bobot_ayam_rata2
                 , sba.jumlah_ayam_saat_ini
@@ -53,21 +55,27 @@ class PopulasiAyamService
             ->where('pipe_id', '=', $pipeId)
             ->value('ayam_sehat');
 
-        if ($jumlahAyamSehatHariIni > 0) return (int) $jumlahAyamSehatHariIni;
+        if ($jumlahAyamSehatHariIni > 0) {
+            return (int) $jumlahAyamSehatHariIni;
+        }
 
         $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
             ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
             ->where('pipe_id', '=', $pipeId)
             ->value('ayam_sehat');
 
-        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) {
+            return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+        }
 
         $jumlahAyamSehatTerakhir = $this->populasiAyamRepository->getModel()
             ->where('pipe_id', '=', $pipeId)
             ->latest('tanggal')
             ->value('ayam_sehat');
 
-        if ($jumlahAyamSehatTerakhir > 0) return (int) $jumlahAyamSehatTerakhir;
+        if ($jumlahAyamSehatTerakhir > 0) {
+            return (int) $jumlahAyamSehatTerakhir;
+        }
 
         return 0;
     }
@@ -83,14 +91,18 @@ class PopulasiAyamService
             ->where('flock_id', '=', $flockId)
             ->sum('ayam_sehat');
 
-        if ($jumlahAyamSehatHariIni > 0) return (int) $jumlahAyamSehatHariIni;
+        if ($jumlahAyamSehatHariIni > 0) {
+            return (int) $jumlahAyamSehatHariIni;
+        }
 
         $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
             ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
             ->where('flock_id', '=', $flockId)
             ->sum('ayam_sehat');
 
-        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) {
+            return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+        }
 
         $tanggalTerakhir = $this->populasiAyamRepository->getModel()
             ->where('flock_id', $flockId)
@@ -101,7 +113,9 @@ class PopulasiAyamService
             ->where('tanggal', $tanggalTerakhir)
             ->sum('ayam_sehat');
 
-        if ($jumlahAyamSehatTerakhir > 0) return (int) $jumlahAyamSehatTerakhir;
+        if ($jumlahAyamSehatTerakhir > 0) {
+            return (int) $jumlahAyamSehatTerakhir;
+        }
 
         return 0;
     }
@@ -117,14 +131,18 @@ class PopulasiAyamService
             ->where('kandang_id', '=', $kandangId)
             ->sum('ayam_sehat');
 
-        if ($jumlahAyamSehatHariIni > 0) return (int) $jumlahAyamSehatHariIni;
+        if ($jumlahAyamSehatHariIni > 0) {
+            return (int) $jumlahAyamSehatHariIni;
+        }
 
         $jumlahAyamSehatDariPopulasiSebelumnya = $this->populasiAyamRepository->getModel()
             ->whereDate('tanggal', '=', $hMin1TanggalPerbandingan)
             ->where('kandang_id', '=', $kandangId)
             ->sum('ayam_sehat');
 
-        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+        if ($jumlahAyamSehatDariPopulasiSebelumnya > 0) {
+            return (int) $jumlahAyamSehatDariPopulasiSebelumnya;
+        }
 
         $tanggalTerakhir = $this->populasiAyamRepository->getModel()
             ->where('kandang_id', $kandangId)
@@ -135,12 +153,14 @@ class PopulasiAyamService
             ->where('tanggal', $tanggalTerakhir)
             ->sum('ayam_sehat');
 
-        if ($jumlahAyamSehatTerakhir > 0) return (int) $jumlahAyamSehatTerakhir;
+        if ($jumlahAyamSehatTerakhir > 0) {
+            return (int) $jumlahAyamSehatTerakhir;
+        }
 
         return 0;
     }
 
-    public function getUmurAyamByPipeId($pipeId, Carbon $tanggalPembanding): array|null
+    public function getUmurAyamByPipeId($pipeId, Carbon $tanggalPembanding): ?array
     {
         $data = app(PengadaanAyamDistribusi::class)
             ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
@@ -156,7 +176,7 @@ class PopulasiAyamService
         return $this->getUmurAyamResponse($data, $tanggalPembanding);
     }
 
-    public function getUmurAyamByFlockId($flockId, Carbon $tanggalPembanding): array|null
+    public function getUmurAyamByFlockId($flockId, Carbon $tanggalPembanding): ?array
     {
         $data = app(PengadaanAyamDistribusi::class)
             ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
@@ -172,7 +192,7 @@ class PopulasiAyamService
         return $this->getUmurAyamResponse($data, $tanggalPembanding);
     }
 
-    public function getUmurAyamByKandangId($kandangId, Carbon $tanggalPembanding): array|null
+    public function getUmurAyamByKandangId($kandangId, Carbon $tanggalPembanding): ?array
     {
         $data = app(PengadaanAyamDistribusi::class)
             ->join('pengadaan_ayam', 'pengadaan_ayam.id', '=', 'pengadaan_ayam_distribusi.pengadaan_ayam_id')
@@ -191,27 +211,27 @@ class PopulasiAyamService
     private function getUmurAyamResponse(PengadaanAyamDistribusi $data, Carbon $tanggalPembanding)
     {
         // Validasi apakah tanggal pengadaan ada
-        if (!$data->tanggal || !$data->umur_ayam) {
-            return null;
+        if (! $data->tanggal || ! $data->umur_ayam) {
+            return;
         }
 
         // Adjust umur ayam dengan hari
         $tanggalPembanding->addDays($data->penyesuaian_hari_umur_ayam);
 
         // Hitung umur ayam dalam minggu
-        $tanggalPengadaan = Carbon::parse($data->tanggal)->startOfDay();
-        $usiaAyamSaatPengadaan = $data->umur_ayam; // dalam minggu
-        $selisihHariDariPengadaan = $tanggalPengadaan->diffInDays($tanggalPembanding);
+        $tanggalPengadaan           = Carbon::parse($data->tanggal)->startOfDay();
+        $usiaAyamSaatPengadaan      = $data->umur_ayam; // dalam minggu
+        $selisihHariDariPengadaan   = $tanggalPengadaan->diffInDays($tanggalPembanding);
         $selisihMingguDariPengadaan = floor($selisihHariDariPengadaan / 7);
 
         $usiaAyamSaatIni = $usiaAyamSaatPengadaan + $selisihMingguDariPengadaan;
 
         return [
-            'umur_ayam' => $usiaAyamSaatIni,
-            'umur_ayam_saat_pengadaan' => $usiaAyamSaatPengadaan,
+            'umur_ayam'                     => $usiaAyamSaatIni,
+            'umur_ayam_saat_pengadaan'      => $usiaAyamSaatPengadaan,
             'selisih_minggu_dari_pengadaan' => $selisihMingguDariPengadaan,
-            'tanggal_pengadaan' => $tanggalPengadaan->format('Y-m-d'),
-            'tanggal_pembanding' => $tanggalPembanding->format('Y-m-d')
+            'tanggal_pengadaan'             => $tanggalPengadaan->format('Y-m-d'),
+            'tanggal_pembanding'            => $tanggalPembanding->format('Y-m-d'),
         ];
     }
 
@@ -287,7 +307,7 @@ class PopulasiAyamService
                 'ayam_keluar_karantina' => $data['ayam_keluar_karantina'],
                 'catatan'               => @$data['catatan'] ?? null,
             ]);
-    
+
             $this->saveAyamAfkir($populasiAyam);
             $this->saveAyamKarantina($populasiAyam);
 
@@ -315,7 +335,7 @@ class PopulasiAyamService
                 'kandang_id'        => $populasiAyam->kandang_id,
                 'pic_user_id'       => $populasiAyam->pic_user_id,
                 'tanggal'           => $populasiAyam->tanggal,
-                'jumlah_ayam_afkir' => $populasiAyam->ayam_afkir
+                'jumlah_ayam_afkir' => $populasiAyam->ayam_afkir,
             ]);
         } else {
             $this->ayamAfkirPopulasi->where('populasi_ayam_id', '=', $populasiAyam->id)->delete();
@@ -408,12 +428,12 @@ class PopulasiAyamService
             ->orderByDesc('tanggal')
             ->limit(1)
             ->value('total_ayam_karantina') ?? 0;
-        
+
         // update populasi karantina berdasarkan ayam masuk/keluar
         $totalAyamMasukKarantina = $this->karantinaPopulasiPipe
             ->query()
             ->from('karantina_populasi_pipe', 'kpp')
-            ->join('pipe AS p', function($query) {
+            ->join('pipe AS p', function ($query) {
                 $query
                     ->on('p.id', '=', 'kpp.pipe_asal_id')
                     ->orOn('p.id', '=', 'kpp.pipe_tujuan_id');
@@ -428,5 +448,46 @@ class PopulasiAyamService
         $currentKarantinaPopulasi = $latestTotalAyamKarantina + $totalAyamMasukKarantina;
 
         return $currentKarantinaPopulasi;
+    }
+
+    public function saveAyamPindah(Collection $items, $tanggal): void
+    {
+        foreach ($items as $item) {
+            if (! empty($item['pindah_ayam'])) {
+                foreach ($item['pindah_ayam'] as $pindah) {
+                    $tujuanPipeId = $pindah['pipe_tujuan_id'];
+                    $jumlah       = (int) $pindah['jumlah_perubahan'];
+
+                    if ($jumlah === 0) {
+                        continue;
+                    }
+
+                    $populasiAyamId = $item['id'] ?? null;
+
+                    $this->ayamPindah->updateOrCreate([
+                        'tanggal'       => $tanggal,
+                        'asal_pipe_id'  => $item['pipe_id'],
+                        'tujuan_pipe_id'=> $tujuanPipeId,
+                    ], [
+                        'user_pic_id'      => auth()->id(),
+                        'populasi_ayam_id' => $populasiAyamId,
+                        'jumlah_perubahan' => $jumlah,
+                    ]);
+                }
+            }
+        }
+    }
+
+    public function getAyamPindahByKandang($kandangId, $tanggal)
+    {
+        return $this->ayamPindah
+            ->whereHas('asalPipe.flock', function ($query) use ($kandangId) {
+                $query->where('kandang_id', '=', $kandangId);
+            })
+            ->whereDate('tanggal', '=', $tanggal)
+            ->get()
+            ->mapToGroups(function ($item) {
+                return [$item->asal_pipe_id => $item];
+            });
     }
 }
