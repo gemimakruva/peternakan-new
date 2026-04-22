@@ -90,7 +90,7 @@
                                         </a>
 
                                         <form action="{{ route('treatment.destroy', $row->id) }}" method="post"
-                                            data-nama="{{ $row->nama }}" class="form-delete">
+                                            data-tanggal="{{ $row->tanggal->translatedFormat('l, d F Y') }}" class="form-delete">
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-sm btn-danger" title="Hapus">
@@ -124,10 +124,10 @@
     <script>
         $(document).on('submit', '.form-delete', function (e) {
             e.preventDefault();
-            const nama = $(this).data('nama');
+            const tanggal = $(this).data('tanggal');
 
             Swal.fire({
-                title: `Hapus Treatment "${nama}"?`,
+                title: `Hapus Treatment "${tanggal}"?`,
                 text: "Data yang dihapus tidak dapat dikembalikan.",
                 icon: "warning",
                 showCancelButton: true,

@@ -7,8 +7,8 @@
                 
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="mb-0 text-center">Selamat Datang di <strong
-                            >Smart Poultry Management System</strong>.</h1>
+                        <h1 class="mb-0">Selamat Datang di <strong>{{ config('adminlte.title') }}</strong>.</h1>
+                        <h2>{{ config('adminlte.description') }}</h2>
                     </div>
                 </div>
 

@@ -16,9 +16,8 @@
             <thead>
                 <tr>
                     <th class="align-middle" style="min-width: 40px;">#</th>
-                    <th class="align-middle" style="min-width: 150px;">Supplier</th>
+                    <th class="align-middle" style="min-width: 150px;">Kemasan</th>
                     <th class="align-middle" style="min-width: 150px;">Kode Barang</th>
-                    <th class="align-middle" style="min-width: 150px;">Harga</th>
                     <th class="align-middle" style="min-width: 150px;">Jenis Pengiriman</th>
                     <th class="align-middle" style="min-width: 40px;">Aksi</th>
                 </tr>
@@ -58,17 +57,6 @@
                                 x-bind:name="`items[${i}][kode_barang]`"
                                 x-bind:value="item.kode_barang"
                                 placeholder="Kode Barang"
-                                class="form-control-sm"
-                                fgroup-class="w-100 mb-0"
-                            />
-                        </td>
-            
-                        <td>
-                            <x-adminlte-input
-                                name="harga"
-                                x-bind:name="`items[${i}][harga]`"
-                                x-bind:value="item.harga"
-                                placeholder="Harga"
                                 class="form-control-sm"
                                 fgroup-class="w-100 mb-0"
                             />

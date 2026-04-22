@@ -17,11 +17,13 @@ class KemasanInventory extends Model
         'kemasan_id',
         'tanggal',
         'jumlah',
+        'harga_satuan',
     ];
 
     protected $casts = [
-        'tanggal'   => 'date',
-        'jumlah'    => 'integer',
+        'tanggal' => 'date',
+        'jumlah' => 'integer',
+        'harga_satuan' => 'float',
     ];
 
     public function supplier()

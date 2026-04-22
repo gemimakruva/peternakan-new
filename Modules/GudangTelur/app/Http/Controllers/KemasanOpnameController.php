@@ -14,7 +14,9 @@ class KemasanOpnameController extends Controller
     public function __construct(
         private KemasanOpnameRepository $repository,
         private KemasanInventoryRepository $kemasanInventoryRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.opname-kemasan.menu-opname-kemasan');
+    }
 
     public function index(Request $request)
     {
@@ -57,7 +59,11 @@ class KemasanOpnameController extends Controller
     {
         $kemasanOpname->load('kemasanInventory');
         $data = $kemasanOpname;
-        $listKemasanInventory = $this->kemasanInventoryRepository->getQuery()->get();
+        $listKemasanInventory = $this->kemasanInventoryRepository
+            ->getQuery()
+            ->where('kemasan_inventory.tanggal', '<=', $kemasanOpname->tanggal)
+            ->orderBy('nama_kemasan')
+            ->get();
         $data->kemasanInventory->transform(function ($item) use($listKemasanInventory) {
             $item->real = (int) $listKemasanInventory->first(fn($item2) => $item2->kemasan_id == $item->kemasan_id)->stok + $item->jumlah;
             return $item;

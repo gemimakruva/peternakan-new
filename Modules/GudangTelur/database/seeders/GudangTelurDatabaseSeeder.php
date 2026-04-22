@@ -12,6 +12,7 @@ class GudangTelurDatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call([
+            SatuanSeeder::class,
             SupplierSeeder::class,
             TelurSeeder::class,
         ]);

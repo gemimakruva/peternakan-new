@@ -14,8 +14,8 @@ class PeternakanSeeder extends Seeder
     {
         $data = [
             [
-                'nama'      => 'Peternakan Ayam Sejahtera',
-                'lokasi'    => 'Jl. Wates KM 7, Gamping, Sleman',
+                'nama'      => 'PT TAMA AGRO FARM',
+                'lokasi'    => 'Surodadi RT 004/RW 048, Wukirsari, Cangkringan, Sleman',
             ],
         ];
 

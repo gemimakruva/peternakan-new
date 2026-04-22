@@ -1,0 +1,11 @@
+{
+    "name": "GudangPakan",
+    "alias": "gudangpakan",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\GudangPakan\\Providers\\GudangPakanServiceProvider"
+    ],
+    "files": []
+}

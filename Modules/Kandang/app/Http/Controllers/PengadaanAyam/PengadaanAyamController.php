@@ -44,7 +44,7 @@ class PengadaanAyamController extends Controller
                 $query->whereRelation('picUser', 'name', 'like', "%$search%");
             })
             ->when(request()->query('tanggal'), function ($query, $tanggal) {
-                $query->whereDate('tanggal', '=', $tanggal);
+                $query->whereDate('pengadaan_ayam.tanggal', '=', $tanggal);
             })
             ->orderBy('tanggal', 'desc')
             ->orderBy('id', 'desc')
@@ -97,6 +97,7 @@ class PengadaanAyamController extends Controller
                 }
             }],
             'umur_ayam' => ['required', 'integer', 'min:0'],
+            'penyesuaian_hari_umur_ayam' => ['required', 'integer'],
             'jumlah_ayam_sakit' => ['required', 'integer', 'min:0'],
             'jumlah_ayam_mati' => ['required', 'integer', 'min:0'],
             'kondisi_ayam' => ['required', 'string', 'max:255'],
@@ -108,11 +109,12 @@ class PengadaanAyamController extends Controller
             'jumlah_ayam_masuk_kandang' => 0,
         ]);
 
-        $pengadaanAyam = $this->pengadaanAyam->create($request->only([
+        $validated = $request->only([
             'kandang_id',
             'tanggal',
             'jumlah_ayam_datang',
             'umur_ayam',
+            'penyesuaian_hari_umur_ayam',
             'jumlah_ayam_sakit',
             'jumlah_ayam_mati',
             'kondisi_ayam',
@@ -120,7 +122,9 @@ class PengadaanAyamController extends Controller
 
             'pic_user_id',
             'jumlah_ayam_masuk_kandang',
-        ]));
+        ]);
+
+        $pengadaanAyam = $this->pengadaanAyam->create($validated);
 
         return to_route('pengadaan-ayam.edit', $pengadaanAyam)
             ->with('success', 'Pengadaan Ayam berhasil disimpan, input data Distribusi, Berkas dan Dokumentasi.');

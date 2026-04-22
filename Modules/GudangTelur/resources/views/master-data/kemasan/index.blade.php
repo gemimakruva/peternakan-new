@@ -70,7 +70,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center">Data Supplier tidak tersedia</td>
+                            <td colspan="3" class="text-center">Data Kemasan tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>

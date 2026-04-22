@@ -89,7 +89,11 @@
                         .replace('_tanggal', this.tanggal);
                     const res   = await fetch(url, { signal: this.controller.signal });
                     const json  = await res.json();
-                    this.items  = json.items;
+                    this.items  = json.items.map(item => {
+                        item.pindah_ayam = [];
+                        item.pindahJumlah = '';
+                        return item;
+                    });
                     this.total_ayam_sehat       = json.info.total_ayam_sehat_terakhir;
                     this.total_ayam_karantina   = json.info.total_ayam_sakit_terakhir;
                     this.umur_ayam              = json.info.umur_ayam;

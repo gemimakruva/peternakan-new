@@ -16,7 +16,9 @@ class TelurMasukController extends Controller
         private TelurMasukRepository $repository,
         private TelurJenisRepository $telurJenisRepository,
         private TelurAsalRepository $telurAsalRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.telur-masuk.menu-telur-masuk');
+    }
 
     public function index(Request $request)
     {

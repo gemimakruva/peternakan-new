@@ -8,7 +8,9 @@
         <div class="col-sm-6">
             <div class="d-flex align-items-center gap-1">
                 <h1>Perhitungan Pemberian Pakan</h1>
-                <a href="{{ route('perhitungan-pakan.create') }}" class="btn btn-primary">Tambah Perhitungan</a>
+                @can('kandang.pakan.create-perhitungan-pemberian-pakan')
+                    <a href="{{ route('perhitungan-pakan.create') }}" class="btn btn-primary">Tambah Perhitungan</a>
+                @endcan
             </div>
         </div>
         <div class="col-sm-6">
@@ -103,8 +105,13 @@
                             <td class="text-left">{{ $row->nama_jenis_pakan }}</td>
                             <td class="text-center">
                                 <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('perhitungan-pakan.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
-                                        <i class="fas fa-edit"></i>
+                                    @can('kandang.pakan.edit-perhitungan-pemberian-pakan')
+                                        <a href="{{ route('perhitungan-pakan.edit', $row) }}" class="btn btn-sm btn-warning text-white" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                    @endcan
+                                    <a href="{{ route('perhitungan-pakan.show', $row) }}" class="btn btn-sm btn-info" title="Detail">
+                                        <i class="fas fa-eye"></i>
                                     </a>
                                 </div>
                             </td>

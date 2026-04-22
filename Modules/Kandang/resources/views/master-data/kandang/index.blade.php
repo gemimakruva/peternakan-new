@@ -128,7 +128,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center text-muted py-3">
+                                <td colspan="6" class="text-center text-muted py-3">
                                     Tidak ada data kandang ditemukan.
                                 </td>
                             </tr>

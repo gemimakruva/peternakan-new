@@ -10,7 +10,9 @@ class TelurInventoryController extends Controller
 {
     public function __construct(
         private TelurInventoryRepository $repository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.inventory-telur.menu-inventory-telur');
+    }
 
     public function index(Request $request)
     {

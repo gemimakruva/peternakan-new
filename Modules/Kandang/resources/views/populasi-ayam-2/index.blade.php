@@ -85,7 +85,12 @@
                                         <i class="fas fa-eye"></i>
                                     </a>
                                     @if (@$row->is_editable)
-                                        <form action="{{ route('populasi-ayam-2.destroy', [$row->id_kandang, $row->tanggal->format('Y-m-d')]) }}" method="post">
+                                        <form
+                                            action="{{ route('populasi-ayam-2.destroy', [$row->id_kandang, $row->tanggal->format('Y-m-d')]) }}"
+                                            method="post"
+                                            class="form-delete"
+                                            data-tanggal="{{ $row->tanggal->translatedFormat('l, d F Y') }}"
+                                        >
                                             @csrf
                                             @method('delete')
                                             <button class="btn btn-sm btn-danger">
@@ -98,7 +103,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="9" class="text-center">Data Populasi Ayam Kosong.</td>
+                            <td colspan="10" class="text-center">Data Populasi Ayam Kosong.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -113,3 +118,25 @@
     </div>
 </div>
 @endsection
+
+@push('js')
+    <script>
+        $(document).on('submit', '.form-delete', function (e) {
+            e.preventDefault();
+            const tanggal = $(this).data('tanggal');
+
+            Swal.fire({
+                title: `Hapus Populasi Ayam tanggal "${tanggal}"?`,
+                text: "Data yang dihapus tidak dapat dikembalikan.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Ya, Hapus",
+                cancelButtonText: "Batal"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    </script>
+@endpush

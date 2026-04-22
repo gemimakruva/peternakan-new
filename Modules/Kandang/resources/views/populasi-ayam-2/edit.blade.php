@@ -63,6 +63,7 @@
 
 <script>
     var items = @js(array_values(old('items', [])));
+    var ayamPindah = @js($ayamPindah ?? []);
 
     document.addEventListener('alpine:init', () => {
         Alpine.data('data', () => ({
@@ -72,7 +73,7 @@
             total_ayam_karantina: 0,
             umur_ayam: 0,
 
-            controller: null, // buat cancel request lama (anti balapan)
+            controller: null,
             items,
 
             init() {
@@ -83,7 +84,6 @@
             async load() {
                 if (!this.kandang_id || !this.tanggal) return;
 
-                // cancel request sebelumnya
                 if (this.controller) this.controller.abort();
                 this.controller = new AbortController();
 
@@ -94,7 +94,20 @@
                     const res   = await fetch(url, { signal: this.controller.signal });
                     const json  = await res.json();
                     if (!this.items.length) {
-                        this.items  = json.items;
+                        this.items = json.items.map(item => {
+                            const pindahData = ayamPindah.filter(p => String(p.asal_pipe_id) === String(item.pipe.id));
+                            if (pindahData.length > 0) {
+                                item.pindah_ayam = [{
+                                    pipe_tujuan_id: pindahData[0].tujuan_pipe_id,
+                                    jumlah_perubahan: pindahData[0].jumlah_perubahan
+                                }];
+                                item.pindahJumlah = String(pindahData[0].jumlah_perubahan);
+                            } else {
+                                item.pindah_ayam = [];
+                                item.pindahJumlah = '';
+                            }
+                            return item;
+                        });
                     }
                     this.total_ayam_sehat       = json.info.total_ayam_sehat_terakhir;
                     this.total_ayam_karantina   = json.info.total_ayam_sakit_terakhir;

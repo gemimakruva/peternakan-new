@@ -18,23 +18,23 @@ class KandangDatabaseSeeder extends Seeder
             StrainSeeder::class,
             KandangSeeder::class,
             FlockSeeder::class,
-            PengadaanAyamSedeer::class,
-            PopulasiAyamSeeder::class,
-            AyamAfkirSeeder::class,
-            AyamKarantinaSeeder::class,
+            // PengadaanAyamSedeer::class,
+            // PopulasiAyamSeeder::class,
+            // AyamAfkirSeeder::class,
+            // AyamKarantinaSeeder::class,
 
             JenisPakanSeeder::class,
             JenisTreatmentSeeder::class,
             MetodeTreatmentSeeder::class,
 
-            PerhitunganPakanSeeder::class,
-            PemberianPakanSisaPakanSeeder::class,
+            // PerhitunganPakanSeeder::class,
+            // PemberianPakanSisaPakanSeeder::class,
             
-            ProduksiTelurSeeder::class,
+            // ProduksiTelurSeeder::class,
 
-            SamplingBobotAyamSeeder::class,
+            // SamplingBobotAyamSeeder::class,
 
-            TreatmentSeeder::class,
+            // TreatmentSeeder::class,
         ]);
     }
 }

@@ -13,7 +13,9 @@ class TelurOpnameController extends Controller
     public function __construct(
         private TelurOpnameRepository $repository,
         private TelurInventoryRepository $telurInventoryRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.telur-opname.menu-telur-opname');
+    }
 
     public function index(Request $request)
     {

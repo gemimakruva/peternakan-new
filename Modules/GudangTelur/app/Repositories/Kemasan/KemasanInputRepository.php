@@ -4,6 +4,7 @@ namespace Modules\GudangTelur\Repositories\Kemasan;
 
 use Illuminate\Database\Eloquent\Builder;
 use Modules\GudangTelur\Enums\TipeKemasanInventory;
+use Modules\GudangTelur\Models\Kemasan;
 use Modules\GudangTelur\Models\KemasanInput;
 use Modules\Kandang\Repositories\EloquentRepository;
 
@@ -63,7 +64,16 @@ class KemasanInputRepository extends EloquentRepository
                 'kemasan_input_id'  => $kemasanInput->id,
                 'kemasan_id'        => @$item['kemasan_id'],
                 'jumlah'            => @$item['jumlah'],
+                'harga_satuan'      => @$item['harga_satuan'],
             ]);
+
+            $kemasan = app(Kemasan::class)->find(@$item['kemasan_id']);
+            $kemasan->fill([
+                'harga'         => (float) @$item['harga_satuan'] * (float) @$item['jumlah'],
+                'harga_satuan'  => (float) @$item['harga_satuan'],
+            ]);
+            $kemasan->save();
+
             $savedKemasanInventoryIds[] = $kemasanInventory->id;
         }
         $kemasanInput->kemasanInventory()->whereNotIn('id', $savedKemasanInventoryIds)->delete();

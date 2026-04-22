@@ -35,7 +35,7 @@
                         <h2 class="card-title">Form Perhitungan Pakan</h2>
                     </div>
                     <div class="card-body">
-                        @include('kandang::perhitungan-pakan._form')
+                        @include('kandang::perhitungan-pakan._form', ['readonly' => false])
                     </div>
                 </div>
             </form>

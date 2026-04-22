@@ -104,7 +104,7 @@ Route::middleware(['auth'])->group(function () {
     // ===== Menu Group Pemberian Pakan ====
     Route::resource('perhitungan-pakan', PerhitunganPakanController::class)
         ->names('perhitungan-pakan')
-        ->except('show', 'destroy');
+        ->except('destroy');
     Route::resource('pemberian-pakan-sisa-pakan', PemberianPakanSisaPakanController::class)->names('pemberian-pakan-sisa-pakan')
         ->parameters(['pemberian-pakan-sisa-pakan' => 'perhitungan-pakan'])
         ->except('create', 'update', 'destroy');

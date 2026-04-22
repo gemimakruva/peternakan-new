@@ -39,7 +39,9 @@
                     <tr>
                         <th class="align-middle" style="min-width: 40px;">#</th>
                         <th class="align-middle" style="min-width: 150px;">Kemasan</th>
+                        <th class="align-middle" style="min-width: 150px;">Harga Satuan</th>
                         <th class="align-middle" style="min-width: 150px;">Jumlah</th>
+                        <th class="align-middle" style="min-width: 150px;">Sub Total</th>
                         <th class="align-middle" style="min-width: 40px;">Aksi</th>
                     </tr>
                 </thead>
@@ -82,18 +84,36 @@
                             </td>
                             <td>
                                 <div class="input-group input-group-sm">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Rp</span>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="harga_satuan"
+                                        x-bind:name="`items[${i}][harga_satuan]`"
+                                        x-model="item.harga_satuan"
+                                    />
+                                </div>
+                            </td>
+                            <td>
+                                <div class="input-group input-group-sm">
                                     <input
                                         type="text"
                                         class="form-control"
                                         name="jumlah"
                                         x-bind:name="`items[${i}][jumlah]`"
-                                        x-bind:value="item.jumlah"
+                                        x-model="item.jumlah"
                                     />
                                     <div class="input-group-append">
                                         <span class="input-group-text" x-text="get_kemasan?.satuan?.nama || '-'"></span>
                                     </div>
                                 </div>
                             </td>
+                            <td
+                                class="text-right"
+                                x-text="(Number(item.harga_satuan)*Number(item.jumlah)).toLocaleString('id-ID')"
+                            ></td>
                             <td>
                                 <button type="button" class="btn btn-danger btn-sm" x-on:click="deleteItem(i)">
                                     <i class="fas fa-trash"></i>
@@ -102,6 +122,14 @@
                         </tr>
                     </template>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="3" class="text-bold text-right">Total</td>
+                        <td class="text-right" x-text="items.reduce((total, item) => total+Number(item.jumlah), 0).toLocaleString('id-ID')"></td>
+                        <td class="text-right" x-text="items.reduce((total, item) => total+(Number(item.harga_satuan)*Number(item.jumlah)), 0).toLocaleString('id-ID')"></td>
+                        <td></td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -118,6 +146,7 @@
                     supplier_id : this.supplier_id,
                     jumlah      : null,
                     satuan      : null,
+                    harga_satuan: null,
                 });
             },
             deleteItem(i) {

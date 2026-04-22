@@ -3,6 +3,7 @@
 use App\Http\Controllers\AjaxController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\SettingController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,7 @@ Route::group([
 
     Route::get('notifications/get', [NotificationsController::class, 'getNotificationsData'])->name('notifications.get');
     Route::get('notifications/show', [NotificationsController::class, 'show'])->name('notifications.show');
+
+    Route::get('setting', [SettingController::class, 'general'])->name('setting.general');
+    Route::post('setting', [SettingController::class, 'generalStore'])->name('setting.general.store');
 });

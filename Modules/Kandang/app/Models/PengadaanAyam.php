@@ -14,6 +14,7 @@ class PengadaanAyam extends Model
         'pic_user_id',
         'tanggal',
         'umur_ayam',
+        'penyesuaian_hari_umur_ayam',
         'kondisi_ayam',
         'jumlah_ayam_datang',
         'jumlah_ayam_mati',
@@ -24,6 +25,8 @@ class PengadaanAyam extends Model
 
     protected $casts = [
         'tanggal' => 'date',
+        'umur_ayam' => 'integer',
+        'penyesuaian_hari_umur_ayam' => 'integer',
     ];
 
     public function kandang()

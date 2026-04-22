@@ -36,9 +36,15 @@
                         <h2 class="card-title">Form Perhitungan Pakan</h2>
                     </div>
                     <div class="card-body">
-                        @include('kandang::perhitungan-pakan._form')
-                        <h6 class="text-bold">Perhitungan Pemberian Pakan</h6>
-                        @include('kandang::perhitungan-pakan._form_perhitungan')
+                        @include('kandang::perhitungan-pakan._form', ['readonly' => false])
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title">Form Perhitungan Pemberian Pakan</h2>
+                    </div>
+                    <div class="card-body p-0">
+                        @include('kandang::perhitungan-pakan._form_perhitungan', ['readonly' => false])
                     </div>
                 </div>
             </form>

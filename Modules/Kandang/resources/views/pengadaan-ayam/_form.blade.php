@@ -40,6 +40,15 @@
         />
 
         <x-adminlte-input
+            name="penyesuaian_hari_umur_ayam"
+            label="Penyesuaian Hari Umur Ayam (satuan hari)"
+            type="number"
+            placeholder="Isi -3 untuk kurang 3 hari atau 4 untuk lebih 4 hari"
+            :value="old('penyesuaian_hari_umur_ayam', @$data->penyesuaian_hari_umur_ayam)"
+            :disabled="@$data->penyesuaian_hari_umur_ayam"
+        />
+
+        <x-adminlte-input
             name="jumlah_ayam_datang"
             label="Jumlah Ayam Datang"
             type="number"

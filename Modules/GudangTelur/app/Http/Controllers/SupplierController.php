@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Modules\GudangTelur\Enums\JenisPengiriman;
+use Modules\GudangTelur\Enums\SupplierTipe;
 use Modules\GudangTelur\Models\Supplier;
 use Modules\GudangTelur\Repositories\MasterData\KemasanRepository;
 use Modules\GudangTelur\Repositories\Supplier\SupplierRepository;
@@ -15,7 +16,9 @@ class SupplierController extends Controller
     public function __construct(
         private SupplierRepository $repository,
         private KemasanRepository $kemasanRepository,
-    ) { }
+    ) {
+        $this->middleware('can:gudang-telur.supplier-kemasan.menu-supplier-kemasan');
+    }
 
     public function index(Request $request)
     {
@@ -36,25 +39,18 @@ class SupplierController extends Controller
 
     public function store(Request $request) {
         $validated = $request->validate([
-            'nama'          => ['required', 'string', 'unique:supplier,nama'],
+            'nama'          => ['required', 'string', Rule::unique('supplier', 'nama')->where('tipe', SupplierTipe::KEMASAN->value)],
             'badan_usaha'   => ['nullable', 'string'],
             'kontak'        => ['nullable', 'string'],
             'alamat'        => ['nullable', 'string'],
             'lokasi'        => ['nullable', 'string'],
         ]);
 
+        $validated['tipe']  = SupplierTipe::KEMASAN->value;
         $supplier = $this->repository->getModel()->create($validated);
 
         return to_route('gudang-telur.supplier.edit', $supplier)
             ->with('success', 'Data Supplier Berhasil Disimpan.');
-    }
-
-    /**
-     * Show the specified resource.
-     */
-    public function show($id)
-    {
-        return view('gudangtelur::show');
     }
 
     public function edit(Supplier $supplier)
@@ -76,7 +72,7 @@ class SupplierController extends Controller
     public function update(Request $request, Supplier $supplier) 
     {
         $request->validate([
-            'nama'          => ['required', 'string', Rule::unique('supplier', 'nama')->ignoreModel($supplier)],
+            'nama'          => ['required', 'string', Rule::unique('supplier', 'nama')->where('tipe', SupplierTipe::KEMASAN->value)->ignoreModel($supplier)],
             'badan_usaha'   => ['nullable', 'string'],
             'kontak'        => ['nullable', 'string'],
             'alamat'        => ['nullable', 'string'],
@@ -85,7 +81,6 @@ class SupplierController extends Controller
             'items.*.id'            => ['sometimes', 'numeric', 'exists:supplier_kemasan,id'],
             'items.*.kemasan_id'    => ['required', 'numeric', 'exists:kemasan,id'],
             'items.*.kode_barang'   => ['required', 'string'],
-            'items.*.harga'         => ['required', 'numeric'],
             'items.*.jenis_pengiriman'  => ['required', Rule::in(JenisPengiriman::getArrayValues())],
         ]);
 
@@ -99,7 +94,6 @@ class SupplierController extends Controller
             ], [
                 'kemasan_id'        => @$item['kemasan_id'],
                 'kode_barang'       => @$item['kode_barang'],
-                'harga'             => @$item['harga'],
                 'jenis_pengiriman'  => @$item['jenis_pengiriman'],
             ]);
             $savedSupplierKemasanIds[] = $supplierKemasan->id;

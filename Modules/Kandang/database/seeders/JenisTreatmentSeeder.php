@@ -13,10 +13,10 @@ class JenisTreatmentSeeder extends Seeder
     public function run(): void
     {
         $data = [
-            ['id' => 1, 'nama' => 'Disinfektan'],
+            ['id' => 1, 'nama' => 'Antibiotik dan Obat'],
             ['id' => 2, 'nama' => 'Vaksin'],
             ['id' => 3, 'nama' => 'Vitamin dan/atau Mineral'],
-            ['id' => 4, 'nama' => 'Antibiotik dan Obat']
+            ['id' => 4, 'nama' => 'Disinfektan']
         ];
 
         foreach ($data as $item) {

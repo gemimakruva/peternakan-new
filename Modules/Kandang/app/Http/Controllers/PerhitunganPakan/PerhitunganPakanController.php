@@ -5,6 +5,7 @@ namespace Modules\Kandang\Http\Controllers\PerhitunganPakan;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Log;
 use Modules\Kandang\Models\PerhitunganPakan;
 use Illuminate\Http\Request;
@@ -34,6 +35,8 @@ class PerhitunganPakanController extends Controller
 
     public function index(Request $request)
     {
+        Gate::authorize('kandang.pakan.list-perhitungan-pemberian-pakan');
+
         $datas = $this->repository->paginate(
             $request->query('search'),
             $request->collect(['kandang_id', 'jenis_pakan_id']),
@@ -49,6 +52,8 @@ class PerhitunganPakanController extends Controller
 
     public function create()
     {
+        Gate::authorize('kandang.pakan.create-perhitungan-pemberian-pakan');
+
         $listKandang = $this->kandang
             ->orderBy('nama')
             ->pluck('nama', 'id');
@@ -68,8 +73,18 @@ class PerhitunganPakanController extends Controller
      */
     public function store(Request $request)
     {
+        Gate::authorize('kandang.pakan.create-perhitungan-pemberian-pakan');
+
         $validated = $request->validate([
-            'tanggal_pemberian_pakan'   => ['required', 'date'],
+            'tanggal_pemberian_pakan'   => ['required', 'date', function ($attr, $value, $fail) use($request) {
+                $isExists = $this->repository->getModel()
+                    ->where('kandang_id', '=', $request->input('kandang_id'))
+                    ->where('tanggal_pemberian_pakan', '=', $value)
+                    ->exists();
+                if ($isExists) {
+                    $fail('Perhitungan Pakan telah dibuat dengan Tanggal dan Kandang yang sama.');
+                }
+            }],
             'kandang_id'                => ['required', 'exists:kandang,id'],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
             'proporsi_pemberian_pagi'   => ['required', 'numeric', function ($attr, $value, $fail) {
@@ -90,7 +105,7 @@ class PerhitunganPakanController extends Controller
 
         try {
             $umurAyam = $this->populasiAyamService->getUmurAyamByKandangId($validated['kandang_id'], $request->date('tanggal_pemberian_pakan'))['umur_ayam'];
-            $perhitunganPakan = $this->repository->create([
+            $validated = [
                 'tanggal_pemberian_pakan'   => $validated["tanggal_pemberian_pakan"],
                 'umur_ayam'                 => $umurAyam,
                 'kandang_id'                => $validated['kandang_id'],
@@ -102,7 +117,9 @@ class PerhitunganPakanController extends Controller
                 'user_creator_id'           => auth()->id(),
                 'user_executor_id'          => $validated['user_executor_id'],
                 'catatan'                   => $validated['catatan']
-            ]);
+            ];
+
+            $perhitunganPakan = $this->repository->create($validated);
 
             $perhitunganPakan->userExecutor->notify(new PemberianPakanAssigned($perhitunganPakan));
 
@@ -126,6 +143,8 @@ class PerhitunganPakanController extends Controller
      */
     public function edit(PerhitunganPakan $perhitunganPakan)
     {
+        Gate::authorize('kandang.pakan.edit-perhitungan-pemberian-pakan');
+
         [$data, $initialState] = $this->service->getTableInitialState($perhitunganPakan);
 
         $listKandang = $this->kandang
@@ -147,14 +166,51 @@ class PerhitunganPakanController extends Controller
             'listJenisPakan',
         ]));
     }
+    
+    public function show(PerhitunganPakan $perhitunganPakan)
+    {
+        Gate::authorize('kandang.pakan.detail-perhitungan-pemberian-pakan');
+
+        [$data, $initialState] = $this->service->getTableInitialState($perhitunganPakan);
+
+        $listKandang = $this->kandang
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+        $listUser = $this->user
+            ->where('id', '<>', auth()->id())
+            ->orderBy('name')
+            ->pluck('name', 'id');
+        $listJenisPakan = $this->jenisPakan
+            ->orderBy('nama')
+            ->pluck('nama', 'id');
+
+        return view("kandang::perhitungan-pakan.show", compact([
+            'data',
+            'initialState',
+            'listKandang',
+            'listUser',
+            'listJenisPakan',
+        ]));
+    }
 
     /**
      * Update the specified resource in storage.
      */
     public function update(Request $request, PerhitunganPakan $perhitunganPakan)
     {
+        Gate::authorize('kandang.pakan.edit-perhitungan-pemberian-pakan');
+
         $validated = $request->validate([
-            'tanggal_pemberian_pakan'   => ['required', 'date'],
+            'tanggal_pemberian_pakan'   => ['required', 'date', function ($attr, $value, $fail) use($perhitunganPakan) {
+                $isExists = $this->repository->getModel()
+                    ->where('kandang_id', '=', $perhitunganPakan->kandang_id)
+                    ->where('tanggal_pemberian_pakan', '=', $value)
+                    ->where('id', '<>', $perhitunganPakan->id)
+                    ->exists();
+                if ($isExists) {
+                    $fail('Perhitungan Pakan telah dibuat dengan Tanggal dan Kandang yang sama.');
+                }
+            }],
             'jenis_pakan_id'            => ['required', 'exists:jenis_pakan,id'],
             'proporsi_pemberian_pagi'   => ['required', 'numeric', function ($attr, $value, $fail) {
                 if ((request()->integer('proporsi_pemberian_pagi') + request()->integer('proporsi_pemberian_sore')) !== 100) {

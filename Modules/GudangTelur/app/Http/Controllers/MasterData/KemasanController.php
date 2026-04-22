@@ -14,7 +14,9 @@ class KemasanController extends Controller
     public function __construct(
         private KemasanRepository $repository,
         private SatuanRepository $satuanRepository,
-    ) { }
+    ) {
+        $this->middleware('can:master-data.master-data.menu-kemasan');
+    }
 
     public function index(Request $request)
     {
@@ -51,6 +53,12 @@ class KemasanController extends Controller
     {
         $data = $kemasan;
         $listSatuan = $this->satuanRepository->getSelectItems();
+        $data->load([
+            'priceable' => function ($q) {
+                $q->orderByDesc('created_at');
+                $q->orderByDesc('id');
+            }
+        ]);
         return view('gudang-telur::master-data.kemasan.edit', compact(['listSatuan', 'data']));
     }
 

@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class UserSeeder extends Seeder
 {
@@ -15,12 +16,12 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // # SISTEM
         // ## Superadmin
         $superadmin = User::firstOrCreate([
-            'name' => 'Superadmin',
+            'name'  => 'Superadmin',
             'email' => 'superadmin@peternakan.com',
         ], [
             'password' => Hash::make('password'),
@@ -70,6 +71,8 @@ class UserSeeder extends Seeder
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.detail-monitoring-kesehatan',
+
+                'kandang.populasi.pindah-ayam',
             ]
         );
 
@@ -89,6 +92,11 @@ class UserSeeder extends Seeder
                 'kandang.populasi.menu-rekapan-karantina',
 
                 'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.list-perhitungan-pemberian-pakan',
+                'kandang.pakan.create-perhitungan-pemberian-pakan',
+                'kandang.pakan.edit-perhitungan-pemberian-pakan',
+                'kandang.pakan.detail-perhitungan-pemberian-pakan',
+
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',
@@ -114,10 +122,12 @@ class UserSeeder extends Seeder
                 'kandang.monitoring.menu-monitoring-kesehatan',
                 'kandang.monitoring.list-monitoring-kesehatan',
                 'kandang.monitoring.detail-monitoring-kesehatan',
+
+                'kandang.populasi.pindah-ayam',
             ]
         );
 
-        ## Petugas Kandang
+        // # Petugas Kandang
         $this->generateUserWithRole(
             'Petugas Kandang',
             'petugas-kandang@peternakan.com',
@@ -144,7 +154,7 @@ class UserSeeder extends Seeder
             ]
         );
 
-        ## Dokter Hewan
+        // # Dokter Hewan
         $this->generateUserWithRole(
             'Dokter Hewan',
             'dokter-hewan@peternakan.com',
@@ -161,19 +171,35 @@ class UserSeeder extends Seeder
             ]
         );
 
-        ## Petugas Gudang Telur
+        // # Petugas Gudang Telur
         $this->generateUserWithRole(
             'Petugas Gudang Telur',
             'petugas-gudang-telur@peternakan.com',
             'Petugas Gudang Telur',
             [
+                'master-data.master-data.menu-kemasan',
+
                 'kandang.telur.menu-produksi-telur',
                 'kandang.telur.list-produksi-telur',
                 'kandang.telur.detail-produksi-telur',
+
+                'gudang-telur.grading-telur.menu-grading-telur',
+
+                'gudang-telur.input-kemasan.menu-input-kemasan',
+                'gudang-telur.output-kemasan.menu-output-kemasan',
+                'gudang-telur.opname-kemasan.menu-opname-kemasan',
+                'gudang-telur.inventory-kemasan.menu-inventory-kemasan',
+
+                'gudang-telur.supplier-kemasan.menu-supplier-kemasan',
+
+                'gudang-telur.telur-masuk.menu-telur-masuk',
+                'gudang-telur.telur-keluar.menu-telur-keluar',
+                'gudang-telur.telur-opname.menu-telur-opname',
+                'gudang-telur.inventory-telur.menu-inventory-telur',
             ]
         );
 
-        ## Petugas Gudang Pakan
+        // # Petugas Gudang Pakan
         $this->generateUserWithRole(
             'Petugas Gudang Pakan',
             'petugas-gudang-pakan@peternakan.com',
@@ -182,6 +208,30 @@ class UserSeeder extends Seeder
                 'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
                 'kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan',
+
+                'master-data.master-data.menu-bahan-pakan',
+                'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+
+                'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+                'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
+                'gudang-pakan.bahan-pakan-keluar.menu-bahan-pakan-keluar',
+                'gudang-pakan.bahan-pakan-opname.menu-bahan-pakan-opname',
+                'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+
+                'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
+
+                'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+                'gudang-pakan.pakan-pre-mixing-opname.menu-pakan-pre-mixing-opname',
+                'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+
+                'gudang-pakan.pakan-mixing.menu-pakan-mixing',
+                'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+                'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
+                'gudang-pakan.pakan-finished-good-opname.menu-pakan-finished-good-opname',
+
+                'kandang.pakan.menu-perhitungan-pemberian-pakan',
+                'kandang.pakan.list-perhitungan-pemberian-pakan',
+                'kandang.pakan.detail-perhitungan-pemberian-pakan',
             ]
         );
     }
@@ -189,7 +239,7 @@ class UserSeeder extends Seeder
     private function generateUserWithRole($userName, $userEmail, $roleName, $permissions)
     {
         $user = User::firstOrCreate([
-            'name' => $userName,
+            'name'  => $userName,
             'email' => $userEmail,
         ], [
             'password' => Hash::make('password'),
@@ -201,7 +251,7 @@ class UserSeeder extends Seeder
             $permissionsObjs[] = Permission::firstOrCreate([
                 'name' => $name,
             ]);
-        }   
+        }
         $role->permissions()->sync($permissionsObjs);
     }
 
@@ -219,6 +269,9 @@ class UserSeeder extends Seeder
             'master-data.master-data.menu-jenis-treatment',
             'master-data.master-data.menu-metode-treatment',
 
+            'master-data.master-data.menu-kemasan',
+            'master-data.master-data.menu-bahan-pakan',
+
             'kandang.strain.menu-strain',
 
             'kandang.rekapan.menu-rekapan-produksi',
@@ -231,6 +284,10 @@ class UserSeeder extends Seeder
             'kandang.populasi.menu-rekapan-karantina',
 
             'kandang.pakan.menu-perhitungan-pemberian-pakan',
+            'kandang.pakan.list-perhitungan-pemberian-pakan',
+            'kandang.pakan.create-perhitungan-pemberian-pakan',
+            'kandang.pakan.edit-perhitungan-pemberian-pakan',
+            'kandang.pakan.detail-perhitungan-pemberian-pakan',
             'kandang.pakan.menu-pemberian-pakan-dan-sisa-pakan',
             'kandang.pakan.list-pemberian-pakan-dan-sisa-pakan',
             'kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan',
@@ -261,6 +318,36 @@ class UserSeeder extends Seeder
             'kandang.monitoring.create-monitoring-kesehatan',
             'kandang.monitoring.detail-monitoring-kesehatan',
             'kandang.monitoring.edit-monitoring-kesehatan',
+
+            'gudang-telur.grading-telur.menu-grading-telur',
+
+            'gudang-telur.input-kemasan.menu-input-kemasan',
+            'gudang-telur.output-kemasan.menu-output-kemasan',
+            'gudang-telur.opname-kemasan.menu-opname-kemasan',
+            'gudang-telur.inventory-kemasan.menu-inventory-kemasan',
+
+            'gudang-telur.supplier-kemasan.menu-supplier-kemasan',
+
+            'gudang-telur.telur-masuk.menu-telur-masuk',
+            'gudang-telur.telur-keluar.menu-telur-keluar',
+            'gudang-telur.telur-opname.menu-telur-opname',
+            'gudang-telur.inventory-telur.menu-inventory-telur',
+
+            'gudang-pakan.supplier-bahan-pakan.menu-supplier-bahan-pakan',
+            'gudang-pakan.bahan-pakan-pembelian.menu-bahan-pakan-pembelian',
+            'gudang-pakan.bahan-pakan-masuk.menu-bahan-pakan-masuk',
+            'gudang-pakan.bahan-pakan-keluar.menu-bahan-pakan-keluar',
+            'gudang-pakan.bahan-pakan-opname.menu-bahan-pakan-opname',
+            'gudang-pakan.bahan-pakan-inventory.menu-bahan-pakan-inventory',
+
+            'gudang-pakan.bahan-pakan-formulasi.menu-bahan-pakan-formulasi',
+            'gudang-pakan.pakan-pre-mixing.menu-pakan-pre-mixing',
+            'gudang-pakan.pakan-pre-mixing-opname.menu-pakan-pre-mixing-opname',
+            'gudang-pakan.pakan-pre-mixing-inventory.menu-pakan-pre-mixing-inventory',
+            'gudang-pakan.pakan-mixing.menu-pakan-mixing',
+            'gudang-pakan.pakan-finished-good-inventory.menu-pakan-finished-good-inventory',
+            'gudang-pakan.pakan-finished-good-distribusi.menu-pakan-finished-good-distribusi',
+            'gudang-pakan.pakan-finished-good-opname.menu-pakan-finished-good-opname',
         ];
     }
 }

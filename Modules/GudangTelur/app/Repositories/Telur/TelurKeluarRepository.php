@@ -77,7 +77,7 @@ class TelurKeluarRepository extends EloquentRepository
 
         // Kemasan Output Items
         $savedKemasanInventoryIds = [];
-        foreach ($data['kemasan_items'] as $item) {
+        foreach (($data['kemasan_items'] ?? []) as $item) {
             $kemasanInventory = $kemasanOutput->kemasanInventory()->updateOrCreate([
                 'id'                => @$item['id'],
             ], [
@@ -103,7 +103,7 @@ class TelurKeluarRepository extends EloquentRepository
 
         // Telur Keluar Items
         $savedTelurInventoryIds = [];
-        foreach ($data['items'] as $item) {
+        foreach (($data['items'] ?? []) as $item) {
             if (!@$item['jumlah'] || @$item['jumlah'] == 0) continue;
             $telurInventory = $telurKeluar->telurInventory()->updateOrCreate([
                 'id'                => @$item['id'],
