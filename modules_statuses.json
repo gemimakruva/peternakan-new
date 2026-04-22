@@ -1,6 +1,5 @@
 {
     "Kandang": true,
-    "GudangTelur": true,
-    "Gudangpakan": true,
-    "GudangPakan": true
+    "GudangTelur": false,
+    "GudangPakan": false
 }

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use Nwidart\Modules\Facades\Module;
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -68,6 +69,33 @@ class AppServiceProvider extends ServiceProvider
                 config()->set('adminlte.logo_img', $sidebarLogoUrl);
             }
 
+            if (Module::isEnabled('GudangTelur')) {
+                config()->push('adminlte.menu.5.submenu', [
+                    'text'  => 'Kemasan',
+                    'route' => 'gudang-telur.master-data.kemasan.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['gudang-telur/master-data/kemasan*'],
+                    'can'   => 'master-data.master-data.menu-kemasan',
+                ]);
+                foreach (config('gudang-telur.menu') as $menu) {
+                    config()->push('adminlte.menu', $menu);
+                }
+            }
+
+            if (Module::isEnabled('GudangPakan')) {
+                config()->push('adminlte.menu.5.submenu', [
+                    'text'  => 'Bahan Pakan',
+                    'route' => 'gudang-pakan.master-data.bahan-pakan.index',
+                    'icon'  => 'far fa-circle',
+                    'active' => ['gudang-pakan/master-data/bahan-pakan*'],
+                    'can'   => 'master-data.master-data.menu-bahan-pakan',
+                ]);
+                foreach (config('gudang-pakan.menu') as $menu) {
+                    config()->push('adminlte.menu', $menu);
+                }
+            }
+
+            // dd(config('adminlte.menu.5.submenu'));
         } catch (\Throwable $e) {
             // jangan matiin app cuma gara2 DB
             report($e);
