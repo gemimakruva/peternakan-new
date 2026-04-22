@@ -11,33 +11,32 @@ class FlockSeeder extends Seeder
     public function run(): void
     {
         $pipesPerKandang = [
-            1 => 2, 
-            2 => 3, 
-            3 => 4, 
+            1 => 3, 
         ];
 
-        $totalFlocks = 6;
+        $totalFlocks = 4;
 
         foreach ($pipesPerKandang as $kandangId => $jumlahPipe) {
 
             $flockNum = 1;
-            $pipeNum = 1;
-            for ($i = 1; $i <= $totalFlocks; $i++) {
+            for ($i = 0; $i < $totalFlocks; $i++) {
 
                 // Buat flock
+                $flockNum = str_pad($flockNum, 2, '0', STR_PAD_LEFT);
                 $flock = Flock::firstOrCreate([
                     'kandang_id' => $kandangId,
                     'nama'       => "Flock {$flockNum}",
                 ]);
 
+                $abc = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
                 // Buat pipe per flock sesuai aturan kandang
                 for ($p = 1; $p <= $jumlahPipe; $p++) {
+                    $pipeName = $abc[$i].$p;
                     Pipe::firstOrCreate([
                         'flock_id'  => $flock->id,
-                        'nama'      => "Pipe {$pipeNum}",
-                        'kapasitas' => 400,
+                        'nama'      => "Pipa {$pipeName}",
+                        'kapasitas' => 252,
                     ]);
-                    $pipeNum++;
                 }
                 $flockNum++;
             }

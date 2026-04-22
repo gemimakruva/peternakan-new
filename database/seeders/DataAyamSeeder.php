@@ -59,6 +59,7 @@ class DataAyamSeeder extends Seeder
                     'ayam_afkir' => $row['ayam_afkir'] ?? 0,
                     'ayam_masuk_karantina' => $row['ayam_masuk_karantina'] ?? 0,
                     'ayam_keluar_karantina' => $row['ayam_keluar_karantina'] ?? 0,
+                    'tanggal' => Date::excelToDateTimeObject($row["tanggal"])->format('Y-m-d'),
                 ],
             );
             return $data; 
@@ -80,7 +81,15 @@ class DataAyamSeeder extends Seeder
             $flockId = Flock::where('nama', $row['nama_flock'])->value('id');
             $pipeId = Pipe::where('nama', $row['nama_pipe'])->value('id');
             $jenisPakanId = JenisPakan::where('nama', $row['nama_jenis_pakan'])->value('id');
-            $userExecutorId = User::where('name', $row['nama_user_executor'])->value('id');
+            $row["tanggal_pemberian_pakan"] = Date::excelToDateTimeObject($row["tanggal_pemberian_pakan"])->format('Y-m-d');
+
+            if (!$row['nama_kandang']) {
+                return;
+            }
+
+            if (!$pipeId) {
+                dd($row);
+            }
 
             $perhitunganPakan = PerhitunganPakan::firstOrCreate([
                 'tanggal_pemberian_pakan'   => $row["tanggal_pemberian_pakan"],
@@ -93,7 +102,7 @@ class DataAyamSeeder extends Seeder
                 'waktu_pemberian_pagi'      => $row['waktu_pemberian_pagi'],
                 'waktu_pemberian_sore'      => $row['waktu_pemberian_sore'],
                 'user_creator_id'           => auth()->id(),
-                'user_executor_id'          => $userExecutorId,
+                'user_executor_id'          => auth()->id(),
                 'catatan'                   => $row['catatan']
             ]);
 
@@ -120,9 +129,14 @@ class DataAyamSeeder extends Seeder
         $rows->each(function($row) {
             $kandangId = Kandang::where('nama', $row['nama_kandang'])->value('id');
             $flockId = Flock::where('nama', $row['nama_flock'])->value('id');
+            $tanggal = Date::excelToDateTimeObject($row['tanggal'])->format('Y-m-d');
+
+            if (!$kandangId || !$flockId || !$tanggal) {
+                return;
+            }
         
             $produksiTelur = ProduksiTelur::firstOrCreate([
-                'tanggal' => $row['tanggal'],
+                'tanggal' => $tanggal,
                 'kandang_id' => $kandangId,
             ], [
                 'pic_user_id' => auth()->id(),
@@ -132,14 +146,14 @@ class DataAyamSeeder extends Seeder
             $produksiTelur->produksiTelurItems()->firstOrCreate([
                 'kandang_id' => $kandangId,
                 'flock_id' => $flockId,
-                'tanggal' => $row['tanggal'],
+                'tanggal' => $tanggal,
             ], [
-                'jumlah_telur_bagus' => $row['jumlah_telur_bagus'],
-                'jumlah_telur_putih' => $row['jumlah_telur_putih'],
-                'jumlah_telur_reject' => $row['jumlah_telur_reject'],
-                'berat_telur_bagus' => $row['berat_telur_bagus'],
-                'berat_telur_putih' => $row['berat_telur_putih'],
-                'berat_telur_reject' => $row['berat_telur_reject'],
+                'jumlah_telur_bagus' => @$row['jumlah_telur_bagus'] ?? 0,
+                'jumlah_telur_putih' => @$row['jumlah_telur_putih'] ?? 0,
+                'jumlah_telur_reject' => @$row['jumlah_telur_reject'] ?? 0,
+                'berat_telur_bagus' => @$row['berat_telur_bagus'] ?? 0,
+                'berat_telur_putih' => @$row['berat_telur_putih'] ?? 0,
+                'berat_telur_reject' => @$row['berat_telur_reject'] ?? 0,
             ]);
         });
     }
@@ -201,19 +215,27 @@ class DataAyamSeeder extends Seeder
 
             $jenisTreatmentId = JenisTreatment::where('nama', $row['jenis_treatment'])->value('id');
             $metodeTreatmentId = MetodeTreatment::where('nama', $row['metode_treatment'])->value('id');
+
+            if (!$jenisTreatmentId || !$metodeTreatmentId) {
+                dd($row['jenis_treatment'], $row['metode_treatment']);
+            }
             
             $jadwal = $treatment->treatmentJadwal()->firstOrCreate([
                 'jenis_treatment_id' => $jenisTreatmentId,
                 'metode_treatment_id' => $metodeTreatmentId,
                 'merk_ovk' => $row['merk_ovk'],
+                'area' => $row['area'],
                 'dosis' => $row['dosis'],
                 'waktu' => $waktu,
             ]);
             
-            if ($row['area'] != 'Semua Flock') {
-                collect(explode(',', $row['area']))->map(function($flockNama) use($jadwal) {
+            if ($row['flock'] != 'Semua Flock') {
+                collect(explode(',', $row['flock']))->map(function($flockNama) use($jadwal) {
                     $flockNama = trim($flockNama);
                     $flockId = Flock::where('nama', $flockNama)->value('id');
+                    if (!$flockId) {
+                        dd($flockNama);
+                    }
                     $jadwal->treatmentJadwalFlocks()->firstOrCreate(['flock_id' => $flockId]);
                 });
             }

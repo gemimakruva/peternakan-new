@@ -16,8 +16,8 @@ class KandangDatabaseSeeder extends Seeder
         $this->call([
             PeternakanSeeder::class,
             StrainSeeder::class,
-            // KandangSeeder::class,
-            // FlockSeeder::class,
+            KandangSeeder::class,
+            FlockSeeder::class,
             // PengadaanAyamSedeer::class,
             // PopulasiAyamSeeder::class,
             // AyamAfkirSeeder::class,

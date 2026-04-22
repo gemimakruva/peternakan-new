@@ -105,7 +105,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="4" class="text-center">Data Bahan Baku tidak tersedia</td>
+                            <td colspan="5" class="text-center">Data Bahan Pakan tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
