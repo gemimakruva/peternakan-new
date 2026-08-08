@@ -1,7 +1,7 @@
-name: Deploy website on push
+name: Build and Deploy to Production
 on:
   push:
-    branches: [prod]
+    branches: [master]
   workflow_dispatch:
 jobs:
   web-deploy:
