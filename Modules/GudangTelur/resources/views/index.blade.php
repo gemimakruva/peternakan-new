@@ -1,5 +1,18 @@
-<x-gudangtelur::layouts.master>
-    <h1>Hello World</h1>
+@extends('layouts.dashboard')
 
-    <p>Module: {!! config('gudangtelur.name') !!}</p>
-</x-gudangtelur::layouts.master>
+@section('title', 'Gudang Telur')
+
+@section('content_header')
+<x-page-header title="Gudang Telur" :breadcrumbs="['Gudang Telur' => '']" />
+@endsection
+
+@section('content')
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mb-1">Modul Gudang Telur</h5>
+            <p class="text-muted mb-0">Silakan pilih menu di sidebar untuk memulai.</p>
+        </div>
+    </div>
+</div>
+@endsection
