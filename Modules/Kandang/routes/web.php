@@ -79,9 +79,6 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('pengadaan-ayam', PengadaanAyamController::class)->names('pengadaan-ayam');
 
     // ===== Menu Group Populasi Ayam =====
-    Route::resource('populasi-ayam', PopulasiAyamController::class)->parameter('populasi-ayam', 'kandang')->names('populasi-ayam')->only(['index', 'store']);
-    Route::resource('populasi-ayam', PopulasiAyamController::class)->names('populasi-ayam')->only(['edit', 'update']);
-
     Route::get('populasi-ayam-2', [PopulasiAyam2Controller::class, 'index'])->name('populasi-ayam-2.index');
     Route::get('populasi-ayam-2/create', [PopulasiAyam2Controller::class, 'create'])->name('populasi-ayam-2.create');
     Route::post('populasi-ayam-2/create', [PopulasiAyam2Controller::class, 'store'])->name('populasi-ayam-2.store');
@@ -89,10 +86,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('populasi-ayam-2/{kandangId}/{tanggal}/edit', [PopulasiAyam2Controller::class, 'edit'])->name('populasi-ayam-2.edit');
     Route::post('populasi-ayam-2/{kandangId}/{tanggal}/edit', [PopulasiAyam2Controller::class, 'update'])->name('populasi-ayam-2.update');
     Route::delete('populasi-ayam-2/{kandangId}/{tanggal}/destroy', [PopulasiAyam2Controller::class, 'destroy'])->name('populasi-ayam-2.destroy');
-
-    Route::get('populasi-ayam/{kandang}/create', [PopulasiAyamController::class, 'create'])->name('populasi-ayam.create');
-    Route::get('populasi-ayam/{kandang}/flock', [PopulasiAyamController::class, 'flockIndex'])->name('populasi-ayam.flock.index');
-    Route::get('populasi-ayam/{kandang}/flock/{flock}/pipe', [PopulasiAyamController::class, 'flockPipeIndex'])->name('populasi-ayam.flock.pipe.index');
 
     // ===== Menu Group Ayam Afkir =====
     Route::resource('ayam-afkir', AyamAfkirController::class)->names('ayam-afkir')->except(['create', 'show', 'store', 'destroy']);
