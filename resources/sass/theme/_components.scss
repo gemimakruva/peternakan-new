@@ -1,0 +1,198 @@
+// Components — Cards, tables, buttons, forms, badges, pagination, select2, modals
+
+// === CARDS ===
+
+.card {
+  border: 1px solid $border-color;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.06);
+  margin-bottom: 1.25rem;
+  overflow: hidden;
+  transition: box-shadow 0.2s ease;
+
+  .card-header {
+    background-color: $bg-card;
+    border-bottom: 1px solid $border-color;
+    padding: 1rem 1.25rem;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: $text-primary;
+
+    .card-title {
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .card-tools .btn {
+      border-radius: 6px;
+    }
+  }
+
+  .card-body {
+    padding: 1.25rem;
+  }
+
+  .card-footer {
+    background-color: #FAFBFC;
+    border-top: 1px solid $border-color;
+    padding: 0.75rem 1.25rem;
+  }
+}
+
+.card-outline {
+  border-top: 3px solid $theme-primary;
+}
+
+// === TABLES ===
+
+.table {
+  color: $text-body;
+  font-size: 0.85rem;
+
+  thead {
+    th {
+      background-color: #F8FAFC;
+      border-bottom: 2px solid $border-color;
+      color: $text-primary;
+      font-weight: 600;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+      padding: 0.75rem 0.85rem;
+      white-space: nowrap;
+    }
+  }
+
+  tbody {
+    td {
+      padding: 0.7rem 0.85rem;
+      vertical-align: middle;
+      border-color: $border-color;
+    }
+
+    tr {
+      transition: background-color 0.1s ease;
+
+      &:hover {
+        background-color: rgba($theme-primary, 0.02);
+      }
+    }
+  }
+
+  &.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.015);
+
+    &:hover {
+      background-color: rgba($theme-primary, 0.04);
+    }
+  }
+}
+
+.table-responsive,
+.card-body.table-responsive,
+.card-body .table-responsive {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+// === BUTTONS ===
+
+.btn {
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  transition: all 0.15s ease;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba($theme-primary, 0.2);
+  }
+}
+
+.btn-primary {
+  background-color: $theme-primary;
+  border-color: $theme-primary;
+
+  &:hover,
+  &:focus {
+    background-color: $theme-primary-dark;
+    border-color: $theme-primary-dark;
+  }
+}
+
+.btn-sm {
+  padding: 0.35rem 0.65rem;
+  font-size: 0.78rem;
+  border-radius: 6px;
+  min-height: 32px;
+}
+
+.btn-flat {
+  border-radius: 8px;
+}
+
+// === FORMS ===
+
+.form-control {
+  border: 1.5px solid $border-color;
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  color: $text-primary;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  min-height: 42px;
+
+  &:focus {
+    border-color: $theme-primary;
+    box-shadow: 0 0 0 3px rgba($theme-primary, 0.12);
+  }
+
+  &::placeholder {
+    color: $text-muted;
+    font-size: 0.85rem;
+  }
+}
+
+.form-group label,
+label {
+  font-weight: 500;
+  font-size: 0.82rem;
+  color: $text-primary;
+  margin-bottom: 0.35rem;
+}
+
+.custom-select,
+select.form-control {
+  border-radius: 8px;
+  min-height: 42px;
+  border: 1.5px solid $border-color;
+
+  &:focus {
+    border-color: $theme-primary;
+    box-shadow: 0 0 0 3px rgba($theme-primary, 0.12);
+  }
+}
+
+.input-group {
+  .input-group-text {
+    border-radius: 8px 0 0 8px;
+    border: 1.5px solid $border-color;
+    background-color: #F8FAFC;
+    color: $text-muted;
+  }
+
+  .form-control {
+    border-radius: 0 8px 8px 0;
+  }
+}
+
+.invalid-feedback {
+  font-size: 0.8rem;
+  margin-top: 0.3rem;
+}
+

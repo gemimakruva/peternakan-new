@@ -1,0 +1,100 @@
+// Sidebar — Navigation, brand link, treeview
+
+.main-sidebar {
+  background-color: $sidebar-bg !important;
+  border-right: none !important;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.08);
+
+  .brand-link {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08) !important;
+    padding: 1rem 0.8rem;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+
+    .brand-image {
+      border: 2px solid rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  .nav-sidebar {
+    .nav-header {
+      color: $text-muted;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 1.2rem 1rem 0.4rem;
+    }
+
+    .nav-item {
+      > .nav-link {
+        color: $sidebar-text;
+        border-radius: 8px;
+        margin: 2px 8px;
+        padding: 0.6rem 1rem;
+        font-size: 0.85rem;
+        transition: all 0.15s ease;
+
+        &:hover {
+          background-color: $sidebar-hover;
+          color: #fff;
+        }
+
+        > .nav-icon {
+          font-size: 0.9rem;
+          width: 1.6rem;
+          text-align: center;
+          color: $sidebar-text;
+        }
+
+        > p > .right {
+          transition: transform 0.2s ease;
+        }
+      }
+
+      &.menu-open > .nav-link {
+        background-color: rgba(255, 255, 255, 0.05);
+        color: #fff;
+      }
+    }
+
+    .nav-link.active {
+      background-color: $sidebar-active-bg !important;
+      color: $sidebar-text-active !important;
+      font-weight: 600;
+      box-shadow: 0 2px 8px rgba($theme-primary, 0.3);
+
+      > .nav-icon {
+        color: $sidebar-text-active !important;
+      }
+    }
+
+    .nav-treeview {
+      padding-left: 0.5rem;
+
+      .nav-link {
+        font-size: 0.82rem;
+        padding: 0.45rem 1rem 0.45rem 1.8rem;
+        margin: 1px 8px;
+        border-radius: 6px;
+
+        &.active {
+          background-color: $theme-primary-light !important;
+          color: $theme-primary !important;
+          box-shadow: none;
+          font-weight: 600;
+
+          > .nav-icon {
+            color: $theme-primary !important;
+          }
+        }
+      }
+    }
+  }
+
+  .sidebar-search-results .list-group-item {
+    background-color: $sidebar-hover;
+    border-color: rgba(255, 255, 255, 0.05);
+    color: #fff;
+  }
+}

@@ -1,0 +1,46 @@
+// Base — Global styles, content area
+
+body {
+  background-color: $bg-body;
+  color: $text-body;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.content-wrapper {
+  background-color: $bg-body;
+}
+
+.content-header {
+  padding: 1rem 0.5rem;
+
+  h1 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: $text-primary;
+  }
+
+  .breadcrumb {
+    background: transparent;
+    padding: 0;
+    margin: 0;
+    font-size: 0.82rem;
+
+    .breadcrumb-item {
+      color: $text-muted;
+
+      a {
+        color: $theme-primary;
+        text-decoration: none;
+
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &.active {
+        color: $text-body;
+      }
+    }
+  }
+}

@@ -1,0 +1,168 @@
+// Overlays — Badges, alerts, pagination, select2, auth pages, modals
+
+// === BADGES & ALERTS ===
+
+.badge {
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 0.72rem;
+  padding: 0.3em 0.6em;
+  letter-spacing: 0.02em;
+}
+
+.alert {
+  border-radius: 10px;
+  border: none;
+  font-size: 0.85rem;
+  padding: 0.85rem 1.15rem;
+
+  &.alert-success {
+    background-color: $theme-success-light;
+    color: darken($theme-success, 15%);
+  }
+
+  &.alert-danger {
+    background-color: $theme-danger-light;
+    color: darken($theme-danger, 10%);
+  }
+
+  &.alert-warning {
+    background-color: $theme-warning-light;
+    color: darken($theme-warning, 15%);
+  }
+
+  &.alert-info {
+    background-color: $theme-info-light;
+    color: darken($theme-info, 10%);
+  }
+}
+
+// === PAGINATION ===
+
+.pagination {
+  gap: 4px;
+
+  .page-item {
+    .page-link {
+      border-radius: 8px;
+      border: 1px solid $border-color;
+      color: $text-body;
+      font-size: 0.82rem;
+      padding: 0.4rem 0.75rem;
+      min-width: 36px;
+      text-align: center;
+      transition: all 0.15s ease;
+
+      &:hover {
+        background-color: $theme-primary-light;
+        border-color: $theme-primary;
+        color: $theme-primary;
+      }
+    }
+
+    &.active .page-link {
+      background-color: $theme-primary;
+      border-color: $theme-primary;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    &.disabled .page-link {
+      background-color: #F8FAFC;
+      color: $text-muted;
+    }
+  }
+}
+
+// === SELECT2 ===
+
+.select2-container--default {
+  .select2-selection--single {
+    border: 1.5px solid $border-color;
+    border-radius: 8px;
+    min-height: 42px;
+    padding: 0.25rem 0;
+
+    .select2-selection__rendered {
+      padding-left: 0.75rem;
+      line-height: 36px;
+      color: $text-primary;
+    }
+
+    .select2-selection__arrow {
+      height: 40px;
+    }
+  }
+
+  .select2-results__option--highlighted[aria-selected] {
+    background-color: $theme-primary;
+  }
+
+  .select2-dropdown {
+    border: 1.5px solid $border-color;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// === AUTH PAGES ===
+
+.login-page,
+.register-page {
+  background: linear-gradient(135deg, $theme-primary 0%, #E64A19 100%);
+
+  .login-box,
+  .register-box {
+    width: 420px;
+    max-width: 95vw;
+
+    .card {
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+      border: none;
+    }
+
+    .card-header {
+      text-align: center;
+      padding: 2rem 1.5rem 0.5rem;
+      border-bottom: none;
+
+      .h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $text-primary;
+      }
+    }
+
+    .card-body {
+      padding: 1.5rem 2rem 2rem;
+    }
+  }
+}
+
+// === MODAL ===
+
+.modal-content {
+  border: none;
+  border-radius: 14px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.12);
+
+  .modal-header {
+    border-bottom: 1px solid $border-color;
+    padding: 1rem 1.5rem;
+
+    .modal-title {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+  }
+
+  .modal-body {
+    padding: 1.5rem;
+  }
+
+  .modal-footer {
+    border-top: 1px solid $border-color;
+    padding: 0.75rem 1.5rem;
+  }
+}
