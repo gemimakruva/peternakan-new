@@ -1,3 +1,4 @@
+@import 'theme';
 @import 'print';
 
 .flex-1 {
@@ -26,6 +27,15 @@ $widths: 1400, 1200, 1000, 900, 400, 300, 200, 100;
     .mx-sm-#{$n} {
       max-width: #{$n}px;
     }
+  }
+}
+
+@media (max-width: 575.98px) {
+  [class*="mx-sm-"] {
+    max-width: 100% !important;
+  }
+  [class*="w-"][class*="-px"] {
+    width: 100% !important;
   }
 }
 

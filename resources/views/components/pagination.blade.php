@@ -1,10 +1,10 @@
 @if ($paginator->hasPages())
-<nav class="d-flex justify-content-center mb-0 gap-2">
-    <p class="mb-0" style="line-height: 2.4rem;">Menampilkan {{ $paginator->firstItem() }} hingga {{ $paginator->lastItem() }} dari {{ $paginator->total() }} entri</p>
+<nav class="d-flex flex-column flex-sm-row justify-content-between align-items-center gap-2">
+    <p class="mb-0 text-muted" style="font-size: 0.82rem;">
+        Menampilkan {{ $paginator->firstItem() }}–{{ $paginator->lastItem() }} dari {{ $paginator->total() }} data
+    </p>
 
     <ul class="pagination justify-content-center mb-0">
-
-        {{-- Tombol Previous --}}
         @if ($paginator->onFirstPage())
             <li class="page-item disabled"><span class="page-link">&laquo;</span></li>
         @else
@@ -13,14 +13,11 @@
             </li>
         @endif
 
-        {{-- Nomor Halaman --}}
         @foreach ($elements as $element)
-            {{-- "Three Dots" --}}
             @if (is_string($element))
                 <li class="page-item disabled"><span class="page-link">{{ $element }}</span></li>
             @endif
 
-            {{-- Array of Links --}}
             @if (is_array($element))
                 @foreach ($element as $page => $url)
                     @if ($page == $paginator->currentPage())
@@ -32,7 +29,6 @@
             @endif
         @endforeach
 
-        {{-- Tombol Next --}}
         @if ($paginator->hasMorePages())
             <li class="page-item">
                 <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next">&raquo;</a>
@@ -43,4 +39,3 @@
     </ul>
 </nav>
 @endif
-
