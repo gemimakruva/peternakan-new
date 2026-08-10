@@ -1,0 +1,170 @@
+// Print styles — Brand-consistent printing
+
+@media print {
+  @page {
+    margin: 1.5cm;
+    size: A4;
+  }
+
+  body {
+    font-size: 11pt;
+    color: #000 !important;
+    background: #fff !important;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  .main-sidebar,
+  .main-header,
+  .main-footer,
+  .content-header .breadcrumb,
+  .bottom-nav,
+  .sticky-form-actions,
+  .btn:not(.btn-print),
+  .pagination,
+  .card-tools,
+  .no-print,
+  [data-widget="pushmenu"],
+  [data-widget="fullscreen"] {
+    display: none !important;
+  }
+
+  .content-wrapper {
+    margin-left: 0 !important;
+    padding: 0 !important;
+    background: #fff !important;
+  }
+
+  .content-header {
+    padding: 0 0 0.5cm !important;
+    border-bottom: 2pt solid $theme-primary;
+    margin-bottom: 0.5cm;
+
+    h1 {
+      font-size: 16pt;
+      color: $text-primary !important;
+    }
+  }
+
+  .card {
+    border: 1px solid #ddd !important;
+    box-shadow: none !important;
+    break-inside: avoid;
+    margin-bottom: 0.5cm;
+
+    .card-header {
+      background: #f8f8f8 !important;
+      border-bottom: 1px solid #ddd !important;
+      padding: 0.3cm 0.4cm;
+
+      .card-title {
+        font-size: 11pt;
+        font-weight: 600;
+      }
+    }
+
+    .card-body {
+      padding: 0.4cm;
+    }
+  }
+
+  .table {
+    font-size: 9pt;
+
+    thead th {
+      background: #f0f0f0 !important;
+      border-bottom: 2px solid #333 !important;
+      font-size: 8pt;
+      padding: 0.15cm 0.2cm;
+    }
+
+    tbody td {
+      padding: 0.12cm 0.2cm;
+      border-color: #ddd !important;
+    }
+  }
+
+  .badge {
+    border: 1px solid #999;
+    padding: 1pt 4pt;
+    font-size: 8pt;
+
+    &.badge-success,
+    &.bg-success {
+      background: #fff !important;
+      color: #2e7d32 !important;
+      border-color: #2e7d32;
+    }
+
+    &.badge-danger,
+    &.bg-danger {
+      background: #fff !important;
+      color: #c62828 !important;
+      border-color: #c62828;
+    }
+
+    &.badge-warning,
+    &.bg-warning {
+      background: #fff !important;
+      color: #e65100 !important;
+      border-color: #e65100;
+    }
+
+    &.badge-info,
+    &.bg-info {
+      background: #fff !important;
+      color: #1565c0 !important;
+      border-color: #1565c0;
+    }
+  }
+
+  .print-header {
+    display: flex !important;
+    align-items: center;
+    gap: 0.4cm;
+    margin-bottom: 0.5cm;
+    padding-bottom: 0.3cm;
+    border-bottom: 2pt solid $theme-primary;
+
+    .print-logo {
+      width: 1.2cm;
+      height: 1.2cm;
+    }
+
+    .print-title {
+      font-size: 14pt;
+      font-weight: 700;
+      color: $text-primary;
+    }
+
+    .print-subtitle {
+      font-size: 9pt;
+      color: #666;
+    }
+  }
+
+  .print-footer {
+    display: block !important;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-size: 8pt;
+    color: #999;
+    text-align: center;
+    padding-top: 0.2cm;
+    border-top: 0.5pt solid #ddd;
+  }
+
+  a[href]::after {
+    content: none !important;
+  }
+
+  .mobile-card-list {
+    display: none !important;
+  }
+
+  .desktop-table {
+    display: block !important;
+  }
+}
