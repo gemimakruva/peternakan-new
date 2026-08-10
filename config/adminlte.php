@@ -449,7 +449,7 @@ return [
             'text'  => 'Laporan Mingguan',
             'route' => 'rekapan-produksi.report.weekly',
             'icon'  => 'fas fa-chart-line',
-            'can'   => 'kandang.rekapan.menu-rekapan-psroduksi',
+            'can'   => 'kandang.rekapan.menu-rekapan-produksi',
         ],
 
         // ====================  POPULASI  ==========================

@@ -24,7 +24,7 @@ class RekapanMingguanProduksiRepository extends EloquentRepository
         $produksiTelurQuery = app(RekapanProduksiTelurRepository::class)->getQuery();
 
         $base->orderBy('nama_kandang', 'asc');
-        $base->orderBy('tanggal', 'desc'); // when groupBy minggu get latest tanggal
+        $base->orderBy('xpa.tanggal', 'desc');
 
         $query = $this->model
             ->query()
@@ -82,7 +82,7 @@ class RekapanMingguanProduksiRepository extends EloquentRepository
                 'xpaq.kandang_id',
                 'xpaq.umur',
             )
-            ->where('umur', '=', $this->umur)
+            ->where('xpaq.umur', '=', $this->umur)
             ->when(isset($this->kandangId) && $this->kandangId, function ($query2) {
                 $query2->where('xpaq.kandang_id', '=', $this->kandangId);
             });
