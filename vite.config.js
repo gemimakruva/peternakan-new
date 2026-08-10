@@ -9,6 +9,7 @@ export default defineConfig({
                 'resources/sass/dashboard.scss',
                 'resources/js/app.js',
                 'resources/js/print-charts.js',
+                'resources/js/tour.js',
             ],
             refresh: true,
         }),

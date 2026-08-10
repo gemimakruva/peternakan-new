@@ -32,4 +32,9 @@ Route::group([
 
     Route::get('setting', [SettingController::class, 'general'])->name('setting.general');
     Route::post('setting', [SettingController::class, 'generalStore'])->name('setting.general.store');
+
+    Route::post('api/tour/seen', function () {
+        auth()->user()->update(['has_seen_tour' => true]);
+        return response()->json(['ok' => true]);
+    })->name('tour.seen');
 });
