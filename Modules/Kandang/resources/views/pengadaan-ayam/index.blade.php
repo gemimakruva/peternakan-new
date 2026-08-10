@@ -3,59 +3,34 @@
 @section('title', 'Pengadaan Ayam')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Pengadaan Ayam</h1>
-                    <a href="{{ route('pengadaan-ayam.create') }}" class="btn btn-primary">Tambah Pengadaan Ayam</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">Pengadaan Ayam</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Pengadaan Ayam" :breadcrumbs="['Pengadaan Ayam' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('pengadaan-ayam.create') }}" class="btn btn-primary">Tambah Pengadaan Ayam</a>
+        </x-slot>
+    </x-page-header>
 @stop
 
 @section('content')
     <div class="mx-1400">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Filter</h3>
+        <x-filter-panel :action="route('pengadaan-ayam.index')" :resetUrl="route('pengadaan-ayam.index')">
+            <div class="col-12 col-md-4">
+                <label class="form-label" for="tanggal">Tanggal</label>
+                <input type="date" name="tanggal" class="form-control" value="{{ request()->query('tanggal') }}">
             </div>
-            <div class="card-body">
-                <form action="{{ route('pengadaan-ayam.index') }}" class="d-flex gap-3 align-items-end flex-column flex-sm-row">
-                    <div class="w-100 mx-sm-200">
-                        <label class="form-label" for="tanggal">Tanggal</label>
-                        <input type="date" name="tanggal"  class="form-control mx-sm-200" value="{{ request()->query('tanggal') }}">
-                    </div>
+            <div class="col-12 col-md-4">
+                <input
+                    type="search"
+                    name="search"
+                    class="form-control"
+                    value="{{ request()->query('search') }}"
+                    placeholder="Nama Pencatat ..."
+                />
+            </div>
+        </x-filter-panel>
 
-                    <input 
-                        type="search"
-                        name="search"
-                        class="form-control mx-sm-200"
-                        value="{{ request()->query('search') }}"
-                        placeholder="Nama Pencatat ..."
-                    />
-                    
-                    <div class="d-flex gap-2">
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <a href="{{ route('pengadaan-ayam.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-        
-        <div class="card">
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-bordered table-striped">
                     <thead class="text-center">
@@ -97,11 +72,11 @@
                                         <a href="{{ route('pengadaan-ayam.show', $item->id) }}" class="btn btn-info btn-sm" title="Detail">
                                             <i class="fas fa-eye"></i>
                                         </a>
-            
+
                                         <a href="{{ route('pengadaan-ayam.edit', $item->id) }}" class="btn btn-warning btn-sm text-white" title="Edit">
                                             <i class="fas fa-edit"></i>
                                         </a>
-            
+
                                         @if (!$item->is_has_populasi)
                                             <form
                                                 action="{{ route('pengadaan-ayam.destroy', $item) }}"
@@ -128,18 +103,80 @@
                         @endforelse
                     </tbody>
                 </table>
-
-                @if ($listPengadaanAyam->hasPages())
-                    <div class="d-flex justify-content-end mt-3">
-                        {{ $listPengadaanAyam->links() }}
-                    </div>
-                @endif
             </div>
         </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse ($listPengadaanAyam as $item)
+                <x-mobile-card
+                    :title="$item->kandang->nama"
+                    :subtitle="$item->tanggal->translatedFormat('d M Y') . ' — ' . ($item->picUser->name ?? '-')"
+                >
+                    <div class="data-row">
+                        <span class="data-label">Umur Ayam</span>
+                        <span class="data-value">{{ $item->umur_ayam }} Minggu</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Kondisi</span>
+                        <span class="data-value">{{ $item->kondisi_ayam }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Ayam Datang</span>
+                        <span class="data-value">{{ format_angka($item->jumlah_ayam_datang) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Ayam Mati</span>
+                        <span class="data-value">{{ format_angka($item->jumlah_ayam_mati) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Ayam Sakit</span>
+                        <span class="data-value">{{ format_angka($item->jumlah_ayam_sakit) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Masuk Kandang</span>
+                        <span class="data-value">{{ format_angka($item->jumlah_ayam_masuk_kandang) }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        @if ($item->catatan)
+                            <button class="btn btn-sm btn-secondary btn-catatan" data-catatan="{{ $item->catatan }}">
+                                <i class="fas fa-sticky-note"></i>
+                            </button>
+                        @endif
+                        <a href="{{ route('pengadaan-ayam.show', $item->id) }}" class="btn btn-info btn-sm text-white">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                        <a href="{{ route('pengadaan-ayam.edit', $item->id) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        @if (!$item->is_has_populasi)
+                            <form
+                                action="{{ route('pengadaan-ayam.destroy', $item) }}"
+                                method="POST"
+                                class="d-inline form-delete"
+                                data-tanggal="tanggal {{ $item->tanggal->translatedFormat('l, d F Y') }}"
+                            >
+                                @csrf
+                                @method('delete')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </form>
+                        @endif
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Belum ada data Pengadaan Ayam.</div>
+            @endforelse
+        </div>
+
+        @if ($listPengadaanAyam->hasPages())
+            <div class="d-flex justify-content-end mt-3">
+                {{ $listPengadaanAyam->links() }}
+            </div>
+        @endif
     </div>
 
 <script>
-// ============== Show Catatan Button ==================
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.btn-catatan').forEach(btn => {
         btn.addEventListener('click', function () {
@@ -156,7 +193,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 
-// ============== Delete Confirmation ==================
 document.addEventListener('DOMContentLoaded', function () {
     document.querySelectorAll('.form-delete').forEach(function (form) {
         form.addEventListener('submit', function (e) {

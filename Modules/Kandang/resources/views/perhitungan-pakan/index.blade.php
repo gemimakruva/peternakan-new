@@ -3,82 +3,45 @@
 @section('title', 'Perhitungan Pemberian Pakan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Perhitungan Pemberian Pakan</h1>
-                @can('kandang.pakan.create-perhitungan-pemberian-pakan')
-                    <a href="{{ route('perhitungan-pakan.create') }}" class="btn btn-primary">Tambah Perhitungan</a>
-                @endcan
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Pemberian Pakan</li>
-                <li class="breadcrumb-item active">Perhitungan Pemberian Pakan</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Perhitungan Pemberian Pakan" :breadcrumbs="['Pemberian Pakan' => '#', 'Perhitungan Pemberian Pakan' => '']">
+    <x-slot name="actions">
+        @can('kandang.pakan.create-perhitungan-pemberian-pakan')
+            <a href="{{ route('perhitungan-pakan.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus d-md-none"></i>
+                <span class="d-none d-md-inline">Tambah Perhitungan</span>
+            </a>
+        @endcan
+    </x-slot>
+</x-page-header>
 @endsection
 
 @section('content')
 <div class="mx-1200">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Filter</h2>
+    <x-filter-panel action="{{ route('perhitungan-pakan.index') }}" resetUrl="{{ route('perhitungan-pakan.index') }}">
+        <div class="col-12 col-md-4">
+            <select name="kandang_id" class="form-control">
+                <option value="" @selected(!request()->query('kandang_id'))>Semua Kandang</option>
+                @foreach ($listKandang as $id => $nama)
+                    <option value="{{ $id }}" @selected(request()->query('kandang_id') == $id)>{{ $nama }}</option>
+                @endforeach
+            </select>
         </div>
-        <div class="card-body">
-            <form
-                action="{{ route('perhitungan-pakan.index') }}" 
-                method="get" 
-                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
-            >
-                <select 
-                    name="kandang_id" 
-                    class="form-control mx-sm-200"
-                >
-                    <option value="" @selected(!request()->query('kandang_id'))>Semua Kandang</option>
-                    @foreach ($listKandang as $id => $nama)
-                        <option value="{{ $id }}" @selected(request()->query('kandang_id') == $id)>{{ $nama }}</option>
-                    @endforeach
-                </select>
-
-                <select 
-                    name="jenis_pakan_id"
-                    class="form-control mx-sm-200"
-                >
-                    <option value="" @selected(!request()->query('jenis_pakan_id'))>Semua Jenis Pakan</option>
-                    @foreach ($listJenisPakan as $id => $nama)
-                        <option value="{{ $id }}" @selected(request()->query('jenis_pakan_id') == $id)>{{ $nama }}</option>
-                    @endforeach
-                </select>
-
-                <input
-                    type="search"
-                    class="form-control mx-sm-200"
-                    name="search"
-                    value="{{ request()->query('search') }}"
-                    placeholder="Pencatat, Pelaksana ..."
-                />
-
-                <div class="d-flex gap-2">
-                    <button class="btn btn-primary" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-    
-                    <a href="{{ route('perhitungan-pakan.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+        <div class="col-12 col-md-4">
+            <select name="jenis_pakan_id" class="form-control">
+                <option value="" @selected(!request()->query('jenis_pakan_id'))>Semua Jenis Pakan</option>
+                @foreach ($listJenisPakan as $id => $nama)
+                    <option value="{{ $id }}" @selected(request()->query('jenis_pakan_id') == $id)>{{ $nama }}</option>
+                @endforeach
+            </select>
         </div>
-    </div>
+        <div class="col-12 col-md-4">
+            <input type="search" class="form-control" name="search" value="{{ request()->query('search') }}" placeholder="Pencatat, Pelaksana ..."/>
+        </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center">
                 <thead class="bg-light">
@@ -129,6 +92,54 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $row)
+            <x-mobile-card
+                title="{{ $row->nama_kandang }}"
+                subtitle="{{ @$row->tanggal_pemberian_pakan?->translatedFormat('d M Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Jenis Pakan</span>
+                    <span class="data-value">{{ $row->nama_jenis_pakan }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Ayam</span>
+                    <span class="data-value">{{ format_angka($row->jumlah_ayam, 0) ?? 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Berat Pakan</span>
+                    <span class="data-value">{{ format_angka($row->berat_pakan_gram/1000) }} Kg</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Pencatat</span>
+                    <span class="data-value">{{ $row->nama_pencatat }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Pelaksana</span>
+                    <span class="data-value">{{ $row->nama_pelaksana }}</span>
+                </div>
+                <x-slot name="actions">
+                    @can('kandang.pakan.edit-perhitungan-pemberian-pakan')
+                        <a href="{{ route('perhitungan-pakan.edit', $row) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    @endcan
+                    <a href="{{ route('perhitungan-pakan.show', $row) }}" class="btn btn-info btn-sm text-white">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Belum ada data.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

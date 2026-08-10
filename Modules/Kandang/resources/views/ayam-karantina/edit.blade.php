@@ -3,22 +3,11 @@
 @section('title', 'Edit Ayam Karantina')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Edit Ayam Karantina</h1>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">  
-                    <li class="breadcrumb-item"><a href="{{ route('ayam-karantina.index') }}"></a> Ayam Karantina</li>
-                    <li class="breadcrumb-item active">{{ $data->kandang->name }}</li>
-                    <li class="breadcrumb-item active">Edit</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Edit Ayam Karantina" :breadcrumbs="[
+        'Ayam Karantina' => route('ayam-karantina.index'),
+        ($data->kandang->name ?? 'Kandang') => '',
+        'Edit' => '',
+    ]" />
 @endsection
 
 
@@ -47,13 +36,12 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex gap-3">
-                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary flex-1">Kembali</a>
-                            <button type="submit" class="btn btn-primary flex-1" form="edit-ayam-karantina-form">Simpan</button>
+                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary flex-1 w-100">Kembali</a>
+                            <button type="submit" class="btn btn-primary flex-1 w-100" form="edit-ayam-karantina-form">Simpan</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection

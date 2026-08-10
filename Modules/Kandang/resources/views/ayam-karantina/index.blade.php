@@ -3,21 +3,11 @@
 @section('title', 'Ayam Karantina')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Ayam Karantina</h1>
-                    <a href="{{ route('ayam-karantina.create') }}" class="btn btn-primary">Tambah Ayam Karantina</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">  
-                    <li class="breadcrumb-item active">Ayam Karantina</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Ayam Karantina" :breadcrumbs="['Ayam Karantina' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('ayam-karantina.create') }}" class="btn btn-primary">Tambah Ayam Karantina</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 
@@ -26,48 +16,29 @@
 
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Filter</h2>
+        <x-filter-panel action="{{ route('ayam-karantina.index') }}" resetUrl="{{ route('ayam-karantina.index') }}">
+            <div class="col-12 col-md-4">
+                <x-adminlte-select name="kandang_id" fgroup-class="mb-0 w-100">
+                    <x-adminlte-options
+                        :options="$listKandang"
+                        empty-option="Semua Kandang ..."
+                        :selected="request()->query('kandang_id')"
+                    />
+                </x-adminlte-select>
             </div>
-            <div class="card-body">
-                <form
-                    action="{{ route('ayam-karantina.index') }}" 
-                    method="get" 
-                    class="w-100"
+
+            <div class="col-12 col-md-4">
+                <input
+                    type="search"
+                    name="search"
+                    class="form-control"
+                    placeholder="Nama Pencatat"
+                    value="{{ request()->query('search') }}"
                 >
-                    <div class="d-flex gap-3 align-items-end flex-column flex-sm-row">
-                        <x-adminlte-select name="kandang_id" fgroup-class="mb-0 w-100 mx-sm-200">
-                            <x-adminlte-options 
-                                :options="$listKandang"
-                                empty-option="Semua Kandang ..."
-                                :selected="request()->query('kandang_id')"
-                            />
-                        </x-adminlte-select>
-
-                        <input 
-                            type="search" 
-                            name="search" 
-                            class="form-control mx-sm-200" 
-                            placeholder="Nama Pencatat"
-                            value="{{ request()->query('search') }}"
-                        >
-
-                        <div class="d-flex gap-2">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-    
-                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-secondary">
-                                <i class="fas fa-undo"></i>
-                            </a>
-                        </div>
-                    </div>
-                </form>
             </div>
-        </div>
+        </x-filter-panel>
 
-        <div class="card">
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center mb-0">
                     <thead>
@@ -111,6 +82,45 @@
 
             @if ($listKarantinaPopulasi->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $listKarantinaPopulasi->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($listKarantinaPopulasi as $item)
+                <x-mobile-card
+                    title="{{ $item->nama_kandang ?? '-' }}"
+                    subtitle="{{ $item->tanggal->translatedFormat('d M Y') }}"
+                >
+                    <div class="data-row">
+                        <span class="data-label">Pencatat</span>
+                        <span class="data-value">{{ $item->nama_pic_user ?? '-' }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Populasi</span>
+                        <span class="data-value">{{ format_angka($item->total_ayam_karantina, 0) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Ayam Mati</span>
+                        <span class="data-value">{{ format_angka($item->ayam_mati, 0) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Ayam Afkir</span>
+                        <span class="data-value">{{ format_angka($item->ayam_afkir, 0) }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        <a href="{{ route('ayam-karantina.edit', $item->id) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Data Ayam Karantina belum tersedia.</div>
+            @endforelse
+
+            @if ($listKarantinaPopulasi->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $listKarantinaPopulasi->links('components.pagination') }}
                 </div>
             @endif

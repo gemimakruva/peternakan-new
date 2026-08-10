@@ -3,51 +3,28 @@
 @section('title', 'Populasi Ayam')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Populasi Ayam</h1>
-                <a href="{{ route('populasi-ayam-2.create') }}" class="btn btn-primary">Tambah Populasi Ayam</a>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Populasi Ayam</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Populasi Ayam" :breadcrumbs="['Populasi Ayam' => '']">
+    <x-slot name="actions">
+        <a href="{{ route('populasi-ayam-2.create') }}" class="btn btn-primary">Tambah Populasi Ayam</a>
+    </x-slot>
+</x-page-header>
 @endsection
 
 @section('content')
 <div class="mx-1200">
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Filter</h2>
+    <x-filter-panel action="{{ route('populasi-ayam-2.index') }}" resetUrl="{{ route('populasi-ayam-2.index') }}">
+        <div class="col-12 col-sm-auto">
+            <x-adminlte-select name="kandang_id" fgroup-class="mb-0">
+                <x-adminlte-options
+                    :options="$listKandang"
+                    empty-option="Semua Kandang"
+                    :selected="request()->query('kandang_id')"
+                />
+            </x-adminlte-select>
         </div>
-        <div class="card-body">
-            <form class="d-flex gap-2" action="{{ route('populasi-ayam-2.index') }}">
-                <x-adminlte-select name="kandang_id" fgroup-class="mb-0 mx-200">
-                    <x-adminlte-options
-                        :options="$listKandang"
-                        empty-option="Semua Kandang"
-                        :selected="request()->query('kandang_id')"
-                    />
-                </x-adminlte-select>
+    </x-filter-panel>
 
-                <button class="btn btn-primary" type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-
-                <a href="{{ route('populasi-ayam-2.index') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
-            </form>
-        </div>
-    </div>
-
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -112,6 +89,67 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $row)
+            <x-mobile-card
+                title="{{ $row->nama_kandang }}"
+                subtitle="{{ $row->tanggal->translatedFormat('l, d F Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Umur Ayam</span>
+                    <span class="data-value">{{ format_angka(@$row->umur_ayam) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Sehat</span>
+                    <span class="data-value">{{ format_angka(@$row->ayam_sehat) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Mati</span>
+                    <span class="data-value">{{ format_angka(@$row->ayam_mati) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Afkir</span>
+                    <span class="data-value">{{ format_angka(@$row->ayam_afkir) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Masuk Karantina</span>
+                    <span class="data-value">{{ format_angka(@$row->ayam_masuk_karantina) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Keluar Karantina</span>
+                    <span class="data-value">{{ format_angka(@$row->ayam_keluar_karantina) }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('populasi-ayam-2.edit', [$row->id_kandang, $row->tanggal->format('Y-m-d')]) }}" class="btn btn-info btn-sm text-white">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                    @if (@$row->is_editable)
+                        <form
+                            action="{{ route('populasi-ayam-2.destroy', [$row->id_kandang, $row->tanggal->format('Y-m-d')]) }}"
+                            method="post"
+                            class="form-delete flex-1"
+                            data-tanggal="{{ $row->tanggal->translatedFormat('l, d F Y') }}"
+                        >
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-danger btn-sm w-100">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    @endif
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Data Populasi Ayam Kosong.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

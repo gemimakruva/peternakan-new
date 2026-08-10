@@ -3,72 +3,47 @@
 @section('title', 'Sampling Bobot Ayam')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Sampling Bobot Ayam</h1>
-                @can('kandang.sampling.create-sampling-bobot-ayam')
-                    <a href="{{ route('sampling-ayam.create') }}" class="btn btn-primary">Tambah Sampling Bobot Ayam</a>
-                @endcan
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Sampling Bobot Ayam</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Sampling Bobot Ayam" :breadcrumbs="['Sampling Bobot Ayam' => '']">
+    <x-slot name="actions">
+        @can('kandang.sampling.create-sampling-bobot-ayam')
+            <a href="{{ route('sampling-ayam.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus d-sm-none"></i>
+                <span class="d-none d-sm-inline">Tambah Sampling Bobot Ayam</span>
+            </a>
+        @endcan
+    </x-slot>
+</x-page-header>
 @endsection
 
 @section('content')
 <div class="mx-1400">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-header">
-            <h3 class="card-title">Filter</h3>
+    <x-filter-panel action="{{ route('sampling-ayam.index') }}" resetUrl="{{ route('sampling-ayam.index') }}">
+        <div class="col-12 col-md-4">
+            <x-adminlte-input
+                type="date"
+                name="tanggal"
+                label="Tanggal"
+                fgroup-class="mb-0"
+                :value="request()->query('tanggal')"
+            />
         </div>
-        <div class="card-body">
-            <form
-                action="{{ route('sampling-ayam.index') }}"
-                method="GET"
-                class="d-flex align-items-end gap-3 flex-column flex-sm-row"
+        <div class="col-12 col-md-4">
+            <x-adminlte-select
+                name="kandang_id"
+                fgroup-class="mb-0"
             >
-                <x-adminlte-input
-                    type="date"
-                    name="tanggal"
-                    label="Tanggal"
-                    fgroup-class="mb-0 w-100 mx-sm-200"
-                    :value="request()->query('tanggal')"
+                <x-adminlte-options
+                    :options="$listKandang"
+                    empty-option="Pilih Kandang ..."
+                    :selected="request()->query('kandang_id')"
                 />
-    
-                <x-adminlte-select
-                    name="kandang_id"
-                    fgroup-class="mb-0 w-100 mx-sm-200"
-                >
-                    <x-adminlte-options 
-                        :options="$listKandang"
-                        empty-option="Pilih Kandang ..."
-                        :selected="request()->query('kandang_id')"
-                    />
-                </x-adminlte-select>
-    
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-        
-                    <a href="{{ route('sampling-ayam.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+            </x-adminlte-select>
         </div>
-    </div>
+    </x-filter-panel>
 
-    <div class="card mt-3">
+    <div class="card mt-3 desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-bordered table-striped align-middle">
                 <thead class="text-center">
@@ -112,16 +87,16 @@
                             <td class="text-center">
                                 <div class="d-flex justify-content-center">
                                     @can('kandang.sampling.detail-sampling-bobot-ayam')
-                                        <a href="{{ route('sampling-ayam.show', $item->id) }}" 
-                                        class="btn btn-info btn-sm mr-2 text-white" 
+                                        <a href="{{ route('sampling-ayam.show', $item->id) }}"
+                                        class="btn btn-info btn-sm mr-2 text-white"
                                         title="Edit">
                                             <i class="fas fa-eye"></i>
                                         </a>
                                     @endcan
                                     @can('kandang.sampling.edit-sampling-bobot-ayam')
                                         <a
-                                            href="{{ route('sampling-ayam.edit', $item->id) }}" 
-                                            class="btn btn-warning btn-sm mr-2 text-white" 
+                                            href="{{ route('sampling-ayam.edit', $item->id) }}"
+                                            class="btn btn-warning btn-sm mr-2 text-white"
                                             title="Edit"
                                         >
                                             <i class="fas fa-edit"></i>
@@ -135,9 +110,9 @@
                                         >
                                             @csrf
                                             @method('delete')
-                                            <button 
-                                                type="submit" 
-                                                class="btn btn-danger btn-sm" 
+                                            <button
+                                                type="submit"
+                                                class="btn btn-danger btn-sm"
                                                 title="Hapus"
                                             >
                                                 <i class="fas fa-trash"></i>
@@ -163,6 +138,79 @@
             </div>
         @endif
     </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse ($datas as $item)
+            <x-mobile-card
+                title="{{ $item->nama_kandang }}"
+                subtitle="{{ $item->tanggal->translatedFormat('l, d F Y') }}"
+                badge="{{ format_angka($item->uniformity*100) }}%"
+                badgeClass="{{ $item->uniformity >= .8 ? 'badge-success' : 'badge-warning' }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Petugas</span>
+                    <span class="data-value">{{ $item->nama_pencatat }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Ayam</span>
+                    <span class="data-value">{{ format_angka($item->jumlah_ayam) }} ekor</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Sampling</span>
+                    <span class="data-value">{{ format_angka($item->jumlah_sampling) }} ekor</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Umur Ayam</span>
+                    <span class="data-value">{{ $item->umur_ayam }} Minggu</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Standar Bobot</span>
+                    <span class="data-value">{{ format_angka($item->standar_bobot) }} kg</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Rata-rata Sampling</span>
+                    <span class="data-value">{{ format_angka($item->realisasi_bobot) }} kg</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Ayam Masuk Range</span>
+                    <span class="data-value">{{ format_angka($item->jumlah_masuk_range) }}</span>
+                </div>
+                <x-slot name="actions">
+                    @can('kandang.sampling.detail-sampling-bobot-ayam')
+                        <a href="{{ route('sampling-ayam.show', $item->id) }}" class="btn btn-info btn-sm text-white">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                    @endcan
+                    @can('kandang.sampling.edit-sampling-bobot-ayam')
+                        <a href="{{ route('sampling-ayam.edit', $item->id) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    @endcan
+                    @can('kandang.sampling.delete-sampling-bobot-ayam')
+                        <form action="{{ route('sampling-ayam.destroy', $item->id) }}"
+                            method="POST"
+                            class="form-delete m-0 flex-1"
+                            data-tanggal="tanggal {{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('l, d F Y') }}"
+                        >
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger btn-sm w-100" title="Hapus">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    @endcan
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Belum ada data sampling bobot ayam.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
 </div>
 
 
@@ -175,7 +223,7 @@
             e.preventDefault();
             const form = this;
             const tanggal = $(this).data('tanggal');
-            
+
             Swal.fire({
                 title: 'Apakah Anda yakin?',
                 html: `Data sampling bobot ayam pada <strong>${tanggal}</strong> akan dihapus permanen!`,

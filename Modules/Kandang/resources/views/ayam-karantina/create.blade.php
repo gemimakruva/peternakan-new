@@ -3,21 +3,10 @@
 @section('title', 'Tambah Ayam Karantina')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Tambah Ayam Karantina</h1>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">  
-                    <li class="breadcrumb-item"><a href="{{ route('ayam-karantina.index') }}">Ayam Karantina</a></li>
-                    <li class="breadcrumb-item active">Tambah</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Tambah Ayam Karantina" :breadcrumbs="[
+        'Ayam Karantina' => route('ayam-karantina.index'),
+        'Tambah' => '',
+    ]" />
 @endsection
 
 @section('content')
@@ -33,7 +22,7 @@
                         <div class="card-body">
                             @include('kandang::ayam-karantina._form')
                         </div>
-                    </div>    
+                    </div>
                 </form>
             </div>
             <div class="col-md-3 col-12">
@@ -43,8 +32,8 @@
                     </div>
                     <div class="card-body">
                         <div class="d-flex gap-3">
-                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-outline-secondary flex-1">Kembali</a>
-                            <button class="btn btn-primary flex-1" form="form-ayam-karantina">Simpan</button>
+                            <a href="{{ route('ayam-karantina.index') }}" class="btn btn-outline-secondary flex-1 w-100">Kembali</a>
+                            <button class="btn btn-primary flex-1 w-100" form="form-ayam-karantina">Simpan</button>
                         </div>
                     </div>
                 </div>

@@ -3,70 +3,48 @@
 @section('title', 'Pemberian Pakan Sisa Pakan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Pemberian Pakan Sisa Pakan</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Pemberian Pakan</li>
-                <li class="breadcrumb-item active">Pemberian Pakan Sisa Pakan</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Pemberian Pakan Sisa Pakan" :breadcrumbs="[
+    'Pemberian Pakan' => '#',
+    'Pemberian Pakan Sisa Pakan' => '',
+]" />
 @endsection
 
 @section('content')
 <div class="mx-1200">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Filter</h2>
-        </div>
-        <div class="card-body">
-            <form
-                action="{{ route('pemberian-pakan-sisa-pakan.index') }}"
-                method="get"
-                class="d-flex align-items-end gap-3 gap-3 flex-column flex-sm-row"
+    <x-filter-panel
+        action="{{ route('pemberian-pakan-sisa-pakan.index') }}"
+        resetUrl="{{ route('pemberian-pakan-sisa-pakan.index') }}"
+    >
+        <div class="col-12 col-md-4">
+            <x-adminlte-select
+                name="kandang_id"
+                fgroup-class="mb-0 w-100"
             >
-                <x-adminlte-select
-                    name="kandang_id"
-                    fgroup-class="mb-0 w-100 mx-sm-200"
-                >
-                    <x-adminlte-options 
-                        :options="$listKandang"
-                        empty-option="Semua Kandang"
-                        :selected="request()->query('kandang_id')"
-                    />
-                </x-adminlte-select>
-
-                <x-adminlte-select
-                    name="jenis_pakan_id"
-                    fgroup-class="mb-0 w-100 mx-sm-200"
-                >
-                    <x-adminlte-options 
-                        :options="$listJenisPakan"
-                        empty-option="Semua Jenis Pakan"
-                        :selected="request()->query('jenis_pakan_id')"
-                    />
-                </x-adminlte-select>
-
-                <div class="d-flex gap-2">
-                    <button class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-                    <a href="{{ route('pemberian-pakan-sisa-pakan.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+                <x-adminlte-options
+                    :options="$listKandang"
+                    empty-option="Semua Kandang"
+                    :selected="request()->query('kandang_id')"
+                />
+            </x-adminlte-select>
         </div>
-    </div>
 
-    <div class="card">
+        <div class="col-12 col-md-4">
+            <x-adminlte-select
+                name="jenis_pakan_id"
+                fgroup-class="mb-0 w-100"
+            >
+                <x-adminlte-options
+                    :options="$listJenisPakan"
+                    empty-option="Semua Jenis Pakan"
+                    :selected="request()->query('jenis_pakan_id')"
+                />
+            </x-adminlte-select>
+        </div>
+    </x-filter-panel>
+
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center">
                 <thead class="bg-light">
@@ -117,6 +95,52 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $row)
+            <x-mobile-card
+                title="{{ $row->nama_kandang }}"
+                subtitle="{{ @$row->tanggal_pemberian_pakan?->translatedFormat('d M Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Jenis Pakan</span>
+                    <span class="data-value">{{ $row->nama_jenis_pakan }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Pelaksana</span>
+                    <span class="data-value">{{ $row->nama_pelaksana }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Pemberian (Kg)</span>
+                    <span class="data-value">{{ format_angka($row->pemberian_pakan_kg) ?? 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Sisa (Kg)</span>
+                    <span class="data-value">{{ format_angka($row->sisa_pakan_kg) }}</span>
+                </div>
+                <x-slot name="actions">
+                    @can('kandang.pakan.edit-pemberian-pakan-dan-sisa-pakan')
+                        <a href="{{ route('pemberian-pakan-sisa-pakan.edit', $row) }}" class="btn btn-sm btn-warning text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    @endcan
+                    @can('kandang.pakan.detail-pemberian-pakan-dan-sisa-pakan')
+                        <a href="{{ route('pemberian-pakan-sisa-pakan.show', $row) }}" class="btn btn-sm btn-info text-white">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                    @endcan
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Belum ada data.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif
