@@ -7,3 +7,7 @@
 @push('css')
     @vite('resources/sass/dashboard.scss')
 @endpush
+
+@section('footer')
+<x-bottom-nav />
+@stop
