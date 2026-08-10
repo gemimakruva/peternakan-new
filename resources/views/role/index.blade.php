@@ -13,9 +13,11 @@
 @endsection
 
 @php
-    function getRoleName($name) {
-        $slug = explode('.', $name)[2];
-        return str_replace('-', ' ', $slug);
+    if (!function_exists('getRoleName')) {
+        function getRoleName($name) {
+            $slug = explode('.', $name)[2];
+            return str_replace('-', ' ', $slug);
+        }
     }
 @endphp
 
