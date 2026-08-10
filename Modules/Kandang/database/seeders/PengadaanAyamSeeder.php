@@ -7,7 +7,7 @@ use Modules\Kandang\Models\Kandang;
 use Modules\Kandang\Models\PengadaanAyam;
 use Modules\Kandang\Models\PengadaanAyamDistribusi;
 
-class PengadaanAyamSedeer extends Seeder
+class PengadaanAyamSeeder extends Seeder
 {
     /**
      * Run the database seeds.

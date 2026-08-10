@@ -18,7 +18,7 @@ class KandangDatabaseSeeder extends Seeder
             StrainSeeder::class,
             KandangSeeder::class,
             FlockSeeder::class,
-            // PengadaanAyamSedeer::class,
+            // PengadaanAyamSeeder::class,
             // PopulasiAyamSeeder::class,
             // AyamAfkirSeeder::class,
             // AyamKarantinaSeeder::class,

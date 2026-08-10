@@ -6,14 +6,14 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Modules\GudangTelur\Models\Kemasan;
 use Modules\GudangTelur\Repositories\Kemasan\KemasanInventoryRepository;
-use Modules\GudangTelur\Repositories\Kemasan\KemasanInventoryShowReposotory;
+use Modules\GudangTelur\Repositories\Kemasan\KemasanInventoryShowRepository;
 
 class KemasanInventoryController extends Controller
 {
     public function __construct(
         private Kemasan $kemasan,
         private KemasanInventoryRepository $repository,
-        private KemasanInventoryShowReposotory $repository2,
+        private KemasanInventoryShowRepository $repository2,
     ) {
         $this->middleware('can:gudang-telur.inventory-kemasan.menu-inventory-kemasan');
     }

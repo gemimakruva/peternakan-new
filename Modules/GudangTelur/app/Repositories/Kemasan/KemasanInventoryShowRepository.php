@@ -8,7 +8,7 @@ use Modules\GudangTelur\Enums\TipeKemasanInventory;
 use Modules\GudangTelur\Models\KemasanInventory;
 use Modules\Kandang\Repositories\EloquentRepository;
 
-class KemasanInventoryShowReposotory extends EloquentRepository
+class KemasanInventoryShowRepository extends EloquentRepository
 {
     private $kemasanId;
 
