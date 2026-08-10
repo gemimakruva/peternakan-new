@@ -3,37 +3,25 @@
 @section('title', 'Kandang')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Kandang</h1>
-                <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary">Tambah Kandang</a>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-              <li class="breadcrumb-item active">Kandang</li>
-            </ol>
-          </div>
-        </div>
-    </div>
+    <x-page-header title="Kandang" :breadcrumbs="['Master Data' => '#', 'Kandang' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('master-data.kandang.create') }}" class="btn btn-primary">Tambah Kandang</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
 
-        {{-- Filter --}}
         <div class="card">
             <div class="card-header">
                 <h2 class="card-title">Filter</h2>
             </div>
             <div class="card-body">
-                <form 
-                    action="{{ route('master-data.kandang.index') }}" 
-                    method="GET" 
+                <form
+                    action="{{ route('master-data.kandang.index') }}"
+                    method="GET"
                     class="d-flex gap-3 align-items-end flex-column flex-sm-row"
                     x-data="{
                         strainData: {{ Js::from($strain) }},
@@ -41,10 +29,10 @@
                         selectedStrain: '{{ request('strain_id') ?? '' }}',
                         selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
                     }">
-                    
-                    <select 
+
+                    <select
                         id="strainFilter"
-                        name="strain_id" 
+                        name="strain_id"
                         class="form-control mx-sm-200"
                         x-model="selectedStrain">
                         <option value="">Semua Strain</option>
@@ -53,9 +41,9 @@
                         </template>
                     </select>
 
-                    <select 
+                    <select
                         id="peternakanFilter"
-                        name="peternakan_id" 
+                        name="peternakan_id"
                         class="form-control mx-sm-200"
                         x-model="selectedPeternakan">
                         <option value="">Semua Peternakan</option>
@@ -64,14 +52,14 @@
                         </template>
                     </select>
 
-                    <input 
+                    <input
                         type="search"
                         name="search"
                         class="form-control mx-sm-200"
                         placeholder="Nama Kandang..."
                         value="{{ request()->query('search') }}"
                     />
-                    
+
                     <div class="d-flex gap-2 justify-content-end">
                         <button type="submit" class="btn btn-primary btn-block">
                             <i class="fas fa-search"></i>
@@ -83,8 +71,8 @@
                 </form>
             </div>
         </div>
-        
-        <div class="card">
+
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
@@ -139,6 +127,47 @@
 
             @if ($kandang->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $kandang->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($kandang as $row)
+                <x-mobile-card title="{{ $row->nama_kandang }}" subtitle="{{ $row->nama_peternakan }}">
+                    <div class="data-row">
+                        <span class="data-label">Strain</span>
+                        <span class="data-value">{{ $row->nama_strain }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Kapasitas</span>
+                        <span class="data-value">{{ format_angka($row->kapasitas_kandang) }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        <a href="{{ route('master-data.kandang.show', $row) }}" class="btn btn-info btn-sm text-white">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                        <a href="{{ route('master-data.kandang.edit', $row) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        @if (!$row->flocks()->exists())
+                            <form action="{{ route('master-data.kandang.destroy', $row) }}" method="post"
+                                data-nama="{{ $row->nama }}" class="form-delete d-inline">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
+                        @endif
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Tidak ada data kandang ditemukan.</div>
+            @endforelse
+
+            @if ($kandang->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $kandang->links('components.pagination') }}
                 </div>
             @endif

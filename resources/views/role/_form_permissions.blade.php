@@ -27,7 +27,7 @@
                 <div class="tab-pane fade {{ $loop->first ? 'show active' : '' }}" id="{{ strtolower(str_replace(' ', '-', $modul)) }}" role="tabpanel">
                     <div class="row mt-3">
                         @foreach($categories as $category => $perms)
-                            <div class="col-3">
+                            <div class="col-6 col-md-3">
                                 <div class="card">
                                     <div class="card-header p-2">
                                         <h4 class="lead mb-0">{{ $category }}</h4>

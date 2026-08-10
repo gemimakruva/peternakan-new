@@ -3,12 +3,7 @@
 @section('title', 'Vitamin Obat Minum')
 
 @section('content_header')
-    <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;">
-        <h2 class="h4 fw-bold text-dark">List Vitamin Obat Minum</h2>
-        <span class="text-muted mb-0" style="max-width: 600px;">
-            Halaman ini digunakan untuk Menampilkan daftar Vitamin Obat Minum
-        </span>
-    </div>
+    <x-page-header title="Vitamin Obat Minum" :breadcrumbs="['Vitamin Obat Minum' => '']" />
 @endsection
 
 @section('content')
@@ -20,7 +15,7 @@
 
         <div class="card-body">
             <form action="" method="GET" class="row g-2 align-items-end">
-                <div class="col-md-4 col-5">
+                <div class="col-12 col-md-4">
                     <label class="form-label">Range Tanggal</label>
                     <div class="row">
                         <div class="col-6">
@@ -32,7 +27,7 @@
                     </div>
                 </div>
 
-                <div class="col-md-3 col-5">
+                <div class="col-12 col-md-3">
                     <label class="form-label">Kandang</label>
                     <select name="kandang_id" class="form-control">
                         <option selected disabled>Pilih Kandang...</option>
@@ -44,7 +39,7 @@
                     </select>
                 </div>
 
-                <div class="col-md-3 col-2">
+                <div class="col-12 col-md-3">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i>
                     </button>
@@ -56,7 +51,7 @@
         </div>
     </div>
 
-    <div class="card mt-3" style="max-width:1200px">
+    <div class="card mt-3 desktop-table d-none d-md-block" style="max-width:1200px">
         <div class="card-body table-responsive">
             <table class="table table-bordered table-striped align-middle">
                 <thead class="text-center" style="background-color: #495057; border-color: #495057; color: white;">
@@ -103,6 +98,44 @@
             </div>
         </div>
     </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse ($data as $item)
+            <x-mobile-card
+                title="{{ $item->flock->kandang->nama ?? '-' }}"
+                subtitle="{{ \Carbon\Carbon::parse($item->tanggal)->translatedFormat('d M Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Flock</span>
+                    <span class="data-value">{{ $item->flock->nama ?? '-' }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Ayam</span>
+                    <span class="data-value">{{ $item->jumlah_ayam_per_flock }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Air di Tong (liter)</span>
+                    <span class="data-value">{{ $item->jumlah_air_di_tong_per_flock }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah OVK</span>
+                    <span class="data-value">{{ $item->jumlah_ovk_per_flock }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('perhitungan-obat.vitamin-obat-minum.edit', $item->id) }}" class="btn btn-info btn-sm">
+                        <i class="fa fa-eye"></i> Edit
+                    </a>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Belum ada data Vitamin Obat Minum.</div>
+        @endforelse
+
+        @if ($data->hasPages())
+            <div class="d-flex justify-content-end mt-3">
+                {{ $data->links() }}
+            </div>
+        @endif
     </div>
 @endsection
 @push('js')

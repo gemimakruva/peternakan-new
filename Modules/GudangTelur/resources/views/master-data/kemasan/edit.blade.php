@@ -3,21 +3,8 @@
 @section('title', 'Edit Kemasan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Edit Kemasan</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.master-data.kemasan.index') }}">Kemasan</a></li>
-                <li class="breadcrumb-item active">Edit</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Edit Kemasan" :breadcrumbs="['Kemasan' => route('gudang-telur.master-data.kemasan.index'), 'Edit' => '']" />
 @endsection
-
 
 @section('content')
 <div class="mx-1200">
@@ -28,8 +15,8 @@
         @method('put')
         <div class="row">
             <div class="col-12 col-lg-9">
-                @include('gudang-telur::master-data.kemasan._form')                
-                @include('gudang-telur::master-data.kemasan._perubahan_harga')                
+                @include('gudang-telur::master-data.kemasan._form')
+                @include('gudang-telur::master-data.kemasan._perubahan_harga')
             </div>
             <div class="col-12 col-lg-3">
                 <div class="card sticy-form-action">

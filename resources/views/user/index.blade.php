@@ -3,46 +3,28 @@
 @section('title', 'User')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>User</h1>
-                    @can('Tambah User')
-                        <a href="{{ route('user.create') }}" class="btn btn-primary">Tambah User</a>
-                    @endcan
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">User Management</a></li>
-                    <li class="breadcrumb-item active">User</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+<x-page-header title="User" :breadcrumbs="['User Management' => '#', 'User' => '']">
+    @can('Tambah User')
+    <x-slot name="actions">
+        <a href="{{ route('user.create') }}" class="btn btn-primary">Tambah User</a>
+    </x-slot>
+    @endcan
+</x-page-header>
 @endsection
 
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('user.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari User..." value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+        <x-filter-panel action="{{ route('user.index', request()->all()) }}">
+            <div class="col-12 col-md-4">
+                <input type="search" name="search" class="form-control" placeholder="Cari User..." value="{{ request()->query('search') }}">
             </div>
+        </x-filter-panel>
 
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-striped table-bordered text-center">
+                <table class="table table-hover table-striped table-bordered text-center mb-0">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
                         <th>Nama</th>
@@ -95,10 +77,41 @@
                 </div>
             @endif
         </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($datas as $row)
+                <x-mobile-card title="{{ $row->name }}" subtitle="{{ $row->email }}">
+                    <div class="data-row">
+                        <span class="data-label">Role</span>
+                        <span class="data-value">{{ $row->getRoleNames()->implode(', ') }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        @can('Edit User')
+                            <a href="{{ route('user.edit', $row->id) }}" class="btn btn-warning btn-sm text-white">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        @endcan
+                        @can('Hapus User')
+                            <form action="{{ route('user.destroy', $row->id) }}" method="post" data-nama="{{ $row->name }}" class="form-delete">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                            </form>
+                        @endif
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <p class="text-center text-muted py-3">Tidak ada data user ditemukan.</p>
+            @endforelse
+            @if ($datas->hasPages())
+                <div class="d-flex justify-content-end mt-2">
+                    {{ $datas->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
     </div>
 @endsection
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).on('submit', '.form-delete', function (e) {
             e.preventDefault();

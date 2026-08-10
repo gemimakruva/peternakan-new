@@ -3,18 +3,7 @@
 @section('title', 'Rekapan Produksi')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Rekapan Produksi</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Rekapan Produksi</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Rekapan Produksi" :breadcrumbs="['Rekapan Produksi' => '']" />
 @endsection
 
 
@@ -38,13 +27,13 @@
                     />
                 </x-adminlte-select>
 
-                <x-adminlte-input 
+                <x-adminlte-input
                     type="date"
                     name="tanggal"
                     fgroup-class="mb-0 w-100 mx-sm-200"
                     :value="request()->query('tanggal')"
                 />
-                
+
                 <div class="d-flex gap-2 justify-content-between flex-1">
                     <div class="d-flex gap-2">
                         <x-adminlte-button icon="fas fa-search" type="submit" theme="primary"  />
@@ -60,7 +49,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -166,7 +155,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="8" class="text-center">Data rekapan ayam tidak tersedia.</td>
+                            <td colspan="39" class="text-center">Data rekapan ayam tidak tersedia.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -175,6 +164,68 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card
+                title="{{ $data->nama_kandang }}"
+                subtitle="{{ $data->tanggal->translatedFormat('d M Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Umur</span>
+                    <span class="data-value">{{ format_angka($data->umur) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Sehat</span>
+                    <span class="data-value">{{ format_angka($data->sehat) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Mati</span>
+                    <span class="data-value">{{ format_angka($data->mati) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Afkir</span>
+                    <span class="data-value">{{ format_angka($data->afkir) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Konsumsi (kg)</span>
+                    <span class="data-value">{{ format_angka($data->feed_intake_kg) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Total Telur</span>
+                    <span class="data-value">{{ format_angka($data->total_jumlah_telur) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Total Berat Telur</span>
+                    <span class="data-value">{{ format_angka($data->total_berat_telur) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">HDP</span>
+                    <span class="data-value">{{ format_angka($data->hdp*100) }}%</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">FCR</span>
+                    <span class="data-value">{{ format_angka($data->fcr) }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a
+                        href="{{ route('rekapan-produksi.detail', [ 'tanggal' => $data->tanggal->format('Y-m-d'), 'kandang_id' => $data->kandang_id ]) }}"
+                        class="btn btn-info btn-sm"
+                    >
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Data rekapan ayam tidak tersedia.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

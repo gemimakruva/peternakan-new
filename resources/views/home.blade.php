@@ -1,18 +1,18 @@
 @extends('layouts.dashboard')
 
-@section('title', 'Home')
+@section('title', 'Dashboard')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Home</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                </ol>
-            </div>
+<x-page-header title="Dashboard" :breadcrumbs="['Dashboard' => '']" />
+@endsection
+
+@section('content')
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="mb-1">Selamat datang, {{ Auth::user()->name }}</h5>
+            <p class="text-muted mb-0">Sistem Pengelolaan Manajemen & Statistik Peternakan. Silakan pilih menu di sidebar untuk memulai.</p>
         </div>
     </div>
+</div>
 @endsection

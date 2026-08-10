@@ -5,7 +5,7 @@
 @push('css')
 <style>
     [x-cloak] {
-        display: none !important; 
+        display: none !important;
     }
     select:disabled {
         background-color: #e9ecef;
@@ -15,21 +15,7 @@
 @endpush
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Pipa</h1>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-              <li class="breadcrumb-item active">Pipa</li>
-            </ol>
-          </div>
-        </div>
-    </div>
+    <x-page-header title="Pipa" :breadcrumbs="['Master Data' => '#', 'Pipa' => '']" />
 @endsection
 
 @section('content')
@@ -41,9 +27,9 @@
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <form 
-                action="{{ route('master-data.pipe.index') }}" 
-                method="GET" 
+            <form
+                action="{{ route('master-data.pipe.index') }}"
+                method="GET"
                 class="d-flex gap-3 align-items-end flex-column flex-sm-row"
                 x-data="{
                     peternakanData: {{ Js::from($peternakan) }},
@@ -74,10 +60,10 @@
                         this.selectedFlock = '';
                     }
                 }">
-                
+
                 <select
                     id="peternakanFilter"
-                    name="peternakan_id" 
+                    name="peternakan_id"
                     class="form-control mx-sm-200"
                     x-model="selectedPeternakan"
                     @change="onPeternakanChange()">
@@ -86,10 +72,10 @@
                         <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
                     </template>
                 </select>
-    
-                <select 
+
+                <select
                     id="kandangFilter"
-                    name="kandang_id" 
+                    name="kandang_id"
                     class="form-control mx-sm-200"
                     x-model="selectedKandang"
                     @change="onKandangChange()"
@@ -99,10 +85,10 @@
                         <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
                     </template>
                 </select>
-                
-                <select 
+
+                <select
                     id="flockFilter"
-                    name="flock_id" 
+                    name="flock_id"
                     class="form-control mx-sm-200"
                     x-model="selectedFlock"
                     :disabled="!selectedKandang">
@@ -112,12 +98,12 @@
                     </template>
                 </select>
 
-                <input type="search" 
-                    name="search" 
-                    class="form-control mx-sm-300" 
-                    placeholder="Kandang, Flock, Pipe ..." 
+                <input type="search"
+                    name="search"
+                    class="form-control mx-sm-300"
+                    placeholder="Kandang, Flock, Pipe ..."
                     value="{{ request()->query('search') }}">
-                
+
                 <div class="d-flex gap-2">
                     <button type="submit" class="btn btn-primary">
                         <i class="fas fa-search"></i>
@@ -131,7 +117,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead class="bg-light">
@@ -160,9 +146,9 @@
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            <form action="{{ route('master-data.pipe.destroy', $row->id) }}" 
-                                method="post" 
-                                data-nama="{{ $row->nama }}" 
+                            <form action="{{ route('master-data.pipe.destroy', $row->id) }}"
+                                method="post"
+                                data-nama="{{ $row->nama }}"
                                 class="form-delete d-inline">
                                 @csrf
                                 @method('delete')
@@ -186,10 +172,50 @@
             {{ $datas->links('components.pagination') }}
         </div>
     </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $row)
+            <x-mobile-card title="{{ $row->nama ?? '-' }}" subtitle="{{ $row->nama_kandang ?? '-' }}">
+                <div class="data-row">
+                    <span class="data-label">Peternakan</span>
+                    <span class="data-value">{{ $row->nama_peternakan ?? '-' }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Flock</span>
+                    <span class="data-value">{{ $row->nama_flock ?? '-' }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Kapasitas</span>
+                    <span class="data-value">{{ format_angka($row->kapasitas) }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('master-data.pipe.edit', $row) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{{ route('master-data.pipe.destroy', $row->id) }}"
+                        method="post"
+                        data-nama="{{ $row->nama }}"
+                        class="form-delete d-inline">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-sm btn-danger">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </form>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Belum ada data pipa.</div>
+        @endforelse
+
+        <div class="d-flex justify-content-end mt-3">
+            {{ $datas->links('components.pagination') }}
+        </div>
+    </div>
 </div>
 @endsection
 
-@push('js')    
+@push('js')
     <script>
         $(document).on('submit', '.form-delete', function(e) {
             e.preventDefault();

@@ -3,70 +3,43 @@
 @section('title', 'Treatment')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Treatment</h1>
-                    <a href="{{ route('treatment.create') }}" class="btn btn-primary">Tambah Treatment</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">Treatment</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Treatment" :breadcrumbs="['Treatment' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('treatment.create') }}" class="btn btn-primary">Tambah Treatment</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Filter</h2>
-            </div>
-            <div class="card-body">
-                <form
-                    action="{{ route('treatment.index') }}"
-                    method="get"
-                    class="d-flex gap-3 align-items-end flex-column flex-sm-row"
+        <x-filter-panel action="{{ route('treatment.index') }}" resetUrl="{{ route('treatment.index') }}">
+            <div class="col-12 col-md-4">
+                <x-adminlte-select
+                    name="kandang_id"
+                    fgroup-class="mb-0 w-100"
                 >
-                    <x-adminlte-select
-                        name="kandang_id"
-                        fgroup-class="mb-0 w-100 mx-sm-200"
-                    >
-                        <x-adminlte-options
-                            :options="$listKandang"
-                            empty-option="Semua Kandang ..."
-                            :selected="request()->query('kandang_id')"
-                        />
-                    </x-adminlte-select>
-
-                    <x-adminlte-input 
-                        type="search"
-                        name="search"
-                        placeholder="Nama Pencatat ..."
-                        :value="request()->query('search')"
-                        fgroup-class="mb-0 w-100 mx-sm-200"
+                    <x-adminlte-options
+                        :options="$listKandang"
+                        empty-option="Semua Kandang ..."
+                        :selected="request()->query('kandang_id')"
                     />
-                    
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary" type="submit">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        <a href="{{ route('treatment.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </form>
+                </x-adminlte-select>
             </div>
-        </div>
 
-        <div class="card">
+            <div class="col-12 col-md-4">
+                <x-adminlte-input
+                    type="search"
+                    name="search"
+                    placeholder="Nama Pencatat ..."
+                    :value="request()->query('search')"
+                    fgroup-class="mb-0 w-100"
+                />
+            </div>
+        </x-filter-panel>
+
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
@@ -113,6 +86,41 @@
 
             @if ($datas->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $datas->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($datas as $row)
+                <x-mobile-card
+                    title="{{ $row->nama_kandang }}"
+                    subtitle="{{ $row->tanggal->translatedFormat('d M Y') }}"
+                >
+                    <div class="data-row">
+                        <span class="data-label">Pencatat</span>
+                        <span class="data-value">{{ $row->nama_creator }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        <a href="{{ route('treatment.edit', $row->id) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form action="{{ route('treatment.destroy', $row->id) }}" method="post"
+                            data-tanggal="{{ $row->tanggal->translatedFormat('l, d F Y') }}" class="form-delete d-inline">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Tidak ada data treatment ditemukan.</div>
+            @endforelse
+
+            @if ($datas->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $datas->links('components.pagination') }}
                 </div>
             @endif

@@ -3,21 +3,7 @@
 @section('title', 'Strain Ayam')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <div class="d-flex align-items-center gap-1">
-            <h1>Strain Ayam</h1>
-        </div>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-            <li class="breadcrumb-item active">Strain Ayam</li>
-        </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Strain Ayam" :breadcrumbs="['Master Data' => '#', 'Strain Ayam' => '']" />
 @endsection
 
 @section('content')
@@ -26,7 +12,7 @@
         <div class="card-header">
             <div class="d-flex flex-wrap justify-content-left gap-2">
                 @foreach ($strains as $strain)
-                    <a 
+                    <a
                         href="{{ route('master-data.strain-ayam.index', ['strain_id' => $strain->id]) }}"
                         class="btn text-bold {{ $filterStrainId == $strain->id ? 'text-primary' : 'text-secondary' }}"
                     >
@@ -36,7 +22,7 @@
             </div>
         </div>
 
-        <div class="card-body table-responsive p-0">
+        <div class="card-body table-responsive p-0 desktop-table d-none d-md-block">
             <table class="table table-hover table-striped table-bordered text-center">
                 <thead class="bg-light">
                     <tr>
@@ -77,6 +63,55 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse ($strainMetrics as $row)
+                <x-mobile-card title="Minggu {{ format_angka($row->umur) }}">
+                    <div class="data-row">
+                        <span class="data-label">BB Bawah</span>
+                        <span class="data-value">{{ format_angka($row->berat_badan_min) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">BB Atas</span>
+                        <span class="data-value">{{ format_angka($row->berat_badan_max) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">BB Rata-rata</span>
+                        <span class="data-value">{{ format_angka($row->berat_badan) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">% Kematian</span>
+                        <span class="data-value">{{ format_angka($row->persentase_kematian) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Feed Intake</span>
+                        <span class="data-value">{{ format_angka($row->feed_intake) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">FCR</span>
+                        <span class="data-value">{{ format_angka($row->fcr) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">HDP</span>
+                        <span class="data-value">{{ format_angka($row->hdp) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">HHP</span>
+                        <span class="data-value">{{ format_angka($row->hhp) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Berat Telur</span>
+                        <span class="data-value">{{ format_angka($row->egg_weight) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Egg Mass</span>
+                        <span class="data-value">{{ format_angka($row->egg_mass) }}</span>
+                    </div>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Data tidak tersedia.</div>
+            @endforelse
         </div>
     </div>
 </div>

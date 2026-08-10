@@ -3,51 +3,28 @@
 @section('title', 'Rekapan Pakan Harian')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Rekapan Pakan Harian</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Pemberian Pakan</li>
-                <li class="breadcrumb-item active">Rekapan Pakan Harian</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Rekapan Pakan Harian" :breadcrumbs="['Pemberian Pakan' => '#', 'Rekapan Pakan Harian' => '']" />
 @endsection
 
 @section('content')
 <div class="mx-1200">
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Filter</h2>
+    <x-filter-panel action="{{ route('overview-pakan-harian') }}" resetUrl="{{ route('overview-pakan-harian') }}">
+        <div class="col-12 col-md-4">
+            <x-adminlte-select
+                name="kandang_id"
+                fgroup-class="mb-0 w-100"
+            >
+                <x-adminlte-options
+                    :options="$listKandang"
+                    empty-option="Semua Kandang"
+                    :selected="request()->query('kandang_id')"
+                />
+            </x-adminlte-select>
         </div>
-        <div class="card-body">
-            <form action="{{ route('overview-pakan-harian') }}" method="get" class="d-flex gap-2">
-                <x-adminlte-select
-                    name="kandang_id"
-                    fgroup-class="mb-0 mx-200"
-                >
-                    <x-adminlte-options
-                        :options="$listKandang"
-                        empty-option="Semua Kandang"
-                        :selected="request()->query('kandang_id')"
-                    />
-                </x-adminlte-select>
+    </x-filter-panel>
 
-                <x-adminlte-button type="submit" theme="primary" icon="fas fa-search" />
-
-                <a href="{{ route('overview-pakan-harian') }}" class="btn btn-secondary">
-                    <i class="fas fa-undo"></i>
-                </a>
-            </form>
-        </div>
-    </div>
-
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -84,7 +61,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3">Data rekapan pakan harian tidak ditemukan.</td>
+                            <td colspan="12">Data rekapan pakan harian tidak ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -92,6 +69,52 @@
         </div>
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card
+                title="{{ $data->nama_kandang }}"
+                subtitle="{{ $data->tanggal_pemberian_pakan->translatedFormat('d M Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Umur Ayam</span>
+                    <span class="data-value">{{ format_angka($data->umur_ayam) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Ayam</span>
+                    <span class="data-value">{{ format_angka($data->jumlah_ayam) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Pemberian (kg)</span>
+                    <span class="data-value">{{ format_angka($data->pemberian_kg) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Sisa (kg)</span>
+                    <span class="data-value">{{ format_angka($data->sisa_kg) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Konsumsi (kg)</span>
+                    <span class="data-value">{{ format_angka($data->feed_intake_kg) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Konsumsi/Ekor (real)</span>
+                    <span class="data-value">{{ format_angka($data->feed_intake_per_ekor) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Konsumsi/Ekor (std)</span>
+                    <span class="data-value">{{ format_angka($data->feed_intake_per_ekor_standar) }}</span>
+                </div>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Data rekapan pakan harian tidak ditemukan.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

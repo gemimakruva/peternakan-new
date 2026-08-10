@@ -3,69 +3,30 @@
 @section('title', 'List Telur Keluar')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>List Telur Keluar</h1>
-                <a href="{{ route('gudang-telur.telur-keluar.create') }}" class="btn btn-primary">Tambah Telur Keluar</a>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.telur-inventory.index') }}">Telur Inventory</a></li>
-                <li class="breadcrumb-item active">Telur Keluar</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="List Telur Keluar" :breadcrumbs="['Telur Inventory' => route('gudang-telur.telur-inventory.index'), 'Telur Keluar' => '']">
+    <x-slot name="actions">
+        <a href="{{ route('gudang-telur.telur-keluar.create') }}" class="btn btn-primary">Tambah Telur Keluar</a>
+    </x-slot>
+</x-page-header>
 @endsection
-
 
 @section('content')
 <div class="mx-1000">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('gudang-telur.telur-keluar.index', request()->all()) }}" method="get" class="w-100">
-                <div class="d-flex gap-2 justify-content-start align-items-end">
-                    <x-adminlte-input
-                        label="Tanggal"
-                        type="date"
-                        name="date_start"
-                        fgroup-class="mb-0 mx-sm-200"
-                        :value="$dateStart"
-                    />
-                    
-                    <x-adminlte-input
-                        type="date"
-                        name="date_end"
-                        fgroup-class="mb-0 mx-sm-200"
-                        :value="$dateEnd"
-                    />
-
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control mx-sm-200" 
-                        placeholder="Pic User, Asal Telur"
-                        value="{{ request()->query('search') }}"
-                    >
-
-                    <button class="btn btn-primary" title="Cari">
-                        <i class="fas fa-search"></i>
-                    </button>
-
-                    <a href="{{ route('gudang-telur.telur-keluar.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-telur.telur-keluar.index', request()->all()) }}" resetUrl="{{ route('gudang-telur.telur-keluar.index') }}">
+        <div class="col-12 col-md-3">
+            <x-adminlte-input label="Tanggal" type="date" name="date_start" fgroup-class="mb-0" :value="$dateStart" />
         </div>
-    </div>
+        <div class="col-12 col-md-3">
+            <x-adminlte-input type="date" name="date_end" fgroup-class="mb-0" :value="$dateEnd" />
+        </div>
+        <div class="col-12 col-md-3">
+            <input type="search" name="search" class="form-control" placeholder="Pic User, Asal Telur" value="{{ request()->query('search') }}">
+        </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -91,7 +52,7 @@
                                     <a href="{{ route('gudang-telur.telur-keluar.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    <form 
+                                    <form
                                         action="{{ route('gudang-telur.telur-keluar.destroy', $data->id) }}"
                                         method="post"
                                         class="form-delete"
@@ -117,6 +78,38 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->tanggal->translatedFormat('l, d F Y') }}" subtitle="{{ $data->nama_pic_user }}">
+                <div class="data-row">
+                    <span class="data-label">Tujuan Telur</span>
+                    <span class="data-value">{{ $data->nama_telur_tujuan }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah</span>
+                    <span class="data-value">{{ $data->jumlah }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('gudang-telur.telur-keluar.edit', $data->id) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{{ route('gudang-telur.telur-keluar.destroy', $data->id) }}" method="post" class="form-delete" data-tanggal="{{ $data->tanggal->translatedFormat('l, d F Y') }}">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                    </form>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted py-3">Data Telur Keluar tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-2">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

@@ -3,42 +3,24 @@
 @section('title', 'Metode Treatment')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Metode Treatment</h1>
-                    <a href="{{ route('master-data.metode-treatment.create') }}" class="btn btn-primary">Tambah Metode Treatment</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Metode Treatment</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Metode Treatment" :breadcrumbs="['Master Data' => '#', 'Metode Treatment' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('master-data.metode-treatment.create') }}" class="btn btn-primary">Tambah Metode Treatment</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('master-data.metode-treatment.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari Metode Treatment..." value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+        <x-filter-panel action="{{ route('master-data.metode-treatment.index', request()->all()) }}" resetUrl="{{ route('master-data.metode-treatment.index') }}">
+            <div class="col-12 col-md-4">
+                <input type="search" name="search" class="form-control" placeholder="Cari Metode Treatment..." value="{{ request()->query('search') }}">
             </div>
+        </x-filter-panel>
 
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
@@ -81,6 +63,34 @@
 
             @if ($metodeTreatment->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $metodeTreatment->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($metodeTreatment as $row)
+                <x-mobile-card title="{{ $row->nama }}">
+                    <x-slot name="actions">
+                        <a href="{{ route('master-data.metode-treatment.edit', $row) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form action="{{ route('master-data.metode-treatment.destroy', $row) }}" method="post"
+                            data-nama="{{ $row->nama }}" class="form-delete d-inline">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Tidak ada data metode treatment ditemukan.</div>
+            @endforelse
+
+            @if ($metodeTreatment->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $metodeTreatment->links('components.pagination') }}
                 </div>
             @endif

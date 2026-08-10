@@ -3,19 +3,7 @@
 @section('title', 'Edit Pre-Mixing')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Edit Pre-Mixing</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.pakan-pre-mixing.index') }}">Pre-Mixing</a></li>
-                <li class="breadcrumb-item active">Edit</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Edit Pre-Mixing" :breadcrumbs="['Pre-Mixing' => route('gudang-pakan.pakan-pre-mixing.index'), 'Edit' => '']" />
 @endsection
 
 @section('content')

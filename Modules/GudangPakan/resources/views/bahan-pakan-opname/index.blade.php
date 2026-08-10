@@ -3,54 +3,24 @@
 @section('title', 'Bahan Pakan Opname')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Bahan Pakan Opname</h1>
-                <a href="{{ route('gudang-pakan.bahan-pakan-opname.create') }}" class="btn btn-primary">Tambah Bahan Pakan Opname</a>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Bahan Pakan Opname</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Bahan Pakan Opname" :breadcrumbs="['Bahan Pakan Opname' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('gudang-pakan.bahan-pakan-opname.create') }}" class="btn btn-primary">Tambah Bahan Pakan Opname</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 @section('content')
 <div class="mx-1200">
     <x-form-alert />
     
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('gudang-pakan.bahan-pakan-opname.index', request()->all()) }}" method="get" class="w-100">                    
-                <div class="d-flex gap-3 align-items-end">
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control w-100 mx-sm-200" 
-                        placeholder="Nama Pic ..."
-                        value="{{ request()->query('search') }}"
-                    >
-
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        <a href="{{ route('gudang-pakan.bahan-pakan-opname.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-pakan.bahan-pakan-opname.index') }}" resetUrl="{{ route('gudang-pakan.bahan-pakan-opname.index') }}">
+        <div class="col-12 col-md-4">
+            <input type="search" name="search" class="form-control" placeholder="Nama Pic ..." value="{{ request()->query('search') }}">
         </div>
-    </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -100,6 +70,28 @@
             <div class="card-footer d-flex justify-content-end">
                 {{ $datas->links('components.pagination') }}
             </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->nama_pic_user }}" subtitle="{{ $data->tanggal->translatedFormat('l, d F Y') }}">
+                <x-slot name="actions">
+                    <a href="{{ route('gudang-pakan.bahan-pakan-opname.edit', $data->id) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{{ route('gudang-pakan.bahan-pakan-opname.destroy', $data->id) }}" method="post" class="form-delete flex-1" data-tanggal="{{ $data->tanggal->translatedFormat('l, d F Y') }}">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger btn-sm w-100"><i class="fas fa-trash"></i> Hapus</button>
+                    </form>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted">Data Bahan Pakan Opname tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">{{ $datas->links('components.pagination') }}</div>
         @endif
     </div>
 </div>

@@ -5,7 +5,7 @@
 @push('css')
 <style>
     [x-cloak] { display: none !important; }
-    
+
     select:disabled {
         background-color: #e9ecef;
         cursor: not-allowed;
@@ -14,36 +14,21 @@
 @endpush
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Flock</h1>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-              <li class="breadcrumb-item active">Flock</li>
-            </ol>
-          </div>
-        </div>
-    </div>
+    <x-page-header title="Flock" :breadcrumbs="['Master Data' => '#', 'Flock' => '']" />
 @endsection
 
 @section('content')
 <div class="mx-1200">
     <x-form-alert />
 
-    {{-- Filter --}}
     <div class="card">
         <div class="card-header">
             <h2 class="card-title">Filter</h2>
         </div>
         <div class="card-body">
-            <form 
-                action="{{ route('master-data.flock.index') }}" 
-                method="GET" 
+            <form
+                action="{{ route('master-data.flock.index') }}"
+                method="GET"
                 class="d-flex gap-3 align-items-end flex-column flex-sm-row"
                 x-data="{
                     peternakanData: {{ Js::from($peternakan) }},
@@ -60,10 +45,10 @@
                         this.selectedKandang = '';
                     }
                 }">
-                
-                <select 
+
+                <select
                     id="peternakanFilter"
-                    name="peternakan_id" 
+                    name="peternakan_id"
                     class="form-control mx-sm-200"
                     x-model="selectedPeternakan"
                     @change="onPeternakanChange()">
@@ -72,10 +57,10 @@
                         <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
                     </template>
                 </select>
-                
-                <select 
+
+                <select
                     id="kandangFilter"
-                    name="kandang_id" 
+                    name="kandang_id"
                     class="form-control mx-sm-200"
                     x-model="selectedKandang"
                     :disabled="!selectedPeternakan">
@@ -85,12 +70,12 @@
                     </template>
                 </select>
 
-                <input type="search" 
-                    name="search" 
-                    class="form-control mx-sm-200" 
-                    placeholder="Nama Flock..." 
+                <input type="search"
+                    name="search"
+                    class="form-control mx-sm-200"
+                    placeholder="Nama Flock..."
                     value="{{ request()->query('search') }}">
-    
+
                 <div class="d-flex justify-content-end gap-2">
                     <button type="submit" class="btn btn-primary btn-block">
                         <i class="fas fa-search"></i>
@@ -103,8 +88,7 @@
         </div>
     </div>
 
-    {{-- Table --}}
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead class="bg-light">
@@ -118,7 +102,7 @@
                 </thead>
                 <tbody>
                     @forelse($datas as $row)
-                    <tr>    
+                    <tr>
                         <td>{{ ($loop->index + 1) + ($datas->currentPage() - 1) * $datas->perPage() }}</td>
                         <td class="text-left">{{ $row->nama_peternakan ?? '-' }}</td>
                         <td class="text-left">{{ $row->nama_kandang ?? '-' }}</td>
@@ -134,11 +118,11 @@
                                     <i class="fas fa-edit"></i>
                                 </a>
 
-                                @if (!$row->pipes()->exists()) 
+                                @if (!$row->pipes()->exists())
                                     <form
                                         action="{{ route('master-data.flock.destroy', $row) }}"
-                                        method="post" 
-                                        data-nama="{{ $row->nama }}" 
+                                        method="post"
+                                        data-nama="{{ $row->nama }}"
                                         class="form-delete d-inline">
                                         @csrf
                                         @method('delete')
@@ -160,6 +144,44 @@
         </div>
 
         <div class="card-footer d-flex justify-content-end">
+            {{ $datas->links('components.pagination') }}
+        </div>
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $row)
+            <x-mobile-card title="{{ $row->nama_flock }}" subtitle="{{ $row->nama_kandang ?? '-' }}">
+                <div class="data-row">
+                    <span class="data-label">Peternakan</span>
+                    <span class="data-value">{{ $row->nama_peternakan ?? '-' }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('master-data.flock.show', $row) }}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                    <a href="{{ route('master-data.flock.edit', $row) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    @if (!$row->pipes()->exists())
+                        <form
+                            action="{{ route('master-data.flock.destroy', $row) }}"
+                            method="post"
+                            data-nama="{{ $row->nama }}"
+                            class="form-delete d-inline">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    @endif
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Belum ada data flock.</div>
+        @endforelse
+
+        <div class="d-flex justify-content-end mt-3">
             {{ $datas->links('components.pagination') }}
         </div>
     </div>

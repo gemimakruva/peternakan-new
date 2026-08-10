@@ -3,13 +3,7 @@
 @section('title', 'General')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>General</h1>
-        </div>
-    </div>
-</div>
+<x-page-header title="General" :breadcrumbs="['Setting' => '']" />
 @endsection
 
 @section('content')
@@ -19,15 +13,15 @@
     <form action="{{ route('setting.general.store') }}" method="post" id="form-setting" enctype="multipart/form-data">
         @csrf
         <div class="row">
-            <div class="col-sm-9 col-12">
+            <div class="col-12 col-md-9">
                 <div class="card">
                     <div class="card-body">
                         @include('setting._form')
                     </div>
                 </div>
             </div>
-            
-            <div class="col-sm-3 col-12">
+
+            <div class="col-12 col-md-3">
                 <div class="card">
                     <div class="card-header">
                         <h2 class="card-title">Aksi</h2>

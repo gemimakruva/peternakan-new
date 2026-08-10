@@ -3,22 +3,7 @@
 @section('title', 'Tambah User')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <div class="d-flex align-items-center gap-1">
-            <h1>Tambah User</h1>
-        </div>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">User Management</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('user.index') }}">User</a></li>
-            <li class="breadcrumb-item active">Tambah User</li>
-        </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Tambah User" :breadcrumbs="['User Management' => '#', 'User' => route('user.index'), 'Tambah User' => '']" />
 @endsection
 
 @section('content')
@@ -42,7 +27,7 @@
                 <div class="card-body">
                     <div class="row">
                         @foreach($roles as $role)
-                            <div class="col-md-4">
+                            <div class="col-6 col-md-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="roles[]" value="{{ $role->name }}" id="role-{{ $role->name }}">
                                     <label class="form-check-label" for="role-{{ $role->name }}">

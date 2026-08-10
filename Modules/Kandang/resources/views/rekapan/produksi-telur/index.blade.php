@@ -3,65 +3,38 @@
 @section('title', 'Rekapan Produksi Telur')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Rekapan Produksi Telur</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Produksi Telur</li>
-                <li class="breadcrumb-item active">Rekapan Produksi Telur</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Rekapan Produksi Telur" :breadcrumbs="['Produksi Telur' => '#', 'Rekapan Produksi Telur' => '']" />
 @endsection
 
 @section('content')
 <div class="mx-1400">
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Filter</h2>
+    <x-filter-panel action="{{ route('overview-produksi-telur') }}" resetUrl="{{ route('overview-produksi-telur') }}">
+        <div class="col-12 col-md-4">
+            <x-adminlte-input
+                type="date"
+                name="tanggal"
+                label="Tanggal"
+                fgroup-class="mb-0 w-100"
+                :value="request()->query('tanggal')"
+            />
         </div>
-        <div class="card-body">
-            <form
-                action="{{ route('overview-produksi-telur') }}"
-                method="get"
-                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
+
+        <div class="col-12 col-md-4">
+            <x-adminlte-select
+                name="kandang_id"
+                fgroup-class="mb-0 w-100"
             >
-                <x-adminlte-input
-                    type="date"
-                    name="tanggal"
-                    label="Tanggal"
-                    fgroup-class="mb-0 w-100 mx-sm-200"
-                    :value="request()->query('tanggal')"
+                <x-adminlte-options
+                    :options="$listKandang"
+                    empty-option="Semua Kandang"
+                    :selected="request()->query('kandang_id')"
                 />
-
-                <x-adminlte-select
-                    name="kandang_id"
-                    fgroup-class="mb-0 w-100 mx-sm-200"
-                >
-                    <x-adminlte-options
-                        :options="$listKandang"
-                        empty-option="Semua Kandang"
-                        :selected="request()->query('kandang_id')"
-                    />
-                </x-adminlte-select>
-
-                <div class="d-flex gap-2">
-                    <x-adminlte-button type="submit" theme="primary" icon="fas fa-search" />
-
-                    <a href="{{ route('overview-produksi-telur') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+            </x-adminlte-select>
         </div>
-    </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -112,7 +85,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3">Data Rekapan produksi telur tidak ditemukan.</td>
+                            <td colspan="19">Data Rekapan produksi telur tidak ditemukan.</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -120,6 +93,72 @@
         </div>
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card
+                title="{{ $data->nama_kandang }}"
+                subtitle="{{ $data->tanggal->translatedFormat('d M Y') }}"
+            >
+                <div class="data-row">
+                    <span class="data-label">Umur Ayam</span>
+                    <span class="data-value">{{ format_angka($data->umur_ayam) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Ayam</span>
+                    <span class="data-value">{{ format_angka($data->jumlah_ayam) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Telur Bagus</span>
+                    <span class="data-value">{{ format_angka($data->jumlah_telur_bagus) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Telur Putih</span>
+                    <span class="data-value">{{ format_angka($data->jumlah_telur_putih) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Telur Reject</span>
+                    <span class="data-value">{{ format_angka($data->jumlah_telur_reject) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Total Telur</span>
+                    <span class="data-value">{{ format_angka($data->total_jumlah_telur) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Total Berat</span>
+                    <span class="data-value">{{ format_angka($data->total_berat_telur) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">HHP</span>
+                    <span class="data-value">{{ format_angka($data->hhp*100) }}%</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">HDP</span>
+                    <span class="data-value">{{ format_angka($data->hdp*100) }}%</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">FCR</span>
+                    <span class="data-value">{{ format_angka($data->fcr) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Egg Weight</span>
+                    <span class="data-value">{{ format_angka($data->egg_weight) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Egg Mass</span>
+                    <span class="data-value">{{ format_angka($data->egg_mass) }}</span>
+                </div>
+            </x-mobile-card>
+        @empty
+            <div class="text-center text-muted p-4">Data Rekapan produksi telur tidak ditemukan.</div>
+        @endforelse
+
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

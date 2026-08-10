@@ -3,53 +3,27 @@
 @section('title', 'Inventory Pre-Mixing')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Inventory Pre-Mixing</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.pakan-pre-mixing.index') }}">Pre-Mixing</a></li>
-                <li class="breadcrumb-item active">Inventory</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Inventory Pre-Mixing" :breadcrumbs="['Pre-Mixing' => route('gudang-pakan.pakan-pre-mixing.index'), 'Inventory' => '']" />
 @endsection
 
 
 @section('content')
 <div class="mx-1000">
     <x-form-alert />
-    
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('gudang-pakan.pakan-pre-mixing-inventory.index', request()->all()) }}" method="get" class="w-100">                    
-                <div class="d-flex gap-3 align-items-end">
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control w-100 mx-sm-200" 
-                        placeholder="Nama Formulasi ..."
-                        value="{{ request()->query('search') }}"
-                    >
 
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        <a href="{{ route('gudang-pakan.pakan-pre-mixing-inventory.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-pakan.pakan-pre-mixing-inventory.index') }}" resetUrl="{{ route('gudang-pakan.pakan-pre-mixing-inventory.index') }}">
+        <div class="col-12 col-md-4">
+            <input
+                type="search"
+                name="search"
+                class="form-control"
+                placeholder="Nama Formulasi ..."
+                value="{{ request()->query('search') }}"
+            >
         </div>
-    </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -74,7 +48,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="3" class="text-center">Data Inventory Pre Mixing tidak tersedia</td>
+                            <td colspan="4" class="text-center">Data Inventory Pre Mixing tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -83,6 +57,29 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->nama_formulasi }}">
+                <div class="data-row">
+                    <span class="data-label">Jumlah</span>
+                    <span class="data-value">{{ format_angka($data->jumlah) }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('gudang-pakan.pakan-pre-mixing-inventory.show', $data->id) }}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted">Data Inventory Pre Mixing tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

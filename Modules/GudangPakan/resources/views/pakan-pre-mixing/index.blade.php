@@ -3,21 +3,11 @@
 @section('title', 'Pre-Mixing')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Pre-Mixing</h1>
-                <a href="{{ route('gudang-pakan.pakan-pre-mixing.create') }}" class="btn btn-primary">Tambah Pre-Mixing</a>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Pre-Mixing</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Pre-Mixing" :breadcrumbs="['Pre-Mixing' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('gudang-pakan.pakan-pre-mixing.create') }}" class="btn btn-primary">Tambah Pre-Mixing</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 
@@ -25,33 +15,19 @@
 <div class="mx-1200">
     <x-form-alert />
     
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('gudang-pakan.pakan-pre-mixing.index', request()->all()) }}" method="get" class="w-100">                    
-                <div class="d-flex gap-3 align-items-end">
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control w-100 mx-sm-200" 
-                        placeholder="Nama Pic ..."
-                        value="{{ request()->query('search') }}"
-                    >
-
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        <a href="{{ route('gudang-pakan.pakan-pre-mixing.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-pakan.pakan-pre-mixing.index') }}" resetUrl="{{ route('gudang-pakan.pakan-pre-mixing.index') }}">
+        <div class="col-12 col-md-4">
+            <input
+                type="search"
+                name="search"
+                class="form-control"
+                placeholder="Nama Pic ..."
+                value="{{ request()->query('search') }}"
+            >
         </div>
-    </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -107,6 +83,40 @@
             <div class="card-footer d-flex justify-content-end">
                 {{ $datas->links('components.pagination') }}
             </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->nama_formulasi }}" subtitle="{{ $data->tanggal->translatedFormat('l, d F Y - H:i') }}">
+                <div class="data-row">
+                    <span class="data-label">Pic</span>
+                    <span class="data-value">{{ $data->nama_pic_user }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Jumlah Campuran</span>
+                    <span class="data-value">{{ $data->jumlah_campuran }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Harga Total</span>
+                    <span class="data-value">{{ format_angka($data->harga_total) }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('gudang-pakan.pakan-pre-mixing.edit', $data->id) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form action="{{ route('gudang-pakan.pakan-pre-mixing.destroy', $data->id) }}" method="post" class="form-delete flex-1" data-nama_formulasi="{{ $data->nama_formulasi }}">
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-danger btn-sm w-100"><i class="fas fa-trash"></i> Hapus</button>
+                    </form>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted">Data Pre Mixing tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">{{ $datas->links('components.pagination') }}</div>
         @endif
     </div>
 </div>

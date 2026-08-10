@@ -1,19 +1,16 @@
-<x-adminlte-input
-    name="title"
-    label="Title"
-    :value="@$data->title"
-/>
+<div class="row">
+    <div class="col-12 col-md-6">
+        <x-adminlte-input name="title" label="Title" :value="@$data->title" />
+    </div>
+    <div class="col-12 col-md-6">
+        <x-adminlte-input name="description" label="Description" :value="@$data->description" />
+    </div>
+</div>
 
-<x-adminlte-input
-    name="description"
-    label="Description"
-    :value="@$data->description"
-/>
-
-<div class="d-flex gap-2">
-    <x-adminlte-input-file 
+<div class="d-flex flex-column flex-md-row gap-2">
+    <x-adminlte-input-file
         name="sidebar_logo"
-        label="Sidebar Logo" 
+        label="Sidebar Logo"
         placeholder="Choose a file..."
         fgroup-class="flex-1"
     />

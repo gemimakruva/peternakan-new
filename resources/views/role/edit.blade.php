@@ -3,20 +3,7 @@
 @section('title', 'Edit Role')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Edit Role</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('role.index') }}">Role</a></li>
-                <li class="breadcrumb-item active">Edit {{ $role->name }}</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Edit Role" :breadcrumbs="['Master Data' => '#', 'Role' => route('role.index'), 'Edit ' . $role->name => '']" />
 @endsection
 
 @section('content')

@@ -3,24 +3,13 @@
 @section('title', 'Role')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Role</h1>
-                    @can('Tambah Role')
-                        <a href="{{ route('role.create') }}" class="btn btn-primary">Tambah Role</a>
-                    @endcan
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Role</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+<x-page-header title="Role" :breadcrumbs="['Master Data' => '#', 'Role' => '']">
+    @can('Tambah Role')
+    <x-slot name="actions">
+        <a href="{{ route('role.create') }}" class="btn btn-primary">Tambah Role</a>
+    </x-slot>
+    @endcan
+</x-page-header>
 @endsection
 
 @php
@@ -34,22 +23,15 @@
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('role.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari Role..." value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+        <x-filter-panel action="{{ route('role.index', request()->all()) }}">
+            <div class="col-12 col-md-4">
+                <input type="search" name="search" class="form-control" placeholder="Cari Role..." value="{{ request()->query('search') }}">
             </div>
+        </x-filter-panel>
 
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
-                <table class="table table-hover table-striped table-bordered text-center">
+                <table class="table table-hover table-striped table-bordered text-center mb-0">
                     <thead class="bg-light">
                         <th style="width: 50px;">#</th>
                         <th>Nama Role</th>
@@ -104,10 +86,45 @@
                 </div>
             @endif
         </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($datas as $row)
+                <x-mobile-card title="{{ $row->name }}">
+                    <div class="data-row" style="flex-wrap: wrap;">
+                        <span class="data-label">Permissions</span>
+                        <span class="data-value" style="text-align: right;">
+                            @foreach($row->permissions as $permission)
+                                <span class="badge badge-secondary text-capitalize">{{ getRoleName($permission->name) }}</span>
+                            @endforeach
+                        </span>
+                    </div>
+                    <x-slot name="actions">
+                        @can('Edit Role')
+                            <a href="{{ route('role.edit', $row->id) }}" class="btn btn-warning btn-sm text-white">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                        @endcan
+                        @can('Hapus Role')
+                            <form action="{{ route('role.destroy', $row->id) }}" method="post" data-nama="{{ $row->name }}" class="form-delete">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                            </form>
+                        @endif
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <p class="text-center text-muted py-3">Tidak ada data role ditemukan.</p>
+            @endforelse
+            @if ($datas->hasPages())
+                <div class="d-flex justify-content-end mt-2">
+                    {{ $datas->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
     </div>
 @endsection
 @push('js')
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         $(document).on('submit', '.form-delete', function (e) {
             e.preventDefault();

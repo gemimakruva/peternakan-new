@@ -3,23 +3,16 @@
 >
     <div class="card">
         <div class="card-body">
-            <x-adminlte-select
-                label="Supplier"
-                name="supplier_id"
-                x-model="supplier_id"
-            >
-                <x-adminlte-options
-                    :options="$listSupplier"
-                    empty-option="Semua Supplier"
-                />
-            </x-adminlte-select>
-
-            <x-adminlte-input
-                type="date"
-                label="Tanggal"
-                name="tanggal"
-                :value="old('tanggal', @$data->tanggal?->format('Y-m-d'))"
-            />
+            <div class="row">
+                <div class="col-12 col-md-6">
+                    <x-adminlte-select label="Supplier" name="supplier_id" x-model="supplier_id">
+                        <x-adminlte-options :options="$listSupplier" empty-option="Semua Supplier" />
+                    </x-adminlte-select>
+                </div>
+                <div class="col-12 col-md-6">
+                    <x-adminlte-input type="date" label="Tanggal" name="tanggal" :value="old('tanggal', @$data->tanggal?->format('Y-m-d'))" />
+                </div>
+            </div>
         </div>
     </div>
 

@@ -3,19 +3,7 @@
 @section('title', 'Inventory Bahan Pakan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Inventory Bahan Pakan</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.bahan-pakan-inventory.index') }}">Inventory Bahan Pakan</a></li>
-                <li class="breadcrumb-item active">Detail</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Inventory Bahan Pakan" :breadcrumbs="['Inventory Bahan Pakan' => route('gudang-pakan.bahan-pakan-inventory.index'), 'Detail' => '']" />
 @endsection
 
 
@@ -40,7 +28,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -53,7 +41,6 @@
                         <th class="align-middle" style="width: 100px;">Saldo</th>
                         <th class="align-middle" style="width: 100px;">Harga</th>
                         <th class="align-middle" style="width: 100px;" title="Moving Weighted Average">MWA</th>
-                        {{-- <th>Created At</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -67,11 +54,10 @@
                             <td class="text-right">{{ $data->saldo }}</td>
                             <td class="text-right">{{ format_angka($data->harga_satuan) }}</td>
                             <td class="text-right">{{ format_angka($data->mwa) }}</td>
-                            {{-- <td>{{ $data->created_at }}</td> --}}
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Data Inventory Bahan Pakan tidak tersedia</td>
+                            <td colspan="8" class="text-center">Data Inventory Bahan Pakan tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -80,6 +66,44 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->tanggal->translatedFormat('d F Y') }}" badge="{{ ucfirst($data->tipe) }}" badgeClass="badge-{{ $data->tipe == 'masuk' ? 'success' : ($data->tipe == 'keluar' ? 'danger' : 'info') }}">
+                <div class="data-row">
+                    <span class="data-label">Masuk</span>
+                    <span class="data-value">{{ $data->tipe == 'masuk' ? $data->jumlah : 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Keluar</span>
+                    <span class="data-value">{{ $data->tipe == 'keluar' ? $data->jumlah : 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Opname</span>
+                    <span class="data-value">{{ $data->tipe == 'opname' ? $data->jumlah : 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Saldo</span>
+                    <span class="data-value">{{ $data->saldo }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Harga</span>
+                    <span class="data-value">{{ format_angka($data->harga_satuan) }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">MWA</span>
+                    <span class="data-value">{{ format_angka($data->mwa) }}</span>
+                </div>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted">Data Inventory Bahan Pakan tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

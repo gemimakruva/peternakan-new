@@ -3,25 +3,14 @@
 @section('title', 'Pelaksanaan Treatment')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Pelaksanaa Treatment</h1> 
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item active">Pelaksanaan Treatment</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Pelaksanaan Treatment" :breadcrumbs="['Pelaksanaan Treatment' => '']" />
 @endsection
 
 @section('content')
     <div class="mx-900">
         <x-form-alert />
 
-        <div class="card">
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered">
                     <thead class="text-center">
@@ -50,7 +39,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="4" class="text-center text-muted py-3">
+                                <td colspan="5" class="text-center text-muted py-3">
                                     Tidak ada data treatment ditemukan.
                                 </td>
                             </tr>
@@ -58,6 +47,27 @@
                     </tbody>
                 </table>
             </div>
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($datas as $index => $row)
+                <x-mobile-card
+                    title="{{ $row->nama_kandang }}"
+                    subtitle="{{ $row->nama_bulan }}"
+                >
+                    <div class="data-row">
+                        <span class="data-label">Treatment Terjadwal</span>
+                        <span class="data-value">{{ $row->treatment_terjadwal }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        <a href="{{ route('treatment-pelaksanaan.jadwal', [$row->id_kandang, $row->bulan]) }}" class="btn btn-primary btn-sm">
+                            <i class="fas fa-edit"></i> Jadwal
+                        </a>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Tidak ada data treatment ditemukan.</div>
+            @endforelse
         </div>
     </div>
 @endsection

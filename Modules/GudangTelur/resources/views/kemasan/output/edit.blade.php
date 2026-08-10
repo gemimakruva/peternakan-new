@@ -3,22 +3,8 @@
 @section('title', 'Edit Output Kemasan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Edit Output Kemasan Supplier</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.kemasan-inventory.index') }}">Kemasan</a></li>
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.kemasan-output.index') }}">Output</a></li>
-                <li class="breadcrumb-item active">Edit</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Edit Output Kemasan Supplier" :breadcrumbs="['Kemasan' => route('gudang-telur.kemasan-inventory.index'), 'Output' => route('gudang-telur.kemasan-output.index'), 'Edit' => '']" />
 @endsection
-
 
 @section('content')
 <div class="mx-1200">

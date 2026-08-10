@@ -3,42 +3,24 @@
 @section('title', 'Jenis Treatment')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Jenis Treatment</h1>
-                    <a href="{{ route('master-data.jenis-treatment.create') }}" class="btn btn-primary">Tambah Jenis Treatment</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Jenis Treatment</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Jenis Treatment" :breadcrumbs="['Master Data' => '#', 'Jenis Treatment' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('master-data.jenis-treatment.create') }}" class="btn btn-primary">Tambah Jenis Treatment</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('master-data.jenis-treatment.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari Jenis Treatment..." value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+        <x-filter-panel action="{{ route('master-data.jenis-treatment.index', request()->all()) }}" resetUrl="{{ route('master-data.jenis-treatment.index') }}">
+            <div class="col-12 col-md-4">
+                <input type="search" name="search" class="form-control" placeholder="Cari Jenis Treatment..." value="{{ request()->query('search') }}">
             </div>
+        </x-filter-panel>
 
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
@@ -81,6 +63,34 @@
 
             @if ($jenisTreatment->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $jenisTreatment->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($jenisTreatment as $row)
+                <x-mobile-card title="{{ $row->nama }}">
+                    <x-slot name="actions">
+                        <a href="{{ route('master-data.jenis-treatment.edit', $row) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        <form action="{{ route('master-data.jenis-treatment.destroy', $row) }}" method="post"
+                            data-nama="{{ $row->nama }}" class="form-delete d-inline">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i> Hapus
+                            </button>
+                        </form>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Tidak ada data jenis treatment ditemukan.</div>
+            @endforelse
+
+            @if ($jenisTreatment->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $jenisTreatment->links('components.pagination') }}
                 </div>
             @endif

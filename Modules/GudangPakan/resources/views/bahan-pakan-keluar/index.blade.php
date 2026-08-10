@@ -3,21 +3,11 @@
 @section('title', 'Bahan Pakan Keluar')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Bahan Pakan Keluar</h1>
-                <a href="{{ route('gudang-pakan.bahan-pakan-keluar.create') }}" class="btn btn-primary">Tambah Bahan Pakan Keluar</a>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item active">Bahan Pakan Keluar</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Bahan Pakan Keluar" :breadcrumbs="['Bahan Pakan Keluar' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('gudang-pakan.bahan-pakan-keluar.create') }}" class="btn btn-primary">Tambah Bahan Pakan Keluar</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 
@@ -25,44 +15,31 @@
 <div class="mx-1000">
     <x-form-alert />
     
-    <div class="card">
-        <div class="card-body">
-            <form action="{{ route('gudang-pakan.bahan-pakan-keluar.index', request()->all()) }}" method="get" class="w-100">                    
-                <div class="d-flex gap-3 align-items-end">
-                    <x-adminlte-select
-                        name="tujuan"
-                        fgroup-class="mb-0 mx-sm-200 w-100"
-                    >
-                        <x-adminlte-options 
-                            :options="$listTujuan"
-                            :selected="request()->query('tujuan')"
-                            empty-option="Semua Tujuan"
-                        />
-                    </x-adminlte-select>
-
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control w-100 mx-sm-200" 
-                        placeholder="Nama Pic ..."
-                        value="{{ request()->query('search') }}"
-                    >
-
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary" title="Cari">
-                            <i class="fas fa-search"></i>
-                        </button>
-
-                        <a href="{{ route('gudang-pakan.bahan-pakan-keluar.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-pakan.bahan-pakan-keluar.index') }}" resetUrl="{{ route('gudang-pakan.bahan-pakan-keluar.index') }}">
+        <div class="col-12 col-md-4">
+            <x-adminlte-select
+                name="tujuan"
+                fgroup-class="mb-0 w-100"
+            >
+                <x-adminlte-options
+                    :options="$listTujuan"
+                    :selected="request()->query('tujuan')"
+                    empty-option="Semua Tujuan"
+                />
+            </x-adminlte-select>
         </div>
-    </div>
+        <div class="col-12 col-md-4">
+            <input
+                type="search"
+                name="search"
+                class="form-control"
+                placeholder="Nama Pic ..."
+                value="{{ request()->query('search') }}"
+            >
+        </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -112,6 +89,41 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->nama_pic_user }}" subtitle="{{ $data->tanggal->translatedFormat('d F Y') }}">
+                <div class="data-row">
+                    <span class="data-label">Tujuan</span>
+                    <span class="data-value">{{ $data->tujuan->title() }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('gudang-pakan.bahan-pakan-keluar.edit', $data->id) }}" class="btn btn-sm btn-warning text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    <form
+                        action="{{ route('gudang-pakan.bahan-pakan-keluar.destroy', $data->id) }}"
+                        method="post"
+                        class="form-delete flex-1"
+                        data-tanggal="{{ $data->tanggal->translatedFormat('l, d F Y') }}"
+                    >
+                        @csrf
+                        @method('delete')
+                        <button class="btn btn-sm btn-danger w-100">
+                            <i class="fas fa-trash"></i> Hapus
+                        </button>
+                    </form>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted">Data Bahan Pakan Keluar tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

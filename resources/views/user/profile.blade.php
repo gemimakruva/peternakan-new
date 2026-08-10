@@ -3,13 +3,7 @@
 @section('title', 'Edit Profile')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Edit Profile</h1>
-        </div>
-    </div>
-</div>
+<x-page-header title="Edit Profile" :breadcrumbs="['Profile' => '']" />
 @endsection
 
 @section('plugins.BootstrapSwitch', true)
@@ -30,14 +24,14 @@
                     </div>
                     <div class="card-body">
                         @include('user._form')
-                        <x-adminlte-input-file 
-                            name="avatar_file" label="Profile Image" 
+                        <x-adminlte-input-file
+                            name="avatar_file" label="Profile Image"
                             placeholder="Choose a file..."
                             disable-feedback/>
                     </div>
                 </div>
             </div>
-            
+
             <div class="col-md-3 col-12">
                 <div class="card">
                     <div class="card-header">
@@ -56,7 +50,7 @@
                     </div>
                     <div class="card-body">
                         <x-adminlte-input-switch
-                            name="enabled_notification" 
+                            name="enabled_notification"
                             label="Notification"
                             igroup-size="sm"
                             fgroup-class="mb-0"

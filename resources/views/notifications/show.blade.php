@@ -3,13 +3,7 @@
 @section('title', 'Daftar Notifikasi')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Daftar Notifikasi</h1>
-        </div>
-    </div>
-</div>
+<x-page-header title="Daftar Notifikasi" :breadcrumbs="['Notifikasi' => '']" />
 @endsection
 
 @section('content')
@@ -29,7 +23,7 @@
                         </div>
                     </a>
                 @empty
-                    
+
                 @endforelse
             </div>
         </div>
@@ -38,7 +32,7 @@
                 {{ $notifications->links('components.pagination') }}
             </div>
         @endif
-    </div>      
+    </div>
 </div>
 @endsection
 
@@ -63,6 +57,18 @@
     }
     .notifications .item .title {
         font-size: 1.4rem;
+    }
+    @media (max-width: 767.98px) {
+        .notifications .item {
+            grid-template-columns: auto 1fr;
+            padding: 0.75rem;
+        }
+        .notifications .item i {
+            font-size: 2rem !important;
+        }
+        .notifications .item .title {
+            font-size: 1.1rem;
+        }
     }
 </style>
 @endpush

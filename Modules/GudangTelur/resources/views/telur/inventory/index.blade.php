@@ -3,19 +3,7 @@
 @section('title', 'Detail Inventory Telur')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Detail Inventory Telur</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.telur-inventory.index') }}">Telur</a></li>
-                <li class="breadcrumb-item active">Detail</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Detail Inventory Telur" :breadcrumbs="['Telur' => route('gudang-telur.telur-inventory.index'), 'Detail' => '']" />
 @endsection
 
 @php
@@ -34,51 +22,19 @@
 <div class="mx-1200">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-body">
-            <form
-                action="{{ route('gudang-telur.telur-inventory.index', request()->all()) }}"
-                method="get"
-                class="w-100"
-            >
-                <div class="d-flex gap-2 justify-content-start align-items-end">
-                    <x-adminlte-input
-                        type="date"
-                        label="Tanggal Awal"
-                        name="date_start"
-                        :value="$dateStart"
-                        fgroup-class="mb-0 mx-sm-200"
-                    />
-
-                    <x-adminlte-input
-                        type="date"
-                        label="Tanggal Akhir"
-                        name="date_end"
-                        :value="$dateEnd"
-                        fgroup-class="mb-0 mx-sm-200"
-                    />
-
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control mx-sm-200" 
-                        placeholder="Pic User ..."
-                        value="{{ request()->query('search') }}"
-                    >
-
-                    <button class="btn btn-primary" title="Cari">
-                        <i class="fas fa-search"></i>
-                    </button>
-
-                    <a href="{{ route('gudang-telur.telur-inventory.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-telur.telur-inventory.index', request()->all()) }}" resetUrl="{{ route('gudang-telur.telur-inventory.index') }}">
+        <div class="col-12 col-md-3">
+            <x-adminlte-input type="date" label="Tanggal Awal" name="date_start" :value="$dateStart" fgroup-class="mb-0" />
         </div>
-    </div>
+        <div class="col-12 col-md-3">
+            <x-adminlte-input type="date" label="Tanggal Akhir" name="date_end" :value="$dateEnd" fgroup-class="mb-0" />
+        </div>
+        <div class="col-12 col-md-3">
+            <input type="search" name="search" class="form-control" placeholder="Pic User ..." value="{{ request()->query('search') }}">
+        </div>
+    </x-filter-panel>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -105,7 +61,7 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="text-center">Data Inventory Telur tidak tersedia</td>
+                            <td colspan="7" class="text-center">Data Inventory Telur tidak tersedia</td>
                         </tr>
                     @endforelse
                 </tbody>
@@ -114,6 +70,40 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->nama_jenis_telur }}" subtitle="{{ $data->tanggal->translatedFormat('l, d F Y') }}">
+                @if($data->tipe == 'masuk')
+                    <div class="data-row">
+                        <span class="data-label">Masuk</span>
+                        <span class="data-value">{{ $data->jumlah }}</span>
+                    </div>
+                @elseif($data->tipe == 'keluar')
+                    <div class="data-row">
+                        <span class="data-label">Keluar</span>
+                        <span class="data-value">{{ $data->jumlah }}</span>
+                    </div>
+                @elseif($data->tipe == 'opname')
+                    <div class="data-row">
+                        <span class="data-label">Opname</span>
+                        <span class="data-value">{{ opname($data->jumlah) }}</span>
+                    </div>
+                @endif
+                <div class="data-row">
+                    <span class="data-label">Saldo</span>
+                    <span class="data-value">{{ $data->saldo }}</span>
+                </div>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted py-3">Data Inventory Telur tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-2">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

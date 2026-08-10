@@ -3,25 +3,12 @@
 @section('title', 'Populasi Ayam')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Populasi Ayam</h1>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-              <li class="breadcrumb-item active">Populasi Ayam</li>
-            </ol>
-          </div>
-        </div>
-    </div>
+    <x-page-header title="Populasi Ayam" :breadcrumbs="['Populasi Ayam' => '']" />
 @endsection
 
 @section('content')
     <div class="mx-1200">
-        <div class="card">
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center mb-0">
                     <thead class="bg-light">
@@ -73,6 +60,53 @@
 
             @if ($listKandang->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $listKandang->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($listKandang as $row)
+                <x-mobile-card
+                    title="{{ $row['nama'] }}"
+                    subtitle="{{ @$row->latestPengadaanAyam->tanggal?->translatedFormat('d M Y') ?? '-' }}"
+                >
+                    <div class="data-row">
+                        <span class="data-label">Umur Awal</span>
+                        <span class="data-value">{{ number_format(@$row->latestPengadaanAyam->umur_ayam, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Umur Saat Ini</span>
+                        <span class="data-value">{{ number_format(@$row->latestPengadaanAyam->umur_ayam_saat_ini, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Sehat</span>
+                        <span class="data-value">{{ number_format(@$row->ayam_sehat, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Mati</span>
+                        <span class="data-value">{{ number_format(@$row->ayam_mati, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Masuk Karantina</span>
+                        <span class="data-value">{{ number_format(@$row->ayam_masuk_karantina, 0, ',', '.') }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Keluar Karantina</span>
+                        <span class="data-value">{{ number_format(@$row->ayam_keluar_karantina, 0, ',', '.') }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        <a href="{{ route('populasi-ayam.flock.index', $row->id) }}" class="btn btn-info btn-sm">
+                            <i class="fas fa-eye"></i> Detail
+                        </a>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Data Populasi Ayam Kosong.</div>
+            @endforelse
+
+            @if ($listKandang->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $listKandang->links('components.pagination') }}
                 </div>
             @endif

@@ -3,42 +3,24 @@
 @section('title', 'Peternakan')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Peternakan</h1>
-                    <a href="{{ route('master-data.peternakan.create') }}" class="btn btn-primary">Tambah Peternakan</a>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Peternakan</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Peternakan" :breadcrumbs="['Master Data' => '#', 'Peternakan' => '']">
+        <x-slot name="actions">
+            <a href="{{ route('master-data.peternakan.create') }}" class="btn btn-primary">Tambah Peternakan</a>
+        </x-slot>
+    </x-page-header>
 @endsection
 
 @section('content')
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header text-white d-flex justify-content-between align-items-center" >
-                <form action="{{ route('master-data.peternakan.index', request()->all()) }}" method="get" class="w-100">
-                    <div class="d-flex justify-content-end align-items-center">
-                        <div class="d-flex gap-2">
-                            <input type="search" name="search" class="form-control" placeholder="Cari Peternakan..." value="{{ request()->query('search') }}">
-                            <button class="btn btn-primary" title="Cari">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
+        <x-filter-panel action="{{ route('master-data.peternakan.index', request()->all()) }}" resetUrl="{{ route('master-data.peternakan.index') }}">
+            <div class="col-12 col-md-4">
+                <input type="search" name="search" class="form-control" placeholder="Cari Peternakan..." value="{{ request()->query('search') }}">
             </div>
+        </x-filter-panel>
 
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center">
                     <thead class="bg-light">
@@ -85,6 +67,36 @@
 
             @if ($datas->hasPages())
                 <div class="card-footer d-flex justify-content-end">
+                    {{ $datas->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($datas as $row)
+                <x-mobile-card title="{{ $row->nama }}" subtitle="{{ $row->lokasi }}">
+                    <x-slot name="actions">
+                        <a href="{{ route('master-data.peternakan.edit', $row->id) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                        @if (!$row->kandang()->exists())
+                            <form action="{{ route('master-data.peternakan.destroy', $row->id) }}" method="post"
+                                data-nama="{{ $row->nama }}" class="form-delete d-inline">
+                                @csrf
+                                @method('delete')
+                                <button class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Hapus
+                                </button>
+                            </form>
+                        @endif
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Tidak ada data peternakan ditemukan.</div>
+            @endforelse
+
+            @if ($datas->hasPages())
+                <div class="d-flex justify-content-end mt-3">
                     {{ $datas->links('components.pagination') }}
                 </div>
             @endif

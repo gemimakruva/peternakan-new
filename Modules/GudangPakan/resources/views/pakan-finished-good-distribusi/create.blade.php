@@ -3,19 +3,7 @@
 @section('title', 'Tambah Distribusi Pakan Jadi')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Tambah Distribusi Pakan Jadi</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.pakan-finished-good-distribusi.index') }}">Distribusi Pakan Jadi</a></li>
-                <li class="breadcrumb-item active">Tambah</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Tambah Distribusi Pakan Jadi" :breadcrumbs="['Distribusi Pakan Jadi' => route('gudang-pakan.pakan-finished-good-distribusi.index'), 'Tambah' => '']" />
 @endsection
 
 @section('content')

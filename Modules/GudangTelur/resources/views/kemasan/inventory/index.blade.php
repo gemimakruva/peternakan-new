@@ -3,45 +3,20 @@
 @section('title', 'Inventory Kemasan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Kemasan</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-telur.kemasan-inventory.index') }}">Kemasan</a></li>
-                <li class="breadcrumb-item active">Inventory</li>
-            </ol>
-        </div>
-    </div>
-</div>
+<x-page-header title="Kemasan" :breadcrumbs="['Kemasan' => route('gudang-telur.kemasan-inventory.index'), 'Inventory' => '']" />
 @endsection
-
 
 @section('content')
 <div class="mx-1000">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-header text-white d-flex justify-content-between align-items-center">
-            <form action="{{ route('gudang-telur.kemasan-inventory.index', request()->all()) }}" method="get" class="w-100">
-                <div class="d-flex gap-2 justify-content-start align-items-end">
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control mx-sm-200" 
-                        placeholder="Nama Kemasan ..."
-                        value="{{ request()->query('search') }}"
-                    >
-
-                    <button class="btn btn-primary" title="Cari">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
+    <x-filter-panel action="{{ route('gudang-telur.kemasan-inventory.index', request()->all()) }}">
+        <div class="col-12 col-md-4">
+            <input type="search" name="search" class="form-control" placeholder="Nama Kemasan ..." value="{{ request()->query('search') }}">
         </div>
+    </x-filter-panel>
 
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -79,6 +54,29 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->nama_kemasan }}" subtitle="{{ $data->tanggal->translatedFormat('l, d F Y') }}">
+                <div class="data-row">
+                    <span class="data-label">Stok</span>
+                    <span class="data-value">{{ $data->stok }}</span>
+                </div>
+                <x-slot name="actions">
+                    <a href="{{ route('gudang-telur.kemasan-inventory.show', $data->kemasan_id) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted py-3">Data Supplier tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-2">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

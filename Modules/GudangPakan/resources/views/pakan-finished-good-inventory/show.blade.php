@@ -3,21 +3,8 @@
 @section('title', 'Detail Inventory Pakan Jadi')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Detail Inventory Pakan Jadi</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('gudang-pakan.pakan-finished-good-inventory.index') }}">Inventory Pakan Jadi</a></li>
-                <li class="breadcrumb-item active">Detail</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Detail Inventory Pakan Jadi" :breadcrumbs="['Inventory Pakan Jadi' => route('gudang-pakan.pakan-finished-good-inventory.index'), 'Detail' => '']" />
 @endsection
-
 
 @section('content')
 <div class="mx-900">
@@ -40,7 +27,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
             <table class="table table-hover table-striped table-bordered text-center mb-0">
                 <thead>
@@ -74,6 +61,36 @@
 
         @if ($datas->hasPages())
             <div class="card-footer d-flex justify-content-end">
+                {{ $datas->links('components.pagination') }}
+            </div>
+        @endif
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($datas as $data)
+            <x-mobile-card title="{{ $data->tanggal->translatedFormat('l, d F Y') }}" badge="{{ $data->tipe->value }}" badgeClass="badge-{{ $data->tipe->value == 'masuk' ? 'success' : ($data->tipe->value == 'keluar' ? 'danger' : 'warning') }}">
+                <div class="data-row">
+                    <span class="data-label">Masuk</span>
+                    <span class="data-value">{{ $data->tipe->value == 'masuk' ? $data->jumlah : 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Keluar</span>
+                    <span class="data-value">{{ $data->tipe->value == 'keluar' ? $data->jumlah : 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Opname</span>
+                    <span class="data-value">{{ $data->tipe->value == 'opname' ? $data->jumlah : 0 }}</span>
+                </div>
+                <div class="data-row">
+                    <span class="data-label">Saldo</span>
+                    <span class="data-value">{{ $data->saldo }}</span>
+                </div>
+            </x-mobile-card>
+        @empty
+            <p class="text-center text-muted">Data Inventory Pre-Mixing tidak tersedia</p>
+        @endforelse
+        @if ($datas->hasPages())
+            <div class="d-flex justify-content-end mt-3">
                 {{ $datas->links('components.pagination') }}
             </div>
         @endif

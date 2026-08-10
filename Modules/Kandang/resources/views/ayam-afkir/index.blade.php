@@ -3,20 +3,7 @@
 @section('title', 'Ayam Afkir')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <div class="d-flex align-items-center gap-1">
-                <h1>Ayam Afkir</h1>
-            </div>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-              <li class="breadcrumb-item active">Ayam Afkir</li>
-            </ol>
-          </div>
-        </div>
-    </div>
+    <x-page-header title="Ayam Afkir" :breadcrumbs="['Ayam Afkir' => '']" />
 @endsection
 
 
@@ -24,44 +11,33 @@
 
     <div class="mx-1200">
         <x-form-alert />
-        <div class="card">
-            <div class="card-body">
-                <form 
-                    action="{{ route('ayam-afkir.index') }}" 
-                    class="d-flex gap-3 align-items-end flex-column flex-sm-row""
+
+        <x-filter-panel action="{{ route('ayam-afkir.index') }}" resetUrl="{{ route('ayam-afkir.index') }}">
+            <div class="col-12 col-md-4">
+                <x-adminlte-select
+                    name="kandang_id"
+                    fgroup-class="w-100 mb-0"
                 >
-                    <x-adminlte-select
-                        name="kandang_id"
-                        fgroup-class="w-100 mb-0 mx-sm-200"
-                    >
-                        <x-adminlte-options
-                            :options="$listKandang"
-                            :selected="request()->query('kandang_id')"
-                            empty-option="Semua Kandang"
-                        />
-                    </x-adminlte-select>
-
-                    <input 
-                        type="search" 
-                        name="search" 
-                        class="form-control mx-sm-200" 
-                        placeholder="Kandang, PIC, Pembeli ..."
-                        value="{{ request()->query('search') }}"
-                    >
-    
-                    <div class="d-flex gap-2">
-                        <button class="btn btn-primary">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <a href="{{ route('ayam-afkir.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>                        
-                    </div>
-                </form>
+                    <x-adminlte-options
+                        :options="$listKandang"
+                        :selected="request()->query('kandang_id')"
+                        empty-option="Semua Kandang"
+                    />
+                </x-adminlte-select>
             </div>
-        </div>
 
-        <div class="card">
+            <div class="col-12 col-md-4">
+                <input
+                    type="search"
+                    name="search"
+                    class="form-control"
+                    placeholder="Kandang, PIC, Pembeli ..."
+                    value="{{ request()->query('search') }}"
+                >
+            </div>
+        </x-filter-panel>
+
+        <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">
                 <table class="table table-hover table-striped table-bordered text-center mb-0">
 
@@ -91,16 +67,6 @@
                                 <td class="text-right">{{ format_uang($afkir->harga_jual) ?? '-' }}</td>
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
-                                        {{-- <button 
-                                            type="button" 
-                                            class="btn btn-sm btn-info btn-populasi" 
-                                            data-kandang="{{ $afkir->populasi->pipe->flock->kandang->nama ?? '-' }}"
-                                            data-flock="{{ $afkir->populasi->pipe->flock->nama ?? '-' }}"
-                                            data-pipe="{{ $afkir->populasi->pipe->nama ?? '-' }}"
-                                        >
-                                            <i class="fas fa-info-circle"></i>
-                                        </button> --}}
-
                                         <a href="{{ route('ayam-afkir.edit', $afkir->id) }}" class="btn btn-sm btn-warning text-white">
                                             <i class="fas fa-edit"></i>
                                         </a>
@@ -109,7 +75,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="8" class="text-center">Data Ayam Afkir tidak tersedia</td>
+                                <td colspan="9" class="text-center">Data Ayam Afkir tidak tersedia</td>
                             </tr>
                         @endforelse
                     </tbody>
@@ -122,6 +88,49 @@
                 </div>
             @endif
         </div>
+
+        <div class="mobile-card-list d-md-none">
+            @forelse($listAyamAfkir as $index => $afkir)
+                <x-mobile-card
+                    title="{{ $afkir->nama_kandang }}"
+                    subtitle="{{ $afkir->tanggal->translatedFormat('d M Y') }}"
+                >
+                    <div class="data-row">
+                        <span class="data-label">Umur Ayam</span>
+                        <span class="data-value">{{ $afkir->umur_ayam }} minggu</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Jumlah Afkir</span>
+                        <span class="data-value">{{ format_angka($afkir->total_jumlah_ayam_afkir) }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">PIC</span>
+                        <span class="data-value">{{ $afkir->nama_pic_user ?? '-' }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Pembeli</span>
+                        <span class="data-value">{{ $afkir->pembeli_afkir ?? '-' }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Harga (per kg)</span>
+                        <span class="data-value">{{ format_uang($afkir->harga_jual) ?? '-' }}</span>
+                    </div>
+                    <x-slot name="actions">
+                        <a href="{{ route('ayam-afkir.edit', $afkir->id) }}" class="btn btn-warning btn-sm text-white">
+                            <i class="fas fa-edit"></i> Edit
+                        </a>
+                    </x-slot>
+                </x-mobile-card>
+            @empty
+                <div class="text-center text-muted p-4">Data Ayam Afkir tidak tersedia.</div>
+            @endforelse
+
+            @if ($listAyamAfkir->hasPages())
+                <div class="d-flex justify-content-end mt-3">
+                    {{ $listAyamAfkir->links('components.pagination') }}
+                </div>
+            @endif
+        </div>
     </div>
 @endsection
 
@@ -130,7 +139,7 @@
         document.addEventListener('DOMContentLoaded', function () {
             document.querySelectorAll('.delete-form').forEach(function(form) {
                 form.addEventListener('submit', function(e) {
-                    e.preventDefault(); 
+                    e.preventDefault();
 
                     const tanggal = this.dataset.tanggal || 'data ini';
                     const currentForm = this;
@@ -146,7 +155,7 @@
                         cancelButtonText: "Batal"
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            currentForm.submit(); 
+                            currentForm.submit();
                         }
                     });
                 });
@@ -176,4 +185,3 @@
         });
     </script>
 @endpush
-
