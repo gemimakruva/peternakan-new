@@ -71,6 +71,7 @@ class TreatmentController extends Controller
 
     public function edit(Treatment $treatment)
     {
+        $treatment->load('treatmentJadwal.treatmentJadwalFlocks');
         $data                   = $treatment;
         $listKandang            = $this->kandangRepository->getSelectItems();
         $listJenisTreatment     = $this->jenisTreatmentRepository->getSelectItems();

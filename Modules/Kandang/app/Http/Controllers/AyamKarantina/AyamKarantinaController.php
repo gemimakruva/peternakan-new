@@ -129,7 +129,7 @@ class AyamKarantinaController extends Controller
     public function overview()
     {
         Gate::authorize('kandang.populasi.menu-rekapan-karantina');
-        $listAyamKarantina = KarantinaPopulasi::orderBy('created_at', 'desc')->limit(5)->get();
+        $listAyamKarantina = KarantinaPopulasi::with(['kandang:id,nama', 'populasiPipes.populasi.pipe.flock'])->orderBy('created_at', 'desc')->limit(5)->get();
         return view('kandang::ayam-karantina.overview', compact('listAyamKarantina'));
     }
 }
