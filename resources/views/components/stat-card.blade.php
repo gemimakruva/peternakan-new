@@ -8,11 +8,11 @@
 
 @php
     $colorMap = [
-        'primary' => ['bg' => '#EEF1FE', 'text' => '#4F6AF6', 'icon' => '#4F6AF6'],
-        'success' => ['bg' => '#F0FDF4', 'text' => '#22C55E', 'icon' => '#22C55E'],
-        'warning' => ['bg' => '#FFFBEB', 'text' => '#D97706', 'icon' => '#F59E0B'],
-        'danger'  => ['bg' => '#FEF2F2', 'text' => '#EF4444', 'icon' => '#EF4444'],
-        'info'    => ['bg' => '#EFF6FF', 'text' => '#3B82F6', 'icon' => '#3B82F6'],
+        'primary' => ['bg' => '#FFF7ED', 'text' => '#D97706', 'icon' => '#F28B1E'],
+        'success' => ['bg' => '#F1F8E9', 'text' => '#388E3C', 'icon' => '#4CAF50'],
+        'warning' => ['bg' => '#FFFDE7', 'text' => '#F57F17', 'icon' => '#FFB300'],
+        'danger'  => ['bg' => '#FBE9E7', 'text' => '#D84315', 'icon' => '#E64A19'],
+        'info'    => ['bg' => '#E3F2FD', 'text' => '#1976D2', 'icon' => '#42A5F5'],
     ];
     $c = $colorMap[$color] ?? $colorMap['primary'];
 @endphp

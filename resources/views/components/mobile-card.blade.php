@@ -34,7 +34,7 @@
 <style>
 .mobile-data-card {
     background: #fff;
-    border: 1px solid #E2E8F0;
+    border: 1px solid #E8E4DF;
     border-radius: 10px;
     padding: 0;
     margin-bottom: 0.75rem;
@@ -54,12 +54,12 @@
 .mobile-data-card__title {
     font-weight: 600;
     font-size: 0.9rem;
-    color: #1E293B;
+    color: #2D3436;
     line-height: 1.3;
 }
 .mobile-data-card__subtitle {
     font-size: 0.78rem;
-    color: #94A3B8;
+    color: #9E9E9E;
     margin-top: 0.15rem;
 }
 .mobile-data-card__body {
@@ -71,7 +71,7 @@
     align-items: center;
     padding: 0.3rem 0;
     font-size: 0.82rem;
-    border-bottom: 1px solid #F1F5F9;
+    border-bottom: 1px solid #F5F2EE;
 }
 .mobile-data-card__body .data-row:last-child {
     border-bottom: none;
@@ -82,7 +82,7 @@
     margin-right: 0.75rem;
 }
 .mobile-data-card__body .data-row .data-value {
-    color: #1E293B;
+    color: #2D3436;
     font-weight: 500;
     text-align: right;
 }
@@ -90,7 +90,7 @@
     display: flex;
     gap: 0.5rem;
     padding: 0.6rem 1rem;
-    border-top: 1px solid #F1F5F9;
+    border-top: 1px solid #F5F2EE;
     background-color: #FAFBFC;
 }
 .mobile-data-card__actions .btn {

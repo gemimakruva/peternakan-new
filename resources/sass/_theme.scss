@@ -5,31 +5,31 @@
 // COLOR PALETTE
 // ============================================================
 
-$theme-primary:       #4F6AF6;
-$theme-primary-dark:  #3B50D4;
-$theme-primary-light: #EEF1FE;
+$theme-primary:       #F28B1E;
+$theme-primary-dark:  #D97706;
+$theme-primary-light: #FFF7ED;
 $theme-secondary:     #6B7280;
-$theme-success:       #22C55E;
-$theme-success-light: #F0FDF4;
-$theme-warning:       #F59E0B;
-$theme-warning-light: #FFFBEB;
-$theme-danger:        #EF4444;
-$theme-danger-light:  #FEF2F2;
-$theme-info:          #3B82F6;
-$theme-info-light:    #EFF6FF;
+$theme-success:       #4CAF50;
+$theme-success-light: #F1F8E9;
+$theme-warning:       #FFB300;
+$theme-warning-light: #FFFDE7;
+$theme-danger:        #E64A19;
+$theme-danger-light:  #FBE9E7;
+$theme-info:          #42A5F5;
+$theme-info-light:    #E3F2FD;
 
-$sidebar-bg:          #1E293B;
-$sidebar-hover:       #334155;
+$sidebar-bg:          #2D3436;
+$sidebar-hover:       #3D4043;
 $sidebar-active-bg:   $theme-primary;
-$sidebar-text:        #94A3B8;
+$sidebar-text:        #B0ADA8;
 $sidebar-text-active: #FFFFFF;
 
-$bg-body:             #F1F5F9;
+$bg-body:             #FAF8F5;
 $bg-card:             #FFFFFF;
-$text-primary:        #1E293B;
-$text-body:           #475569;
-$text-muted:          #94A3B8;
-$border-color:        #E2E8F0;
+$text-primary:        #2D3436;
+$text-body:           #4A4A4A;
+$text-muted:          #9E9E9E;
+$border-color:        #E8E4DF;
 
 // ============================================================
 // BOOTSTRAP VARIABLE OVERRIDES
@@ -546,7 +546,7 @@ select.form-control {
 
 .login-page,
 .register-page {
-  background: linear-gradient(135deg, #667eea 0%, $theme-primary 100%);
+  background: linear-gradient(135deg, $theme-primary 0%, #E64A19 100%);
 
   .login-box,
   .register-box {
