@@ -110,7 +110,7 @@
                     </div>
                 </x-mobile-card>
             @empty
-                <div class="text-center text-muted p-4">Data tidak tersedia.</div>
+                <x-empty-state icon="clipboard" title="Belum Ada Data" description="Data strain ayam tidak tersedia." />
             @endforelse
         </div>
     </div>

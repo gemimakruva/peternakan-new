@@ -119,7 +119,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <p class="text-center text-muted">Data Bahan Pakan Masuk tidak tersedia</p>
+            <x-empty-state icon="box" title="Belum Ada Data" description="Data bahan pakan masuk tidak tersedia." />
         @endforelse
         @if ($datas->hasPages())
             <div class="d-flex justify-content-end mt-3">{{ $datas->links('components.pagination') }}</div>

@@ -197,7 +197,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <div class="text-center text-muted p-4">Data rekapan ayam tidak tersedia.</div>
+            <x-empty-state icon="chart" title="Belum Ada Data" description="Data rekapan ayam tidak tersedia." />
         @endforelse
 
         @if ($datas->hasPages())

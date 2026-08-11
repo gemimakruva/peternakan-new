@@ -116,7 +116,7 @@
                     </x-slot>
                 </x-mobile-card>
             @empty
-                <div class="text-center text-muted p-4">Data Ayam Karantina belum tersedia.</div>
+                <x-empty-state icon="chicken" title="Belum Ada Data" description="Data ayam karantina belum tersedia." />
             @endforelse
 
             @if ($listKarantinaPopulasi->hasPages())

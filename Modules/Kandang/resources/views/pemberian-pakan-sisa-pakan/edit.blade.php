@@ -33,11 +33,19 @@ $informations = [
                     <h2 class="card-title">Informasi Pemberian Pakan</h2>
                 </div>
                 <div class="card-body">
-                    <div class="informations-wrapper">
+                    <div class="informations-wrapper d-none d-md-grid">
                         @foreach ($informations as $info)
                             <div class="item">
                                 <span class="label">{{ $info[0] }}</span>
                                 <span class="value">: {{ $info[1] }}</span>
+                            </div>
+                        @endforeach
+                    </div>
+                    <div class="mobile-card-list d-md-none">
+                        @foreach ($informations as $info)
+                            <div class="data-row">
+                                <span class="data-label">{{ $info[0] }}</span>
+                                <span class="data-value">{{ $info[1] }}</span>
                             </div>
                         @endforeach
                     </div>

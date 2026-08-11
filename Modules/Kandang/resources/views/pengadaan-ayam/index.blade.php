@@ -165,7 +165,7 @@
                     </x-slot>
                 </x-mobile-card>
             @empty
-                <div class="text-center text-muted p-4">Belum ada data Pengadaan Ayam.</div>
+                <x-empty-state icon="chicken" title="Belum Ada Data" description="Belum ada data pengadaan ayam." />
             @endforelse
         </div>
 

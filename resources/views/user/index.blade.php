@@ -101,7 +101,7 @@
                     </x-slot>
                 </x-mobile-card>
             @empty
-                <p class="text-center text-muted py-3">Tidak ada data user ditemukan.</p>
+                <x-empty-state icon="clipboard" title="Belum Ada Data" description="Tidak ada data user ditemukan." />
             @endforelse
             @if ($datas->hasPages())
                 <div class="d-flex justify-content-end mt-2">

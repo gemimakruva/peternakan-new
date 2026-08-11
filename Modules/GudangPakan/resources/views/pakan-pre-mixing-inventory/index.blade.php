@@ -76,7 +76,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <p class="text-center text-muted">Data Inventory Pre Mixing tidak tersedia</p>
+            <x-empty-state icon="box" title="Belum Ada Data" description="Data inventory pre-mixing tidak tersedia." />
         @endforelse
         @if ($datas->hasPages())
             <div class="d-flex justify-content-end mt-3">

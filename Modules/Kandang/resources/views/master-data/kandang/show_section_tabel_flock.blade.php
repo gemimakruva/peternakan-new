@@ -17,7 +17,7 @@
         </form>
     </div>
 
-    <div class="card-body table-responsive p-0">
+    <div class="card-body table-responsive p-0 desktop-table d-none d-md-block">
         <table class="table table-hover table-striped table-bordered text-center mb-0">
             <thead class="bg-light">
                 <tr>
@@ -28,7 +28,7 @@
             </thead>
             <tbody>
                 @forelse($flocks as $row)
-                <tr>    
+                <tr>
                     <td>{{ ($loop->index + 1) + ($flocks->currentPage() - 1) * $flocks->perPage() }}</td>
                     <td class="text-left">{{ $row->nama }}</td>
                     <td>
@@ -41,7 +41,7 @@
                                 <i class="fas fa-eye"></i>
                             </a>
 
-                            <a 
+                            <a
                                 href="{{ route('master-data.kandang.flock.edit', [$kandang, $row]) }}"
                                 class="btn btn-warning text-white btn-sm"
                                 title="Edit Flock"
@@ -49,11 +49,11 @@
                                 <i class="fas fa-edit"></i>
                             </a>
 
-                            @if (!$row->pipes()->exists())    
+                            @if (!$row->pipes()->exists())
                                 <form
                                     action="{{ route('master-data.kandang.flock.destroy', [$kandang, $row]) }}"
-                                    method="post" 
-                                    data-nama="{{ $row->nama }}" 
+                                    method="post"
+                                    data-nama="{{ $row->nama }}"
                                     class="form-delete d-inline">
                                     @csrf
                                     @method('delete')
@@ -72,6 +72,30 @@
                 @endforelse
             </tbody>
         </table>
+    </div>
+
+    <div class="mobile-card-list d-md-none">
+        @forelse($flocks as $row)
+            <x-mobile-card :title="$row->nama">
+                <x-slot name="actions">
+                    <a href="{{ route('master-data.kandang.flock.show', [$kandang, $row]) }}" class="btn btn-info btn-sm">
+                        <i class="fas fa-eye"></i> Detail
+                    </a>
+                    <a href="{{ route('master-data.kandang.flock.edit', [$kandang, $row]) }}" class="btn btn-warning btn-sm text-white">
+                        <i class="fas fa-edit"></i> Edit
+                    </a>
+                    @if (!$row->pipes()->exists())
+                        <form action="{{ route('master-data.kandang.flock.destroy', [$kandang, $row]) }}" method="post" data-nama="{{ $row->nama }}" class="form-delete d-inline">
+                            @csrf
+                            @method('delete')
+                            <button class="btn btn-sm btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                        </form>
+                    @endif
+                </x-slot>
+            </x-mobile-card>
+        @empty
+            <x-empty-state icon="box" title="Belum Ada Flock" description="Belum ada data flock untuk kandang ini." />
+        @endforelse
     </div>
 
     <div class="card-footer d-flex justify-content-end">

@@ -86,7 +86,7 @@
                     </x-slot>
                 </x-mobile-card>
             @empty
-                <div class="text-center text-muted p-4">Tidak ada data metode treatment ditemukan.</div>
+                <x-empty-state icon="clipboard" title="Belum Ada Data" description="Tidak ada data metode treatment ditemukan." />
             @endforelse
 
             @if ($metodeTreatment->hasPages())

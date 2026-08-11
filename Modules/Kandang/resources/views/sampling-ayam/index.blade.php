@@ -202,7 +202,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <div class="text-center text-muted p-4">Belum ada data sampling bobot ayam.</div>
+            <x-empty-state icon="chicken" title="Belum Ada Data" description="Belum ada data sampling bobot ayam." />
         @endforelse
 
         @if ($datas->hasPages())

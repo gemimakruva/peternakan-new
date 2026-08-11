@@ -141,7 +141,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <p class="text-center text-muted">Data Formulasi Bahan Pakan tidak tersedia</p>
+            <x-empty-state icon="box" title="Belum Ada Data" description="Data formulasi bahan pakan tidak tersedia." />
         @endforelse
 
         @if ($datas->hasPages())

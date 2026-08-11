@@ -154,7 +154,7 @@
                 </div>
             </x-mobile-card>
         @empty
-            <div class="text-center text-muted p-4">Data Rekapan produksi telur tidak ditemukan.</div>
+            <x-empty-state icon="chart" title="Belum Ada Data" description="Data rekapan produksi telur tidak ditemukan." />
         @endforelse
 
         @if ($datas->hasPages())

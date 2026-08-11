@@ -146,7 +146,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <div class="text-center text-muted p-4">Belum ada data flock.</div>
+            <x-empty-state icon="clipboard" title="Belum Ada Data" description="Belum ada data flock." />
         @endforelse
 
         <div class="d-flex justify-content-end mt-3">

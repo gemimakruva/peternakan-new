@@ -145,7 +145,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <div class="text-center text-muted p-4">Data Populasi Ayam Kosong.</div>
+            <x-empty-state icon="chicken" title="Belum Ada Data" description="Data populasi ayam kosong." />
         @endforelse
 
         @if ($datas->hasPages())

@@ -164,7 +164,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <div class="text-center text-muted p-4">Belum ada data Pencatatan Telur.</div>
+            <x-empty-state icon="egg" title="Belum Ada Data" description="Belum ada data pencatatan telur." />
         @endforelse
         @if ($listProduksiTelur->hasPages())
             <div class="d-flex justify-content-end mt-2">

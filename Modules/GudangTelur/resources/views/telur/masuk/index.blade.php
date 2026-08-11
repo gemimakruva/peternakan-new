@@ -106,7 +106,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <p class="text-center text-muted py-3">Data Telur Masuk tidak tersedia</p>
+            <x-empty-state icon="egg" title="Belum Ada Data" description="Data telur masuk tidak tersedia." />
         @endforelse
         @if ($datas->hasPages())
             <div class="d-flex justify-content-end mt-2">

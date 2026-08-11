@@ -116,7 +116,7 @@
                     </x-slot>
                 </x-mobile-card>
             @empty
-                <div class="text-center text-muted p-4">Tidak ada data treatment ditemukan.</div>
+                <x-empty-state icon="clipboard" title="Belum Ada Data" description="Tidak ada data treatment ditemukan." />
             @endforelse
 
             @if ($datas->hasPages())

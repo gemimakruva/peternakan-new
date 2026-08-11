@@ -100,7 +100,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <p class="text-center text-muted">Data Supplier tidak tersedia</p>
+            <x-empty-state icon="clipboard" title="Belum Ada Data" description="Data supplier bahan pakan tidak tersedia." />
         @endforelse
         @if ($datas->hasPages())
             <div class="d-flex justify-content-end mt-3">

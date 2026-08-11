@@ -122,7 +122,7 @@
                     </x-slot>
                 </x-mobile-card>
             @empty
-                <div class="text-center text-muted p-4">Data Ayam Afkir tidak tersedia.</div>
+                <x-empty-state icon="chicken" title="Belum Ada Data" description="Data ayam afkir tidak tersedia." />
             @endforelse
 
             @if ($listAyamAfkir->hasPages())

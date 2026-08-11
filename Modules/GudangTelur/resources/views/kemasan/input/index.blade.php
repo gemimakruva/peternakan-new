@@ -104,7 +104,7 @@
                 </x-slot>
             </x-mobile-card>
         @empty
-            <p class="text-center text-muted py-3">Data Input Kemasan tidak tersedia</p>
+            <x-empty-state icon="box" title="Belum Ada Data" description="Data input kemasan tidak tersedia." />
         @endforelse
         @if ($datas->hasPages())
             <div class="d-flex justify-content-end mt-2">
