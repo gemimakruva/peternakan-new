@@ -3,19 +3,10 @@
 @section('title', 'Rekapan Produksi')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-12 col-lg-7">
-            <h1>Detail Rekapan Produksi - {{ $kandang->nama }} - {{ $tanggal->translatedFormat('l, d F Y') }}</h1>
-        </div>
-        <div class="col-12 col-lg-5">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('rekapan-produksi.index') }}">Rekapan Produksi</a></li>
-                <li class="breadcrumb-item active">Detail</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header :title="'Detail Rekapan Produksi — ' . $kandang->nama . ' — ' . $tanggal->translatedFormat('l, d F Y')" :breadcrumbs="[
+        'Rekapan Produksi' => route('rekapan-produksi.index'),
+        'Detail' => null,
+    ]" />
 @endsection
 
 

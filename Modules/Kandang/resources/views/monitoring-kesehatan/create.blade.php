@@ -3,12 +3,10 @@
 @section('title', 'Form Monitoring Kesehatan')
 
 @section('content_header')
-    <div class="mb-4 text-center d-flex flex-column align-items-center" style="max-width: 1200px;'">
-        <h2 class="h4 fw-bold text-dark">Form Monitoring Kesehatan</h2>
-        <span class="text-muted mb-0" style="max-width: 600px;">
-            Halaman ini digunakan Monitoring Kesehatan
-        </span>
-    </div>
+    <x-page-header title="Tambah Monitoring Kesehatan" :breadcrumbs="[
+        'Monitoring Kesehatan' => route('monitoring-kesehatan.index'),
+        'Tambah' => null,
+    ]" />
 @endsection
 
 @section('content')

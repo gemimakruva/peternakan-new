@@ -3,22 +3,11 @@
 @section('title', 'Edit Jenis Pakan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <div class="d-flex align-items-center gap-1">
-            <h1>Edit Jenis Pakan</h1>
-        </div>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('master-data.jenis-pakan.index') }}">Jenis Pakan</a></li>
-            <li class="breadcrumb-item active">Edit</li>
-        </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Edit Jenis Pakan" :breadcrumbs="[
+        'Master Data' => '#',
+        'Jenis Pakan' => route('master-data.jenis-pakan.index'),
+        'Edit' => null,
+    ]" />
 @endsection
 
 @section('content')

@@ -3,22 +3,10 @@
 @section('title', 'Tambah Pemberian Pakan Sisa Pakan')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <div class="d-flex align-items-center">
-                <h1>Tambah Pemberian Pakan Sisa Pakan</h1>
-            </div>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item active">Pemberian Pakan</li>
-                <li class="breadcrumb-item"><a href="{{ route('pemberian-pakan-sisa-pakan.index') }}">Pemberian Pakan Sisa Pakan</a></li>
-                <li class="breadcrumb-item active">Tambah</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Tambah Pemberian Pakan Sisa Pakan" :breadcrumbs="[
+        'Pemberian Pakan' => route('pemberian-pakan-sisa-pakan.index'),
+        'Tambah' => null,
+    ]" />
 @endsection
 
 @php

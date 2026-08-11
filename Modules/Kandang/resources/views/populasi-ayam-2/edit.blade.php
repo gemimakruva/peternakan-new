@@ -3,20 +3,10 @@
 @section('title', 'Edit Populasi Ayam')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Edit Populasi Ayam</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('populasi-ayam-2.index') }}">Populasi Ayam</a></li>
-                <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
-                <li class="breadcrumb-item active">Edit Populasi Ayam</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Edit Populasi Ayam" :breadcrumbs="[
+        'Populasi Ayam' => route('populasi-ayam-2.index'),
+        'Edit' => null,
+    ]" />
 @endsection
 
 @section('content')

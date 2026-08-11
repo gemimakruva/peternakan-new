@@ -3,19 +3,10 @@
 @section('title', 'Tambah Populasi Ayam')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-            <h1>Tambah Populasi Ayam</h1>
-        </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">  
-                <li class="breadcrumb-item"><a href="{{ route('populasi-ayam-2.index') }}">Populasi Ayam</a></li>
-                <li class="breadcrumb-item active">Tambah Populasi Ayam</li>
-            </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Tambah Populasi Ayam" :breadcrumbs="[
+        'Populasi Ayam' => route('populasi-ayam-2.index'),
+        'Tambah' => null,
+    ]" />
 @endsection
 
 @section('content')

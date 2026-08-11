@@ -3,22 +3,11 @@
 @section('title', 'Tambah Metode Treatment')
 
 @section('content_header')
-<div class="container-fluid">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <div class="d-flex align-items-center gap-1">
-            <h1>Tambah Metode Treatment</h1>
-        </div>
-        </div>
-        <div class="col-sm-6">
-        <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('master-data.metode-treatment.index') }}">Metode Treatment</a></li>
-            <li class="breadcrumb-item active">Tambah Metode Treatment</li>
-        </ol>
-        </div>
-    </div>
-</div>
+    <x-page-header title="Tambah Metode Treatment" :breadcrumbs="[
+        'Master Data' => '#',
+        'Metode Treatment' => route('master-data.metode-treatment.index'),
+        'Tambah' => null,
+    ]" />
 @endsection
 
 @section('content')

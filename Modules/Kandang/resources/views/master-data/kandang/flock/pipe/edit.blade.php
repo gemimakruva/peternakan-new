@@ -3,26 +3,13 @@
 @section('title', 'Tambah Pipa')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Edit Pipa</h1>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
-                    <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.show', $kandang) }}">Detail</a></li>
-                    <li class="breadcrumb-item active">{{ $flock->nama }}</li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.flock.show', [$kandang, $flock]) }}">Detail</a></li>
-                    <li class="breadcrumb-item active">Edit</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Edit Pipa" :breadcrumbs="[
+        'Master Data' => '#',
+        'Kandang' => route('master-data.kandang.index'),
+        $kandang->nama => route('master-data.kandang.show', $kandang),
+        $flock->nama => route('master-data.kandang.flock.show', [$kandang, $flock]),
+        'Edit Pipa' => null,
+    ]" />
 @endsection
 
 @section('content')

@@ -3,19 +3,11 @@
 @section('title', 'Daftar Pipa')
 
 @section('content_header')
-<div class="mb-4 text-center d-flex flex-column align-items-center">
-
-    <h2 class="h4 fw-bold text-dark">Manajemen Flock<h2 
-        class="h4 fw-bold text-dark"> <span class="text-primary fw-bold">
-         {{ $flock->nama }}
-        </span>
-    </h2>
-
-    <span class="text-muted mb-0" style="max-width: 600px;">
-        Halaman ini digunakan untuk menampilkan daftar pipa serta
-        informasi kapasitas pada setiap pipa.
-    </span>
-</div>
+    <x-page-header :title="'Daftar Pipa — ' . $flock->nama" :breadcrumbs="[
+        'Master Data' => '#',
+        'Flock' => route('master-data.flock.index'),
+        $flock->nama => null,
+    ]" />
 @endsection
 
 @section('content')

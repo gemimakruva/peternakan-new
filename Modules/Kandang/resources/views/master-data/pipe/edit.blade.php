@@ -3,21 +3,11 @@
 @section('title', 'Edit Pipa')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Edit Pipa</h1>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item active">Pipa</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Edit Pipa" :breadcrumbs="[
+        'Master Data' => '#',
+        'Pipa' => route('master-data.pipe.index'),
+        'Edit' => null,
+    ]" />
 @endsection
 
 @section('content')

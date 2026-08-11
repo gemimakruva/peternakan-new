@@ -14,63 +14,35 @@
     <div class="mx-1200">
         <x-form-alert />
 
-        <div class="card">
-            <div class="card-header">
-                <h2 class="card-title">Filter</h2>
+        <x-filter-panel
+            action="{{ route('master-data.kandang.index') }}"
+            resetUrl="{{ route('master-data.kandang.index') }}"
+            x-data="{
+                strainData: {{ Js::from($strain) }},
+                peternakanData: {{ Js::from($peternakan) }},
+                selectedStrain: '{{ request('strain_id') ?? '' }}',
+                selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
+            }">
+            <div class="col-12 col-sm-auto">
+                <select name="strain_id" class="form-control" x-model="selectedStrain">
+                    <option value="">Semua Strain</option>
+                    <template x-for="strain in strainData" :key="strain.id">
+                        <option :value="strain.id" x-text="strain.nama"></option>
+                    </template>
+                </select>
             </div>
-            <div class="card-body">
-                <form
-                    action="{{ route('master-data.kandang.index') }}"
-                    method="GET"
-                    class="d-flex gap-3 align-items-end flex-column flex-sm-row"
-                    x-data="{
-                        strainData: {{ Js::from($strain) }},
-                        peternakanData: {{ Js::from($peternakan) }},
-                        selectedStrain: '{{ request('strain_id') ?? '' }}',
-                        selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
-                    }">
-
-                    <select
-                        id="strainFilter"
-                        name="strain_id"
-                        class="form-control mx-sm-200"
-                        x-model="selectedStrain">
-                        <option value="">Semua Strain</option>
-                        <template x-for="strain in strainData" :key="strain.id">
-                            <option :value="strain.id" x-text="strain.nama" :selected="strain.id == '{{ request('strain_id') ?? '' }}'"></option>
-                        </template>
-                    </select>
-
-                    <select
-                        id="peternakanFilter"
-                        name="peternakan_id"
-                        class="form-control mx-sm-200"
-                        x-model="selectedPeternakan">
-                        <option value="">Semua Peternakan</option>
-                        <template x-for="item in peternakanData" :key="item.id">
-                            <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
-                        </template>
-                    </select>
-
-                    <input
-                        type="search"
-                        name="search"
-                        class="form-control mx-sm-200"
-                        placeholder="Nama Kandang..."
-                        value="{{ request()->query('search') }}"
-                    />
-
-                    <div class="d-flex gap-2 justify-content-end">
-                        <button type="submit" class="btn btn-primary btn-block">
-                            <i class="fas fa-search"></i>
-                        </button>
-                        <a href="{{ route('master-data.kandang.index') }}" class="btn btn-secondary">
-                            <i class="fas fa-undo"></i>
-                        </a>
-                    </div>
-                </form>
+            <div class="col-12 col-sm-auto">
+                <select name="peternakan_id" class="form-control" x-model="selectedPeternakan">
+                    <option value="">Semua Peternakan</option>
+                    <template x-for="item in peternakanData" :key="item.id">
+                        <option :value="item.id" x-text="item.nama"></option>
+                    </template>
+                </select>
             </div>
-        </div>
+            <div class="col-12 col-sm">
+                <input type="search" name="search" class="form-control" placeholder="Nama Kandang..." value="{{ request()->query('search') }}">
+            </div>
+        </x-filter-panel>
 
         <div class="card desktop-table d-none d-md-block">
             <div class="card-body table-responsive p-0">

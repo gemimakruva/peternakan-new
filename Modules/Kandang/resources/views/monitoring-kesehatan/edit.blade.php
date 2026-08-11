@@ -4,12 +4,10 @@
 
 
 @section('content_header')
-<div class="mb-4 text-center">
-    <h1 class="h4 fw-bold text-dark mb-1">Edit Monitoring Kesehatan</h1>
-    <p class="text-muted">
-        Perbarui data Monitoring Kesehatan di bawah ini
-    </p>
-</div>
+    <x-page-header title="Edit Monitoring Kesehatan" :breadcrumbs="[
+        'Monitoring Kesehatan' => route('monitoring-kesehatan.index'),
+        'Edit' => null,
+    ]" />
 @stop
 
 

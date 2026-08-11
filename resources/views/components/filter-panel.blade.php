@@ -15,7 +15,7 @@
 
     <div class="collapse show" id="filterCollapse">
         <div class="card-body">
-            <form action="{{ $action }}" method="{{ $method }}" class="filter-form">
+            <form action="{{ $action }}" method="{{ $method }}" class="filter-form" {{ $attributes }}>
                 <div class="row align-items-end">
                     {{ $slot }}
                     <div class="col-12 col-sm-auto mt-2 mt-sm-0">

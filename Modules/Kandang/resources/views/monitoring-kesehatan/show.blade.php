@@ -4,41 +4,14 @@
 
 
 @section('content_header')
-
-<div class="card mb-4 d-flex flex-row justify-content-between 
-     align-items-center text-center p-3 w-100">
-
-    <div class="d-flex flex-row justify-center p-2 p-md">
-        <div class="ms-2 text-start text-md-center">
-            <h5 class="fw-bold text-dark mb-1 fs-5 fs-md-4 fs-lg-3">
-                Detail Monitoring Kesehatan
-            </h5>
-            <span class="text-dark fw-semibold d-block fs-6 fs-md-5 fs-lg-4">
-                {{ \Carbon\Carbon::parse($monitoringKesehatan->tanggal)
-    ->translatedFormat('l, d F Y') }}
-            </span>
-        </div>
-    </div>
-
-    <div class="d-flex align-items-center gap-3">
-        {{-- Edit button --}}
-        <a href="{{ route('monitoring-kesehatan.edit', $monitoringKesehatan->id) }}" class="text-primary d-flex align-items-center justify-content-center 
-                p-2 rounded hover-shadow" title="Edit Pengadaan">
-            <i class="bi bi-pencil-square fs-4" style="font-size: 25px"></i>
-        </a>
-        {{-- Print button --}}
-        <a href="#" class="text-success d-flex align-items-center justify-content-center 
-                p-2 rounded hover-shadow" title="Print Detail">
-            <i class="bi bi-printer fs-5" style="font-size: 25px"></i>
-        </a>
-    </div>
-    <style>
-        .hover-shadow:hover {
-            background-color: #f1f1f1;
-            transition: 0.2s;
-        }
-    </style>
-</div>
+    <x-page-header title="Detail Monitoring Kesehatan" :breadcrumbs="[
+        'Monitoring Kesehatan' => route('monitoring-kesehatan.index'),
+        'Detail' => null,
+    ]">
+        <x-slot name="actions">
+            <a href="{{ route('monitoring-kesehatan.edit', $monitoringKesehatan->id) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+        </x-slot>
+    </x-page-header>
 @stop
 
 
@@ -236,7 +209,7 @@
                     2. Temuan Nekropsi
                 </h5>
 
-                <div class="table-responsive">
+                <div class="table-responsive desktop-table">
                     <table class="table table-bordered">
                         <thead class="thead-light">
                             <tr>
@@ -256,6 +229,22 @@
                             @endforeach
                         </tbody>
                     </table>
+                </div>
+
+                <div class="mobile-card-list">
+                    @forelse ($monitoringKesehatan->nekropsi as $i => $nekropsi)
+                        <x-mobile-card :title="'Temuan #' . ($i + 1)">
+                            <div class="text-center mb-2">
+                                <img src="{{ Storage::url($nekropsi->path) }}" alt="Nekropsi" class="img-fluid rounded" style="max-height: 200px;">
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Keterangan</span>
+                                <span class="data-value">{!! $nekropsi->keterangan !!}</span>
+                            </div>
+                        </x-mobile-card>
+                    @empty
+                        <x-empty-state icon="clipboard" title="Belum Ada Temuan" description="Data temuan nekropsi belum tersedia." />
+                    @endforelse
                 </div>
 
             </div>

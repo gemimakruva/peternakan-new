@@ -2,47 +2,14 @@
 
 @section('title', 'Pencatatan Ayam Masuk')
 @section('content_header')
-
-{{-- # Card Header Detail Ayam --}}
-<div class="card mb-4 d-flex flex-row justify-content-between 
-     align-items-center text-center p-3 w-100">
-        {{-- icon detail --}}
-    
-        {{-- judul detial --}}
-        <div class="d-flex flex-row justify-center p-2 p-md">
-            <div class="ms-2 text-start text-md-center">
-                <h5 class="fw-bold text-dark mb-1 fs-5 fs-md-4 fs-lg-3">
-                    Detail Pengadaan Ayam
-                </h5>
-                <span class="text-dark fw-semibold d-block fs-6 fs-md-5 fs-lg-4">
-                    {{ \Carbon\Carbon::parse($pengadaanAyam->tanggal)
-                    ->translatedFormat('l, d F Y') }}
-                </span>
-            </div>
-        </div>
-
-    {{-- aksi header --}}
-        <div class="d-flex align-items-center gap-3">
-            {{-- Edit button --}}
-            <a href="#" class="text-primary d-flex align-items-center justify-content-center 
-                p-2 rounded hover-shadow"
-                title="Edit Pengadaan">
-                <i class="bi bi-pencil-square fs-4" style="font-size: 25px"></i>
-            </a>
-            {{-- Print button --}}
-            <a href="#" class="text-success d-flex align-items-center justify-content-center 
-                p-2 rounded hover-shadow"
-                title="Print Detail">
-                <i class="bi bi-printer fs-5" style="font-size: 25px"></i>
-            </a>
-        </div>
-        <style>
-            .hover-shadow:hover {
-                background-color: #f1f1f1;
-                transition: 0.2s;
-            }
-        </style>
-</div>
+    <x-page-header title="Detail Pengadaan Ayam" :breadcrumbs="[
+        'Pengadaan Ayam' => route('pengadaan-ayam.index'),
+        \Carbon\Carbon::parse($pengadaanAyam->tanggal)->translatedFormat('d F Y') => null,
+    ]">
+        <x-slot name="actions">
+            <a href="{{ route('pengadaan-ayam.edit', $pengadaanAyam) }}" class="btn btn-sm btn-primary"><i class="bi bi-pencil-square"></i> Edit</a>
+        </x-slot>
+    </x-page-header>
 @stop
 
 @section('content')
@@ -271,63 +238,52 @@
 
         </div>
 
-        {{-- Tabel Distribusi Pengadaan --}}
-        <div class="table-responsive">
+        {{-- Desktop Table --}}
+        <div class="table-responsive desktop-table">
             <table class="table table-bordered table-hover align-middle">
                 <thead class="table-light">
                     <tr class="text-center">
                         <th>No</th>
                         <th>Kandang</th>
-                        <th>Flock ID</th>
-                        <th>Pipe ID</th>
+                        <th>Flock</th>
+                        <th>Pipe</th>
                         <th>Jumlah Ayam</th>
-                        <th>Aksi</th>
                     </tr>
                 </thead>
-                
                 <tbody>
                     @forelse ($pengadaanAyam->distribusi as $i => $dist)
                         <tr>
                             <td class="text-center">{{ $i + 1 }}</td>
-                           <td>{{ $dist->pipe->flock->kandang->nama ?? '-' }}</td>
+                            <td>{{ $dist->pipe->flock->kandang->nama ?? '-' }}</td>
                             <td>{{ $dist->pipe->flock->nama ?? '-' }}</td>
-                            <td>{{ $dist->pipe->nama  ?? '-' }}</td>
+                            <td>{{ $dist->pipe->nama ?? '-' }}</td>
                             <td class="text-center">{{ $dist->jumlah_ayam ?? 0 }}</td>
-
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href=""
-                                    class="btn btn-sm btn-info" title="Detail">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-
-                                    <a href=""
-                                    class="btn btn-sm btn-warning text-white" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-
-                                    <form action=""
-                                        method="POST"
-                                        onsubmit="return confirm('Hapus data ini?')">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button class="btn btn-sm btn-danger" title="Hapus">
-                                            <i class="fas fa-trash-alt"></i>
-                                        </button>
-                                    </form>
-                                </div>
-                            </td>
                         </tr>
-
                     @empty
                         <tr>
-                            <td colspan="7" class="text-center text-muted">
-                                Tidak ada data distribusi ayam
-                            </td>
+                            <td colspan="5" class="text-center text-muted">Tidak ada data distribusi ayam</td>
                         </tr>
                     @endforelse
                 </tbody>
             </table>
+        </div>
+
+        {{-- Mobile Cards --}}
+        <div class="mobile-card-list">
+            @forelse ($pengadaanAyam->distribusi as $i => $dist)
+                <x-mobile-card :title="($dist->pipe->flock->kandang->nama ?? '-') . ' / ' . ($dist->pipe->flock->nama ?? '-')">
+                    <div class="data-row">
+                        <span class="data-label">Pipe</span>
+                        <span class="data-value">{{ $dist->pipe->nama ?? '-' }}</span>
+                    </div>
+                    <div class="data-row">
+                        <span class="data-label">Jumlah Ayam</span>
+                        <span class="data-value">{{ number_format($dist->jumlah_ayam ?? 0) }}</span>
+                    </div>
+                </x-mobile-card>
+            @empty
+                <x-empty-state icon="chicken" title="Belum Ada Distribusi" description="Data distribusi pengadaan ayam belum tersedia." />
+            @endforelse
         </div>
 
 

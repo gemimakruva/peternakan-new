@@ -8,25 +8,12 @@
 @section('title', $title)
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>{{ $title }}</h1>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
-                    <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.show', $kandang) }}">Detail</a></li>
-                    <li class="breadcrumb-item active">{{ $flock->nama }}</li>
-                    <li class="breadcrumb-item active">Detail</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header :title="$title" :breadcrumbs="[
+        'Master Data' => '#',
+        'Kandang' => route('master-data.kandang.index'),
+        $kandang->nama => route('master-data.kandang.show', $kandang),
+        $flock->nama => null,
+    ]" />
 @endsection
 
 @section('content')
@@ -40,7 +27,7 @@
                     <h2 class="card-title">Informasi Kandang</h2>
                 </div>
                 <div class="card-body">
-                    <table class="w-100">
+                    <table class="w-100 desktop-table">
                         <tbody>
                             <tr>
                                 <td class="w-25">Nama Strain</td>
@@ -56,6 +43,24 @@
                             </tr>
                         </tbody>
                     </table>
+                    <div class="mobile-card-list">
+                        <div class="data-row">
+                            <span class="data-label">Nama Strain</span>
+                            <span class="data-value">{{ $kandang->strain->nama }}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Nama Kandang</span>
+                            <span class="data-value">{{ $kandang->nama }}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Nama Peternakan</span>
+                            <span class="data-value">{{ $kandang->peternakan->nama }}</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Nama Flock</span>
+                            <span class="data-value">{{ $flock->nama }}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -64,7 +69,7 @@
                     <h2 class="card-title">Daftar Pipa pada Flock</h2>
                 </div>
 
-                <div class="card-body table-responsive p-0">
+                <div class="card-body table-responsive p-0 desktop-table">
                     <table class="table table-hover table-striped table-bordered text-center mb-0">
                         <thead>
                             <tr>
@@ -82,15 +87,15 @@
                                     <td class="text-right">{{ number_format($pipe->kapasitas) }}</td>
                                     <td>
                                         <div class="d-flex justify-content-center gap-2" role="group">
-                                            <a 
+                                            <a
                                                 href="{{ route('master-data.kandang.flock.pipe.edit', [$kandang, $flock, $pipe]) }}"
-                                                class="btn btn-warning text-white btn-sm" 
+                                                class="btn btn-warning text-white btn-sm"
                                                 title="Edit"
                                             >
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <form 
-                                                action="{{ route('master-data.kandang.flock.pipe.destroy', [$kandang, $flock, $pipe]) }}" 
+                                            <form
+                                                action="{{ route('master-data.kandang.flock.pipe.destroy', [$kandang, $flock, $pipe]) }}"
                                                 method="POST" class="form-delete d-inline"
                                                 data-nama="{{ $pipe->nama }}"
                                             >
@@ -110,6 +115,27 @@
                             @endforelse
                         </tbody>
                     </table>
+                </div>
+
+                <div class="card-body mobile-card-list">
+                    @forelse($pipes as $pipe)
+                        <x-mobile-card :title="$pipe->nama">
+                            <div class="data-row">
+                                <span class="data-label">Kapasitas</span>
+                                <span class="data-value">{{ number_format($pipe->kapasitas) }}</span>
+                            </div>
+                            <div class="d-flex gap-2 mt-2">
+                                <a href="{{ route('master-data.kandang.flock.pipe.edit', [$kandang, $flock, $pipe]) }}" class="btn btn-warning text-white btn-sm"><i class="fas fa-edit"></i> Edit</a>
+                                <form action="{{ route('master-data.kandang.flock.pipe.destroy', [$kandang, $flock, $pipe]) }}" method="POST" class="form-delete d-inline" data-nama="{{ $pipe->nama }}">
+                                    @csrf
+                                    @method('delete')
+                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                                </form>
+                            </div>
+                        </x-mobile-card>
+                    @empty
+                        <x-empty-state icon="box" title="Belum Ada Pipa" description="Belum ada pipa untuk flock ini." />
+                    @endforelse
                 </div>
             </div>
         </div>

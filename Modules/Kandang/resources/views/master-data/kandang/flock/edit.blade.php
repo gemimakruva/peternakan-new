@@ -3,25 +3,13 @@
 @section('title', 'Edit Flock')
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <div class="d-flex align-items-center gap-1">
-                    <h1>Edit Flock</h1>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Master Data</a></li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.index') }}">Kandang</a></li>
-                    <li class="breadcrumb-item active">{{ $kandang->nama }}</li>
-                    <li class="breadcrumb-item"><a href="{{ route('master-data.kandang.show', $kandang) }}">Detail</a></li>
-                    <li class="breadcrumb-item active">{{ $flock->nama }}</li>
-                    <li class="breadcrumb-item active">Edit</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header title="Edit Flock" :breadcrumbs="[
+        'Master Data' => '#',
+        'Kandang' => route('master-data.kandang.index'),
+        $kandang->nama => route('master-data.kandang.show', $kandang),
+        $flock->nama => null,
+        'Edit' => null,
+    ]" />
 @endsection
 
 @section('content')

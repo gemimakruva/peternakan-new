@@ -3,20 +3,10 @@
 @section('title', "Jadwal Treatment Kandang \"$data->nama_kandang\" Bulan $data->nama_bulan")
 
 @section('content_header')
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>{{ "Jadwal Treatment Kandang \"$data->nama_kandang\" Bulan $data->nama_bulan" }}</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="{{ route('treatment-pelaksanaan.index') }}">Pelaksanaan Treatment</a></li>
-                    <li class="breadcrumb-item active">{{ $data->nama_kandang }} - {{ $data->nama_bulan }}</li>
-                    <li class="breadcrumb-item active">Pelaksanaan</li>
-                </ol>
-            </div>
-        </div>
-    </div>
+    <x-page-header :title="'Jadwal Treatment — ' . $data->nama_kandang . ' — ' . $data->nama_bulan" :breadcrumbs="[
+        'Pelaksanaan Treatment' => route('treatment-pelaksanaan.index'),
+        $data->nama_kandang . ' — ' . $data->nama_bulan => null,
+    ]" />
 @endsection
 
 @section('content')

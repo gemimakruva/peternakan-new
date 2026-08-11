@@ -22,100 +22,57 @@
 <div class="mx-1200">
     <x-form-alert />
 
-    <div class="card">
-        <div class="card-header">
-            <h2 class="card-title">Filter</h2>
+    <x-filter-panel
+        action="{{ route('master-data.pipe.index') }}"
+        resetUrl="{{ route('master-data.pipe.index') }}"
+        x-data="{
+            peternakanData: {{ Js::from($peternakan) }},
+            selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
+            selectedKandang: '{{ request('kandang_id') ?? '' }}',
+            selectedFlock: '{{ request('flock_id') ?? '' }}',
+            get kandangList() {
+                if (!this.selectedPeternakan) return [];
+                const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
+                return peternakan ? peternakan.kandang : [];
+            },
+            get flockList() {
+                if (!this.selectedKandang) return [];
+                const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
+                if (!peternakan) return [];
+                const kandang = peternakan.kandang.find(k => k.id == this.selectedKandang);
+                return kandang ? kandang.flocks : [];
+            },
+            onPeternakanChange() { this.selectedKandang = ''; this.selectedFlock = ''; },
+            onKandangChange() { this.selectedFlock = ''; }
+        }">
+        <div class="col-12 col-sm-auto">
+            <select name="peternakan_id" class="form-control" x-model="selectedPeternakan" @change="onPeternakanChange()">
+                <option value="">Semua Peternakan</option>
+                <template x-for="item in peternakanData" :key="item.id">
+                    <option :value="item.id" x-text="item.nama"></option>
+                </template>
+            </select>
         </div>
-        <div class="card-body">
-            <form
-                action="{{ route('master-data.pipe.index') }}"
-                method="GET"
-                class="d-flex gap-3 align-items-end flex-column flex-sm-row"
-                x-data="{
-                    peternakanData: {{ Js::from($peternakan) }},
-                    selectedPeternakan: '{{ request('peternakan_id') ?? '' }}',
-                    selectedKandang: '{{ request('kandang_id') ?? '' }}',
-                    selectedFlock: '{{ request('flock_id') ?? '' }}',
-                    get kandangList() {
-                        if (!this.selectedPeternakan) {
-                            return [];
-                        }
-                        const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
-                        return peternakan ? peternakan.kandang : [];
-                    },
-                    get flockList() {
-                        if (!this.selectedKandang) {
-                            return [];
-                        }
-                        const peternakan = this.peternakanData.find(p => p.id == this.selectedPeternakan);
-                        if (!peternakan) return [];
-                        const kandang = peternakan.kandang.find(k => k.id == this.selectedKandang);
-                        return kandang ? kandang.flocks : [];
-                    },
-                    onPeternakanChange() {
-                        this.selectedKandang = '';
-                        this.selectedFlock = '';
-                    },
-                    onKandangChange() {
-                        this.selectedFlock = '';
-                    }
-                }">
-
-                <select
-                    id="peternakanFilter"
-                    name="peternakan_id"
-                    class="form-control mx-sm-200"
-                    x-model="selectedPeternakan"
-                    @change="onPeternakanChange()">
-                    <option value="">Semua Peternakan</option>
-                    <template x-for="item in peternakanData" :key="item.id">
-                        <option :value="item.id" x-text="item.nama" :selected="item.id == '{{ request('peternakan_id') ?? '' }}'"></option>
-                    </template>
-                </select>
-
-                <select
-                    id="kandangFilter"
-                    name="kandang_id"
-                    class="form-control mx-sm-200"
-                    x-model="selectedKandang"
-                    @change="onKandangChange()"
-                    :disabled="!selectedPeternakan">
-                    <option value="">Semua Kandang</option>
-                    <template x-for="kandang in kandangList" :key="kandang.id">
-                        <option :value="kandang.id" x-text="kandang.nama" :selected="kandang.id == '{{ request('kandang_id') ?? '' }}'"></option>
-                    </template>
-                </select>
-
-                <select
-                    id="flockFilter"
-                    name="flock_id"
-                    class="form-control mx-sm-200"
-                    x-model="selectedFlock"
-                    :disabled="!selectedKandang">
-                    <option value="">Semua Flock</option>
-                    <template x-for="flock in flockList" :key="flock.id">
-                        <option :value="flock.id" x-text="flock.nama" :selected="flock.id == '{{ request('flock_id') ?? '' }}'"></option>
-                    </template>
-                </select>
-
-                <input type="search"
-                    name="search"
-                    class="form-control mx-sm-300"
-                    placeholder="Kandang, Flock, Pipe ..."
-                    value="{{ request()->query('search') }}">
-
-                <div class="d-flex gap-2">
-                    <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-search"></i>
-                    </button>
-
-                    <a href="{{ route('master-data.pipe.index') }}" class="btn btn-secondary">
-                        <i class="fas fa-undo"></i>
-                    </a>
-                </div>
-            </form>
+        <div class="col-12 col-sm-auto">
+            <select name="kandang_id" class="form-control" x-model="selectedKandang" @change="onKandangChange()" :disabled="!selectedPeternakan">
+                <option value="">Semua Kandang</option>
+                <template x-for="kandang in kandangList" :key="kandang.id">
+                    <option :value="kandang.id" x-text="kandang.nama"></option>
+                </template>
+            </select>
         </div>
-    </div>
+        <div class="col-12 col-sm-auto">
+            <select name="flock_id" class="form-control" x-model="selectedFlock" :disabled="!selectedKandang">
+                <option value="">Semua Flock</option>
+                <template x-for="flock in flockList" :key="flock.id">
+                    <option :value="flock.id" x-text="flock.nama"></option>
+                </template>
+            </select>
+        </div>
+        <div class="col-12 col-sm">
+            <input type="search" name="search" class="form-control" placeholder="Kandang, Flock, Pipe ..." value="{{ request()->query('search') }}">
+        </div>
+    </x-filter-panel>
 
     <div class="card desktop-table d-none d-md-block">
         <div class="card-body table-responsive p-0">
