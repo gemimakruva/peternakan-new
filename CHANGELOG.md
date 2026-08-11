@@ -2,7 +2,7 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 
-## [1.0.0] — 2026-08-11 (In Development)
+## [1.0.0] — 2026-08-11 (UAT Ready)
 
 ### Added
 - **Design System**: Clean modern theme dengan brand identity (orange #F28B1E + charcoal #2D3436)
@@ -27,6 +27,11 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/)
 - **Dashboard Layout**: Diintegrasikan dengan bottom-nav dan Shepherd.js tour
 - **App Locale**: Diubah ke `id` (Indonesia) dengan faker locale `id_ID`
 - **Vite Config**: Ditambahkan tour.js entry point
+- **Template Completion**: 54 views updated dengan x-page-header, x-filter-panel diterapkan ke semua index views
+- **Mobile Layouts**: Desktop-table/mobile-card-list pattern diterapkan ke semua show views dengan tabel
+- **Empty States**: x-empty-state diterapkan ke 47 index views (Kandang 19, GudangTelur 11, GudangPakan 15, Core 2)
+- **N+1 Optimization**: Eager loading ditambahkan ke karantina overview dan treatment edit
+- **PopulasiAyam**: V1 CRUD dihapus, controller dikurangi ke ajax-only (getRecordedPopulasi)
 
 ### Fixed
 - **P0 Ambiguous Column**: Qualified column references di RekapanMingguanProduksiRepository (`xpa.tanggal`, `xpaq.umur`)
